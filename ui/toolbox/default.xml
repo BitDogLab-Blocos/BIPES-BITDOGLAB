@@ -1528,40 +1528,7 @@ _
         <field name="BLOCK_MQTT_DISCONNECT">Disconnect MQTT Client</field>
       </block>
     </category>
-    <category name="EasyMQTT">
-      <label text="IoT: EasyMQTT"></label>
-      <button text="Load example: easymqtt" callbackKey="loadExample"></button>
-      <button text="Documentation: easymqtt" callbackKey="loadDoc"></button>
-      <block type="easymqtt_init">
-        <field name="BLOCK_EASYMQTT_INIT">EasyMQTT Start</field>
-      </block>
-      <block type="easymqtt_publish_data">
-        <field name="BLOCK_EASYMQTT_PUBLISH">EasyMQTT Publish Data</field>
-        <value name="topic">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-        <value name="data">
-          <shadow type="math_number">
-            <field name="NUM"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="easymqtt_subscribe">
-        <value name="topic">
-          <shadow type="text">
-            <field name="TEXT"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="easymqtt_receive_data"></block>
-      <block type="easymqtt_disconnect">
-        <field name="BLOCK_EASYMQTT_DISCONNECT">EasyMQTT Stop</field>
-      </block>
-    </category>
-
-  <category name="WebREPL">
+    <category name="WebREPL">
       <label text="WebREPL"></label>
       <block type="webrepl_setup"></block>
       <block type="webrepl_start"></block>
@@ -1702,52 +1669,6 @@ _
 <block type="cmath_sin">
 </block>
 <block type="cmath_sqrt">
-</block>
-</category>
-<category name="esp32">
-<block type="esp32_wake_on_touch">
-</block>
-<block type="esp32_wake_on_ext0">
-</block>
-<block type="esp32_wake_on_ext1">
-</block>
-<block type="esp32_raw_temperature">
-</block>
-<block type="esp32_hall_sensor">
-</block>
-<block type="esp32_idf_heap_info">
-</block>
-<block type="esp32_Partition.info">
-</block>
-<block type="esp32_Partition.readblocks">
-</block>
-<block type="esp32_Partition.readblocks">
-</block>
-<block type="esp32_Partition.writeblocks">
-</block>
-<block type="esp32_Partition.writeblocks">
-</block>
-<block type="esp32_Partition.ioctl">
-</block>
-<block type="esp32_Partition.set_boot">
-</block>
-<block type="esp32_Partition.get_next_update">
-</block>
-<block type="esp32_RMT.source_freq">
-</block>
-<block type="esp32_RMT.clock_div">
-</block>
-<block type="esp32_RMT.wait_done">
-</block>
-<block type="esp32_RMT.loop">
-</block>
-<block type="esp32_RMT.write_pulses">
-</block>
-<block type="esp32_ULP.set_wakeup_period">
-</block>
-<block type="esp32_ULP.load_binary">
-</block>
-<block type="esp32_ULP.run">
 </block>
 </category>
 <category name="esp">
