@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="google" value="notranslate">
   <meta name="viewport" content="width=device-width, user-scalable=no">
-  <title>BIPES Project</title>
+  <title>BitdogLab - Aprenda Programação de Forma Divertida</title>
   <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/media/icon/favicon-32x32.png">
   <link rel="mask-icon" href="/media/icon/safari-pinned-tab.svg" color="#5bbad5">
@@ -120,35 +120,273 @@ document.body.appendChild(el);
 </head>
 <body>
 
+  <!-- BitdogLab welcome  <!-- Mensagem de boas-vindas animada -->
+  <div id="welcome-message" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(75,46,131,0.95); z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; transition:opacity 1s ease;">
+    <div style="background-color:white; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.3); max-width:80%; position:relative;">
+      <h1 style="font-family:'Comic Sans MS', cursive; color:#4b2e83; margin-top:0;">Bem-vindo à BitdogLab!</h1>
+      <p style="font-size:18px; line-height:1.6; color:#333; margin:20px 0;">Aqui você vai aprender programação de forma divertida e criativa! Explore os blocos, crie seus próprios projetos e divirta-se programando.</p>
+      <button id="startAdventureBtn" style="background-color:#4b2e83; color:white; border:none; padding:12px 25px; font-size:18px; border-radius:10px; cursor:pointer; transition:all 0.3s ease; animation:bounce 2s infinite; font-family:'Comic Sans MS', cursive;">Começar a Aventura</button>
+    </div>
+  </div>
+  
+  <!-- Mensagem de aviso sobre a parceria -->
+  <div id="partnership-notice" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8); z-index:9998; display:flex; justify-content:center; align-items:center; text-align:center; transition:opacity 1s ease; opacity:0; display:none;">
+    <div style="background-color:white; padding:30px; border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.3); max-width:600px; border-left:8px solid #85754d;">
+      <h2 style="color:#4b2e83; margin-top:0; font-family:'Comic Sans MS', cursive;">AVISO IMPORTANTE</h2>
+      <p style="font-size:16px; line-height:1.5; margin:15px 0; text-align:left;">
+        A BitdogLab é uma parceria oficial do projeto BIPES (Block Based Integrated Platform for Embedded Systems). 
+        Essa iniciativa visa democratizar o acesso à programação e robótica para crianças e jovens no Brasil.
+      </p>
+      <p style="font-size:16px; line-height:1.5; margin:15px 0; text-align:left;">
+        Através desta parceria, fornecemos uma plataforma educacional completa com hardware (placa BitdogLab baseada no Raspberry Pi Pico) 
+        e software (ambiente de programação por blocos), tornando o aprendizado de programação mais acessível e divertido.
+      </p>
+      <button id="closePartnershipBtn" style="background-color:#85754d; color:white; border:none; padding:10px 20px; font-size:16px; border-radius:8px; cursor:pointer; transition:all 0.2s ease; margin-top:10px;">Entendi!</button>
+    </div>
+  </div>
+  
+  <!-- Tutorial passo a passo -->
+  <div id="tutorial-steps" style="position:fixed; bottom:20px; right:20px; width:350px; background-color:white; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2); z-index:9990; overflow:hidden; display:none; font-family:'Comic Sans MS', cursive;">
+    <div style="background-color:#4b2e83; color:white; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
+      <h3 style="margin:0;">Como Começar</h3>
+      <button id="closeTutorialBtn" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
+    </div>
+    
+    <div class="tutorial-content" style="padding:15px;">
+      <div class="tutorial-step" style="margin-bottom:20px; display:flex; align-items:center;">
+        <div style="width:30px; height:30px; background-color:#4b2e83; color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:10px; flex-shrink:0;">1</div>
+        <div>
+          <h4 style="margin:0 0 5px 0; color:#4b2e83;">Escolha blocos na paleta</h4>
+          <p style="margin:0; font-size:14px; line-height:1.4;">Arraste blocos da paleta à esquerda para a área de trabalho.</p>
+        </div>
+      </div>
+      
+      <div class="tutorial-step" style="margin-bottom:20px; display:flex; align-items:center;">
+        <div style="width:30px; height:30px; background-color:#4b2e83; color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:10px; flex-shrink:0;">2</div>
+        <div>
+          <h4 style="margin:0 0 5px 0; color:#4b2e83;">Instale o MicroPython</h4>
+          <p style="margin:0; font-size:14px; line-height:1.4;">Antes de começar, instale o MicroPython na sua placa. Você pode fazer isso via modo BOOTSEL <a href="https://micropython.org/download/" target="_blank" style="color:#4b2e83; text-decoration:underline;">clicando aqui</a>.</p>
+        </div>
+      </div>
+      
+      <div class="tutorial-step" style="margin-bottom:20px; display:flex; align-items:center;">
+        <div style="width:30px; height:30px; background-color:#4b2e83; color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:10px; flex-shrink:0;">3</div>
+        <div>
+          <h4 style="margin:0 0 5px 0; color:#4b2e83;">Conecte sua placa BitdogLab</h4>
+          <p style="margin:0; font-size:14px; line-height:1.4;">Clique no botão de dispositivo e conecte sua placa via USB.</p>
+        </div>
+      </div>
+      
+      <div class="tutorial-step" style="margin-bottom:20px; display:flex; align-items:center;">
+        <div style="width:30px; height:30px; background-color:#4b2e83; color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:10px; flex-shrink:0;">4</div>
+        <div>
+          <h4 style="margin:0 0 5px 0; color:#4b2e83;">Crie seu código</h4>
+          <p style="margin:0; font-size:14px; line-height:1.4;">Monte os blocos como um quebra-cabeça para criar seu programa.</p>
+        </div>
+      </div>
+      
+      <div class="tutorial-step" style="margin-bottom:20px; display:flex; align-items:center;">
+        <div style="width:30px; height:30px; background-color:#4b2e83; color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:10px; flex-shrink:0;">5</div>
+        <div>
+          <h4 style="margin:0 0 5px 0; color:#4b2e83;">Execute seu programa</h4>
+          <p style="margin:0; font-size:14px; line-height:1.4;">Clique no botão de execução para enviar seu código para a placa.</p>
+        </div>
+      </div>
+      
+      <div class="tutorial-step" style="margin-bottom:0; display:flex; align-items:center;">
+        <div style="width:30px; height:30px; background-color:#4b2e83; color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:10px; flex-shrink:0;">6</div>
+        <div>
+          <h4 style="margin:0 0 5px 0; color:#4b2e83;">Veja o resultado</h4>
+          <p style="margin:0; font-size:14px; line-height:1.4;">Observe o console para ver a saída do seu programa e como a placa BitdogLab está respondendo.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div id="additional-steps" style="display:none; padding:15px; border-top:1px solid #e0e0e0; background-color:#fafafa;">
+      <h4 style="color:#4b2e83; margin-top:0; font-weight:bold;">Vamos começar a programar:</h4>
+      <ol style="padding-left:20px; margin-bottom:10px;">
+        <li style="margin-bottom:8px;"><strong>Selecione um exemplo:</strong> Escolha um exemplo da biblioteca (Menu Exemplos > Básicos)</li>
+        <li style="margin-bottom:8px;"><strong>Conecte sua placa:</strong> Verifique se a conexão está estável (LED verde indica conexão ativa)</li>
+        <li style="margin-bottom:8px;"><strong>Montagem dos blocos:</strong> Use os blocos de controle, entradas e saídas para criar seu algoritmo</li>
+        <li style="margin-bottom:8px;"><strong>Experimente sensores:</strong> Adicione blocos de leitura de sensores e controle de LEDs</li>
+        <li style="margin-bottom:0;"><strong>Salve seu projeto:</strong> Clique no botão de salvamento frequentemente para não perder seu trabalho</li>
+      </ol>
+    </div>
+    
+    <div style="padding:10px 15px; background-color:#f0f0f0; text-align:right;">
+      <button id="startCodingBtn" style="background-color:#85754d; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; transition:all 0.2s ease;">Vamos Programar!</button>
+    </div>
+  </div>
+
+  <script>
+    // Adiciona estilos para animação do botão
+    document.head.insertAdjacentHTML('beforeend', '<style>@keyframes bounce{0%,20%,50%,80%,100%{transform:translateY(0)}40%{transform:translateY(-20px)}60%{transform:translateY(-10px)}}</style>');
+    
+    // Adiciona o evento após o carregamento da página
+    window.addEventListener('DOMContentLoaded', function() {
+      var startBtn = document.getElementById('startAdventureBtn');
+      var welcomeMsg = document.getElementById('welcome-message');
+      var partnershipNotice = document.getElementById('partnership-notice');
+      var closePartnershipBtn = document.getElementById('closePartnershipBtn');
+      var tutorialContainer = document.getElementById('tutorial-steps');
+      
+      // Adiciona evento de clique ao botão inicial
+      if (startBtn && welcomeMsg && partnershipNotice) {
+        startBtn.addEventListener('click', function() {
+          welcomeMsg.style.opacity = '0';
+          setTimeout(function() {
+            welcomeMsg.style.display = 'none';
+            // Mostra o aviso de parceria
+            partnershipNotice.style.display = 'flex';
+            setTimeout(function() {
+              partnershipNotice.style.opacity = '1';
+            }, 100);
+          }, 1000);
+        });
+      }
+      
+      // Adiciona evento de clique ao botão de fechar o aviso de parceria
+      if (closePartnershipBtn && partnershipNotice && tutorialContainer) {
+        closePartnershipBtn.addEventListener('click', function() {
+          partnershipNotice.style.opacity = '0';
+          setTimeout(function() {
+            partnershipNotice.style.display = 'none';
+            // Mostra o tutorial de passos
+            tutorialContainer.style.display = 'block';
+          }, 1000);
+        });
+      }
+      
+      // Adiciona evento para o botão "Vamos Programar!"
+      var startCodingBtn = document.getElementById('startCodingBtn');
+      var additionalSteps = document.getElementById('additional-steps');
+      
+      if (startCodingBtn && additionalSteps) {
+        startCodingBtn.addEventListener('click', function() {
+          // Alterna a visibilidade dos passos adicionais
+          if (additionalSteps.style.display === 'block') {
+            additionalSteps.style.display = 'none';
+          } else {
+            additionalSteps.style.display = 'block';
+            // Adiciona um destaque temporário aos passos adicionais
+            additionalSteps.style.backgroundColor = '#f5f0d5'; // Cor dourada clara
+            setTimeout(function() {
+              additionalSteps.style.backgroundColor = '#fafafa';
+            }, 1000);
+            // Scroll para mostrar os passos adicionais
+            additionalSteps.scrollIntoView({behavior: 'smooth'});
+            // Adiciona animação ao botão para indicar que foi clicado
+            startCodingBtn.style.animation = 'bounce 0.5s';
+            setTimeout(function() { startCodingBtn.style.animation = ''; }, 500);
+          }
+        });
+      }
+      
+      // Adiciona notificação visual quando a página carrega para indicar onde clicar
+      setTimeout(function() {
+        if (startCodingBtn) {
+          startCodingBtn.style.animation = 'bounce 1s';
+          setTimeout(function() { startCodingBtn.style.animation = ''; }, 1000);
+        }
+      }, 8000); // Após 8 segundos para dar tempo do usuário ver a interface
+      
+      // Fecha a tela de boas-vindas automaticamente após 5 segundos
+      setTimeout(function() {
+        if (welcomeMsg && partnershipNotice) {
+          welcomeMsg.style.opacity = '0';
+          setTimeout(function() {
+            welcomeMsg.style.display = 'none';
+            // Mostra o aviso de parceria
+            partnershipNotice.style.display = 'flex';
+            setTimeout(function() {
+              partnershipNotice.style.opacity = '1';
+            }, 100);
+          }, 1000);
+        }
+      }, 5000);
+    });
+  </script>
+  
+  <!-- Script para garantir que a toolbox seja carregada corretamente -->
+  <script>
+    // Este script garante que a toolbox (paleta de blocos) seja carregada corretamente
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        try {
+          // Verifica se o Blockly foi inicializado
+          if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace()) {
+            // Carrega a toolbox padrão
+            var request = new XMLHttpRequest();
+            request.open('GET', 'toolbox/default.xml', false);
+            request.send(null);
+            
+            if (request.status === 200) {
+              var toolboxXml = Blockly.Xml.textToDom(request.responseText);
+              Blockly.getMainWorkspace().updateToolbox(toolboxXml);
+              console.log('Toolbox carregada com sucesso!');
+            }
+            
+            // Força a atualização do workspace
+            Blockly.svgResize(Blockly.getMainWorkspace());
+          }
+        } catch(e) {
+          console.error('Erro ao carregar toolbox:', e);
+        }
+      }, 1000); // Espera 1 segundo após o carregamento da página
+    });
+    
+    // Adiciona manipuladores de eventos para o tutorial passo a passo
+    window.addEventListener('DOMContentLoaded', function() {
+      var closeTutorialBtn = document.getElementById('closeTutorialBtn');
+      var startCodingBtn = document.getElementById('startCodingBtn');
+      var tutorialContainer = document.getElementById('tutorial-steps');
+      
+      // Botão para fechar o tutorial
+      if (closeTutorialBtn && tutorialContainer) {
+        closeTutorialBtn.addEventListener('click', function() {
+          tutorialContainer.style.display = 'none';
+        });
+      }
+      
+      // Botão para começar a programar
+      if (startCodingBtn && tutorialContainer) {
+        startCodingBtn.addEventListener('click', function() {
+          tutorialContainer.style.display = 'none';
+        });
+      }
+    });
+  </script>
+
   <div class="top-menu">
 
-    <div class="logo">BIPES</div>
+    <div class="logo" style="display: flex; align-items: center; gap: 10px;">BitdogLab <img src="media/bipes.jpeg" alt="BIPES Logo" style="height: 2rem; border-radius: 5px; margin-left: 10px;"></div>
       <div class="tabs">
-        <div id="tab_blocks" class="tabon">...</div>
+        <div id="tab_blocks" class="tabon">Blocos</div>
         <div id="tab_console" class="taboff">Console</div>
-        <div id="tab_files" class="taboff">...</div>
-        <div id="tab_programs" class="taboff">...</div>
-        <div id="tab_device" class="taboff">...</div>
-        <div id="tab_iot" class="taboff">IOT</div>
-        <div id="tab_mqtt" class="taboff" onclick='document.getElementById("easymqtt_iframe").contentWindow.startEasyMQTT(window.easyMQTT_session);'>EasyMQTT</div>
-        <div id="tab_databoard" class="taboff">Databoard</div>
+        <div id="tab_device" class="taboff">Dispositivo</div>
+        <!-- Mantendo as outras abas no HTML mas escondidas para preservar a funcionalidade -->
+        <div id="tab_files" class="taboff" style="display:none;">Arquivos</div>
+        <div id="tab_programs" class="taboff" style="display:none;">Programas</div>
+        <div id="tab_iot" class="taboff" style="display:none;">Internet</div>
+        <div id="tab_mqtt" class="taboff" style="display:none;" onclick='document.getElementById("easymqtt_iframe").contentWindow.startEasyMQTT(window.easyMQTT_session);'>Mensagens</div>
+        <div id="tab_databoard" class="taboff" style="display:none;">Dados</div>
       </div>
-      <button id="toolbarButton" class="notext icon medium" title="..."></button>
+      <button id="toolbarButton" class="notext icon medium" title="Ferramentas"></button>
       <div class="toolbar">
       <div id="channel_connect">
-        <button class="icon" id="channelButton" title="Choose connection channel"></button>
-        <button class="icon" id="connectButton" title="Connect/Disconnect"></button>
+        <button class="icon" id="channelButton" title="Escolher canal de conexão"></button>
+        <button class="icon" id="connectButton" title="Conectar/Desconectar"></button>
       </div>
       <div class="icon" id="deviceSelect">
         <select id="device_selector">
-          <option value="RPI_Pico">Raspberry Pi Pico</option>
+          <option value="BitdogLab">BitdogLab</option>
         </select>
-        <button id="runButton" class="notext primary icon" title="..."></button>
+        <button id="runButton" class="notext primary icon" title="Executar Programa"></button>
       </div>
 
-        <button id="linkButton" class="notext icon" title="..."></button>
+        <button id="linkButton" class="notext icon" title="Compartilhar"></button>
 
-        <button id="saveButton" class="notext icon" title="..."></button>
+        <button id="saveButton" class="notext icon" title="Salvar"></button>
 
         <label id="loadButton" for="loadXML"  class="notext button icon" title="..."></label>
         <input name="XML" id="loadXML" type="file" accept=".xml" required="">
@@ -249,13 +487,21 @@ document.body.appendChild(el);
 
   <div id="content_device" class="content">
     <center>
-      <label id="device_title"><b>ESP8266</b><br></label>
+      <label id="device_title"><b>BitdogLab (Raspberry Pi Pico)</b><br></label>
     <br>
-    <img id="device_img" src="devinfo/Node-MCU-ESP-12E-Pin-Out-Diagram2.jpg">
+    <img id="device_img" src="devinfo/media/RPI_Pico.svg" style="max-width:90%; height:auto;">
     <br>
 
     <label id="device_desc">
-	      <BR><BR><input type='button' onclick='loadDoc();' value='Open Documentation' /> <BR><BR>To use ESP8266, simply connecto to MicroPython board using Wifi. Micropython must be previously installed on the board. Follow these instructions to install it.
+	      <BR><BR><h3>Especificações do BitdogLab</h3>
+        <ul style="text-align:left; max-width:600px; margin:0 auto; line-height:1.6;">
+          <li><b>Microcontrolador:</b> RP2040 dual-core Arm Cortex M0+ processor, com clock flexível até 133 MHz</li>
+          <li><b>Memória:</b> 264KB de SRAM e 2MB de memória Flash</li>
+          <li><b>GPIO:</b> 26 pinos multifunção</li>
+          <li><b>Interface:</b> 2 x UART, 2 x SPI controllers, 2 x I2C controllers, 16 x PWM channels</li>
+          <li><b>Conectividade:</b> USB 1.1 com suporte a host e dispositivo</li>
+          <li><b>Programação:</b> MicroPython e C/C++</li>
+        </ul>
     </label>
 
     </center>

@@ -1,14 +1,31 @@
-html, body {
-  height: 100%;
+/* BitdogLab Theme Colors */
+:root {
+  --bitdoglab-primary: #4b2e83; /* Purple primary color */
+  --bitdoglab-secondary: #85754d; /* Gold accent color */
+  --bitdoglab-tertiary: #b7a57a; /* Light gold */
+  --bitdoglab-light: #f5f5f5; /* Light background */
+  --bitdoglab-dark: #2d1a4f; /* Dark purple */
+  --bitdoglab-accent: #ff8c00; /* Orange accent for children UI */
+  --bitdoglab-success: #4CAF50; /* Green for success messages */
+  --bitdoglab-warning: #FFC107; /* Yellow for warnings */
+  --bitdoglab-error: #F44336; /* Red for errors */
+  --font-primary: 'Comic Sans MS', 'Marker Felt', sans-serif; /* Child-friendly font */
+  --font-secondary: BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+
+  /* Adicionando elementos decorativos para uma interface mais amigável para crianças */
+  --border-radius-large: 1rem;
+  --border-radius-medium: 0.75rem;
+  --border-radius-small: 0.5rem;
+  --shadow-normal: 0 2px 5px rgba(0,0,0,0.2);
+  --shadow-hover: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 body {
-  background-color: #fff;
-  font-family: sans-serif;
+  background-color: var(--bitdoglab-light);
+  font-family: var(--font-secondary);
   margin: 0;
   overflow: hidden;
   overscroll-behavior: none; /*disable pull to refresh */
-  font-family: BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 label {
@@ -76,7 +93,7 @@ h1 {
 }
 /* Top menu */
 .top-menu {
-  height: 3.5rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -84,26 +101,33 @@ h1 {
   user-select: none;
   width: 100vw;
   box-sizing: border-box;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--bitdoglab-primary);
+  background-color: var(--bitdoglab-primary);
+  color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 .top-menu > .logo {
   display: flex;
   align-items: center;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 600;
   line-height: 1.125;
-  color: #3298dc;
+  color: white;
+  font-family: var(--font-primary);
+  padding: 0.3rem 0;
 }
 
-.top-menu > .logo:before  {
+.top-menu > .logo:before {
   content:"";
   display:inline-block;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   background-size: cover;
-  background-image: url(media/icons.svg);
-  background-size: auto 4rem;
-  background-position: left calc(-2rem*8) top; /* heigth * index in icons.svg */
+  background-image: url(media/BITDOGLAB.jpg);
+  background-position: center;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  border: 2px solid var(--bitdoglab-tertiary);
 }
 
 .top-menu > .tabs {
@@ -112,6 +136,14 @@ h1 {
   width: 100%;
   overflow-x: auto;
   padding: .5rem 0;
+  font-family: var(--font-primary);
+}
+
+.tabs div {
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 .top-menu #channel_connect {
   display: flex;
@@ -297,15 +329,21 @@ input.checkswitch[type="checkbox"] {
 #channel_connect.wait, #toolbarButton.wait {
   animation: blinking 1s infinite;
 }
+@-webkit-keyframes blinking {
+		0%		{ background-color: #fff;}
+		50%	 { background-color: var(--bitdoglab-accent);}
+		100%	 { background-color: #fff;}
+}
 @keyframes blinking {
 		0%		{ background-color: #fff;}
-		50%	 { background-color: #6aa8fb;}
+		50%	 { background-color: var(--bitdoglab-accent);}
 		100%	 { background-color: #fff;}
 }
 #networkButton, #serialButton {
   margin-top: -1px;
 }
 
+@-webkit-keyframes spin { 100% { transform:rotate(360deg); } }
 @keyframes spin { 100% { transform:rotate(360deg); } }
 #scanButton:hover:before {
   animation:spin 1s linear infinite;
@@ -325,6 +363,35 @@ input.checkswitch[type="checkbox"] {
     padding: .25rem;
     margin: 0rem 1px;
   }
+}
+.taboff, .tabon {
+  -webkit-tap-highlight-color: transparent;
+  padding: 0.7em 1em;
+  margin: 0 4px;
+  border-radius: 0.75em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-primary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.taboff {
+  background-color: var(--bitdoglab-tertiary);
+  color: white;
+  border: none;
+}
+
+.taboff:hover {
+  background-color: var(--bitdoglab-secondary);
+  transform: translateY(-2px);
+}
+.tabon {
+  font-weight: bold;
+  background-color: var(--bitdoglab-accent);
+  color: white;
+  border: none;
+  transform: scale(1.05);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 .tabs > div.on {
   box-shadow: 0 .125em .5em #ccc;
@@ -361,10 +428,13 @@ td {
 }
 .content {
   width: 100vw;
-  top: 3.5rem;
+  top: 4rem;
   margin: 0;
   position: absolute;
-	opacity: 0;
+  opacity: 0;
+  background-color: var(--bitdoglab-light);
+  border-radius: 0.5rem 0.5rem 0 0;
+  overflow: hidden;
 }
 .content:not(#content_blocks) {
 	transition: .125s ease left, .125s ease opacity, .125s ease width;
@@ -408,11 +478,12 @@ pre.content {
   border: 1px solid #ccc;
   overflow: scroll;
 }
-{
+
+.content-padding {
   padding: 0;
 }
 #content_blocks, #content_device, #content_code, #content_console, #content_files, #content_device, #content_programs, #content_mqtt, #content_iot, #content_databoard {
-  height: calc(100vh - 3.5rem);
+  height: calc(100vh - 4rem);
 }
 #content_device, #content_code, #content_console {
   overflow-y: auto;
@@ -424,6 +495,16 @@ pre.content {
 }
 .blocklySvg {
   border-top: none !important;
+  background-color: #fffaf0 !important; /* Fundo mais suave para a área de blocos */
+}
+
+/* Estilo para botões mais amigáveis para crianças */
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
 }
 #content_console #file-boxes button {
   white-space: nowrap;
@@ -453,10 +534,11 @@ pre.content {
   background: #000;
   margin: .75rem 0;
   overflow: hidden;
-  border-radius: .5rem;
+  border-radius: var(--border-radius-medium);
   transition: box-shadow ease .125s;
-  box-shadow: 0 0.125rem .25rem rgba(0,0,0,.5);
+  box-shadow: var(--shadow-normal);
   overscroll-behavior: none; /*disable chrome pull to refresh */
+  border: 3px solid var(--bitdoglab-tertiary);
 }
 #tipsGeneric, #languageIcon {
   display: inline-flex;
@@ -810,9 +892,11 @@ button.icon.medium:before  {
 #deviceSelect {
   display: inline-flex;
   align-items: center;
-  border: 1px solid #327ae7;
+  border: 2px solid var(--bitdoglab-tertiary);
   border-radius: 2rem;
   padding-left: .5rem;
+  background-color: var(--bitdoglab-dark);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 #device_selector {
   /* A reset of styles of select object */
@@ -821,13 +905,14 @@ button.icon.medium:before  {
   border: none;
   padding: 0;
   margin: 0;
-  font-family: inherit;
+  font-family: var(--font-primary);
   font-size: inherit;
   line-height: inherit;
   height: 2rem;
-  color: #327ae7;
-  font-size: 0.8rem;
+  color: white;
+  font-size: 1rem;
   font-weight: bold;
+  padding: 0 0.5rem;
 }
 #device_selector:focus {
   color: #000;
@@ -840,15 +925,18 @@ button.icon.medium:before  {
 /* Run button */
 #runButton {
   border: none;
-  border: 1px solid #327ae7;
+  border: 2px solid var(--bitdoglab-tertiary);
   margin: -1px;
   opacity: 1;
   padding: 0.25rem .4rem;
-  background: #fff;
-  transition: box-shadow ease .125s;
+  background: var(--bitdoglab-accent);
+  transition: all ease .2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 #runButton:hover {
-  box-shadow: -1px 0 3px  #327ae7;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+  transform: translateY(-2px);
+  background: var(--bitdoglab-success);
 }
 
 /* Privacy link */
@@ -968,22 +1056,34 @@ button.icon.medium:before  {
   overflow: hidden;
   height: 0;
   transition: .125s ease height;
-  top: 3.375rem;
+  top: 4rem;
 }
 .progress-bar#on {
-	height: .25em;
+	height: .35em;
+	background-color: rgba(255,255,255,0.2);
 }
 .progress-bar div {
 	content: '';
 	position: absolute;
 	height: 100%;
-	background: #3298dc;
+	background: var(--bitdoglab-accent);
+	border-radius: 4px;
 }
 .progress-bar div{
 	width: 0%;
 	transition: .125s linear width;
 }
 @-webkit-keyframes progress {
+	0% {
+		left: 100%;
+		transform: translateX(0);
+	}
+	100% {
+		left: 0;
+		transform: translateX(-100%);
+	}
+}
+@keyframes progress {
 	0% {
 		left: 100%;
 		transform: translateX(0);

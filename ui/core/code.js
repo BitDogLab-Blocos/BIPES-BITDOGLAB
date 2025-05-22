@@ -61,8 +61,8 @@ Code.getStringParamFromUrl = function(name, defaultValue) {
 Code.getLang = function() {
   var lang = Code.getStringParamFromUrl('lang', '');
   if (Code.LANGUAGE_NAME[lang] === undefined) {
-    // Default to English.
-    lang = 'en';
+    // Default to Portuguese Brazilian.
+    lang = 'pt-br';
   }
   return lang;
 };
@@ -178,7 +178,7 @@ Code.LANG = Code.getLang();
  * @private
  */
 
-Code.TABS_ = ['blocks', 'console', 'files', 'device', 'programs', 'databoard', 'mqtt', 'iot'];
+Code.TABS_ = ['blocks', 'console', 'files', 'programs', 'device', 'iot', 'mqtt', 'databoard'];
 
 Code.current = ["blocks", "",""]
 
@@ -440,13 +440,34 @@ Code.checkAllGeneratorFunctionsDefined = function(generator) {
 };
 
 Code.reloadToolbox = function(XML_) {
-  let toolboxText = new XMLSerializer().serializeToString(XML_).replace(/(^|[^%]){(\w+)}/g,
-      function(m, p1, p2) {return p1 + MSG[p2];});
-  let toolboxXml = Blockly.Xml.textToDom(toolboxText);
-
-  Code.workspace.updateToolbox(toolboxXml);
-
-  Code.workspace.scrollCenter(); // centralize workspace
+  try {
+    // Se XML_ for uma string, converte para DOM
+    if (typeof XML_ === 'string') {
+      XML_ = Blockly.Xml.textToDom(XML_);
+    }
+    
+    // Verifica se XML_ é um objeto DOM válido
+    if (XML_ && XML_.nodeName) {
+      Code.workspace.updateToolbox(XML_);
+      UI['notify'].send('Toolbox recarregada com sucesso!');
+    } else {
+      // Tenta carregar a toolbox padrão
+      let request = new XMLHttpRequest();
+      request.open('GET', 'toolbox/default.xml', false);
+      request.send(null);
+      
+      if (request.status === 200) {
+        let toolboxXml = Blockly.Xml.textToDom(request.responseText);
+        Code.workspace.updateToolbox(toolboxXml);
+        UI['notify'].send('Toolbox padrão carregada!');
+      }
+    }
+    
+    Code.workspace.scrollCenter(); // centraliza o workspace
+  } catch (e) {
+    console.error('Erro ao recarregar a toolbox:', e);
+    UI['notify'].send('Erro ao carregar a toolbox: ' + e.message);
+  }
 }
 
 function loadExampleFromURL(pName){
@@ -539,8 +560,20 @@ Code.init = function() {
     }
   }
 
-  // Construct the toolbox XML with no blocks, will populate later.
-  let toolboxXml = Blockly.Xml.textToDom("<xml><category name='...'></category></xml>");
+  // Carrega a toolbox XML com todos os blocos disponíveis
+  let toolboxXml;
+  
+  // Primeiro tentamos carregar a toolbox específica para o BitdogLab
+  let request = new XMLHttpRequest();
+  request.open('GET', 'toolbox/default.xml', false);
+  request.send(null);
+  
+  if (request.status === 200) {
+    toolboxXml = Blockly.Xml.textToDom(request.responseText);
+  } else {
+    // Fallback para uma toolbox básica se não conseguir carregar o arquivo
+    toolboxXml = Blockly.Xml.textToDom("<xml><category name='Básico' colour='%{BKY_LOGIC_HUE}'><block type='controls_if'></block><block type='logic_compare'></block><block type='controls_repeat_ext'></block><block type='math_number'></block><block type='math_arithmetic'></block><block type='text'></block><block type='text_print'></block></category></xml>");
+  }
 
   Code.workspace = Blockly.inject('content_blocks',
       {grid:
