@@ -97,6 +97,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: nowrap; /* Impede a quebra de linha */
   padding: 0 .5rem 0 1rem;
   user-select: none;
   width: 100vw;
@@ -109,7 +110,7 @@ h1 {
 .top-menu > .logo {
   display: flex;
   align-items: center;
-  font-size: 1.8rem;
+  font-size: 1.5rem; /* Reduzido de 1.8rem */
   font-weight: 600;
   line-height: 1.125;
   color: white;
@@ -366,7 +367,7 @@ input.checkswitch[type="checkbox"] {
 }
 .taboff, .tabon {
   -webkit-tap-highlight-color: transparent;
-  padding: 0.7em 1em;
+  padding: 0.7em .5rem; /* Padding horizontal reduzido */
   margin: 0 4px;
   border-radius: 0.75em;
   white-space: nowrap;
