@@ -1,4 +1,8 @@
 var MSG = {
+  hello: "Olá",
+  user: "Usuário",
+  projects: "Projetos",
+  settings: "Configurações",
   title: "BIPES Beta",
   blocks: "Blocos",
   files: "Arquivos",

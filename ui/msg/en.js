@@ -1,4 +1,8 @@
 var MSG = {
+  hello: "Hello",
+  user: "User",
+  projects: "Projects",
+  settings: "Settings",
   title: "BIPES",
   blocks: "Blocks",
   files: "Files",

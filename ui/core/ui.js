@@ -68,6 +68,13 @@ function account (button_, panel_) {
  */
 account.prototype.restoreProjects = function (projects_) {
   this.projects = projects_;
+  
+  // Update UI with translated strings
+  if (MSG['hello']) document.getElementById('hello_text').textContent = MSG['hello'];
+  if (MSG['user']) document.getElementById('user_text').textContent = MSG['user'];
+  if (MSG['projects']) document.getElementById('projects_header').textContent = MSG['projects'];
+  if (MSG['settings']) document.getElementById('settings_header').textContent = MSG['settings'];
+  
   for (const prop in this.projects) {
     if (localStorage[prop]) {
       this.listProject (prop, this.projects[prop])
@@ -119,7 +126,7 @@ account.prototype.listProject = function (uid, timestamp) {
 account.prototype.openProject = function (uid) {
   if (this.currentProject.uid != '') {
     BlocklyStorage.backupBlocks_ ();
-    try {getIn(this.projectList, `#${this.currentProject.uid}`).className = ''} catch (e) {};
+    try{getIn(this.projectList, `#${this.currentProject.uid}`).className = ''} catch (e) {};
   }
   let xml = localStorage[uid];
 
