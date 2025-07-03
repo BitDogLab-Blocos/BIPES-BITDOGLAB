@@ -1106,3 +1106,73 @@ button.icon.medium:before  {
     font-weight: bold;
     padding-bottom: .125rem;
 }
+
+/* Estilos para a Toolbox Infantil */
+.blocklyToolboxDiv {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e6e6fa 100%);
+  border-right: 2px solid #d1c4e9;
+}
+
+.blocklyTreeRow {
+  margin-bottom: 8px;
+  border-radius: 20px;
+  border: 3px solid transparent;
+  transition: all 0.3s ease;
+  font-family: var(--font-primary);
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.blocklyTreeRow:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* Cores do Arco-Íris para as categorias */
+.blocklyTreeRow[aria-level="1"]:nth-child(odd) {
+    background-color: #ffadad;
+}
+.blocklyTreeRow[aria-level="1"]:nth-child(even) {
+    background-color: #ffd6a5;
+}
+.blocklyTreeRow[aria-level="1"]:nth-child(3n) {
+    background-color: #fdffb6;
+}
+.blocklyTreeRow[aria-level="1"]:nth-child(4n) {
+    background-color: #caffbf;
+}
+.blocklyTreeRow[aria-level="1"]:nth-child(5n) {
+    background-color: #9bf6ff;
+}
+.blocklyTreeRow[aria-level="1"]:nth-child(6n) {
+    background-color: #a0c4ff;
+}
+.blocklyTreeRow[aria-level="1"]:nth-child(7n) {
+    background-color: #bdb2ff;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 140, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 140, 0, 0);
+  }
+}
+
+.blocklyTreeSelected {
+  border-color: var(--bitdoglab-accent) !important;
+  animation: pulse 1.5s infinite;
+}
+
+.blocklyTreeLabel {
+    color: #333;
+    font-weight: bold;
+}
+
+.blocklyTreeSelected .blocklyTreeLabel {
+    color: white !important;
+}
