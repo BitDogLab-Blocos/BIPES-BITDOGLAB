@@ -1,0 +1,77 @@
+# Prompt files for Claude AI
+prompt_para_claude.txt
+
+# Development and temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+.DS_Store
+Thumbs.db
+
+# Claude Code settings
+.claude/
+
+# IDE and editor files
+.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# Node modules (if any)
+node_modules/
+npm-debug.log*
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Log files
+*.log
+logs/
+
+# Environment files
+.env
+.env.local
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# Backup files created during development
+*_backup.*
+default_backup.xml
+
+# Development CSS and JS files
+fix-temporizacao-blocks.css
+fix-temporizacao-blocks.js
+
+# Additional toolbox files (keeping only main ones)
+ui/toolbox/AmadoBoard.xml
+ui/toolbox/arduino.xml
+ui/toolbox/bbblack.xml
+ui/toolbox/esp32-basic.xml
+ui/toolbox/esp32.xml
+ui/toolbox/esp32S2.xml
+ui/toolbox/esp8266.xml
+ui/toolbox/linux.xml
+ui/toolbox/stm32.xml
+
+# UI2 directory (if it's experimental)
+ui2/
+
+# Offline generated files
+bipes_offline.zip
+ui/index_offline.html
