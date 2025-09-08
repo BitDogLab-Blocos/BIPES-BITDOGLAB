@@ -1,0 +1,41 @@
+/* Correção específica para categoria Temporização - Bug de Empilhamento de Blocos */
+
+/* Força layout vertical para blocos da categoria Temporização */
+.blocklyFlyout .blocklyBlockCanvas g[data-category*="Temporização"] .blocklyDraggable,
+.blocklyFlyout .blocklyBlockCanvas g[data-category*="Tempo"] .blocklyDraggable,
+.blocklyFlyout g.blocklyDraggable[data-block-type*="delay"],
+.blocklyFlyout g.blocklyDraggable[data-block-type*="ticks"],
+.blocklyFlyout g.blocklyDraggable[data-block-type*="rtc"],
+.blocklyFlyout g.blocklyDraggable[data-block-type*="timer"],
+.blocklyFlyout g.blocklyDraggable[data-block-type*="sleep"] {
+    position: relative !important;
+    transform: none !important;
+    display: block !important;
+    margin-bottom: 20px !important;
+}
+
+/* Garante espaçamento vertical adequado entre blocos de temporização */
+.blocklyFlyout .blocklyBlockCanvas g[transform] {
+    margin-bottom: 20px;
+}
+
+/* Corrige posicionamento específico para blocos de delay */
+.blocklyFlyout g.blocklyDraggable[data-block-type="delay"],
+.blocklyFlyout g.blocklyDraggable[data-block-type="delay_ms"],
+.blocklyFlyout g.blocklyDraggable[data-block-type="delay_us"] {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+}
+
+/* Força recalculo de layout para categoria específica */
+.blocklyToolboxDiv .blocklyTreeRow[aria-label*="Temporização"] ~ .blocklyFlyout {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+}
+
+.blocklyToolboxDiv .blocklyTreeRow[aria-label*="Temporização"] ~ .blocklyFlyout .blocklyBlockCanvas {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+}
