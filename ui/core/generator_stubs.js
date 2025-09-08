@@ -17,12 +17,6 @@ Blockly.Python['project_metadata'] = function(block) {
 };
 
 
-Blockly.Python['delay_old'] = function(block) {
-  var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.sleep(' + value_time + ')\n';
-  return code;
-};
 
 Blockly.Python['reset'] = function(block) {
   Blockly.Python.definitions_['import_machine'] = 'import machine';
@@ -4463,12 +4457,6 @@ Blockly.Python['deep_sleep8266'] = function(block) {
   };
 
 
-Blockly.Python['deep_sleep'] = function(block) {
-	var value_interval = Blockly.Python.valueToCode(block, 'interval', Blockly.Python.ORDER_ATOMIC);
-	Blockly.Python.definitions_['import_machine'] = 'import machine';
-	var code = 'machine.deepsleep(' + value_interval + ')\n';
-	return code;
-  };
 
 
 Blockly.Python['pwm'] = function(block) {
@@ -4609,11 +4597,6 @@ Blockly.Python['file_close'] = function(block) {
 };
 
 
-Blockly.Python['file_close_old'] = function(block) {
-  var pIn = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
-  var code = 'f.close()\n';
-  return code;
-};
 
 Blockly.Python['file_read'] = function(block) {
   var variable_filename = Blockly.Python.nameDB_.getName(block.getFieldValue('filename'), Blockly.VARIABLE_CATEGORY_NAME);
@@ -4624,10 +4607,6 @@ Blockly.Python['file_read'] = function(block) {
 };
 
 
-Blockly.Python['file_read_old'] = function(block) {
-  var code = 'f.read()';
-  return [code, Blockly.Python.ORDER_NONE];
-};
 
 Blockly.Python['file_write'] = function(block) {
   var variable_filename = Blockly.Python.nameDB_.getName(block.getFieldValue('filename'), Blockly.VARIABLE_CATEGORY_NAME);
@@ -4658,12 +4637,6 @@ Blockly.Python['file_write_byte'] = function(block) {
 };
 
 
-Blockly.Python['file_write_old'] = function(block) {
-  var pIn = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
-  var code = 'f.write(' + pIn + ')\n';
-  code += "f.write('\\n')\n";
-  return code;
-};
 
 
 Blockly.Python['files_list'] = function(block) {
