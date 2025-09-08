@@ -54,7 +54,7 @@ var MSG = {
   block_delay: "esperar",
   seconds: "segundos",
   milliseconds: "milisegundos",
-  microseconds: "microsegundos",
+  milliseconds: "milissegundos",
   to: "para",
   setpin: "ajustar pino de saida",
   pin: "pino",

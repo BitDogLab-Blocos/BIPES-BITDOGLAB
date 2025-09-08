@@ -2953,16 +2953,16 @@ Blockly.Blocks['delay_seconds'] = {
   }
 };
 
-// Bloco de Delay em Microssegundos
-Blockly.Blocks['delay_microseconds'] = {
+// Bloco de Delay em Milissegundos
+Blockly.Blocks['delay_milliseconds'] = {
   init: function() {
     this.appendValueInput("TIME")
         .setCheck("Number")
-        .appendField("delay microseconds");
+        .appendField("delay milliseconds");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);
-    this.setTooltip("Delay processing in microseconds");
+    this.setTooltip("Delay processing in milliseconds");
     this.setHelpUrl("bipes.net.br");
   }
 };

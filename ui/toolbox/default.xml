@@ -353,10 +353,10 @@
           </shadow>
         </value>
       </block>
-      <block type="delay_microseconds">
+      <block type="delay_milliseconds">
         <value name="TIME">
           <shadow type="math_number">
-            <field name="NUM">1000</field>
+            <field name="NUM">3</field>
           </shadow>
         </value>
       </block>

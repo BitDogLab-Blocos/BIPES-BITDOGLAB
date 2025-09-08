@@ -6000,10 +6000,10 @@ Blockly.Python['delay_seconds'] = function(block) {
   return code;
 };
 
-Blockly.Python['delay_microseconds'] = function(block) {
+Blockly.Python['delay_milliseconds'] = function(block) {
   var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
   Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.sleep_us(' + value_time + ')\n';
+  var code = 'time.sleep_ms(' + value_time + ')\n';
   return code;
 };
 
