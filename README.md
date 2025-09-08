@@ -1,47 +1,52 @@
-# BIPES: Block based Integrated Platform for Embedded Systems.
+# BitDogLab - Plataforma Educacional para Raspberry Pi Pico
 
 ![BIPES](bipes.png)
 
+## Descrição
 
-BIPES allows anyone to quickly and reliably design, program, build, deploy and test embedded systems and IOT devices and applications. It is fully based on a web environment, so absolutely no software install is needed on the client / developer machine. 
+BitDogLab é uma versão simplificada e focada do BIPES (Block based Integrated Platform for Embedded Systems), especificamente desenvolvida para uso educacional com o microcontrolador **Raspberry Pi Pico**. 
 
-More information at the project website: [bipes.net.br](https://bipes.net.br/).
+Esta plataforma permite programar o Raspberry Pi Pico usando blocos visuais, tornando o aprendizado de programação de sistemas embarcados mais acessível e intuitivo.
 
-## Live version
-Try it now at: [bipes.net.br/ide](https://bipes.net.br/ide).
+## Características
 
-## Usage
+- Interface web simples e intuitiva
+- Programação visual com blocos do Blockly
+- Foco exclusivo no Raspberry Pi Pico
+- 9 categorias essenciais de blocos:
+  - 🧠 Lógica
+  - 🔄 Repetições  
+  - 🧮 Matemática
+  - 🔡 Texto
+  - 📜 Listas
+  - 🏷️ Variáveis
+  - ⚙️ Funções
+  - ⏱️ Temporização
+  - 🔌 Máquina e Pinos
 
-To init submodules, like [BIPES/freeboard](https://github.com/BIPES/freeboard) and [BIPES/Databoard](https://github.com/BIPES/Databoard), run:
-```
-make submodules
-```
+## Uso
 
-To build/update the offline version with latest, run:
-```
-make offline
-```
-This version does not require a server since it has all core files concatanated at `ui/index_offline.html`, just open this file in a browser. It will also create a `bipes_offline.zip`. Howver, keep in mind that any tool that requires a server, like MQTT, won't work due to [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+1. Abra o arquivo `ui/index.html` em seu navegador
+2. Conecte seu Raspberry Pi Pico
+3. Arraste e solte blocos para criar seu programa
+4. Execute o código diretamente no microcontrolador
 
-That's it, enjoy BIPES 😄.
+## Blocos Disponíveis
 
+### Temporização
+- Delay em segundos (campo editável)
+- Delay em milissegundos (campo editável)
 
-## Documentation
+### Máquina e Pinos
+- Configuração de pinos GPIO
+- Leitura de entradas digitais
+- Controle de saídas digitais  
+- Leitura de entradas analógicas (GP26, GP27, GP28)
+- Controle PWM
+- Operações com frequência da CPU
 
-The documentation is online at [bipes.net.br/docs](https://bipes.net.br/docs).
+## Projeto Original
 
-To build the documentation out of a fresh clone, do:
-```
-make doc
-```
-after having installed the theme, [sphinx](https://www.sphinx-doc.org/en/master/) and [sphinx-js](https://pypi.org/project/sphinx-js/).
-```
-pip install sphinx sphinx-js furo
-```
-## More information
-Some functions of `ui/index.html` were based on Blopy project (https://github.com/mnoriaki/Blopy), by Noriaki Mitsunaga
- (https://github.com/mnoriaki).
- 
- OpenCV blocks were automatically generated using berak's OpenCV to Blockly generator (https://github.com/berak/blockly-cv2/tree/master/gen).
- 
-We also use `xterm.js` (https://github.com/xtermjs/xterm.js/) and `codemirror.js` (https://github.com/codemirror/codemirror).
+Este projeto é baseado no BIPES original: [bipes.net.br](https://bipes.net.br/)
+
+Algumas funções foram adaptadas do projeto Blopy (https://github.com/mnoriaki/Blopy).
