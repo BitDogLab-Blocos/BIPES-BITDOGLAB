@@ -201,9 +201,9 @@ Blockly.Python['adc_pico'] = function(block) {
 
 Blockly.Python['adc'] = function(block) {
   Blockly.Python.definitions_['import_adc'] = 'from machine import ADC';
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
+  var value_pin = block.getFieldValue('PIN');
   Blockly.Python.definitions_[`init_adc_${value_pin}`] = 'adc' + value_pin + '=ADC(' + value_pin + ')';
-  var code = 'adc' + value_pin + '.read()';
+  var code = 'adc' + value_pin + '.read_u16()';
   return [code, Blockly.Python.ORDER_NONE];
 };
 
@@ -4276,9 +4276,8 @@ Blockly.Python['utime.vars'] = function(block) {
 Blockly.Python['delay'] = function(block) {
 //Blockly.Python['utime.delay'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
-  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_NONE);
-  var dropdown_scale = block.getFieldValue('SCALE');
-  var code =  `time.${dropdown_scale}(${value_time})\n`;
+  var value_time = block.getFieldValue('TIME');
+  var code = 'time.sleep(' + value_time + ')\n';
   return code;
 };
 Blockly.Python['utime.ticks_add'] = function(block) {
@@ -6010,6 +6009,26 @@ Blockly.Python['snek_delay'] = function(block) {
   var code = 'time.sleep(' + value_time + ')\n';
   return code;
 };
+
+// === GERADORES PYTHON PARA NOVA CATEGORIA TEMPO ===
+
+// Gerador para delay em segundos
+Blockly.Python['simple_delay_seconds'] = function(block) {
+  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var code = 'time.sleep(' + value_time + ')\n';
+  return code;
+};
+
+// Gerador para delay em milissegundos
+Blockly.Python['simple_delay_ms'] = function(block) {
+  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var code = 'time.sleep_ms(' + value_time + ')\n';
+  return code;
+};
+
+// === FIM GERADORES PYTHON TEMPO ===
 
 Blockly.Python['snek_adc'] = function(block) {
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);

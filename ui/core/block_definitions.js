@@ -263,20 +263,15 @@ Blockly.Blocks['ticks_diff'] = {
 //Blockly.Blocks['utime.delay'] = {
 Blockly.Blocks['delay'] = {
   init: function() {
-    this.appendValueInput("TIME")
-        .setCheck(null)
-        .appendField(MSG["block_delay"]); //Ready for i18n (see dir msg/<lang>.js)
-        //.appendField("delay"); //Original, fixed in english
     this.appendDummyInput()
-        //.appendField(new Blockly.FieldDropdown([["seconds","sleep"], ["milliseconds","sleep_ms"], ["microseconds","sleep_us"]]), "SCALE"); //original
-        .appendField(new Blockly.FieldDropdown([[MSG["seconds"],"sleep"], [MSG["milliseconds"],"sleep_ms"], [MSG["microseconds"],"sleep_us"]]), "SCALE"); //i18n
+        .appendField("delay seconds")
+        .appendField(new Blockly.FieldNumber(10, 0), "TIME");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);
-    this.setTooltip("Delay for given number, should be positive or 0.");
+    this.setTooltip("Delay for given number of seconds");
     this.setHelpUrl("https://docs.micropython.org/en/latest/library/utime.html#utime.sleep");
-
   }
 };
 
@@ -670,13 +665,14 @@ Blockly.Blocks['exec_python'] = {
 
 Blockly.Blocks['adc'] = {
   init: function() {
-    this.appendValueInput("pin")
-        .setCheck("Number")
-        //.appendField("Read ADC Input");
-        .appendField(MSG["read_analog_pin"]);
+    this.appendDummyInput()
+        .appendField("ler entrada analógica")
+        .appendField(new Blockly.FieldDropdown([
+            ["GP26", "26"], ["GP27", "27"], ["GP28", "28"]
+        ]), "PIN");
     this.setOutput(true, null);
     this.setColour(230);
- this.setTooltip("Read ADC input of specified pin");
+ this.setTooltip("Read ADC input of specified pin (GP26, GP27, GP28)");
  this.setHelpUrl("http://www.bipes.net.br");
   }
 };
@@ -3102,6 +3098,38 @@ Blockly.Blocks["builtins_ord"] = {
 };
 
 
+
+// === NOVA CATEGORIA TEMPO - BLOCOS SIMPLES ===
+
+// Bloco delay em segundos - Super simples
+Blockly.Blocks['simple_delay_seconds'] = {
+  init: function() {
+    this.appendValueInput("TIME")
+        .setCheck("Number")
+        .appendField("delay seconds");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Delay processing in seconds");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+// Bloco delay em milissegundos - Super simples
+Blockly.Blocks['simple_delay_ms'] = {
+  init: function() {
+    this.appendValueInput("TIME")
+        .setCheck("Number")
+        .appendField("delay milliseconds");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Delay processing in milliseconds");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+// === FIM NOVA CATEGORIA TEMPO ===
 
 Blockly.Blocks["builtins_pow"] = {
   init: function() {
