@@ -1,6 +1,5 @@
 # BitDogLab - Plataforma Educacional para Raspberry Pi Pico
 
-![BIPES](bipes.png)
 
 ## Descrição
 
