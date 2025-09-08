@@ -5993,6 +5993,20 @@ Blockly.Python['simple_delay_seconds'] = function(block) {
   return code;
 };
 
+Blockly.Python['delay_seconds'] = function(block) {
+  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var code = 'time.sleep(' + value_time + ')\n';
+  return code;
+};
+
+Blockly.Python['delay_microseconds'] = function(block) {
+  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var code = 'time.sleep_us(' + value_time + ')\n';
+  return code;
+};
+
 // Gerador para delay em milissegundos
 Blockly.Python['simple_delay_ms'] = function(block) {
   var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
