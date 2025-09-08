@@ -176,90 +176,6 @@ Blockly.Blocks['deep_sleep8266'] = {
 };
 
 
-Blockly.Blocks['deep_sleep'] = {
-	init: function() {
-    this.appendValueInput("interval")
-        .setCheck("Number")
-	.appendField("deep sleep");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Deep sleep process in milliseconds");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
-/*LEGACY_BLOCKS_START:Old timings blocks*/
-Blockly.Blocks['delay_old'] = {
-  init: function() {
-    this.appendValueInput("time")
-        .setCheck("Number")
-        .appendField("delay seconds");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Delay processing in seconds");
- this.setHelpUrl("http://www.bipes.net.br/");
-  }
-};
-
-Blockly.Blocks['delay_ms'] = {
-  init: function() {
-    this.appendValueInput("time")
-        .setCheck("Number")
-        .appendField("delay milliseconds");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Delay processing in milliseconds");
- this.setHelpUrl("http://www.bipes.net.br/");
-  }
-};
-
-Blockly.Blocks['delay_us'] = {
-  init: function() {
-    this.appendValueInput("time")
-        .setCheck("Number")
-        .appendField("delay microseconds");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Delay processing in microseconds");
- this.setHelpUrl("http://www.bipes.net.br/");
-  }
-};
-
-Blockly.Blocks['ticks_ms'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldLabelSerializable("Get milliseconds counter"), "MSG_GET_MS");
-    this.setOutput(true, null);
-    this.setColour(230);
- this.setTooltip("Get millisecond counter");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
-
-Blockly.Blocks['ticks_diff'] = {
-  init: function() {
-   this.appendDummyInput().appendField(new Blockly.FieldLabelSerializable("Compute time difference"), "DIFF_TS");
-    this.setOutput(true, null);
-    this.appendValueInput("end")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("end");
-    this.appendValueInput("start")
-        .setCheck("Number")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("start");
-    //this.setPreviousStatement(true, null);
-    //this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Compute time difference");
- this.setHelpUrl("bipes.net.br");
-  }
-};
-
-/*LEGACY_BLOCKS_END: Old timings blocks*/
 //Blockly.Blocks['utime.delay'] = {
 Blockly.Blocks['delay'] = {
   init: function() {
@@ -1627,24 +1543,6 @@ Blockly.Blocks['file_close'] = {
   }
 };
 
-Blockly.Blocks['file_close_old'] = {
-  init: function() {
-   this.appendDummyInput()
-        .appendField("Close file");
-
- this.appendValueInput("filename")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("filename");
-
- this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-
-    this.setColour(230);
- this.setTooltip("Safely close file");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 Blockly.Blocks['file_write'] = {
   init: function() {
@@ -1700,30 +1598,6 @@ Blockly.Blocks['file_write_byte'] = {
 
 
 
-Blockly.Blocks['file_write_old'] = {
-  init: function() {
-   this.appendDummyInput()
-        .appendField("Write text to file");
-
-
- this.appendValueInput("filename")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("filename");
-
- this.appendValueInput("data")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("data");
-
- this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-
-    this.setColour(230);
- this.setTooltip("Write string to file");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 Blockly.Blocks['file_open'] = {
   init: function() {
@@ -1761,23 +1635,6 @@ Blockly.Blocks['file_read'] = {
   }
 };
 
-Blockly.Blocks['file_read_old'] = {
-  init: function() {
-   this.appendDummyInput()
-        .appendField("Read text from the file");
-
- this.appendValueInput("filename")
-        .setCheck("String")
-        .setAlign(Blockly.ALIGN_RIGHT)
-        .appendField("filename");
-
-    this.setOutput(true, null);
-
-    this.setColour(230);
- this.setTooltip("Read string from a file");
- this.setHelpUrl("http://www.bipes.net.br");
-  }
-};
 
 
 Blockly.Blocks['files_list'] = {
