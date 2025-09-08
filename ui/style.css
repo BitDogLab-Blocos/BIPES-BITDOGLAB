@@ -808,6 +808,9 @@ button.icon.medium:before  {
 #linkButton:before {
   background-position: left calc(-1.5rem*0) top; /* icon size * index on icons.svg*/
 }
+#linkButton {
+  display: none !important; /* Ocultar botão de compartilhar */
+}
 #saveButton:before, #downloadIcon:before  {
   background-position: left calc(-1.5rem*1) top;
 }
@@ -847,6 +850,21 @@ button.icon.medium:before  {
 }
 #forumButton:before {
   background-position: left calc(-1.5rem*12) top;
+}
+
+/* ÍCONES BRANCOS - APENAS TOOLBAR PROBLEMÁTICA */
+#notificationButton,
+#accountButton,
+#newProjectButton,
+#saveButton,
+#loadButton,
+#forumButton,
+#connectButton,
+#serialButton,
+#networkButton,
+#bluetoothButton {
+  color: #FFFFFF !important;
+  filter: invert(1);
 }
 #bluetoothButton:before, #channelButton.webbluetooth:before {
   background-position: left calc(-1.5rem*15) top;

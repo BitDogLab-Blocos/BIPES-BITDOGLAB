@@ -1,7 +1,12 @@
-Blockly.Python['delay'] = function(block) {
-  var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
-  // TODO: Assemble Python into code variable.
-  var code = '...\n';
+Blockly.Python['delay_seconds'] = function(block) {
+  var number_time = block.getFieldValue('TIME');
+  var code = 'time.sleep(' + number_time + ')\n';
+  return code;
+};
+
+Blockly.Python['delay_microseconds'] = function(block) {
+  var number_time = block.getFieldValue('TIME');
+  var code = 'time.sleep_us(' + number_time + ')\n';
   return code;
 };
 

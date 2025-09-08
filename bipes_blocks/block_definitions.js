@@ -53,3 +53,34 @@ Blockly.Blocks['exec_python'] = {
  this.setHelpUrl("http://www.bipes.net.br");
   }
 };
+
+// Bloco de Delay em Segundos
+Blockly.Blocks['delay_seconds'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("delay seconds")
+        .appendField(new Blockly.FieldNumber(10, 0), "TIME");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Pausa a execução por um número de segundos.");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco de Delay em Microssegundos
+Blockly.Blocks['delay_microseconds'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("delay microseconds")
+        .appendField(new Blockly.FieldNumber(1000, 0), "TIME");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Pausa a execução por um número de microssegundos.");
+    this.setHelpUrl("");
+  }
+};
+
