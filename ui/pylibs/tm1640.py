@@ -26,13 +26,13 @@ SOFTWARE.
 
 from micropython import const
 from machine import Pin
-from time import sleep_us
+from time import sleep_ms
 
 TM1640_CMD1 = const(64)  # 0x40 data command
 TM1640_CMD2 = const(192) # 0xC0 address command
 TM1640_CMD3 = const(128) # 0x80 display control command
 TM1640_DSP_ON = const(8) # 0x08 display on
-TM1640_DELAY = const(10) # 10us delay between clk/dio pulses
+TM1640_DELAY = const(3) # 3ms delay between clk/dio pulses
 
 class TM1640(object):
     """Library for LED matrix display modules based on the TM1640 LED driver."""
@@ -46,22 +46,22 @@ class TM1640(object):
 
         self.clk.init(Pin.OUT, value=0)
         self.dio.init(Pin.OUT, value=0)
-        sleep_us(TM1640_DELAY)
+        sleep_ms(TM1640_DELAY)
 
         self._write_data_cmd()
         self._write_dsp_ctrl()
 
     def _start(self):
         self.dio(0)
-        sleep_us(TM1640_DELAY)
+        sleep_ms(TM1640_DELAY)
         self.clk(0)
-        sleep_us(TM1640_DELAY)
+        sleep_ms(TM1640_DELAY)
 
     def _stop(self):
         self.dio(0)
-        sleep_us(TM1640_DELAY)
+        sleep_ms(TM1640_DELAY)
         self.clk(1)
-        sleep_us(TM1640_DELAY)
+        sleep_ms(TM1640_DELAY)
         self.dio(1)
 
     def _write_data_cmd(self):
@@ -79,11 +79,11 @@ class TM1640(object):
     def _write_byte(self, b):
         for i in range(8):
             self.dio((b >> i) & 1)
-            sleep_us(TM1640_DELAY)
+            sleep_ms(TM1640_DELAY)
             self.clk(1)
-            sleep_us(TM1640_DELAY)
+            sleep_ms(TM1640_DELAY)
             self.clk(0)
-            sleep_us(TM1640_DELAY)
+            sleep_ms(TM1640_DELAY)
 
     def brightness(self, val=None):
         """Set the display brightness 0-7."""
