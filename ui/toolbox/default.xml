@@ -346,15 +346,15 @@
     
     <!-- 8. TEMPORIZAÇÃO -->
     <category name="⏱️ Temporização" colour="230">
-      <block type="delay">
-        <value name="time">
+      <block type="delay_seconds">
+        <value name="TIME">
           <shadow type="math_number">
-            <field name="NUM">10</field>
+            <field name="NUM">1</field>
           </shadow>
         </value>
       </block>
-      <block type="delay_ms">
-        <value name="time">
+      <block type="delay_microseconds">
+        <value name="TIME">
           <shadow type="math_number">
             <field name="NUM">1000</field>
           </shadow>

@@ -2972,6 +2972,34 @@ Blockly.Blocks['simple_delay_seconds'] = {
   }
 };
 
+// Bloco de Delay em Segundos
+Blockly.Blocks['delay_seconds'] = {
+  init: function() {
+    this.appendValueInput("TIME")
+        .setCheck("Number")
+        .appendField("delay seconds");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Delay processing in seconds");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
+// Bloco de Delay em Microssegundos
+Blockly.Blocks['delay_microseconds'] = {
+  init: function() {
+    this.appendValueInput("TIME")
+        .setCheck("Number")
+        .appendField("delay microseconds");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Delay processing in microseconds");
+    this.setHelpUrl("bipes.net.br");
+  }
+};
+
 // Bloco delay em milissegundos - Super simples
 Blockly.Blocks['simple_delay_ms'] = {
   init: function() {

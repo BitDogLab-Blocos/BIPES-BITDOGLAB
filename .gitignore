@@ -1,5 +1,5 @@
 # Prompt files for Claude AI
-prompt_para_claude.txt
+prompt.txt
 
 # Development and temporary files
 *.tmp
