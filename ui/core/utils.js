@@ -488,12 +488,7 @@ class files {
 
         mux.bufferPush ("import struct\r");
 
-	//Workaround for ESP32S2 using CircuitPython
-	//Needs to remount filesystem in write mode
-	if (UI ['workspace'].selector.value == "ESP32S2") {
-		mux.bufferPush ("import storage\r");
-		mux.bufferPush ("storage.remount(\"/\", False)\r");
-	} 
+ 
 
         mux.bufferPush (`f=open('${this.put_file_name}', 'w')\r`);
 
