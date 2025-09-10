@@ -492,9 +492,15 @@
     </block>
   </category>
 
-
+  <category name="LEDs" colour="320">
+    <block type="led_red_on"></block>
+    <block type="led_green_on"></block>
+    <block type="led_blue_on"></block>
+    <block type="led_red_off"></block>
+    <block type="led_green_off"></block>
+    <block type="led_blue_off"></block>
+    <block type="led_all_off"></block>
   </category>
-
 
   <category name="Displays">
 

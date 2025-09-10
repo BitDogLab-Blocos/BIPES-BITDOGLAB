@@ -1196,3 +1196,11 @@ button.icon.medium:before  {
 .blocklyTreeSelected .blocklyTreeLabel {
     color: white !important;
 }
+
+/*
+ * Oculta o texto do rótulo (label) que aparece acima dos blocos
+ * de uma categoria quando ela é selecionada.
+ */
+.blocklyFlyoutLabelText {
+  display: none;
+}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Demo Blocos LED - BitDogLab</title>
+  <script src="../core/blockly_compressed.js"></script>
+  <script src="../core/blocks_compressed.js"></script>
+  <script src="../core/python_compressed.js"></script>
+  <script src="../core/block_definitions.js"></script>
+  <script src="../core/generator_stubs.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    #blocklyDiv { border: 2px solid #ccc; }
+    .controls { margin: 10px 0; }
+    button { padding: 8px 16px; margin: 5px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #45a049; }
+    #codeOutput { background: #f5f5f5; border: 1px solid #ddd; padding: 10px; margin-top: 10px; white-space: pre-wrap; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h1>🔴🟢🔵 Demo dos Blocos LED RGB - BitDogLab</h1>
+  <p>Teste os novos blocos de controle do LED RGB integrados na interface!</p>
+  
+  <div id="blocklyDiv" style="height: 480px; width: 800px;"></div>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+    <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
+      <block type="controls_if"></block>
+    </category>
+    <category name="%{BKY_CATLOOPS}" colour="%{BKY_LOOPS_HUE}">
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <shadow type="math_number">
+            <field name="NUM">10</field>
+          </shadow>
+        </value>
+      </block>
+    </category>
+    <category name="%{BKY_CAT_TIMING}">
+      <block type="delay">
+        <value name="TIME">
+          <shadow type="math_number">
+            <field name="NUM">1</field>
+          </shadow>
+        </value>
+      </block>
+    </category>
+    <category name="LEDs" colour="290">
+      <block type="led_red_on"></block>
+      <block type="led_green_on"></block>
+      <block type="led_blue_on"></block>
+      <block type="led_red_off"></block>
+      <block type="led_green_off"></block>
+      <block type="led_blue_off"></block>
+      <block type="led_all_off"></block>
+    </category>
+  </xml>
+
+  <div class="controls">
+    <button onclick="generateCode()">🐍 Gerar Código Python</button>
+    <button onclick="checkBlocks()">🔍 Verificar Blocos</button>
+    <button onclick="loadExample()">📁 Carregar Exemplo</button>
+    <button onclick="clearWorkspace()">🗑️ Limpar</button>
+  </div>
+
+  <div id="codeOutput"></div>
+
+  <script>
+    // Verificar se os blocos foram registrados
+    console.log('=== VERIFICAÇÃO DOS BLOCOS LED ===');
+    const ledBlocks = ['led_red_on', 'led_green_on', 'led_blue_on', 'led_red_off', 'led_green_off', 'led_blue_off', 'led_all_off'];
+    ledBlocks.forEach(blockType => {
+      console.log(blockType + ':', typeof Blockly.Blocks[blockType]);
+    });
+    
+    var workspace = Blockly.inject('blocklyDiv', {
+      toolbox: document.getElementById('toolbox'),
+      scrollbars: true,
+      trashcan: true
+    });
+    
+    // Função para gerar código Python
+    function generateCode() {
+      var code = Blockly.Python.workspaceToCode(workspace);
+      document.getElementById('codeOutput').textContent = code || '# Nenhum código gerado';
+      console.log('Código Python gerado:', code);
+    }
+    
+    // Função para verificar blocos disponíveis
+    function checkBlocks() {
+      console.log('Todos os blocos registrados:', Object.keys(Blockly.Blocks));
+      const ledCount = ledBlocks.filter(blockType => typeof Blockly.Blocks[blockType] === 'object').length;
+      alert(`Blocos LED encontrados: ${ledCount}/7\nVeja o console para detalhes completos`);
+    }
+    
+    // Função para carregar exemplo
+    function loadExample() {
+      const xml = `<xml xmlns="https://developers.google.com/blockly/xml">
+        <block type="led_red_on" x="20" y="20">
+          <next>
+            <block type="delay">
+              <value name="TIME">
+                <shadow type="math_number">
+                  <field name="NUM">1</field>
+                </shadow>
+              </value>
+              <next>
+                <block type="led_green_on">
+                  <next>
+                    <block type="delay">
+                      <value name="TIME">
+                        <shadow type="math_number">
+                          <field name="NUM">1</field>
+                        </shadow>
+                      </value>
+                      <next>
+                        <block type="led_blue_on">
+                          <next>
+                            <block type="delay">
+                              <value name="TIME">
+                                <shadow type="math_number">
+                                  <field name="NUM">1</field>
+                                </shadow>
+                              </value>
+                              <next>
+                                <block type="led_all_off"></block>
+                              </next>
+                            </block>
+                          </next>
+                        </block>
+                      </next>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </xml>`;
+      const xmlDoc = Blockly.Xml.textToDom(xml);
+      Blockly.Xml.domToWorkspace(xmlDoc, workspace);
+    }
+    
+    // Função para limpar workspace
+    function clearWorkspace() {
+      workspace.clear();
+      document.getElementById('codeOutput').textContent = '';
+    }
+    
+    // Atualizar código automaticamente
+    workspace.addChangeListener(function() {
+      generateCode();
+    });
+  </script>
+</body>
+</html>

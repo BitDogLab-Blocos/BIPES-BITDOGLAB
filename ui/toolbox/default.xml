@@ -427,4 +427,15 @@
       <block type="machine_unique_id"></block>
       <block type="machine_reset_cause"></block>
     </category>
+    
+    <!-- 10. LEDs -->
+    <category name="💡 LEDs" colour="320">
+      <block type="led_red_on"></block>
+      <block type="led_green_on"></block>
+      <block type="led_blue_on"></block>
+      <block type="led_red_off"></block>
+      <block type="led_green_off"></block>
+      <block type="led_blue_off"></block>
+      <block type="led_all_off"></block>
+    </category>
   </xml>
