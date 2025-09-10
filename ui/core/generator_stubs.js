@@ -6410,6 +6410,15 @@ Blockly.Python['math_max'] = function(block) {
   var code = 'max(' + value1 + ', ' + value2 + ')';
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
+
+// Isolated Python generator for "Repita para sempre" block - Phase 2 testing  
+Blockly.Python['controls_while_true'] = function(block) {
+  var branch = Blockly.Python.statementToCode(block, 'DO');
+  branch = Blockly.Python.addLoopTrap(branch, block) || Blockly.Python.PASS;
+  return 'while True:\n' + branch;
+};
+
+
   
   
   
