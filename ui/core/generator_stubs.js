@@ -4,6 +4,51 @@
  */
 let UPythonClass = {}
 
+// LED RGB Control Blocks Code Generators for BitDogLab
+Blockly.Python['led_red_on'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  var code = 'Pin(13, Pin.OUT).value(1)\n';
+  return code;
+};
+
+Blockly.Python['led_green_on'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  var code = 'Pin(11, Pin.OUT).value(1)\n';
+  return code;
+};
+
+Blockly.Python['led_blue_on'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  var code = 'Pin(12, Pin.OUT).value(1)\n';
+  return code;
+};
+
+Blockly.Python['led_red_off'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  var code = 'Pin(13, Pin.OUT).value(0)\n';
+  return code;
+};
+
+Blockly.Python['led_green_off'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  var code = 'Pin(11, Pin.OUT).value(0)\n';
+  return code;
+};
+
+Blockly.Python['led_blue_off'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  var code = 'Pin(12, Pin.OUT).value(0)\n';
+  return code;
+};
+
+Blockly.Python['led_all_off'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  var code = 'Pin(13, Pin.OUT).value(0)\n';
+  code += 'Pin(11, Pin.OUT).value(0)\n';
+  code += 'Pin(12, Pin.OUT).value(0)\n';
+  return code;
+};
+
 Blockly.Python['project_metadata'] = function(block) {
   var value_project_author = Blockly.Python.valueToCode(block, 'project_author', Blockly.Python.ORDER_ATOMIC);
   var value_project_iot_id = Blockly.Python.valueToCode(block, 'project_iot_id', Blockly.Python.ORDER_ATOMIC);
