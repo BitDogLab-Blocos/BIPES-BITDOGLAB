@@ -104,12 +104,12 @@ Blockly.Blocks['logic_compare'] = {
     this.appendValueInput("A");
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
-            ["for igual a", "EQ"],
-            ["for diferente de", "NEQ"],
-            ["for menor que", "LT"],
-            ["for menor ou igual a", "LTE"],
-            ["for maior que", "GT"],
-            ["for maior ou igual a", "GTE"]
+            ["For Igual a", "EQ"],
+            ["For Diferente de", "NEQ"],
+            ["For Menor que", "LT"],
+            ["For Menor ou Igual a", "LTE"],
+            ["For Maior que", "GT"],
+            ["For Maior ou Igual a", "GTE"]
         ]), "OP");
     this.appendValueInput("B");
     this.setInputsInline(true);
@@ -161,8 +161,8 @@ Blockly.Blocks['logic_boolean'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
-            ["✔️ verdadeiro", "TRUE"],
-            ["❌ falso", "FALSE"]
+            ["✔️ Verdadeiro", "TRUE"],
+            ["❌ Falso", "FALSE"]
         ]), "BOOL");
     this.setOutput(true, "Boolean");
     this.setColour("%{BKY_LOGIC_HUE}");
@@ -179,7 +179,7 @@ Blockly.Blocks['logic_operation'] = {
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
             ["E também", "AND"],
-            ["ou", "OR"]
+            ["Ou", "OR"]
         ]), "OP");
     this.appendValueInput("B")
         .setCheck("Boolean");
@@ -266,6 +266,49 @@ Blockly.Blocks['math_single'] = {
     this.setColour("%{BKY_MATH_HUE}");
     this.setTooltip("Aplica uma função matemática a um número");
     this.setHelpUrl("%{BKY_MATH_SINGLE_HELPURL}");
+  }
+};
+
+// Override math_trig block with "trigonometria" prefix and child-friendly explanations
+Blockly.Blocks['math_trig'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Trigonometria")
+        .appendField(new Blockly.FieldDropdown([
+            ["Seno (sin)", "SIN"],
+            ["Cosseno (cos)", "COS"],
+            ["Tangente (tan)", "TAN"],
+            ["Arco seno (asin)", "ASIN"],
+            ["Arco cosseno (acos)", "ACOS"],
+            ["Arco tangente (atan)", "ATAN"]
+        ]), "OP");
+    this.appendValueInput("NUM")
+        .setCheck("Number");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour("%{BKY_MATH_HUE}");
+    this.setTooltip("Aplica uma função trigonométrica a um ângulo");
+    this.setHelpUrl("%{BKY_MATH_TRIG_HELPURL}");
+  }
+};
+
+// Override math_constant block with "Constantes" prefix and child-friendly explanations
+Blockly.Blocks['math_constant'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Constantes")
+        .appendField(new Blockly.FieldDropdown([
+            ["Pi (π)", "PI"],
+            ["Euler (e)", "E"],
+            ["Phi - Proporção áurea (φ)", "GOLDEN_RATIO"],
+            ["Raiz de 2 (√2)", "SQRT2"],
+            ["Raiz de meio (√½)", "SQRT1_2"],
+            ["Infinito (∞)", "INFINITY"]
+        ]), "CONSTANT");
+    this.setOutput(true, "Number");
+    this.setColour("%{BKY_MATH_HUE}");
+    this.setTooltip("Retorna uma constante matemática importante");
+    this.setHelpUrl("%{BKY_MATH_CONSTANT_HELPURL}");
   }
 };
 
@@ -411,5 +454,105 @@ Blockly.Blocks['machine_reset_cause'] = {
     this.setColour(160);
  this.setTooltip("");
  this.setHelpUrl("");
+  }
+};
+
+// Magnifying glass icon for math property verification
+const svg_magnifying_glass = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNDA3MUY0Ij48cGF0aCBkPSJNMTUuNSAxNGgtLjc5bC0uMjgtLjI3QTE2LjUgMTYuNSAwIDAwMTggMTAuNWE2LjUgNi41IDAgMTAtNi41IDYuNWMxLjYxIDAgMy4wOS0uNTkgNC4yMy0xLjU3bC4yNy4yOHYuNzlsNSA0Ljk5TDIwLjQ5IDE5bC00Ljk5LTV6bS02IDBoLTYuNWEyLjUgMi41IDAgMTEwLTV2NUExIDEgMCAwMTkuNSA5eiIvPjwvc3ZnPg==";
+
+// Override math_number_property block for simplified child-friendly interface
+Blockly.Blocks['math_number_property'] = {
+  init: function() {
+    this.appendValueInput("NUMBER_TO_CHECK")
+        .setCheck("Number")
+        .appendField("Verificar se o número");
+    this.appendDummyInput()
+        .appendField("é")
+        .appendField(new Blockly.FieldDropdown([
+            ["par", "EVEN"],
+            ["ímpar", "ODD"],
+            ["positivo", "POSITIVE"],
+            ["negativo", "NEGATIVE"]
+        ]), "PROPERTY");
+    this.setInputsInline(true);
+    this.setOutput(true, "Boolean");
+    this.setColour("%{BKY_MATH_HUE}");
+    this.setTooltip("Verifica se um número tem a propriedade selecionada (par, ímpar, positivo ou negativo). Retorna verdadeiro ou falso.");
+    this.setHelpUrl("");
+  }
+};
+
+// New dedicated block for divisibility checking
+Blockly.Blocks['math_is_divisible_by'] = {
+  init: function() {
+    this.appendValueInput("DIVIDEND")
+        .setCheck("Number")
+        .appendField("O número");
+    this.appendValueInput("DIVISOR")
+        .setCheck("Number")
+        .appendField("é divisível por");
+    this.setInputsInline(true);
+    this.setOutput(true, "Boolean");
+    this.setColour("%{BKY_MATH_HUE}");
+    this.setTooltip("Verifica se o primeiro número pode ser dividido pelo segundo sem deixar sobras.");
+    this.setHelpUrl("");
+  }
+};
+
+// New block for rounding to specific decimal places
+Blockly.Blocks['math_round_to_decimal'] = {
+  init: function() {
+    this.appendValueInput("NUMBER_TO_ROUND")
+        .setCheck("Number")
+        .appendField("Arredondar");
+    this.appendDummyInput()
+        .appendField("para")
+        .appendField(new Blockly.FieldNumber(2, 0), "DECIMAL_PLACES")
+        .appendField("casas decimais");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour("%{BKY_MATH_HUE}");
+    this.setTooltip("Arredonda um número para o número de casas decimais especificado.");
+    this.setHelpUrl("");
+  }
+};
+
+// Dice icon for random list operation
+const svg_dice_icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjNDA3MUY0Ij48cGF0aCBkPSJNNSAzaDE0YTIgMiAwIDAgMSAyIDJ2MTRhMiAyIDAgMCAxLTIgMkg1YTIgMiAwIDAgMS0yLTJWNWEyIDIgMCAwIDEgMi0yem0wIDJhMSAxIDAgMCAwLTEgMXYxNGExIDEgMCAwIDAgMSAxaDE0YTEgMSAwIDAgMCAxLTFWNmExIDEgMCAwIDAtMS0xSDV6bTMgM2ExIDEgMCAxIDEgMCAyIDEgMSAwIDAgMS0wLTJ6bTggMGExIDEgMCAxIDEgMCAyIDEgMSAwIDAgMS0wLTJ6bTAgOGExIDEgMCAxIDEgMCAyIDEgMSAwIDAgMS0wLTJ6bS04IDBhMSAxIDAgMSAxIDAgMiAxIDEgMCAwIDEtMC0yem00LTRhMSAxIDAgMSAxIDAgMiAxIDEgMCAwIDEtMC0yeiIvPjwvc3ZnPg==";
+
+// Override math_on_list block for simplified child-friendly interface
+Blockly.Blocks['math_on_list'] = {
+  init: function() {
+    this.appendValueInput("LIST")
+        .setCheck("Array")
+        .appendField("Calcular a")
+        .appendField(new Blockly.FieldDropdown([
+            ["Soma", "SUM"],
+            ["Menor número", "MIN"], 
+            ["Maior número", "MAX"],
+            ["Média", "AVERAGE"],
+            ["Um item aleatório", "RANDOM"]
+        ]), "OP", function(option) {
+          this.getSourceBlock().updateShape_(option);
+        })
+        .appendField("da lista");
+    this.setOutput(true);
+    this.setColour("%{BKY_MATH_HUE}");
+    this.setTooltip("Realiza operações simples com listas de números.");
+    this.setHelpUrl("");
+  },
+  
+  updateShape_: function(option) {
+    // Add dice icon when random option is selected
+    var iconField = this.getField('DICE_ICON');
+    if (option === 'RANDOM') {
+      if (!iconField) {
+        this.getInput('LIST').insertFieldAt(3, new Blockly.FieldImage(svg_dice_icon, 15, 15, "*"), 'DICE_ICON');
+      }
+    } else {
+      if (iconField) {
+        this.getInput('LIST').removeField('DICE_ICON');
+      }
+    }
   }
 };
