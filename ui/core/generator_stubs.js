@@ -267,15 +267,17 @@ Blockly.Python['gpio_get'] = function(block) {
 		Blockly.Python.definitions_['import_board'] = 'import board';
 		Blockly.Python.definitions_['import_digitalio_dir'] = 'from digitalio import DigitalInOut, Direction, Pull';
 		Blockly.Python.definitions_['gpio_set' + value_pin] = 'try:\n\tgpio' + x + '.deinit()\nexcept:\n\tpass\ngpio' + x + '=DigitalInOut(board.IO' + x + ')\n' + 'gpio' + x + '.direction = Direction.INPUT\n' + pTmp;
-		var code = 'gpio' + x + '.value';
+		var pinValue = 'gpio' + x + '.value';
         } else {
 		//Standard MicroPython pin digital pin reading
 		Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
 		Blockly.Python.definitions_[`gpio_get_${x}`] = 'pIn' + x + '=Pin(' + x + ', Pin.IN' + pUpDown + ')\n\n';
-		var code = 'pIn' + x + '.value()';
+		var pinValue = 'pIn' + x + '.value()';
 	}
 
-  return [code, Blockly.Python.ORDER_NONE];
+	// Return Portuguese boolean values for children
+	var code = '"verdadeiro" if ' + pinValue + ' else "falso"';
+	return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
 Blockly.Python['gpio_interrupt'] = function(block) {
@@ -6416,6 +6418,126 @@ Blockly.Python['controls_while_true'] = function(block) {
   var branch = Blockly.Python.statementToCode(block, 'DO');
   branch = Blockly.Python.addLoopTrap(branch, block) || Blockly.Python.PASS;
   return 'while True:\n' + branch;
+};
+
+// Python generators for simplified math property blocks
+Blockly.Python['math_number_property'] = function(block) {
+  var number = Blockly.Python.valueToCode(block, 'NUMBER_TO_CHECK', Blockly.Python.ORDER_ATOMIC);
+  var property = block.getFieldValue('PROPERTY');
+  var code;
+  
+  switch (property) {
+    case 'EVEN':
+      code = '"verdadeiro" if ' + number + ' % 2 == 0 else "falso"';
+      break;
+    case 'ODD':
+      code = '"verdadeiro" if ' + number + ' % 2 == 1 else "falso"';
+      break;
+    case 'POSITIVE':
+      code = '"verdadeiro" if ' + number + ' > 0 else "falso"';
+      break;
+    case 'NEGATIVE':
+      code = '"verdadeiro" if ' + number + ' < 0 else "falso"';
+      break;
+    default:
+      throw Error('Unknown property: ' + property);
+  }
+  
+  return [code, Blockly.Python.ORDER_CONDITIONAL];
+};
+
+Blockly.Python['math_is_divisible_by'] = function(block) {
+  var dividend = Blockly.Python.valueToCode(block, 'DIVIDEND', Blockly.Python.ORDER_ATOMIC);
+  var divisor = Blockly.Python.valueToCode(block, 'DIVISOR', Blockly.Python.ORDER_ATOMIC);
+  var code = '"verdadeiro" if ' + dividend + ' % ' + divisor + ' == 0 else "falso"';
+  return [code, Blockly.Python.ORDER_CONDITIONAL];
+};
+
+// Python generators for logic blocks - child-friendly Portuguese output
+Blockly.Python['logic_compare'] = function(block) {
+  var OPERATORS = {
+    'EQ': '==',
+    'NEQ': '!=', 
+    'LT': '<',
+    'LTE': '<=',
+    'GT': '>',
+    'GTE': '>='
+  };
+  var operator = OPERATORS[block.getFieldValue('OP')];
+  var order = (operator == '==' || operator == '!=') ?
+      Blockly.Python.ORDER_EQUALITY : Blockly.Python.ORDER_RELATIONAL;
+  var argument0 = Blockly.Python.valueToCode(block, 'A', order) || '0';
+  var argument1 = Blockly.Python.valueToCode(block, 'B', order) || '0';
+  var code = '"verdadeiro" if ' + argument0 + ' ' + operator + ' ' + argument1 + ' else "falso"';
+  return [code, Blockly.Python.ORDER_CONDITIONAL];
+};
+
+Blockly.Python['logic_boolean'] = function(block) {
+  var code = (block.getFieldValue('BOOL') == 'TRUE') ? '"verdadeiro"' : '"falso"';
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['logic_operation'] = function(block) {
+  var operator = (block.getFieldValue('OP') == 'AND') ? 'and' : 'or';
+  var order = (operator == 'and') ? Blockly.Python.ORDER_LOGICAL_AND : Blockly.Python.ORDER_LOGICAL_OR;
+  var argument0 = Blockly.Python.valueToCode(block, 'A', order);
+  var argument1 = Blockly.Python.valueToCode(block, 'B', order);
+  
+  if (!argument0 && !argument1) {
+    argument0 = '"falso"';
+    argument1 = '"falso"';
+  } else {
+    argument0 = argument0 || '"falso"';
+    argument1 = argument1 || '"falso"';
+  }
+  
+  var code = '"verdadeiro" if (' + argument0 + ' == "verdadeiro") ' + operator + ' (' + argument1 + ' == "verdadeiro") else "falso"';
+  return [code, Blockly.Python.ORDER_CONDITIONAL];
+};
+
+Blockly.Python['logic_negate'] = function(block) {
+  var argument0 = Blockly.Python.valueToCode(block, 'BOOL', Blockly.Python.ORDER_LOGICAL_NOT) || '"falso"';
+  var code = '"falso" if ' + argument0 + ' == "verdadeiro" else "verdadeiro"';
+  return [code, Blockly.Python.ORDER_CONDITIONAL];
+};
+
+// Python generator for math_round_to_decimal block
+Blockly.Python['math_round_to_decimal'] = function(block) {
+  var number_to_round = Blockly.Python.valueToCode(block, 'NUMBER_TO_ROUND', Blockly.Python.ORDER_ATOMIC) || '0';
+  var decimal_places = block.getFieldValue('DECIMAL_PLACES');
+  var code = 'round(' + number_to_round + ', ' + decimal_places + ')';
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// Python generator for simplified math_on_list block
+Blockly.Python['math_on_list'] = function(block) {
+  var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_NONE) || '[]';
+  var operation = block.getFieldValue('OP');
+  var code;
+  
+  switch (operation) {
+    case 'SUM':
+      code = 'sum(' + list + ')';
+      break;
+    case 'MIN':
+      code = 'min(' + list + ')';
+      break;
+    case 'MAX':
+      code = 'max(' + list + ')';
+      break;
+    case 'AVERAGE':
+      Blockly.Python.definitions_['import_statistics'] = 'import statistics';
+      code = 'statistics.mean(' + list + ')';
+      break;
+    case 'RANDOM':
+      Blockly.Python.definitions_['import_random'] = 'import random';
+      code = 'random.choice(' + list + ')';
+      break;
+    default:
+      throw Error('Unknown operation: ' + operation);
+  }
+  
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
 
