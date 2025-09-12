@@ -556,3 +556,22 @@ Blockly.Blocks['math_on_list'] = {
     }
   }
 };
+
+// Custom math_random_float block with interval parameters
+Blockly.Blocks['math_random_float'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Sortear um número decimal entre");
+    this.appendValueInput("FROM")
+        .setCheck("Number");
+    this.appendDummyInput()
+        .appendField("e");
+    this.appendValueInput("TO")
+        .setCheck("Number");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour("%{BKY_MATH_HUE}");
+    this.setTooltip(Blockly.Msg["MATH_RANDOM_FLOAT_TOOLTIP"]);
+    this.setHelpUrl(Blockly.Msg["MATH_RANDOM_FLOAT_HELPURL"]);
+  }
+};
