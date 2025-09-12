@@ -7,6 +7,9 @@ const svg_off_icon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0i
 const led_rgb_svg = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InJnYkdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmYwMDAwO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iNTAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMDBmZjAwO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzAwODBmZjtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI4IiBmaWxsPSJ1cmwoI3JnYkdyYWRpZW50KSIgc3Ryb2tlPSIjMzMzMzMzIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI0IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjgiLz48L3N2Zz4=";
 const svg_decision_icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBmaWxsPSIjRkZBNTAwIj48cGF0aCBkPSJNMTIgMkwyMiAxMiAxMiAyMiAyIDEyeiIvPjwvc3ZnPg==";
 
+// Console icon from Material Symbols (free to use)
+const svg_console_icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0yMCAzSDQtMS45OSAyIDV2MTRjMCAxLjEgLjg5IDIgMS45OSAybDE2LjAyYzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bTAgMTZINGwtLjAxLTEwSDIwVjE5em0tOS04bDItMi01LTV2M2gtNnYyaDZ2M2w1LTV6Ii8+PC9zdmc+";
+
 Blockly.Blocks['led_red_on'] = {
   init: function() {
     this.appendDummyInput()
@@ -573,5 +576,212 @@ Blockly.Blocks['math_random_float'] = {
     this.setColour("%{BKY_MATH_HUE}");
     this.setTooltip(Blockly.Msg["MATH_RANDOM_FLOAT_TOOLTIP"]);
     this.setHelpUrl(Blockly.Msg["MATH_RANDOM_FLOAT_HELPURL"]);
+  }
+};
+
+// Override text_charAt block with dynamic interface - shows number input only when needed
+Blockly.Blocks['text_charAt'] = {
+  init: function() {
+    // Main text input
+    this.appendValueInput('VALUE')
+        .setCheck('String')
+        .appendField('No texto');
+    
+    // Create the dropdown menu with callback function
+    var menu = new Blockly.FieldDropdown([
+      ['Letra nº', 'FROM_START'],
+      ['Primeira letra', 'FIRST'],
+      ['Última letra', 'LAST'],
+      ['Letra aleatória', 'RANDOM']
+    ], function(option) {
+      // This function is called when the menu changes
+      this.getSourceBlock().updateShape_(option);
+    });
+
+    // Dropdown input with "pegar a" text
+    this.appendDummyInput('DROPDOWN')
+        .appendField("pegar a")
+        .appendField(menu, 'WHERE');
+        
+    this.setInputsInline(true);
+    this.setOutput(true, 'String');
+    this.setColour("%{BKY_TEXTS_HUE}");
+    this.setTooltip("Pega uma letra específica de um texto.");
+    this.setHelpUrl("%{BKY_TEXT_CHARAT_HELPURL}");
+    
+    // Initial call to ensure the block starts with the correct shape
+    this.updateShape_('FROM_START');
+  },
+
+  /**
+   * Function that adds or removes the number input based on the menu option.
+   * @param {string} option The selected option in the menu ('FROM_START', 'FIRST', etc.).
+   * @this {Blockly.Block}
+   */
+  updateShape_: function(option) {
+    // Check if the number input already exists
+    var inputExists = this.getInput('AT_VALUE');
+
+    if (option === 'FROM_START') {
+      // If the option is "Letra nº" and the number input doesn't exist, create it
+      if (!inputExists) {
+        this.appendValueInput('AT_VALUE')
+            .setCheck('Number');
+        // Move the input to the correct position (after the dropdown)
+        this.moveInputBefore('AT_VALUE', null);
+      }
+    } else {
+      // For any other option, if the number input exists, remove it
+      if (inputExists) {
+        this.removeInput('AT_VALUE');
+      }
+    }
+  }
+};
+
+// Override text_getSubstring block for simplified child-friendly interface
+Blockly.Blocks['text_getSubstring'] = {
+  init: function() {
+    // Start dropdown options - simplified for children
+    this.WHERE_OPTIONS_1 = [
+        ["Primeira letra", "FIRST"],
+        ["Letra nº", "FROM_START"]
+    ];
+    
+    // End dropdown options - simplified for children
+    this.WHERE_OPTIONS_2 = [
+        ["Última letra", "LAST"],
+        ["Letra nº", "FROM_START"]
+    ];
+
+    this.setHelpUrl("%{BKY_TEXT_GET_SUBSTRING_HELPURL}");
+    this.setStyle("text_blocks");
+    this.setColour("%{BKY_TEXTS_HUE}");
+    
+    // Main text input with child-friendly language
+    this.appendValueInput("STRING")
+        .setCheck("String")
+        .appendField("No texto");
+    
+    // "FROM" section - "pegar trecho a partir de" will be added by updateAt_
+    this.appendDummyInput("AT1");
+    
+    // "TO" section - "até" will be added by updateAt_  
+    this.appendDummyInput("AT2");
+    
+    // Optional tail (usually empty in Portuguese)
+    if ("%{BKY_TEXT_GET_SUBSTRING_TAIL}") {
+      this.appendDummyInput("TAIL")
+          .appendField("%{BKY_TEXT_GET_SUBSTRING_TAIL}");
+    }
+    
+    this.setInputsInline(true);
+    this.setOutput(true, "String");
+    this.updateAt_(1, false); // Initialize first dropdown with "Primeira letra"
+    this.updateAt_(2, false); // Initialize second dropdown with "Última letra"
+    this.setTooltip("Pega um trecho do texto, a partir de uma posição até outra posição.");
+  },
+
+  mutationToDom: function() {
+    var container = Blockly.utils.xml.createElement("mutation");
+    var isAt1 = this.getInput("AT1").type == Blockly.INPUT_VALUE;
+    container.setAttribute("at1", isAt1);
+    var isAt2 = this.getInput("AT2").type == Blockly.INPUT_VALUE;
+    container.setAttribute("at2", isAt2);
+    return container;
+  },
+
+  domToMutation: function(xmlElement) {
+    var isAt1 = ("true" == xmlElement.getAttribute("at1"));
+    var isAt2 = ("true" == xmlElement.getAttribute("at2"));
+    this.updateAt_(1, isAt1);
+    this.updateAt_(2, isAt2);
+  },
+
+  updateAt_: function(n, isAt) {
+    // Remove existing input
+    this.removeInput("AT" + n);
+    this.removeInput("ORDINAL" + n, true);
+    
+    // Define the descriptive text for each position
+    var descriptiveText = (n == 1) ? "pegar trecho a partir de" : "até";
+    
+    if (isAt) {
+      // Add value input for number with descriptive text
+      this.appendValueInput("AT" + n)
+          .setCheck("Number")
+          .appendField(descriptiveText);
+      if (Blockly.Msg.ORDINAL_NUMBER_SUFFIX) {
+        this.appendDummyInput("ORDINAL" + n)
+            .appendField(Blockly.Msg.ORDINAL_NUMBER_SUFFIX);
+      }
+    } else {
+      // Add dummy input with dropdown and descriptive text
+      this.appendDummyInput("AT" + n)
+          .appendField(descriptiveText);
+    }
+    
+    // Add appropriate dropdown
+    var options = this["WHERE_OPTIONS_" + n];
+    var dropdown = new Blockly.FieldDropdown(options, function(value) {
+      var newAt = (value == "FROM_START");
+      if (newAt != isAt) {
+        var block = this.getSourceBlock();
+        block.updateAt_(n, newAt);
+        block.setFieldValue(value, "WHERE" + n);
+        return null;
+      }
+    });
+    
+    this.getInput("AT" + n).appendField(dropdown, "WHERE" + n);
+    
+    if (n == 1) {
+      this.moveInputBefore("AT1", "AT2");
+      if (this.getInput("ORDINAL1")) {
+        this.moveInputBefore("ORDINAL1", "AT2");
+      }
+    }
+  }
+};
+
+// Override text_changeCase block for simplified child-friendly interface
+Blockly.Blocks['text_changeCase'] = {
+  init: function() {
+    // Simplified options - remove complex "Titlecase" option for children
+    var options = [
+        ["MAIÚSCULAS", "UPPERCASE"],
+        ["Minúsculas", "LOWERCASE"]
+    ];
+
+    this.setHelpUrl("%{BKY_TEXT_CHANGECASE_HELPURL}");
+    this.setStyle("text_blocks");
+    this.setColour("%{BKY_TEXTS_HUE}");
+    
+    // New structure: "Transformar o texto [abc] em [MAIÚSCULAS ▼]"
+    this.appendValueInput("TEXT")
+        .setCheck("String")
+        .appendField("Transformar o texto");
+    
+    this.appendDummyInput()
+        .appendField("em")
+        .appendField(new Blockly.FieldDropdown(options), "CASE");
+    
+    this.setInputsInline(true);
+    this.setOutput(true, "String");
+    this.setTooltip("%{BKY_TEXT_CHANGECASE_TOOLTIP}");
+  }
+};
+
+// Override text_print block with clean design and final text
+Blockly.Blocks['text_print'] = {
+  init: function() {
+    this.appendValueInput("TEXT")
+        .setCheck(null)
+        .appendField("Enviar mensagem");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("%{BKY_TEXTS_HUE}");
+    this.setTooltip("Envia qualquer texto, número ou valor de variável para a aba 'Mensagens'. É a melhor forma de ver o que o seu programa está a fazer!");
+    this.setHelpUrl("%{BKY_TEXT_PRINT_HELPURL}");
   }
 };
