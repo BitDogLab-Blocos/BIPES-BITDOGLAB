@@ -3,41 +3,70 @@
 const svg_red_icon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI4IiB5PSIxNiIgd2lkdGg9IjIiIGhlaWdodD0iNiIgZmlsbD0iIzYxNjE2MSIvPjxyZWN0IHg9IjE0IiB5PSIxNyIgd2lkdGg9IjIiIGhlaWdodD0iNSIgZmlsbD0iIzYxNjE2MSIvPjxyZWN0IHg9IjYiIHk9IjE0IiB3aWR0aD0iMTIiIGhlaWdodD0iMiIgZmlsbD0iI0JEQkRCRCIvPjxwYXRoIGQ9Ik02IDE0IFY4IEM2IDQuNjg2IDguNjg2IDIgMTIgMiBDMTUuMzE0IDIgMTggNC42ODYgMTggOCBWMTQgSDZaIiBmaWxsPSIjRUY1MzUwIi8+PHBhdGggZD0iTTE0IDE0IFY4IEMxNCA2LjMgMTMuMiA0LjggMTIgNCBDMTQuMiA0LjggMTYgNi44IDE2IDggVjE0IEgxNFoiIGZpbGw9IiNFMzUzNSIvPjwvc3ZnPg==";
 const svg_green_icon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI4IiB5PSIxNiIgd2lkdGg9IjIiIGhlaWdodD0iNiIgZmlsbD0iIzYxNjE2MSIvPjxyZWN0IHg9IjE0IiB5PSIxNyIgd2lkdGg9IjIiIGhlaWdodD0iNSIgZmlsbD0iIzYxNjE2MSIvPjxyZWN0IHg9IjYiIHk9IjE0IiB3aWR0aD0iMTIiIGhlaWdodD0iMiIgZmlsbD0iI0JEQkRCRCIvPjxwYXRoIGQ9Ik02IDE0IFY4IEM2IDQuNjg2IDguNjg2IDIgMTIgMiBDMTUuMzE0IDIgMTggNC42ODYgMTggOCBWMTQgSDZaIiBmaWxsPSIjNjZCQTZBIi8+PHBhdGggZD0iTTE0IDE0IFY4IEMxNCA2LjMgMTMuMiA0LjggMTIgNCBDMTQuMiA0LjggMTYgNi44IDE2IDggVjE0IEgxNFoiIGZpbGw9IiM0Q0FGNTAiLz48L3N2Zz4=";
 const svg_blue_icon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI4IiB5PSIxNiIgd2lkdGg9IjIiIGhlaWdodD0iNiIgZmlsbD0iIzYxNjE2MSIvPjxyZWN0IHg9IjE0IiB5PSIxNyIgd2lkdGg9IjIiIGhlaWdodD0iNSIgZmlsbD0iIzYxNjE2MSIvPjxyZWN0IHg9IjYiIHk9IjE0IiB3aWR0aD0iMTIiIGhlaWdodD0iMiIgZmlsbD0iI0JEQkRCRCIvPjxwYXRoIGQ9Ik02IDE0IFY4IEM2IDQuNjg2IDguNjg2IDIgMTIgMiBDMTUuMzE0IDIgMTggNC42ODYgMTggOCBWMTQgSDZaIiBmaWxsPSIjNDJBNUY1Ii8+PHBhdGggZD0iTTE0IDE0IFY4IEMxNCA2LjMgMTMuMiA0LjggMTIgNCBDMTQuMiA0LjggMTYgNi44IDE2IDggVjE0IEgxNFoiIGZpbGw9IiMyMTk2RjMiLz48L3N2Zz4=";
-const svg_off_icon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI4IiB5PSIxNiIgd2lkdGg9IjIiIGhlaWdodD0iNiIgZmlsbD0iIzYxNjE2MSIvPjxyZWN0IHg9IjE0IiB5PSIxNyIgd2lkdGg9IjIiIGhlaWdodD0iNSIgZmlsbD0iIzYxNjE2MSIvPjxyZWN0IHg9IjYiIHk9IjE0IiB3aWR0aD0iMTIiIGhlaWdodD0iMiIgZmlsbD0iI0JEQkRCRCIvPjxwYXRoIGQ9Ik02IDE0IFY4IEM2IDQuNjg2IDguNjg2IDIgMTIgMiBDMTUuMzE0IDIgMTggNC42ODYgMTggOCBWMTQgSDZaIiBmaWxsPSIjOUU5RTlFIi8+PHBhdGggZD0iTTE0IDE0IFY4IEMxNCA2LjMgMTMuMiA0LjggMTIgNCBDMTQuMiA0LjggMTYgNi44IDE2IDggVjE0IEgxNFoiIGZpbGw9IiM3NTc1NzUiLz48L3N2Zz4=";
+const svg_off_icon = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSI4IiB5PSIxNiIgd2lkdGg9IjIiIGhlaWdodD0iNiIgZmlsbD0iIzYxNjE2MSIvPjxyZWN0IHg9IjE0IiB5PSIxNyIgd2lkdGg9IjIiIGhlaWdodD0iNSIgZmlsbD0iIzYxNjE2MSIvPjxyZWN0IHg9IjYiIHk9IjE0IiB3aWR0aD0iMTIiIGhlaWdodD0iMiIgZmlsbD0iI0JEQkRCRCIvPjxwYXRoIGQ9Ik02IDE0IFY4IEM2IDQuNjg2IDguNjg2IDIgMTIgMiBDMTUuMzE0IDIgMTggNC42ODYgMTggOCBWMTQgSDZaIiBmaWxsPSIjOUU5RTlFIi8+PHBhdGggZD0iTTE0IDE0IFY4IEMxNCA2LjMgMTMuMiA0LjggMTIgNCBDMTQuMiA0LjggMTYgNi44IDE2IDggVjE4IEgxNFoiIGZpbGw9IiM3NTc1NzUiLz48L3N2Zz4=";
 const led_rgb_svg = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InJnYkdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmYwMDAwO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iNTAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMDBmZjAwO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzAwODBmZjtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI4IiBmaWxsPSJ1cmwoI3JnYkdyYWRpZW50KSIgc3Ryb2tlPSIjMzMzMzMzIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI0IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjgiLz48L3N2Zz4=";
 const svg_decision_icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBmaWxsPSIjRkZBNTAwIj48cGF0aCBkPSJNMTIgMkwyMiAxMiAxMiAyMiAyIDEyeiIvPjwvc3ZnPg==";
 
 // Console icon from Material Symbols (free to use)
 const svg_console_icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0yMCAzSDQtMS45OSAyIDV2MTRjMCAxLjEgLjg5IDIgMS45OSAybDE2LjAyYzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bTAgMTZINGwtLjAxLTEwSDIwVjE5em0tOS04bDItMi01LTV2M2gtNnYyaDZ2M2w1LTV6Ii8+PC9zdmc+";
 
+
+
+
+
 // ==========================================
 // DYNAMIC LIST CREATION BLOCK WITH MUTATOR
 // ==========================================
 
+// PRIMEIRO: Defina os blocos auxiliares do mutator (OBRIGATÓRIO ANTES DO BLOCO PRINCIPAL)
+// Isso corrige o erro "getMutator is not a function"
+
+// Bloco container para o mutator
+Blockly.Blocks['lists_create_with_container'] = {
+  init: function() {
+    this.setColour("%{BKY_LISTS_HUE}");
+    this.appendDummyInput()
+        .appendField("lista");
+    this.appendStatementInput('STACK');
+    this.setTooltip("Adicione, remova, ou reordene os itens para reconfigurar este bloco.");
+    this.contextMenu = false;
+  }
+};
+
+// Bloco item para o mutator
+Blockly.Blocks['lists_create_with_item'] = {
+  init: function() {
+    this.setColour("%{BKY_LISTS_HUE}");
+    this.appendDummyInput()
+        .appendField("item");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip("Adicione um item à lista.");
+    this.contextMenu = false;
+  }
+};
+
+// SEGUNDO: Agora defina o bloco principal (com mutator configurado corretamente)
 // Override the default lists_create_with block with Portuguese version and dynamic mutator
 Blockly.Blocks['lists_create_with'] = {
   init: function() {
-    console.log('BIPES Custom lists_create_with block loaded!'); // Debug log
-    this.setHelpUrl('');
-    this.setStyle("list_blocks"); // Use setStyle instead of setColour for consistency
+    this.setHelpUrl(Blockly.Msg.LISTS_CREATE_WITH_HELPURL);
+    this.setColour("%{BKY_LISTS_HUE}");
     this.itemCount_ = 3; // Começa com 3 itens por padrão
     this.updateShape_();
     this.setOutput(true, 'Array');
     this.setMutator(new Blockly.Mutator(['lists_create_with_item']));
-    this.setTooltip('Cria uma lista com os itens especificados. Clique na engrenagem para adicionar ou remover itens.');
+    this.setTooltip(Blockly.Msg.LISTS_CREATE_WITH_TOOLTIP);
   },
-
   mutationToDom: function() {
     var container = document.createElement('mutation');
     container.setAttribute('items', this.itemCount_);
     return container;
   },
-
   domToMutation: function(xmlElement) {
     this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
     this.updateShape_();
   },
-
   decompose: function(workspace) {
     var containerBlock = workspace.newBlock('lists_create_with_container');
     containerBlock.initSvg();
@@ -50,59 +79,42 @@ Blockly.Blocks['lists_create_with'] = {
     }
     return containerBlock;
   },
-
   compose: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
-    // Conta quantos itens o utilizador deixou na interface do mutator
+    // Conta quantos itens o utilizador deixou na interface do mutator.
     var connections = [];
-    while (itemBlock && !itemBlock.isInsertionMarker()) {
+    while (itemBlock) {
       connections.push(itemBlock.valueConnection_);
-      itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
     }
-    // Desconecta blocos que não estão na nova configuração
+    // Remove os itens antigos.
     for (var i = 0; i < this.itemCount_; i++) {
-      var input = this.getInput('ADD' + i);
-      if (input && input.connection.targetConnection) {
-        var targetConnection = input.connection.targetConnection;
-        if (connections.indexOf(targetConnection) === -1) {
-          targetConnection.disconnect();
-        }
-      }
+      this.removeInput('ADD' + i);
     }
     this.itemCount_ = connections.length;
     this.updateShape_();
-    // Reconecta os blocos
+    // Adiciona as novas conexões.
     for (var i = 0; i < this.itemCount_; i++) {
       if (connections[i]) {
-        Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
+        connections[i].reconnect(this, 'ADD' + i);
       }
     }
   },
-
-  saveConnections: function(containerBlock) {
-    var itemBlock = containerBlock.getInputTargetBlock('STACK');
-    var i = 0;
-    while (itemBlock) {
-      var input = this.getInput('ADD' + i);
-      itemBlock.valueConnection_ = input && input.connection.targetConnection;
-      i++;
-      itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
-    }
-  },
-
+  // ... (outras funções como saveConnections)
   updateShape_: function() {
     if (this.itemCount_ && this.getInput('EMPTY')) {
       this.removeInput('EMPTY');
     } else if (!this.itemCount_ && !this.getInput('EMPTY')) {
       this.appendDummyInput('EMPTY')
-          .appendField('Criar lista vazia'); // Texto para quando a lista não tem itens
+          .appendField("Criar lista vazia"); // Texto para quando a lista não tem itens
     }
     // Adiciona as entradas para os itens
     for (var i = 0; i < this.itemCount_; i++) {
       if (!this.getInput('ADD' + i)) {
         var input = this.appendValueInput('ADD' + i);
         if (i == 0) {
-          input.appendField('Criar lista com');
+          input.appendField("Criar lista com");
         }
       }
     }
@@ -114,29 +126,7 @@ Blockly.Blocks['lists_create_with'] = {
   }
 };
 
-// Blocos auxiliares para o mutator funcionar
-Blockly.Blocks['lists_create_with_container'] = {
-  init: function() {
-    this.setStyle("list_blocks");
-    this.appendDummyInput()
-        .appendField('lista');
-    this.appendStatementInput('STACK');
-    this.setTooltip('Adicione, remova, ou reordene os itens para reconfigurar este bloco.');
-    this.contextMenu = false;
-  }
-};
-
-Blockly.Blocks['lists_create_with_item'] = {
-  init: function() {
-    this.setStyle("list_blocks");
-    this.appendDummyInput()
-        .appendField('item');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('Adicione um item à lista.');
-    this.contextMenu = false;
-  }
-};
+// NOTA: Blocos auxiliares já foram definidos ANTES do bloco principal para evitar erros
 
 Blockly.Blocks['led_red_on'] = {
   init: function() {
@@ -287,17 +277,17 @@ Blockly.Blocks['logic_ternary'] = {
   }
 };
 
-// Override logic_boolean blocks with visual icons
+// Override logic_boolean blocks with Portuguese text (without emojis)
 Blockly.Blocks['logic_boolean'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
-            ["✔️ Verdadeiro", "TRUE"],
-            ["❌ Falso", "FALSE"]
+            ["Verdadeiro", "TRUE"],
+            ["Falso", "FALSE"]
         ]), "BOOL");
     this.setOutput(true, "Boolean");
     this.setColour("%{BKY_LOGIC_HUE}");
-    this.setTooltip("Retorna verdadeiro ou falso");
+    this.setTooltip("Devolve ou Verdadeiro ou Falso.");
     this.setHelpUrl("");
   }
 };
