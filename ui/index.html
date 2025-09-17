@@ -641,7 +641,7 @@ Tool.clearQueue ();
 
 window.onload = function() {
 	checkCookie()
-	loadPage(); //Load modal splash screen
+	// loadPage(); //Load modal splash screen - REMOVED
 
 	//i18n
 	//Auto detect user language (from the browser)
@@ -659,30 +659,7 @@ window.onload = function() {
 	if (!pLang)
 		pLang='en';
 
-	if ((userLang.startsWith("pt")) || (pLang.startsWith("pt"))) {	
-		addMsg="<p><a href=/beta2/ui/?lang=pt-br>Acessar o BIPES em Português</a>";
-		addMsg+=" | <a href=/beta2/ui/?lang=en>Access BIPES in English</a>";
-	}
-
-	if (MSG["splash_welcome"]) 
-		document.getElementById("modalTitle").innerHTML = MSG["splash_welcome"];
-	else
-		document.getElementById("modalTitle").innerHTML = "Welcome to BIPES!";
-
-	if (MSG["splash_message"]) 
-		document.getElementById("modalMsg").innerHTML = MSG["splash_message"] + addMsg;
-	else
-		document.getElementById("modalMsg").innerHTML = "<p><b>**BIPES: Block based Integrated Platform for Embedded Systems</B> allows text and block based programming for several types of embedded systems and Internet of Things modules using MicroPython, CircuitPython, Python or Snek. You can connect, program, debug and monitor several types of boards using network, USB or Bluetooth. Please check a list of <a href=https://bipes.net.br/wp/boards/>compatible boards here</a>. Compatible boards include STM32, ESP32, ESP8266, Raspberry Pi Pico and even Arduino.  <p><b>BIPES</b> is fully <a href=https://bipes.net.br/wp/development/>open source</a> and based on HTML and JavaScript, so no software install or configuration is needed and you can use it offline! We hope BIPES is useful for you and that you can enjoy using BIPES. If you need help, we now have a <a href=https://github.com/BIPES/BIPES/discussions>discussion forum</a>, where we also post <a href=https://github.com/BIPES/BIPES/discussions/categories/announcements>new features and announcements about BIPES</a>. Feel free to use it! Also, we invite you to use the forum to leave feedbacks and suggestions for BIPES!</p><p>Checkout BIPES Book: <a href=https://bipes.net.br/wp/book-livro/>https://bipes.net.br/wp/book-livro/</a></p> <p>Thank you from the BIPES Team!</p>" + addMsg;
-
-	if (MSG["splash_footer"]) 
-		document.getElementById("modalFooter").innerHTML = MSG["splash_footer"];
-	else
-		document.getElementById("modalFooter").innerHTML = "Do not show this screen again";
-
-	if (MSG["splash_close"]) 
-		document.getElementById("modalClose").innerHTML = MSG["splash_close"];
-	else
-		document.getElementById("modalClose").innerHTML = "Close";
+	// Removed BIPES modal initialization code
 
 
 
@@ -727,25 +704,7 @@ window.onload = function() {
 
 };
 
-function loadPage() {
-  // Se for o BitdogLab, não mostra o splash screen do BIPES
-  if (document.getElementById('welcome-message')) {
-    return;
-  }
-  
-  // Verifica se deve mostrar o splash screen do BIPES
-  if (!getCookie("splashscreen")) {
-    modal.style.display = "block";
-  }
-}
-
-function doalert(checkboxElem) {
-  if (checkboxElem.checked) {
-    setCookie("splashscreen", "false", 365);
-  } else {
-    setCookie("splashscreen", "true", 365);
-  }
-}
+// Removed duplicate BIPES modal functions
 
 </script>
 
@@ -832,7 +791,7 @@ color: white;
 <!-- Trigger/Open The Modal 
 	For testing only
 
-<body onload="loadPage()">
+<body>
 <button id="myBtn">Open Modal SplashScreen</button>
 
 BIPES
@@ -841,116 +800,6 @@ BIPES
 
 
 
-		<!-- The Modal -->
-		<div id="myModal" class="modal">
-
-			  <!-- Modal content -->
-			    <div class="modal-content">
-				        <div class="modal-header">
-						      <span class="closeM">&times;</span>
-						      <h2><span id="modalTitle"></span></h2>
-							        </div>
-								    <div class="modal-body">
-									    <span id="modalMsg"></span>
-
-
-											    </div>
-											        <div class="modal-footer">
-													      
-													<br>
-													<center>
-														<input type="checkbox" name="checkfield" id="g01-01"  onchange="doalert(this)"/>
-														<span id="modalFooter"></span>
-														<br>
-														<br>
-														<button onclick="closeModal()"><span id="modalClose"></span></button>
-
-													<br>
-													<br>
-													          </div>
-														    </div>
-
-
-<script>
-		// Get the modal
-var modal = document.getElementById("myModal");
-
-// Get the button that opens the modal
-//var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("closeM")[0];
-
-// When the user clicks the button, open the modal 
-//btn.onclick = function() {
-//	  modal.style.display = "block";
-//}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-	  modal.style.display = "none";
-}
-
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-	  if (event.target == modal) {
-		      modal.style.display = "none";
-		    }
-}
-
-function closeModal() {
-	  modal.style.display = "none";
-}
-
-function loadPage() {
-	var x = getCookieModal('BIPES_Splash');
-	if (x) {
-		console.log('Not showing splash');
-	} else {
-		console.log('Showing splash');
-		modal.style.display = "block";
-	}
-}
-
-function doalert(checkboxElem) {
-
-	if (checkboxElem.checked) {
-		setCookieModal('BIPES_Splash','BIPES_SplashC',1);
-		console.log('Modal Cookie Set');
-	} else {
-		eraseCookieModal('BIPES_Splash');
-		console.log('Modal Cookie deleted');
-	}
-}
-
-
-function setCookieModal(name,value,days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-}
-
-function getCookieModal(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-
-function eraseCookieModal(name) {   
-    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
-</script>
 
 
 

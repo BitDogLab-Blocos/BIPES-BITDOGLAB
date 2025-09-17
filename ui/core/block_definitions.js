@@ -785,3 +785,80 @@ Blockly.Blocks['text_print'] = {
     this.setHelpUrl("%{BKY_TEXT_PRINT_HELPURL}");
   }
 };
+
+// New simple list blocks for child-friendly interface
+
+// Block for getting an item from a list (with output connector)
+Blockly.Blocks['list_get_item_simple'] = {
+  init: function() {
+    this.appendValueInput('LIST')
+        .setCheck('Array')
+        .appendField('Na lista');
+    
+    var menu = new Blockly.FieldDropdown([
+      ['Primeiro', 'FIRST'],
+      ['Último', 'LAST'],
+      ['Aleatório', 'RANDOM'],
+      ['De número', 'FROM_START']
+    ], function(option) {
+      this.sourceBlock_.updateAt_(option === 'FROM_START');
+    });
+
+    this.appendDummyInput('MODE')
+        .appendField("pegar o item")
+        .appendField(menu, 'WHERE');
+        
+    this.setOutput(true, null); // Importante: Este bloco devolve um valor
+    this.setColour("%{BKY_LISTS_HUE}");
+    this.setTooltip("Pega um item específico da lista sem mudá-la");
+    this.setHelpUrl("");
+    this.updateAt_(this.getFieldValue('WHERE') === 'FROM_START');
+  },
+  
+  updateAt_: function(needsAt) {
+    if (this.getInput('AT')) {
+      this.removeInput('AT');
+    }
+    if (needsAt) {
+      this.appendValueInput('AT').setCheck('Number');
+    }
+  }
+};
+
+// Block for removing an item from a list (statement block)
+Blockly.Blocks['list_remove_item_simple'] = {
+  init: function() {
+    this.appendValueInput('LIST')
+        .setCheck('Array')
+        .appendField('Na lista');
+    
+    var menu = new Blockly.FieldDropdown([
+      ['Primeiro', 'FIRST'],
+      ['Último', 'LAST'],
+      ['Aleatório', 'RANDOM'],
+      ['De número', 'FROM_START']
+    ], function(option) {
+      this.sourceBlock_.updateAt_(option === 'FROM_START');
+    });
+
+    this.appendDummyInput('MODE')
+        .appendField("remover o item")
+        .appendField(menu, 'WHERE');
+        
+    this.setPreviousStatement(true, null); // Importante: Este é um bloco de comando
+    this.setNextStatement(true, null);      
+    this.setColour("%{BKY_LISTS_HUE}");
+    this.setTooltip("Remove um item específico da lista");
+    this.setHelpUrl("");
+    this.updateAt_(this.getFieldValue('WHERE') === 'FROM_START');
+  },
+  
+  updateAt_: function(needsAt) {
+    if (this.getInput('AT')) {
+      this.removeInput('AT');
+    }
+    if (needsAt) {
+      this.appendValueInput('AT').setCheck('Number');
+    }
+  }
+};
