@@ -276,7 +276,7 @@ Blockly.Python['gpio_get'] = function(block) {
 	}
 
 	// Return Portuguese boolean values for children
-	var code = '"verdadeiro" if ' + pinValue + ' else "falso"';
+	var code = '"Verdadeiro" if ' + pinValue + ' else "Falso"';
 	return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
@@ -6428,16 +6428,16 @@ Blockly.Python['math_number_property'] = function(block) {
   
   switch (property) {
     case 'EVEN':
-      code = '"verdadeiro" if ' + number + ' % 2 == 0 else "falso"';
+      code = '"Verdadeiro" if ' + number + ' % 2 == 0 else "Falso"';
       break;
     case 'ODD':
-      code = '"verdadeiro" if ' + number + ' % 2 == 1 else "falso"';
+      code = '"Verdadeiro" if ' + number + ' % 2 == 1 else "Falso"';
       break;
     case 'POSITIVE':
-      code = '"verdadeiro" if ' + number + ' > 0 else "falso"';
+      code = '"Verdadeiro" if ' + number + ' > 0 else "Falso"';
       break;
     case 'NEGATIVE':
-      code = '"verdadeiro" if ' + number + ' < 0 else "falso"';
+      code = '"Verdadeiro" if ' + number + ' < 0 else "Falso"';
       break;
     default:
       throw Error('Unknown property: ' + property);
@@ -6449,7 +6449,7 @@ Blockly.Python['math_number_property'] = function(block) {
 Blockly.Python['math_is_divisible_by'] = function(block) {
   var dividend = Blockly.Python.valueToCode(block, 'DIVIDEND', Blockly.Python.ORDER_ATOMIC);
   var divisor = Blockly.Python.valueToCode(block, 'DIVISOR', Blockly.Python.ORDER_ATOMIC);
-  var code = '"verdadeiro" if ' + dividend + ' % ' + divisor + ' == 0 else "falso"';
+  var code = '"Verdadeiro" if ' + dividend + ' % ' + divisor + ' == 0 else "Falso"';
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
@@ -6468,12 +6468,12 @@ Blockly.Python['logic_compare'] = function(block) {
       Blockly.Python.ORDER_EQUALITY : Blockly.Python.ORDER_RELATIONAL;
   var argument0 = Blockly.Python.valueToCode(block, 'A', order) || '0';
   var argument1 = Blockly.Python.valueToCode(block, 'B', order) || '0';
-  var code = '"verdadeiro" if ' + argument0 + ' ' + operator + ' ' + argument1 + ' else "falso"';
+  var code = '"Verdadeiro" if ' + argument0 + ' ' + operator + ' ' + argument1 + ' else "Falso"';
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
 Blockly.Python['logic_boolean'] = function(block) {
-  var code = (block.getFieldValue('BOOL') == 'TRUE') ? '"verdadeiro"' : '"falso"';
+  var code = (block.getFieldValue('BOOL') == 'TRUE') ? '"Verdadeiro"' : '"Falso"';
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
@@ -6484,20 +6484,20 @@ Blockly.Python['logic_operation'] = function(block) {
   var argument1 = Blockly.Python.valueToCode(block, 'B', order);
   
   if (!argument0 && !argument1) {
-    argument0 = '"falso"';
-    argument1 = '"falso"';
+    argument0 = '"Falso"';
+    argument1 = '"Falso"';
   } else {
-    argument0 = argument0 || '"falso"';
-    argument1 = argument1 || '"falso"';
+    argument0 = argument0 || '"Falso"';
+    argument1 = argument1 || '"Falso"';
   }
   
-  var code = '"verdadeiro" if (' + argument0 + ' == "verdadeiro") ' + operator + ' (' + argument1 + ' == "verdadeiro") else "falso"';
+  var code = '"Verdadeiro" if (' + argument0 + ' == "Verdadeiro") ' + operator + ' (' + argument1 + ' == "Verdadeiro") else "Falso"';
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
 Blockly.Python['logic_negate'] = function(block) {
-  var argument0 = Blockly.Python.valueToCode(block, 'BOOL', Blockly.Python.ORDER_LOGICAL_NOT) || '"falso"';
-  var code = '"falso" if ' + argument0 + ' == "verdadeiro" else "verdadeiro"';
+  var argument0 = Blockly.Python.valueToCode(block, 'BOOL', Blockly.Python.ORDER_LOGICAL_NOT) || '"Falso"';
+  var code = '"Falso" if ' + argument0 + ' == "Verdadeiro" else "Verdadeiro"';
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
@@ -6715,14 +6715,143 @@ Blockly.Python['lists_sort'] = function(block) {
 // ==========================================
 
 Blockly.Python['lists_create_with'] = function(block) {
-  // Collect all the item values
-  var elements = new Array(block.itemCount_);
-  for (var i = 0; i < block.itemCount_; i++) {
-    elements[i] = Blockly.Python.valueToCode(block, 'ADD' + i, Blockly.Python.ORDER_NONE) || 'None';
+  // A CORREÇÃO ESTÁ AQUI:
+  // Se não houver elementos (itemCount_ é 0), devolve uma lista vazia
+  if (block.itemCount_ == 0) {
+    return ['[]', Blockly.Python.ORDER_ATOMIC];
   }
-  // Generate the Python list
+
+  // Coleta todos os valores que estão realmente conectados
+  var elements = [];
+  var hasAnyRealValue = false;
+
+  for (var i = 0; i < block.itemCount_; i++) {
+    var value = Blockly.Python.valueToCode(block, 'ADD' + i, Blockly.Python.ORDER_NONE);
+
+    // Considera que há valor real apenas se não for vazio, None, ou string vazia
+    if (value && value !== '' && value !== 'None' && value !== "''" && value !== '""') {
+      elements.push(value);
+      hasAnyRealValue = true;
+    } else {
+      elements.push('None');
+    }
+  }
+
+  // NOVA VERIFICAÇÃO: Se não há nenhum valor real conectado, retorna lista vazia
+  if (!hasAnyRealValue) {
+    return ['[]', Blockly.Python.ORDER_ATOMIC];
+  }
+
+  // Se houver elementos, junta-os para formar a lista.
   var code = '[' + elements.join(', ') + ']';
   return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+// ==========================================
+// LISTA ÍNDICE CUSTOMIZADO (PORTUGUÊS)
+// ==========================================
+
+Blockly.Python['lists_indexOf'] = function(block) {
+  var find = Blockly.Python.valueToCode(block, 'FIND', Blockly.Python.ORDER_NONE) || '[]';
+  var list = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || "''";
+
+  if (block.getFieldValue('END') == 'FIRST') {
+    // Para primeira ocorrência
+    var functionName = Blockly.Python.provideFunction_(
+      'first_index',
+      ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(my_list, elem):',
+       '  try:',
+       '    return my_list.index(elem)',
+       '  except:',
+       '    return "Nao aparece na lista"']
+    );
+  } else {
+    // Para última ocorrência
+    var functionName = Blockly.Python.provideFunction_(
+      'last_index',
+      ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(my_list, elem):',
+       '  try:',
+       '    return len(my_list) - my_list[::-1].index(elem) - 1',
+       '  except:',
+       '    return "Nao aparece na lista"']
+    );
+  }
+
+  return [functionName + '(' + list + ', ' + find + ')', Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// ==========================================
+// CORREÇÃO DO BUG DE INDEXAÇÃO - lists_getIndex
+// ==========================================
+
+Blockly.Python['lists_getIndex'] = function(block) {
+  var mode = block.getFieldValue('MODE') || 'GET';
+  var where = block.getFieldValue('WHERE') || 'FROM_START';
+  var list = Blockly.Python.valueToCode(block, 'VALUE',
+      where == 'RANDOM' ? Blockly.Python.ORDER_NONE :
+      Blockly.Python.ORDER_MEMBER) || '[]';
+
+  switch (where) {
+    case 'FIRST':
+      if (mode == 'GET') {
+        return [list + '[0]', Blockly.Python.ORDER_MEMBER];
+      } else if (mode == 'GET_REMOVE') {
+        return [list + '.pop(0)', Blockly.Python.ORDER_FUNCTION_CALL];
+      } else if (mode == 'REMOVE') {
+        return list + '.pop(0)\n';
+      }
+      break;
+    case 'LAST':
+      if (mode == 'GET') {
+        return [list + '[-1]', Blockly.Python.ORDER_MEMBER];
+      } else if (mode == 'GET_REMOVE') {
+        return [list + '.pop()', Blockly.Python.ORDER_FUNCTION_CALL];
+      } else if (mode == 'REMOVE') {
+        return list + '.pop()\n';
+      }
+      break;
+    case 'FROM_START':
+      // CORREÇÃO: Usar o índice diretamente sem ajuste
+      var at = Blockly.Python.valueToCode(block, 'AT', Blockly.Python.ORDER_NONE) || '0';
+      if (mode == 'GET') {
+        return [list + '[' + at + ']', Blockly.Python.ORDER_MEMBER];
+      } else if (mode == 'GET_REMOVE') {
+        return [list + '.pop(' + at + ')', Blockly.Python.ORDER_FUNCTION_CALL];
+      } else if (mode == 'REMOVE') {
+        return list + '.pop(' + at + ')\n';
+      }
+      break;
+    case 'FROM_END':
+      var at = Blockly.Python.valueToCode(block, 'AT', Blockly.Python.ORDER_NONE) || '0';
+      // Para FROM_END, precisamos converter para índice negativo
+      if (mode == 'GET') {
+        return [list + '[-(' + at + ' + 1)]', Blockly.Python.ORDER_MEMBER];
+      } else if (mode == 'GET_REMOVE') {
+        return [list + '.pop(-(' + at + ' + 1))', Blockly.Python.ORDER_FUNCTION_CALL];
+      } else if (mode == 'REMOVE') {
+        return list + '.pop(-(' + at + ' + 1))\n';
+      }
+      break;
+    case 'RANDOM':
+      Blockly.Python.definitions_['import_random'] = 'import random';
+      if (mode == 'GET') {
+        return ['random.choice(' + list + ')', Blockly.Python.ORDER_FUNCTION_CALL];
+      } else {
+        var functionName = Blockly.Python.provideFunction_(
+          'lists_remove_random_item',
+          ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(myList):',
+           '  x = int(random.random() * len(myList))',
+           '  return myList.pop(x)']);
+        var code = functionName + '(' + list + ')';
+        if (mode == 'GET_REMOVE') {
+          return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+        } else if (mode == 'REMOVE') {
+          return code + '\n';
+        }
+      }
+      break;
+  }
+  throw Error('Unhandled combination (lists_getIndex).');
 };
 
 
