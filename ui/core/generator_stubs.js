@@ -6580,12 +6580,150 @@ Blockly.Python['list_remove_item_simple'] = function(block) {
   }
 };
 
-
+// Generator for replacing item in list (trocar item)
+Blockly.Python['list_replace_item'] = function(block) {
+  var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_MEMBER) || '[]';
+  var where = block.getFieldValue('WHERE');
+  var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || 'None';
   
-  
-  
+  switch(where) {
+    case 'FIRST':
+      return list + '[0] = ' + value + '\n';
+    case 'LAST':
+      return list + '[-1] = ' + value + '\n';
+    case 'FROM_START':
+      var at = Blockly.Python.valueToCode(block, 'AT', Blockly.Python.ORDER_ADDITIVE) || '1';
+      return list + '[' + at + '-1] = ' + value + '\n';
+    case 'RANDOM':
+      Blockly.Python.definitions_['import_random'] = 'import random';
+      var randomVar = Blockly.Python.nameDB_.getDistinctName('random_index', Blockly.VARIABLE_CATEGORY_NAME);
+      return randomVar + ' = random.randint(0, len(' + list + ')-1)\n' + list + '[' + randomVar + '] = ' + value + '\n';
+  }
+};
 
+// Generator for inserting item in list (inserir item)
+Blockly.Python['list_insert_item'] = function(block) {
+  var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_MEMBER) || '[]';
+  var where = block.getFieldValue('WHERE');
+  var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || 'None';
+  
+  switch(where) {
+    case 'FIRST':
+      return list + '.insert(0, ' + value + ')\n';
+    case 'LAST':
+      return list + '.append(' + value + ')\n';
+    case 'FROM_START':
+      var at = Blockly.Python.valueToCode(block, 'AT', Blockly.Python.ORDER_ADDITIVE) || '1';
+      return list + '.insert(' + at + '-1, ' + value + ')\n';
+    case 'RANDOM':
+      Blockly.Python.definitions_['import_random'] = 'import random';
+      var randomVar = Blockly.Python.nameDB_.getDistinctName('random_index', Blockly.VARIABLE_CATEGORY_NAME);
+      return randomVar + ' = random.randint(0, len(' + list + '))\n' + list + '.insert(' + randomVar + ', ' + value + ')\n';
+  }
+};
 
+// Generator for child-friendly getSublist (pegar o pedaço)
+Blockly.Python['lists_getSublist'] = function(block) {
+  var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_MEMBER) || '[]';
+  var where1 = block.getFieldValue('WHERE1');
+  var where2 = block.getFieldValue('WHERE2');
+  
+  var start_index, end_index;
+  
+  // Handle start position
+  switch(where1) {
+    case 'FIRST':
+      start_index = '';
+      break;
+    case 'FROM_START':
+      var at1 = Blockly.Python.valueToCode(block, 'AT1', Blockly.Python.ORDER_ADDITIVE) || '1';
+      // Use getAdjustedInt to handle the -1 adjustment properly
+      start_index = Blockly.Python.getAdjustedInt(block, 'AT1');
+      // If it evaluates to 0, use empty string
+      if (start_index === '0') {
+        start_index = '';
+      }
+      break;
+    default:
+      throw Error("Unhandled start option (lists_getSublist): " + where1);
+  }
+  
+  // Handle end position  
+  switch(where2) {
+    case 'LAST':
+      end_index = '';
+      break;
+    case 'FROM_START':
+      var at2 = Blockly.Python.valueToCode(block, 'AT2', Blockly.Python.ORDER_ADDITIVE) || '1';
+      end_index = at2;
+      break;
+    default:
+      throw Error("Unhandled end option (lists_getSublist): " + where2);
+  }
+  
+  // Clean up the slice notation - remove extra spaces
+  var slice_notation = start_index + ':' + end_index;
+  return [list + '[' + slice_notation + ']', Blockly.Python.ORDER_MEMBER];
+};
+
+// Generator for the new simplified "Separar texto em uma lista" block
+Blockly.Python['text_split_simple'] = function(block) {
+  var text = Blockly.Python.valueToCode(block, 'TEXT', Blockly.Python.ORDER_NONE) || '""';
+  var separator = Blockly.Python.valueToCode(block, 'SEPARATOR', Blockly.Python.ORDER_NONE) || '","';
+  
+  return [text + '.split(' + separator + ')', Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// Generator for enhanced lists_sort block with type and direction options
+Blockly.Python['lists_sort'] = function(block) {
+  var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_NONE) || '[]';
+  var sortType = block.getFieldValue('TYPE');
+  var direction = block.getFieldValue('DIRECTION');
+  
+  // Determine if reverse should be true or false
+  var reverse = (direction === 'DESC') ? 'True' : 'False';
+  
+  // Create the appropriate sorting function based on type
+  return [Blockly.Python.provideFunction_('organizar_lista', [
+    'def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(lista, tipo, reverso):',
+    '  def processar_numero(item):',
+    '    try:',
+    '      return float(item)',
+    '    except:',
+    '      return 0',
+    '  ',
+    '  def processar_texto(item):',
+    '    return str(item)',
+    '  ',
+    '  def processar_texto_ignorar_maiusculas(item):',
+    '    return str(item).lower()',
+    '  ',
+    '  processadores = {',
+    '    "NUMERIC": processar_numero,',
+    '    "TEXT": processar_texto,',
+    '    "IGNORE_CASE": processar_texto_ignorar_maiusculas',
+    '  }',
+    '  ',
+    '  processar = processadores[tipo]',
+    '  lista_copia = list(lista)',
+    '  return sorted(lista_copia, key=processar, reverse=reverso)'
+  ]) + '(' + list + ', "' + sortType + '", ' + reverse + ')', Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// ==========================================
+// DYNAMIC LIST CREATION BLOCK GENERATOR
+// ==========================================
+
+Blockly.Python['lists_create_with'] = function(block) {
+  // Collect all the item values
+  var elements = new Array(block.itemCount_);
+  for (var i = 0; i < block.itemCount_; i++) {
+    elements[i] = Blockly.Python.valueToCode(block, 'ADD' + i, Blockly.Python.ORDER_NONE) || 'None';
+  }
+  // Generate the Python list
+  var code = '[' + elements.join(', ') + ']';
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
 
 
 
