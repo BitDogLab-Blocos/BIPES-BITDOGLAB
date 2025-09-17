@@ -6540,6 +6540,46 @@ Blockly.Python['math_on_list'] = function(block) {
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
+// Python generators for new simple list blocks
+
+// Generator for getting item from list
+Blockly.Python['list_get_item_simple'] = function(block) {
+  var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_MEMBER) || '[]';
+  var where = block.getFieldValue('WHERE');
+  
+  switch(where) {
+    case 'FIRST':
+      return [list + '[0]', Blockly.Python.ORDER_MEMBER];
+    case 'LAST':
+      return [list + '[-1]', Blockly.Python.ORDER_MEMBER];
+    case 'FROM_START':
+      var at = Blockly.Python.valueToCode(block, 'AT', Blockly.Python.ORDER_ADDITIVE) || '1';
+      return [list + '[' + at + '-1]', Blockly.Python.ORDER_MEMBER];
+    case 'RANDOM':
+      Blockly.Python.definitions_['import_random'] = 'import random';
+      return ['random.choice(' + list + ')', Blockly.Python.ORDER_FUNCTION_CALL];
+  }
+};
+
+// Generator for removing item from list
+Blockly.Python['list_remove_item_simple'] = function(block) {
+  var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_MEMBER) || '[]';
+  var where = block.getFieldValue('WHERE');
+  
+  switch(where) {
+    case 'FIRST':
+      return list + '.pop(0)\n';
+    case 'LAST':
+      return list + '.pop()\n';
+    case 'FROM_START':
+      var at = Blockly.Python.valueToCode(block, 'AT', Blockly.Python.ORDER_ADDITIVE) || '1';
+      return list + '.pop(' + at + '-1)\n';
+    case 'RANDOM':
+      Blockly.Python.definitions_['import_random'] = 'import random';
+      return list + '.pop(random.randint(0, len(' + list + ')-1))\n';
+  }
+};
+
 
   
   
