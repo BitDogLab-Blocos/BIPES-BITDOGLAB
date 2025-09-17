@@ -10,6 +10,134 @@ const svg_decision_icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d
 // Console icon from Material Symbols (free to use)
 const svg_console_icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0yMCAzSDQtMS45OSAyIDV2MTRjMCAxLjEgLjg5IDIgMS45OSAybDE2LjAyYzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bTAgMTZINGwtLjAxLTEwSDIwVjE5em0tOS04bDItMi01LTV2M2gtNnYyaDZ2M2w1LTV6Ii8+PC9zdmc+";
 
+// ==========================================
+// DYNAMIC LIST CREATION BLOCK WITH MUTATOR
+// ==========================================
+
+// Override the default lists_create_with block with Portuguese version and dynamic mutator
+Blockly.Blocks['lists_create_with'] = {
+  init: function() {
+    console.log('BIPES Custom lists_create_with block loaded!'); // Debug log
+    this.setHelpUrl('');
+    this.setStyle("list_blocks"); // Use setStyle instead of setColour for consistency
+    this.itemCount_ = 3; // Começa com 3 itens por padrão
+    this.updateShape_();
+    this.setOutput(true, 'Array');
+    this.setMutator(new Blockly.Mutator(['lists_create_with_item']));
+    this.setTooltip('Cria uma lista com os itens especificados. Clique na engrenagem para adicionar ou remover itens.');
+  },
+
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('items', this.itemCount_);
+    return container;
+  },
+
+  domToMutation: function(xmlElement) {
+    this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
+    this.updateShape_();
+  },
+
+  decompose: function(workspace) {
+    var containerBlock = workspace.newBlock('lists_create_with_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var i = 0; i < this.itemCount_; i++) {
+      var itemBlock = workspace.newBlock('lists_create_with_item');
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+
+  compose: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    // Conta quantos itens o utilizador deixou na interface do mutator
+    var connections = [];
+    while (itemBlock && !itemBlock.isInsertionMarker()) {
+      connections.push(itemBlock.valueConnection_);
+      itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+    }
+    // Desconecta blocos que não estão na nova configuração
+    for (var i = 0; i < this.itemCount_; i++) {
+      var input = this.getInput('ADD' + i);
+      if (input && input.connection.targetConnection) {
+        var targetConnection = input.connection.targetConnection;
+        if (connections.indexOf(targetConnection) === -1) {
+          targetConnection.disconnect();
+        }
+      }
+    }
+    this.itemCount_ = connections.length;
+    this.updateShape_();
+    // Reconecta os blocos
+    for (var i = 0; i < this.itemCount_; i++) {
+      if (connections[i]) {
+        Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
+      }
+    }
+  },
+
+  saveConnections: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var i = 0;
+    while (itemBlock) {
+      var input = this.getInput('ADD' + i);
+      itemBlock.valueConnection_ = input && input.connection.targetConnection;
+      i++;
+      itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+    }
+  },
+
+  updateShape_: function() {
+    if (this.itemCount_ && this.getInput('EMPTY')) {
+      this.removeInput('EMPTY');
+    } else if (!this.itemCount_ && !this.getInput('EMPTY')) {
+      this.appendDummyInput('EMPTY')
+          .appendField('Criar lista vazia'); // Texto para quando a lista não tem itens
+    }
+    // Adiciona as entradas para os itens
+    for (var i = 0; i < this.itemCount_; i++) {
+      if (!this.getInput('ADD' + i)) {
+        var input = this.appendValueInput('ADD' + i);
+        if (i == 0) {
+          input.appendField('Criar lista com');
+        }
+      }
+    }
+    // Remove as entradas extras se o número de itens diminuir
+    while (this.getInput('ADD' + i)) {
+      this.removeInput('ADD' + i);
+      i++;
+    }
+  }
+};
+
+// Blocos auxiliares para o mutator funcionar
+Blockly.Blocks['lists_create_with_container'] = {
+  init: function() {
+    this.setStyle("list_blocks");
+    this.appendDummyInput()
+        .appendField('lista');
+    this.appendStatementInput('STACK');
+    this.setTooltip('Adicione, remova, ou reordene os itens para reconfigurar este bloco.');
+    this.contextMenu = false;
+  }
+};
+
+Blockly.Blocks['lists_create_with_item'] = {
+  init: function() {
+    this.setStyle("list_blocks");
+    this.appendDummyInput()
+        .appendField('item');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Adicione um item à lista.');
+    this.contextMenu = false;
+  }
+};
+
 Blockly.Blocks['led_red_on'] = {
   init: function() {
     this.appendDummyInput()
@@ -860,5 +988,270 @@ Blockly.Blocks['list_remove_item_simple'] = {
     if (needsAt) {
       this.appendValueInput('AT').setCheck('Number');
     }
+  }
+};
+
+// New "Trocar item" block for replacing items in lists
+Blockly.Blocks['list_replace_item'] = {
+  init: function() {
+    this.appendValueInput('LIST')
+        .setCheck('Array')
+        .appendField('Na lista');
+    
+    var menu = new Blockly.FieldDropdown([
+      ['Primeiro', 'FIRST'],
+      ['Último', 'LAST'],
+      ['Aleatório', 'RANDOM'],
+      ['De número', 'FROM_START']
+    ], function(option) {
+      this.sourceBlock_.updateAt_(option === 'FROM_START');
+    });
+
+    this.appendDummyInput('MODE')
+        .appendField("trocar o item")
+        .appendField(menu, 'WHERE');
+        
+    this.appendValueInput('VALUE')
+        .setCheck(null)
+        .appendField('por');
+        
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);      
+    this.setColour("%{BKY_LISTS_HUE}");
+    this.setTooltip("Substitui um item específico da lista por um novo valor");
+    this.setHelpUrl("");
+    this.updateAt_(this.getFieldValue('WHERE') === 'FROM_START');
+  },
+  
+  updateAt_: function(needsAt) {
+    if (this.getInput('AT')) {
+      this.removeInput('AT');
+    }
+    if (needsAt) {
+      this.appendValueInput('AT').setCheck('Number');
+      this.moveInputBefore('AT', 'VALUE');
+    }
+  }
+};
+
+// New "Inserir item" block for inserting items into lists
+Blockly.Blocks['list_insert_item'] = {
+  init: function() {
+    this.appendValueInput('LIST')
+        .setCheck('Array')
+        .appendField('Na lista');
+        
+    this.appendValueInput('VALUE')
+        .setCheck(null)
+        .appendField('inserir');
+    
+    var menu = new Blockly.FieldDropdown([
+      ['Primeira', 'FIRST'],
+      ['Última', 'LAST'],
+      ['Aleatória', 'RANDOM'],
+      ['De número', 'FROM_START']
+    ], function(option) {
+      this.sourceBlock_.updateAt_(option === 'FROM_START');
+    });
+
+    this.appendDummyInput('MODE')
+        .appendField("na posição")
+        .appendField(menu, 'WHERE');
+        
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);      
+    this.setColour("%{BKY_LISTS_HUE}");
+    this.setTooltip("Insere um novo item na lista numa posição específica");
+    this.setHelpUrl("");
+    this.updateAt_(this.getFieldValue('WHERE') === 'FROM_START');
+  },
+  
+  updateAt_: function(needsAt) {
+    if (this.getInput('AT')) {
+      this.removeInput('AT');
+    }
+    if (needsAt) {
+      this.appendValueInput('AT').setCheck('Number');
+    }
+  }
+};
+
+// Override lists_getSublist block for child-friendly interface
+Blockly.Blocks['lists_getSublist'] = {
+  init: function() {
+    // Start dropdown options - simplified for children (removed FROM_END)
+    this.WHERE_OPTIONS_1 = [
+        ["Do primeiro", "FIRST"],
+        ["De número", "FROM_START"]
+    ];
+    
+    // End dropdown options - simplified for children (removed FROM_END and redundant "Até")
+    this.WHERE_OPTIONS_2 = [
+        ["Último", "LAST"],
+        ["Número", "FROM_START"]
+    ];
+
+    this.setHelpUrl("%{BKY_LISTS_GET_SUBLIST_HELPURL}");
+    this.setStyle("list_blocks");
+    this.setColour("%{BKY_LISTS_HUE}");
+    
+    // Main text input with child-friendly language
+    this.appendValueInput("LIST")
+        .setCheck("Array")
+        .appendField("Da lista");
+    
+    // "FROM" section - "pegar o pedaço do item" will be added by updateAt_
+    this.appendDummyInput("AT1");
+    
+    // "TO" section - "até o" will be added by updateAt_  
+    this.appendDummyInput("AT2");
+    
+    
+    this.setInputsInline(true);
+    this.setOutput(true, "Array");
+    this.updateAt_(1, false); // Initialize first dropdown with "Do primeiro"
+    this.updateAt_(2, false); // Initialize second dropdown with "o último"
+    this.setTooltip("Pega um pedaço de uma lista e cria uma nova lista (uma Sublista) apenas com esses itens.");
+  },
+
+  mutationToDom: function() {
+    var container = Blockly.utils.xml.createElement("mutation");
+    var isAt1 = this.getInput("AT1").type == Blockly.INPUT_VALUE;
+    container.setAttribute("at1", isAt1);
+    var isAt2 = this.getInput("AT2").type == Blockly.INPUT_VALUE;
+    container.setAttribute("at2", isAt2);
+    return container;
+  },
+
+  domToMutation: function(xmlElement) {
+    var isAt1 = ("true" == xmlElement.getAttribute("at1"));
+    var isAt2 = ("true" == xmlElement.getAttribute("at2"));
+    this.updateAt_(1, isAt1);
+    this.updateAt_(2, isAt2);
+  },
+
+  updateAt_: function(n, isAt) {
+    // Remove existing input
+    this.removeInput("AT" + n);
+    this.removeInput("ORDINAL" + n, true);
+    
+    // Define the descriptive text for each position
+    var descriptiveText = (n == 1) ? "pegar o pedaço do item" : "até";
+    
+    if (isAt) {
+      // Add value input for number with descriptive text
+      this.appendValueInput("AT" + n)
+          .setCheck("Number")
+          .appendField(descriptiveText);
+      if (Blockly.Msg.ORDINAL_NUMBER_SUFFIX) {
+        this.appendDummyInput("ORDINAL" + n)
+            .appendField(Blockly.Msg.ORDINAL_NUMBER_SUFFIX);
+      }
+    } else {
+      // Add dummy input with dropdown and descriptive text
+      this.appendDummyInput("AT" + n)
+          .appendField(descriptiveText);
+    }
+    
+    // Add appropriate dropdown
+    var options = this["WHERE_OPTIONS_" + n];
+    var dropdown = new Blockly.FieldDropdown(options, function(value) {
+      var newAt = (value == "FROM_START");
+      if (newAt != isAt) {
+        var block = this.getSourceBlock();
+        block.updateAt_(n, newAt);
+        block.setFieldValue(value, "WHERE" + n);
+        return null;
+      }
+    });
+    
+    this.getInput("AT" + n).appendField(dropdown, "WHERE" + n);
+    
+    if (n == 1) {
+      this.moveInputBefore("AT1", "AT2");
+      if (this.getInput("ORDINAL1")) {
+        this.moveInputBefore("ORDINAL1", "AT2");
+      }
+    }
+  }
+};// New simplified "Separar texto em uma lista" block
+Blockly.Blocks['text_split_simple'] = {
+  init: function() {
+    this.appendValueInput('TEXT')
+        .setCheck('String')
+        .appendField('Separar o texto');
+        
+    this.appendValueInput('SEPARATOR')
+        .setCheck('String')
+        .appendField('em uma lista, usando');
+        
+    this.appendDummyInput()
+        .appendField('como separador');
+    
+    this.setOutput(true, 'Array');
+    this.setColour('%{BKY_LISTS_HUE}');
+    this.setTooltip('Transforma um texto em uma lista, dividindo-o usando um separador (ex: vírgula)');
+    this.setHelpUrl('');
+    this.setInputsInline(true);
+  }
+};
+
+// Override lists_sort block for child-friendly interface with dynamic visual hints
+Blockly.Blocks['lists_sort'] = {
+  init: function() {
+    this.appendValueInput('LIST')
+        .setCheck('Array')
+        .appendField('Organizar a lista');
+    
+    // First dropdown for sort type
+    var typeDropdown = new Blockly.FieldDropdown([
+        ['Numérica', 'NUMERIC'],
+        ['Alfabética', 'TEXT'],
+        ['Alfabética (ignorar maiúsculas)', 'IGNORE_CASE']
+    ], function(newValue) {
+      this.getSourceBlock().updateDirectionOptions_(newValue);
+    });
+    
+    this.appendDummyInput('TYPE')
+        .appendField('usando a ordem')
+        .appendField(typeDropdown, 'TYPE');
+    
+    // Second dropdown for sort direction (will be updated dynamically)
+    this.appendDummyInput('DIRECTION');
+    
+    this.setOutput(true, 'Array');
+    this.setColour('%{BKY_LISTS_HUE}');
+    this.setTooltip('Coloca os itens de uma lista em ordem. Pode organizar por números ou por ordem alfabética.');
+    this.setHelpUrl('');
+    this.setInputsInline(true);
+    
+    // Initialize with default options
+    this.updateDirectionOptions_('NUMERIC');
+  },
+  
+  updateDirectionOptions_: function(sortType) {
+    // Remove existing direction dropdown
+    if (this.getInput('DIRECTION')) {
+      this.removeInput('DIRECTION');
+    }
+    
+    // Create appropriate options based on sort type
+    var directionOptions;
+    if (sortType === 'NUMERIC') {
+      directionOptions = [
+        ['Crescente (1-9)', 'ASC'],
+        ['Decrescente (9-1)', 'DESC']
+      ];
+    } else {
+      // Both TEXT and IGNORE_CASE use the same visual hints
+      directionOptions = [
+        ['Crescente (A-Z)', 'ASC'],
+        ['Decrescente (Z-A)', 'DESC']
+      ];
+    }
+    
+    // Add the new dropdown with updated options
+    this.appendDummyInput('DIRECTION')
+        .appendField(new Blockly.FieldDropdown(directionOptions), 'DIRECTION');
   }
 };

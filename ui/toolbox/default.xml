@@ -219,12 +219,11 @@
       <block type="lists_indexOf"></block>
       <block type="list_get_item_simple"></block>
       <block type="list_remove_item_simple"></block>
-      <block type="lists_setIndex"></block>
+      <block type="list_replace_item"></block>
+      <block type="list_insert_item"></block>
       <block type="lists_getSublist"></block>
-      <block type="lists_split">
-        <mutation mode="SPLIT"></mutation>
-        <field name="MODE">SPLIT</field>
-        <value name="DELIM">
+      <block type="text_split_simple">
+        <value name="SEPARATOR">
           <shadow type="text">
             <field name="TEXT">,</field>
           </shadow>
