@@ -1365,3 +1365,265 @@ Blockly.Blocks['text_print_multiple'] = {
     }
   }
 };
+
+// ==========================================
+// NOVOS BLOCOS DE FUNÇÃO PARA CRIANÇAS
+// ==========================================
+
+// 1. FUNÇÃO QUE PERGUNTA
+Blockly.Blocks['function_ask'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("❓ Criar função")
+        .appendField(new Blockly.FieldTextInput("Perguntar"), "FUNC_NAME")
+        .appendField("que pergunta");
+    this.appendValueInput("QUESTION")
+        .setCheck("String")
+        .appendField("a pergunta:");
+    this.appendStatementInput("DO")
+        .setCheck(null)
+        .appendField("então faça:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(290);
+    this.setTooltip("Cria uma função que faz uma pergunta e depois executa ações!");
+  }
+};
+
+// ==========================================
+// MUTATOR BLOCKS FOR DYNAMIC FUNCTION CALLS
+// ==========================================
+
+// Container block for function call parameters mutator
+Blockly.Blocks['function_call_mutatorcontainer'] = {
+  init: function() {
+    this.setColour(290);
+    this.appendDummyInput()
+        .appendField("parâmetros");
+    this.appendStatementInput('STACK');
+    this.setTooltip("Adicione ou remova parâmetros para esta chamada de função.");
+    this.contextMenu = false;
+  }
+};
+
+// Item block for function call parameters mutator
+Blockly.Blocks['function_call_mutatorarg'] = {
+  init: function() {
+    this.setColour(290);
+    this.appendDummyInput()
+        .appendField("parâmetro");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip("Arraste para adicionar ou remover um parâmetro.");
+    this.contextMenu = false;
+  }
+};
+
+// 2. USAR FUNÇÃO SIMPLES (NOW WITH DYNAMIC PARAMETERS)
+Blockly.Blocks['function_call'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Usar função")
+        .appendField(new Blockly.FieldTextInput("MinhaFuncao"), "FUNC_NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(290);
+    this.setTooltip("Chama uma função. Use a engrenagem para adicionar parâmetros!");
+    this.setMutator(new Blockly.Mutator(['function_call_mutatorarg']));
+    this.parameterCount_ = 0;
+  },
+
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('parameters', this.parameterCount_);
+    return container;
+  },
+
+  domToMutation: function(xmlElement) {
+    this.parameterCount_ = parseInt(xmlElement.getAttribute('parameters'), 10);
+    this.updateShape_();
+  },
+
+  decompose: function(workspace) {
+    var containerBlock = workspace.newBlock('function_call_mutatorcontainer');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var i = 0; i < this.parameterCount_; i++) {
+      var itemBlock = workspace.newBlock('function_call_mutatorarg');
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+
+  compose: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    // Count number of inputs.
+    var connections = [];
+    while (itemBlock) {
+      connections.push(itemBlock.valueConnection_);
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+    // Disconnect any children that shouldn't be there.
+    for (var i = 0; i < this.parameterCount_; i++) {
+      var connection = this.getInput('ARG' + i).connection.targetConnection;
+      if (connection && connections.indexOf(connection) == -1) {
+        connection.disconnect();
+      }
+    }
+    this.parameterCount_ = connections.length;
+    this.updateShape_();
+    // Reconnect any child blocks.
+    for (var i = 0; i < this.parameterCount_; i++) {
+      Blockly.Mutator.reconnect(connections[i], this, 'ARG' + i);
+    }
+  },
+
+  saveConnections: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var i = 0;
+    while (itemBlock) {
+      var input = this.getInput('ARG' + i);
+      itemBlock.valueConnection_ = input && input.connection.targetConnection;
+      i++;
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+  },
+
+  updateShape_: function() {
+    // Delete everything.
+    var i = 0;
+    while (this.getInput('ARG' + i)) {
+      this.removeInput('ARG' + i);
+      i++;
+    }
+    // Rebuild block.
+    for (var i = 0; i < this.parameterCount_; i++) {
+      var input = this.appendValueInput('ARG' + i)
+                      .setAlign(Blockly.ALIGN_RIGHT);
+      if (i == 0 && this.parameterCount_ > 0) {
+        input.appendField('com');
+      }
+      input.appendField('Parâmetro ' + (i + 1) + ':');
+    }
+  }
+};
+
+// 3. FUNÇÃO QUE RECEBE INFORMAÇÃO
+Blockly.Blocks['function_with_param'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Criar função")
+        .appendField(new Blockly.FieldTextInput("MinhaFuncao"), "FUNC_NAME")
+        .appendField("que recebe")
+        .appendField(new Blockly.FieldTextInput("Informacao"), "PARAM_NAME");
+    this.appendStatementInput("DO")
+        .setCheck(null)
+        .appendField("faça:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(290);
+    this.setTooltip("Cria uma função que recebe uma informação. Como uma receita que você pode personalizar!");
+  }
+};
+
+// 4. FUNÇÃO QUE RESPONDE
+Blockly.Blocks['function_answer'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("💬 Criar função")
+        .appendField(new Blockly.FieldTextInput("Responder"), "FUNC_NAME")
+        .appendField("que responde");
+    this.appendValueInput("ANSWER")
+        .setCheck(null)
+        .appendField("a resposta:");
+    this.setOutput(true, null);
+    this.setColour(290);
+    this.setTooltip("Cria uma função que sempre dá uma resposta específica!");
+  }
+};
+
+// 5. OBTER RESPOSTA DA FUNÇÃO
+Blockly.Blocks['function_get_answer'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("📤 Obter resposta da função")
+        .appendField(new Blockly.FieldTextInput("MinhaFuncao"), "FUNC_NAME");
+    this.setOutput(true, null);
+    this.setColour(290);
+    this.setTooltip("Pega a resposta que uma função devolve!");
+  }
+};
+
+// ==========================================
+// GERADORES PYTHON PARA OS NOVOS BLOCOS
+// ==========================================
+
+// Gerador para função que pergunta
+Blockly.Python['function_ask'] = function(block) {
+  var funcName = block.getFieldValue('FUNC_NAME') || 'perguntar';
+  var question = Blockly.Python.valueToCode(block, 'QUESTION', Blockly.Python.ORDER_NONE) || '"Qual é sua pergunta?"';
+  var statements = Blockly.Python.statementToCode(block, 'DO');
+
+  var cleanFuncName = funcName.replace(/\s+/g, '_');
+
+  var code = 'def ' + cleanFuncName + '():\n';
+  code += '    resposta = input(' + question + ')\n';
+  code += statements || '    pass\n';
+  code += '\n';
+  return code;
+};
+
+// Gerador para usar função com parâmetros dinâmicos
+Blockly.Python['function_call'] = function(block) {
+  var funcName = block.getFieldValue('FUNC_NAME') || 'minha_funcao';
+  var cleanName = funcName.replace(/\s+/g, '_');
+
+  // Collect all parameter values
+  var args = [];
+  for (var i = 0; i < block.parameterCount_; i++) {
+    var arg = Blockly.Python.valueToCode(block, 'ARG' + i, Blockly.Python.ORDER_NONE) || 'None';
+    args.push(arg);
+  }
+
+  var code = cleanName + '(' + args.join(', ') + ')\n';
+  return code;
+};
+
+// Gerador para função com parâmetro
+Blockly.Python['function_with_param'] = function(block) {
+  var funcName = block.getFieldValue('FUNC_NAME') || 'minha_funcao';
+  var paramName = block.getFieldValue('PARAM_NAME') || 'informacao';
+  var statements = Blockly.Python.statementToCode(block, 'DO');
+
+  var cleanFuncName = funcName.replace(/\s+/g, '_');
+  var cleanParamName = paramName.replace(/\s+/g, '_');
+
+  var code = 'def ' + cleanFuncName + '(' + cleanParamName + '):\n';
+  code += statements || '    pass\n';
+  code += '\n';
+  return code;
+};
+
+// Gerador para função que responde
+Blockly.Python['function_answer'] = function(block) {
+  var funcName = block.getFieldValue('FUNC_NAME') || 'responder';
+  var answer = Blockly.Python.valueToCode(block, 'ANSWER', Blockly.Python.ORDER_NONE) || '"Minha resposta"';
+
+  var cleanFuncName = funcName.replace(/\s+/g, '_');
+
+  var code = 'def ' + cleanFuncName + '():\n';
+  code += '    return ' + answer + '\n\n';
+  return code;
+};
+
+// Gerador para obter resposta da função
+Blockly.Python['function_get_answer'] = function(block) {
+  var funcName = block.getFieldValue('FUNC_NAME') || 'minha_funcao';
+  var cleanFuncName = funcName.replace(/\s+/g, '_');
+  var code = cleanFuncName + '()';
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+};

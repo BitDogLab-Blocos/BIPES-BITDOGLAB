@@ -236,7 +236,24 @@
     <category name="🏷️ Variáveis" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
     
     <!-- 7. FUNÇÕES -->
-    <category name="⚙️ Funções" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
+    <category name="⚙️ Funções" colour="%{BKY_PROCEDURES_HUE}">
+      <!-- Blocos originais -->
+      <block type="procedures_defnoreturn" gap="8">
+        <field name="NAME">fazer_algo</field>
+      </block>
+      <block type="procedures_defreturn" gap="8">
+        <field name="NAME">fazer_algo</field>
+      </block>
+      <block type="procedures_ifreturn" gap="24">
+        <value name="CONDITION">
+          <block type="logic_boolean">
+            <field name="BOOL">TRUE</field>
+          </block>
+        </value>
+      </block>
+      <!-- Blocos novos -->
+      <block type="function_call" gap="16"></block>
+    </category>
     
     <!-- 8. TEMPORIZAÇÃO -->
     <category name="⏱️ Temporização" colour="230">
