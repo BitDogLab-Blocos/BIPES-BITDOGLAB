@@ -142,7 +142,7 @@
     </category>
     <category name="🔡 Texto" colour="%{BKY_TEXTS_HUE}">
       <block type="text"></block>
-      <block type="text_join"></block>
+      <block type="text_print_multiple"></block>
       <block type="text_length">
         <value name="VALUE">
           <shadow type="text">
