@@ -6428,16 +6428,16 @@ Blockly.Python['math_number_property'] = function(block) {
   
   switch (property) {
     case 'EVEN':
-      code = '"Verdadeiro" if ' + number + ' % 2 == 0 else "Falso"';
+      code = number + ' % 2 == 0';
       break;
     case 'ODD':
-      code = '"Verdadeiro" if ' + number + ' % 2 == 1 else "Falso"';
+      code = number + ' % 2 == 1';
       break;
     case 'POSITIVE':
-      code = '"Verdadeiro" if ' + number + ' > 0 else "Falso"';
+      code = number + ' > 0';
       break;
     case 'NEGATIVE':
-      code = '"Verdadeiro" if ' + number + ' < 0 else "Falso"';
+      code = number + ' < 0';
       break;
     default:
       throw Error('Unknown property: ' + property);
@@ -6449,7 +6449,7 @@ Blockly.Python['math_number_property'] = function(block) {
 Blockly.Python['math_is_divisible_by'] = function(block) {
   var dividend = Blockly.Python.valueToCode(block, 'DIVIDEND', Blockly.Python.ORDER_ATOMIC);
   var divisor = Blockly.Python.valueToCode(block, 'DIVISOR', Blockly.Python.ORDER_ATOMIC);
-  var code = '"Verdadeiro" if ' + dividend + ' % ' + divisor + ' == 0 else "Falso"';
+  var code = dividend + ' % ' + divisor + ' == 0';
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
@@ -6468,12 +6468,12 @@ Blockly.Python['logic_compare'] = function(block) {
       Blockly.Python.ORDER_EQUALITY : Blockly.Python.ORDER_RELATIONAL;
   var argument0 = Blockly.Python.valueToCode(block, 'A', order) || '0';
   var argument1 = Blockly.Python.valueToCode(block, 'B', order) || '0';
-  var code = '"Verdadeiro" if ' + argument0 + ' ' + operator + ' ' + argument1 + ' else "Falso"';
+  var code = argument0 + ' ' + operator + ' ' + argument1;
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
 Blockly.Python['logic_boolean'] = function(block) {
-  var code = (block.getFieldValue('BOOL') == 'TRUE') ? '"Verdadeiro"' : '"Falso"';
+  var code = (block.getFieldValue('BOOL') == 'TRUE') ? 'True' : 'False';
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
@@ -6487,17 +6487,17 @@ Blockly.Python['logic_operation'] = function(block) {
     argument0 = '"Falso"';
     argument1 = '"Falso"';
   } else {
-    argument0 = argument0 || '"Falso"';
-    argument1 = argument1 || '"Falso"';
+    argument0 = argument0 || 'False';
+    argument1 = argument1 || 'False';
   }
   
-  var code = '"Verdadeiro" if (' + argument0 + ' == "Verdadeiro") ' + operator + ' (' + argument1 + ' == "Verdadeiro") else "Falso"';
+  var code = argument0 + ' ' + operator + ' ' + argument1;
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
 Blockly.Python['logic_negate'] = function(block) {
-  var argument0 = Blockly.Python.valueToCode(block, 'BOOL', Blockly.Python.ORDER_LOGICAL_NOT) || '"Falso"';
-  var code = '"Falso" if ' + argument0 + ' == "Verdadeiro" else "Verdadeiro"';
+  var argument0 = Blockly.Python.valueToCode(block, 'BOOL', Blockly.Python.ORDER_LOGICAL_NOT) || 'False';
+  var code = 'not ' + argument0;
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
