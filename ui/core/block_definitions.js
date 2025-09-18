@@ -1245,3 +1245,123 @@ Blockly.Blocks['lists_sort'] = {
         .appendField(new Blockly.FieldDropdown(directionOptions), 'DIRECTION');
   }
 };
+
+// =============================================================================
+// NOVO BLOCO: Enviar mensagem com... (substituindo text_join)
+// =============================================================================
+
+// Bloco container para o mutator do texto
+Blockly.Blocks['text_create_join_container'] = {
+  init: function() {
+    this.setColour("%{BKY_TEXTS_HUE}");
+    this.appendDummyInput()
+        .appendField("juntar");
+    this.appendStatementInput('STACK');
+    this.setTooltip("Adicione, remova, ou reordene secções para reconfigurar este bloco.");
+    this.contextMenu = false;
+  }
+};
+
+// Bloco item para o mutator do texto
+Blockly.Blocks['text_create_join_item'] = {
+  init: function() {
+    this.setColour("%{BKY_TEXTS_HUE}");
+    this.appendDummyInput()
+        .appendField("item");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip("Adicione um item para juntar.");
+    this.contextMenu = false;
+  }
+};
+
+// Bloco principal: Enviar mensagem com...
+Blockly.Blocks['text_print_multiple'] = {
+  init: function() {
+    this.setColour("%{BKY_TEXTS_HUE}");
+    this.itemCount_ = 2; // Começa com 2 itens por padrão
+    this.updateShape_();
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setMutator(new Blockly.Mutator(['text_create_join_item']));
+    this.setTooltip("Envia uma mensagem juntando texto e variáveis. Clique na engrenagem para adicionar mais itens.");
+  },
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('items', this.itemCount_);
+    return container;
+  },
+  domToMutation: function(xmlElement) {
+    this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
+    this.updateShape_();
+  },
+  decompose: function(workspace) {
+    var containerBlock = workspace.newBlock('text_create_join_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var i = 0; i < this.itemCount_; i++) {
+      var itemBlock = workspace.newBlock('text_create_join_item');
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+  compose: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var connections = [];
+    while (itemBlock) {
+      connections.push(itemBlock.valueConnection_);
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+    for (var i = 0; i < this.itemCount_; i++) {
+      var connection = this.getInput('ADD' + i).connection.targetConnection;
+      if (connection && connections.indexOf(connection) == -1) {
+        connection.disconnect();
+      }
+    }
+    this.itemCount_ = connections.length;
+    this.updateShape_();
+    for (var i = 0; i < this.itemCount_; i++) {
+      Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
+    }
+  },
+  saveConnections: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var i = 0;
+    while (itemBlock) {
+      var input = this.getInput('ADD' + i);
+      itemBlock.valueConnection_ = input && input.connection.targetConnection;
+      i++;
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+  },
+  updateShape_: function() {
+    if (this.itemCount_ && this.getInput('EMPTY')) {
+      this.removeInput('EMPTY');
+    } else if (!this.itemCount_ && !this.getInput('EMPTY')) {
+      this.appendDummyInput('EMPTY')
+          .appendField("Enviar mensagem");
+    }
+
+    // Adiciona inputs para cada item
+    for (var i = 0; i < this.itemCount_; i++) {
+      if (!this.getInput('ADD' + i)) {
+        if (i == 0) {
+          this.appendValueInput('ADD' + i)
+              .appendField("Enviar mensagem com");
+        } else {
+          this.appendValueInput('ADD' + i);
+        }
+      }
+    }
+
+    // Remove inputs extras
+    while (this.getInput('ADD' + i)) {
+      this.removeInput('ADD' + i);
+      i++;
+    }
+  }
+};
