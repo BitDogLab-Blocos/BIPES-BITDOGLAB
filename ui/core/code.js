@@ -597,13 +597,13 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     if (hasLeds) {
       finalCode += '\n# Inicializar LEDs (desligar todos)\n';
       if (rawCode.indexOf('led_vermelho') !== -1) {
-        finalCode += 'led_vermelho.off()\n';
+        finalCode += 'led_vermelho.duty_u16(0)\n';
       }
       if (rawCode.indexOf('led_verde') !== -1) {
-        finalCode += 'led_verde.off()\n';
+        finalCode += 'led_verde.duty_u16(0)\n';
       }
       if (rawCode.indexOf('led_azul') !== -1) {
-        finalCode += 'led_azul.off()\n';
+        finalCode += 'led_azul.duty_u16(0)\n';
       }
     }
     finalCode += '\n';
@@ -993,133 +993,127 @@ Code.discard = function() {
   }
 };
 
-// Colour Blocks Code Generators with PWM support
-// Cores primárias (simples - on/off)
+// Colour Blocks Code Generators - retornam tuplas RGB
 Blockly.Python['colour_red'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = Pin(13, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = Pin(11, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = Pin(12, Pin.OUT)';
-  return 'led_vermelho.on()\n';
+  return ['(255, 0, 0)', Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['colour_green'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = Pin(13, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = Pin(11, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = Pin(12, Pin.OUT)';
-  return 'led_verde.on()\n';
+  return ['(0, 255, 0)', Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['colour_blue'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = Pin(13, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = Pin(11, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = Pin(12, Pin.OUT)';
-  return 'led_azul.on()\n';
+  return ['(0, 0, 255)', Blockly.Python.ORDER_ATOMIC];
 };
 
-// Cores secundárias (combinação simples - on/off)
 Blockly.Python['colour_yellow'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = Pin(13, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = Pin(11, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = Pin(12, Pin.OUT)';
-  return 'led_vermelho.on()\nled_verde.on()\n';
+  return ['(255, 255, 0)', Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['colour_cyan'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = Pin(13, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = Pin(11, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = Pin(12, Pin.OUT)';
-  return 'led_verde.on()\nled_azul.on()\n';
+  return ['(0, 255, 255)', Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['colour_magenta'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = Pin(13, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = Pin(11, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = Pin(12, Pin.OUT)';
-  return 'led_vermelho.on()\nled_azul.on()\n';
+  return ['(255, 0, 255)', Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['colour_white'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = Pin(13, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = Pin(11, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = Pin(12, Pin.OUT)';
-  return 'led_vermelho.on()\nled_verde.on()\nled_azul.on()\n';
+  return ['(255, 255, 255)', Blockly.Python.ORDER_ATOMIC];
 };
 
-// Cores complexas (PWM para diferentes intensidades)
 Blockly.Python['colour_orange'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin, PWM';
-  Blockly.Python.definitions_['setup_pwm_red'] = 'pwm_vermelho = PWM(Pin(13))';
-  Blockly.Python.definitions_['setup_pwm_green'] = 'pwm_verde = PWM(Pin(11))';
-  Blockly.Python.definitions_['setup_pwm_blue'] = 'pwm_azul = PWM(Pin(12))';
-  Blockly.Python.definitions_['setup_pwm_freq'] = 'pwm_vermelho.freq(1000)\npwm_verde.freq(1000)\npwm_azul.freq(1000)';
-  return 'pwm_vermelho.duty_u16(65535)\npwm_verde.duty_u16(16384)\npwm_azul.duty_u16(0)\n';
+  return ['(255, 128, 0)', Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['colour_pink'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin, PWM';
-  Blockly.Python.definitions_['setup_pwm_red'] = 'pwm_vermelho = PWM(Pin(13))';
-  Blockly.Python.definitions_['setup_pwm_green'] = 'pwm_verde = PWM(Pin(11))';
-  Blockly.Python.definitions_['setup_pwm_blue'] = 'pwm_azul = PWM(Pin(12))';
-  Blockly.Python.definitions_['setup_pwm_freq'] = 'pwm_vermelho.freq(1000)\npwm_verde.freq(1000)\npwm_azul.freq(1000)';
-  return 'pwm_vermelho.duty_u16(65535)\npwm_verde.duty_u16(0)\npwm_azul.duty_u16(32768)\n';
+  return ['(255, 64, 128)', Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['colour_lime'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin, PWM';
-  Blockly.Python.definitions_['setup_pwm_red'] = 'pwm_vermelho = PWM(Pin(13))';
-  Blockly.Python.definitions_['setup_pwm_green'] = 'pwm_verde = PWM(Pin(11))';
-  Blockly.Python.definitions_['setup_pwm_blue'] = 'pwm_azul = PWM(Pin(12))';
-  Blockly.Python.definitions_['setup_pwm_freq'] = 'pwm_vermelho.freq(1000)\npwm_verde.freq(1000)\npwm_azul.freq(1000)';
-  return 'pwm_vermelho.duty_u16(16384)\npwm_verde.duty_u16(65535)\npwm_azul.duty_u16(0)\n';
+  return ['(128, 255, 0)', Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['colour_skyblue'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin, PWM';
-  Blockly.Python.definitions_['setup_pwm_red'] = 'pwm_vermelho = PWM(Pin(13))';
-  Blockly.Python.definitions_['setup_pwm_green'] = 'pwm_verde = PWM(Pin(11))';
-  Blockly.Python.definitions_['setup_pwm_blue'] = 'pwm_azul = PWM(Pin(12))';
-  Blockly.Python.definitions_['setup_pwm_freq'] = 'pwm_vermelho.freq(1000)\npwm_verde.freq(1000)\npwm_azul.freq(1000)';
-  return 'pwm_vermelho.duty_u16(0)\npwm_verde.duty_u16(32768)\npwm_azul.duty_u16(65535)\n';
+  return ['(64, 196, 255)', Blockly.Python.ORDER_ATOMIC];
 };
 
 Blockly.Python['colour_turquoise'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin, PWM';
-  Blockly.Python.definitions_['setup_pwm_red'] = 'pwm_vermelho = PWM(Pin(13))';
-  Blockly.Python.definitions_['setup_pwm_green'] = 'pwm_verde = PWM(Pin(11))';
-  Blockly.Python.definitions_['setup_pwm_blue'] = 'pwm_azul = PWM(Pin(12))';
-  Blockly.Python.definitions_['setup_pwm_freq'] = 'pwm_vermelho.freq(1000)\npwm_verde.freq(1000)\npwm_azul.freq(1000)';
-  return 'pwm_vermelho.duty_u16(0)\npwm_verde.duty_u16(49152)\npwm_azul.duty_u16(49152)\n';
+  return ['(64, 224, 208)', Blockly.Python.ORDER_ATOMIC];
 };
 
-// Mix Colours Block Generator
+// Mix Colours Block Generator - calcula média RGB
 Blockly.Python['mix_colours'] = function(block) {
-  var pins = [];
+  var colors = [];
   for (var i = 0; i < block.itemCount_; i++) {
-    var pin = Blockly.Python.valueToCode(block, 'ADD' + i, Blockly.Python.ORDER_ATOMIC);
-    if (pin) {
-      pins.push(pin);
-    }
+    var color = Blockly.Python.valueToCode(block, 'ADD' + i, Blockly.Python.ORDER_NONE) || '(0, 0, 0)';
+    colors.push(color);
   }
-  // Return array of pins as string
-  return ['[' + pins.join(',') + ']', Blockly.Python.ORDER_ATOMIC];
+
+  if (colors.length === 0) {
+    return ['(0, 0, 0)', Blockly.Python.ORDER_ATOMIC];
+  }
+
+  // Gera código para calcular a média dos componentes RGB
+  var code = '(';
+  code += 'int(sum([' + colors.join('[0], ') + '[0]])/' + colors.length + '), ';
+  code += 'int(sum([' + colors.join('[1], ') + '[1]])/' + colors.length + '), ';
+  code += 'int(sum([' + colors.join('[2], ') + '[2]])/' + colors.length + ')';
+  code += ')';
+
+  return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
-// LED RGB Control Blocks Code Generators for BitDogLab (Simplificado)
+// LED RGB Control - converte tupla RGB em PWM
 Blockly.Python['led_turn_on'] = function(block) {
-  var colour_code = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC);
-  return colour_code || '';
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+
+  // Setup LED pins com PWM
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+
+  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+
+  var code = 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
+  code += 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
+  code += 'led_azul.duty_u16(' + colour + '[2] * 257)\n';
+
+  return code;
+};
+
+Blockly.Python['led_turn_off'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+
+  // Setup LED pins com PWM
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+
+  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+
+  // Desliga apenas os componentes RGB que estão na cor selecionada
+  var code = 'if ' + colour + '[0] > 0:\n';
+  code += '  led_vermelho.duty_u16(0)\n';
+  code += 'if ' + colour + '[1] > 0:\n';
+  code += '  led_verde.duty_u16(0)\n';
+  code += 'if ' + colour + '[2] > 0:\n';
+  code += '  led_azul.duty_u16(0)\n';
+
+  return code;
 };
 
 Blockly.Python['led_turn_off_all'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  return 'Pin(13, Pin.OUT).off()\nPin(11, Pin.OUT).off()\nPin(12, Pin.OUT).off()\n';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+
+  return 'led_vermelho.duty_u16(0)\nled_verde.duty_u16(0)\nled_azul.duty_u16(0)\n';
 };
 
 // Delay blocks

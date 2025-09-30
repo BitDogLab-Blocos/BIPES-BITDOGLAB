@@ -5,46 +5,131 @@
 let UPythonClass = {}
 
 // LED RGB Control Blocks Code Generators for BitDogLab
-// Using setup variables for better performance in infinite loop
-Blockly.Python['led_turn_on'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+// Geradores para blocos de cores - retornam tuplas RGB
+Blockly.Python['colour_red'] = function(block) {
+  return ['(255, 0, 0)', Blockly.Python.ORDER_ATOMIC];
+};
 
-  // Setup all LED pins once (will be moved outside loop automatically)
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = Pin(13, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = Pin(11, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = Pin(12, Pin.OUT)';
+Blockly.Python['colour_green'] = function(block) {
+  return ['(0, 255, 0)', Blockly.Python.ORDER_ATOMIC];
+};
 
-  var ledColor = block.getFieldValue('LED_COLOR');
-  var ledVar = 'led_vermelho';
+Blockly.Python['colour_blue'] = function(block) {
+  return ['(0, 0, 255)', Blockly.Python.ORDER_ATOMIC];
+};
 
-  if (ledColor == 'GREEN') {
-    ledVar = 'led_verde';
-  } else if (ledColor == 'BLUE') {
-    ledVar = 'led_azul';
+Blockly.Python['colour_yellow'] = function(block) {
+  return ['(255, 255, 0)', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['colour_cyan'] = function(block) {
+  return ['(0, 255, 255)', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['colour_magenta'] = function(block) {
+  return ['(255, 0, 255)', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['colour_white'] = function(block) {
+  return ['(255, 255, 255)', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['colour_orange'] = function(block) {
+  return ['(255, 128, 0)', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['colour_pink'] = function(block) {
+  return ['(255, 64, 128)', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['colour_lime'] = function(block) {
+  return ['(128, 255, 0)', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['colour_skyblue'] = function(block) {
+  return ['(64, 196, 255)', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['colour_turquoise'] = function(block) {
+  return ['(64, 224, 208)', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador para mistura de cores
+Blockly.Python['mix_colours'] = function(block) {
+  var colors = [];
+  for (var i = 0; i < block.itemCount_; i++) {
+    var color = Blockly.Python.valueToCode(block, 'ADD' + i, Blockly.Python.ORDER_NONE) || '(0, 0, 0)';
+    colors.push(color);
   }
 
-  var code = ledVar + '.on()\n';
+  if (colors.length === 0) {
+    return ['(0, 0, 0)', Blockly.Python.ORDER_ATOMIC];
+  }
+
+  // Gera código para calcular a média dos componentes RGB
+  var code = '(';
+  code += 'int(sum([' + colors.join('[0], ') + '[0]])/' + colors.length + '), ';
+  code += 'int(sum([' + colors.join('[1], ') + '[1]])/' + colors.length + '), ';
+  code += 'int(sum([' + colors.join('[2], ') + '[2]])/' + colors.length + ')';
+  code += ')';
+
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador para ligar LED com cor
+Blockly.Python['led_turn_on'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+
+  // Setup LED pins com PWM para controle de intensidade
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+
+  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+
+  var code = 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
+  code += 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
+  code += 'led_azul.duty_u16(' + colour + '[2] * 257)\n';
+
   return code;
 };
 
+// Gerador para desligar LED de cor específica
 Blockly.Python['led_turn_off'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
 
-  // Setup all LED pins once (will be moved outside loop automatically)
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = Pin(13, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = Pin(11, Pin.OUT)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = Pin(12, Pin.OUT)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
 
-  var ledColor = block.getFieldValue('LED_COLOR');
-  var ledVar = 'led_vermelho';
+  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
 
-  if (ledColor == 'GREEN') {
-    ledVar = 'led_verde';
-  } else if (ledColor == 'BLUE') {
-    ledVar = 'led_azul';
-  }
+  // Desliga apenas os componentes RGB que estão na cor selecionada
+  var code = 'if ' + colour + '[0] > 0:\n';
+  code += '  led_vermelho.duty_u16(0)\n';
+  code += 'if ' + colour + '[1] > 0:\n';
+  code += '  led_verde.duty_u16(0)\n';
+  code += 'if ' + colour + '[2] > 0:\n';
+  code += '  led_azul.duty_u16(0)\n';
 
-  var code = ledVar + '.off()\n';
+  return code;
+};
+
+// Gerador para desligar todos os LEDs
+Blockly.Python['led_turn_off_all'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+
+  var code = 'led_vermelho.duty_u16(0)\n';
+  code += 'led_verde.duty_u16(0)\n';
+  code += 'led_azul.duty_u16(0)\n';
+
   return code;
 };
 
