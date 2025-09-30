@@ -1,5 +1,6 @@
 <xml>
     <!-- 1. LÓGICA -->
+    <!--
     <category name="🧠 Decisões" colour="%{BKY_LOGIC_HUE}">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
@@ -8,8 +9,10 @@
       <block type="logic_boolean"></block>
       <block type="logic_ternary"></block>
     </category>
+    -->
     
     <!-- 2. REPETIÇÕES -->
+    <!--
     <category name="🔄 Repetições" colour="%{BKY_LOOPS_HUE}">
       <block type="controls_repeat_ext">
         <value name="TIMES">
@@ -40,6 +43,7 @@
       <block type="controls_forEach"></block>
       <block type="controls_flow_statements"></block>
     </category>
+    -->
     
     <!-- 3. MATEMÁTICA -->
     <category name="🧮 Matemática" colour="%{BKY_MATH_HUE}">
@@ -205,6 +209,7 @@
     </category>
     
     <!-- 5. LISTAS -->
+    <!--
     <category name="📜 Listas" colour="%{BKY_LISTS_HUE}">
       <block type="lists_create_with"></block>
       <block type="lists_repeat">
@@ -231,13 +236,16 @@
       </block>
       <block type="lists_sort"></block>
     </category>
+    -->
     
     <!-- 6. VARIÁVEIS -->
+    <!--
     <category name="🏷️ Variáveis" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
+    -->
     
     <!-- 7. FUNÇÕES -->
+    <!--
     <category name="⚙️ Funções" colour="%{BKY_PROCEDURES_HUE}">
-      <!-- Blocos originais -->
       <block type="procedures_defnoreturn" gap="8">
         <field name="NAME">fazer_algo</field>
       </block>
@@ -251,9 +259,9 @@
           </block>
         </value>
       </block>
-      <!-- Blocos novos -->
       <block type="function_call" gap="16"></block>
     </category>
+    -->
     
     <!-- 8. TEMPORIZAÇÃO -->
     <category name="⏱️ Temporização" colour="230">
@@ -274,6 +282,7 @@
     </category>
     
     <!-- 9. MÁQUINA E PINOS -->
+    <!--
     <category name="🔌 Máquina e Pinos" colour="160">
       <block type="gpio_set">
         <value name="pin">
@@ -338,15 +347,28 @@
       <block type="machine_unique_id"></block>
       <block type="machine_reset_cause"></block>
     </category>
+    -->
     
-    <!-- 10. LEDs -->
-    <category name="💡 LEDs" colour="320">
-      <block type="led_red_on"></block>
-      <block type="led_green_on"></block>
-      <block type="led_blue_on"></block>
-      <block type="led_red_off"></block>
-      <block type="led_green_off"></block>
-      <block type="led_blue_off"></block>
-      <block type="led_all_off"></block>
+    <!-- 10. CORES -->
+    <category name="🎨 Cores" colour="#A65C99">
+      <block type="colour_red"></block>
+      <block type="colour_green"></block>
+      <block type="colour_blue"></block>
+      <block type="colour_yellow"></block>
+      <block type="colour_cyan"></block>
+      <block type="colour_magenta"></block>
+      <block type="colour_white"></block>
+      <block type="colour_orange"></block>
+      <block type="colour_pink"></block>
+      <block type="colour_lime"></block>
+      <block type="colour_skyblue"></block>
+      <block type="colour_turquoise"></block>
+      <block type="mix_colours"></block>
     </category>
-  </xml>
+
+    <!-- 11. LEDs -->
+    <category name="💡 LEDs" colour="320">
+      <block type="led_turn_on"></block>
+      <block type="led_turn_off_all"></block>
+    </category>
+</xml>

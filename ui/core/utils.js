@@ -138,7 +138,15 @@ class Tool {
 
     //   return;
     // }
-    let code = code_ == undefined ? Blockly.Python.workspaceToCode(Code.workspace) : code_;
+    let code;
+    if (code_ == undefined) {
+      // Generate code from workspace and wrap with infinite loop
+      let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
+      code = Code.wrapWithInfiniteLoop(rawCode);
+    } else {
+      // Use provided code as-is
+      code = code_;
+    }
 
     if (code) {
       code+='\r\r';//Snek workaround
