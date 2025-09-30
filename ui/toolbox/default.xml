@@ -369,6 +369,7 @@
     <!-- 11. LEDs -->
     <category name="💡 LEDs" colour="320">
       <block type="led_turn_on"></block>
+      <block type="led_turn_off"></block>
       <block type="led_turn_off_all"></block>
     </category>
 </xml>
