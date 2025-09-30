@@ -128,93 +128,277 @@ Blockly.Blocks['lists_create_with'] = {
 
 // NOTA: Blocos auxiliares já foram definidos ANTES do bloco principal para evitar erros
 
-Blockly.Blocks['led_red_on'] = {
+// Blocos de Cores - 12 cores completas
+Blockly.Blocks['colour_red'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Ligar LED Vermelho")
-        .appendField(new Blockly.FieldImage(svg_red_icon, 20, 20, "*"));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(320);
-    this.setTooltip("Liga o LED vermelho (GPIO 13)");
+        .appendField("🔴 Vermelho");
+    this.setOutput(true, "Colour");
+    this.setColour(0);
+    this.setTooltip("Cor vermelha");
     this.setHelpUrl("");
   }
 };
 
-Blockly.Blocks['led_green_on'] = {
+Blockly.Blocks['colour_green'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Ligar LED Verde")
-        .appendField(new Blockly.FieldImage(svg_green_icon, 20, 20, "*"));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(320);
-    this.setTooltip("Liga o LED verde (GPIO 11)");
+        .appendField("🟢 Verde");
+    this.setOutput(true, "Colour");
+    this.setColour(120);
+    this.setTooltip("Cor verde");
     this.setHelpUrl("");
   }
 };
 
-Blockly.Blocks['led_blue_on'] = {
+Blockly.Blocks['colour_blue'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Ligar LED Azul")
-        .appendField(new Blockly.FieldImage(svg_blue_icon, 20, 20, "*"));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(320);
-    this.setTooltip("Liga o LED azul (GPIO 12)");
+        .appendField("🔵 Azul");
+    this.setOutput(true, "Colour");
+    this.setColour(230);
+    this.setTooltip("Cor azul");
     this.setHelpUrl("");
   }
 };
 
-Blockly.Blocks['led_red_off'] = {
+Blockly.Blocks['colour_yellow'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Desligar LED Vermelho")
-        .appendField(new Blockly.FieldImage(svg_red_icon, 20, 20, "*"));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(320);
-    this.setTooltip("Desliga o LED vermelho (GPIO 13)");
+        .appendField("🟡 Amarelo");
+    this.setOutput(true, "Colour");
+    this.setColour(60);
+    this.setTooltip("Cor amarela (vermelho + verde)");
     this.setHelpUrl("");
   }
 };
 
-Blockly.Blocks['led_green_off'] = {
+Blockly.Blocks['colour_cyan'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Desligar LED Verde")
-        .appendField(new Blockly.FieldImage(svg_green_icon, 20, 20, "*"));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(320);
-    this.setTooltip("Desliga o LED verde (GPIO 11)");
+        .appendField("🩵 Ciano");
+    this.setOutput(true, "Colour");
+    this.setColour(180);
+    this.setTooltip("Cor ciano (verde + azul)");
     this.setHelpUrl("");
   }
 };
 
-Blockly.Blocks['led_blue_off'] = {
+Blockly.Blocks['colour_magenta'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Desligar LED Azul")
-        .appendField(new Blockly.FieldImage(svg_blue_icon, 20, 20, "*"));
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(320);
-    this.setTooltip("Desliga o LED azul (GPIO 12)");
+        .appendField("🩷 Magenta");
+    this.setOutput(true, "Colour");
+    this.setColour(300);
+    this.setTooltip("Cor magenta (vermelho + azul)");
     this.setHelpUrl("");
   }
 };
 
-Blockly.Blocks['led_all_off'] = {
+Blockly.Blocks['colour_white'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Desligar Todos os LEDs")
-        .appendField(new Blockly.FieldImage(svg_off_icon, 20, 20, "*"));
+        .appendField("⚪ Branco");
+    this.setOutput(true, "Colour");
+    this.setColour("#FFFFFF");
+    this.setTooltip("Cor branca (todas as cores)");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['colour_orange'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🟠 Laranja");
+    this.setOutput(true, "Colour");
+    this.setColour(30);
+    this.setTooltip("Cor laranja (vermelho forte + verde fraco)");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['colour_pink'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("💗 Rosa");
+    this.setOutput(true, "Colour");
+    this.setColour(330);
+    this.setTooltip("Cor rosa (vermelho + azul fraco)");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['colour_lime'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("💚 Lima");
+    this.setOutput(true, "Colour");
+    this.setColour(90);
+    this.setTooltip("Cor lima (verde forte + vermelho fraco)");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['colour_skyblue'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("💙 Azul Céu");
+    this.setOutput(true, "Colour");
+    this.setColour(200);
+    this.setTooltip("Cor azul céu (azul forte + verde fraco)");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['colour_turquoise'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🩵 Turquesa");
+    this.setOutput(true, "Colour");
+    this.setColour(165);
+    this.setTooltip("Cor turquesa (verde + azul médio)");
+    this.setHelpUrl("");
+  }
+};
+
+// Blocos auxiliares para o mutator de mix_colours
+Blockly.Blocks['mix_colours_container'] = {
+  init: function() {
+    this.setColour("#A65C99");
+    this.appendDummyInput()
+        .appendField("misturar");
+    this.appendStatementInput('STACK');
+    this.setTooltip("Adicione ou remova cores para misturar.");
+    this.contextMenu = false;
+  }
+};
+
+Blockly.Blocks['mix_colours_item'] = {
+  init: function() {
+    this.setColour("#A65C99");
+    this.appendDummyInput()
+        .appendField("cor");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip("Adicione uma cor à mistura.");
+    this.contextMenu = false;
+  }
+};
+
+// Bloco de mistura de cores com mutator
+Blockly.Blocks['mix_colours'] = {
+  init: function() {
+    this.setColour("#A65C99");
+    this.appendDummyInput()
+        .appendField("🎨 Misturar");
+    this.appendValueInput('ADD0')
+        .setCheck("Colour");
+    this.appendValueInput('ADD1')
+        .setCheck("Colour");
+    this.setOutput(true, "Colour");
+    this.setMutator(new Blockly.Mutator(['mix_colours_item']));
+    this.setTooltip("Mistura múltiplas cores de LED");
+    this.itemCount_ = 2;
+  },
+
+  mutationToDom: function() {
+    var container = Blockly.utils.xml.createElement('mutation');
+    container.setAttribute('items', this.itemCount_);
+    return container;
+  },
+
+  domToMutation: function(xmlElement) {
+    this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
+    this.updateShape_();
+  },
+
+  decompose: function(workspace) {
+    var containerBlock = workspace.newBlock('mix_colours_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var i = 0; i < this.itemCount_; i++) {
+      var itemBlock = workspace.newBlock('mix_colours_item');
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+
+  compose: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var connections = [];
+    while (itemBlock) {
+      connections.push(itemBlock.valueConnection_);
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+    for (var i = 0; i < this.itemCount_; i++) {
+      var connection = this.getInput('ADD' + i).connection.targetConnection;
+      if (connection && connections.indexOf(connection) == -1) {
+        connection.disconnect();
+      }
+    }
+    this.itemCount_ = connections.length;
+    this.updateShape_();
+    for (var i = 0; i < this.itemCount_; i++) {
+      Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
+    }
+  },
+
+  saveConnections: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var i = 0;
+    while (itemBlock) {
+      var input = this.getInput('ADD' + i);
+      itemBlock.valueConnection_ = input && input.connection.targetConnection;
+      i++;
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+  },
+
+  updateShape_: function() {
+    if (this.itemCount_ && this.getInput('ADD0')) {
+      for (var i = 0; i < this.itemCount_; i++) {
+        if (!this.getInput('ADD' + i)) {
+          var input = this.appendValueInput('ADD' + i)
+              .setCheck("Colour");
+        }
+      }
+    } else if (!this.itemCount_) {
+      this.itemCount_ = 2;
+    }
+    while (this.getInput('ADD' + this.itemCount_)) {
+      this.removeInput('ADD' + this.itemCount_);
+      this.itemCount_++;
+    }
+  }
+};
+
+// Blocos de LED refatorados
+Blockly.Blocks['led_turn_on'] = {
+  init: function() {
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour")
+        .appendField("Ligar LED");
+    this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(320);
-    this.setTooltip("Desliga todos os LEDs RGB (GPIO 13, 11, 12)");
+    this.setTooltip("Liga o LED da cor selecionada");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['led_turn_off_all'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Desligar Todos os LEDs");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(320);
+    this.setTooltip("Desliga todos os LEDs");
     this.setHelpUrl("");
   }
 };

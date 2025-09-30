@@ -5,47 +5,46 @@
 let UPythonClass = {}
 
 // LED RGB Control Blocks Code Generators for BitDogLab
-Blockly.Python['led_red_on'] = function(block) {
+// Using setup variables for better performance in infinite loop
+Blockly.Python['led_turn_on'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  var code = 'Pin(13, Pin.OUT).value(1)\n';
+
+  // Setup all LED pins once (will be moved outside loop automatically)
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = Pin(13, Pin.OUT)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = Pin(11, Pin.OUT)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = Pin(12, Pin.OUT)';
+
+  var ledColor = block.getFieldValue('LED_COLOR');
+  var ledVar = 'led_vermelho';
+
+  if (ledColor == 'GREEN') {
+    ledVar = 'led_verde';
+  } else if (ledColor == 'BLUE') {
+    ledVar = 'led_azul';
+  }
+
+  var code = ledVar + '.on()\n';
   return code;
 };
 
-Blockly.Python['led_green_on'] = function(block) {
+Blockly.Python['led_turn_off'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  var code = 'Pin(11, Pin.OUT).value(1)\n';
-  return code;
-};
 
-Blockly.Python['led_blue_on'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  var code = 'Pin(12, Pin.OUT).value(1)\n';
-  return code;
-};
+  // Setup all LED pins once (will be moved outside loop automatically)
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = Pin(13, Pin.OUT)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = Pin(11, Pin.OUT)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = Pin(12, Pin.OUT)';
 
-Blockly.Python['led_red_off'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  var code = 'Pin(13, Pin.OUT).value(0)\n';
-  return code;
-};
+  var ledColor = block.getFieldValue('LED_COLOR');
+  var ledVar = 'led_vermelho';
 
-Blockly.Python['led_green_off'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  var code = 'Pin(11, Pin.OUT).value(0)\n';
-  return code;
-};
+  if (ledColor == 'GREEN') {
+    ledVar = 'led_verde';
+  } else if (ledColor == 'BLUE') {
+    ledVar = 'led_azul';
+  }
 
-Blockly.Python['led_blue_off'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  var code = 'Pin(12, Pin.OUT).value(0)\n';
-  return code;
-};
-
-Blockly.Python['led_all_off'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  var code = 'Pin(13, Pin.OUT).value(0)\n';
-  code += 'Pin(11, Pin.OUT).value(0)\n';
-  code += 'Pin(12, Pin.OUT).value(0)\n';
+  var code = ledVar + '.off()\n';
   return code;
 };
 
