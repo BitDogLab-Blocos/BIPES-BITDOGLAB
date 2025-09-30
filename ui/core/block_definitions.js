@@ -200,7 +200,7 @@ Blockly.Blocks['colour_white'] = {
     this.appendDummyInput()
         .appendField("⚪ Branco");
     this.setOutput(true, "Colour");
-    this.setColour("#FFFFFF");
+    this.setColour("#707070"); // Cinza escuro para melhor contraste
     this.setTooltip("Cor branca (todas as cores)");
     this.setHelpUrl("");
   }
@@ -387,6 +387,20 @@ Blockly.Blocks['led_turn_on'] = {
     this.setNextStatement(true, null);
     this.setColour(320);
     this.setTooltip("Liga o LED da cor selecionada");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['led_turn_off'] = {
+  init: function() {
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour")
+        .appendField("Desligar LED");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(320);
+    this.setTooltip("Desliga o LED da cor selecionada");
     this.setHelpUrl("");
   }
 };
