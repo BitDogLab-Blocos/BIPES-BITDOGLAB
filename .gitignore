@@ -1,77 +1,56 @@
-# Prompt files for Claude AI
-prompt.txt
-
-# Development and temporary files
+# Arquivos Temporários e de Backup
 *.tmp
 *.temp
 *.bak
 *.backup
-.DS_Store
-Thumbs.db
-
-# Claude Code settings
-.claude/
-
-# IDE and editor files
-.vscode/settings.json
+*_backup.*
 *.swp
 *.swo
 *~
 
-# Node modules (if any)
-node_modules/
-npm-debug.log*
-
-# Python cache files
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-
-# Build outputs
-dist/
-build/
-*.egg-info/
-
-# Log files
-*.log
-logs/
-
-# Environment files
-.env
-.env.local
-
-# OS generated files
+# Sistema Operacional
+## macOS
 .DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
+
+## Windows
+Thumbs.db
 ehthumbs.db
 Desktop.ini
 
-# Backup files created during development
-*_backup.*
-default_backup.xml
+# IDEs e Editores
+## VSCode
+.vscode/settings.json
 
-# Development CSS and JS files
-fix-temporizacao-blocks.css
-fix-temporizacao-blocks.js
+## Vim
+*.swp
+*.swo
 
-# Additional toolbox files (keeping only main ones)
-ui/toolbox/AmadoBoard.xml
-ui/toolbox/arduino.xml
-ui/toolbox/bbblack.xml
-ui/toolbox/esp32-basic.xml
-ui/toolbox/esp32.xml
-ui/toolbox/esp32S2.xml
-ui/toolbox/esp8266.xml
-ui/toolbox/linux.xml
-ui/toolbox/stm32.xml
+# Dependências e Pacotes
+## Node.js
+node_modules/
+npm-debug.log*
+package-lock.json
 
-# UI2 directory (if it's experimental)
-ui2/
+## Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
 
-# Offline generated files
-bipes_offline.zip
-ui/index_offline.html
+# Build e Distribuição
+dist/
+build/
+
+# Logs
+*.log
+logs/
+
+# Variáveis de Ambiente
+.env
+.env.local
+.env.*.local

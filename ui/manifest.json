@@ -1,14 +1,14 @@
 {
     "dir": "ltr",
-    "lang": "en",
-    "name": "BIPES",
-    "short_name": "BIPES",
-    "scope": "/beta2/ui/",
+    "lang": "pt-br",
+    "name": "BitdogLab",
+    "short_name": "BitdogLab",
+    "scope": "/",
     "display": "standalone",
-    "start_url": "https://bipes.net.br/beta2/ui/",
-    "background_color": "#fff",
-    "theme_color": "#fff",
-    "description": "Block based Integrated Platform for Embedded Systems",
+    "start_url": "./",
+    "background_color": "#4b2e83",
+    "theme_color": "#4b2e83",
+    "description": "Aprenda Programação de Forma Divertida - Parceria oficial BIPES",
     "orientation": "any",
     "related_applications": [],
     "prefer_related_applications": false,
@@ -32,7 +32,7 @@
             "purpose": "any"
         }
   ],
-    "url": "https://bipes.net.br/beta2/ui/#",
+    "url": "./",
     "screenshots": []
 }
 
