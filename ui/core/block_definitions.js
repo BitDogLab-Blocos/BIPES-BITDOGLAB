@@ -1835,7 +1835,9 @@ Blockly.Blocks['piscar_led_rapido'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("⚡ Piscar LED rápido");
+        .appendField("⚡ Piscar LED");
+    this.appendDummyInput()
+        .appendField("rapidamente");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -1850,7 +1852,9 @@ Blockly.Blocks['piscar_led_lento'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("🐌 Piscar LED lento");
+        .appendField("🐌 Piscar LED");
+    this.appendDummyInput()
+        .appendField("lentamente");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -1865,7 +1869,9 @@ Blockly.Blocks['efeito_batida_coracao'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("💓 Efeito batida de coração");
+        .appendField("💓 Animar LED");
+    this.appendDummyInput()
+        .appendField("batida de coração");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -1880,7 +1886,9 @@ Blockly.Blocks['sinalizar_socorro'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("🆘 Sinalizar socorro");
+        .appendField("🆘 Sinalizar LED");
+    this.appendDummyInput()
+        .appendField("socorro (SOS)");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -1895,7 +1903,9 @@ Blockly.Blocks['piscar_led_aleatorio'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("🎲 Piscar LED aleatório");
+        .appendField("🎲 Piscar LED");
+    this.appendDummyInput()
+        .appendField("aleatoriamente");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -1910,9 +1920,10 @@ Blockly.Blocks['alternar_led'] = {
   init: function() {
     this.appendValueInput("COLOUR1")
         .setCheck("Colour")
-        .appendField("🔄 Alternar LED entre cores");
+        .appendField("🔄 Alternar LED");
     this.appendValueInput("COLOUR2")
-        .setCheck("Colour");
+        .setCheck("Colour")
+        .appendField("com");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(45);
@@ -1926,7 +1937,7 @@ Blockly.Blocks['transicao_led'] = {
   init: function() {
     this.appendValueInput("COLOUR1")
         .setCheck("Colour")
-        .appendField("🌈 Transição suave de");
+        .appendField("🌈 Transição LED");
     this.appendValueInput("COLOUR2")
         .setCheck("Colour")
         .appendField("para");
@@ -1944,10 +1955,10 @@ Blockly.Blocks['batalha_led'] = {
   init: function() {
     this.appendValueInput("COLOUR1")
         .setCheck("Colour")
-        .appendField("⚔️ Batalha entre");
+        .appendField("⚔️ Batalhar LED");
     this.appendValueInput("COLOUR2")
         .setCheck("Colour")
-        .appendField("e");
+        .appendField("com");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -1962,7 +1973,9 @@ Blockly.Blocks['fazer_acao_brilhar_e_sumir'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("✨ Brilhar e sumir com");
+        .appendField("✨ Animar LED");
+    this.appendDummyInput()
+        .appendField("brilhar e sumir");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
