@@ -264,7 +264,7 @@
     -->
     
     <!-- 8. TEMPORIZAÇÃO -->
-    <category name="⏱️ Temporização" colour="230">
+    <category name="⏱️ Temporização" colour="190">
       <block type="delay_seconds">
         <value name="TIME">
           <shadow type="math_number">
@@ -367,9 +367,18 @@
     </category>
 
     <!-- 11. LEDs -->
-    <category name="💡 LEDs" colour="320">
+    <category name="💡 LEDs" colour="45">
       <block type="led_turn_on"></block>
       <block type="led_turn_off"></block>
       <block type="led_turn_off_all"></block>
+      <block type="piscar_led_rapido"></block>
+      <block type="piscar_led_lento"></block>
+      <block type="efeito_batida_coracao"></block>
+      <block type="sinalizar_socorro"></block>
+      <block type="piscar_led_aleatorio"></block>
+      <block type="alternar_led"></block>
+      <block type="transicao_led"></block>
+      <block type="batalha_led"></block>
+      <block type="fazer_acao_brilhar_e_sumir"></block>
     </category>
 </xml>
