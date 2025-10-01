@@ -2,7 +2,6 @@
  * code generation for BIPES
  *
  */
-console.log('✅✅✅ GENERATOR_STUBS.JS CARREGADO - ANIMAÇÕES COM LED RGB PWM + WHILE TRUE - TIMESTAMP: 1759328500 ✅✅✅');
 let UPythonClass = {}
 
 // LED RGB Control Blocks Code Generators for BitDogLab
@@ -139,7 +138,6 @@ Blockly.Python['led_turn_off_all'] = function(block) {
 // ==========================================
 
 Blockly.Python['piscar_led_rapido'] = function(block) {
-  console.log('🔥 piscar_led_rapido CHAMADO!');
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
@@ -149,7 +147,6 @@ Blockly.Python['piscar_led_rapido'] = function(block) {
   Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
 
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-  console.log('🔥 colour recebido:', colour);
 
   var code = 'while True:\n';
   code += '  led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
@@ -161,7 +158,6 @@ Blockly.Python['piscar_led_rapido'] = function(block) {
   code += '  led_azul.duty_u16(0)\n';
   code += '  time.sleep_ms(200)\n';
 
-  console.log('🔥 código gerado:', code);
   return code;
 };
 
@@ -1587,11 +1583,12 @@ Blockly.Python["gc_mem_free"] = function(block) {
 };
 Blockly.Python["gc_threshold"] = function(block) {
 		var value_pIn = Blockly.Python.valueToCode(block, 'pIn', Blockly.Python.ORDER_ATOMIC);
-	var code = "gc.threshold(" + value_pIn + ")\n"; 
+	var code = "gc.threshold(" + value_pIn + ")\n";
 	return code;
 };
+Blockly.Python["machine.ADC_ADC.read_u16"] = function(block) {
 		Blockly.Python.definitions_['import_machine.ADC'] = 'import machine.ADC';
-	var code = "machine.ADC.ADC.read_u16()\n"; 
+	var code = "machine.ADC.ADC.read_u16()\n";
 	return code;
 };
 Blockly.Python["machine.ADCWiPy_ADCWiPy.channel"] = function(block) {
@@ -4447,6 +4444,8 @@ Blockly.Python['files_list'] = function(block) {
 
 //HCSR04 ultrasound
 
+Blockly.Python['umail_connect'] = function(block) {
+  var host = Blockly.Python.valueToCode(block, 'host', Blockly.Python.ORDER_ATOMIC);
   var port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
   var username = Blockly.Python.valueToCode(block, 'username', Blockly.Python.ORDER_ATOMIC);
   var password = Blockly.Python.valueToCode(block, 'password', Blockly.Python.ORDER_ATOMIC);
@@ -4924,18 +4923,20 @@ Blockly.Python['gps_get_datetime'] = function(block) {
 
 //Optical Encoder
 
-
+Blockly.Python['dc_motor_init'] = function(block) {
+	var motor_name = block.getFieldValue('motor_name');
+	var pwm = Blockly.Python.valueToCode(block, 'pwm', Blockly.Python.ORDER_ATOMIC);
 	var dir1 = Blockly.Python.valueToCode(block, 'dir1', Blockly.Python.ORDER_ATOMIC);
 	var dir2 = Blockly.Python.valueToCode(block, 'dir2', Blockly.Python.ORDER_ATOMIC);
-  
+
 	Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
 	Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  
+
 	var code = motor_name + '_pin_a = Pin(' + dir1 + ', Pin.OUT)\n';
 	code += motor_name + '_pin_b = Pin(' + dir2 + ', Pin.OUT)\n';
 	code += motor_name + '_pwm = PWM(Pin(' + pwm + '))\n';
 	code += motor_name + '_pwm.freq(1000)\n';  // Definindo a frequência do PWM
-  
+
 	return code;
   };
   
@@ -5039,10 +5040,11 @@ Blockly.Python['try_except_oserror'] = function(block) {
   return code;
 };
 
+Blockly.Python['datasource_add'] = function(block) {
+  var id = Blockly.Python.valueToCode(block, 'id', Blockly.Python.ORDER_ATOMIC);
+  var x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC);
 
-
-
-/*	
+/*
   let q = new Queue('BipesDataSources');
   q.enqueue(id);
 */
@@ -5051,6 +5053,7 @@ Blockly.Python['try_except_oserror'] = function(block) {
 
   return code;
 };
+
 Blockly.Python['localstorage_store'] = function(block) {
   var topic = block.getFieldValue('topic');
   var elements = new Array(block.itemCount_);
