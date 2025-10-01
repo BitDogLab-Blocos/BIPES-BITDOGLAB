@@ -73,9 +73,9 @@ function checkCookie() {
   <script src="core/blocks_compressed.js?ver=0.2.1.8260042"></script>
   <script src="core/javascript_compressed.js?ver=0.2.1.8260042"></script>
   <script src="core/python_compressed.js?ver=0.2.3.9292231"></script>
-  <script src="core/code.js?ver=0.2.3.20250930v14"></script>
-  <script src="core/channel.js?ver=0.2.3.1125"></script>
-  <script src="core/utils.js?ver=0.2.3.20250930v5"></script>
+  <script src="core/code.js?ver=0.2.3.20251001v2"></script>
+  <script src="core/channel.js?ver=0.2.3.20251001v2"></script>
+  <script src="core/utils.js?ver=0.2.3.20251001v2"></script>
   <script src="core/ui.js?ver=0.2.3.1125"></script>
   <script src="core/queue.js"></script>
   <script src="core/FileSaver.js"></script>
@@ -83,8 +83,8 @@ function checkCookie() {
 
 
   <!-- Custom Blocks for BIPES Project -->
-  <script src="core/block_definitions.js?ver=0.2.3.20250930v14"></script> <!-- Rafael 24/03/2020 -->
-  <script src="core/generator_stubs.js?ver=0.2.3.20250930v14"></script> <!-- Rafael 24/03/2020 -->
+  <script src="core/block_definitions.js?t=1759328417"></script> <!-- Rafael 24/03/2020 -->
+  <script src="core/generator_stubs.js?t=1759328417"></script> <!-- Rafael 24/03/2020 -->
 
   <!-- xterm part -->
   <script src="core/xterm.js?ver=4.13.0"></script>
@@ -102,9 +102,19 @@ function checkCookie() {
 
 */
 
-import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
-const el = document.createElement('pwa-update');
-document.body.appendChild(el);
+// TEMPORARIAMENTE DESABILITADO PARA FORÇAR ATUALIZAÇÃO
+// import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
+// const el = document.createElement('pwa-update');
+// document.body.appendChild(el);
+
+// Desregistrar service worker existente
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister();
+    }
+  });
+}
 
 </script>
 

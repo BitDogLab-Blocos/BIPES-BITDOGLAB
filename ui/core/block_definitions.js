@@ -381,11 +381,11 @@ Blockly.Blocks['led_turn_on'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("Ligar LED");
+        .appendField("💡 Ligar LED");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(320);
+    this.setColour(45);
     this.setTooltip("Liga o LED da cor selecionada");
     this.setHelpUrl("");
   }
@@ -395,11 +395,11 @@ Blockly.Blocks['led_turn_off'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("Desligar LED");
+        .appendField("🔦 Desligar LED");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(320);
+    this.setColour(45);
     this.setTooltip("Desliga o LED da cor selecionada");
     this.setHelpUrl("");
   }
@@ -408,10 +408,10 @@ Blockly.Blocks['led_turn_off'] = {
 Blockly.Blocks['led_turn_off_all'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Desligar Todos os LEDs");
+        .appendField("🔦 Desligar Todos os LEDs");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(320);
+    this.setColour(45);
     this.setTooltip("Desliga todos os LEDs");
     this.setHelpUrl("");
   }
@@ -545,7 +545,7 @@ Blockly.Blocks['delay_seconds'] = {
         .appendField("delay seconds");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(320);
+    this.setColour(190);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -558,7 +558,7 @@ Blockly.Blocks['delay_milliseconds'] = {
         .appendField("delay milliseconds");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(320);
+    this.setColour(190);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -1824,4 +1824,150 @@ Blockly.Python['function_get_answer'] = function(block) {
   var cleanFuncName = funcName.replace(/\s+/g, '_');
   var code = cleanFuncName + '()';
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// ==========================================
+// BLOCOS DE ANIMAÇÃO - BitdogLab
+// ==========================================
+
+// 1. Piscar LED Rápido (1 parâmetro)
+Blockly.Blocks['piscar_led_rapido'] = {
+  init: function() {
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour")
+        .appendField("⚡ Piscar LED rápido");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Pisca o LED rapidamente (200ms ligado, 200ms desligado)");
+    this.setHelpUrl("");
+  }
+};
+
+// 2. Piscar LED Lento (1 parâmetro)
+Blockly.Blocks['piscar_led_lento'] = {
+  init: function() {
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour")
+        .appendField("🐌 Piscar LED lento");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Pisca o LED lentamente (1s ligado, 1s desligado)");
+    this.setHelpUrl("");
+  }
+};
+
+// 3. Efeito Batida de Coração (1 parâmetro)
+Blockly.Blocks['efeito_batida_coracao'] = {
+  init: function() {
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour")
+        .appendField("💓 Efeito batida de coração");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Simula uma batida de coração com dois pulsos rápidos");
+    this.setHelpUrl("");
+  }
+};
+
+// 4. Sinalizar Socorro (1 parâmetro)
+Blockly.Blocks['sinalizar_socorro'] = {
+  init: function() {
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour")
+        .appendField("🆘 Sinalizar socorro");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Emite o sinal de socorro S.O.S. em código Morse (... --- ...)");
+    this.setHelpUrl("");
+  }
+};
+
+// 5. Piscar LED Aleatório (1 parâmetro)
+Blockly.Blocks['piscar_led_aleatorio'] = {
+  init: function() {
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour")
+        .appendField("🎲 Piscar LED aleatório");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Pisca o LED com intervalos aleatórios entre 50ms e 500ms");
+    this.setHelpUrl("");
+  }
+};
+
+// 6. Alternar LED (2 parâmetros) - layout vertical
+Blockly.Blocks['alternar_led'] = {
+  init: function() {
+    this.appendValueInput("COLOUR1")
+        .setCheck("Colour")
+        .appendField("🔄 Alternar LED entre cores");
+    this.appendValueInput("COLOUR2")
+        .setCheck("Colour");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Alterna entre duas cores de LED");
+    this.setHelpUrl("");
+  }
+};
+
+// 7. Transição LED (2 parâmetros)
+Blockly.Blocks['transicao_led'] = {
+  init: function() {
+    this.appendValueInput("COLOUR1")
+        .setCheck("Colour")
+        .appendField("🌈 Transição suave de");
+    this.appendValueInput("COLOUR2")
+        .setCheck("Colour")
+        .appendField("para");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Faz uma transição suave entre duas cores usando PWM");
+    this.setHelpUrl("");
+  }
+};
+
+// 8. Batalha LED (2 parâmetros)
+Blockly.Blocks['batalha_led'] = {
+  init: function() {
+    this.appendValueInput("COLOUR1")
+        .setCheck("Colour")
+        .appendField("⚔️ Batalha entre");
+    this.appendValueInput("COLOUR2")
+        .setCheck("Colour")
+        .appendField("e");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Cria um efeito de batalha entre duas cores");
+    this.setHelpUrl("");
+  }
+};
+
+// 9. Fazer Ação Brilhar e Sumir (sem wrapper)
+Blockly.Blocks['fazer_acao_brilhar_e_sumir'] = {
+  init: function() {
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour")
+        .appendField("✨ Brilhar e sumir com");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Efeito de fade-in e fade-out com a cor selecionada");
+    this.setHelpUrl("");
+  }
 };
