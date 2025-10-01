@@ -1915,20 +1915,119 @@ Blockly.Blocks['piscar_led_aleatorio'] = {
   }
 };
 
-// 6. Alternar LED (2 parâmetros) - layout vertical
+// Blocos auxiliares para o mutator de alternar_led
+Blockly.Blocks['alternar_led_container'] = {
+  init: function() {
+    this.setColour(45);
+    this.appendDummyInput()
+        .appendField("alternar");
+    this.appendStatementInput('STACK');
+    this.setTooltip("Adicione ou remova cores para alternar.");
+    this.contextMenu = false;
+  }
+};
+
+Blockly.Blocks['alternar_led_item'] = {
+  init: function() {
+    this.setColour(45);
+    this.appendDummyInput()
+        .appendField("cor");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip("Adicione uma cor à alternância.");
+    this.contextMenu = false;
+  }
+};
+
+// 6. Alternar LED (múltiplas cores com mutator)
 Blockly.Blocks['alternar_led'] = {
   init: function() {
-    this.appendValueInput("COLOUR1")
-        .setCheck("Colour")
-        .appendField("🔄 Alternar LED");
-    this.appendValueInput("COLOUR2")
-        .setCheck("Colour")
-        .appendField("com");
+    this.setColour(45);
+    this.itemCount_ = 2; // Começa com 2 cores por padrão
+    this.updateShape_();
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(45);
-    this.setTooltip("Alterna entre duas cores de LED");
-    this.setHelpUrl("");
+    this.setMutator(new Blockly.Mutator(['alternar_led_item']));
+    this.setTooltip("Alterna entre múltiplas cores de LED. Use a engrenagem para adicionar mais cores!");
+  },
+
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('items', this.itemCount_);
+    return container;
+  },
+
+  domToMutation: function(xmlElement) {
+    this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
+    this.updateShape_();
+  },
+
+  decompose: function(workspace) {
+    var containerBlock = workspace.newBlock('alternar_led_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var i = 0; i < this.itemCount_; i++) {
+      var itemBlock = workspace.newBlock('alternar_led_item');
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+
+  compose: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var connections = [];
+    while (itemBlock) {
+      connections.push(itemBlock.valueConnection_);
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+    for (var i = 0; i < this.itemCount_; i++) {
+      var connection = this.getInput('COLOUR' + i).connection.targetConnection;
+      if (connection && connections.indexOf(connection) == -1) {
+        connection.disconnect();
+      }
+    }
+    this.itemCount_ = connections.length;
+    this.updateShape_();
+    for (var i = 0; i < this.itemCount_; i++) {
+      Blockly.Mutator.reconnect(connections[i], this, 'COLOUR' + i);
+    }
+  },
+
+  saveConnections: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var i = 0;
+    while (itemBlock) {
+      var input = this.getInput('COLOUR' + i);
+      itemBlock.valueConnection_ = input && input.connection.targetConnection;
+      i++;
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+  },
+
+  updateShape_: function() {
+    // Remove todas as entradas de cores existentes
+    var i = 0;
+    while (this.getInput('COLOUR' + i)) {
+      this.removeInput('COLOUR' + i);
+      i++;
+    }
+
+    // Adiciona as entradas para as cores
+    for (var i = 0; i < this.itemCount_; i++) {
+      if (i == 0) {
+        this.appendValueInput('COLOUR' + i)
+            .setCheck("Colour")
+            .appendField("🔄 Alternar LED");
+      } else {
+        this.appendValueInput('COLOUR' + i)
+            .setCheck("Colour")
+            .appendField("com");
+      }
+    }
   }
 };
 
