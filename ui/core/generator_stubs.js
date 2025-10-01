@@ -292,18 +292,30 @@ Blockly.Python['alternar_led'] = function(block) {
   Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
   Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
 
-  var colour1 = Blockly.Python.valueToCode(block, 'COLOUR1', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-  var colour2 = Blockly.Python.valueToCode(block, 'COLOUR2', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+  // Coleta todas as cores dinamicamente
+  var colours = [];
+  var i = 0;
+  while (block.getInput('COLOUR' + i)) {
+    var colour = Blockly.Python.valueToCode(block, 'COLOUR' + i, Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+    colours.push(colour);
+    i++;
+  }
 
-  var code = 'while True:\n';
-  code += '  led_vermelho.duty_u16(' + colour1 + '[0] * 257)\n';
-  code += '  led_verde.duty_u16(' + colour1 + '[1] * 257)\n';
-  code += '  led_azul.duty_u16(' + colour1 + '[2] * 257)\n';
-  code += '  time.sleep_ms(500)\n';
-  code += '  led_vermelho.duty_u16(' + colour2 + '[0] * 257)\n';
-  code += '  led_verde.duty_u16(' + colour2 + '[1] * 257)\n';
-  code += '  led_azul.duty_u16(' + colour2 + '[2] * 257)\n';
-  code += '  time.sleep_ms(500)\n';
+  // Se não houver cores, usa valores padrão
+  if (colours.length === 0) {
+    colours = ['(0, 0, 0)', '(0, 0, 0)'];
+  }
+
+  var code = '';
+
+  // Alterna entre todas as cores coletadas
+  for (var j = 0; j < colours.length; j++) {
+    code += 'led_vermelho.duty_u16(' + colours[j] + '[0] * 257)\n';
+    code += 'led_verde.duty_u16(' + colours[j] + '[1] * 257)\n';
+    code += 'led_azul.duty_u16(' + colours[j] + '[2] * 257)\n';
+    code += 'time.sleep_ms(500)\n';
+  }
+
   return code;
 };
 
