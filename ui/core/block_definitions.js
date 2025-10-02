@@ -2333,3 +2333,159 @@ Blockly.Blocks['led_custom_animation'] = {
     }
   }
 };
+
+// ==========================================
+// BLOCOS DE NOTAS MUSICAIS
+// ==========================================
+
+// Bloco Dó
+Blockly.Blocks['nota_do'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎵 Dó");
+    this.setOutput(true, "Note");
+    this.setColour("#EA2027");
+    this.setTooltip("Nota Dó");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco Ré
+Blockly.Blocks['nota_re'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("👑 Ré");
+    this.setOutput(true, "Note");
+    this.setColour("#EE5A24");
+    this.setTooltip("Nota Ré");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco Mi
+Blockly.Blocks['nota_mi'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🐱 Mi");
+    this.setOutput(true, "Note");
+    this.setColour("#FFC312");
+    this.setTooltip("Nota Mi");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco Fá
+Blockly.Blocks['nota_fa'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🧚‍♀️ Fá");
+    this.setOutput(true, "Note");
+    this.setColour("#C4E538");
+    this.setTooltip("Nota Fá");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco Sol
+Blockly.Blocks['nota_sol'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("☀️ Sol");
+    this.setOutput(true, "Note");
+    this.setColour("#12CBC4");
+    this.setTooltip("Nota Sol");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco Lá
+Blockly.Blocks['nota_la'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⭐ Lá");
+    this.setOutput(true, "Note");
+    this.setColour("#833471");
+    this.setTooltip("Nota Lá");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco Si
+Blockly.Blocks['nota_si'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("👍 Si");
+    this.setOutput(true, "Note");
+    this.setColour("#FD7272");
+    this.setTooltip("Nota Si");
+    this.setHelpUrl("");
+  }
+};
+
+// ==========================================
+// BLOCOS DE SOM - CATEGORIA BUZZER
+// ==========================================
+
+// Bloco para tocar nota musical (refatorado)
+Blockly.Blocks['tocar_nota'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎵 Tocar nota");
+    this.appendValueInput("NOTA")
+        .setCheck("Note");
+    this.appendDummyInput()
+        .appendField("na oitava")
+        .appendField(new Blockly.FieldDropdown([
+            ["4", "4"],
+            ["5", "5"],
+            ["6", "6"]
+        ]), "OCTAVE");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca uma nota musical no buzzer (GPIO10)");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco para tocar som agudo de teste
+Blockly.Blocks['tocar_som_agudo'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔔 Tocar som agudo");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca um som agudo de teste (1000 Hz por 0.5s)");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco para parar o som
+Blockly.Blocks['parar_som'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔇 Parar som");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Para o som do buzzer");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco para tocar repetidamente (loop infinito de sons)
+Blockly.Blocks['tocar_repetidamente'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔁 Tocar repetidamente");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca os sons dentro deste bloco repetidamente em loop infinito");
+    this.setHelpUrl("");
+  }
+};

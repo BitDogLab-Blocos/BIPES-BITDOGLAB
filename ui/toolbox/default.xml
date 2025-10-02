@@ -395,4 +395,23 @@
       <block type="fazer_acao_brilhar_e_sumir"></block>
       <block type="led_custom_animation"></block>
     </category>
+
+    <!-- 12. NOTAS MUSICAIS -->
+    <category name="🎼 Notas Musicais" colour="#833471">
+      <block type="nota_do"></block>
+      <block type="nota_re"></block>
+      <block type="nota_mi"></block>
+      <block type="nota_fa"></block>
+      <block type="nota_sol"></block>
+      <block type="nota_la"></block>
+      <block type="nota_si"></block>
+    </category>
+
+    <!-- 13. SOM -->
+    <category name="🔊 Som" colour="#9a5ba5">
+      <block type="tocar_nota"></block>
+      <block type="tocar_som_agudo"></block>
+      <block type="parar_som"></block>
+      <block type="tocar_repetidamente"></block>
+    </category>
 </xml>
