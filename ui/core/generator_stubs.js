@@ -133,6 +133,28 @@ Blockly.Python['led_turn_off_all'] = function(block) {
   return code;
 };
 
+// Gerador para controlar intensidade do LED
+Blockly.Python['controlar_intensidade'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+
+  // Setup LED pins com PWM para controle de intensidade
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+
+  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+  var intensity = block.getFieldValue('INTENSITY');
+
+  // Converte a porcentagem (0-100) para a escala PWM (0-65535)
+  // e aplica a intensidade aos componentes RGB
+  var code = 'led_vermelho.duty_u16(int(' + colour + '[0] * 257 * ' + intensity + ' / 100))\n';
+  code += 'led_verde.duty_u16(int(' + colour + '[1] * 257 * ' + intensity + ' / 100))\n';
+  code += 'led_azul.duty_u16(int(' + colour + '[2] * 257 * ' + intensity + ' / 100))\n';
+
+  return code;
+};
+
 // ==========================================
 // BLOCOS DE ANIMAÇÃO LED - GERADORES DE CÓDIGO
 // ==========================================
