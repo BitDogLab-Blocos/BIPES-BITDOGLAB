@@ -263,8 +263,8 @@
     </category>
     -->
     
-    <!-- 8. TEMPORIZAÇÃO -->
-    <category name="⏱️ Temporização" colour="190">
+    <!-- 8. TEMPO -->
+    <category name="⏱️ Tempo" colour="190">
       <block type="esperar_segundos">
         <value name="TIME">
           <shadow type="math_number">
@@ -278,6 +278,18 @@
             <field name="NUM">500</field>
           </shadow>
         </value>
+      </block>
+      <block type="tempo_segundos">
+        <field name="NUM">1</field>
+      </block>
+      <block type="tempo_milisegundos">
+        <field name="NUM">500</field>
+      </block>
+      <block type="tempo_minutos">
+        <field name="NUM">1</field>
+      </block>
+      <block type="tempo_horas">
+        <field name="NUM">1</field>
       </block>
     </category>
     
@@ -371,6 +383,7 @@
       <block type="led_turn_on"></block>
       <block type="led_turn_off"></block>
       <block type="led_turn_off_all"></block>
+      <block type="controlar_intensidade"></block>
       <block type="piscar_led_rapido"></block>
       <block type="piscar_led_lento"></block>
       <block type="efeito_batida_coracao"></block>
