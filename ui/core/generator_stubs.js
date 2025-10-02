@@ -393,6 +393,29 @@ Blockly.Python['fazer_acao_brilhar_e_sumir'] = function(block) {
   return code;
 };
 
+// Gerador para Animação Personalizada de LED
+Blockly.Python['led_custom_animation'] = function(block) {
+  // Verifica se o bloco tem steps_ definido
+  if (!block.steps_ || block.steps_.length === 0) {
+    return '';
+  }
+
+  var code = '';
+
+  // Coleta dinamicamente todos os passos
+  for (var i = 0; i < block.steps_.length; i++) {
+    // statementToCode retorna o código já com indentação para dentro de blocos
+    // Como queremos o código no nível principal, precisamos remover a indentação extra
+    var stepCode = Blockly.Python.statementToCode(block, 'STEP' + i);
+    if (stepCode) {
+      // Remove a indentação de 2 espaços que statementToCode adiciona
+      code += stepCode.replace(/^  /gm, '');
+    }
+  }
+
+  return code;
+};
+
 Blockly.Python['alternar_acao_entre_cores'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
 
@@ -5411,30 +5434,16 @@ Blockly.Python['snek_delay'] = function(block) {
 
 // === GERADORES PYTHON PARA NOVA CATEGORIA TEMPO ===
 
-// Gerador para delay em segundos
-Blockly.Python['simple_delay_seconds'] = function(block) {
+// Gerador para esperar em segundos
+Blockly.Python['esperar_segundos'] = function(block) {
   var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
   Blockly.Python.definitions_['import_time'] = 'import time';
   var code = 'time.sleep(' + value_time + ')\n';
   return code;
 };
 
-Blockly.Python['delay_seconds'] = function(block) {
-  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.sleep(' + value_time + ')\n';
-  return code;
-};
-
-Blockly.Python['delay_milliseconds'] = function(block) {
-  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.sleep_ms(' + value_time + ')\n';
-  return code;
-};
-
-// Gerador para delay em milissegundos
-Blockly.Python['simple_delay_ms'] = function(block) {
+// Gerador para esperar em milissegundos
+Blockly.Python['esperar_milisegundos'] = function(block) {
   var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
   Blockly.Python.definitions_['import_time'] = 'import time';
   var code = 'time.sleep_ms(' + value_time + ')\n';
