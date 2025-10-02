@@ -417,6 +417,26 @@ Blockly.Blocks['led_turn_off_all'] = {
   }
 };
 
+// Bloco de controle de intensidade LED
+Blockly.Blocks['controlar_intensidade'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔆 Acender LED");
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour");
+    this.appendDummyInput()
+        .appendField("com brilho de")
+        .appendField(new Blockly.FieldNumber(100, 0, 100), "INTENSITY")
+        .appendField("%");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(45);
+    this.setTooltip("Acende o LED com o brilho que você escolher, de 0% a 100%");
+    this.setHelpUrl("");
+  }
+};
+
 // Override logic_compare block with descriptive text for children
 Blockly.Blocks['logic_compare'] = {
   init: function() {
@@ -537,12 +557,12 @@ Blockly.Blocks['controls_while_true'] = {
   }
 };
 
-// Temporização
+// Tempo
 Blockly.Blocks['esperar_segundos'] = {
   init: function() {
     this.appendValueInput("TIME")
-        .setCheck("Number")
-        .appendField("Esperar");
+        .setCheck(["Number", "Time"])
+        .appendField("⏱️ Esperar");
     this.appendDummyInput()
         .appendField("segundos");
     this.setPreviousStatement(true, null);
@@ -556,14 +576,67 @@ Blockly.Blocks['esperar_segundos'] = {
 Blockly.Blocks['esperar_milisegundos'] = {
   init: function() {
     this.appendValueInput("TIME")
-        .setCheck("Number")
-        .appendField("Esperar");
+        .setCheck(["Number", "Time"])
+        .appendField("⏱️ Esperar");
     this.appendDummyInput()
         .appendField("milissegundos");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(190);
     this.setTooltip("Pausa a execução por um número de milissegundos");
+    this.setHelpUrl("");
+  }
+};
+
+// Blocos de Valor Temporal
+Blockly.Blocks['tempo_segundos'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⏱️")
+        .appendField(new Blockly.FieldNumber(1, 0), "NUM")
+        .appendField("segundos");
+    this.setOutput(true, "Time");
+    this.setColour(190);
+    this.setTooltip("Retorna um valor de tempo em segundos");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['tempo_milisegundos'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⏱️")
+        .appendField(new Blockly.FieldNumber(500, 0), "NUM")
+        .appendField("milissegundos");
+    this.setOutput(true, "Time");
+    this.setColour(190);
+    this.setTooltip("Retorna um valor de tempo em milissegundos");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['tempo_minutos'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⏱️")
+        .appendField(new Blockly.FieldNumber(1, 0), "NUM")
+        .appendField("minutos");
+    this.setOutput(true, "Time");
+    this.setColour(190);
+    this.setTooltip("Retorna um valor de tempo em minutos");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['tempo_horas'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⏱️")
+        .appendField(new Blockly.FieldNumber(1, 0), "NUM")
+        .appendField("horas");
+    this.setOutput(true, "Time");
+    this.setColour(190);
+    this.setTooltip("Retorna um valor de tempo em horas");
     this.setHelpUrl("");
   }
 };
@@ -2247,10 +2320,15 @@ Blockly.Blocks['led_custom_animation'] = {
               .appendField("🎬 Criar Animação de LED");
         }
 
-        var label = this.steps_[i] === 'action' ? 'O que fazer:' : 'Ficar assim por:';
-        this.appendStatementInput('STEP' + i)
-            .setCheck(null)
-            .appendField(label);
+        if (this.steps_[i] === 'action') {
+          this.appendStatementInput('STEP' + i)
+              .setCheck(null)
+              .appendField('O que fazer:');
+        } else {
+          this.appendValueInput('STEP' + i)
+              .setCheck("Time")
+              .appendField('Ficar assim por:');
+        }
       }
     }
   }
