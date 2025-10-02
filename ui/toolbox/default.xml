@@ -265,17 +265,17 @@
     
     <!-- 8. TEMPORIZAÇÃO -->
     <category name="⏱️ Temporização" colour="190">
-      <block type="delay_seconds">
+      <block type="esperar_segundos">
         <value name="TIME">
           <shadow type="math_number">
             <field name="NUM">1</field>
           </shadow>
         </value>
       </block>
-      <block type="delay_milliseconds">
+      <block type="esperar_milisegundos">
         <value name="TIME">
           <shadow type="math_number">
-            <field name="NUM">3</field>
+            <field name="NUM">500</field>
           </shadow>
         </value>
       </block>
@@ -380,5 +380,6 @@
       <block type="transicao_led"></block>
       <block type="batalha_led"></block>
       <block type="fazer_acao_brilhar_e_sumir"></block>
+      <block type="led_custom_animation"></block>
     </category>
 </xml>

@@ -538,29 +538,33 @@ Blockly.Blocks['controls_while_true'] = {
 };
 
 // Temporização
-Blockly.Blocks['delay_seconds'] = {
+Blockly.Blocks['esperar_segundos'] = {
   init: function() {
     this.appendValueInput("TIME")
         .setCheck("Number")
-        .appendField("delay seconds");
+        .appendField("Esperar");
+    this.appendDummyInput()
+        .appendField("segundos");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(190);
- this.setTooltip("");
- this.setHelpUrl("");
+    this.setTooltip("Pausa a execução por um número de segundos");
+    this.setHelpUrl("");
   }
 };
 
-Blockly.Blocks['delay_milliseconds'] = {
+Blockly.Blocks['esperar_milisegundos'] = {
   init: function() {
     this.appendValueInput("TIME")
         .setCheck("Number")
-        .appendField("delay milliseconds");
+        .appendField("Esperar");
+    this.appendDummyInput()
+        .appendField("milissegundos");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(190);
- this.setTooltip("");
- this.setHelpUrl("");
+    this.setTooltip("Pausa a execução por um número de milissegundos");
+    this.setHelpUrl("");
   }
 };
 
@@ -2081,5 +2085,173 @@ Blockly.Blocks['fazer_acao_brilhar_e_sumir'] = {
     this.setColour(45);
     this.setTooltip("Efeito de fade-in e fade-out com a cor selecionada");
     this.setHelpUrl("");
+  }
+};
+
+// ==========================================
+// ANIMAÇÃO PERSONALIZADA COM MUTATOR
+// ==========================================
+
+// Bloco container para o mutator de led_custom_animation
+Blockly.Blocks['led_custom_animation_container'] = {
+  init: function() {
+    this.setColour(45);
+    this.appendDummyInput()
+        .appendField("animação");
+    this.appendStatementInput('STACK');
+    this.setTooltip("Adicione ou remova passos da animação.");
+    this.contextMenu = false;
+  }
+};
+
+// Bloco item para adicionar ação
+Blockly.Blocks['led_custom_animation_action'] = {
+  init: function() {
+    this.setColour(45);
+    this.appendDummyInput()
+        .appendField("ação");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip("Adicione uma ação (ligar/desligar LED).");
+    this.contextMenu = false;
+  }
+};
+
+// Bloco item para adicionar espera
+Blockly.Blocks['led_custom_animation_wait'] = {
+  init: function() {
+    this.setColour(45);
+    this.appendDummyInput()
+        .appendField("tempo");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip("Adicione um tempo (ficar assim por...).");
+    this.contextMenu = false;
+  }
+};
+
+// Bloco principal: Animação Personalizada de LED
+Blockly.Blocks['led_custom_animation'] = {
+  init: function() {
+    this.setColour(45);
+    this.steps_ = ['action', 'wait']; // Começa com 1 ação e 1 espera por padrão
+    this.updateShape_();
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setMutator(new Blockly.Mutator(['led_custom_animation_action', 'led_custom_animation_wait']));
+    this.setTooltip("Cria uma animação personalizada de LED. Use a engrenagem para adicionar mais ações e esperas!");
+  },
+
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('steps', JSON.stringify(this.steps_));
+    return container;
+  },
+
+  domToMutation: function(xmlElement) {
+    var stepsStr = xmlElement.getAttribute('steps');
+    this.steps_ = stepsStr ? JSON.parse(stepsStr) : [];
+    this.updateShape_();
+  },
+
+  decompose: function(workspace) {
+    var containerBlock = workspace.newBlock('led_custom_animation_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var i = 0; i < this.steps_.length; i++) {
+      var blockType = this.steps_[i] === 'action' ? 'led_custom_animation_action' : 'led_custom_animation_wait';
+      var itemBlock = workspace.newBlock(blockType);
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+
+  compose: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var newSteps = [];
+    var connections = [];
+
+    // Coleta os tipos e conexões
+    while (itemBlock) {
+      if (itemBlock.type === 'led_custom_animation_action') {
+        newSteps.push('action');
+        connections.push(itemBlock.stepConnection_);
+      } else if (itemBlock.type === 'led_custom_animation_wait') {
+        newSteps.push('wait');
+        connections.push(itemBlock.stepConnection_);
+      }
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+
+    // Disconnect old connections
+    for (var i = 0; i < this.steps_.length; i++) {
+      var input = this.getInput('STEP' + i);
+      if (input) {
+        var connection = input.connection.targetConnection;
+        if (connection && connections.indexOf(connection) == -1) {
+          connection.disconnect();
+        }
+      }
+    }
+
+    this.steps_ = newSteps;
+    this.updateShape_();
+
+    // Reconnect blocks
+    for (var i = 0; i < this.steps_.length; i++) {
+      if (connections[i]) {
+        Blockly.Mutator.reconnect(connections[i], this, 'STEP' + i);
+      }
+    }
+  },
+
+  saveConnections: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var i = 0;
+    while (itemBlock) {
+      var input = this.getInput('STEP' + i);
+      itemBlock.stepConnection_ = input && input.connection.targetConnection;
+      i++;
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+  },
+
+  updateShape_: function() {
+    // Remove all existing inputs
+    var i = 0;
+    while (this.getInput('STEP' + i) || this.getInput('LABEL' + i)) {
+      if (this.getInput('STEP' + i)) this.removeInput('STEP' + i);
+      if (this.getInput('LABEL' + i)) this.removeInput('LABEL' + i);
+      i++;
+    }
+    if (this.getInput('EMPTY')) {
+      this.removeInput('EMPTY');
+    }
+
+    // Add inputs for each step
+    if (this.steps_.length === 0) {
+      this.appendDummyInput('EMPTY')
+          .appendField("🎬 Criar Animação de LED");
+    } else {
+      if (this.getInput('EMPTY')) {
+        this.removeInput('EMPTY');
+      }
+
+      for (var i = 0; i < this.steps_.length; i++) {
+        if (i == 0) {
+          this.appendDummyInput('LABEL0')
+              .appendField("🎬 Criar Animação de LED");
+        }
+
+        var label = this.steps_[i] === 'action' ? 'O que fazer:' : 'Ficar assim por:';
+        this.appendStatementInput('STEP' + i)
+            .setCheck(null)
+            .appendField(label);
+      }
+    }
   }
 };
