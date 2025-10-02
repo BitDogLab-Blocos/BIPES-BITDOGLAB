@@ -438,6 +438,151 @@ Blockly.Python['led_custom_animation'] = function(block) {
   return code;
 };
 
+// ==========================================
+// BLOCOS DE NOTAS MUSICAIS - GERADORES
+// ==========================================
+
+// Gerador para nota Dó
+Blockly.Python['nota_do'] = function(block) {
+  return ['C', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador para nota Ré
+Blockly.Python['nota_re'] = function(block) {
+  return ['D', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador para nota Mi
+Blockly.Python['nota_mi'] = function(block) {
+  return ['E', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador para nota Fá
+Blockly.Python['nota_fa'] = function(block) {
+  return ['F', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador para nota Sol
+Blockly.Python['nota_sol'] = function(block) {
+  return ['G', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador para nota Lá
+Blockly.Python['nota_la'] = function(block) {
+  return ['A', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador para nota Si
+Blockly.Python['nota_si'] = function(block) {
+  return ['B', Blockly.Python.ORDER_ATOMIC];
+};
+
+// ==========================================
+// BLOCOS DE SOM - GERADORES DE CÓDIGO
+// ==========================================
+
+// Mapeamento de notas musicais para frequências (Hz)
+const NOTE_FREQUENCIES = {
+  'C4': 262, 'D4': 294, 'E4': 330, 'F4': 349, 'G4': 392, 'A4': 440, 'B4': 494,
+  'C5': 523, 'D5': 587, 'E5': 659, 'F5': 698, 'G5': 784, 'A5': 880, 'B5': 988,
+  'C6': 1047, 'D6': 1175, 'E6': 1319, 'F6': 1397, 'G6': 1568, 'A6': 1760, 'B6': 1976
+};
+
+// Gerador para tocar nota musical (refatorado)
+Blockly.Python['tocar_nota'] = function(block) {
+  // Obtém a letra da nota do bloco conectado
+  var note = Blockly.Python.valueToCode(block, 'NOTA', Blockly.Python.ORDER_ATOMIC);
+
+  // Se não há nota conectada, não gera código
+  if (!note) {
+    return '';
+  }
+
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+
+  // Setup do buzzer no GPIO10
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  // Obtém a oitava do dropdown
+  var octave = block.getFieldValue('OCTAVE');
+
+  // Remove possíveis aspas e espaços da nota
+  note = note.replace(/['"]/g, '').trim();
+
+  // Combina nota + oitava (ex: C + 5 = C5)
+  var noteKey = note + octave;
+  var frequency = NOTE_FREQUENCIES[noteKey];
+
+  // Se não encontrar a frequência, não gera código
+  if (!frequency) {
+    return '';
+  }
+
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(' + frequency + ')\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'time.sleep(0.5)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador para tocar som agudo de teste
+Blockly.Python['tocar_som_agudo'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+
+  // Setup do buzzer no GPIO10
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(1000)\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'time.sleep(0.5)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador para parar o som
+Blockly.Python['parar_som'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+
+  // Setup do buzzer no GPIO10
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  var code = 'buzzer.duty_u16(0)\n';
+
+  return code;
+};
+
+// Gerador para tocar repetidamente (loop infinito)
+Blockly.Python['tocar_repetidamente'] = function(block) {
+  var statements_do = Blockly.Python.statementToCode(block, 'DO');
+
+  // Remove os marcadores SOUND_BLOCK do código interno
+  statements_do = statements_do.replace(/# SOUND_BLOCK_START\n/g, '');
+  statements_do = statements_do.replace(/# SOUND_BLOCK_END\n/g, '');
+
+  // Se não há código dentro, não gera nada
+  if (!statements_do || statements_do.trim() === '') {
+    return '';
+  }
+
+  var code = '# LOOP_BLOCK_START\n';
+  code += 'while True:\n';
+  code += statements_do; // statements_do já vem com indentação correta
+  code += '# LOOP_BLOCK_END\n';
+
+  return code;
+};
+
 Blockly.Python['alternar_acao_entre_cores'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
 

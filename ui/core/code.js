@@ -538,6 +538,11 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
   var setup = [];
   var actionCode = [];
 
+  var soundCodeLines = [];
+  var loopCodeLines = [];
+  var inSoundBlock = false;
+  var inLoopBlock = false;
+
   for (var i = 0; i < lines.length; i++) {
     var line = lines[i];
     var trimmedLine = line.trim();
@@ -550,13 +555,49 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     if (trimmedLine.startsWith('[') && trimmedLine.endsWith(']')) continue;
     if (/^\d+$/.test(trimmedLine)) continue; // Skip standalone numbers
 
+    // Check for loop block markers
+    if (trimmedLine === '# LOOP_BLOCK_START') {
+      inLoopBlock = true;
+      continue;
+    }
+
+    if (trimmedLine === '# LOOP_BLOCK_END') {
+      inLoopBlock = false;
+      continue;
+    }
+
+    // If we're in a loop block, add to loop code
+    if (inLoopBlock) {
+      loopCodeLines.push(line);
+      continue;
+    }
+
+    // Check for sound block markers
+    if (trimmedLine === '# SOUND_BLOCK_START') {
+      inSoundBlock = true;
+      continue; // Don't add the marker itself
+    }
+
+    if (trimmedLine === '# SOUND_BLOCK_END') {
+      inSoundBlock = false;
+      continue; // Don't add the marker itself
+    }
+
+    // If we're in a sound block, add to sound code
+    if (inSoundBlock) {
+      soundCodeLines.push(line);
+      continue;
+    }
+
     // Check if it's an import or from import
     if (trimmedLine.startsWith('import ') || trimmedLine.startsWith('from ')) {
       imports.push(line);
     }
     // Check if it's a setup line (variable assignment with Pin, etc)
     else if (trimmedLine.indexOf(' = Pin(') !== -1 ||
-             trimmedLine.indexOf('=Pin(') !== -1) {
+             trimmedLine.indexOf('=Pin(') !== -1 ||
+             trimmedLine.indexOf(' = PWM(') !== -1 ||
+             trimmedLine.indexOf('=PWM(') !== -1) {
       setup.push(line);
     }
     // Check if it's a comment
@@ -607,6 +648,20 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
       }
     }
     finalCode += '\n';
+  }
+
+  // 2.5. Add sound code BEFORE loop (sounds should play once)
+  if (soundCodeLines.length > 0) {
+    finalCode += '# Sons (tocam uma vez)\n';
+    finalCode += soundCodeLines.join('\n') + '\n\n';
+  }
+
+  // 2.6. Add custom loop code (from tocar_repetidamente block)
+  if (loopCodeLines.length > 0) {
+    finalCode += '# Loop de Sons\n';
+    finalCode += loopCodeLines.join('\n') + '\n';
+    // If there's a custom loop, don't add the default loop
+    return finalCode;
   }
 
   // 3. Add infinite loop with action code
