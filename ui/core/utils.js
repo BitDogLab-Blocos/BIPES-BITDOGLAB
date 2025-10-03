@@ -259,25 +259,20 @@ class Tool {
           coordinates [1] = parseFloat(coordinates [1])
           let q = new Queue(coordinates [0]);
           q.enqueue(coordinates[1]);
-          if (UI ['workspace'].EasyMQTT_bridge.checked)
-            this.EasyMQTTBridge(coordinates [0], coordinates[1])
+          // EasyMQTT Bridge removed (IoT feature)
         }
         /*ENDDEPRECATED*/
       }
     }
     Files.received_string = Files.received_string.replace(re, '\r\n') //purge received string out
   }
-  /**Bridge incoming data to MQTT.
+  /**Bridge incoming data to MQTT - REMOVED (IoT feature not available)
   * @param {number} id_ - ID for the MQTT message.
   * @param {number} value_ - Value for the MQTT message.
   */
   static EasyMQTTBridge (id_, value_) {
-	  var easyMQTTsession = window.localStorage['bridgeSession'];
-	  if (easyMQTTsession) {
-		  xhrGET(`https://bipes.net.br/easymqtt/publish.php?session=${easyMQTTsession}&topic=Topic${id_}&value=${value_}`,'',(ev)=>{
-		    UI ['notify'].log(ev);
-		  });
-		}
+    // IoT feature removed - MQTT bridge not available in this version
+    console.log('EasyMQTT Bridge não disponível nesta versão.');
   }
   /**Clear 'core/queue.js queue*/
   static clearQueue () {

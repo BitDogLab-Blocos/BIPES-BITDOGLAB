@@ -178,7 +178,7 @@ Code.LANG = Code.getLang();
  * @private
  */
 
-Code.TABS_ = ['blocks', 'console', 'files', 'programs', 'device', 'iot', 'mqtt', 'databoard'];
+Code.TABS_ = ['blocks', 'console', 'files', 'programs', 'device', 'databoard'];
 
 Code.current = ["blocks", "",""]
 
@@ -347,8 +347,6 @@ Code.renderContent = (_navigation) => {
       break
     case "device":
     case "programs":
-    case "iot":
-    case "mqtt":
       break
   }
   content.focus()
@@ -372,8 +370,6 @@ Code.resizeContent = (_navigation) => {
       case "databoard":
       case "device":
       case "programs":
-      case "iot":
-      case "mqtt":
         break
     }
   })
