@@ -1,0 +1,6 @@
+Quero que você redesenhe a interface da área de terminal do meu projeto em um estilo infantil, divertido e amigável.
+O terminal deve parecer uma tela mágica ou brinquedo colorido, com cantos arredondados e detalhes que passem a sensação de ser algo lúdico.
+Use uma paleta que combine com o roxo principal do projeto (#5e3aa4 ou similar), junto com cores complementares suaves (como lilás, rosa claro e azul bebê).
+Inclua alguns ícones ou elementos visuais fofos (como estrelinhas, balõezinhos ou mascotes) em volta da borda para deixar a experiência mais agradável para crianças.
+A parte do texto do terminal deve continuar legível, em fonte monoespaçada, mas pode ter fundo em degradê roxo–azul e uma borda com efeito neon suave.
+A ideia é que a interface fique muito mais alegre, amigável e divertida, sem perder a clareza das mensagens. '

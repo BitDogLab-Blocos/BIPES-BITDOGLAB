@@ -508,15 +508,29 @@ button:hover {
   transform: scale(1.05);
 }
 #content_console #file-boxes button {
-  white-space: nowrap;
-  margin-left: .25rem;
-  cursor: pointer;
-  padding: 0.5rem 0.75rem;
-  color: #327ae7;
-  border: 1px solid #327ae7;
-  border-radius: 1.5rem;
-  background-color: #fff;
-  font-size: 0.8rem;
+    font-family: var(--font-primary);
+    font-size: 0.9rem; /* Slightly larger for readability */
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    border: none;
+    border-radius: 15px;
+    padding: 0.5rem 0.75rem; /* Keep padding */
+    margin: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+}
+
+#content_console #file-boxes button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 7px 14px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.08);
+}
+
+#content_console #file-boxes button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
 }
 
 #content_xml {
@@ -526,21 +540,61 @@ button:hover {
   font-family: monospace;
   width: 100%
 }
+
+/* Space background for console and device tabs */
+#content_console, #content_device {
+  background-color: #1e2749;
+  background-image: 
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+  background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px; 
+  background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+  background-attachment: fixed;
+}
+
 #content_console {
   flex-direction: column;
   align-items: center;
 }
-#content_console #term{
-  padding: 0.5em;
-  background: #000;
-  margin: .75rem 0;
-  overflow: hidden;
-  border-radius: var(--border-radius-medium);
-  transition: box-shadow ease .125s;
-  box-shadow: var(--shadow-normal);
-  overscroll-behavior: none; /*disable chrome pull to refresh */
-  border: 3px solid var(--bitdoglab-tertiary);
+
+/* Adjust text color for readability on space background */
+#content_device, #content_device h3 {
+  color: white;
 }
+
+#content_console #term{
+  background: linear-gradient(135deg, #8e44ad, #3498db); /* Purple-blue gradient */
+  margin: .75rem 0;
+  overflow: visible;
+  border-radius: 25px; /* More rounded corners */
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(142, 68, 173, 0.5), 0 0 30px rgba(52, 152, 219, 0.5); /* Soft neon effect */
+  border: 5px solid #fff;
+  position: relative;
+  padding: 1em;
+}
+
+#content_console #term::before {
+  content: '✨';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  font-size: 2.5em;
+  text-shadow: 0 0 10px #fff, 0 0 20px #ffdd57, 0 0 30px #ffdd57;
+}
+
+#content_console #term::after {
+  content: '🚀';
+  position: absolute;
+  bottom: -25px;
+  right: -20px;
+  font-size: 2.5em;
+  transform: rotate(-25deg);
+  text-shadow: 0 0 10px #fff, 0 0 20px #ff5757, 0 0 30px #ff5757;
+}
+
 #tipsGeneric, #languageIcon {
   display: inline-flex;
   align-items: center;
@@ -557,7 +611,7 @@ button:hover {
   margin-right: .25rem;
 }
 #content_console #term.on{
-  box-shadow: -0.25rem 0rem .75rem #6aa8fb, .25rem .25rem .75rem #7b49ad;
+  box-shadow: 0 0 25px rgba(255, 105, 180, 0.9), 0 0 45px rgba(137, 207, 240, 0.9), 0 0 10px #fff inset; /* Pink and baby blue neon glow */
 }
 #content_console button {
   line-height: 1.5rem;

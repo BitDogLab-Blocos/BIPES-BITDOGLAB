@@ -514,7 +514,7 @@ class workspace {
 	  this.loadButton.addEventListener ('change', () => {this.loadXML ()});
 
     this.resetBoard = get('#resetBoard');
-    this.EasyMQTT_bridge = get('#EasyMQTT_bridge');
+
     this.term = get('#term');
     this.file_status = get('#file-status');
     this.put_file_select = get('#put-file-select');
