@@ -566,18 +566,21 @@ Blockly.Python['parar_som'] = function(block) {
 Blockly.Python['tocar_repetidamente'] = function(block) {
   var statements_do = Blockly.Python.statementToCode(block, 'DO');
 
-  // Remove os marcadores SOUND_BLOCK do código interno
-  statements_do = statements_do.replace(/# SOUND_BLOCK_START\n/g, '');
-  statements_do = statements_do.replace(/# SOUND_BLOCK_END\n/g, '');
-
   // Se não há código dentro, não gera nada
   if (!statements_do || statements_do.trim() === '') {
     return '';
   }
 
+  // Remove os marcadores SOUND_BLOCK do código interno
+  statements_do = statements_do.replace(/# SOUND_BLOCK_START\n/g, '');
+  statements_do = statements_do.replace(/# SOUND_BLOCK_END\n/g, '');
+
+  // Aplica indentação correta ao código interno após remover os marcadores
+  statements_do = Blockly.Python.prefixLines(statements_do, Blockly.Python.INDENT);
+
   var code = '# LOOP_BLOCK_START\n';
   code += 'while True:\n';
-  code += statements_do; // statements_do já vem com indentação correta
+  code += statements_do;
   code += '# LOOP_BLOCK_END\n';
 
   return code;
@@ -4819,6 +4822,7 @@ Blockly.Python['math_max'] = function(block) {
 Blockly.Python['controls_while_true'] = function(block) {
   var branch = Blockly.Python.statementToCode(block, 'DO');
   branch = Blockly.Python.addLoopTrap(branch, block) || Blockly.Python.PASS;
+  branch = Blockly.Python.prefixLines(branch, Blockly.Python.INDENT);
   return 'while True:\n' + branch;
 };
 
