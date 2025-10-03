@@ -496,7 +496,15 @@ pre.content {
 }
 .blocklySvg {
   border-top: none !important;
-  background-color: #fffaf0 !important; /* Fundo mais suave para a área de blocos */
+  background-color: #1e2749 !important;
+  background-image: 
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px) !important;
+  background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px !important; 
+  background-position: 0 0, 40px 60px, 130px 270px, 70px 100px !important;
+  background-attachment: fixed !important;
 }
 
 /* Estilo para botões mais amigáveis para crianças */
@@ -507,30 +515,37 @@ button {
 button:hover {
   transform: scale(1.05);
 }
+
+/* Futuristic "Spaceship Control Panel" Buttons */
 #content_console #file-boxes button {
     font-family: var(--font-primary);
-    font-size: 0.9rem; /* Slightly larger for readability */
+    font-size: 1rem; /* Increased for better readability */
     font-weight: bold;
     color: white;
-    background: linear-gradient(45deg, #3498db, #2980b9);
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     border: none;
-    border-radius: 15px;
-    padding: 0.5rem 0.75rem; /* Keep padding */
-    margin: 5px;
+    border-radius: 5px; /* Reduced radius for a sharper look */
+    padding: 0.6rem 1rem;
+    margin: 8px; /* Increased margin for spacing */
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+    transition: all 0.2s ease-out;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    /* Angular shape */
+    clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 90% 100%, 0% 100%);
+    /* Neon Glow Effect */
+    box-shadow: 0 0 4px rgba(0, 242, 254, 0.5), 0 0 8px rgba(0, 242, 254, 0.4);
 }
 
 #content_console #file-boxes button:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 7px 14px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.08);
+    transform: translateY(-3px); /* More pronounced lift */
+    /* Intensified Neon Glow */
+    box-shadow: 0 0 8px #00f2fe, 0 0 16px #00f2fe, 0 0 24px #4facfe;
 }
 
 #content_console #file-boxes button:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+    transform: translateY(1px); /* Pressed down effect */
+    /* Dim the glow on press */
+    box-shadow: 0 0 2px rgba(0, 242, 254, 0.3);
 }
 
 #content_xml {
