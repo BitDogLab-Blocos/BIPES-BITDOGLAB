@@ -520,12 +520,10 @@ Blockly.Python['tocar_nota'] = function(block) {
     return '';
   }
 
-  var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.freq(' + frequency + ')\n';
+  var code = 'buzzer.freq(' + frequency + ')\n';
   code += 'buzzer.duty_u16(32768)\n';
   code += 'time.sleep(0.5)\n';
   code += 'buzzer.duty_u16(0)\n';
-  code += '# SOUND_BLOCK_END\n';
 
   return code;
 };
@@ -539,12 +537,10 @@ Blockly.Python['tocar_som_agudo'] = function(block) {
   // Setup do buzzer no GPIO10
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
 
-  var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.freq(1000)\n';
+  var code = 'buzzer.freq(1000)\n';
   code += 'buzzer.duty_u16(32768)\n';
   code += 'time.sleep(0.5)\n';
   code += 'buzzer.duty_u16(0)\n';
-  code += '# SOUND_BLOCK_END\n';
 
   return code;
 };
@@ -571,17 +567,8 @@ Blockly.Python['tocar_repetidamente'] = function(block) {
     return '';
   }
 
-  // Remove os marcadores SOUND_BLOCK do código interno
-  statements_do = statements_do.replace(/# SOUND_BLOCK_START\n/g, '');
-  statements_do = statements_do.replace(/# SOUND_BLOCK_END\n/g, '');
-
-  // Aplica indentação correta ao código interno após remover os marcadores
-  statements_do = Blockly.Python.prefixLines(statements_do, Blockly.Python.INDENT);
-
-  var code = '# LOOP_BLOCK_START\n';
-  code += 'while True:\n';
+  var code = 'while True:\n';
   code += statements_do;
-  code += '# LOOP_BLOCK_END\n';
 
   return code;
 };
