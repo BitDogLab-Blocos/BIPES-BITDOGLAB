@@ -258,9 +258,10 @@ function channelPanel (button_, panel_) {
   };
 
   this.button.className = `icon ${Channel ['mux'].currentChannel}`;
-  this.bluetooth.onclick = () => {this.hidePanel ('webbluetooth'); Channel ['mux'].switch('webbluetooth');};
+  // Bluetooth and network disabled - only serial available
+  if (this.bluetooth) this.bluetooth.onclick = () => {alert('Bluetooth não disponível nesta versão.');};
   this.serial.onclick = () => {this.hidePanel ('webserial'); Channel ['mux'].switch('webserial');};
-  this.network.onclick = () => {this.hidePanel ('websocket'); Channel['mux'].switch('websocket');};
+  if (this.network) this.network.onclick = () => {alert('Rede não disponível nesta versão.');};
 }
 
 
@@ -719,18 +720,9 @@ workspace.prototype.writeWorkspace = function (xml, prettyText) {
   let timestamp =  + new Date();
   let device = this.selector.value;
 
-  let freeboard = '',
-    databoard = '';
-  /** Can't acess iFrame running locally due to cross-origin policy in Chrome*/
-  try {
-    freeboard = JSON.stringify(window.frames[1].freeboard.serialize());
-    /** Check if freeboard is empty */
-    if (freeboard == "{\"version\":1,\"allow_edit\":true,\"plugins\":[],\"panes\":[],\"datasources\":[{\"name\":\"vars\",\"type\":\"core_scratchpad_plugin\",\"settings\":{\"data\":\"={}\",\"persist\":\"off\",\"lock\":false}}],\"columns\":3}")
-      freeboard='';
-  } catch (e) {}
-  try {
-    databoard = window.frames[3].modules.Workspaces.compress();
-  } catch (e) {}
+  // IoT features removed - freeboard and databoard disabled
+  let freeboard = '';
+  let databoard = '';
 
   xml = xml.replace(/(xmlns=")(?:.+?)(")/g, '$1https://bipes.net.br$2')
   if (prettyText)
@@ -778,63 +770,21 @@ workspace.prototype.loadXML = function () {
 
 
 /**
- * Load freeboard from JSON.
+ * Load freeboard from JSON - DISABLED (IoT feature not available)
  * @param {string} JSON_ - serialized freeboard JSON.
  */
 workspace.prototype.loadFreeboard = function (JSON_) {
-  try {
-    let freeboard = JSON.parse(JSON_)
-    /** Test if iframe is a freeboard */
-    if (/\/freeboard/.test(window.frames[1].location.pathname)) {
-      if (typeof  window.frames[1].freeboard == 'object') {
-        window.frames[1].freeboard.loadDashboard(freeboard);
-      } else {
-        /** wait to freeboard iframe to load */
-        var interval = setInterval(() => {
-          if (typeof  window.frames[1].freeboard == 'object') {
-            window.frames[1].freeboard.loadDashboard(freeboard);
-            clearInterval(interval);
-          }
-        }, 500);
-      }
-    } else
-      UI ['notify'].log('iFrame is not a freeboard');
-  } catch (e) {
-    UI ['notify'].log(e);
-  }
+  // IoT feature removed - Freeboard dashboard not available in this version
+  console.log('Freeboard não disponível nesta versão.');
 }
 
 /**
- * Load databoard from JSON.
+ * Load databoard from JSON - DISABLED (IoT feature not available)
  * @param {string} JSON_ - serialized databoard JSON.
  */
 workspace.prototype.loadDataboard = function (JSON_) {
-  try {
-    let databoard = JSON.parse(JSON_)
-    /** Test if iframe is a freeboard */
-    if (/\/databoard/.test(window.frames[3].location.pathname)) {
-      if (typeof window.frames[3].modules == 'object') {
-        window.frames[3].modules.Workspaces.deinit()
-        window.frames[3].modules.Workspaces.clearLocalStorage();
-        window.frames[3].modules.Workspaces.uncompress(databoard);
-        if (get('#tab_databoard').classList.contains("on"))
-          window.frames[3].modules.Workspaces.init()
-      } else {
-        /** wait to databoard iframe to load */
-        var interval = setInterval(() => {
-          if (typeof window.frames[3].mopdules == 'object') {
-            window.frames[3].modules.Workspaces.deinit()
-            window.frames[3].modules.Workspaces.clearLocalStorage();
-            window.frames[3].modules.Workspaces.uncompress(databoard);
-            clearInterval(interval);
-          }
-        }, 500);
-      }
-    } else
-      UI ['notify'].log('iFrame is not a Databoard');
-  } catch (e) {
-    UI ['notify'].log(e);
-  }
+  // IoT feature removed - Databoard not available in this version
+  console.log('Databoard não disponível nesta versão.');
 }
 
 
