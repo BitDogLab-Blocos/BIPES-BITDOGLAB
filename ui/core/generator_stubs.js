@@ -502,8 +502,8 @@ Blockly.Python['tocar_nota'] = function(block) {
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
 
-  // Setup do buzzer no GPIO10
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  // Setup do buzzer no GPIO21
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   // Obtém a oitava do dropdown
   var octave = block.getFieldValue('OCTAVE');
@@ -536,8 +536,8 @@ Blockly.Python['tocar_som_agudo'] = function(block) {
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
 
-  // Setup do buzzer no GPIO10
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  // Setup do buzzer no GPIO21
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(1000)\n';
@@ -554,8 +554,8 @@ Blockly.Python['parar_som'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
 
-  // Setup do buzzer no GPIO10
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  // Setup do buzzer no GPIO21
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.duty_u16(0)\n';
@@ -590,7 +590,7 @@ Blockly.Python['bipe_curto'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(1500)\n';
@@ -607,7 +607,7 @@ Blockly.Python['bipe_duplo'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(1500)\n';
@@ -628,7 +628,7 @@ Blockly.Python['alerta_intermitente'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(2000)\n';
@@ -646,7 +646,7 @@ Blockly.Python['chamada'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(440)\n';
@@ -665,7 +665,7 @@ Blockly.Python['som_de_moeda'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(494)\n';
@@ -684,7 +684,7 @@ Blockly.Python['som_de_sucesso'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   // Sequência ascendente: Sol, Lá, Si, Dó
   var code = '# SOUND_BLOCK_START\n';
@@ -708,7 +708,7 @@ Blockly.Python['som_de_falha'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   // Sequência descendente: Sol, Fá#, Fá
   var code = '# SOUND_BLOCK_START\n';
@@ -730,7 +730,7 @@ Blockly.Python['som_de_laser'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(2000)\n';
@@ -751,7 +751,7 @@ Blockly.Python['sirene_policial'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(698)\n';
@@ -770,7 +770,7 @@ Blockly.Python['escala_musical_sobe'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   // Dó, Ré, Mi, Fá, Sol, Lá, Si, Dó (oitava acima)
   var code = '# SOUND_BLOCK_START\n';
@@ -802,7 +802,7 @@ Blockly.Python['escala_musical_desce'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   // Dó (oitava acima), Si, Lá, Sol, Fá, Mi, Ré, Dó
   var code = '# SOUND_BLOCK_START\n';
@@ -834,7 +834,7 @@ Blockly.Python['brilha_brilha_estrelinha'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
   // Sol Sol Ré Ré Mi Mi Ré - Dó Dó Si Si Lá Lá Sol
   var code = '# SOUND_BLOCK_START\n';
