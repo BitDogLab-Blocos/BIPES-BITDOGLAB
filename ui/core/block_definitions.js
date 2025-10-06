@@ -2489,3 +2489,163 @@ Blockly.Blocks['tocar_repetidamente'] = {
     this.setHelpUrl("");
   }
 };
+
+// ==========================================
+// BLOCOS DE ANIMAÇÕES SONORAS
+// ==========================================
+
+// Bloco: Bipe Curto
+Blockly.Blocks['bipe_curto'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("📍 Bipe Curto");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca um bipe curto");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Bipe Duplo
+Blockly.Blocks['bipe_duplo'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("📌 Bipe Duplo");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca dois bipes rápidos");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Alerta Intermitente
+Blockly.Blocks['alerta_intermitente'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🚨 Alerta Intermitente");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca um alerta intermitente");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Chamada
+Blockly.Blocks['chamada'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("📞 Chamada");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca um som de chamada");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Som de Moeda
+Blockly.Blocks['som_de_moeda'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🪙 Som de Moeda");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca um som de moeda");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Som de Sucesso
+Blockly.Blocks['som_de_sucesso'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("✅ Som de Sucesso");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca um som de sucesso com notas ascendentes");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Som de Falha
+Blockly.Blocks['som_de_falha'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("❌ Som de Falha");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca um som de falha com notas descendentes");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Som de Laser
+Blockly.Blocks['som_de_laser'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔫 Som de Laser");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca um som de laser");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Sirene Policial
+Blockly.Blocks['sirene_policial'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🚓 Sirene Policial");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca uma sirene policial");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Escala Musical Sobe
+Blockly.Blocks['escala_musical_sobe'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("📈 Escala Musical Sobe");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca uma escala musical ascendente");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Escala Musical Desce
+Blockly.Blocks['escala_musical_desce'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("📉 Escala Musical Desce");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca uma escala musical descendente");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Brilha Brilha Estrelinha
+Blockly.Blocks['brilha_brilha_estrelinha'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⭐ Brilha Brilha Estrelinha");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#9a5ba5");
+    this.setTooltip("Toca a melodia de Brilha Brilha Estrelinha");
+    this.setHelpUrl("");
+  }
+};

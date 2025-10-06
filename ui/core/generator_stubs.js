@@ -520,10 +520,12 @@ Blockly.Python['tocar_nota'] = function(block) {
     return '';
   }
 
-  var code = 'buzzer.freq(' + frequency + ')\n';
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(' + frequency + ')\n';
   code += 'buzzer.duty_u16(32768)\n';
   code += 'time.sleep(0.5)\n';
   code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
 
   return code;
 };
@@ -537,10 +539,12 @@ Blockly.Python['tocar_som_agudo'] = function(block) {
   // Setup do buzzer no GPIO10
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
 
-  var code = 'buzzer.freq(1000)\n';
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(1000)\n';
   code += 'buzzer.duty_u16(32768)\n';
   code += 'time.sleep(0.5)\n';
   code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
 
   return code;
 };
@@ -553,7 +557,9 @@ Blockly.Python['parar_som'] = function(block) {
   // Setup do buzzer no GPIO10
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
 
-  var code = 'buzzer.duty_u16(0)\n';
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
 
   return code;
 };
@@ -567,8 +573,304 @@ Blockly.Python['tocar_repetidamente'] = function(block) {
     return '';
   }
 
-  var code = 'while True:\n';
+  var code = '# LOOP_BLOCK_START\n';
+  code += 'while True:\n';
   code += statements_do;
+  code += '# LOOP_BLOCK_END\n';
+
+  return code;
+};
+
+// ==========================================
+// GERADORES DE ANIMAÇÕES SONORAS
+// ==========================================
+
+// Gerador: Bipe Curto
+Blockly.Python['bipe_curto'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(1500)\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'time.sleep_ms(100)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Bipe Duplo
+Blockly.Python['bipe_duplo'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(1500)\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'time.sleep_ms(100)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += 'time.sleep_ms(50)\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'time.sleep_ms(100)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Alerta Intermitente
+Blockly.Python['alerta_intermitente'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(2000)\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'time.sleep_ms(200)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += 'time.sleep_ms(800)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Chamada
+Blockly.Python['chamada'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(440)\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(523)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Som de Moeda
+Blockly.Python['som_de_moeda'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(494)\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'time.sleep_ms(100)\n';
+  code += 'buzzer.freq(659)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Som de Sucesso
+Blockly.Python['som_de_sucesso'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  // Sequência ascendente: Sol, Lá, Si, Dó
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(392)\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'time.sleep_ms(100)\n';
+  code += 'buzzer.freq(440)\n';
+  code += 'time.sleep_ms(100)\n';
+  code += 'buzzer.freq(494)\n';
+  code += 'time.sleep_ms(100)\n';
+  code += 'buzzer.freq(523)\n';
+  code += 'time.sleep_ms(100)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Som de Falha
+Blockly.Python['som_de_falha'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  // Sequência descendente: Sol, Fá#, Fá
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(392)\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'time.sleep_ms(200)\n';
+  code += 'buzzer.freq(370)\n';
+  code += 'time.sleep_ms(200)\n';
+  code += 'buzzer.freq(349)\n';
+  code += 'time.sleep_ms(200)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Som de Laser
+Blockly.Python['som_de_laser'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(2000)\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'time.sleep_ms(50)\n';
+  code += 'buzzer.freq(1000)\n';
+  code += 'time.sleep_ms(50)\n';
+  code += 'buzzer.freq(500)\n';
+  code += 'time.sleep_ms(50)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Sirene Policial
+Blockly.Python['sirene_policial'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.freq(698)\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(587)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Escala Musical Sobe
+Blockly.Python['escala_musical_sobe'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  // Dó, Ré, Mi, Fá, Sol, Lá, Si, Dó (oitava acima)
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.freq(262)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(294)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(330)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(349)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(392)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(440)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(494)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(523)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Escala Musical Desce
+Blockly.Python['escala_musical_desce'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  // Dó (oitava acima), Si, Lá, Sol, Fá, Mi, Ré, Dó
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.freq(523)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(494)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(440)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(392)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(349)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(330)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(294)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.freq(262)\n';
+  code += 'time.sleep_ms(150)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Brilha Brilha Estrelinha
+Blockly.Python['brilha_brilha_estrelinha'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(10))';
+
+  // Sol Sol Ré Ré Mi Mi Ré - Dó Dó Si Si Lá Lá Sol
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(32768)\n';
+  // Sol Sol Ré Ré Mi Mi Ré
+  code += 'buzzer.freq(392)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(392)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(294)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(294)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(330)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(330)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(294)\n';
+  code += 'time.sleep_ms(800)\n';
+  // Dó Dó Si Si Lá Lá Sol
+  code += 'buzzer.freq(262)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(262)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(494)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(494)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(440)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(440)\n';
+  code += 'time.sleep_ms(400)\n';
+  code += 'buzzer.freq(392)\n';
+  code += 'time.sleep_ms(800)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
 
   return code;
 };
