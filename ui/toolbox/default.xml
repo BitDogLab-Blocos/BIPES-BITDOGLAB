@@ -425,5 +425,7 @@
       <block type="escala_musical_sobe"></block>
       <block type="escala_musical_desce"></block>
       <block type="brilha_brilha_estrelinha"></block>
+      <block type="criar_melodia"></block>
+      <block type="criar_trilha_sonora"></block>
     </category>
 </xml>
