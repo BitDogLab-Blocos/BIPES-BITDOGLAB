@@ -2649,3 +2649,337 @@ Blockly.Blocks['brilha_brilha_estrelinha'] = {
     this.setHelpUrl("");
   }
 };
+
+// ==========================================
+// BLOCO DE MELODIA PERSONALIZADA (MUTATOR)
+// ==========================================
+
+// Bloco container do mutator
+Blockly.Blocks['criar_melodia_container'] = {
+  init: function() {
+    this.setColour("#9a5ba5");
+    this.appendDummyInput()
+        .appendField("melodia");
+    this.appendStatementInput('STACK');
+    this.setTooltip("Adicione ou remova notas da melodia.");
+    this.contextMenu = false;
+  }
+};
+
+// Bloco item para adicionar passo de nota
+Blockly.Blocks['criar_melodia_note_step'] = {
+  init: function() {
+    this.setColour("#9a5ba5");
+    this.appendDummyInput()
+        .appendField("nota");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip("Adicione uma nota à melodia.");
+    this.contextMenu = false;
+  }
+};
+
+// Bloco principal: Criar Melodia Personalizada
+Blockly.Blocks['criar_melodia'] = {
+  init: function() {
+    this.setColour("#9a5ba5");
+    this.noteSteps_ = 2; // Começa com 2 notas por padrão
+    this.updateShape_();
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setMutator(new Blockly.Mutator(['criar_melodia_note_step']));
+    this.setTooltip("Cria uma melodia personalizada. Use a engrenagem para adicionar mais notas!");
+  },
+
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('note_steps', this.noteSteps_);
+    return container;
+  },
+
+  domToMutation: function(xmlElement) {
+    this.noteSteps_ = parseInt(xmlElement.getAttribute('note_steps'), 10) || 0;
+    this.updateShape_();
+  },
+
+  decompose: function(workspace) {
+    var containerBlock = workspace.newBlock('criar_melodia_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var i = 0; i < this.noteSteps_; i++) {
+      var itemBlock = workspace.newBlock('criar_melodia_note_step');
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+
+  compose: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var connections = [];
+
+    // Coleta as conexões existentes
+    while (itemBlock) {
+      connections.push(itemBlock.noteConnection_);
+      connections.push(itemBlock.timeConnection_);
+      itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+    }
+
+    // Desconecta conexões antigas
+    for (var i = 0; i < this.noteSteps_; i++) {
+      var noteInput = this.getInput('NOTA' + i);
+      var tempoInput = this.getInput('TEMPO' + i);
+      if (noteInput) {
+        var noteConn = noteInput.connection.targetConnection;
+        if (noteConn && connections.indexOf(noteConn) == -1) {
+          noteConn.disconnect();
+        }
+      }
+      if (tempoInput) {
+        var tempoConn = tempoInput.connection.targetConnection;
+        if (tempoConn && connections.indexOf(tempoConn) == -1) {
+          tempoConn.disconnect();
+        }
+      }
+    }
+
+    this.noteSteps_ = connections.length / 2;
+    this.updateShape_();
+
+    // Reconecta os blocos
+    for (var i = 0; i < this.noteSteps_; i++) {
+      if (connections[i * 2]) {
+        Blockly.Mutator.reconnect(connections[i * 2], this, 'NOTA' + i);
+      }
+      if (connections[i * 2 + 1]) {
+        Blockly.Mutator.reconnect(connections[i * 2 + 1], this, 'TEMPO' + i);
+      }
+    }
+  },
+
+  saveConnections: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var i = 0;
+    while (itemBlock) {
+      var noteInput = this.getInput('NOTA' + i);
+      var tempoInput = this.getInput('TEMPO' + i);
+      itemBlock.noteConnection_ = noteInput && noteInput.connection.targetConnection;
+      itemBlock.timeConnection_ = tempoInput && tempoInput.connection.targetConnection;
+      i++;
+      itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+    }
+  },
+
+  updateShape_: function() {
+    // Remove todos os inputs existentes
+    var i = 0;
+    while (this.getInput('NOTA' + i) || this.getInput('TEMPO' + i) || this.getInput('LABEL' + i)) {
+      if (this.getInput('NOTA' + i)) this.removeInput('NOTA' + i);
+      if (this.getInput('TEMPO' + i)) this.removeInput('TEMPO' + i);
+      if (this.getInput('LABEL' + i)) this.removeInput('LABEL' + i);
+      i++;
+    }
+    if (this.getInput('EMPTY')) {
+      this.removeInput('EMPTY');
+    }
+
+    // Adiciona inputs para cada passo
+    if (this.noteSteps_ === 0) {
+      this.appendDummyInput('EMPTY')
+          .appendField("🎼 Criar Melodia");
+    } else {
+      if (this.getInput('EMPTY')) {
+        this.removeInput('EMPTY');
+      }
+
+      for (var i = 0; i < this.noteSteps_; i++) {
+        if (i == 0) {
+          this.appendDummyInput('LABEL0')
+              .appendField("🎼 Criar Melodia");
+        }
+
+        this.appendValueInput('NOTA' + i)
+            .setCheck("Note")
+            .appendField((i + 1) + '. Tocar a nota:');
+
+        this.appendValueInput('TEMPO' + i)
+            .setCheck("Time")
+            .appendField('   por:');
+      }
+    }
+  }
+};
+
+// ==========================================
+// BLOCO DE TRILHA SONORA (MUTATOR)
+// ==========================================
+
+// Bloco container do mutator
+Blockly.Blocks['criar_trilha_sonora_container'] = {
+  init: function() {
+    this.setColour("#9a5ba5");
+    this.appendDummyInput()
+        .appendField("trilha sonora");
+    this.appendStatementInput('STACK');
+    this.setTooltip("Adicione ou remova passos da trilha sonora.");
+    this.contextMenu = false;
+  }
+};
+
+// Bloco item para adicionar ação de som
+Blockly.Blocks['criar_trilha_sonora_action'] = {
+  init: function() {
+    this.setColour("#9a5ba5");
+    this.appendDummyInput()
+        .appendField("som");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip("Adicione uma ação de som (tocar nota, bipe, melodia, etc).");
+    this.contextMenu = false;
+  }
+};
+
+// Bloco item para adicionar espera
+Blockly.Blocks['criar_trilha_sonora_wait'] = {
+  init: function() {
+    this.setColour("#9a5ba5");
+    this.appendDummyInput()
+        .appendField("pausa");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip("Adicione uma pausa (silêncio por um tempo).");
+    this.contextMenu = false;
+  }
+};
+
+// Bloco principal: Criar Trilha Sonora
+Blockly.Blocks['criar_trilha_sonora'] = {
+  init: function() {
+    this.setColour("#9a5ba5");
+    this.steps_ = ['action', 'wait']; // Começa com 1 som e 1 pausa por padrão
+    this.updateShape_();
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setMutator(new Blockly.Mutator(['criar_trilha_sonora_action', 'criar_trilha_sonora_wait']));
+    this.setTooltip("Cria uma trilha sonora personalizada. Use a engrenagem para adicionar sons e pausas!");
+  },
+
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('steps', JSON.stringify(this.steps_));
+    return container;
+  },
+
+  domToMutation: function(xmlElement) {
+    var stepsStr = xmlElement.getAttribute('steps');
+    this.steps_ = stepsStr ? JSON.parse(stepsStr) : [];
+    this.updateShape_();
+  },
+
+  decompose: function(workspace) {
+    var containerBlock = workspace.newBlock('criar_trilha_sonora_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var i = 0; i < this.steps_.length; i++) {
+      var blockType = this.steps_[i] === 'action' ? 'criar_trilha_sonora_action' : 'criar_trilha_sonora_wait';
+      var itemBlock = workspace.newBlock(blockType);
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+
+  compose: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var newSteps = [];
+    var connections = [];
+
+    // Coleta os tipos e conexões
+    while (itemBlock) {
+      if (itemBlock.type === 'criar_trilha_sonora_action') {
+        newSteps.push('action');
+        connections.push(itemBlock.stepConnection_);
+      } else if (itemBlock.type === 'criar_trilha_sonora_wait') {
+        newSteps.push('wait');
+        connections.push(itemBlock.stepConnection_);
+      }
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+
+    // Desconecta conexões antigas
+    for (var i = 0; i < this.steps_.length; i++) {
+      var input = this.getInput('STEP' + i);
+      if (input) {
+        var connection = input.connection.targetConnection;
+        if (connection && connections.indexOf(connection) == -1) {
+          connection.disconnect();
+        }
+      }
+    }
+
+    this.steps_ = newSteps;
+    this.updateShape_();
+
+    // Reconecta os blocos
+    for (var i = 0; i < this.steps_.length; i++) {
+      if (connections[i]) {
+        Blockly.Mutator.reconnect(connections[i], this, 'STEP' + i);
+      }
+    }
+  },
+
+  saveConnections: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var i = 0;
+    while (itemBlock) {
+      var input = this.getInput('STEP' + i);
+      itemBlock.stepConnection_ = input && input.connection.targetConnection;
+      i++;
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+  },
+
+  updateShape_: function() {
+    // Remove todos os inputs existentes
+    var i = 0;
+    while (this.getInput('STEP' + i) || this.getInput('LABEL' + i)) {
+      if (this.getInput('STEP' + i)) this.removeInput('STEP' + i);
+      if (this.getInput('LABEL' + i)) this.removeInput('LABEL' + i);
+      i++;
+    }
+    if (this.getInput('EMPTY')) {
+      this.removeInput('EMPTY');
+    }
+
+    // Adiciona inputs para cada passo
+    if (this.steps_.length === 0) {
+      this.appendDummyInput('EMPTY')
+          .appendField("🎵 Criar Trilha Sonora");
+    } else {
+      if (this.getInput('EMPTY')) {
+        this.removeInput('EMPTY');
+      }
+
+      for (var i = 0; i < this.steps_.length; i++) {
+        if (i == 0) {
+          this.appendDummyInput('LABEL0')
+              .appendField("🎵 Criar Trilha Sonora");
+        }
+
+        if (this.steps_[i] === 'action') {
+          this.appendStatementInput('STEP' + i)
+              .setCheck(null)
+              .appendField('🔊 Tocar:');
+        } else {
+          this.appendValueInput('STEP' + i)
+              .setCheck("Time")
+              .appendField('🔇 Pausar por:');
+        }
+      }
+    }
+  }
+};

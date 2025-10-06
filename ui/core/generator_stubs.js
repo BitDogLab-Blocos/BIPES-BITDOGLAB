@@ -478,6 +478,38 @@ Blockly.Python['nota_si'] = function(block) {
 };
 
 // ==========================================
+// BLOCOS DE TEMPO - GERADORES DE CÓDIGO
+// ==========================================
+
+// Gerador para tempo em segundos (converte para milissegundos)
+Blockly.Python['tempo_segundos'] = function(block) {
+  var num = block.getFieldValue('NUM');
+  var code = String(num * 1000);
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador para tempo em milissegundos
+Blockly.Python['tempo_milisegundos'] = function(block) {
+  var num = block.getFieldValue('NUM');
+  var code = String(num);
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador para tempo em minutos (converte para milissegundos)
+Blockly.Python['tempo_minutos'] = function(block) {
+  var num = block.getFieldValue('NUM');
+  var code = String(num * 60000);
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador para tempo em horas (converte para milissegundos)
+Blockly.Python['tempo_horas'] = function(block) {
+  var num = block.getFieldValue('NUM');
+  var code = String(num * 3600000);
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+// ==========================================
 // BLOCOS DE SOM - GERADORES DE CÓDIGO
 // ==========================================
 
@@ -871,6 +903,98 @@ Blockly.Python['brilha_brilha_estrelinha'] = function(block) {
   code += 'time.sleep_ms(800)\n';
   code += 'buzzer.duty_u16(0)\n';
   code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Criar Melodia Personalizada
+Blockly.Python['criar_melodia'] = function(block) {
+  // Verifica se o bloco tem notas definidas
+  if (!block.noteSteps_ || block.noteSteps_ === 0) {
+    return '';
+  }
+
+  // Adiciona os imports e setup do buzzer
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+
+  var code = '# SOUND_BLOCK_START\n';
+
+  // Itera por cada passo da melodia
+  for (var i = 0; i < block.noteSteps_; i++) {
+    // Obtém a nota conectada (retorna uma letra: 'C', 'D', 'E', etc.)
+    var note = Blockly.Python.valueToCode(block, 'NOTA' + i, Blockly.Python.ORDER_ATOMIC);
+
+    // Obtém o tempo conectado (retorna milissegundos)
+    var tempo = Blockly.Python.valueToCode(block, 'TEMPO' + i, Blockly.Python.ORDER_ATOMIC);
+
+    // Se não há nota ou tempo, pula este passo
+    if (!note || !tempo) {
+      continue;
+    }
+
+    // Remove aspas da nota se existirem
+    note = note.replace(/['"]/g, '');
+
+    // Converte a letra da nota para frequência
+    // Assume oitava 4 por padrão (mesma lógica do bloco tocar_nota)
+    var noteKey = note + '4';
+    var frequency = NOTE_FREQUENCIES[noteKey];
+
+    // Se não encontrar a frequência, usa um valor padrão
+    if (!frequency) {
+      frequency = 440; // Lá (A4)
+    }
+
+    // Gera o código para tocar a nota
+    code += '# Nota: ' + note + '\n';
+    code += 'buzzer.freq(' + frequency + ')\n';
+    code += 'buzzer.duty_u16(32768)\n';
+    code += 'time.sleep_ms(' + tempo + ')\n';
+    code += 'buzzer.duty_u16(0)\n';
+
+    // Pequena pausa entre notas para clareza
+    if (i < block.noteSteps_ - 1) {
+      code += 'time.sleep_ms(50)\n';
+    }
+  }
+
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Gerador: Criar Trilha Sonora
+Blockly.Python['criar_trilha_sonora'] = function(block) {
+  // Verifica se o bloco tem passos definidos
+  if (!block.steps_ || block.steps_.length === 0) {
+    return '';
+  }
+
+  var code = '';
+
+  // Itera por cada passo da trilha sonora
+  for (var i = 0; i < block.steps_.length; i++) {
+    if (block.steps_[i] === 'action') {
+      // Passo de ação: executa blocos de som
+      var stepCode = Blockly.Python.statementToCode(block, 'STEP' + i);
+      if (stepCode) {
+        // Remove a indentação de 2 espaços que statementToCode adiciona
+        code += stepCode.replace(/^  /gm, '');
+      }
+    } else {
+      // Passo de pausa: aguarda um tempo
+      var tempo = Blockly.Python.valueToCode(block, 'STEP' + i, Blockly.Python.ORDER_ATOMIC);
+      if (tempo) {
+        Blockly.Python.definitions_['import_time'] = 'import time';
+        code += '# SOUND_BLOCK_START\n';
+        code += 'time.sleep_ms(' + tempo + ')\n';
+        code += '# SOUND_BLOCK_END\n';
+      }
+    }
+  }
 
   return code;
 };
