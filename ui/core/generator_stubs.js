@@ -76,6 +76,25 @@ Blockly.Python['mix_colours'] = function(block) {
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
+// Gerador para preencher matriz de LEDs
+Blockly.Python['preencher_matriz'] = function(block) {
+  // Imports e setup da matriz (executado uma vez)
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+
+  // Obter a cor e intensidade
+  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+  var intensity = block.getFieldValue('INTENSITY');
+
+  // Gerar código para preencher a matriz com intensidade aplicada
+  var code = 'for i in range(25):\n';
+  code += '    np[i] = (int(' + colour + '[0] * ' + intensity + ' / 100), int(' + colour + '[1] * ' + intensity + ' / 100), int(' + colour + '[2] * ' + intensity + ' / 100))\n';
+  code += 'np.write()\n';
+
+  return code;
+};
+
 // Gerador para ligar LED com cor
 Blockly.Python['led_turn_on'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
@@ -605,9 +624,23 @@ Blockly.Python['tocar_repetidamente'] = function(block) {
     return '';
   }
 
+  // Adiciona setup do buzzer para garantir que pode desligar no finally
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+
   var code = '# LOOP_BLOCK_START\n';
-  code += 'while True:\n';
-  code += statements_do;
+  code += 'try:\n';
+  code += '  while True:\n';
+  // Adiciona indentação extra (2 espaços) ao código dos blocos internos
+  var indentedCode = statements_do.replace(/^/gm, '  ');
+  code += indentedCode;
+  // Garante quebra de linha antes do finally
+  if (!indentedCode.endsWith('\n')) {
+    code += '\n';
+  }
+  code += 'finally:\n';
+  code += '  buzzer.duty_u16(0)  # Desliga o buzzer ao parar\n';
   code += '# LOOP_BLOCK_END\n';
 
   return code;
@@ -5672,8 +5705,3 @@ Blockly.Python['lists_getIndex'] = function(block) {
   }
   throw Error('Unhandled combination (lists_getIndex).');
 };
-
-
-
-
-  
