@@ -376,6 +376,26 @@ Blockly.Blocks['mix_colours'] = {
   }
 };
 
+// Bloco de Matriz de LEDs
+Blockly.Blocks['preencher_matriz'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔲 Ligar matriz de LED de cor");
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour");
+    this.appendDummyInput()
+        .appendField("com brilho de")
+        .appendField(new Blockly.FieldNumber(100, 0, 100), "INTENSITY")
+        .appendField("%");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#4a69bd");
+    this.setTooltip("Liga toda a matriz de LEDs 5x5 com a cor e intensidade especificadas");
+    this.setHelpUrl("");
+  }
+};
+
 // Blocos de LED refatorados
 Blockly.Blocks['led_turn_on'] = {
   init: function() {
