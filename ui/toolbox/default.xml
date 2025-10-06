@@ -413,5 +413,17 @@
       <block type="tocar_som_agudo"></block>
       <block type="parar_som"></block>
       <block type="tocar_repetidamente"></block>
+      <block type="bipe_curto"></block>
+      <block type="bipe_duplo"></block>
+      <block type="alerta_intermitente"></block>
+      <block type="chamada"></block>
+      <block type="som_de_moeda"></block>
+      <block type="som_de_sucesso"></block>
+      <block type="som_de_falha"></block>
+      <block type="som_de_laser"></block>
+      <block type="sirene_policial"></block>
+      <block type="escala_musical_sobe"></block>
+      <block type="escala_musical_desce"></block>
+      <block type="brilha_brilha_estrelinha"></block>
     </category>
 </xml>
