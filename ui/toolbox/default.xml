@@ -396,7 +396,12 @@
       <block type="led_custom_animation"></block>
     </category>
 
-    <!-- 12. NOTAS MUSICAIS -->
+    <!-- 12. MATRIZ DE LEDs -->
+    <category name="🔲 Matriz de LEDs" colour="#4a69bd">
+      <block type="preencher_matriz"></block>
+    </category>
+
+    <!-- 13. NOTAS MUSICAIS -->
     <category name="🎼 Notas Musicais" colour="#833471">
       <block type="nota_do"></block>
       <block type="nota_re"></block>
@@ -407,7 +412,7 @@
       <block type="nota_si"></block>
     </category>
 
-    <!-- 13. SOM -->
+    <!-- 14. SOM -->
     <category name="🔊 Som" colour="#9a5ba5">
       <block type="tocar_nota"></block>
       <block type="tocar_som_agudo"></block>
