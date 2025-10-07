@@ -110,6 +110,75 @@ Blockly.Python['desligar_matriz'] = function(block) {
   return code;
 };
 
+// Gerador para acender LED em posição específica
+Blockly.Python['acender_led_posicao'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  // Obter os valores
+  var linha = block.getFieldValue('LINHA');
+  var coluna = block.getFieldValue('COLUNA');
+  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+  var intensity = block.getFieldValue('INTENSITY');
+
+  // Gerar código para acender o LED na posição específica
+  var code = 'if 0 <= ' + linha + ' <= 4 and 0 <= ' + coluna + ' <= 4:\n';
+  code += '    led_index = LED_MATRIX[4 - ' + linha + '][' + coluna + ']\n';
+  code += '    np[led_index] = (int(' + colour + '[0] * ' + intensity + ' / 100), int(' + colour + '[1] * ' + intensity + ' / 100), int(' + colour + '[2] * ' + intensity + ' / 100))\n';
+  code += '    np.write()\n';
+
+  return code;
+};
+
+// Gerador para acender linha horizontal
+Blockly.Python['acender_linha'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  // Obter os valores
+  var linha = block.getFieldValue('LINHA');
+  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+  var intensity = block.getFieldValue('INTENSITY');
+
+  // Gerar código para acender toda a linha
+  var code = 'if 0 <= ' + linha + ' <= 4:\n';
+  code += '    for x in range(5):\n';
+  code += '        led_index = LED_MATRIX[4 - ' + linha + '][x]\n';
+  code += '        np[led_index] = (int(' + colour + '[0] * ' + intensity + ' / 100), int(' + colour + '[1] * ' + intensity + ' / 100), int(' + colour + '[2] * ' + intensity + ' / 100))\n';
+  code += '    np.write()\n';
+
+  return code;
+};
+
+// Gerador para acender coluna vertical
+Blockly.Python['acender_coluna'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  // Obter os valores
+  var coluna = block.getFieldValue('COLUNA');
+  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+  var intensity = block.getFieldValue('INTENSITY');
+
+  // Gerar código para acender toda a coluna
+  var code = 'if 0 <= ' + coluna + ' <= 4:\n';
+  code += '    for y in range(5):\n';
+  code += '        led_index = LED_MATRIX[y][' + coluna + ']\n';
+  code += '        np[led_index] = (int(' + colour + '[0] * ' + intensity + ' / 100), int(' + colour + '[1] * ' + intensity + ' / 100), int(' + colour + '[2] * ' + intensity + ' / 100))\n';
+  code += '    np.write()\n';
+
+  return code;
+};
+
 // Gerador para ligar LED com cor
 Blockly.Python['led_turn_on'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
