@@ -5871,3 +5871,69 @@ Blockly.Python['mostrar_numero_matriz'] = function(block) {
 
   return code;
 };
+
+// Geradores para blocos de valor de emoji
+Blockly.Python['emoji_rosto_feliz'] = function(block) {
+  return ['"happy"', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['emoji_rosto_triste'] = function(block) {
+  return ['"sad"', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['emoji_rosto_surpreso'] = function(block) {
+  return ['"surprised"', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['emoji_coracao'] = function(block) {
+  return ['"heart"', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['emoji_seta_cima'] = function(block) {
+  return ['"arrow_up"', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['emoji_seta_baixo'] = function(block) {
+  return ['"arrow_down"', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador para bloco de ação mostrar_emoji
+Blockly.Python['mostrar_emoji'] = function(block) {
+  // Imports e setup da matriz (executado uma vez)
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+
+  // Definir o mapeamento da matriz LED
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  // Definir os padrões dos emojis para matriz 5x5
+  Blockly.Python.definitions_['emojis_matriz'] = 'EMOJIS_5X5 = {"happy": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 1,0,0,0,1, 0,1,1,1,0], "sad": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 1,0,0,0,1], "surprised": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 0,1,1,1,0], "heart": [0,1,0,1,0, 1,1,1,1,1, 1,1,1,1,1, 0,1,1,1,0, 0,0,1,0,0], "arrow_up": [0,0,1,0,0, 0,1,1,1,0, 1,0,1,0,1, 0,0,1,0,0, 0,0,1,0,0], "arrow_down": [0,0,1,0,0, 0,0,1,0,0, 1,0,1,0,1, 0,1,1,1,0, 0,0,1,0,0]}';
+
+  // Obter os valores dos inputs
+  var emoji = Blockly.Python.valueToCode(block, 'EMOJI', Blockly.Python.ORDER_ATOMIC) || '"happy"';
+  var cor_rgb = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(255, 255, 0)';
+  var brilho = block.getFieldValue('BRILHO');
+
+  // Converter brilho de 0-100 para 0.0-1.0
+  var brilho_float = brilho / 100;
+
+  // Gerar o código MicroPython
+  var code = '';
+  // Limpa a matriz antes de desenhar
+  code += 'for i in range(25):\n';
+  code += '    np[i] = (0, 0, 0)\n';
+  // Ajusta o brilho da cor
+  code += 'cor_ajustada = (int(' + cor_rgb + '[0] * ' + brilho_float + '), int(' + cor_rgb + '[1] * ' + brilho_float + '), int(' + cor_rgb + '[2] * ' + brilho_float + '))\n';
+  // Desenha o emoji na matriz usando LED_MATRIX
+  code += 'if ' + emoji + ' in EMOJIS_5X5:\n';
+  code += '    padrao = EMOJIS_5X5[' + emoji + ']\n';
+  code += '    for y in range(5):\n';
+  code += '        for x in range(5):\n';
+  code += '            if padrao[y * 5 + x] == 1:\n';
+  code += '                np[LED_MATRIX[y][x]] = cor_ajustada\n';
+  // Atualiza a matriz
+  code += 'np.write()\n';
+
+  return code;
+};
