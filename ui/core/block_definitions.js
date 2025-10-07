@@ -408,6 +408,74 @@ Blockly.Blocks['desligar_matriz'] = {
   }
 };
 
+// Bloco para acender LED em posição específica
+Blockly.Blocks['acender_led_posicao'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔲 Acender LED na linha")
+        .appendField(new Blockly.FieldNumber(0, 0, 4), "LINHA")
+        .appendField("coluna")
+        .appendField(new Blockly.FieldNumber(0, 0, 4), "COLUNA");
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour")
+        .appendField("com cor");
+    this.appendDummyInput()
+        .appendField("e brilho de")
+        .appendField(new Blockly.FieldNumber(30, 0, 100), "INTENSITY")
+        .appendField("%");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#4a69bd");
+    this.setTooltip("Acende um LED específico na matriz 5x5 (linha: 0-4, coluna: 0-4)");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco para acender linha horizontal
+Blockly.Blocks['acender_linha'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔲 Acender linha")
+        .appendField(new Blockly.FieldNumber(0, 0, 4), "LINHA");
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour")
+        .appendField("com cor");
+    this.appendDummyInput()
+        .appendField("e brilho de")
+        .appendField(new Blockly.FieldNumber(30, 0, 100), "INTENSITY")
+        .appendField("%");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#4a69bd");
+    this.setTooltip("Acende uma linha horizontal completa na matriz 5x5 (linha: 0-4)");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco para acender coluna vertical
+Blockly.Blocks['acender_coluna'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔲 Acender coluna")
+        .appendField(new Blockly.FieldNumber(0, 0, 4), "COLUNA");
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour")
+        .appendField("com cor");
+    this.appendDummyInput()
+        .appendField("e brilho de")
+        .appendField(new Blockly.FieldNumber(30, 0, 100), "INTENSITY")
+        .appendField("%");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#4a69bd");
+    this.setTooltip("Acende uma coluna vertical completa na matriz 5x5 (coluna: 0-4)");
+    this.setHelpUrl("");
+  }
+};
+
 // Blocos de LED refatorados
 Blockly.Blocks['led_turn_on'] = {
   init: function() {
