@@ -385,7 +385,7 @@ Blockly.Blocks['preencher_matriz'] = {
         .setCheck("Colour");
     this.appendDummyInput()
         .appendField("com brilho de")
-        .appendField(new Blockly.FieldNumber(100, 0, 100), "INTENSITY")
+        .appendField(new Blockly.FieldNumber(30, 0, 100), "INTENSITY")
         .appendField("%");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
@@ -3126,7 +3126,7 @@ Blockly.Blocks['mostrar_numero_matriz'] = {
         .appendField("com a cor");
     this.appendDummyInput()
         .appendField("e brilho de")
-        .appendField(new Blockly.FieldNumber(100, 0, 100), "BRILHO")
+        .appendField(new Blockly.FieldNumber(30, 0, 100), "BRILHO")
         .appendField("%");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);
