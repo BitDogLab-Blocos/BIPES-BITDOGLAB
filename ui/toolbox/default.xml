@@ -404,6 +404,7 @@
       <block type="acender_linha"></block>
       <block type="acender_coluna"></block>
       <block type="mostrar_numero_matriz"></block>
+      <block type="mostrar_emoji"></block>
     </category>
 
     <!-- 13. NÚMEROS MATRIZ -->
@@ -420,7 +421,17 @@
       <block type="numero_matriz_9"></block>
     </category>
 
-    <!-- 14. NOTAS MUSICAIS -->
+    <!-- 14. EMOJIS MATRIZ -->
+    <category name="😊 Emojis Matriz" colour="#FF8C00">
+      <block type="emoji_rosto_feliz"></block>
+      <block type="emoji_rosto_triste"></block>
+      <block type="emoji_rosto_surpreso"></block>
+      <block type="emoji_coracao"></block>
+      <block type="emoji_seta_cima"></block>
+      <block type="emoji_seta_baixo"></block>
+    </category>
+
+    <!-- 15. NOTAS MUSICAIS -->
     <category name="🎼 Notas Musicais" colour="#833471">
       <block type="nota_do"></block>
       <block type="nota_re"></block>

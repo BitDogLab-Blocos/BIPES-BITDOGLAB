@@ -3195,6 +3195,95 @@ Blockly.Blocks['numero_matriz_9'] = {
   }
 };
 
+// Blocos de Emojis para Matriz
+Blockly.Blocks['emoji_rosto_feliz'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("😊 Rosto Feliz");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de rosto feliz");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['emoji_rosto_triste'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("😢 Rosto Triste");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de rosto triste");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['emoji_rosto_surpreso'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("😮 Rosto Surpreso");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de rosto surpreso");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['emoji_coracao'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("❤️ Coração");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de coração");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['emoji_seta_cima'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⬆️ Seta para Cima");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de seta para cima");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['emoji_seta_baixo'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⬇️ Seta para Baixo");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de seta para baixo");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco de ação para mostrar emoji na matriz
+Blockly.Blocks['mostrar_emoji'] = {
+  init: function() {
+    this.appendValueInput("EMOJI")
+        .setCheck("MatrixEmoji")
+        .appendField("😊 Mostrar emoji");
+    this.appendValueInput("COR")
+        .setCheck("Colour")
+        .appendField("com a cor");
+    this.appendDummyInput()
+        .appendField("e brilho de")
+        .appendField(new Blockly.FieldNumber(30, 0, 100), "BRILHO")
+        .appendField("%");
+    this.setInputsInline(false);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#4a69bd");
+    this.setTooltip("Mostra um emoji na matriz de LEDs 5x5 com cor e brilho especificados");
+    this.setHelpUrl("");
+  }
+};
+
 // Bloco de ação para mostrar número na matriz
 Blockly.Blocks['mostrar_numero_matriz'] = {
   init: function() {
