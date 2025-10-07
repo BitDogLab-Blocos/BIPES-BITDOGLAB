@@ -3262,6 +3262,50 @@ Blockly.Blocks['emoji_seta_baixo'] = {
   }
 };
 
+Blockly.Blocks['emoji_sol'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("☀️ Sol");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de sol");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['emoji_chuva'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🌧️ Chuva");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de chuva");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['emoji_flor'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🌸 Flor");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de flor");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['emoji_fantasma'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("👻 Fantasma");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de fantasma");
+    this.setHelpUrl("");
+  }
+};
+
 // Bloco de ação para mostrar emoji na matriz
 Blockly.Blocks['mostrar_emoji'] = {
   init: function() {
