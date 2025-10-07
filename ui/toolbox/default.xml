@@ -429,6 +429,10 @@
       <block type="emoji_coracao"></block>
       <block type="emoji_seta_cima"></block>
       <block type="emoji_seta_baixo"></block>
+      <block type="emoji_sol"></block>
+      <block type="emoji_chuva"></block>
+      <block type="emoji_flor"></block>
+      <block type="emoji_fantasma"></block>
     </category>
 
     <!-- 15. NOTAS MUSICAIS -->
