@@ -400,6 +400,9 @@
     <category name="🔲 Matriz de LEDs" colour="#4a69bd">
       <block type="preencher_matriz"></block>
       <block type="desligar_matriz"></block>
+      <block type="acender_led_posicao"></block>
+      <block type="acender_linha"></block>
+      <block type="acender_coluna"></block>
       <block type="mostrar_numero_matriz"></block>
     </category>
 
