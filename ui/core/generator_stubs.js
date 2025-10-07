@@ -5896,6 +5896,18 @@ Blockly.Python['emoji_seta_cima'] = function(block) {
 Blockly.Python['emoji_seta_baixo'] = function(block) {
   return ['"arrow_down"', Blockly.Python.ORDER_ATOMIC];
 };
+Blockly.Python['emoji_sol'] = function(block) {
+  return ['"sun"', Blockly.Python.ORDER_ATOMIC];
+};
+Blockly.Python['emoji_chuva'] = function(block) {
+  return ['"rain"', Blockly.Python.ORDER_ATOMIC];
+};
+Blockly.Python['emoji_flor'] = function(block) {
+  return ['"flower"', Blockly.Python.ORDER_ATOMIC];
+};
+Blockly.Python['emoji_fantasma'] = function(block) {
+  return ['"ghost"', Blockly.Python.ORDER_ATOMIC];
+};
 
 // Gerador para bloco de ação mostrar_emoji
 Blockly.Python['mostrar_emoji'] = function(block) {
@@ -5908,7 +5920,7 @@ Blockly.Python['mostrar_emoji'] = function(block) {
   Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
 
   // Definir os padrões dos emojis para matriz 5x5
-  Blockly.Python.definitions_['emojis_matriz'] = 'EMOJIS_5X5 = {"happy": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 1,0,0,0,1, 0,1,1,1,0], "sad": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 1,0,0,0,1], "surprised": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 0,1,1,1,0], "heart": [0,1,0,1,0, 1,1,1,1,1, 1,1,1,1,1, 0,1,1,1,0, 0,0,1,0,0], "arrow_up": [0,0,1,0,0, 0,1,1,1,0, 1,0,1,0,1, 0,0,1,0,0, 0,0,1,0,0], "arrow_down": [0,0,1,0,0, 0,0,1,0,0, 1,0,1,0,1, 0,1,1,1,0, 0,0,1,0,0]}';
+  Blockly.Python.definitions_['emojis_matriz'] = 'EMOJIS_5X5 = {"happy": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 1,0,0,0,1, 0,1,1,1,0], "sad": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 1,0,0,0,1], "surprised": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 0,1,1,1,0], "heart": [0,1,0,1,0, 1,1,1,1,1, 1,1,1,1,1, 0,1,1,1,0, 0,0,1,0,0], "arrow_up": [0,0,1,0,0, 0,1,1,1,0, 1,0,1,0,1, 0,0,1,0,0, 0,0,1,0,0], "arrow_down": [0,0,1,0,0, 0,0,1,0,0, 1,0,1,0,1, 0,1,1,1,0, 0,0,1,0,0], "sun": [0,0,0,0,0, 0,1,1,1,0, 0,1,1,1,0, 0,1,1,1,0, 0,0,0,0,0], "rain": [1,0,1,0,1, 0,1,0,1,0, 1,0,1,0,1, 0,1,0,1,0, 1,0,1,0,1], "flower": [0,1,0,1,0, 1,0,1,0,1, 0,1,1,1,0, 0,0,1,0,0, 0,0,1,0,0], "ghost": [0,1,1,1,0, 1,0,1,0,1, 1,1,1,1,1, 1,1,1,1,1, 1,0,1,0,1]}';
 
   // Obter os valores dos inputs
   var emoji = Blockly.Python.valueToCode(block, 'EMOJI', Blockly.Python.ORDER_ATOMIC) || '"happy"';
