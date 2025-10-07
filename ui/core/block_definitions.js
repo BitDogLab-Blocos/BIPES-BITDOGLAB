@@ -396,6 +396,18 @@ Blockly.Blocks['preencher_matriz'] = {
   }
 };
 
+Blockly.Blocks['desligar_matriz'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔲 Desligar matriz de LED");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#4a69bd");
+    this.setTooltip("Desliga toda a matriz de LEDs 5x5");
+    this.setHelpUrl("");
+  }
+};
+
 // Blocos de LED refatorados
 Blockly.Blocks['led_turn_on'] = {
   init: function() {

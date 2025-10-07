@@ -95,6 +95,21 @@ Blockly.Python['preencher_matriz'] = function(block) {
   return code;
 };
 
+// Gerador para desligar matriz de LEDs
+Blockly.Python['desligar_matriz'] = function(block) {
+  // Imports e setup da matriz (executado uma vez)
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+
+  // Gerar código para desligar todos os LEDs da matriz
+  var code = 'for i in range(25):\n';
+  code += '    np[i] = (0, 0, 0)\n';
+  code += 'np.write()\n';
+
+  return code;
+};
+
 // Gerador para ligar LED com cor
 Blockly.Python['led_turn_on'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';

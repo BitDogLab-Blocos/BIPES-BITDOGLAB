@@ -399,6 +399,7 @@
     <!-- 12. MATRIZ DE LEDs -->
     <category name="🔲 Matriz de LEDs" colour="#4a69bd">
       <block type="preencher_matriz"></block>
+      <block type="desligar_matriz"></block>
       <block type="mostrar_numero_matriz"></block>
     </category>
 
