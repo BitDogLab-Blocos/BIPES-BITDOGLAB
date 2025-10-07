@@ -5705,3 +5705,85 @@ Blockly.Python['lists_getIndex'] = function(block) {
   }
   throw Error('Unhandled combination (lists_getIndex).');
 };
+
+// Geradores de código para números da matriz
+Blockly.Python['numero_matriz_0'] = function(block) {
+  return ['0', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['numero_matriz_1'] = function(block) {
+  return ['1', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['numero_matriz_2'] = function(block) {
+  return ['2', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['numero_matriz_3'] = function(block) {
+  return ['3', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['numero_matriz_4'] = function(block) {
+  return ['4', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['numero_matriz_5'] = function(block) {
+  return ['5', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['numero_matriz_6'] = function(block) {
+  return ['6', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['numero_matriz_7'] = function(block) {
+  return ['7', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['numero_matriz_8'] = function(block) {
+  return ['8', Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['numero_matriz_9'] = function(block) {
+  return ['9', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gerador de código para mostrar número na matriz
+Blockly.Python['mostrar_numero_matriz'] = function(block) {
+  // Imports e setup da matriz (executado uma vez)
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+
+  // Definir o mapeamento da matriz LED
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  // Definir os padrões dos números (0-9) para matriz 5x5
+  Blockly.Python.definitions_['numeros_matriz'] = 'NUMEROS_5X5 = {0: [1,1,1,1,1, 1,0,0,0,1, 1,0,0,0,1, 1,0,0,0,1, 1,1,1,1,1], 1: [0,0,1,0,0, 0,1,1,0,0, 0,0,1,0,0, 0,0,1,0,0, 0,1,1,1,0], 2: [1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1, 1,0,0,0,0, 1,1,1,1,1], 3: [1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1], 4: [1,0,0,0,1, 1,0,0,0,1, 1,1,1,1,1, 0,0,0,0,1, 0,0,0,0,1], 5: [1,1,1,1,1, 1,0,0,0,0, 1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1], 6: [1,1,1,1,1, 1,0,0,0,0, 1,1,1,1,1, 1,0,0,0,1, 1,1,1,1,1], 7: [1,1,1,1,1, 0,0,0,0,1, 0,0,0,1,0, 0,0,1,0,0, 0,1,0,0,0], 8: [1,1,1,1,1, 1,0,0,0,1, 1,1,1,1,1, 1,0,0,0,1, 1,1,1,1,1], 9: [1,1,1,1,1, 1,0,0,0,1, 1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1]}';
+
+  // Obter os valores dos inputs
+  var numero = Blockly.Python.valueToCode(block, 'NUMERO', Blockly.Python.ORDER_ATOMIC) || '0';
+  var cor_rgb = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+  var brilho = block.getFieldValue('BRILHO');
+
+  // Converter brilho de 0-100 para 0.0-1.0
+  var brilho_float = brilho / 100;
+
+  // Gerar o código MicroPython
+  var code = '';
+  // Limpa a matriz antes de desenhar
+  code += 'for i in range(25):\n';
+  code += '    np[i] = (0, 0, 0)\n';
+  // Ajusta o brilho da cor
+  code += 'cor_ajustada = (int(' + cor_rgb + '[0] * ' + brilho_float + '), int(' + cor_rgb + '[1] * ' + brilho_float + '), int(' + cor_rgb + '[2] * ' + brilho_float + '))\n';
+  // Desenha o número na matriz usando LED_MATRIX
+  code += 'if ' + numero + ' in NUMEROS_5X5:\n';
+  code += '    padrao = NUMEROS_5X5[' + numero + ']\n';
+  code += '    for y in range(5):\n';
+  code += '        for x in range(5):\n';
+  code += '            if padrao[y * 5 + x] == 1:\n';
+  code += '                np[LED_MATRIX[y][x]] = cor_ajustada\n';
+  // Atualiza a matriz
+  code += 'np.write()\n';
+
+  return code;
+};
