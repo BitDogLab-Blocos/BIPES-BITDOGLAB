@@ -3003,3 +3003,136 @@ Blockly.Blocks['criar_trilha_sonora'] = {
     }
   }
 };
+
+// Blocos de números para matriz de LEDs
+Blockly.Blocks['numero_matriz_0'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("0️⃣");
+    this.setOutput(true, "MatrixNumber");
+    this.setColour("#55a855");
+    this.setTooltip("Número 0");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['numero_matriz_1'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("1️⃣");
+    this.setOutput(true, "MatrixNumber");
+    this.setColour("#55a855");
+    this.setTooltip("Número 1");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['numero_matriz_2'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("2️⃣");
+    this.setOutput(true, "MatrixNumber");
+    this.setColour("#55a855");
+    this.setTooltip("Número 2");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['numero_matriz_3'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("3️⃣");
+    this.setOutput(true, "MatrixNumber");
+    this.setColour("#55a855");
+    this.setTooltip("Número 3");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['numero_matriz_4'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("4️⃣");
+    this.setOutput(true, "MatrixNumber");
+    this.setColour("#55a855");
+    this.setTooltip("Número 4");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['numero_matriz_5'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("5️⃣");
+    this.setOutput(true, "MatrixNumber");
+    this.setColour("#55a855");
+    this.setTooltip("Número 5");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['numero_matriz_6'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("6️⃣");
+    this.setOutput(true, "MatrixNumber");
+    this.setColour("#55a855");
+    this.setTooltip("Número 6");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['numero_matriz_7'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("7️⃣");
+    this.setOutput(true, "MatrixNumber");
+    this.setColour("#55a855");
+    this.setTooltip("Número 7");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['numero_matriz_8'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("8️⃣");
+    this.setOutput(true, "MatrixNumber");
+    this.setColour("#55a855");
+    this.setTooltip("Número 8");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['numero_matriz_9'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("9️⃣");
+    this.setOutput(true, "MatrixNumber");
+    this.setColour("#55a855");
+    this.setTooltip("Número 9");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco de ação para mostrar número na matriz
+Blockly.Blocks['mostrar_numero_matriz'] = {
+  init: function() {
+    this.appendValueInput("NUMERO")
+        .setCheck("MatrixNumber")
+        .appendField("🔢 Mostrar número");
+    this.appendValueInput("COR")
+        .setCheck("Colour")
+        .appendField("com a cor");
+    this.appendDummyInput()
+        .appendField("e brilho de")
+        .appendField(new Blockly.FieldNumber(100, 0, 100), "BRILHO")
+        .appendField("%");
+    this.setInputsInline(false);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#4a69bd");
+    this.setTooltip("Mostra um número na matriz de LEDs 5x5 com cor e brilho especificados");
+    this.setHelpUrl("");
+  }
+};

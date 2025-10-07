@@ -399,9 +399,24 @@
     <!-- 12. MATRIZ DE LEDs -->
     <category name="🔲 Matriz de LEDs" colour="#4a69bd">
       <block type="preencher_matriz"></block>
+      <block type="mostrar_numero_matriz"></block>
     </category>
 
-    <!-- 13. NOTAS MUSICAIS -->
+    <!-- 13. NÚMEROS MATRIZ -->
+    <category name="🔢 Números Matriz" colour="#55a855">
+      <block type="numero_matriz_0"></block>
+      <block type="numero_matriz_1"></block>
+      <block type="numero_matriz_2"></block>
+      <block type="numero_matriz_3"></block>
+      <block type="numero_matriz_4"></block>
+      <block type="numero_matriz_5"></block>
+      <block type="numero_matriz_6"></block>
+      <block type="numero_matriz_7"></block>
+      <block type="numero_matriz_8"></block>
+      <block type="numero_matriz_9"></block>
+    </category>
+
+    <!-- 14. NOTAS MUSICAIS -->
     <category name="🎼 Notas Musicais" colour="#833471">
       <block type="nota_do"></block>
       <block type="nota_re"></block>
@@ -412,7 +427,7 @@
       <block type="nota_si"></block>
     </category>
 
-    <!-- 14. SOM -->
+    <!-- 15. SOM -->
     <category name="🔊 Som" colour="#9a5ba5">
       <block type="tocar_nota"></block>
       <block type="tocar_som_agudo"></block>
