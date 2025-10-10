@@ -908,9 +908,6 @@ button.icon.medium:before  {
 #serialButton:before, #channelButton.webserial:before {
   background-position: left calc(-1.5rem*9) top;
 }
-#networkButton:before, #channelButton.websocket:before {
-  background-position: left calc(-1.5rem*10) top;
-}
 #toolbarButton:before {
   background-position: left calc(-2.5rem*11) top;
 }
@@ -930,14 +927,6 @@ button.icon.medium:before  {
 #forumButton,
 #connectButton,
 #serialButton,
-#networkButton,
-#bluetoothButton {
-  color: #FFFFFF !important;
-  filter: invert(1);
-}
-#bluetoothButton:before, #channelButton.webbluetooth:before {
-  background-position: left calc(-1.5rem*15) top;
-}
 #connectButton:before {
   background-position: left calc(-1.5rem*13) top;
 }
