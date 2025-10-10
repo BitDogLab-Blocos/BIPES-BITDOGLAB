@@ -248,9 +248,7 @@ channelPanel.prototype = Object.create (panel.prototype);
  */
 function channelPanel (button_, panel_) {
 	panel.call (this, button_, panel_);
-  this.bluetooth = get ('#bluetoothButton');
   this.serial = get ('#serialButton');
-  this.network = get ('#networkButton');
   this.hidePanel = (target_) => {
     this.panel.id = '';
     this.button.className = `icon ${target_}`;
@@ -258,10 +256,7 @@ function channelPanel (button_, panel_) {
   };
 
   this.button.className = `icon ${Channel ['mux'].currentChannel}`;
-  // Bluetooth and network disabled - only serial available
-  if (this.bluetooth) this.bluetooth.onclick = () => {alert('Bluetooth não disponível nesta versão.');};
   this.serial.onclick = () => {this.hidePanel ('webserial'); Channel ['mux'].switch('webserial');};
-  if (this.network) this.network.onclick = () => {alert('Rede não disponível nesta versão.');};
 }
 
 
@@ -499,8 +494,6 @@ class workspace {
         this.change ();
     });
     this.selector.onchange = () => {this.change ()};
-
-    this.websocket = {url:get('#url'), pass:get('#password')};
     this.runButton = {
         dom:get('#runButton'),
         status:true
@@ -585,7 +578,6 @@ workspace.prototype.runAbort = function () {
   this.toolbarButton.className = 'icon medium';
   this.connectButton.className = 'icon';
   this.term.className = '';
-  this.websocket.url.disabled = false;
   this.connectButton.value = "Connect";
 }
 

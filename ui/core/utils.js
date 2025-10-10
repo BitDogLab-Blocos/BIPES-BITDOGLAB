@@ -152,7 +152,6 @@ class Tool {
       code+='\r\r';//Snek workaround
 
       mux.bufferPush (`\x05${code}\x04`);
-      UI ['progress'].start(Channel.websocket.buffer_.length);
     }
   }
 
@@ -163,10 +162,6 @@ class Tool {
     mux.bufferPush ('\x03\x03');
   }
   static softReset () {
-    if (Channel ['websocket'].connected)
-      setTimeout(() => {Channel ['websocket'].connect(UI ['workspace'].websocket.url.value, UI ['workspace'].websocket.pass.value)}, 2000);
-    else if (Channel ['webbluetooth'].connected)
-      setTimeout(() => {Channel ['webbluetooth'].connect()}, 1000);
     mux.bufferPush ('\x04');
   }
 
@@ -453,31 +448,7 @@ class files {
    */
   put_file () {
     switch (Channel ['mux'].currentChannel) {
-      case 'websocket':
-        var dest_fname = this.put_file_name;
-        var dest_fsize = this.put_file_data.length;
-        // WEBREPL_FILE = "<2sBBQLH64s"
-        var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64);
-        rec[0] = 'W'.charCodeAt(0);
-        rec[1] = 'A'.charCodeAt(0);
-        rec[2] = 1; // put
-        rec[3] = 0;
-        rec[4] = 0; rec[5] = 0; rec[6] = 0; rec[7] = 0; rec[8] = 0; rec[9] = 0; rec[10] = 0; rec[11] = 0;
-        rec[12] = dest_fsize & 0xff; rec[13] = (dest_fsize >> 8) & 0xff; rec[14] = (dest_fsize >> 16) & 0xff; rec[15] = (dest_fsize >> 24) & 0xff;
-        rec[16] = dest_fname.length & 0xff; rec[17] = (dest_fname.length >> 8) & 0xff;
-        for (var i = 0; i < 64; ++i) {
-          rec[18 + i] = i < dest_fname.length ? rec[18 + i] = dest_fname.charCodeAt(i) : rec[18 + i] = 0;
-        }
-
-        // initiate put
-        this.binary_state = 11;
-        files.update_file_status ('Sending ' + this.put_file_name + '...');
-        console.log(rec);
-        mux.bufferPush (rec);
-      break;
       case 'webserial':
-      case 'webbluetooth':
-        var dest_fname = this.put_file_name;
         var dest_fsize = this.put_file_data.length;
 
         files.update_file_status(`Sending raw (USB) ${this.put_file_name}...`);
@@ -617,32 +588,7 @@ class files {
   get_file (src_fname) {
     this.file_save_as.className = 'py';
     switch (Channel ['mux'].currentChannel) {
-      case 'websocket':
-        let rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64);
-        rec[0] = 'W'.charCodeAt(0);
-        rec[1] = 'A'.charCodeAt(0);
-        rec[2] = 2; // get
-        rec[3] = 0;
-        rec[4] = 0; rec[5] = 0; rec[6] = 0; rec[7] = 0; rec[8] = 0; rec[9] = 0; rec[10] = 0; rec[11] = 0;
-        rec[12] = 0; rec[13] = 0; rec[14] = 0; rec[15] = 0;
-        rec[16] = src_fname.length & 0xff; rec[17] = (src_fname.length >> 8) & 0xff;
-        for (let i = 0; i < 64; ++i) {
-            if (i < src_fname.length) {
-                rec[18 + i] = src_fname.charCodeAt(i);
-            } else {
-                rec[18 + i] = 0;
-            }
-        }
-
-        // initiate get
-        this.binary_state = 21;
-        this.get_file_name = src_fname;
-        this.get_file_data = new Uint8Array(0);
-        files.update_file_status(`Getting ${this.get_file_name}...`);
-        mux.bufferPush (rec);
-      break;
       case 'webserial':
-      case 'webbluetooth':
         // initiate get
         this.binary_state = 91;
         files.update_file_status(`Getting ${src_fname}...`);
@@ -676,7 +622,7 @@ class files {
     }
   }
   /**
-   * Subfuction to get file from device with webserial or webbluetooth.
+   * Subfuction to get file from device with webserial.
    */
   get_file_webserial_ () {
       let re = /sys\.stdout\.write\(result\)\r\n...         \r\n...         \r\n... \r\n(.*)>>> /s;
@@ -890,16 +836,8 @@ class term {
     this.resize();
     terminal.onData((data) => {
       switch (Channel ['mux'].currentChannel) {
-        case 'websocket':
-          data = data.replace(/\n/g, "\r");
-          Channel ['websocket'].ws.send(data);
-        break;
         case 'webserial':
           Channel ['webserial'].serialWrite(data);
-        break;
-        case 'webbluetooth':
-          mux.bufferPush (data);
-          Channel ['webbluetooth'].watch ();
         break;
       }
     });

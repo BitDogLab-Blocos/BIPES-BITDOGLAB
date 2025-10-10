@@ -74,6 +74,7 @@ function checkCookie() {
   <script src="core/javascript_compressed.js?ver=0.2.1.8260042"></script>
   <script src="core/python_compressed.js?ver=0.2.3.9292231"></script>
   <script src="core/code.js?ver=0.2.3.20251001v2"></script>
+  <script src="core/webserial.js?ver=0.2.3.20251001v2"></script>
   <script src="core/channel.js?ver=0.2.3.20251001v2"></script>
   <script src="core/utils.js?ver=0.2.3.20251001v2"></script>
   <script src="core/ui.js?ver=0.2.3.1125"></script>
@@ -402,7 +403,6 @@ if ('serviceWorker' in navigator) {
     </div>
 
   <div class='channel-panel'>
-    <button class='icon' id="bluetoothButton">Bluetooth</button>
     <div>
       <button class='icon' id="serialButton">Serial</button>
       <label for="resetBoard" class="checkswitch">
@@ -410,14 +410,6 @@ if ('serviceWorker' in navigator) {
         <input type="checkbox" id="resetBoard" class="checkswitch" value="off">
         <span></span>
       </label>
-    </div>
-    <div>
-      <button class='icon' id="networkButton">Network</button>
-      <span>
-      Address: <input type="text" name="webrepl_url" id="url" value="ws://192.168.0.35:8266/" />
-      Password: <input type="password" name="webrepl_pass" id="password" value="bipes" />
-      </span>
-      <button class="icon" value="Scan boards" id="scanButton" onclick="window.open('ports.html','popup','width=600,height=600'); return false;" target="popup">Scan devices</button>
     </div>
   </div>
 
@@ -614,9 +606,7 @@ Code.init ();
 
 /* global WebSocket, WebSerial and Bluetooth variable and functions (see core/channel.js) */
 var Channel = {};
-Channel ['websocket'] = new websocket ();
 Channel ['webserial'] = new webserial ();
-Channel ['webbluetooth'] = new webbluetooth ();
 Channel ['mux'] = new mux ();
 
 //global terminal variable
