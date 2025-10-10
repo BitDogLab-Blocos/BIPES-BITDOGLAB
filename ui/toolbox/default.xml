@@ -380,20 +380,19 @@
 
     <!-- 11. LEDs -->
     <category name="💡 LEDs" colour="45">
-      <block type="led_turn_on"></block>
-      <block type="led_turn_off"></block>
-      <block type="led_turn_off_all"></block>
-      <block type="controlar_intensidade"></block>
-      <block type="piscar_led_rapido"></block>
+      <block type="bloco_ligar_led"></block>
+      <block type="bloco_desligar_led"></block>
+      <block type="bloco_desligar_todos_leds"></block>
+      <block type="bloco_acender_led_brilho"></block>
+      <block type="bloco_piscar_led"></block>
       <block type="piscar_led_lento"></block>
-      <block type="efeito_batida_coracao"></block>
-      <block type="sinalizar_socorro"></block>
-      <block type="piscar_led_aleatorio"></block>
-      <block type="alternar_led"></block>
-      <block type="transicao_led"></block>
-      <block type="batalha_led"></block>
-      <block type="fazer_acao_brilhar_e_sumir"></block>
-      <block type="led_custom_animation"></block>
+      <block type="bloco_animar_led_coracao"></block>
+      <block type="bloco_sinalizar_led_sos"></block>
+      <block type="bloco_animar_led_brilhar"></block>
+      <block type="bloco_alternar_led"></block>
+      <block type="bloco_transicao_led"></block>
+      <block type="bloco_batalhar_led"></block>
+      <block type="bloco_criar_animacao_led"></block>
     </category>
 
     <!-- 12. MATRIZ DE LEDs -->
