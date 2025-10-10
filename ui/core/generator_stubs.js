@@ -180,7 +180,7 @@ Blockly.Python['acender_coluna'] = function(block) {
 };
 
 // Gerador para ligar LED com cor
-Blockly.Python['led_turn_on'] = function(block) {
+Blockly.Python['bloco_ligar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
 
@@ -199,7 +199,7 @@ Blockly.Python['led_turn_on'] = function(block) {
 };
 
 // Gerador para desligar LED de cor específica
-Blockly.Python['led_turn_off'] = function(block) {
+Blockly.Python['bloco_desligar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
 
@@ -221,7 +221,7 @@ Blockly.Python['led_turn_off'] = function(block) {
 };
 
 // Gerador para desligar todos os LEDs
-Blockly.Python['led_turn_off_all'] = function(block) {
+Blockly.Python['bloco_desligar_todos_leds'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
 
@@ -237,7 +237,7 @@ Blockly.Python['led_turn_off_all'] = function(block) {
 };
 
 // Gerador para controlar intensidade do LED
-Blockly.Python['controlar_intensidade'] = function(block) {
+Blockly.Python['bloco_acender_led_brilho'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
 
@@ -262,7 +262,7 @@ Blockly.Python['controlar_intensidade'] = function(block) {
 // BLOCOS DE ANIMAÇÃO LED - GERADORES DE CÓDIGO
 // ==========================================
 
-Blockly.Python['piscar_led_rapido'] = function(block) {
+Blockly.Python['bloco_piscar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
@@ -310,7 +310,7 @@ Blockly.Python['piscar_led_lento'] = function(block) {
   return code;
 };
 
-Blockly.Python['efeito_batida_coracao'] = function(block) {
+Blockly.Python['bloco_animar_led_coracao'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
@@ -342,7 +342,7 @@ Blockly.Python['efeito_batida_coracao'] = function(block) {
   return code;
 };
 
-Blockly.Python['sinalizar_socorro'] = function(block) {
+Blockly.Python['bloco_sinalizar_led_sos'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
@@ -408,7 +408,7 @@ Blockly.Python['piscar_led_aleatorio'] = function(block) {
   return code;
 };
 
-Blockly.Python['alternar_led'] = function(block) {
+Blockly.Python['bloco_alternar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
@@ -444,7 +444,7 @@ Blockly.Python['alternar_led'] = function(block) {
   return code;
 };
 
-Blockly.Python['transicao_led'] = function(block) {
+Blockly.Python['bloco_transicao_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
@@ -466,7 +466,7 @@ Blockly.Python['transicao_led'] = function(block) {
   return code;
 };
 
-Blockly.Python['batalha_led'] = function(block) {
+Blockly.Python['bloco_batalhar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
@@ -492,7 +492,7 @@ Blockly.Python['batalha_led'] = function(block) {
   return code;
 };
 
-Blockly.Python['fazer_acao_brilhar_e_sumir'] = function(block) {
+Blockly.Python['bloco_animar_led_brilhar'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
@@ -519,7 +519,7 @@ Blockly.Python['fazer_acao_brilhar_e_sumir'] = function(block) {
 };
 
 // Gerador para Animação Personalizada de LED
-Blockly.Python['led_custom_animation'] = function(block) {
+Blockly.Python['bloco_criar_animacao_led'] = function(block) {
   // Verifica se o bloco tem steps_ definido
   if (!block.steps_ || block.steps_.length === 0) {
     return '';
