@@ -21,6 +21,7 @@ class WebSerialProtocol {
     this.shouldListen = true;
     this.packetSize = SERIAL_CONFIG.PACKET_SIZE;
     this.speed = SERIAL_CONFIG.BAUD_RATE;
+    this.terminalBuffer = ''; // Buffer para acumular chunks antes de processar cores
   }
 
   /**
@@ -89,7 +90,55 @@ class WebSerialProtocol {
 
                 Files.received_string = Files.received_string.concat(chunk);
               }
-              term.write(chunk);
+
+              // Acumula chunks no buffer
+              Channel['webserial'].terminalBuffer += chunk;
+
+              // Processa linhas completas quando encontrar quebra de linha
+              let lines = Channel['webserial'].terminalBuffer.split(/(\r\n|\r|\n)/);
+
+              // Se não terminou em quebra de linha, guarda o último pedaço no buffer
+              if (!Channel['webserial'].terminalBuffer.match(/(\r\n|\r|\n)$/)) {
+                Channel['webserial'].terminalBuffer = lines.pop();
+              } else {
+                Channel['webserial'].terminalBuffer = '';
+              }
+
+              // Processa cada linha completa
+              lines.forEach((line) => {
+                if (line === '\r' || line === '\n' || line === '\r\n') {
+                  term.write(line); // Mantém quebras de linha
+                } else if (line.length > 0) {
+                  // Verifica se é mensagem do sistema (branco) ou output de código (ciano)
+                  const isSystemMessage =
+                    (line.includes('MicroPython') ||
+                    line.includes('Type "help()"') ||
+                    line.includes('Raspberry Pi Pico') ||
+                    line.includes('OSError') ||
+                    line.includes('Traceback') ||
+                    line.includes('File "') ||
+                    line.includes('soft reboot') ||
+                    line.includes('MPY:') ||
+                    line.includes('setting up') ||
+                    line.includes('Error') ||
+                    line.includes('KeyboardInterrupt') ||
+                    line.includes('>>>') ||
+                    line.includes('...') ||
+                    line.match(/\[\d+\]/) ||
+                    line.includes('  File') ||
+                    line.includes('last):') ||
+                    line.includes('paste mode')) &&
+                    !line.startsWith('==='); // Linhas com === são código, não sistema
+
+                  if (isSystemMessage) {
+                    term.write('\x1b[37m' + line + '\x1b[0m'); // Branco
+                  } else if (!line.includes('\x1b[')) { // Se não tem código de cor já
+                    term.write(line); // Usa cor padrão (ciano)
+                  } else {
+                    term.write(line); // Mantém cores existentes (verde das mensagens de conexão)
+                  }
+                }
+              });
             }
           }
         });
@@ -121,7 +170,7 @@ class WebSerialProtocol {
    */
   _updateUIForConnection() {
     term.on();
-    term.write('\x1b[31mConnected using Web Serial API!\x1b[m\r\n');
+    term.write('\x1b[32mConnected using Web Serial API!\x1b[m\r\n');
     this.connected = true;
 
     if (UI['workspace'].runButton.status === true) {
@@ -151,11 +200,12 @@ class WebSerialProtocol {
       });
 
       if (term) {
-        term.write('\x1b[31mDisconnected\x1b[m\r\n');
+        term.write('\x1b[32mDisconnected\x1b[m\r\n');
       }
 
       this.buffer = [];
       this.lastChars = '';
+      this.terminalBuffer = ''; // Limpa o buffer do terminal
       this.connected = false;
       clearInterval(this.watcher);
       term.off();
@@ -170,7 +220,7 @@ class WebSerialProtocol {
   _resetBoard() {
     setTimeout(() => {
       if (UI['workspace'].resetBoard.checked) {
-        term.write('\x1b[31mResetting the board...\x1b[m\r\n');
+        term.write('\x1b[32mResetting the board...\x1b[m\r\n');
         this._serialWrite(REPL_CONSTANTS.CTRL_D);
       } else {
         this._serialWrite(REPL_CONSTANTS.CTRL_C);

@@ -833,6 +833,27 @@ class term {
   static init (dom) {
     terminal.open(get(dom));
     terminal.setOption('fontSize',12);
+    terminal.setOption('theme', {
+      foreground: '#00FFFF',  // Ciano brilhante para texto padrão (output do código)
+      background: '#000000',  // Fundo preto
+      cursor: '#00FFFF',      // Cursor ciano brilhante
+      black: '#2e3436',
+      red: '#cc0000',
+      green: '#00FF00',       // Verde brilhante para mensagens de sistema
+      yellow: '#c4a000',
+      blue: '#3465a4',
+      magenta: '#75507b',
+      cyan: '#00FFFF',        // Ciano bem forte e brilhante
+      white: '#FFFFFF',       // Branco puro
+      brightBlack: '#555753',
+      brightRed: '#ef2929',
+      brightGreen: '#8ae234',
+      brightYellow: '#fce94f',
+      brightBlue: '#729fcf',
+      brightMagenta: '#ad7fa8',
+      brightCyan: '#00FFFF',  // Ciano bem forte e brilhante
+      brightWhite: '#FFFFFF'
+    });
     this.resize();
     terminal.onData((data) => {
       switch (Channel ['mux'].currentChannel) {
