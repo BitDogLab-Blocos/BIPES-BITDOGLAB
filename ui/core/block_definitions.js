@@ -2204,3 +2204,149 @@ Blockly.Blocks['criar_trilha_sonora'] = {
   }
 };
 
+// ==========================================
+// Category: Matrix Animations
+// ==========================================
+
+Blockly.Blocks['matriz_piscar_rapido'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⚡ Fazer Piscar Rápido");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Faz o conteúdo dentro deste bloco piscar rapidamente na matriz");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['matriz_piscar_lento'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🐌 Fazer Piscar Lentamente");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Faz o conteúdo dentro deste bloco piscar lentamente na matriz");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['matriz_aparecer_sumir'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("✨ Fazer Aparecer e Sumir");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Faz o conteúdo dentro deste bloco aparecer e sumir gradualmente");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['matriz_pulsar_brilho'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("💫 Fazer Pulsar Brilho");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Faz o conteúdo dentro deste bloco pulsar com variação de brilho");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['matriz_deslizar_cima'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⬆️ Fazer Deslizar para Cima");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Faz o conteúdo dentro deste bloco deslizar para cima na matriz");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['matriz_deslizar_esquerda'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⬅️ Fazer Deslizar para Esquerda");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Faz o conteúdo dentro deste bloco deslizar para esquerda na matriz");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['matriz_balancar'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔄 Fazer Balançar");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Faz o conteúdo dentro deste bloco balançar de um lado para o outro");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['matriz_explosao'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("💥 Fazer Explosão");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Faz o conteúdo dentro deste bloco ter um efeito de explosão");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['matriz_contracao'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔻 Fazer Contração");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Faz o conteúdo dentro deste bloco ter um efeito de contração");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['matriz_dar_flash'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⚡ Dar um Flash de Cor");
+    this.appendValueInput("COR")
+        .setCheck("Colour");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Exibe o conteúdo dentro deste bloco e depois dá um flash com a cor especificada");
+    this.setHelpUrl("");
+  }
+};
+

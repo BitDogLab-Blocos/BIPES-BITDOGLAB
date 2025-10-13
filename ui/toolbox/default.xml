@@ -406,7 +406,21 @@
       <block type="mostrar_emoji"></block>
     </category>
 
-    <!-- 13. NÚMEROS MATRIZ -->
+    <!-- 13. ANIMAÇÕES DA MATRIZ -->
+    <category name="✨ Animações da Matriz" colour="#8e44ad">
+      <block type="matriz_piscar_rapido"></block>
+      <block type="matriz_piscar_lento"></block>
+      <block type="matriz_aparecer_sumir"></block>
+      <block type="matriz_pulsar_brilho"></block>
+      <block type="matriz_deslizar_cima"></block>
+      <block type="matriz_deslizar_esquerda"></block>
+      <block type="matriz_balancar"></block>
+      <block type="matriz_explosao"></block>
+      <block type="matriz_contracao"></block>
+      <block type="matriz_dar_flash"></block>
+    </category>
+
+    <!-- 14. NÚMEROS MATRIZ -->
     <category name="🔢 Números Matriz" colour="#55a855">
       <block type="numero_matriz_0"></block>
       <block type="numero_matriz_1"></block>
@@ -420,7 +434,7 @@
       <block type="numero_matriz_9"></block>
     </category>
 
-    <!-- 14. EMOJIS MATRIZ -->
+    <!-- 15. EMOJIS MATRIZ -->
     <category name="😊 Emojis Matriz" colour="#FF8C00">
       <block type="emoji_rosto_feliz"></block>
       <block type="emoji_rosto_triste"></block>
@@ -434,7 +448,7 @@
       <block type="emoji_fantasma"></block>
     </category>
 
-    <!-- 15. NOTAS MUSICAIS -->
+    <!-- 16. NOTAS MUSICAIS -->
     <category name="🎼 Notas Musicais" colour="#833471">
       <block type="nota_do"></block>
       <block type="nota_re"></block>
@@ -445,7 +459,7 @@
       <block type="nota_si"></block>
     </category>
 
-    <!-- 15. SOM -->
+    <!-- 17. SOM -->
     <category name="🔊 Som" colour="#9a5ba5">
       <block type="tocar_nota"></block>
       <block type="tocar_som_agudo"></block>
