@@ -277,11 +277,11 @@ Blockly.Python['bloco_piscar_led'] = function(block) {
   code += '  led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += '  led_verde.duty_u16(' + colour + '[1] * 257)\n';
   code += '  led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '  time.sleep_ms(200)\n';
+  code += '    time.sleep_ms(200)\n';
   code += '  led_vermelho.duty_u16(0)\n';
   code += '  led_verde.duty_u16(0)\n';
   code += '  led_azul.duty_u16(0)\n';
-  code += '  time.sleep_ms(200)\n';
+  code += '    time.sleep_ms(200)\n';
 
   return code;
 };
@@ -301,11 +301,11 @@ Blockly.Python['piscar_led_lento'] = function(block) {
   code += '  led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += '  led_verde.duty_u16(' + colour + '[1] * 257)\n';
   code += '  led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '  time.sleep_ms(1000)\n';
+  code += '    time.sleep_ms(1000)\n';
   code += '  led_vermelho.duty_u16(0)\n';
   code += '  led_verde.duty_u16(0)\n';
   code += '  led_azul.duty_u16(0)\n';
-  code += '  time.sleep_ms(1000)\n';
+  code += '    time.sleep_ms(1000)\n';
 
   return code;
 };
@@ -325,19 +325,19 @@ Blockly.Python['bloco_animar_led_coracao'] = function(block) {
   code += '  led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += '  led_verde.duty_u16(' + colour + '[1] * 257)\n';
   code += '  led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '  time.sleep_ms(100)\n';
+  code += '    time.sleep_ms(100)\n';
   code += '  led_vermelho.duty_u16(0)\n';
   code += '  led_verde.duty_u16(0)\n';
   code += '  led_azul.duty_u16(0)\n';
-  code += '  time.sleep_ms(100)\n';
+  code += '    time.sleep_ms(100)\n';
   code += '  led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += '  led_verde.duty_u16(' + colour + '[1] * 257)\n';
   code += '  led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '  time.sleep_ms(100)\n';
+  code += '    time.sleep_ms(100)\n';
   code += '  led_vermelho.duty_u16(0)\n';
   code += '  led_verde.duty_u16(0)\n';
   code += '  led_azul.duty_u16(0)\n';
-  code += '  time.sleep_ms(700)\n';
+  code += '    time.sleep_ms(700)\n';
 
   return code;
 };
@@ -363,7 +363,7 @@ Blockly.Python['bloco_sinalizar_led_sos'] = function(block) {
   code += '    led_verde.duty_u16(0)\n';
   code += '    led_azul.duty_u16(0)\n';
   code += '    time.sleep_ms(150)\n';
-  code += '  time.sleep_ms(400)\n';
+  code += '    time.sleep_ms(400)\n';
   code += '  for _ in range(3):\n';
   code += '    led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += '    led_verde.duty_u16(' + colour + '[1] * 257)\n';
@@ -373,7 +373,7 @@ Blockly.Python['bloco_sinalizar_led_sos'] = function(block) {
   code += '    led_verde.duty_u16(0)\n';
   code += '    led_azul.duty_u16(0)\n';
   code += '    time.sleep_ms(150)\n';
-  code += '  time.sleep_ms(400)\n';
+  code += '    time.sleep_ms(400)\n';
   code += '  for _ in range(3):\n';
   code += '    led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += '    led_verde.duty_u16(' + colour + '[1] * 257)\n';
@@ -383,7 +383,7 @@ Blockly.Python['bloco_sinalizar_led_sos'] = function(block) {
   code += '    led_verde.duty_u16(0)\n';
   code += '    led_azul.duty_u16(0)\n';
   code += '    time.sleep_ms(150)\n';
-  code += '  time.sleep_ms(800)\n';
+  code += '    time.sleep_ms(800)\n';
   return code;
 };
 
@@ -404,7 +404,7 @@ Blockly.Python['piscar_led_aleatorio'] = function(block) {
   code += '  led_vermelho.duty_u16(' + colour + '[0] * 257 * intensidade)\n';
   code += '  led_verde.duty_u16(' + colour + '[1] * 257 * intensidade)\n';
   code += '  led_azul.duty_u16(' + colour + '[2] * 257 * intensidade)\n';
-  code += '  time.sleep_ms(urandom.randint(50, 500))\n';
+  code += '    time.sleep_ms(urandom.randint(50, 500))\n';
   return code;
 };
 
@@ -462,7 +462,7 @@ Blockly.Python['bloco_transicao_led'] = function(block) {
   code += '    led_verde.duty_u16(int(' + colour1 + '[1] * 257 * (10-i)/10 + ' + colour2 + '[1] * 257 * i/10))\n';
   code += '    led_azul.duty_u16(int(' + colour1 + '[2] * 257 * (10-i)/10 + ' + colour2 + '[2] * 257 * i/10))\n';
   code += '    time.sleep_ms(50)\n';
-  code += '  time.sleep_ms(500)\n';
+  code += '    time.sleep_ms(500)\n';
   return code;
 };
 
@@ -488,7 +488,7 @@ Blockly.Python['bloco_batalhar_led'] = function(block) {
   code += '    led_vermelho.duty_u16(' + colour2 + '[0] * 257)\n';
   code += '    led_verde.duty_u16(' + colour2 + '[1] * 257)\n';
   code += '    led_azul.duty_u16(' + colour2 + '[2] * 257)\n';
-  code += '  time.sleep_ms(urandom.randint(100, 300))\n';
+  code += '    time.sleep_ms(urandom.randint(100, 300))\n';
   return code;
 };
 
@@ -514,7 +514,7 @@ Blockly.Python['bloco_animar_led_brilhar'] = function(block) {
   code += '    led_verde.duty_u16(int(' + colour + '[1] * 257 * i/10))\n';
   code += '    led_azul.duty_u16(int(' + colour + '[2] * 257 * i/10))\n';
   code += '    time.sleep_ms(50)\n';
-  code += '  time.sleep_ms(200)\n';
+  code += '    time.sleep_ms(200)\n';
   return code;
 };
 
@@ -5946,6 +5946,387 @@ Blockly.Python['mostrar_emoji'] = function(block) {
   code += '                np[LED_MATRIX[y][x]] = cor_ajustada\n';
   // Atualiza a matriz
   code += 'np.write()\n';
+
+  return code;
+};
+
+// ==========================================
+// Geradores para Animações da Matriz
+// ==========================================
+
+// Gerador para matriz_piscar_rapido
+Blockly.Python['matriz_piscar_rapido'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+
+  // Obter o código dos blocos internos e remover indentação extra
+  var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
+  // Remove 2 espaços de indentação do inicio de cada linha
+  if (codigo_interno) {
+    codigo_interno = codigo_interno.replace(/^  /gm, '');
+  }
+
+  // Gerar código de animação
+  var code = '# Piscar rápido\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
+  code += 'time.sleep_ms(200)\n';
+  code += 'for i in range(25):\n';
+  code += '    np[i] = (0, 0, 0)\n';
+  code += 'np.write()\n';
+  code += 'time.sleep_ms(200)\n';
+
+  return code;
+};
+
+// Gerador para matriz_piscar_lento
+Blockly.Python['matriz_piscar_lento'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+
+  // Obter o código dos blocos internos
+  var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
+  // Remove 2 espaços de indentação do inicio de cada linha
+  if (codigo_interno) {
+    codigo_interno = codigo_interno.replace(/^  /gm, '');
+  }
+
+  // Gerar código de animação
+  var code = '# Piscar lento\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
+  code += 'time.sleep_ms(1000)\n';
+  code += 'for i in range(25):\n';
+  code += '    np[i] = (0, 0, 0)\n';
+  code += 'np.write()\n';
+  code += 'time.sleep_ms(1000)\n';
+
+  return code;
+};
+
+// Gerador para matriz_aparecer_sumir
+Blockly.Python['matriz_aparecer_sumir'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+
+  // Obter o código dos blocos internos
+  var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
+  // Remove 2 espaços de indentação do inicio de cada linha
+  if (codigo_interno) {
+    codigo_interno = codigo_interno.replace(/^  /gm, '');
+  }
+
+  // Gerar código de animação com fade in/out
+  var code = '# Aparecer e sumir\n';
+  code += '# Salvar estado atual da matriz\n';
+  code += '_matriz_temp = [(0,0,0)] * 25\n';
+  code += 'for i in range(25):\n';
+  code += '    _matriz_temp[i] = np[i]\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
+  code += '# Capturar cores após executar código interno\n';
+  code += '_cores_finais = [(0,0,0)] * 25\n';
+  code += 'for i in range(25):\n';
+  code += '    _cores_finais[i] = np[i]\n';
+  code += '# Fade in (aparecer)\n';
+  code += 'for brilho in range(0, 101, 10):\n';
+  code += '    for i in range(25):\n';
+  code += '        np[i] = (int(_cores_finais[i][0] * brilho / 100), int(_cores_finais[i][1] * brilho / 100), int(_cores_finais[i][2] * brilho / 100))\n';
+  code += '    np.write()\n';
+  code += '    time.sleep_ms(50)\n';
+  code += '# Fade out (sumir)\n';
+  code += 'for brilho in range(100, -1, -10):\n';
+  code += '    for i in range(25):\n';
+  code += '        np[i] = (int(_cores_finais[i][0] * brilho / 100), int(_cores_finais[i][1] * brilho / 100), int(_cores_finais[i][2] * brilho / 100))\n';
+  code += '    np.write()\n';
+  code += '    time.sleep_ms(50)\n';
+
+  return code;
+};
+
+// Gerador para matriz_pulsar_brilho
+Blockly.Python['matriz_pulsar_brilho'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+
+  // Obter o código dos blocos internos
+  var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
+  // Remove 2 espaços de indentação do inicio de cada linha
+  if (codigo_interno) {
+    codigo_interno = codigo_interno.replace(/^  /gm, '');
+  }
+
+  // Gerar código de animação pulsante
+  var code = '';
+  code += '# Pulsar brilho\n';
+  code += '# Executar código interno para definir cores\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
+  code += '# Capturar cores\n';
+  code += '_cores_pulsar = [(0,0,0)] * 25\n';
+  code += 'for i in range(25):\n';
+  code += '    _cores_pulsar[i] = np[i]\n';
+  code += '# Pulsar (aumentar e diminuir brilho)\n';
+  code += 'for ciclo in range(2):\n';
+  code += '    # Aumentar brilho\n';
+  code += '    for brilho in range(30, 101, 10):\n';
+  code += '        for i in range(25):\n';
+  code += '            np[i] = (int(_cores_pulsar[i][0] * brilho / 100), int(_cores_pulsar[i][1] * brilho / 100), int(_cores_pulsar[i][2] * brilho / 100))\n';
+  code += '        np.write()\n';
+  code += '        time.sleep_ms(50)\n';
+  code += '    # Diminuir brilho\n';
+  code += '    for brilho in range(100, 29, -10):\n';
+  code += '        for i in range(25):\n';
+  code += '            np[i] = (int(_cores_pulsar[i][0] * brilho / 100), int(_cores_pulsar[i][1] * brilho / 100), int(_cores_pulsar[i][2] * brilho / 100))\n';
+  code += '        np.write()\n';
+  code += '        time.sleep_ms(50)\n';
+
+  return code;
+};
+
+// Gerador para matriz_deslizar_cima
+Blockly.Python['matriz_deslizar_cima'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  // Obter o código dos blocos internos
+  var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
+  // Remove 2 espaços de indentação do inicio de cada linha
+  if (codigo_interno) {
+    codigo_interno = codigo_interno.replace(/^  /gm, '');
+  }
+
+  // Gerar código de animação deslizante
+  var code = '';
+  code += '# Deslizar para cima\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
+  code += '# Capturar estado atual da matriz\n';
+  code += '_matriz_deslizar = [[np[LED_MATRIX[y][x]] for x in range(5)] for y in range(5)]\n';
+  code += '# Animar deslizamento para cima\n';
+  code += 'for passo in range(5):\n';
+  code += '    for y in range(5):\n';
+  code += '        for x in range(5):\n';
+  code += '            if y + passo < 5:\n';
+  code += '                np[LED_MATRIX[y][x]] = _matriz_deslizar[y + passo][x]\n';
+  code += '            else:\n';
+  code += '                np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
+  code += '    np.write()\n';
+  code += '    time.sleep_ms(100)\n';
+
+  return code;
+};
+
+// Gerador para matriz_deslizar_esquerda
+Blockly.Python['matriz_deslizar_esquerda'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  // Obter o código dos blocos internos
+  var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
+  // Remove 2 espaços de indentação do inicio de cada linha
+  if (codigo_interno) {
+    codigo_interno = codigo_interno.replace(/^  /gm, '');
+  }
+
+  // Gerar código de animação deslizante
+  var code = '';
+  code += '# Deslizar para esquerda\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
+  code += '# Capturar estado atual da matriz\n';
+  code += '_matriz_deslizar = [[np[LED_MATRIX[y][x]] for x in range(5)] for y in range(5)]\n';
+  code += '# Animar deslizamento para esquerda\n';
+  code += 'for passo in range(5):\n';
+  code += '    for y in range(5):\n';
+  code += '        for x in range(5):\n';
+  code += '            if x + passo < 5:\n';
+  code += '                np[LED_MATRIX[y][x]] = _matriz_deslizar[y][x + passo]\n';
+  code += '            else:\n';
+  code += '                np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
+  code += '    np.write()\n';
+  code += '    time.sleep_ms(100)\n';
+
+  return code;
+};
+
+// Gerador para matriz_balancar
+Blockly.Python['matriz_balancar'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  // Obter o código dos blocos internos
+  var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
+  // Remove 2 espaços de indentação do inicio de cada linha
+  if (codigo_interno) {
+    codigo_interno = codigo_interno.replace(/^  /gm, '');
+  }
+
+  // Gerar código de animação de balanço
+  var code = '';
+  code += '# Balançar\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
+  code += '# Capturar estado original\n';
+  code += '_matriz_original = [[np[LED_MATRIX[y][x]] for x in range(5)] for y in range(5)]\n';
+  code += '# Balançar para direita e esquerda\n';
+  code += 'movimentos = [1, 2, 1, 0, -1, -2, -1, 0]\n';
+  code += 'for deslocamento in movimentos:\n';
+  code += '    for y in range(5):\n';
+  code += '        for x in range(5):\n';
+  code += '            x_original = x - deslocamento\n';
+  code += '            if 0 <= x_original < 5:\n';
+  code += '                np[LED_MATRIX[y][x]] = _matriz_original[y][x_original]\n';
+  code += '            else:\n';
+  code += '                np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
+  code += '    np.write()\n';
+  code += '    time.sleep_ms(100)\n';
+  code += '# Restaurar posição original\n';
+  code += 'for y in range(5):\n';
+  code += '    for x in range(5):\n';
+  code += '        np[LED_MATRIX[y][x]] = _matriz_original[y][x]\n';
+  code += 'np.write()\n';
+
+  return code;
+};
+
+// Gerador para matriz_explosao
+Blockly.Python['matriz_explosao'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  // Obter o código dos blocos internos
+  var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
+  // Remove 2 espaços de indentação do inicio de cada linha
+  if (codigo_interno) {
+    codigo_interno = codigo_interno.replace(/^  /gm, '');
+  }
+
+  // Gerar código de animação de explosão
+  var code = '';
+  code += '# Explosão\n';
+  code += '# Começar do centro e expandir\n';
+  code += 'for i in range(25):\n';
+  code += '    np[i] = (0, 0, 0)\n';
+  code += 'np.write()\n';
+  code += '# Capturar cores do código interno\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
+  code += '_cores_explosao = [np[i] for i in range(25)]\n';
+  code += '# Animar explosão do centro para fora\n';
+  code += 'camadas = [[(2,2)], [(1,1),(1,2),(1,3),(2,1),(2,3),(3,1),(3,2),(3,3)], [(0,0),(0,1),(0,2),(0,3),(0,4),(1,0),(1,4),(2,0),(2,4),(3,0),(3,4),(4,0),(4,1),(4,2),(4,3),(4,4)]]\n';
+  code += 'for camada in camadas:\n';
+  code += '    for y, x in camada:\n';
+  code += '        np[LED_MATRIX[y][x]] = _cores_explosao[LED_MATRIX[y][x]]\n';
+  code += '    np.write()\n';
+  code += '    time.sleep_ms(150)\n';
+
+  return code;
+};
+
+// Gerador para matriz_contracao
+Blockly.Python['matriz_contracao'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  // Obter o código dos blocos internos
+  var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
+  // Remove 2 espaços de indentação do inicio de cada linha
+  if (codigo_interno) {
+    codigo_interno = codigo_interno.replace(/^  /gm, '');
+  }
+
+  // Gerar código de animação de contração
+  var code = '';
+  code += '# Contração\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
+  code += '# Capturar cores\n';
+  code += '_cores_contracao = [np[i] for i in range(25)]\n';
+  code += '# Animar contração de fora para centro\n';
+  code += 'camadas = [[(0,0),(0,1),(0,2),(0,3),(0,4),(1,0),(1,4),(2,0),(2,4),(3,0),(3,4),(4,0),(4,1),(4,2),(4,3),(4,4)], [(1,1),(1,2),(1,3),(2,1),(2,3),(3,1),(3,2),(3,3)], [(2,2)]]\n';
+  code += 'for camada in camadas:\n';
+  code += '    for y, x in camada:\n';
+  code += '        np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
+  code += '    np.write()\n';
+  code += '    time.sleep_ms(150)\n';
+
+  return code;
+};
+
+// Gerador para matriz_dar_flash
+Blockly.Python['matriz_dar_flash'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+
+  // Obter o código dos blocos internos e a cor do flash
+  var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
+  // Remove 2 espaços de indentação do inicio de cada linha
+  if (codigo_interno) {
+    codigo_interno = codigo_interno.replace(/^  /gm, '');
+  }
+  var cor_flash = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(255, 255, 255)';
+
+  // Gerar código de animação de flash
+  var code = '';
+  code += '# Dar flash de cor\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
+  code += 'time.sleep_ms(500)\n';
+  code += '# Flash com a cor especificada\n';
+  code += 'for i in range(25):\n';
+  code += '  np[i] = ' + cor_flash + '\n';
+  code += 'np.write()\n';
+  code += 'time.sleep_ms(100)\n';
+  code += '# Restaurar conteúdo\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
 
   return code;
 };
