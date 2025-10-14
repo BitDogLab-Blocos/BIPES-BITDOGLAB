@@ -417,7 +417,6 @@
       <block type="matriz_deslizar_esquerda"></block>
       <block type="matriz_deslizar_direita"></block>
       <block type="matriz_balancar"></block>
-      <block type="matriz_explosao"></block>
       <block type="matriz_contracao"></block>
       <block type="matriz_dar_flash"></block>
     </category>
