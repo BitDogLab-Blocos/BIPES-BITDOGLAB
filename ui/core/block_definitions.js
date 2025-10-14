@@ -2334,20 +2334,6 @@ Blockly.Blocks['matriz_balancar'] = {
   }
 };
 
-Blockly.Blocks['matriz_explosao'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("💥 Fazer Explosão");
-    this.appendStatementInput("DO")
-        .setCheck(null);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#8e44ad");
-    this.setTooltip("Faz o conteúdo dentro deste bloco ter um efeito de explosão");
-    this.setHelpUrl("");
-  }
-};
-
 Blockly.Blocks['matriz_contracao'] = {
   init: function() {
     this.appendDummyInput()
