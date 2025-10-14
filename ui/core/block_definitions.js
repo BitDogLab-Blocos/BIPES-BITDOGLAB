@@ -2292,6 +2292,34 @@ Blockly.Blocks['matriz_deslizar_esquerda'] = {
   }
 };
 
+Blockly.Blocks['matriz_deslizar_baixo'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⬇️ Fazer Deslizar para Baixo");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Faz o conteúdo dentro deste bloco deslizar para baixo na matriz");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['matriz_deslizar_direita'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("➡️ Fazer Deslizar para Direita");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Faz o conteúdo dentro deste bloco deslizar para direita na matriz");
+    this.setHelpUrl("");
+  }
+};
+
 Blockly.Blocks['matriz_balancar'] = {
   init: function() {
     this.appendDummyInput()

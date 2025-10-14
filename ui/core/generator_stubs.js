@@ -1,4 +1,4 @@
-/*
+﻿/*
  * code generation for BIPES
  *
  */
@@ -6124,8 +6124,8 @@ Blockly.Python['matriz_deslizar_cima'] = function(block) {
   }
   code += '# Capturar estado atual da matriz\n';
   code += '_matriz_deslizar = [[np[LED_MATRIX[y][x]] for x in range(5)] for y in range(5)]\n';
-  code += '# Animar deslizamento para cima\n';
-  code += 'for passo in range(5):\n';
+  code += '# Animar deslizamento para cima (5 passos para apagar tudo)\n';
+  code += 'for passo in range(1, 6):\n';
   code += '    for y in range(5):\n';
   code += '        for x in range(5):\n';
   code += '            if y + passo < 5:\n';
@@ -6162,12 +6162,88 @@ Blockly.Python['matriz_deslizar_esquerda'] = function(block) {
   }
   code += '# Capturar estado atual da matriz\n';
   code += '_matriz_deslizar = [[np[LED_MATRIX[y][x]] for x in range(5)] for y in range(5)]\n';
-  code += '# Animar deslizamento para esquerda\n';
-  code += 'for passo in range(5):\n';
+  code += '# Animar deslizamento para esquerda (5 passos para apagar tudo)\n';
+  code += 'for passo in range(1, 6):\n';
   code += '    for y in range(5):\n';
   code += '        for x in range(5):\n';
   code += '            if x + passo < 5:\n';
   code += '                np[LED_MATRIX[y][x]] = _matriz_deslizar[y][x + passo]\n';
+  code += '            else:\n';
+  code += '                np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
+  code += '    np.write()\n';
+  code += '    time.sleep_ms(100)\n';
+
+  return code;
+};
+
+// Gerador para matriz_deslizar_baixo
+Blockly.Python['matriz_deslizar_baixo'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  // Obter o código dos blocos internos
+  var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
+  // Remove 2 espaços de indentação do inicio de cada linha
+  if (codigo_interno) {
+    codigo_interno = codigo_interno.replace(/^  /gm, '');
+  }
+
+  // Gerar código de animação deslizante
+  var code = '';
+  code += '# Deslizar para baixo\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
+  code += '# Capturar estado atual da matriz\n';
+  code += '_matriz_deslizar = [[np[LED_MATRIX[y][x]] for x in range(5)] for y in range(5)]\n';
+  code += '# Animar deslizamento para baixo (5 passos para apagar tudo)\n';
+  code += 'for passo in range(1, 6):\n';
+  code += '    for y in range(5):\n';
+  code += '        for x in range(5):\n';
+  code += '            if y - passo >= 0:\n';
+  code += '                np[LED_MATRIX[y][x]] = _matriz_deslizar[y - passo][x]\n';
+  code += '            else:\n';
+  code += '                np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
+  code += '    np.write()\n';
+  code += '    time.sleep_ms(100)\n';
+
+  return code;
+};
+
+// Gerador para matriz_deslizar_direita
+Blockly.Python['matriz_deslizar_direita'] = function(block) {
+  // Imports e setup da matriz
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  // Obter o código dos blocos internos
+  var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
+  // Remove 2 espaços de indentação do inicio de cada linha
+  if (codigo_interno) {
+    codigo_interno = codigo_interno.replace(/^  /gm, '');
+  }
+
+  // Gerar código de animação deslizante
+  var code = '';
+  code += '# Deslizar para direita\n';
+  if (codigo_interno) {
+    code += codigo_interno;
+  }
+  code += '# Capturar estado atual da matriz\n';
+  code += '_matriz_deslizar = [[np[LED_MATRIX[y][x]] for x in range(5)] for y in range(5)]\n';
+  code += '# Animar deslizamento para direita (5 passos para apagar tudo)\n';
+  code += 'for passo in range(1, 6):\n';
+  code += '    for y in range(5):\n';
+  code += '        for x in range(5):\n';
+  code += '            if x - passo >= 0:\n';
+  code += '                np[LED_MATRIX[y][x]] = _matriz_deslizar[y][x - passo]\n';
   code += '            else:\n';
   code += '                np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
   code += '    np.write()\n';
@@ -6330,3 +6406,4 @@ Blockly.Python['matriz_dar_flash'] = function(block) {
 
   return code;
 };
+
