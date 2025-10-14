@@ -1,3 +1,17 @@
+
+// Variável global para controlar se a mensagem de instrução já foi mostrada
+var matrixAnimationTipShown = false;
+
+// Função para mostrar a dica de animação da matriz (apenas uma vez)
+function showMatrixAnimationTip() {
+  if (!matrixAnimationTipShown) {
+    matrixAnimationTipShown = true;
+    setTimeout(function() {
+      alert("💡 Dica: Coloque um bloco da Matriz de LEDs (como 'Mostrar emoji' ou 'Mostrar número') dentro deste bloco de animação!");
+    }, 100);
+  }
+}
+
 // ==========================================
 // Category: Mathematics
 // ==========================================
@@ -2219,6 +2233,14 @@ Blockly.Blocks['matriz_piscar_rapido'] = {
     this.setColour("#8e44ad");
     this.setTooltip("Faz o conteúdo dentro deste bloco piscar rapidamente na matriz");
     this.setHelpUrl("");
+
+    // Mostra a dica quando o bloco é criado no workspace
+    var self = this;
+    setTimeout(function() {
+      if (self.workspace) {
+        showMatrixAnimationTip();
+      }
+    }, 200);
   }
 };
 
@@ -2233,6 +2255,14 @@ Blockly.Blocks['matriz_piscar_lento'] = {
     this.setColour("#8e44ad");
     this.setTooltip("Faz o conteúdo dentro deste bloco piscar lentamente na matriz");
     this.setHelpUrl("");
+
+    // Mostra a dica quando o bloco é criado no workspace
+    var self = this;
+    setTimeout(function() {
+      if (self.workspace) {
+        showMatrixAnimationTip();
+      }
+    }, 200);
   }
 };
 
@@ -2247,6 +2277,14 @@ Blockly.Blocks['matriz_aparecer_sumir'] = {
     this.setColour("#8e44ad");
     this.setTooltip("Faz o conteúdo dentro deste bloco aparecer e sumir gradualmente");
     this.setHelpUrl("");
+
+    // Mostra a dica quando o bloco é criado no workspace
+    var self = this;
+    setTimeout(function() {
+      if (self.workspace) {
+        showMatrixAnimationTip();
+      }
+    }, 200);
   }
 };
 
@@ -2261,6 +2299,14 @@ Blockly.Blocks['matriz_pulsar_brilho'] = {
     this.setColour("#8e44ad");
     this.setTooltip("Faz o conteúdo dentro deste bloco pulsar com variação de brilho");
     this.setHelpUrl("");
+
+    // Mostra a dica quando o bloco é criado no workspace
+    var self = this;
+    setTimeout(function() {
+      if (self.workspace) {
+        showMatrixAnimationTip();
+      }
+    }, 200);
   }
 };
 
@@ -2275,6 +2321,14 @@ Blockly.Blocks['matriz_deslizar_cima'] = {
     this.setColour("#8e44ad");
     this.setTooltip("Faz o conteúdo dentro deste bloco deslizar para cima na matriz");
     this.setHelpUrl("");
+
+    // Mostra a dica quando o bloco é criado no workspace
+    var self = this;
+    setTimeout(function() {
+      if (self.workspace) {
+        showMatrixAnimationTip();
+      }
+    }, 200);
   }
 };
 
@@ -2289,6 +2343,14 @@ Blockly.Blocks['matriz_deslizar_esquerda'] = {
     this.setColour("#8e44ad");
     this.setTooltip("Faz o conteúdo dentro deste bloco deslizar para esquerda na matriz");
     this.setHelpUrl("");
+
+    // Mostra a dica quando o bloco é criado no workspace
+    var self = this;
+    setTimeout(function() {
+      if (self.workspace) {
+        showMatrixAnimationTip();
+      }
+    }, 200);
   }
 };
 
@@ -2303,6 +2365,14 @@ Blockly.Blocks['matriz_deslizar_baixo'] = {
     this.setColour("#8e44ad");
     this.setTooltip("Faz o conteúdo dentro deste bloco deslizar para baixo na matriz");
     this.setHelpUrl("");
+
+    // Mostra a dica quando o bloco é criado no workspace
+    var self = this;
+    setTimeout(function() {
+      if (self.workspace) {
+        showMatrixAnimationTip();
+      }
+    }, 200);
   }
 };
 
@@ -2317,6 +2387,14 @@ Blockly.Blocks['matriz_deslizar_direita'] = {
     this.setColour("#8e44ad");
     this.setTooltip("Faz o conteúdo dentro deste bloco deslizar para direita na matriz");
     this.setHelpUrl("");
+
+    // Mostra a dica quando o bloco é criado no workspace
+    var self = this;
+    setTimeout(function() {
+      if (self.workspace) {
+        showMatrixAnimationTip();
+      }
+    }, 200);
   }
 };
 
@@ -2331,6 +2409,14 @@ Blockly.Blocks['matriz_balancar'] = {
     this.setColour("#8e44ad");
     this.setTooltip("Faz o conteúdo dentro deste bloco balançar de um lado para o outro");
     this.setHelpUrl("");
+
+    // Mostra a dica quando o bloco é criado no workspace
+    var self = this;
+    setTimeout(function() {
+      if (self.workspace) {
+        showMatrixAnimationTip();
+      }
+    }, 200);
   }
 };
 
@@ -2345,6 +2431,14 @@ Blockly.Blocks['matriz_contracao'] = {
     this.setColour("#8e44ad");
     this.setTooltip("Faz o conteúdo dentro deste bloco ter um efeito de contração");
     this.setHelpUrl("");
+
+    // Mostra a dica quando o bloco é criado no workspace
+    var self = this;
+    setTimeout(function() {
+      if (self.workspace) {
+        showMatrixAnimationTip();
+      }
+    }, 200);
   }
 };
 
@@ -2361,6 +2455,14 @@ Blockly.Blocks['matriz_dar_flash'] = {
     this.setColour("#8e44ad");
     this.setTooltip("Exibe o conteúdo dentro deste bloco e depois dá um flash com a cor especificada");
     this.setHelpUrl("");
+
+    // Mostra a dica quando o bloco é criado no workspace
+    var self = this;
+    setTimeout(function() {
+      if (self.workspace) {
+        showMatrixAnimationTip();
+      }
+    }, 200);
   }
 };
 
