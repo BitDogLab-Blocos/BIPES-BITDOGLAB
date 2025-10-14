@@ -2466,3 +2466,44 @@ Blockly.Blocks['matriz_dar_flash'] = {
   }
 };
 
+// ==========================================
+// Category: Buttons
+// ==========================================
+
+Blockly.Blocks['botao_enquanto_apertado'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎮 Enquanto apertar o botão")
+        .appendField(new Blockly.FieldDropdown([["👆 Esquerda", "ESQUERDA"], ["👉 Direita", "DIREITA"], ["🎯 Centro", "CENTRO"]]), "BOTAO")
+        .appendField("😊 faça:");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("😕 Quando soltar:");
+    this.appendStatementInput("ELSE")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#ee5a24");
+    this.setTooltip("🎈 Enquanto você segurar o botão, ele faz uma coisa. Quando soltar, faz outra!");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['botao_se_apertado'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎮 Se apertar o botão")
+        .appendField(new Blockly.FieldDropdown([["👆 Esquerda", "ESQUERDA"], ["👉 Direita", "DIREITA"], ["🎯 Centro", "CENTRO"]]), "BOTAO")
+        .appendField("acontece a Ação:");
+    this.appendStatementInput("DO")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#ee5a24");
+    this.setTooltip("😊 Quando você aperta o botão, acontece uma vez só!");
+    this.setHelpUrl("");
+  }
+};
+
+

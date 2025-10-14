@@ -4,6 +4,7 @@
  */
 let UPythonClass = {}
 
+
 // LED RGB Control Blocks Code Generators for BitDogLab
 // Geradores para blocos de cores - retornam tuplas RGB
 Blockly.Python['colour_red'] = function(block) {
@@ -6383,4 +6384,144 @@ Blockly.Python['matriz_dar_flash'] = function(block) {
 
   return code;
 };
+
+// ==========================================
+// Geradores para Blocos de Botões
+// ==========================================
+
+// Gerador para botao_enquanto_apertado (com else para desligar quando soltar)
+Blockly.Python['botao_enquanto_apertado'] = function(block) {
+  // Garante que o setup dos botões seja incluído
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['setup_botoes'] =
+    'botao_esquerda = Pin(5, Pin.IN, Pin.PULL_UP)\n' +
+    'botao_direita = Pin(6, Pin.IN, Pin.PULL_UP)\n' +
+    'botao_centro = Pin(10, Pin.IN, Pin.PULL_UP)';
+
+  // Obtém a escolha do botão
+  var botao = block.getFieldValue('BOTAO');
+
+  // Mapeia a escolha para a variável Python correta
+  var variavel_botao;
+  switch (botao) {
+    case 'ESQUERDA':
+      variavel_botao = 'botao_esquerda';
+      break;
+    case 'DIREITA':
+      variavel_botao = 'botao_direita';
+      break;
+    case 'CENTRO':
+      variavel_botao = 'botao_centro';
+      break;
+    default:
+      variavel_botao = 'botao_esquerda';
+  }
+
+  // Obtém o código dos encaixes DO e ELSE
+  var codigo_do = Blockly.Python.statementToCode(block, 'DO');
+  var codigo_else = Blockly.Python.statementToCode(block, 'ELSE');
+
+  // Remove 2 espaços de indentação do início de cada linha
+  if (codigo_do) {
+    codigo_do = codigo_do.replace(/^  /gm, '');
+  }
+  if (codigo_else) {
+    codigo_else = codigo_else.replace(/^  /gm, '');
+  }
+
+  // Gera o código Python com if/else completo
+  var code = '';
+  code += 'if ' + variavel_botao + '.value() == 0:\n';
+  if (codigo_do) {
+    // Adiciona indentação ao código já existente
+    var linhas = codigo_do.split('\n');
+    for (var i = 0; i < linhas.length; i++) {
+      if (linhas[i].trim() !== '') {
+        code += '  ' + linhas[i] + '\n';
+      }
+    }
+  } else {
+    code += '  pass\n';
+  }
+  code += 'else:\n';
+  if (codigo_else) {
+    // Adiciona indentação ao código já existente
+    var linhas = codigo_else.split('\n');
+    for (var i = 0; i < linhas.length; i++) {
+      if (linhas[i].trim() !== '') {
+        code += '  ' + linhas[i] + '\n';
+      }
+    }
+  } else {
+    code += '  pass\n';
+  }
+
+  return code;
+};
+
+// Gerador para botao_se_apertado (simplificado - detecção de borda sem IRQ)
+Blockly.Python['botao_se_apertado'] = function(block) {
+  // Garante que o setup dos botões seja incluído
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['setup_botoes'] =
+    'botao_esquerda = Pin(5, Pin.IN, Pin.PULL_UP)\n' +
+    'botao_direita = Pin(6, Pin.IN, Pin.PULL_UP)\n' +
+    'botao_centro = Pin(10, Pin.IN, Pin.PULL_UP)';
+
+  // Obtém a escolha do botão
+  var botao = block.getFieldValue('BOTAO');
+
+  // Mapeia a escolha para a variável Python e nomes de estado
+  var variavel_botao;
+  var nome_botao;
+  switch (botao) {
+    case 'ESQUERDA':
+      variavel_botao = 'botao_esquerda';
+      nome_botao = 'esquerda';
+      break;
+    case 'DIREITA':
+      variavel_botao = 'botao_direita';
+      nome_botao = 'direita';
+      break;
+    case 'CENTRO':
+      variavel_botao = 'botao_centro';
+      nome_botao = 'centro';
+      break;
+    default:
+      variavel_botao = 'botao_esquerda';
+      nome_botao = 'esquerda';
+  }
+
+  // Obtém o código do encaixe DO
+  var codigo_do = Blockly.Python.statementToCode(block, 'DO');
+
+  // Remove 2 espaços de indentação do início de cada linha
+  if (codigo_do) {
+    codigo_do = codigo_do.replace(/^  /gm, '');
+  }
+
+  // Adiciona variáveis de estado ao setup (apenas uma vez)
+  Blockly.Python.definitions_['estado_anterior_' + nome_botao] = 'estado_anterior_botao_' + nome_botao + ' = 1';
+
+  // Gera o código Python com detecção de borda (executa apenas uma vez)
+  var code = '';
+  code += '# Detecção de clique (falling edge) para botão ' + nome_botao + '\n';
+  code += 'leitura_atual_' + nome_botao + ' = ' + variavel_botao + '.value()\n';
+  code += 'if leitura_atual_' + nome_botao + ' == 0 and estado_anterior_botao_' + nome_botao + ' == 1:\n';
+  if (codigo_do) {
+    // Adiciona indentação ao código já existente
+    var linhas = codigo_do.split('\n');
+    for (var i = 0; i < linhas.length; i++) {
+      if (linhas[i].trim() !== '') {
+        code += '  ' + linhas[i] + '\n';
+      }
+    }
+  } else {
+    code += '  pass\n';
+  }
+  code += 'estado_anterior_botao_' + nome_botao + ' = leitura_atual_' + nome_botao + '\n';
+
+  return code;
+};
+
 

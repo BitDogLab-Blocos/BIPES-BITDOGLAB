@@ -481,4 +481,10 @@
       <block type="criar_melodia"></block>
       <block type="criar_trilha_sonora"></block>
     </category>
+
+    <!-- 18. BOTÕES -->
+    <category name="🎮 Botões" colour="#ee5a24">
+      <block type="botao_enquanto_apertado"></block>
+      <block type="botao_se_apertado"></block>
+    </category>
 </xml>
