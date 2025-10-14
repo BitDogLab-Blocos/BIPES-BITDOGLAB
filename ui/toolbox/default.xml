@@ -413,7 +413,9 @@
       <block type="matriz_aparecer_sumir"></block>
       <block type="matriz_pulsar_brilho"></block>
       <block type="matriz_deslizar_cima"></block>
+      <block type="matriz_deslizar_baixo"></block>
       <block type="matriz_deslizar_esquerda"></block>
+      <block type="matriz_deslizar_direita"></block>
       <block type="matriz_balancar"></block>
       <block type="matriz_explosao"></block>
       <block type="matriz_contracao"></block>
