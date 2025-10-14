@@ -5974,11 +5974,11 @@ Blockly.Python['matriz_piscar_rapido'] = function(block) {
   if (codigo_interno) {
     code += codigo_interno;
   }
-  code += 'time.sleep_ms(200)\n';
+  code += 'time.sleep_ms(500)\n';
   code += 'for i in range(25):\n';
   code += '    np[i] = (0, 0, 0)\n';
   code += 'np.write()\n';
-  code += 'time.sleep_ms(200)\n';
+  code += 'time.sleep_ms(500)\n';
 
   return code;
 };
@@ -6003,11 +6003,11 @@ Blockly.Python['matriz_piscar_lento'] = function(block) {
   if (codigo_interno) {
     code += codigo_interno;
   }
-  code += 'time.sleep_ms(1000)\n';
+  code += 'time.sleep_ms(2000)\n';
   code += 'for i in range(25):\n';
   code += '    np[i] = (0, 0, 0)\n';
   code += 'np.write()\n';
-  code += 'time.sleep_ms(1000)\n';
+  code += 'time.sleep_ms(2000)\n';
 
   return code;
 };
@@ -6045,13 +6045,13 @@ Blockly.Python['matriz_aparecer_sumir'] = function(block) {
   code += '    for i in range(25):\n';
   code += '        np[i] = (int(_cores_finais[i][0] * brilho / 100), int(_cores_finais[i][1] * brilho / 100), int(_cores_finais[i][2] * brilho / 100))\n';
   code += '    np.write()\n';
-  code += '    time.sleep_ms(50)\n';
+  code += '    time.sleep_ms(150)\n';
   code += '# Fade out (sumir)\n';
   code += 'for brilho in range(100, -1, -10):\n';
   code += '    for i in range(25):\n';
   code += '        np[i] = (int(_cores_finais[i][0] * brilho / 100), int(_cores_finais[i][1] * brilho / 100), int(_cores_finais[i][2] * brilho / 100))\n';
   code += '    np.write()\n';
-  code += '    time.sleep_ms(50)\n';
+  code += '    time.sleep_ms(150)\n';
 
   return code;
 };
@@ -6089,13 +6089,13 @@ Blockly.Python['matriz_pulsar_brilho'] = function(block) {
   code += '        for i in range(25):\n';
   code += '            np[i] = (int(_cores_pulsar[i][0] * brilho / 100), int(_cores_pulsar[i][1] * brilho / 100), int(_cores_pulsar[i][2] * brilho / 100))\n';
   code += '        np.write()\n';
-  code += '        time.sleep_ms(50)\n';
+  code += '        time.sleep_ms(150)\n';
   code += '    # Diminuir brilho\n';
   code += '    for brilho in range(100, 29, -10):\n';
   code += '        for i in range(25):\n';
   code += '            np[i] = (int(_cores_pulsar[i][0] * brilho / 100), int(_cores_pulsar[i][1] * brilho / 100), int(_cores_pulsar[i][2] * brilho / 100))\n';
   code += '        np.write()\n';
-  code += '        time.sleep_ms(50)\n';
+  code += '        time.sleep_ms(150)\n';
 
   return code;
 };
@@ -6133,7 +6133,7 @@ Blockly.Python['matriz_deslizar_cima'] = function(block) {
   code += '            else:\n';
   code += '                np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
   code += '    np.write()\n';
-  code += '    time.sleep_ms(100)\n';
+  code += '    time.sleep_ms(300)\n';
 
   return code;
 };
@@ -6171,7 +6171,7 @@ Blockly.Python['matriz_deslizar_esquerda'] = function(block) {
   code += '            else:\n';
   code += '                np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
   code += '    np.write()\n';
-  code += '    time.sleep_ms(100)\n';
+  code += '    time.sleep_ms(300)\n';
 
   return code;
 };
@@ -6209,7 +6209,7 @@ Blockly.Python['matriz_deslizar_baixo'] = function(block) {
   code += '            else:\n';
   code += '                np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
   code += '    np.write()\n';
-  code += '    time.sleep_ms(100)\n';
+  code += '    time.sleep_ms(300)\n';
 
   return code;
 };
@@ -6247,7 +6247,7 @@ Blockly.Python['matriz_deslizar_direita'] = function(block) {
   code += '            else:\n';
   code += '                np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
   code += '    np.write()\n';
-  code += '    time.sleep_ms(100)\n';
+  code += '    time.sleep_ms(300)\n';
 
   return code;
 };
@@ -6287,7 +6287,7 @@ Blockly.Python['matriz_balancar'] = function(block) {
   code += '            else:\n';
   code += '                np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
   code += '    np.write()\n';
-  code += '    time.sleep_ms(100)\n';
+  code += '    time.sleep_ms(200)\n';
   code += '# Restaurar posição original\n';
   code += 'for y in range(5):\n';
   code += '    for x in range(5):\n';
@@ -6331,7 +6331,7 @@ Blockly.Python['matriz_explosao'] = function(block) {
   code += '    for y, x in camada:\n';
   code += '        np[LED_MATRIX[y][x]] = _cores_explosao[LED_MATRIX[y][x]]\n';
   code += '    np.write()\n';
-  code += '    time.sleep_ms(150)\n';
+  code += '    time.sleep_ms(400)\n';
 
   return code;
 };
@@ -6366,7 +6366,7 @@ Blockly.Python['matriz_contracao'] = function(block) {
   code += '    for y, x in camada:\n';
   code += '        np[LED_MATRIX[y][x]] = (0, 0, 0)\n';
   code += '    np.write()\n';
-  code += '    time.sleep_ms(150)\n';
+  code += '    time.sleep_ms(400)\n';
 
   return code;
 };
@@ -6393,12 +6393,12 @@ Blockly.Python['matriz_dar_flash'] = function(block) {
   if (codigo_interno) {
     code += codigo_interno;
   }
-  code += 'time.sleep_ms(500)\n';
+  code += 'time.sleep_ms(1000)\n';
   code += '# Flash com a cor especificada\n';
   code += 'for i in range(25):\n';
   code += '  np[i] = ' + cor_flash + '\n';
   code += 'np.write()\n';
-  code += 'time.sleep_ms(100)\n';
+  code += 'time.sleep_ms(300)\n';
   code += '# Restaurar conteúdo\n';
   if (codigo_interno) {
     code += codigo_interno;
