@@ -404,6 +404,7 @@
       <block type="acender_coluna"></block>
       <block type="mostrar_numero_matriz"></block>
       <block type="mostrar_emoji"></block>
+      <block type="criar_desenho_na_matriz"></block>
     </category>
 
     <!-- 13. ANIMAÇÕES DA MATRIZ -->

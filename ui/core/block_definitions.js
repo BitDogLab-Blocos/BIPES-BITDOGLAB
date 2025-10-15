@@ -2506,4 +2506,134 @@ Blockly.Blocks['botao_se_apertado'] = {
   }
 };
 
+// ==========================================
+// Category: Matrix Drawing
+// ==========================================
+
+Blockly.Blocks['criar_desenho_matriz_container'] = {
+  init: function() {
+    this.setColour("#4a69bd");
+    this.appendDummyInput()
+        .appendField("desenho");
+    this.appendStatementInput('STACK');
+    this.setTooltip("Adicione ou remova blocos de desenho para criar sua imagem.");
+    this.contextMenu = false;
+  }
+};
+
+Blockly.Blocks['criar_desenho_matriz_item'] = {
+  init: function() {
+    this.setColour("#4a69bd");
+    this.appendDummyInput()
+        .appendField("bloco de desenho");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip("Adicione um bloco de desenho (acender LED, linha, coluna, etc).");
+    this.contextMenu = false;
+  }
+};
+
+Blockly.Blocks['criar_desenho_na_matriz'] = {
+  init: function() {
+    this.setColour("#4a69bd");
+    this.itemCount_ = 2;
+    this.updateShape_();
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setMutator(new Blockly.Mutator(['criar_desenho_matriz_item']));
+    this.setTooltip("🎨 Cria uma tela de desenho para a matriz de LEDs. Combine blocos de desenho dentro dela!");
+  },
+
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('items', this.itemCount_);
+    return container;
+  },
+
+  domToMutation: function(xmlElement) {
+    this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
+    this.updateShape_();
+  },
+
+  decompose: function(workspace) {
+    var containerBlock = workspace.newBlock('criar_desenho_matriz_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var i = 0; i < this.itemCount_; i++) {
+      var itemBlock = workspace.newBlock('criar_desenho_matriz_item');
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+
+  compose: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var connections = [];
+    while (itemBlock) {
+      connections.push(itemBlock.drawingConnection_);
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+    for (var i = 0; i < this.itemCount_; i++) {
+      var connection = this.getInput('DESENHO' + i).connection.targetConnection;
+      if (connection && connections.indexOf(connection) == -1) {
+        connection.disconnect();
+      }
+    }
+    this.itemCount_ = connections.length;
+    this.updateShape_();
+    for (var i = 0; i < this.itemCount_; i++) {
+      Blockly.Mutator.reconnect(connections[i], this, 'DESENHO' + i);
+    }
+  },
+
+  saveConnections: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var i = 0;
+    while (itemBlock) {
+      var input = this.getInput('DESENHO' + i);
+      itemBlock.drawingConnection_ = input && input.connection.targetConnection;
+      i++;
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+  },
+
+  updateShape_: function() {
+    // Remove existing inputs
+    var i = 0;
+    while (this.getInput('DESENHO' + i) || this.getInput('LABEL' + i)) {
+      if (this.getInput('DESENHO' + i)) this.removeInput('DESENHO' + i);
+      if (this.getInput('LABEL' + i)) this.removeInput('LABEL' + i);
+      i++;
+    }
+    if (this.getInput('EMPTY')) {
+      this.removeInput('EMPTY');
+    }
+
+    // Add drawing inputs
+    if (this.itemCount_ === 0) {
+      this.appendDummyInput('EMPTY')
+          .appendField("🎨 Criar Desenho na Matriz");
+    } else {
+      if (this.getInput('EMPTY')) {
+        this.removeInput('EMPTY');
+      }
+
+      for (var i = 0; i < this.itemCount_; i++) {
+        if (i == 0) {
+          this.appendDummyInput('LABEL0')
+              .appendField("🎨 Criar Desenho na Matriz");
+        }
+
+        this.appendStatementInput('DESENHO' + i)
+            .setCheck(null)
+            .appendField('Desenho ' + (i + 1) + ':');
+      }
+    }
+  }
+};
+
 

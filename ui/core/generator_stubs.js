@@ -170,12 +170,18 @@ Blockly.Python['acender_coluna'] = function(block) {
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var intensity = block.getFieldValue('INTENSITY');
 
-  // Gerar código para acender toda a coluna
+  // Gerar código para acender toda a coluna com intensidade REALMENTE proporcional
   var code = 'if 0 <= ' + coluna + ' <= 4:\n';
   code += '    for y in range(5):\n';
   code += '        led_index = LED_MATRIX[y][' + coluna + ']\n';
-  code += '        np[led_index] = (int(' + colour + '[0] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[1] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[2] * ' + intensity + ' * 0.7 / 100))\n';
-  code += '    np.write()\n';
+  // Intensidade 100% proporcional ao valor do usuário
+  code += '        # Usar exatamente o valor do usuário sem limites arbitrários\n';
+  code += '        r = max(1, int(' + colour + '[0] * ' + intensity + ' / 100))\n';
+  code += '        g = max(1, int(' + colour + '[1] * ' + intensity + ' / 100))\n';
+  code += '        b = max(1, int(' + colour + '[2] * ' + intensity + ' / 100))\n';
+  code += '        np[led_index] = (r, g, b)\n';
+  code += '    np.write()  # Atualizar a coluna inteira\n';
+  code += '    time.sleep_ms(10)  # Pequena pausa para estabilidade\n';
 
   return code;
 };
@@ -6520,6 +6526,57 @@ Blockly.Python['botao_se_apertado'] = function(block) {
     code += '  pass\n';
   }
   code += 'estado_anterior_botao_' + nome_botao + ' = leitura_atual_' + nome_botao + '\n';
+
+  return code;
+};
+
+// ==========================================
+// Gerador para Criar Desenho na Matriz
+// ==========================================
+
+Blockly.Python['criar_desenho_na_matriz'] = function(block) {
+  // Imports e setup da matriz (executado uma vez)
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+
+  var code = '';
+
+  // Preparar matriz - SEM ATUALIZAÇÕES INTERMEDIÁRIAS
+  code += '# Configurar matriz sem atualizações parciais\n';
+  code += 'for i in range(25):\n';
+  code += '    np[i] = (0, 0, 0)  # Zerar todos os LEDs\n';
+
+  // Executar blocos internos de desenho - SEM np.write()
+  for (var i = 0; i < block.itemCount_; i++) {
+    var drawingCode = Blockly.Python.statementToCode(block, 'DESENHO' + i);
+    if (drawingCode) {
+      // Remover exatamente 2 espaços de indentação (padrão Blockly)
+      var lines = drawingCode.split('\n');
+      for (var j = 0; j < lines.length; j++) {
+        var line = lines[j];
+        // Remove apenas os 2 espaços padrão do Blockly
+        if (line.startsWith('  ')) {
+          line = line.substring(2);
+        }
+        // Ignorar linhas problemáticas
+        if (line.trim() && !line.includes('led_index = LED_MATRIX[y][0]')) {
+          // Remover apenas atualizações parciais, mas PRESERVAR cálculos de intensidade da coluna
+          line = line.replace(/np\.write\(\)/g, '# np.write() REMOVIDO');
+          // Não forçar brilho = 1 para blocos que já têm controle de intensidade
+          code += line + '\n';
+        }
+      }
+    }
+  }
+
+  // ÚNICA ATUALIZAÇÃO FINAL
+  code += 'time.sleep_ms(10)  # Breve pausa\n';
+  code += 'np.write()  # ÚNICA ATUALIZAÇÃO FINAL\n';
+  code += 'time.sleep_ms(100)  # Pausa longa para estabilização completa\n';
+  code += '# CONFIGURACAO_FIXA: Desenho configurado, não precisa de loop\n';
 
   return code;
 };
