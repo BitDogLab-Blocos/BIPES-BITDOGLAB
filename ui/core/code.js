@@ -589,11 +589,14 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     if (trimmedLine.startsWith('import ') || trimmedLine.startsWith('from ')) {
       imports.push(line);
     }
-    // Check if it's a setup line (variable assignment with Pin, etc)
+    // Check if it's a setup line (variable assignment with Pin, NeoPixel, etc)
+    // Must be more specific to avoid catching action code that references these variables
     else if (trimmedLine.indexOf(' = Pin(') !== -1 ||
              trimmedLine.indexOf('=Pin(') !== -1 ||
              trimmedLine.indexOf(' = PWM(') !== -1 ||
-             trimmedLine.indexOf('=PWM(') !== -1) {
+             trimmedLine.indexOf('=PWM(') !== -1 ||
+             (trimmedLine.startsWith('LED_MATRIX = ')) ||
+             (trimmedLine.startsWith('np = neopixel'))) {
       setup.push(line);
     }
     // Check if it's a comment
@@ -660,8 +663,15 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     return finalCode;
   }
 
-  // 3. Add infinite loop with action code
-  if (actionCode.length > 0) {
+  // 3. Check if there's a static configuration (no loop needed)
+  var hasStaticConfig = rawCode.indexOf('CONFIGURACAO_FIXA') !== -1;
+
+  if (hasStaticConfig && actionCode.length === 0) {
+    // Se há apenas configuração estática, não cria loop
+    finalCode += '# Configuração estática concluída - LEDs fixos\n';
+  }
+  // 4. Add infinite loop with action code (apenas se não for configuração estática)
+  else if (actionCode.length > 0) {
     finalCode += '# Loop Principal\n';
     finalCode += 'while True:\n';
 
@@ -670,8 +680,8 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
       finalCode += '  ' + actionCode[j] + '\n';
     }
 
-    // Add courtesy delay
-    finalCode += '  time.sleep_ms(20)  # Pausa de cortesia\n';
+    // Add courtesy delay - reduzido para melhor responsividade
+    finalCode += '  time.sleep_ms(50)  # Pausa de cortesia\n';
   }
 
   return finalCode;
@@ -688,7 +698,14 @@ Code.generateCode = function (generator = Blockly.Python) {
     if (Code.checkAllGeneratorFunctionsDefined(generator)) {
       if (generator.name_ == "Python") {
         var rawCode = generator.workspaceToCode(Code.workspace);
-        return Code.wrapWithInfiniteLoop(rawCode);
+        var finalCode = Code.wrapWithInfiniteLoop(rawCode);
+
+        // Se há configuração estática, desativa auto_mode para parar de gerar código
+        if (rawCode.indexOf('CONFIGURACAO_FIXA') !== -1) {
+          Code.auto_mode = false;
+        }
+
+        return finalCode;
       }
       else if (generator.name_ == "Javascript")
         return generator.workspaceToCode(Code.workspace);
@@ -731,7 +748,7 @@ Code.init = function() {
   //init interval to auto generate Python Code
   // Delay the start of auto-generation to ensure custom generators are loaded
   setTimeout(function() {
-    setInterval(Code.generateCode, 250);
+    Code._generationInterval = setInterval(Code.generateCode, 250);
     Code.auto_mode = true;
   }, 500);
 
