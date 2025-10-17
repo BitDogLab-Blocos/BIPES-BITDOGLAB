@@ -1707,12 +1707,15 @@ Blockly.Blocks['tocar_nota'] = {
             ["4", "4"],
             ["5", "5"],
             ["6", "6"]
-        ]), "OCTAVE");
+        ]), "OCTAVE")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Toca uma nota musical no buzzer (GPIO10)");
+    this.setTooltip("Toca uma nota musical no buzzer (GPIO21)");
     this.setHelpUrl("");
   }
 };
@@ -1720,7 +1723,10 @@ Blockly.Blocks['tocar_nota'] = {
 Blockly.Blocks['tocar_som_agudo'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔔 Tocar som agudo");
+        .appendField("🔔 Tocar som agudo")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -1758,7 +1764,10 @@ Blockly.Blocks['tocar_repetidamente'] = {
 Blockly.Blocks['bipe_curto'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("📍 Bipe Curto");
+        .appendField("📍 Bipe Curto")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -1770,7 +1779,10 @@ Blockly.Blocks['bipe_curto'] = {
 Blockly.Blocks['bipe_duplo'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("📌 Bipe Duplo");
+        .appendField("📌 Bipe Duplo")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -1782,7 +1794,10 @@ Blockly.Blocks['bipe_duplo'] = {
 Blockly.Blocks['alerta_intermitente'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🚨 Alerta Intermitente");
+        .appendField("🚨 Alerta Intermitente")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -1794,7 +1809,10 @@ Blockly.Blocks['alerta_intermitente'] = {
 Blockly.Blocks['chamada'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("📞 Chamada");
+        .appendField("📞 Chamada")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -1806,7 +1824,10 @@ Blockly.Blocks['chamada'] = {
 Blockly.Blocks['som_de_moeda'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🪙 Som de Moeda");
+        .appendField("🪙 Som de Moeda")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -1818,7 +1839,10 @@ Blockly.Blocks['som_de_moeda'] = {
 Blockly.Blocks['som_de_sucesso'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("✅ Som de Sucesso");
+        .appendField("✅ Som de Sucesso")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -1830,7 +1854,10 @@ Blockly.Blocks['som_de_sucesso'] = {
 Blockly.Blocks['som_de_falha'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("❌ Som de Falha");
+        .appendField("❌ Som de Falha")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -1842,7 +1869,10 @@ Blockly.Blocks['som_de_falha'] = {
 Blockly.Blocks['som_de_laser'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔫 Som de Laser");
+        .appendField("🔫 Som de Laser")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -1854,7 +1884,10 @@ Blockly.Blocks['som_de_laser'] = {
 Blockly.Blocks['sirene_policial'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🚓 Sirene Policial");
+        .appendField("🚓 Sirene Policial")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -1866,7 +1899,10 @@ Blockly.Blocks['sirene_policial'] = {
 Blockly.Blocks['escala_musical_sobe'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("📈 Escala Musical Sobe");
+        .appendField("📈 Escala Musical Sobe")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -1878,7 +1914,10 @@ Blockly.Blocks['escala_musical_sobe'] = {
 Blockly.Blocks['escala_musical_desce'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("📉 Escala Musical Desce");
+        .appendField("📉 Escala Musical Desce")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -1890,7 +1929,10 @@ Blockly.Blocks['escala_musical_desce'] = {
 Blockly.Blocks['brilha_brilha_estrelinha'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⭐ Brilha Brilha Estrelinha");
+        .appendField("⭐ Brilha Brilha Estrelinha")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
