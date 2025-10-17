@@ -657,6 +657,11 @@ Blockly.Python['tocar_nota'] = function(block) {
   // Obtém a oitava do dropdown
   var octave = block.getFieldValue('OCTAVE');
 
+  // Obtém o volume (0-100%) e converte para duty_cycle (0-65535)
+  // Aplica multiplicador 0.7 para limitar volume máximo a 70%
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   // Remove possíveis aspas e espaços da nota
   note = note.replace(/['"]/g, '').trim();
 
@@ -671,7 +676,7 @@ Blockly.Python['tocar_nota'] = function(block) {
 
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(' + frequency + ')\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'time.sleep(0.5)\n';
   code += 'buzzer.duty_u16(0)\n';
   code += '# SOUND_BLOCK_END\n';
@@ -688,9 +693,14 @@ Blockly.Python['tocar_som_agudo'] = function(block) {
   // Setup do buzzer no GPIO21
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  // Obtém o volume (0-100%) e converte para duty_cycle (0-65535)
+  // Aplica multiplicador 0.7 para limitar volume máximo a 70%
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(1000)\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'time.sleep(0.5)\n';
   code += 'buzzer.duty_u16(0)\n';
   code += '# SOUND_BLOCK_END\n';
@@ -755,9 +765,13 @@ Blockly.Python['bipe_curto'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  // Obtém o volume (0-100%) e converte para duty_cycle (0-65535)
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(1500)\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'time.sleep_ms(100)\n';
   code += 'buzzer.duty_u16(0)\n';
   code += '# SOUND_BLOCK_END\n';
@@ -772,13 +786,17 @@ Blockly.Python['bipe_duplo'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  // Obtém o volume (0-100%) e converte para duty_cycle (0-65535)
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(1500)\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'time.sleep_ms(100)\n';
   code += 'buzzer.duty_u16(0)\n';
   code += 'time.sleep_ms(50)\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'time.sleep_ms(100)\n';
   code += 'buzzer.duty_u16(0)\n';
   code += '# SOUND_BLOCK_END\n';
@@ -793,9 +811,12 @@ Blockly.Python['alerta_intermitente'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(2000)\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'time.sleep_ms(200)\n';
   code += 'buzzer.duty_u16(0)\n';
   code += 'time.sleep_ms(800)\n';
@@ -811,9 +832,12 @@ Blockly.Python['chamada'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(440)\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'time.sleep_ms(150)\n';
   code += 'buzzer.freq(523)\n';
   code += 'time.sleep_ms(150)\n';
@@ -830,9 +854,12 @@ Blockly.Python['som_de_moeda'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(494)\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'time.sleep_ms(100)\n';
   code += 'buzzer.freq(659)\n';
   code += 'time.sleep_ms(150)\n';
@@ -849,10 +876,13 @@ Blockly.Python['som_de_sucesso'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   // Sequência ascendente: Sol, Lá, Si, Dó
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(392)\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'time.sleep_ms(100)\n';
   code += 'buzzer.freq(440)\n';
   code += 'time.sleep_ms(100)\n';
@@ -873,10 +903,13 @@ Blockly.Python['som_de_falha'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   // Sequência descendente: Sol, Fá#, Fá
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(392)\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'time.sleep_ms(200)\n';
   code += 'buzzer.freq(370)\n';
   code += 'time.sleep_ms(200)\n';
@@ -895,9 +928,12 @@ Blockly.Python['som_de_laser'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(2000)\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'time.sleep_ms(50)\n';
   code += 'buzzer.freq(1000)\n';
   code += 'time.sleep_ms(50)\n';
@@ -916,9 +952,12 @@ Blockly.Python['sirene_policial'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.freq(698)\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'time.sleep_ms(400)\n';
   code += 'buzzer.freq(587)\n';
   code += 'time.sleep_ms(400)\n';
@@ -935,9 +974,12 @@ Blockly.Python['escala_musical_sobe'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   // Dó, Ré, Mi, Fá, Sol, Lá, Si, Dó (oitava acima)
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'buzzer.freq(262)\n';
   code += 'time.sleep_ms(150)\n';
   code += 'buzzer.freq(294)\n';
@@ -967,9 +1009,12 @@ Blockly.Python['escala_musical_desce'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   // Dó (oitava acima), Si, Lá, Sol, Fá, Mi, Ré, Dó
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   code += 'buzzer.freq(523)\n';
   code += 'time.sleep_ms(150)\n';
   code += 'buzzer.freq(494)\n';
@@ -999,9 +1044,12 @@ Blockly.Python['brilha_brilha_estrelinha'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
 
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+
   // Sol Sol Ré Ré Mi Mi Ré - Dó Dó Si Si Lá Lá Sol
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.duty_u16(32768)\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
   // Sol Sol Ré Ré Mi Mi Ré
   code += 'buzzer.freq(392)\n';
   code += 'time.sleep_ms(400)\n';
