@@ -284,11 +284,11 @@ Blockly.Python['bloco_piscar_led'] = function(block) {
   code += '  led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += '  led_verde.duty_u16(' + colour + '[1] * 257)\n';
   code += '  led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '    time.sleep_ms(200)\n';
+  code += '  time.sleep_ms(200)\n';
   code += '  led_vermelho.duty_u16(0)\n';
   code += '  led_verde.duty_u16(0)\n';
   code += '  led_azul.duty_u16(0)\n';
-  code += '    time.sleep_ms(200)\n';
+  code += '  time.sleep_ms(200)\n';
 
   return code;
 };
@@ -308,11 +308,11 @@ Blockly.Python['piscar_led_lento'] = function(block) {
   code += '  led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += '  led_verde.duty_u16(' + colour + '[1] * 257)\n';
   code += '  led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '    time.sleep_ms(1000)\n';
+  code += '  time.sleep_ms(1000)\n';
   code += '  led_vermelho.duty_u16(0)\n';
   code += '  led_verde.duty_u16(0)\n';
   code += '  led_azul.duty_u16(0)\n';
-  code += '    time.sleep_ms(1000)\n';
+  code += '  time.sleep_ms(1000)\n';
 
   return code;
 };
@@ -332,19 +332,19 @@ Blockly.Python['bloco_animar_led_coracao'] = function(block) {
   code += '  led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += '  led_verde.duty_u16(' + colour + '[1] * 257)\n';
   code += '  led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '    time.sleep_ms(100)\n';
+  code += '  time.sleep_ms(100)\n';
   code += '  led_vermelho.duty_u16(0)\n';
   code += '  led_verde.duty_u16(0)\n';
   code += '  led_azul.duty_u16(0)\n';
-  code += '    time.sleep_ms(100)\n';
+  code += '  time.sleep_ms(100)\n';
   code += '  led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += '  led_verde.duty_u16(' + colour + '[1] * 257)\n';
   code += '  led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '    time.sleep_ms(100)\n';
+  code += '  time.sleep_ms(100)\n';
   code += '  led_vermelho.duty_u16(0)\n';
   code += '  led_verde.duty_u16(0)\n';
   code += '  led_azul.duty_u16(0)\n';
-  code += '    time.sleep_ms(700)\n';
+  code += '  time.sleep_ms(700)\n';
 
   return code;
 };
@@ -370,7 +370,7 @@ Blockly.Python['bloco_sinalizar_led_sos'] = function(block) {
   code += '    led_verde.duty_u16(0)\n';
   code += '    led_azul.duty_u16(0)\n';
   code += '    time.sleep_ms(150)\n';
-  code += '    time.sleep_ms(400)\n';
+  code += '  time.sleep_ms(400)\n';
   code += '  for _ in range(3):\n';
   code += '    led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += '    led_verde.duty_u16(' + colour + '[1] * 257)\n';
@@ -380,7 +380,7 @@ Blockly.Python['bloco_sinalizar_led_sos'] = function(block) {
   code += '    led_verde.duty_u16(0)\n';
   code += '    led_azul.duty_u16(0)\n';
   code += '    time.sleep_ms(150)\n';
-  code += '    time.sleep_ms(400)\n';
+  code += '  time.sleep_ms(400)\n';
   code += '  for _ in range(3):\n';
   code += '    led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += '    led_verde.duty_u16(' + colour + '[1] * 257)\n';
@@ -390,7 +390,7 @@ Blockly.Python['bloco_sinalizar_led_sos'] = function(block) {
   code += '    led_verde.duty_u16(0)\n';
   code += '    led_azul.duty_u16(0)\n';
   code += '    time.sleep_ms(150)\n';
-  code += '    time.sleep_ms(800)\n';
+  code += '  time.sleep_ms(800)\n';
   return code;
 };
 
@@ -411,7 +411,7 @@ Blockly.Python['piscar_led_aleatorio'] = function(block) {
   code += '  led_vermelho.duty_u16(' + colour + '[0] * 257 * intensidade)\n';
   code += '  led_verde.duty_u16(' + colour + '[1] * 257 * intensidade)\n';
   code += '  led_azul.duty_u16(' + colour + '[2] * 257 * intensidade)\n';
-  code += '    time.sleep_ms(urandom.randint(50, 500))\n';
+  code += '  time.sleep_ms(urandom.randint(50, 500))\n';
   return code;
 };
 
@@ -469,7 +469,7 @@ Blockly.Python['bloco_transicao_led'] = function(block) {
   code += '    led_verde.duty_u16(int(' + colour1 + '[1] * 257 * (10-i)/10 + ' + colour2 + '[1] * 257 * i/10))\n';
   code += '    led_azul.duty_u16(int(' + colour1 + '[2] * 257 * (10-i)/10 + ' + colour2 + '[2] * 257 * i/10))\n';
   code += '    time.sleep_ms(50)\n';
-  code += '    time.sleep_ms(500)\n';
+  code += '  time.sleep_ms(500)\n';
   return code;
 };
 
@@ -495,7 +495,7 @@ Blockly.Python['bloco_batalhar_led'] = function(block) {
   code += '    led_vermelho.duty_u16(' + colour2 + '[0] * 257)\n';
   code += '    led_verde.duty_u16(' + colour2 + '[1] * 257)\n';
   code += '    led_azul.duty_u16(' + colour2 + '[2] * 257)\n';
-  code += '    time.sleep_ms(urandom.randint(100, 300))\n';
+  code += '  time.sleep_ms(urandom.randint(100, 300))\n';
   return code;
 };
 
@@ -521,7 +521,7 @@ Blockly.Python['bloco_animar_led_brilhar'] = function(block) {
   code += '    led_verde.duty_u16(int(' + colour + '[1] * 257 * i/10))\n';
   code += '    led_azul.duty_u16(int(' + colour + '[2] * 257 * i/10))\n';
   code += '    time.sleep_ms(50)\n';
-  code += '    time.sleep_ms(200)\n';
+  code += '  time.sleep_ms(200)\n';
   return code;
 };
 
@@ -532,16 +532,23 @@ Blockly.Python['bloco_criar_animacao_led'] = function(block) {
     return '';
   }
 
+  Blockly.Python.definitions_['import_time'] = 'import time';
+
   var code = '';
 
   // Coleta dinamicamente todos os passos
   for (var i = 0; i < block.steps_.length; i++) {
-    // statementToCode retorna o código já com indentação para dentro de blocos
-    // Como queremos o código no nível principal, precisamos remover a indentação extra
-    var stepCode = Blockly.Python.statementToCode(block, 'STEP' + i);
-    if (stepCode) {
-      // Remove a indentação de 2 espaços que statementToCode adiciona
-      code += stepCode.replace(/^  /gm, '');
+    if (block.steps_[i] === 'action') {
+      // Para ações, usa statementToCode
+      var stepCode = Blockly.Python.statementToCode(block, 'STEP' + i);
+      if (stepCode) {
+        // Remove a indentação de 2 espaços que statementToCode adiciona
+        code += stepCode.replace(/^  /gm, '');
+      }
+    } else if (block.steps_[i] === 'wait') {
+      // Para espera, usa valueToCode e adiciona time.sleep_ms
+      var timeValue = Blockly.Python.valueToCode(block, 'STEP' + i, Blockly.Python.ORDER_ATOMIC) || '0';
+      code += 'time.sleep_ms(' + timeValue + ')\n';
     }
   }
 
@@ -6561,8 +6568,8 @@ Blockly.Python['criar_desenho_na_matriz'] = function(block) {
         if (line.startsWith('  ')) {
           line = line.substring(2);
         }
-        // Ignorar linhas problemáticas
-        if (line.trim() && !line.includes('led_index = LED_MATRIX[y][0]')) {
+        // Processar todas as linhas não vazias
+        if (line.trim()) {
           // Remover apenas atualizações parciais, mas PRESERVAR cálculos de intensidade da coluna
           line = line.replace(/np\.write\(\)/g, '# np.write() REMOVIDO');
           // Não forçar brilho = 1 para blocos que já têm controle de intensidade
