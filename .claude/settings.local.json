@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(ls -la \"C:\\Users\\Admin\\Downloads\\Bitlab2\\BIPES-BITDOGLAB\\ui\\core\"\" | grep -E \".js$ \")"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}
