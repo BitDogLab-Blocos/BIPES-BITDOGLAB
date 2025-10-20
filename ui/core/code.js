@@ -650,9 +650,19 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
   }
 
   // 2.5. Add sound code to action code (sounds should be inside loop when used with buttons)
+  // Check if there are button blocks in the code (they use .value() to read button state)
+  var hasButtonBlocks = rawCode.indexOf('.value()') !== -1;
+
   if (soundCodeLines.length > 0) {
-    // Add sound code to actionCode so it goes inside the loop
-    actionCode = soundCodeLines.concat(actionCode);
+    if (hasButtonBlocks) {
+      // Add sound code to actionCode so it goes inside the loop with button logic
+      actionCode = soundCodeLines.concat(actionCode);
+    } else {
+      // Execute sound code once, outside the loop
+      finalCode += '# Sons (execução única)\n';
+      finalCode += soundCodeLines.join('\n') + '\n';
+      finalCode += '\n';
+    }
   }
 
   // 2.6. Add custom loop code (from tocar_repetidamente block)
