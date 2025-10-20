@@ -2516,7 +2516,7 @@ Blockly.Blocks['botao_enquanto_apertado'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("🎮 Enquanto apertar o botão")
-        .appendField(new Blockly.FieldDropdown([["👆 Esquerda", "ESQUERDA"], ["👉 Direita", "DIREITA"], ["🎯 Centro", "CENTRO"]]), "BOTAO")
+        .appendField(new Blockly.FieldDropdown([["🔴 A (Vermelho)", "A"], ["🔵 B (Azul)", "B"], ["🟢 C (Verde)", "C"]]), "BOTAO")
         .appendField("😊 faça:");
     this.appendStatementInput("DO")
         .setCheck(null);
@@ -2536,7 +2536,7 @@ Blockly.Blocks['botao_se_apertado'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("🎮 Se apertar o botão")
-        .appendField(new Blockly.FieldDropdown([["👆 Esquerda", "ESQUERDA"], ["👉 Direita", "DIREITA"], ["🎯 Centro", "CENTRO"]]), "BOTAO")
+        .appendField(new Blockly.FieldDropdown([["🔴 A (Vermelho)", "A"], ["🔵 B (Azul)", "B"], ["🟢 C (Verde)", "C"]]), "BOTAO")
         .appendField("acontece a Ação:");
     this.appendStatementInput("DO")
         .setCheck(null);

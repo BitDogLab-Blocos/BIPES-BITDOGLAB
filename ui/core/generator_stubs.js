@@ -6465,13 +6465,13 @@ Blockly.Python['botao_enquanto_apertado'] = function(block) {
   // Mapeia a escolha para a variável Python correta
   var variavel_botao;
   switch (botao) {
-    case 'ESQUERDA':
+    case 'A':
       variavel_botao = 'botao_esquerda';
       break;
-    case 'DIREITA':
+    case 'B':
       variavel_botao = 'botao_direita';
       break;
-    case 'CENTRO':
+    case 'C':
       variavel_botao = 'botao_centro';
       break;
     default:
@@ -6536,15 +6536,15 @@ Blockly.Python['botao_se_apertado'] = function(block) {
   var variavel_botao;
   var nome_botao;
   switch (botao) {
-    case 'ESQUERDA':
+    case 'A':
       variavel_botao = 'botao_esquerda';
       nome_botao = 'esquerda';
       break;
-    case 'DIREITA':
+    case 'B':
       variavel_botao = 'botao_direita';
       nome_botao = 'direita';
       break;
-    case 'CENTRO':
+    case 'C':
       variavel_botao = 'botao_centro';
       nome_botao = 'centro';
       break;
@@ -6635,5 +6635,3 @@ Blockly.Python['criar_desenho_na_matriz'] = function(block) {
 
   return code;
 };
-
-
