@@ -6490,6 +6490,10 @@ Blockly.Python['botao_enquanto_apertado'] = function(block) {
     codigo_else = codigo_else.replace(/^  /gm, '');
   }
 
+  // Remove marcadores de som do código se existirem
+  codigo_do = codigo_do.replace(/# SOUND_BLOCK_START|# SOUND_BLOCK_END/g, '');
+  codigo_else = codigo_else.replace(/# SOUND_BLOCK_START|# SOUND_BLOCK_END/g, '');
+
   // Gera o código Python com if/else completo
   var code = '';
   code += 'if ' + variavel_botao + '.value() == 0:\n';
@@ -6560,6 +6564,9 @@ Blockly.Python['botao_se_apertado'] = function(block) {
   if (codigo_do) {
     codigo_do = codigo_do.replace(/^  /gm, '');
   }
+
+  // Remove marcadores de som do código se existirem
+  codigo_do = codigo_do.replace(/# SOUND_BLOCK_START|# SOUND_BLOCK_END/g, '');
 
   // Adiciona variáveis de estado ao setup (apenas uma vez)
   Blockly.Python.definitions_['estado_anterior_' + nome_botao] = 'estado_anterior_botao_' + nome_botao + ' = 1';
