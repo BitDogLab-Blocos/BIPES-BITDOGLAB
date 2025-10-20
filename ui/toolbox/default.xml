@@ -46,6 +46,7 @@
     -->
     
     <!-- 3. MATEMÁTICA -->
+    <!--
     <category name="🧮 Matemática" colour="%{BKY_MATH_HUE}">
       <block type="math_number">
         <field name="NUM">123</field>
@@ -166,8 +167,10 @@
         </value>
       </block>
     </category>
+    -->
     
     <!-- 4. TEXTO -->
+    <!--
     <category name="🔡 Texto" colour="%{BKY_TEXTS_HUE}">
       <block type="text"></block>
       <block type="text_print_multiple"></block>
@@ -207,6 +210,7 @@
         </value>
       </block>
     </category>
+    -->
     
     <!-- 5. LISTAS -->
     <!--
