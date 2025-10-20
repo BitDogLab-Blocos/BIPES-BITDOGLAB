@@ -649,10 +649,10 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     finalCode += '\n';
   }
 
-  // 2.5. Add sound code BEFORE loop (sounds should play once)
+  // 2.5. Add sound code to action code (sounds should be inside loop when used with buttons)
   if (soundCodeLines.length > 0) {
-    finalCode += '# Sons (tocam uma vez)\n';
-    finalCode += soundCodeLines.join('\n') + '\n\n';
+    // Add sound code to actionCode so it goes inside the loop
+    actionCode = soundCodeLines.concat(actionCode);
   }
 
   // 2.6. Add custom loop code (from tocar_repetidamente block)
