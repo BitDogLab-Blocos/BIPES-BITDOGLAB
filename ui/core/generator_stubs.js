@@ -1,39 +1,68 @@
 ﻿let UPythonClass = {};
 
-// LED RGB Control Blocks Code Generators
+/*
+*****************************************************************
+* COLOR BLOCKS 
+* Generators for predefined RGB color tuples.
+*****************************************************************
+*/
+
+// Red color generator
 Blockly.Python['colour_red'] = function(block) {
   return ['(255, 0, 0)', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Green color generator
 Blockly.Python['colour_green'] = function(block) {
   return ['(0, 255, 0)', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Blue color generator
 Blockly.Python['colour_blue'] = function(block) {
   return ['(0, 0, 255)', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Yellow color generator
 Blockly.Python['colour_yellow'] = function(block) {
   return ['(255, 255, 0)', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Cyan color generator
 Blockly.Python['colour_cyan'] = function(block) {
   return ['(0, 255, 255)', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Magenta color generator
 Blockly.Python['colour_magenta'] = function(block) {
   return ['(255, 0, 255)', Blockly.Python.ORDER_ATOMIC];
 };
+
+// White color generator
 Blockly.Python['colour_white'] = function(block) {
   return ['(255, 255, 255)', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Orange color generator
 Blockly.Python['colour_orange'] = function(block) {
   return ['(255, 128, 0)', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Pink color generator
 Blockly.Python['colour_pink'] = function(block) {
   return ['(255, 64, 128)', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Lime color generator
 Blockly.Python['colour_lime'] = function(block) {
   return ['(128, 255, 0)', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Sky blue color generator
 Blockly.Python['colour_skyblue'] = function(block) {
   return ['(64, 196, 255)', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Turquoise color generator
 Blockly.Python['colour_turquoise'] = function(block) {
   return ['(64, 224, 208)', Blockly.Python.ORDER_ATOMIC];
 };
@@ -55,6 +84,13 @@ Blockly.Python['mix_colours'] = function(block) {
   code += ')';
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
+
+/*
+*****************************************************************
+* LED RGB CONTROL BLOCKS 
+* Generators for controlling RGB LEDs and LED matrix.
+*****************************************************************
+*/
 
 // Fill LED matrix generator
 Blockly.Python['preencher_matriz'] = function(block) {
@@ -194,7 +230,14 @@ Blockly.Python['bloco_acender_led_brilho'] = function(block) {
   return code;
 };
 
-// LED Animation Blocks Code Generators
+/*
+*****************************************************************
+* LED ANIMATION BLOCKS 
+* Generators for LED animations and effects.
+*****************************************************************
+*/
+
+// Blink LED animation generator
 Blockly.Python['bloco_piscar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -215,6 +258,7 @@ Blockly.Python['bloco_piscar_led'] = function(block) {
   return code;
 };
 
+// Slow blink LED animation generator
 Blockly.Python['piscar_led_lento'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -235,6 +279,7 @@ Blockly.Python['piscar_led_lento'] = function(block) {
   return code;
 };
 
+// Heartbeat LED animation generator
 Blockly.Python['bloco_animar_led_coracao'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -263,6 +308,7 @@ Blockly.Python['bloco_animar_led_coracao'] = function(block) {
   return code;
 };
 
+// SOS signal LED animation generator
 Blockly.Python['bloco_sinalizar_led_sos'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -305,6 +351,7 @@ Blockly.Python['bloco_sinalizar_led_sos'] = function(block) {
   return code;
 };
 
+// Random blink LED animation generator
 Blockly.Python['piscar_led_aleatorio'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -323,6 +370,7 @@ Blockly.Python['piscar_led_aleatorio'] = function(block) {
   return code;
 };
 
+// Alternate colors LED animation generator
 Blockly.Python['bloco_alternar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -350,6 +398,7 @@ Blockly.Python['bloco_alternar_led'] = function(block) {
   return code;
 };
 
+// Transition between colors LED animation generator
 Blockly.Python['bloco_transicao_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -369,6 +418,7 @@ Blockly.Python['bloco_transicao_led'] = function(block) {
   return code;
 };
 
+// Battle colors LED animation generator
 Blockly.Python['bloco_batalhar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -392,6 +442,7 @@ Blockly.Python['bloco_batalhar_led'] = function(block) {
   return code;
 };
 
+// Brightness animation LED generator
 Blockly.Python['bloco_animar_led_brilhar'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -415,7 +466,7 @@ Blockly.Python['bloco_animar_led_brilhar'] = function(block) {
   return code;
 };
 
-// Custom LED Animation Generator
+// Custom LED animation generator
 Blockly.Python['bloco_criar_animacao_led'] = function(block) {
   if (!block.steps_ || block.steps_.length === 0) {
     return '';
@@ -436,58 +487,156 @@ Blockly.Python['bloco_criar_animacao_led'] = function(block) {
   return code;
 };
 
-// Musical Notes Blocks Code Generators
+/*
+*****************************************************************
+* MUSICAL NOTES BLOCKS 
+* Generators for musical note values.
+*****************************************************************
+*/
+
+// Do note generator
 Blockly.Python['nota_do'] = function(block) {
   return ['C', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Re note generator
 Blockly.Python['nota_re'] = function(block) {
   return ['D', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Mi note generator
 Blockly.Python['nota_mi'] = function(block) {
   return ['E', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Fa note generator
 Blockly.Python['nota_fa'] = function(block) {
   return ['F', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Sol note generator
 Blockly.Python['nota_sol'] = function(block) {
   return ['G', Blockly.Python.ORDER_ATOMIC];
 };
+
+// La note generator
 Blockly.Python['nota_la'] = function(block) {
   return ['A', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Si note generator
 Blockly.Python['nota_si'] = function(block) {
   return ['B', Blockly.Python.ORDER_ATOMIC];
 };
 
-// Time Blocks Code Generators
+/*
+*****************************************************************
+* TIME BLOCKS 
+* Generators for time-related operations.
+*****************************************************************
+*/
+
+// Seconds to milliseconds converter
 Blockly.Python['tempo_segundos'] = function(block) {
   var num = block.getFieldValue('NUM');
   var code = String(num * 1000);
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
+
+// Milliseconds value generator
 Blockly.Python['tempo_milisegundos'] = function(block) {
   var num = block.getFieldValue('NUM');
   var code = String(num);
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
+
+// Minutes to milliseconds converter
 Blockly.Python['tempo_minutos'] = function(block) {
   var num = block.getFieldValue('NUM');
   var code = String(num * 60000);
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
+
+// Hours to milliseconds converter
 Blockly.Python['tempo_horas'] = function(block) {
   var num = block.getFieldValue('NUM');
   var code = String(num * 3600000);
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
-// Sound Blocks Code Generators
+// Wait seconds block
+Blockly.Python['esperar_segundos'] = function(block) {
+  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var code = 'time.sleep(' + value_time + ')\n';
+  return code;
+};
+
+// Wait milliseconds block
+Blockly.Python['esperar_milisegundos'] = function(block) {
+  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var code = 'time.sleep_ms(' + value_time + ')\n';
+  return code;
+};
+
+// Delay milliseconds block
+Blockly.Python['delay_ms'] = function(block) {
+  var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var code = 'time.sleep_ms(' + value_time + ')\n';
+  return code;
+};
+
+// Delay microseconds block
+Blockly.Python['delay_us'] = function(block) {
+  var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var code = 'time.sleep_us(' + value_time + ')\n';
+  return code;
+};
+
+// Get current time in milliseconds
+Blockly.Python['ticks_ms'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var code = 'time.ticks_ms()\n';
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// Calculate time difference
+Blockly.Python['ticks_diff'] = function(block) {
+  var value_start = Blockly.Python.valueToCode(block, 'start', Blockly.Python.ORDER_ATOMIC);
+  var value_end = Blockly.Python.valueToCode(block, 'end', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  value_start = value_start.split('\n').join('');
+  value_end = value_end.split('\n').join('');
+  var code = 'time.ticks_diff(' + value_end + ',' + value_start + ')\n';
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// Delay seconds block
+Blockly.Python['delay'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var value_time = block.getFieldValue('TIME');
+  var code = 'time.sleep(' + value_time + ')\n';
+  return code;
+};
+
+/*
+*****************************************************************
+* SOUND BLOCKS 
+* Generators for sound and music operations.
+*****************************************************************
+*/
+
+// Note frequencies mapping
 const NOTE_FREQUENCIES = {
   'C4': 262, 'D4': 294, 'E4': 330, 'F4': 349, 'G4': 392, 'A4': 440, 'B4': 494,
   'C5': 523, 'D5': 587, 'E5': 659, 'F5': 698, 'G5': 784, 'A5': 880, 'B5': 988,
   'C6': 1047, 'D6': 1175, 'E6': 1319, 'F6': 1397, 'G6': 1568, 'A6': 1760, 'B6': 1976
 };
 
+// Play musical note
 Blockly.Python['tocar_nota'] = function(block) {
   var note = Blockly.Python.valueToCode(block, 'NOTA', Blockly.Python.ORDER_ATOMIC);
   if (!note) {
@@ -515,6 +664,7 @@ Blockly.Python['tocar_nota'] = function(block) {
   return code;
 };
 
+// Play high pitch sound
 Blockly.Python['tocar_som_agudo'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -531,6 +681,7 @@ Blockly.Python['tocar_som_agudo'] = function(block) {
   return code;
 };
 
+// Stop sound
 Blockly.Python['parar_som'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -541,6 +692,7 @@ Blockly.Python['parar_som'] = function(block) {
   return code;
 };
 
+// Play repeatedly
 Blockly.Python['tocar_repetidamente'] = function(block) {
   var statements_do = Blockly.Python.statementToCode(block, 'DO');
   if (!statements_do || statements_do.trim() === '') {
@@ -563,7 +715,7 @@ Blockly.Python['tocar_repetidamente'] = function(block) {
   return code;
 };
 
-// Sound Animation Generators
+// Short beep sound
 Blockly.Python['bipe_curto'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -580,6 +732,7 @@ Blockly.Python['bipe_curto'] = function(block) {
   return code;
 };
 
+// Double beep sound
 Blockly.Python['bipe_duplo'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -600,6 +753,7 @@ Blockly.Python['bipe_duplo'] = function(block) {
   return code;
 };
 
+// Intermittent alert sound
 Blockly.Python['alerta_intermitente'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -617,6 +771,7 @@ Blockly.Python['alerta_intermitente'] = function(block) {
   return code;
 };
 
+// Call sound
 Blockly.Python['chamada'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -635,6 +790,7 @@ Blockly.Python['chamada'] = function(block) {
   return code;
 };
 
+// Coin sound
 Blockly.Python['som_de_moeda'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -653,6 +809,7 @@ Blockly.Python['som_de_moeda'] = function(block) {
   return code;
 };
 
+// Success sound
 Blockly.Python['som_de_sucesso'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -675,6 +832,7 @@ Blockly.Python['som_de_sucesso'] = function(block) {
   return code;
 };
 
+// Failure sound
 Blockly.Python['som_de_falha'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -695,6 +853,7 @@ Blockly.Python['som_de_falha'] = function(block) {
   return code;
 };
 
+// Laser sound
 Blockly.Python['som_de_laser'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -715,6 +874,7 @@ Blockly.Python['som_de_laser'] = function(block) {
   return code;
 };
 
+// Police siren sound
 Blockly.Python['sirene_policial'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -733,6 +893,7 @@ Blockly.Python['sirene_policial'] = function(block) {
   return code;
 };
 
+// Musical scale up
 Blockly.Python['escala_musical_sobe'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -763,6 +924,7 @@ Blockly.Python['escala_musical_sobe'] = function(block) {
   return code;
 };
 
+// Musical scale down
 Blockly.Python['escala_musical_desce'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -793,6 +955,7 @@ Blockly.Python['escala_musical_desce'] = function(block) {
   return code;
 };
 
+// Twinkle twinkle little star melody
 Blockly.Python['brilha_brilha_estrelinha'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -835,6 +998,7 @@ Blockly.Python['brilha_brilha_estrelinha'] = function(block) {
   return code;
 };
 
+// Create melody
 Blockly.Python['criar_melodia'] = function(block) {
   if (!block.noteSteps_ || block.noteSteps_ === 0) {
     return '';
@@ -869,6 +1033,7 @@ Blockly.Python['criar_melodia'] = function(block) {
   return code;
 };
 
+// Create soundtrack
 Blockly.Python['criar_trilha_sonora'] = function(block) {
   if (!block.steps_ || block.steps_.length === 0) {
     return '';
@@ -893,91 +1058,144 @@ Blockly.Python['criar_trilha_sonora'] = function(block) {
   return code;
 };
 
-Blockly.Python['alternar_acao_entre_cores'] = function(block) {
+/*
+*****************************************************************
+* PWM BLOCKS 
+* Generators for PWM (Pulse Width Modulation) operations.
+*****************************************************************
+*/
+
+// PWM setup
+Blockly.Python['pwm'] = function(block) {
+  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_NONE);
+  var value_frequency = Blockly.Python.valueToCode(block, 'frequency', Blockly.Python.ORDER_ATOMIC);
+  var value_duty = Blockly.Python.valueToCode(block, 'duty', Blockly.Python.ORDER_ATOMIC);
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  var pin1 = Blockly.Python.valueToCode(block, 'COLOUR1', Blockly.Python.ORDER_ATOMIC) || '13';
-  var pin2 = Blockly.Python.valueToCode(block, 'COLOUR2', Blockly.Python.ORDER_ATOMIC) || '11';
-  var statements_do = Blockly.Python.statementToCode(block, 'DO');
-  var code = 'Pin(' + pin1 + ', Pin.OUT).on()\nPin(' + pin2 + ', Pin.OUT).off()\n' + statements_do;
-  code += 'Pin(' + pin1 + ', Pin.OUT).off()\nPin(' + pin2 + ', Pin.OUT).on()\n' + statements_do;
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  this.check([value_frequency, value_duty], value_pin);
+  this.setID(value_pin)
+  var code = `pwm${value_pin} = PWM(Pin(${value_pin}))\npwm${value_pin}.freq(${value_frequency})\npwm${value_pin}.duty(${value_duty})\n`;
   return code;
 };
 
-Blockly.Python['project_metadata'] = function(block) {
-  var value_project_author = Blockly.Python.valueToCode(block, 'project_author', Blockly.Python.ORDER_ATOMIC);
-  var value_project_iot_id = Blockly.Python.valueToCode(block, 'project_iot_id', Blockly.Python.ORDER_ATOMIC);
-  var value_project_description = Blockly.Python.valueToCode(block, 'project_description', Blockly.Python.ORDER_ATOMIC);
-  var code = '#Code automatically generated by BIPES (http://www.bipes.net.br)';
-  code += '\n#Author: ' + value_project_author;
-  code += '\n#IOT ID: ' + value_project_iot_id;
-  code += '\n#Description: ' + value_project_description + '\n';
+// PWM setup for Pico
+Blockly.Python['pwm_pico'] = function(block) {
+  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_NONE);
+  var value_frequency = Blockly.Python.valueToCode(block, 'frequency', Blockly.Python.ORDER_ATOMIC);
+  var value_duty = Blockly.Python.valueToCode(block, 'duty', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  this.check([value_frequency, value_duty], value_pin);
+  this.setID(value_pin)
+  var code = `pwm${value_pin} = PWM(Pin(${value_pin}))\npwm${value_pin}.freq(${value_frequency})\npwm${value_pin}.duty_u16(${value_duty})\n`;
   return code;
 };
 
-// Convert to Str
-Blockly.Python['text_to_str'] = function(block) {
-  var variable = Blockly.Python.valueToCode(block, 'var', Blockly.Python.ORDER_ATOMIC);
-  var code = 'str(' + variable + ')';
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-Blockly.Blocks['text_eval'] = {
-  init: function() {
-    this.setColour(45);
-    this.setInputsInline(true);
-    this.appendDummyInput()
-        .appendField("eval")
-        .appendField(new Blockly.FieldTextInput(""), "text");
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip('direct python eval');
-  }
-};
-
-Blockly.Python['text_eval'] = function(block) {
-  var c = block.getFieldValue('text');
-  var code = c + "\n";
+// PWM initialization
+Blockly.Python['pwm.init'] = function(block) {
+  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_NONE);
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  this.setID(value_pin)
+  var code = `pwm${value_pin} = PWM(Pin(${value_pin}))\n`;
   return code;
 };
 
-// Legacy Timing Blocks
-Blockly.Python['delay_ms'] = function(block) {
-  var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
+// PWM frequency setting
+Blockly.Python['pwm.freq'] = function(block) {
+  var number_id = block.getFieldValue('ID');
+  var value_frequency = Blockly.Python.valueToCode(block, 'frequency', Blockly.Python.ORDER_NONE);
+  var code = `pwm${number_id}.freq(${value_frequency})\n`;
+  this.check(value_frequency, number_id);
+  return code;
+};
+
+// PWM duty cycle setting
+Blockly.Python['pwm.duty'] = function(block) {
+  var number_id = block.getFieldValue('ID');
+  var value_duty = Blockly.Python.valueToCode(block, 'duty', Blockly.Python.ORDER_NONE);
+  var code = `pwm${number_id}.duty(${value_duty})\n`;
+  this.check(value_duty, number_id);
+  return code;
+};
+
+// PWM duty cycle setting for Pico
+Blockly.Python['pwm.duty_pico'] = function(block) {
+  var number_id = block.getFieldValue('ID');
+  var value_duty = Blockly.Python.valueToCode(block, 'duty', Blockly.Python.ORDER_NONE);
+  var code = `pwm${number_id}.duty_u16(${value_duty})\n`;
+  this.check(value_duty, number_id);
+  return code;
+};
+
+// PWM deinitialization
+Blockly.Python['pwm.deinit'] = function(block) {
+  var number_id = block.getFieldValue('ID');
+  var code = `pwm${number_id}.deinit()\n`;
+  return code;
+};
+
+// Play RTTTL song
+Blockly.Python["rtttl_play"] = function(block) {
+  var pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
+  var song = Blockly.Python.valueToCode(block, 'song', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_rtttl'] = 'import rtttl, songs';
+  var code = 'play = rtttl.play(Pin(' + pin + ', Pin.OUT), songs.find(' + song + ')) \n';
+  return code;
+};
+
+// Tone generator
+Blockly.Python['tone'] = function(block) {
+  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
+  var value_frequency = Blockly.Python.valueToCode(block, 'frequency', Blockly.Python.ORDER_ATOMIC);
+  var d = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.sleep_ms(' + value_time + ')\n';
+  var x = value_pin.replace('(', '').replace(')', '');
+  var code = 'pwm' + x + ' = PWM(Pin(' + x + '), freq=' + value_frequency + ', ' + ' duty=512)\n';
+  var d1 = parseFloat(d);
+  if (d1 == 0)
+    code += '';
+  else
+    code += 'time.sleep(' + d + ')\npwm' + x + '.deinit()\n';
   return code;
 };
 
-Blockly.Python['delay_us'] = function(block) {
-  var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
+// Note generator
+Blockly.Python['note'] = function(block) {
+  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
+  var value_frequency = Blockly.Python.valueToCode(block, 'note', Blockly.Python.ORDER_ATOMIC);
+  var d = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.sleep_us(' + value_time + ')\n';
+  var x = value_pin.replace('(', '').replace(')', '');
+  var code = 'pwm' + x + ' = PWM(Pin(' + x + '), freq=' + value_frequency + ', ' + ' duty=512)\n';
+  var d1 = parseFloat(d);
+  if (d1 == 0)
+    code += '';
+  else
+    code += 'time.sleep(' + d + ')\npwm' + x + '.deinit()\n';
   return code;
 };
 
-Blockly.Python['ticks_ms'] = function(block) {
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.ticks_ms()\n';
-  return [code, Blockly.Python.ORDER_NONE];
+// Tone type selector
+Blockly.Python['tone_type'] = function(block) {
+  var dropdown_tone = block.getFieldValue('tone');
+  var code = dropdown_tone;
+  return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
-Blockly.Python['ticks_diff'] = function(block) {
-  var value_start = Blockly.Python.valueToCode(block, 'start', Blockly.Python.ORDER_ATOMIC);
-  var value_end = Blockly.Python.valueToCode(block, 'end', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  value_start = value_start.split('\n').join('');
-  value_end = value_end.split('\n').join('');
-  var code = 'time.ticks_diff(' + value_end + ',' + value_start + ')\n';
-  return [code, Blockly.Python.ORDER_NONE];
-};
+/*
+*****************************************************************
+* TIMER BLOCKS 
+* Generators for timer operations.
+*****************************************************************
+*/
 
-Blockly.Python['delay'] = function(block) {
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var value_time = block.getFieldValue('TIME');
-  var code = 'time.sleep(' + value_time + ')\n';
-  return code;
-};
-
+// Stop timer
 Blockly.Python['stop_timer'] = function(block) {
   Blockly.Python.definitions_['import_timer'] = 'from machine import Timer';
   var tn = Blockly.Python.valueToCode(block, 'timerNumber', Blockly.Python.ORDER_ATOMIC);
@@ -985,6 +1203,7 @@ Blockly.Python['stop_timer'] = function(block) {
   return code;
 };
 
+// Timer setup
 Blockly.Python['timer'] = function(block) {
   var interval = block.getFieldValue('interval');
   var timerNumber = block.getFieldValue('timerNumber');
@@ -1007,6 +1226,7 @@ Blockly.Python['timer'] = function(block) {
   return code
 };
 
+// Pico timer setup
 Blockly.Python['pico_timer'] = function(block) {
   var interval = block.getFieldValue('interval');
   var timerNumber = block.getFieldValue('timerNumber');
@@ -1018,6 +1238,7 @@ Blockly.Python['pico_timer'] = function(block) {
   return code;
 };
 
+// Deep sleep for ESP8266
 Blockly.Python['deep_sleep8266'] = function(block) {
   var value_interval = Blockly.Python.valueToCode(block, 'interval', Blockly.Python.ORDER_ATOMIC);
   Blockly.Python.definitions_['import_machine'] = 'import machine';
@@ -1028,150 +1249,14 @@ Blockly.Python['deep_sleep8266'] = function(block) {
   return code;
 };
 
-Blockly.Python['pwm'] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_NONE);
-  var value_frequency = Blockly.Python.valueToCode(block, 'frequency', Blockly.Python.ORDER_ATOMIC);
-  var value_duty = Blockly.Python.valueToCode(block, 'duty', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  this.check([value_frequency, value_duty], value_pin);
-  this.setID(value_pin)
-  var code = `pwm${value_pin} = PWM(Pin(${value_pin}))\npwm${value_pin}.freq(${value_frequency})\npwm${value_pin}.duty(${value_duty})\n`;
-  return code;
-};
+/*
+*****************************************************************
+* MATH BLOCKS 
+* Generators for mathematical operations.
+*****************************************************************
+*/
 
-Blockly.Python['pwm_pico'] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_NONE);
-  var value_frequency = Blockly.Python.valueToCode(block, 'frequency', Blockly.Python.ORDER_ATOMIC);
-  var value_duty = Blockly.Python.valueToCode(block, 'duty', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  this.check([value_frequency, value_duty], value_pin);
-  this.setID(value_pin)
-  var code = `pwm${value_pin} = PWM(Pin(${value_pin}))\npwm${value_pin}.freq(${value_frequency})\npwm${value_pin}.duty_u16(${value_duty})\n`;
-  return code;
-};
-
-Blockly.Python['pwm.init'] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_NONE);
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  this.setID(value_pin)
-  var code = `pwm${value_pin} = PWM(Pin(${value_pin}))\n`;
-  return code;
-};
-
-Blockly.Python['pwm.freq'] = function(block) {
-  var number_id = block.getFieldValue('ID');
-  var value_frequency = Blockly.Python.valueToCode(block, 'frequency', Blockly.Python.ORDER_NONE);
-  var code = `pwm${number_id}.freq(${value_frequency})\n`;
-  this.check(value_frequency, number_id);
-  return code;
-};
-
-Blockly.Python['pwm.duty'] = function(block) {
-  var number_id = block.getFieldValue('ID');
-  var value_duty = Blockly.Python.valueToCode(block, 'duty', Blockly.Python.ORDER_NONE);
-  var code = `pwm${number_id}.duty(${value_duty})\n`;
-  this.check(value_duty, number_id);
-  return code;
-};
-
-Blockly.Python['pwm.duty_pico'] = function(block) {
-  var number_id = block.getFieldValue('ID');
-  var value_duty = Blockly.Python.valueToCode(block, 'duty', Blockly.Python.ORDER_NONE);
-  var code = `pwm${number_id}.duty_u16(${value_duty})\n`;
-  this.check(value_duty, number_id);
-  return code;
-};
-
-Blockly.Python['pwm.deinit'] = function(block) {
-  var number_id = block.getFieldValue('ID');
-  var code = `pwm${number_id}.deinit()\n`;
-  return code;
-};
-
-
-Blockly.Python["rtttl_play"] = function(block) {
-  var pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var song = Blockly.Python.valueToCode(block, 'song', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_rtttl'] = 'import rtttl, songs';
-  var code = 'play = rtttl.play(Pin(' + pin + ', Pin.OUT), songs.find(' + song + ')) \n';
-  return code;
-};
-
-Blockly.Python['tone'] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var value_frequency = Blockly.Python.valueToCode(block, 'frequency', Blockly.Python.ORDER_ATOMIC);
-  var d = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['import_time'] = 'import time';
-
-  var x = value_pin.replace('(', '').replace(')', '');
-  var code = 'pwm' + x + ' = PWM(Pin(' + x + '), freq=' + value_frequency + ', ' + ' duty=512)\n';
-
-  var d1 = parseFloat(d);
-  if (d1 == 0)
-    code += '';
-  else
-    code += 'time.sleep(' + d + ')\npwm' + x + '.deinit()\n';
-  return code;
-};
-
-Blockly.Python['note'] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var value_frequency = Blockly.Python.valueToCode(block, 'note', Blockly.Python.ORDER_ATOMIC);
-  var d = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['import_time'] = 'import time';
-
-  var x = value_pin.replace('(', '').replace(')', '');
-  var code = 'pwm' + x + ' = PWM(Pin(' + x + '), freq=' + value_frequency + ', ' + ' duty=512)\n';
-  var d1 = parseFloat(d);
-  if (d1 == 0)
-    code += '';
-  else
-    code += 'time.sleep(' + d + ')\npwm' + x + '.deinit()\n';
-  return code;
-};
-
-Blockly.Python['tone_type'] = function(block) {
-  var dropdown_tone = block.getFieldValue('tone');
-  var code = dropdown_tone;
-  return [code, Blockly.JavaScript.ORDER_NONE];
-};
-
-// Snek Blocks
-Blockly.Python["snek_uptime"] = function(block) {
-  var code = "time.monotonic()";
-  return [code, Blockly.Python.ORDER_NONE];
-};
-
-// Time Blocks
-Blockly.Python['esperar_segundos'] = function(block) {
-  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.sleep(' + value_time + ')\n';
-  return code;
-};
-
-Blockly.Python['esperar_milisegundos'] = function(block) {
-  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.sleep_ms(' + value_time + ')\n';
-  return code;
-};
-
-// Plotter Data Formatting Block
-Blockly.Python['chamar_formatar_dados_plotter'] = function(block) {
-  var code = 'formatar_dados_para_plotter()\n';
-  return code;
-};
-
-// Math Blocks
+// Minimum value
 Blockly.Python['math_min'] = function(block) {
   var value1 = Blockly.Python.valueToCode(block, 'VALUE1', Blockly.Python.ORDER_ATOMIC);
   var value2 = Blockly.Python.valueToCode(block, 'VALUE2', Blockly.Python.ORDER_ATOMIC);
@@ -1179,6 +1264,7 @@ Blockly.Python['math_min'] = function(block) {
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
+// Maximum value
 Blockly.Python['math_max'] = function(block) {
   var value1 = Blockly.Python.valueToCode(block, 'VALUE1', Blockly.Python.ORDER_ATOMIC);
   var value2 = Blockly.Python.valueToCode(block, 'VALUE2', Blockly.Python.ORDER_ATOMIC);
@@ -1186,20 +1272,11 @@ Blockly.Python['math_max'] = function(block) {
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
-// While True Block
-Blockly.Python['controls_while_true'] = function(block) {
-  var branch = Blockly.Python.statementToCode(block, 'DO');
-  branch = Blockly.Python.addLoopTrap(branch, block) || Blockly.Python.PASS;
-  branch = Blockly.Python.prefixLines(branch, Blockly.Python.INDENT);
-  return 'while True:\n' + branch;
-};
-
-// Math Property Blocks
+// Number property check
 Blockly.Python['math_number_property'] = function(block) {
   var number = Blockly.Python.valueToCode(block, 'NUMBER_TO_CHECK', Blockly.Python.ORDER_ATOMIC);
   var property = block.getFieldValue('PROPERTY');
   var code;
-
   switch (property) {
     case 'EVEN':
       code = number + ' % 2 == 0';
@@ -1216,10 +1293,10 @@ Blockly.Python['math_number_property'] = function(block) {
     default:
       throw Error('Unknown property: ' + property);
   }
-
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
+// Divisibility check
 Blockly.Python['math_is_divisible_by'] = function(block) {
   var dividend = Blockly.Python.valueToCode(block, 'DIVIDEND', Blockly.Python.ORDER_ATOMIC);
   var divisor = Blockly.Python.valueToCode(block, 'DIVISOR', Blockly.Python.ORDER_ATOMIC);
@@ -1227,55 +1304,7 @@ Blockly.Python['math_is_divisible_by'] = function(block) {
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
-// Logic Blocks
-Blockly.Python['logic_compare'] = function(block) {
-  var OPERATORS = {
-    'EQ': '==',
-    'NEQ': '!=',
-    'LT': '<',
-    'LTE': '<=',
-    'GT': '>',
-    'GTE': '>='
-  };
-  var operator = OPERATORS[block.getFieldValue('OP')];
-  var order = (operator == '==' || operator == '!=') ?
-    Blockly.Python.ORDER_EQUALITY : Blockly.Python.ORDER_RELATIONAL;
-  var argument0 = Blockly.Python.valueToCode(block, 'A', order) || '0';
-  var argument1 = Blockly.Python.valueToCode(block, 'B', order) || '0';
-  var code = argument0 + ' ' + operator + ' ' + argument1;
-  return [code, Blockly.Python.ORDER_CONDITIONAL];
-};
-
-Blockly.Python['logic_boolean'] = function(block) {
-  var code = (block.getFieldValue('BOOL') == 'TRUE') ? 'True' : 'False';
-  return [code, Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['logic_operation'] = function(block) {
-  var operator = (block.getFieldValue('OP') == 'AND') ? 'and' : 'or';
-  var order = (operator == 'and') ? Blockly.Python.ORDER_LOGICAL_AND : Blockly.Python.ORDER_LOGICAL_OR;
-  var argument0 = Blockly.Python.valueToCode(block, 'A', order);
-  var argument1 = Blockly.Python.valueToCode(block, 'B', order);
-
-  if (!argument0 && !argument1) {
-    argument0 = '"False"';
-    argument1 = '"False"';
-  } else {
-    argument0 = argument0 || 'False';
-    argument1 = argument1 || 'False';
-  }
-
-  var code = argument0 + ' ' + operator + ' ' + argument1;
-  return [code, Blockly.Python.ORDER_CONDITIONAL];
-};
-
-Blockly.Python['logic_negate'] = function(block) {
-  var argument0 = Blockly.Python.valueToCode(block, 'BOOL', Blockly.Python.ORDER_LOGICAL_NOT) || 'False';
-  var code = 'not ' + argument0;
-  return [code, Blockly.Python.ORDER_CONDITIONAL];
-};
-
-// Math Round to Decimal Block
+// Round to decimal places
 Blockly.Python['math_round_to_decimal'] = function(block) {
   var number_to_round = Blockly.Python.valueToCode(block, 'NUMBER_TO_ROUND', Blockly.Python.ORDER_ATOMIC) || '0';
   var decimal_places = block.getFieldValue('DECIMAL_PLACES');
@@ -1283,12 +1312,11 @@ Blockly.Python['math_round_to_decimal'] = function(block) {
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
-// Math on List Block
+// Math operation on list
 Blockly.Python['math_on_list'] = function(block) {
   var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_NONE) || '[]';
   var operation = block.getFieldValue('OP');
   var code;
-
   switch (operation) {
     case 'SUM':
       code = 'sum(' + list + ')';
@@ -1310,15 +1338,76 @@ Blockly.Python['math_on_list'] = function(block) {
     default:
       throw Error('Unknown operation: ' + operation);
   }
-
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
-// List Blocks
+/*
+*****************************************************************
+* LOGIC BLOCKS 
+* Generators for logical operations.
+*****************************************************************
+*/
+
+// Comparison operation
+Blockly.Python['logic_compare'] = function(block) {
+  var OPERATORS = {
+    'EQ': '==',
+    'NEQ': '!=',
+    'LT': '<',
+    'LTE': '<=',
+    'GT': '>',
+    'GTE': '>='
+  };
+  var operator = OPERATORS[block.getFieldValue('OP')];
+  var order = (operator == '==' || operator == '!=') ?
+    Blockly.Python.ORDER_EQUALITY : Blockly.Python.ORDER_RELATIONAL;
+  var argument0 = Blockly.Python.valueToCode(block, 'A', order) || '0';
+  var argument1 = Blockly.Python.valueToCode(block, 'B', order) || '0';
+  var code = argument0 + ' ' + operator + ' ' + argument1;
+  return [code, Blockly.Python.ORDER_CONDITIONAL];
+};
+
+// Boolean value
+Blockly.Python['logic_boolean'] = function(block) {
+  var code = (block.getFieldValue('BOOL') == 'TRUE') ? 'True' : 'False';
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Logical operation
+Blockly.Python['logic_operation'] = function(block) {
+  var operator = (block.getFieldValue('OP') == 'AND') ? 'and' : 'or';
+  var order = (operator == 'and') ? Blockly.Python.ORDER_LOGICAL_AND : Blockly.Python.ORDER_LOGICAL_OR;
+  var argument0 = Blockly.Python.valueToCode(block, 'A', order);
+  var argument1 = Blockly.Python.valueToCode(block, 'B', order);
+  if (!argument0 && !argument1) {
+    argument0 = '"False"';
+    argument1 = '"False"';
+  } else {
+    argument0 = argument0 || 'False';
+    argument1 = argument1 || 'False';
+  }
+  var code = argument0 + ' ' + operator + ' ' + argument1;
+  return [code, Blockly.Python.ORDER_CONDITIONAL];
+};
+
+// Logical negation
+Blockly.Python['logic_negate'] = function(block) {
+  var argument0 = Blockly.Python.valueToCode(block, 'BOOL', Blockly.Python.ORDER_LOGICAL_NOT) || 'False';
+  var code = 'not ' + argument0;
+  return [code, Blockly.Python.ORDER_CONDITIONAL];
+};
+
+/*
+*****************************************************************
+* LIST BLOCKS 
+* Generators for list operations.
+*****************************************************************
+*/
+
+// Get item from list
 Blockly.Python['list_get_item_simple'] = function(block) {
   var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_MEMBER) || '[]';
   var where = block.getFieldValue('WHERE');
-
   switch (where) {
     case 'FIRST':
       return [list + '[0]', Blockly.Python.ORDER_MEMBER];
@@ -1333,10 +1422,10 @@ Blockly.Python['list_get_item_simple'] = function(block) {
   }
 };
 
+// Remove item from list
 Blockly.Python['list_remove_item_simple'] = function(block) {
   var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_MEMBER) || '[]';
   var where = block.getFieldValue('WHERE');
-
   switch (where) {
     case 'FIRST':
       return list + '.pop(0)\n';
@@ -1351,11 +1440,11 @@ Blockly.Python['list_remove_item_simple'] = function(block) {
   }
 };
 
+// Replace item in list
 Blockly.Python['list_replace_item'] = function(block) {
   var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_MEMBER) || '[]';
   var where = block.getFieldValue('WHERE');
   var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || 'None';
-
   switch (where) {
     case 'FIRST':
       return list + '[0] = ' + value + '\n';
@@ -1371,11 +1460,11 @@ Blockly.Python['list_replace_item'] = function(block) {
   }
 };
 
+// Insert item in list
 Blockly.Python['list_insert_item'] = function(block) {
   var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_MEMBER) || '[]';
   var where = block.getFieldValue('WHERE');
   var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || 'None';
-
   switch (where) {
     case 'FIRST':
       return list + '.insert(0, ' + value + ')\n';
@@ -1391,13 +1480,12 @@ Blockly.Python['list_insert_item'] = function(block) {
   }
 };
 
+// Get sublist
 Blockly.Python['lists_getSublist'] = function(block) {
   var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_MEMBER) || '[]';
   var where1 = block.getFieldValue('WHERE1');
   var where2 = block.getFieldValue('WHERE2');
-
   var start_index, end_index;
-
   switch (where1) {
     case 'FIRST':
       start_index = '';
@@ -1412,7 +1500,6 @@ Blockly.Python['lists_getSublist'] = function(block) {
     default:
       throw Error("Unhandled start option (lists_getSublist): " + where1);
   }
-
   switch (where2) {
     case 'LAST':
       end_index = '';
@@ -1424,25 +1511,23 @@ Blockly.Python['lists_getSublist'] = function(block) {
     default:
       throw Error("Unhandled end option (lists_getSublist): " + where2);
   }
-
   var slice_notation = start_index + ':' + end_index;
   return [list + '[' + slice_notation + ']', Blockly.Python.ORDER_MEMBER];
 };
 
+// Split text
 Blockly.Python['text_split_simple'] = function(block) {
   var text = Blockly.Python.valueToCode(block, 'TEXT', Blockly.Python.ORDER_NONE) || '""';
   var separator = Blockly.Python.valueToCode(block, 'SEPARATOR', Blockly.Python.ORDER_NONE) || '","';
-
   return [text + '.split(' + separator + ')', Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
+// Sort list
 Blockly.Python['lists_sort'] = function(block) {
   var list = Blockly.Python.valueToCode(block, 'LIST', Blockly.Python.ORDER_NONE) || '[]';
   var sortType = block.getFieldValue('TYPE');
   var direction = block.getFieldValue('DIRECTION');
-
   var reverse = (direction === 'DESC') ? 'True' : 'False';
-
   return [Blockly.Python.provideFunction_('organizar_lista', [
     'def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '(lista, tipo, reverso):',
     '    def processar_numero(item):',
@@ -1469,7 +1554,7 @@ Blockly.Python['lists_sort'] = function(block) {
   ]) + '(' + list + ', "' + sortType + '", ' + reverse + ')', Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
-// Dynamic List Creation Block Generator
+// Create list with items
 Blockly.Python['lists_create_with'] = function(block) {
   if (block.itemCount_ == 0) {
     return ['[]', Blockly.Python.ORDER_ATOMIC];
@@ -1492,7 +1577,7 @@ Blockly.Python['lists_create_with'] = function(block) {
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
-// List Index Customized Block
+// Find index of item in list
 Blockly.Python['lists_indexOf'] = function(block) {
   var find = Blockly.Python.valueToCode(block, 'FIND', Blockly.Python.ORDER_NONE) || '[]';
   var list = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || "''";
@@ -1518,7 +1603,7 @@ Blockly.Python['lists_indexOf'] = function(block) {
   return [functionName + '(' + list + ', ' + find + ')', Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
-// List Get Index Block
+// Get index from list
 Blockly.Python['lists_getIndex'] = function(block) {
   var mode = block.getFieldValue('MODE') || 'GET';
   var where = block.getFieldValue('WHERE') || 'FROM_START';
@@ -1586,39 +1671,64 @@ Blockly.Python['lists_getIndex'] = function(block) {
   throw Error('Unhandled combination (lists_getIndex).');
 };
 
-// Number Matrix Blocks
+/*
+*****************************************************************
+* NUMBER MATRIX BLOCKS 
+* Generators for number matrix operations.
+*****************************************************************
+*/
+
+// Number 0 for matrix
 Blockly.Python['numero_matriz_0'] = function(block) {
   return ['0', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Number 1 for matrix
 Blockly.Python['numero_matriz_1'] = function(block) {
   return ['1', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Number 2 for matrix
 Blockly.Python['numero_matriz_2'] = function(block) {
   return ['2', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Number 3 for matrix
 Blockly.Python['numero_matriz_3'] = function(block) {
   return ['3', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Number 4 for matrix
 Blockly.Python['numero_matriz_4'] = function(block) {
   return ['4', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Number 5 for matrix
 Blockly.Python['numero_matriz_5'] = function(block) {
   return ['5', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Number 6 for matrix
 Blockly.Python['numero_matriz_6'] = function(block) {
   return ['6', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Number 7 for matrix
 Blockly.Python['numero_matriz_7'] = function(block) {
   return ['7', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Number 8 for matrix
 Blockly.Python['numero_matriz_8'] = function(block) {
   return ['8', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Number 9 for matrix
 Blockly.Python['numero_matriz_9'] = function(block) {
   return ['9', Blockly.Python.ORDER_ATOMIC];
 };
 
-// Show Number on Matrix Block
+// Show number on matrix
 Blockly.Python['mostrar_numero_matriz'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -1643,39 +1753,64 @@ Blockly.Python['mostrar_numero_matriz'] = function(block) {
   return code;
 };
 
-// Emoji Value Blocks
+/*
+*****************************************************************
+* EMOJI BLOCKS 
+* Generators for emoji values and display.
+*****************************************************************
+*/
+
+// Happy face emoji
 Blockly.Python['emoji_rosto_feliz'] = function(block) {
   return ['"happy"', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Sad face emoji
 Blockly.Python['emoji_rosto_triste'] = function(block) {
   return ['"sad"', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Surprised face emoji
 Blockly.Python['emoji_rosto_surpreso'] = function(block) {
   return ['"surprised"', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Heart emoji
 Blockly.Python['emoji_coracao'] = function(block) {
   return ['"heart"', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Up arrow emoji
 Blockly.Python['emoji_seta_cima'] = function(block) {
   return ['"arrow_up"', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Down arrow emoji
 Blockly.Python['emoji_seta_baixo'] = function(block) {
   return ['"arrow_down"', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Sun emoji
 Blockly.Python['emoji_sol'] = function(block) {
   return ['"sun"', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Rain emoji
 Blockly.Python['emoji_chuva'] = function(block) {
   return ['"rain"', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Flower emoji
 Blockly.Python['emoji_flor'] = function(block) {
   return ['"flower"', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Ghost emoji
 Blockly.Python['emoji_fantasma'] = function(block) {
   return ['"ghost"', Blockly.Python.ORDER_ATOMIC];
 };
 
-// Show Emoji Block
+// Show emoji on matrix
 Blockly.Python['mostrar_emoji'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -1700,7 +1835,14 @@ Blockly.Python['mostrar_emoji'] = function(block) {
   return code;
 };
 
-// Matrix Animation Blocks
+/*
+*****************************************************************
+* MATRIX ANIMATION BLOCKS 
+* Generators for LED matrix animations.
+*****************************************************************
+*/
+
+// Fast blink animation
 Blockly.Python['matriz_piscar_rapido'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -1730,6 +1872,7 @@ Blockly.Python['matriz_piscar_rapido'] = function(block) {
   return code;
 };
 
+// Slow blink animation
 Blockly.Python['matriz_piscar_lento'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -1759,6 +1902,7 @@ Blockly.Python['matriz_piscar_lento'] = function(block) {
   return code;
 };
 
+// Appear and disappear animation
 Blockly.Python['matriz_aparecer_sumir'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -1795,6 +1939,7 @@ Blockly.Python['matriz_aparecer_sumir'] = function(block) {
   return code;
 };
 
+// Pulse brightness animation
 Blockly.Python['matriz_pulsar_brilho'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -1831,6 +1976,7 @@ Blockly.Python['matriz_pulsar_brilho'] = function(block) {
   return code;
 };
 
+// Slide up animation
 Blockly.Python['matriz_deslizar_cima'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -1861,6 +2007,7 @@ Blockly.Python['matriz_deslizar_cima'] = function(block) {
   return code;
 };
 
+// Slide left animation
 Blockly.Python['matriz_deslizar_esquerda'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -1891,6 +2038,7 @@ Blockly.Python['matriz_deslizar_esquerda'] = function(block) {
   return code;
 };
 
+// Slide down animation
 Blockly.Python['matriz_deslizar_baixo'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -1921,6 +2069,7 @@ Blockly.Python['matriz_deslizar_baixo'] = function(block) {
   return code;
 };
 
+// Slide right animation
 Blockly.Python['matriz_deslizar_direita'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -1951,6 +2100,7 @@ Blockly.Python['matriz_deslizar_direita'] = function(block) {
   return code;
 };
 
+// Swing animation
 Blockly.Python['matriz_balancar'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -1988,6 +2138,7 @@ Blockly.Python['matriz_balancar'] = function(block) {
   return code;
 };
 
+// Contraction animation
 Blockly.Python['matriz_contracao'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -2015,6 +2166,7 @@ Blockly.Python['matriz_contracao'] = function(block) {
   return code;
 };
 
+// Flash animation
 Blockly.Python['matriz_dar_flash'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -2043,7 +2195,14 @@ Blockly.Python['matriz_dar_flash'] = function(block) {
   return code;
 };
 
-// Button Blocks
+/*
+*****************************************************************
+* BUTTON BLOCKS 
+* Generators for button operations.
+*****************************************************************
+*/
+
+// Button while pressed
 Blockly.Python['botao_enquanto_apertado'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['setup_botoes'] =
@@ -2101,6 +2260,7 @@ Blockly.Python['botao_enquanto_apertado'] = function(block) {
   return code;
 };
 
+// Button if pressed
 Blockly.Python['botao_se_apertado'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['setup_botoes'] =
@@ -2151,7 +2311,105 @@ Blockly.Python['botao_se_apertado'] = function(block) {
   return code;
 };
 
-// Create Drawing on Matrix Block
+/*
+*****************************************************************
+* TEXT BLOCKS 
+* Generators for text operations.
+*****************************************************************
+*/
+
+// Convert to string
+Blockly.Python['text_to_str'] = function(block) {
+  var variable = Blockly.Python.valueToCode(block, 'var', Blockly.Python.ORDER_ATOMIC);
+  var code = 'str(' + variable + ')';
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+// Eval text block
+Blockly.Blocks['text_eval'] = {
+  init: function() {
+    this.setColour(45);
+    this.setInputsInline(true);
+    this.appendDummyInput()
+        .appendField("eval")
+        .appendField(new Blockly.FieldTextInput(""), "text");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('direct python eval');
+  }
+};
+
+Blockly.Python['text_eval'] = function(block) {
+  var c = block.getFieldValue('text');
+  var code = c + "\n";
+  return code;
+};
+
+/*
+*****************************************************************
+* SYSTEM BLOCKS 
+* Generators for system-level operations.
+*****************************************************************
+*/
+
+// Project metadata
+Blockly.Python['project_metadata'] = function(block) {
+  var value_project_author = Blockly.Python.valueToCode(block, 'project_author', Blockly.Python.ORDER_ATOMIC);
+  var value_project_iot_id = Blockly.Python.valueToCode(block, 'project_iot_id', Blockly.Python.ORDER_ATOMIC);
+  var value_project_description = Blockly.Python.valueToCode(block, 'project_description', Blockly.Python.ORDER_ATOMIC);
+  var code = '#Code automatically generated by BIPES (http://www.bipes.net.br)';
+  code += '\n#Author: ' + value_project_author;
+  code += '\n#IOT ID: ' + value_project_iot_id;
+  code += '\n#Description: ' + value_project_description + '\n';
+  return code;
+};
+
+// Snek uptime
+Blockly.Python["snek_uptime"] = function(block) {
+  var code = "time.monotonic()";
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+/*
+*****************************************************************
+* CONTROL BLOCKS 
+* Generators for control flow operations.
+*****************************************************************
+*/
+
+// While true loop
+Blockly.Python['controls_while_true'] = function(block) {
+  var branch = Blockly.Python.statementToCode(block, 'DO');
+  branch = Blockly.Python.addLoopTrap(branch, block) || Blockly.Python.PASS;
+  branch = Blockly.Python.prefixLines(branch, Blockly.Python.INDENT);
+  return 'while True:\n' + branch;
+};
+
+// Alternate action between colors
+Blockly.Python['alternar_acao_entre_cores'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  var pin1 = Blockly.Python.valueToCode(block, 'COLOUR1', Blockly.Python.ORDER_ATOMIC) || '13';
+  var pin2 = Blockly.Python.valueToCode(block, 'COLOUR2', Blockly.Python.ORDER_ATOMIC) || '11';
+  var statements_do = Blockly.Python.statementToCode(block, 'DO');
+  var code = 'Pin(' + pin1 + ', Pin.OUT).on()\nPin(' + pin2 + ', Pin.OUT).off()\n' + statements_do;
+  code += 'Pin(' + pin1 + ', Pin.OUT).off()\nPin(' + pin2 + ', Pin.OUT).on()\n' + statements_do;
+  return code;
+};
+
+// Plotter data formatting
+Blockly.Python['chamar_formatar_dados_plotter'] = function(block) {
+  var code = 'formatar_dados_para_plotter()\n';
+  return code;
+};
+
+/*
+*****************************************************************
+* MATRIX LED BLOCKS 
+* Generators for LED matrix operations.
+*****************************************************************
+*/
+
+// Create drawing on matrix
 Blockly.Python['criar_desenho_na_matriz'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
