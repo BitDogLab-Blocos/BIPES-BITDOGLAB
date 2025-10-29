@@ -1238,16 +1238,6 @@ Blockly.Python['pico_timer'] = function(block) {
   return code;
 };
 
-// Deep sleep for ESP8266
-Blockly.Python['deep_sleep8266'] = function(block) {
-  var value_interval = Blockly.Python.valueToCode(block, 'interval', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_machine'] = 'import machine';
-  var code = 'rtc = machine.RTC()\n';
-  code += 'rtc.irq(trigger=rtc.ALARM0, wake=machine.DEEPSLEEP)\n';
-  code += 'rtc.alarm(rtc.ALARM0, ' + value_interval + ')\n';
-  code += 'machine.deepsleep()\n';
-  return code;
-};
 
 /*
 *****************************************************************
