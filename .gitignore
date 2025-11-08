@@ -56,3 +56,7 @@ logs/
 .env
 .env.local
 .env.*.local
+
+# Arquivos de Documentação Temporária
+blocos_atualmente.md
+analise_blockly_compressed.md
