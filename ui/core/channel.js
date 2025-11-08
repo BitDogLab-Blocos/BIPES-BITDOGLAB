@@ -1,116 +1,66 @@
 'use strict';
 
-/**
- * Communication channel constants for serial protocols
- */
+// Serial communication configuration
 const SERIAL_CONFIG = {
-  BAUD_RATE: 115200,
-  PACKET_SIZE: 100,
-  WATCH_INTERVAL_MS: 50,
-  RESET_TIMEOUT_MS: 50
+  BAUD_RATE: 115200,//Bits/sec for pico, for: ESP32/ESP8266 standard (9600, 57600, 921600)
+  PACKET_SIZE: 100, // Max bytes per chunk (UART buffer ~128 bytes)
+  WATCH_INTERVAL_MS: 50, // Serial polling interval
+  RESET_TIMEOUT_MS: 50 //Delay before CTRL_C/CTRL_D
 };
-
+// MicroPython REPL control codes
 const REPL_CONSTANTS = {
-  PROMPT: '>>> ',
+  PROMPT: '>>> ', //REPL ready indicator
   PROMPT_LENGTH: 4,
-  CTRL_C: '\x03',
-  CTRL_D: '\x04'
+  CTRL_C: '\x03',// \x03 = KeyboardInterrupt (stops code, no reboot)
+  CTRL_D: '\x04'// \x04 = Soft reboot (reloads boot.py/main.py, clears memory)
 };
-
 const PATTERNS = {
-  LINE_BREAK: /\r\n|\n/gm,
-  REPLACEMENT: '\r'
+  LINE_BREAK: /\r\n|\n/gm,// Regex: Windows (\r\n) + Unix (\n) endings
+  REPLACEMENT: '\r'//Normalize to \r for MicroPython
 };
-
 const ERROR_CODES = {
-  PORT_ALREADY_OPEN: 11
+  PORT_ALREADY_OPEN: 11 //WebSerial: port in use by another process
 };
-
-/**
- * Protocol multiplexer - Manages communication between different protocols
- * (WebSerial)
- */
+// Manages communication protocols (WebSerial only)
 class ProtocolManager {
-  /**
-   * Initialize the protocol manager
-   * Checks if loaded via HTTPS, HTTP, or locally to handle browser policies
-   */
   constructor() {
-    this.isLocalFile = false;
-    this.available = ['webserial'];
+    this.isLocalFile = false;//file:// protocol flag
+    this.available = ['webserial']; // Supported protocols
     this.currentChannel = 'webserial';
-    this.unavailableRedirects = {
-      webserial: ['https://bipes.net.br/beta2/ui', 'the HTTPS version']
-    };
   }
-
-  /**
-   * Switch to a different protocol if available
-   * @param {string} channelName - The protocol to switch to
-   */
+  // Switch protocol (disconnects current before connecting new)
   switch(channelName) {
     if (this.available.includes(channelName)) {
       this.currentChannel = channelName;
       ProtocolManager.disconnect();
       this.connect();
-    } else if (this.unavailableRedirects[channelName] !== undefined) {
-      const [url, description] = this.unavailableRedirects[channelName];
-      const msg = `The channel ${channelName} is not yet available in this version, but at ${description}, would you like to be redirected there?`;
-      if (confirm(msg)) {
-        window.location.replace(url);
-      } else {
-        UI['channel-panel'].button.className = `icon ${this.currentChannel}`;
-      }
     } else {
       alert(`The channel ${channelName} is not yet available in this version.`);
     }
   }
-
-  /**
-   * Connect using the current protocol
-   */
   connect() {
     Channel['webserial'].connect();
   }
-
-  /**
-   * Disconnect the current protocol
-   * @static
-   */
   static disconnect() {
     if (Channel['webserial'].connected) {
       Channel['webserial'].disconnect();
     }
   }
-
-  /**
-   * Check if any device is connected via any protocol
-   * @returns {boolean} True if a device is connected
-   * @static
-   */
   static connected() {
     return Channel['webserial'].connected;
   }
-
-  /**
-   * Send data to the buffer to be transmitted to the device
-   * A callback function can be passed and will be called after the MicroPython REPL prompt is detected
-   * @param {string|object} code - The code to be sent to the device
-   * @param {function} [callback] - Optional callback function to be called when code execution completes
-   * @static
-   */
+  //FIFO: Enqueue code chunks + callback (fires on REPL '>>>')
   static bufferPush(code, callback) {
     let textArray;
-
     if (typeof code === 'object') {
       textArray = code;
     } else if (typeof code === 'string') {
       if (Channel['webserial'].connected) {
+        // Regex: split into chunks of max packetSize
         const pattern = new RegExp(`(.|[\\r]){1,${Channel['webserial'].packetSize}}`, 'g');
         textArray = code.replace(PATTERNS.LINE_BREAK, PATTERNS.REPLACEMENT).match(pattern);
       }
     }
-
     if (Channel['webserial'].connected) {
       Channel['webserial'].buffer = Channel['webserial'].buffer.concat(textArray);
       if (callback !== undefined) {
@@ -120,13 +70,7 @@ class ProtocolManager {
       UI['notify'].send(MSG['notConnected']);
     }
   }
-
-  /**
-   * Send data to the first position of the buffer (priority execution)
-   * Useful for reset commands that need immediate execution
-   * @param {string} code - The code to be sent immediately to the device
-   * @static
-   */
+  // LIFO: Priority send (prepend to queue for urgent commands)
   static bufferUnshift(code) {
     if (Channel['webserial'].connected) {
       Channel['webserial'].buffer.unshift(code);
@@ -134,11 +78,7 @@ class ProtocolManager {
       UI['notify'].send(MSG['notConnected']);
     }
   }
-
-  /**
-   * Clear the transmission buffer (code won't be sent)
-   * @static
-   */
+  //Clear transmission queue + callbacks
   static clearBuffer() {
     if (Channel['webserial'].connected) {
       Channel['webserial'].buffer = [];
@@ -148,6 +88,5 @@ class ProtocolManager {
     }
   }
 }
-
-// Legacy class names for backward compatibility
+//Legacy alias (multiplexer concept)
 const mux = ProtocolManager;
