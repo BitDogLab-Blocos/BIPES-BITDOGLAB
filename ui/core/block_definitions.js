@@ -9,6 +9,51 @@ function showMatrixAnimationTip() {
     }, 100);
   }
 }
+
+// ==========================================
+// Blocos Básicos do Blockly (substituem blocks_compressed.js)
+// ==========================================
+
+// Bloco de número
+Blockly.Blocks['math_number'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldNumber(0), "NUM");
+    this.setOutput(true, "Number");
+    this.setColour(230);
+    this.setTooltip("Um número");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco de texto
+Blockly.Blocks['text'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput(""), "TEXT");
+    this.setOutput(true, "String");
+    this.setColour(160);
+    this.setTooltip("Uma cadeia de texto");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco de verdadeiro/falso
+Blockly.Blocks['logic_boolean'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([
+          ["verdadeiro", "TRUE"],
+          ["falso", "FALSE"]
+        ]), "BOOL");
+    this.setOutput(true, "Boolean");
+    this.setColour(210);
+    this.setTooltip("Retorna verdadeiro ou falso");
+    this.setHelpUrl("");
+  }
+};
+
+console.log('[BitdogLab] Blocos básicos carregados: math_number, text, logic_boolean');
 // ==========================================
 // Category: Mathematics
 // ==========================================
@@ -512,6 +557,17 @@ Blockly.Blocks['tempo_horas'] = {
     this.setHelpUrl("");
   }
 };
+
+// Debug: Confirm time blocks are loaded
+console.log('[BitdogLab] Blocos de tempo carregados:', {
+  esperar_segundos: typeof Blockly.Blocks['esperar_segundos'] !== 'undefined',
+  esperar_milisegundos: typeof Blockly.Blocks['esperar_milisegundos'] !== 'undefined',
+  tempo_segundos: typeof Blockly.Blocks['tempo_segundos'] !== 'undefined',
+  tempo_milisegundos: typeof Blockly.Blocks['tempo_milisegundos'] !== 'undefined',
+  tempo_minutos: typeof Blockly.Blocks['tempo_minutos'] !== 'undefined',
+  tempo_horas: typeof Blockly.Blocks['tempo_horas'] !== 'undefined'
+});
+
 // ==========================================
 // Category: Colors
 // ==========================================
