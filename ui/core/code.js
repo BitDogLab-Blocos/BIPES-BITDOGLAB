@@ -59,7 +59,7 @@ Code.getStringParamFromUrl = function(name, defaultValue) {
  * @return {string} User's language.
  */
 Code.getLang = function() {
-  var lang = Code.getStringParamFromUrl('lang', '');
+  var lang = Code.getStringParamFromUrl('lang', 'pt-br');
   if (Code.LANGUAGE_NAME[lang] === undefined) {
     // Default to Portuguese Brazilian.
     lang = 'pt-br';
@@ -106,11 +106,7 @@ Code.loadBlocks = function(defaultXml) {
       } else if ('BlocklyStorage' in window) {
         // Restore saved blocks in a separate thread so that subsequent
         // initialization is not affected from a failed load.
-        if (typeof UI != 'undefined' && UI ['workspace'].devices.constructor.name == 'Object') {
-              window.setTimeout(() => {BlocklyStorage.restoreBlocks (); UI ['account'].openLastEdited()}, 0);
-        } else {
-              window.setTimeout(() => {BlocklyStorage.restoreBlocks (); UI ['account'].openLastEdited()}, 0);
-        }
+        window.setTimeout(() => {BlocklyStorage.restoreBlocks (); UI ['account'].openLastEdited()}, 0);
       }
       clearInterval(interval_);
     }}, 500);
@@ -441,12 +437,6 @@ Code.checkAllGeneratorFunctionsDefined = function(generator) {
     if (!Code.checkAllGeneratorFunctionsDefined._alreadyAlerted[missingKey]) {
       // Log to console instead of showing alert to avoid annoying the user
       console.warn('Missing generator code for blocks:', missingBlockGenerators.join(', '));
-
-      // DO NOT SHOW ALERT - just log it
-      // var msg = 'The generator code for the following blocks not specified for '
-      //     + generator.name_ + ':\n - ' + missingBlockGenerators.join('\n - ');
-      // Blockly.alert(msg);
-
       Code.checkAllGeneratorFunctionsDefined._alreadyAlerted[missingKey] = true;
     }
   } else {
@@ -485,29 +475,6 @@ Code.reloadToolbox = function(XML_) {
     console.error('Erro ao recarregar a toolbox:', e);
     UI['notify'].send('Erro ao carregar a toolbox: ' + e.message);
   }
-}
-
-function loadExampleFromURL(pName){
-
-    var request = new XMLHttpRequest();
-    request.open('GET', '/beta2/ui/examples/' + pName + '.xml', true);
-    //request.open('GET', 'http://bipes.net.br/beta2/ui/examples/' + pName + '.xml', true);
-    request.send(null);
-    request.onreadystatechange = function () {
-        if (request.readyState === 4 && request.status === 200) {
-            var type = request.getResponseHeader('Content-Type');
-            if (type.indexOf("text") !== 1) {
-
-		    //alert(request.responseText);
-
-		    var content = request.responseText;
-                    var xml = Blockly.Xml.textToDom(content);
-                    Blockly.Xml.domToWorkspace(xml, Code.workspace);
-
-                return request.responseText;
-            }
-        }
-    }
 }
 
 /**
@@ -551,13 +518,13 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     if (trimmedLine.startsWith('[') && trimmedLine.endsWith(']')) continue;
     if (/^\d+$/.test(trimmedLine)) continue; // Skip standalone numbers
 
-    // Check for loop block markers
-    if (trimmedLine === '# LOOP_BLOCK_START') {
+    // Check for loop block markers (from BitdogLabConfig)
+    if (trimmedLine === BitdogLabConfig.MARKERS.LOOP_START) {
       inLoopBlock = true;
       continue;
     }
 
-    if (trimmedLine === '# LOOP_BLOCK_END') {
+    if (trimmedLine === BitdogLabConfig.MARKERS.LOOP_END) {
       inLoopBlock = false;
       continue;
     }
@@ -568,13 +535,13 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
       continue;
     }
 
-    // Check for sound block markers
-    if (trimmedLine === '# SOUND_BLOCK_START') {
+    // Check for sound block markers (from BitdogLabConfig)
+    if (trimmedLine === BitdogLabConfig.MARKERS.SOUND_START) {
       inSoundBlock = true;
       continue; // Don't add the marker itself
     }
 
-    if (trimmedLine === '# SOUND_BLOCK_END') {
+    if (trimmedLine === BitdogLabConfig.MARKERS.SOUND_END) {
       inSoundBlock = false;
       continue; // Don't add the marker itself
     }
@@ -589,14 +556,8 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     if (trimmedLine.startsWith('import ') || trimmedLine.startsWith('from ')) {
       imports.push(line);
     }
-    // Check if it's a setup line (variable assignment with Pin, NeoPixel, etc)
-    // Must be more specific to avoid catching action code that references these variables
-    else if (trimmedLine.indexOf(' = Pin(') !== -1 ||
-             trimmedLine.indexOf('=Pin(') !== -1 ||
-             trimmedLine.indexOf(' = PWM(') !== -1 ||
-             trimmedLine.indexOf('=PWM(') !== -1 ||
-             (trimmedLine.startsWith('LED_MATRIX = ')) ||
-             (trimmedLine.startsWith('np = neopixel'))) {
+    // Check if it's a setup line (from BitdogLabConfig)
+    else if (BitdogLabConfig.SETUP_PATTERNS.isSetupLine(trimmedLine)) {
       setup.push(line);
     }
     // Check if it's a comment
@@ -629,23 +590,8 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     finalCode += '# Bloco de Setup\n';
     finalCode += setup.join('\n') + '\n';
 
-    // Check if there are LED pins and add initialization to turn them all off
-    var hasLeds = rawCode.indexOf('led_vermelho') !== -1 ||
-                  rawCode.indexOf('led_verde') !== -1 ||
-                  rawCode.indexOf('led_azul') !== -1;
-
-    if (hasLeds) {
-      finalCode += '\n# Inicializar LEDs (desligar todos)\n';
-      if (rawCode.indexOf('led_vermelho') !== -1) {
-        finalCode += 'led_vermelho.duty_u16(0)\n';
-      }
-      if (rawCode.indexOf('led_verde') !== -1) {
-        finalCode += 'led_verde.duty_u16(0)\n';
-      }
-      if (rawCode.indexOf('led_azul') !== -1) {
-        finalCode += 'led_azul.duty_u16(0)\n';
-      }
-    }
+    // Add LED initialization code (from BitdogLabConfig)
+    finalCode += BitdogLabConfig.LED_INIT.generateInitCode(rawCode);
     finalCode += '\n';
   }
 
@@ -674,7 +620,7 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
   }
 
   // 3. Check if there's a static configuration (no loop needed)
-  var hasStaticConfig = rawCode.indexOf('CONFIGURACAO_FIXA') !== -1;
+  var hasStaticConfig = rawCode.indexOf(BitdogLabConfig.MARKERS.STATIC_CONFIG) !== -1;
 
   if (hasStaticConfig && actionCode.length === 0) {
     // Se há apenas configuração estática, não cria loop
@@ -690,8 +636,8 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
       finalCode += '  ' + actionCode[j] + '\n';
     }
 
-    // Add courtesy delay - reduzido para melhor responsividade
-    finalCode += '  time.sleep_ms(50)  # Pausa de cortesia\n';
+    // Add courtesy delay (from BitdogLabConfig)
+    finalCode += BitdogLabConfig.LOOP.getDelayCode();
   }
 
   return finalCode;
@@ -711,7 +657,7 @@ Code.generateCode = function (generator = Blockly.Python) {
         var finalCode = Code.wrapWithInfiniteLoop(rawCode);
 
         // Se há configuração estática, desativa auto_mode para parar de gerar código
-        if (rawCode.indexOf('CONFIGURACAO_FIXA') !== -1) {
+        if (rawCode.indexOf(BitdogLabConfig.MARKERS.STATIC_CONFIG) !== -1) {
           Code.auto_mode = false;
         }
 
@@ -845,163 +791,9 @@ Code.init = function() {
   }
   Blockly.svgResize(Code.workspace);
 
-  Code.workspace.registerButtonCallback('installPyLib', function(button) {
-
-	var lib = button.text_.split(" ")[1];
-	console.log(button.text_);
-	console.log(lib)
-        alert("This will automatic download and install the library on the connected board: " + lib + ". Internet is required for this operation. Install results will be shown on console tab.");
-
-
-	UI ['notify'].send('Installing library, check console')
-
-	var installCmd = `
-def bipesInstall(url, lib):
-    import socket
-    _, _, host, path = url.split('/', 3)
-    addr = socket.getaddrinfo(host, 80)[0][-1]
-    s = socket.socket()
-    s.connect(addr)
-    print('Downloading from ' + url)
-    s.send(bytes('GET /%s HTTP/1.0\\r\\nHost: %s\\r\\n\\r\\n' % (path, host), 'utf8'))
-
-    f = open('tmplib.py', 'w')
-    #f = open(lib, 'w')
-
-    while True:
-        data = s.recv(100)
-        if data:
-            #print(str(data, 'utf8'), end='')
-            f.write(data)
-            #print('.')
-        else:
-            break
-    s.close()
-    f.close()
-    print('Download done')
-
-`;
- 
-    installCmd = installCmd + "lib = '" + lib + ".py'" + '\r';
-    installCmd = installCmd + "bipesInstall('http://bipes.net.br/beta2/ui/pylibs/' + lib, lib)";
-	    
-
-     Tool.runPython(installCmd);
-
-     var copyCmd = `
-f=open("tmplib.py", "r")
-c=open("`;
-
-copyCmd += lib + `.py", "w")
-lineC=0
-for line in f:
-	lineC=lineC+1
-	#Jump 10 lines to skip HTTP header
-	if lineC >= 10:
-		r=c.write(line)
-		print('.', end='')
-f.close()
-c.close()
-print('Install done.')
-
-`;
- 
-     Tool.runPython(copyCmd);
-
-
-      });
-
-
-    Code.workspace.registerButtonCallback('loadExample', function(button) {
-
-	var tmp = button.text_.split(":")[1];
-	var lib = tmp.replace(/\s/g,'');
-
-        var msgCon = "This will load Example: " + lib + ". Internet is required for this operation. Important: all blocks on workspace will be lost and replaced by the example blocks. Do you want to continue?";
-
-	if (confirm(msgCon)) {
-		//console.log('Thing was saved to the database.');
-		
-		//Ask for confirmation
-      		//Code.discard(); 
-		//Delete blocks without asking for confirmation
-		Code.workspace.clear();
-
-		Code.renderContent();
-		loadExampleFromURL(lib);
-		Code.renderContent();
-	} else {
-		console.log('Example load canceled.');
-	}
-
-      });
-
-
-    Code.workspace.registerButtonCallback('loadDoc', function(button) {
-
-	var tmp = button.text_.split(":")[1];
-	var lib = tmp.replace(/\s/g,'');
-
-	var url = "https://docs.google.com/document/d/e/2PACX-1vSk-9T56hP9K9EOhkF5SoNzsYl4TzDk-GEDnMssaFP_m-LEfI6IU-uRkkLP_HoONK0QmMrZVo_f27Fw/pub";
-
-        if (Code.getLang() == 'pt-br') {
-		url = "https://docs.google.com/document/d/e/2PACX-1vT7dc6hP4sKyMJupklbGK4adIf3qCkt4r-HrEWO8jTRMx9uUOUSfboKG749IF3DZr8k6zUPSLXkrDGY/pub";
-	}
-        if (Code.getLang() == 'en') {
-		url = "https://docs.google.com/document/d/e/2PACX-1vSk-9T56hP9K9EOhkF5SoNzsYl4TzDk-GEDnMssaFP_m-LEfI6IU-uRkkLP_HoONK0QmMrZVo_f27Fw/pub";
-
-	}
-	
-	if (lib == "mpu6050") {
-		url = url + '#h.79fbsr8dha21';
-	}
-
-	if (lib == "tm1640") {
-		url = url + '#h.iw35vui9vzi1';
-	}
-
-	if (lib == "ds1820") {
-		url = url + '#h.w84555jgod5j';
-	}
-
-	if (lib == "mfrc522") {
-		url = url + '#h.owhbali4ayaj';
-	}
-
-	var win = window.open(url, '_blank');
-	win.focus();
-
-
-      });
-
-
-
-
-
-
-
   // Lazy-load the syntax-highlighting.
   window.setTimeout(Code.importPrettify, 1);
 };
-
-function loadDoc() {
-
-	var url="";
-        if (Code.getLang() == 'pt-br') {
-		url = "https://docs.google.com/document/d/e/2PACX-1vT7dc6hP4sKyMJupklbGK4adIf3qCkt4r-HrEWO8jTRMx9uUOUSfboKG749IF3DZr8k6zUPSLXkrDGY/pub";
-	}
-        if (Code.getLang() == 'en') {
-		url = "https://docs.google.com/document/d/e/2PACX-1vSk-9T56hP9K9EOhkF5SoNzsYl4TzDk-GEDnMssaFP_m-LEfI6IU-uRkkLP_HoONK0QmMrZVo_f27Fw/pub";
-
-	}
-	
-	var win = window.open(url, '_blank');
-	win.focus();
-
-}
-
-
-
 
 /**
  * Initialize the page language.
@@ -1069,144 +861,6 @@ Code.discard = function() {
       window.location.hash = '';
     }
   }
-};
-
-// Colour Blocks Code Generators - retornam tuplas RGB
-Blockly.Python['colour_red'] = function(block) {
-  return ['(255, 0, 0)', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['colour_green'] = function(block) {
-  return ['(0, 255, 0)', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['colour_blue'] = function(block) {
-  return ['(0, 0, 255)', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['colour_yellow'] = function(block) {
-  return ['(255, 255, 0)', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['colour_cyan'] = function(block) {
-  return ['(0, 255, 255)', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['colour_magenta'] = function(block) {
-  return ['(255, 0, 255)', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['colour_white'] = function(block) {
-  return ['(255, 255, 255)', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['colour_orange'] = function(block) {
-  return ['(255, 128, 0)', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['colour_pink'] = function(block) {
-  return ['(255, 64, 128)', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['colour_lime'] = function(block) {
-  return ['(128, 255, 0)', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['colour_skyblue'] = function(block) {
-  return ['(64, 196, 255)', Blockly.Python.ORDER_ATOMIC];
-};
-
-Blockly.Python['colour_turquoise'] = function(block) {
-  return ['(64, 224, 208)', Blockly.Python.ORDER_ATOMIC];
-};
-
-// Mix Colours Block Generator - calcula média RGB
-Blockly.Python['mix_colours'] = function(block) {
-  var colors = [];
-  for (var i = 0; i < block.itemCount_; i++) {
-    var color = Blockly.Python.valueToCode(block, 'ADD' + i, Blockly.Python.ORDER_NONE) || '(0, 0, 0)';
-    colors.push(color);
-  }
-
-  if (colors.length === 0) {
-    return ['(0, 0, 0)', Blockly.Python.ORDER_ATOMIC];
-  }
-
-  // Gera código para calcular a média dos componentes RGB
-  var code = '(';
-  code += 'int(sum([' + colors.join('[0], ') + '[0]])/' + colors.length + '), ';
-  code += 'int(sum([' + colors.join('[1], ') + '[1]])/' + colors.length + '), ';
-  code += 'int(sum([' + colors.join('[2], ') + '[2]])/' + colors.length + ')';
-  code += ')';
-
-  return [code, Blockly.Python.ORDER_ATOMIC];
-};
-
-// LED RGB Control - converte tupla RGB em PWM
-Blockly.Python['led_turn_on'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-
-  // Setup LED pins com PWM
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
-
-  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-
-  var code = 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
-  code += 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
-  code += 'led_azul.duty_u16(' + colour + '[2] * 257)\n';
-
-  return code;
-};
-
-Blockly.Python['led_turn_off'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-
-  // Setup LED pins com PWM
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
-
-  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-
-  // Desliga apenas os componentes RGB que estão na cor selecionada
-  var code = 'if ' + colour + '[0] > 0:\n';
-  code += '  led_vermelho.duty_u16(0)\n';
-  code += 'if ' + colour + '[1] > 0:\n';
-  code += '  led_verde.duty_u16(0)\n';
-  code += 'if ' + colour + '[2] > 0:\n';
-  code += '  led_azul.duty_u16(0)\n';
-
-  return code;
-};
-
-Blockly.Python['led_turn_off_all'] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
-
-  return 'led_vermelho.duty_u16(0)\nled_verde.duty_u16(0)\nled_azul.duty_u16(0)\n';
-};
-
-// Delay blocks
-Blockly.Python['delay_seconds'] = function(block) {
-  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.sleep(' + value_time + ')\n';
-  return code;
-};
-
-Blockly.Python['delay_milliseconds'] = function(block) {
-  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.sleep_ms(' + value_time + ')\n';
-  return code;
 };
 
 // Load the Code demo's language strings.
