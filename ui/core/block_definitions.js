@@ -1,31 +1,28 @@
 // Global variable to control if the instruction message has been shown
 var matrixAnimationTipShown = false;
-
 // Function to show the matrix animation tip (only once)
 function showMatrixAnimationTip() {
   if (!matrixAnimationTipShown) {
     matrixAnimationTipShown = true;
     setTimeout(function() {
-      alert("💡 Tip: Place a Matrix LED block (like 'Show emoji' or 'Show number') inside this animation block!");
+      alert("💡 Dica: Coloque um bloco de LED da matriz (como 'Mostrar emoji' ou 'Mostrar número') dentro deste bloco de animação!");
     }, 100);
   }
 }
-
 // ==========================================
 // Category: Mathematics
 // ==========================================
-
 // Mathematical function block for single operations like square root, absolute value, etc.
 Blockly.Blocks['math_single'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
-            ["Square root (√)", "ROOT"],
-            ["Absolute value (always positive)", "ABS"],
-            ["Natural logarithm (ln)", "LN"],
-            ["Base 10 logarithm (log10)", "LOG10"],
-            ["Exponential (e^)", "EXP"],
-            ["Power of 10 (10^)", "POW10"]
+            ["Raiz quadrada (√)", "ROOT"],
+            ["Valor absoluto (sempre positivo)", "ABS"],
+            ["Logaritmo natural (ln)", "LN"],
+            ["Logaritmo base 10 (log10)", "LOG10"],
+            ["Exponencial (e^)", "EXP"],
+            ["Potência de 10 (10^)", "POW10"]
         ]), "OP", function(option) {
           this.getSourceBlock().updateShape_(option);
         });
@@ -34,133 +31,127 @@ Blockly.Blocks['math_single'] = {
     this.setInputsInline(true);
     this.setOutput(true, "Number");
     this.setColour("%{BKY_MATH_HUE}");
-    this.setTooltip("Applies a mathematical function to a number");
+    this.setTooltip("Aplica uma função matemática a um número");
     this.setHelpUrl("%{BKY_MATH_SINGLE_HELPURL}");
   }
 };
-
 // Trigonometric function block for operations like sine, cosine, etc.
 Blockly.Blocks['math_trig'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Trigonometry")
+        .appendField("Trigonometria")
         .appendField(new Blockly.FieldDropdown([
-            ["Sine (sin)", "SIN"],
-            ["Cosine (cos)", "COS"],
-            ["Tangent (tan)", "TAN"],
-            ["Arc sine (asin)", "ASIN"],
-            ["Arc cosine (acos)", "ACOS"],
-            ["Arc tangent (atan)", "ATAN"]
+            ["Seno (sin)", "SIN"],
+            ["Cosseno (cos)", "COS"],
+            ["Tangente (tan)", "TAN"],
+            ["Arco seno (asin)", "ASIN"],
+            ["Arco cosseno (acos)", "ACOS"],
+            ["Arco tangente (atan)", "ATAN"]
         ]), "OP");
     this.appendValueInput("NUM")
         .setCheck("Number");
     this.setInputsInline(true);
     this.setOutput(true, "Number");
     this.setColour("%{BKY_MATH_HUE}");
-    this.setTooltip("Applies a trigonometric function to an angle");
+    this.setTooltip("Aplica uma função trigonométrica a um ângulo");
     this.setHelpUrl("%{BKY_MATH_TRIG_HELPURL}");
   }
 };
-
 // Mathematical constants block for values like Pi, Euler's number, etc.
 Blockly.Blocks['math_constant'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Constants")
+        .appendField("Constantes")
         .appendField(new Blockly.FieldDropdown([
             ["Pi (π)", "PI"],
             ["Euler (e)", "E"],
-            ["Phi - Golden ratio (φ)", "GOLDEN_RATIO"],
-            ["Square root of 2 (√2)", "SQRT2"],
-            ["Square root of half (√½)", "SQRT1_2"],
-            ["Infinity (∞)", "INFINITY"]
+            ["Phi - Razão áurea (φ)", "GOLDEN_RATIO"],
+            ["Raiz quadrada de 2 (√2)", "SQRT2"],
+            ["Raiz quadrada de ½ (√½)", "SQRT1_2"],
+            ["Infinito (∞)", "INFINITY"]
         ]), "CONSTANT");
     this.setOutput(true, "Number");
     this.setColour("%{BKY_MATH_HUE}");
-    this.setTooltip("Returns an important mathematical constant");
+    this.setTooltip("Retorna uma constante matemática importante");
     this.setHelpUrl("%{BKY_MATH_CONSTANT_HELPURL}");
   }
 };
-
 // Number property check block for testing if a number is even, odd, positive, or negative
 Blockly.Blocks['math_number_property'] = {
   init: function() {
     this.appendValueInput("NUMBER_TO_CHECK")
         .setCheck("Number")
-        .appendField("Check if number");
+        .appendField("Verificar se número");
     this.appendDummyInput()
-        .appendField("is")
+        .appendField("é")
         .appendField(new Blockly.FieldDropdown([
-            ["even", "EVEN"],
-            ["odd", "ODD"],
-            ["positive", "POSITIVE"],
-            ["negative", "NEGATIVE"]
+            ["par", "EVEN"],
+            ["ímpar", "ODD"],
+            ["positivo", "POSITIVE"],
+            ["negativo", "NEGATIVE"]
         ]), "PROPERTY");
     this.setInputsInline(true);
     this.setOutput(true, "Boolean");
     this.setColour("%{BKY_MATH_HUE}");
-    this.setTooltip("Checks if a number has the selected property (even, odd, positive or negative). Returns true or false.");
+    this.setTooltip("Verifica se um número tem a propriedade selecionada (par, ímpar, positivo ou negativo). Retorna verdadeiro ou falso.");
     this.setHelpUrl("");
   }
 };
-
 // Divisibility check block to test if one number is divisible by another
 Blockly.Blocks['math_is_divisible_by'] = {
   init: function() {
     this.appendValueInput("DIVIDEND")
         .setCheck("Number")
-        .appendField("Number");
+        .appendField("Número");
     this.appendValueInput("DIVISOR")
         .setCheck("Number")
-        .appendField("is divisible by");
+        .appendField("é divisível por");
     this.setInputsInline(true);
     this.setOutput(true, "Boolean");
     this.setColour("%{BKY_MATH_HUE}");
-    this.setTooltip("Checks if the first number can be divided by the second without leaving a remainder.");
+    this.setTooltip("Verifica se o primeiro número pode ser dividido pelo segundo sem deixar resto.");
     this.setHelpUrl("");
   }
 };
-
 // Decimal rounding block to round numbers to specified decimal places
 Blockly.Blocks['math_round_to_decimal'] = {
   init: function() {
     this.appendValueInput("NUMBER_TO_ROUND")
         .setCheck("Number")
-        .appendField("Round");
+        .appendField("Arredondar");
     this.appendDummyInput()
-        .appendField("to")
+        .appendField("para")
         .appendField(new Blockly.FieldNumber(2, 0), "DECIMAL_PLACES")
-        .appendField("decimal places");
+        .appendField("casas decimais");
     this.setInputsInline(true);
     this.setOutput(true, "Number");
     this.setColour("%{BKY_MATH_HUE}");
-    this.setTooltip("Rounds a number to the specified number of decimal places.");
+    this.setTooltip("Arredonda um número para o número especificado de casas decimais.");
     this.setHelpUrl("");
   }
 };
-
 // List operations block for performing calculations on lists of numbers
 Blockly.Blocks['math_on_list'] = {
   init: function() {
     this.appendValueInput("LIST")
         .setCheck("Array")
-        .appendField("Calculate")
+        .appendField("Calcular")
         .appendField(new Blockly.FieldDropdown([
-            ["Sum", "SUM"],
-            ["Smallest number", "MIN"], 
-            ["Largest number", "MAX"],
-            ["Average", "AVERAGE"],
-            ["A random item", "RANDOM"]
+            ["Soma", "SUM"],
+            ["Menor número", "MIN"],
+            ["Maior número", "MAX"],
+            ["Média", "AVERAGE"],
+            ["Um item aleatório", "RANDOM"]
         ]), "OP", function(option) {
           this.getSourceBlock().updateShape_(option);
         })
-        .appendField("of list");
+        .appendField("da lista");
     this.setOutput(true);
     this.setColour("%{BKY_MATH_HUE}");
-    this.setTooltip("Performs simple operations with lists of numbers.");
+    this.setTooltip("Realiza operações simples com listas de números.");
     this.setHelpUrl("");
   },
-  
+
   updateShape_: function(option) {
     // Add dice icon for random option
     var iconField = this.getField('DICE_ICON');
@@ -175,74 +166,63 @@ Blockly.Blocks['math_on_list'] = {
     }
   }
 };
-
 // Random float generator block for generating random decimal numbers
 Blockly.Blocks['math_random_float'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Random decimal between");
+        .appendField("Decimal aleatório entre");
     this.appendValueInput("FROM")
         .setCheck("Number");
     this.appendDummyInput()
-        .appendField("and");
+        .appendField("e");
     this.appendValueInput("TO")
         .setCheck("Number");
     this.setInputsInline(true);
     this.setOutput(true, "Number");
     this.setColour("%{BKY_MATH_HUE}");
-    this.setTooltip(Blockly.Msg["MATH_RANDOM_FLOAT_TOOLTIP"]);
-    this.setHelpUrl(Blockly.Msg["MATH_RANDOM_FLOAT_HELPURL"]);
+    this.setTooltip("Retorna um número decimal aleatório entre os valores especificados.");
+    this.setHelpUrl("");
   }
 };
-
 // ==========================================
 // Category: Text
 // ==========================================
-
 // Text substring block for extracting a portion of text
 Blockly.Blocks['text_getSubstring'] = {
   init: function() {
     // Start position dropdown options
     this.WHERE_OPTIONS_1 = [
-        ["First letter", "FIRST"],
-        ["Letter #", "FROM_START"]
+        ["Primeira letra", "FIRST"],
+        ["Letra nº", "FROM_START"]
     ];
-
     // End position dropdown options
     this.WHERE_OPTIONS_2 = [
-        ["Last letter", "LAST"],
-        ["Letter #", "FROM_START"]
+        ["Última letra", "LAST"],
+        ["Letra nº", "FROM_START"]
     ];
-
     this.setHelpUrl("%{BKY_TEXT_GET_SUBSTRING_HELPURL}");
     this.setStyle("text_blocks");
     this.setColour("%{BKY_TEXTS_HUE}");
-
     // Main text input
     this.appendValueInput("STRING")
         .setCheck("String")
-        .appendField("In text");
-
-
+        .appendField("No texto");
     // "FROM" section will be added by updateAt_
     this.appendDummyInput("AT1");
-
     // "TO" section will be added by updateAt_
     this.appendDummyInput("AT2");
-
     // Optional tail
     if ("%{BKY_TEXT_GET_SUBSTRING_TAIL}") {
       this.appendDummyInput("TAIL")
           .appendField("%{BKY_TEXT_GET_SUBSTRING_TAIL}");
     }
-    
+
     this.setInputsInline(true);
     this.setOutput(true, "String");
     this.updateAt_(1, false); // Initialize first dropdown
     this.updateAt_(2, false); // Initialize second dropdown
-    this.setTooltip("Gets a piece of text, from one position to another position.");
+    this.setTooltip("Obtém uma parte do texto, de uma posição a outra.");
   },
-
   mutationToDom: function() {
     var container = Blockly.utils.xml.createElement("mutation");
     var isAt1 = this.getInput("AT1").type == Blockly.INPUT_VALUE;
@@ -251,23 +231,18 @@ Blockly.Blocks['text_getSubstring'] = {
     container.setAttribute("at2", isAt2);
     return container;
   },
-
   domToMutation: function(xmlElement) {
     var isAt1 = ("true" == xmlElement.getAttribute("at1"));
     var isAt2 = ("true" == xmlElement.getAttribute("at2"));
     this.updateAt_(1, isAt1);
     this.updateAt_(2, isAt2);
   },
-
   updateAt_: function(n, isAt) {
     // Remove existing input
     this.removeInput("AT" + n);
     this.removeInput("ORDINAL" + n, true);
-
     // Define descriptive text for each position
-    var descriptiveText = (n == 1) ? "get piece from" : "to";
-
-
+    var descriptiveText = (n == 1) ? "de" : "para";
     if (isAt) {
       // Add value input for number
       this.appendValueInput("AT" + n)
@@ -282,7 +257,6 @@ Blockly.Blocks['text_getSubstring'] = {
       this.appendDummyInput("AT" + n)
           .appendField(descriptiveText);
     }
-
     // Add appropriate dropdown
     var options = this["WHERE_OPTIONS_" + n];
     var dropdown = new Blockly.FieldDropdown(options, function(value) {
@@ -294,9 +268,9 @@ Blockly.Blocks['text_getSubstring'] = {
         return null;
       }
     });
-    
+
     this.getInput("AT" + n).appendField(dropdown, "WHERE" + n);
-    
+
     if (n == 1) {
       this.moveInputBefore("AT1", "AT2");
       if (this.getInput("ORDINAL1")) {
@@ -305,48 +279,43 @@ Blockly.Blocks['text_getSubstring'] = {
     }
   }
 };
-
 // Text case change block for converting text to uppercase or lowercase
 Blockly.Blocks['text_changeCase'] = {
   init: function() {
     // Simplified case change options
     var options = [
-        ["UPPERCASE", "UPPERCASE"],
-        ["lowercase", "LOWERCASE"]
+        ["MAIÚSCULAS", "UPPERCASE"],
+        ["minúsculas", "LOWERCASE"]
     ];
-
     this.setHelpUrl("%{BKY_TEXT_CHANGECASE_HELPURL}");
     this.setStyle("text_blocks");
     this.setColour("%{BKY_TEXTS_HUE}");
-
     this.appendValueInput("TEXT")
         .setCheck("String")
-        .appendField("Transform text");
-    
+        .appendField("Transformar texto");
+
     this.appendDummyInput()
-        .appendField("to")
+        .appendField("para")
         .appendField(new Blockly.FieldDropdown(options), "CASE");
-    
+
     this.setInputsInline(true);
     this.setOutput(true, "String");
-    this.setTooltip("%{BKY_TEXT_CHANGECASE_TOOLTIP}");
+    this.setTooltip("Transforma o texto para maiúsculas ou minúsculas.");
   }
 };
-
 // Text print block for sending messages to the console
 Blockly.Blocks['text_print'] = {
   init: function() {
     this.appendValueInput("TEXT")
         .setCheck(null)
-        .appendField("Send message");
+        .appendField("Enviar mensagem");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("%{BKY_TEXTS_HUE}");
-    this.setTooltip("Sends any text, number or variable value to the 'Messages' tab. It's the best way to see what your program is doing!");
+    this.setTooltip("Envía qualquer texto, número ou valor de variável para a aba 'Mensagens'. É a melhor maneira de ver o que seu programa está fazendo!");
     this.setHelpUrl("%{BKY_TEXT_PRINT_HELPURL}");
   }
 };
-
 // Multiple text print block for joining and sending multiple values
 Blockly.Blocks['text_print_multiple'] = {
   init: function() {
@@ -356,7 +325,7 @@ Blockly.Blocks['text_print_multiple'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setMutator(new Blockly.Mutator(['text_create_join_item']));
-    this.setTooltip("Sends a message joining text and variables. Click the gear to add more items.");
+    this.setTooltip("Envía uma mensagem juntando texto e variáveis. Clique na engrenagem para adicionar mais itens.");
   },
   mutationToDom: function() {
     var container = document.createElement('mutation');
@@ -415,21 +384,19 @@ Blockly.Blocks['text_print_multiple'] = {
       this.removeInput('EMPTY');
     } else if (!this.itemCount_ && !this.getInput('EMPTY')) {
       this.appendDummyInput('EMPTY')
-          .appendField("Send message");
+          .appendField("Enviar mensagem");
     }
-
     // Add new inputs
     for (var i = 0; i < this.itemCount_; i++) {
       if (!this.getInput('ADD' + i)) {
         if (i == 0) {
           this.appendValueInput('ADD' + i)
-              .appendField("Send message with");
+              .appendField("Enviar mensagem com");
         } else {
           this.appendValueInput('ADD' + i);
         }
       }
     }
-
     // Remove excess inputs
     while (this.getInput('ADD' + i)) {
       this.removeInput('ADD' + i);
@@ -437,19 +404,17 @@ Blockly.Blocks['text_print_multiple'] = {
     }
   }
 };
-
 // Container block for text join mutator
 Blockly.Blocks['text_create_join_container'] = {
   init: function() {
     this.setColour("%{BKY_TEXTS_HUE}");
     this.appendDummyInput()
-        .appendField("join");
+        .appendField("juntar");
     this.appendStatementInput('STACK');
-    this.setTooltip("Add, remove, or reorder sections to reconfigure this block.");
+    this.setTooltip("Adicionar, remover ou reordenar seções para reconfigurar este bloco.");
     this.contextMenu = false;
   }
 };
-
 // Item block for text join mutator
 Blockly.Blocks['text_create_join_item'] = {
   init: function() {
@@ -458,167 +423,153 @@ Blockly.Blocks['text_create_join_item'] = {
         .appendField("item");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip("Add an item to join.");
+    this.setTooltip("Adicionar um item para juntar.");
     this.contextMenu = false;
   }
 };
-
 // ==========================================
 // Category: Time
 // ==========================================
-
 // Wait seconds block for pausing execution
 Blockly.Blocks['esperar_segundos'] = {
   init: function() {
     this.appendValueInput("TIME")
         .setCheck(["Number", "Time"])
-        .appendField("⏱️ Wait");
+        .appendField("⏱️ Aguardar");
     this.appendDummyInput()
-        .appendField("seconds");
+        .appendField("segundos");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(190);
-    this.setTooltip("Pauses execution for a number of seconds");
+    this.setTooltip("Pausa a execução por alguns segundos");
     this.setHelpUrl("");
   }
 };
-
 // Wait milliseconds block for short pauses
 Blockly.Blocks['esperar_milisegundos'] = {
   init: function() {
     this.appendValueInput("TIME")
         .setCheck(["Number", "Time"])
-        .appendField("⏱️ Wait");
+        .appendField("⏱️ Aguardar");
     this.appendDummyInput()
-        .appendField("milliseconds");
+        .appendField("milissegundos");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(190);
-    this.setTooltip("Pauses execution for a number of milliseconds");
+    this.setTooltip("Pausa a execução por alguns milissegundos");
     this.setHelpUrl("");
   }
 };
-
 // Time value block for seconds
 Blockly.Blocks['tempo_segundos'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("⏱️")
         .appendField(new Blockly.FieldNumber(1, 0), "NUM")
-        .appendField("seconds");
+        .appendField("segundos");
     this.setOutput(true, "Time");
     this.setColour(190);
-    this.setTooltip("Returns a time value in seconds");
+    this.setTooltip("Retorna um valor de tempo em segundos");
     this.setHelpUrl("");
   }
 };
-
 // Time value block for milliseconds
 Blockly.Blocks['tempo_milisegundos'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("⏱️")
         .appendField(new Blockly.FieldNumber(500, 0), "NUM")
-        .appendField("milliseconds");
+        .appendField("milissegundos");
     this.setOutput(true, "Time");
     this.setColour(190);
-    this.setTooltip("Returns a time value in milliseconds");
+    this.setTooltip("Retorna um valor de tempo em milissegundos");
     this.setHelpUrl("");
   }
 };
-
 // Time value block for minutes
 Blockly.Blocks['tempo_minutos'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("⏱️")
         .appendField(new Blockly.FieldNumber(1, 0), "NUM")
-        .appendField("minutes");
+        .appendField("minutos");
     this.setOutput(true, "Time");
     this.setColour(190);
-    this.setTooltip("Returns a time value in minutes");
+    this.setTooltip("Retorna um valor de tempo em minutos");
     this.setHelpUrl("");
   }
 };
-
 // Time value block for hours
 Blockly.Blocks['tempo_horas'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("⏱️")
         .appendField(new Blockly.FieldNumber(1, 0), "NUM")
-        .appendField("hours");
+        .appendField("horas");
     this.setOutput(true, "Time");
     this.setColour(190);
-    this.setTooltip("Returns a time value in hours");
+    this.setTooltip("Retorna um valor de tempo em horas");
     this.setHelpUrl("");
   }
 };
-
 // ==========================================
 // Category: Colors
 // ==========================================
-
 // Red color block
 Blockly.Blocks['colour_red'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔴 Red");
+        .appendField("🔴 Vermelho");
     this.setOutput(true, "Colour");
     this.setColour(0);
-    this.setTooltip("Red color");
+    this.setTooltip("Cor vermelha");
     this.setHelpUrl("");
   }
 };
-
 // Green color block
 Blockly.Blocks['colour_green'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🟢 Green");
+        .appendField("🟢 Verde");
     this.setOutput(true, "Colour");
     this.setColour(120);
-    this.setTooltip("Green color");
+    this.setTooltip("Cor verde");
     this.setHelpUrl("");
   }
 };
-
 // Blue color block
 Blockly.Blocks['colour_blue'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔵 Blue");
+        .appendField("🔵 Azul");
     this.setOutput(true, "Colour");
     this.setColour(230);
-    this.setTooltip("Blue color");
+    this.setTooltip("Cor azul");
     this.setHelpUrl("");
   }
 };
-
 // Yellow color block
 Blockly.Blocks['colour_yellow'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🟡 Yellow");
+        .appendField("🟡 Amarelo");
     this.setOutput(true, "Colour");
     this.setColour(60);
-    this.setTooltip("Yellow color (red + green)");
+    this.setTooltip("Cor amarela (vermelho + verde)");
     this.setHelpUrl("");
   }
 };
-
 // Cyan color block
 Blockly.Blocks['colour_cyan'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🩵 Cyan");
+        .appendField("🩵 Ciano");
     this.setOutput(true, "Colour");
     this.setColour(180);
-    this.setTooltip("Cyan color (green + blue)");
+    this.setTooltip("Cor ciano (verde + azul)");
     this.setHelpUrl("");
   }
 };
-
 // Magenta color block
 Blockly.Blocks['colour_magenta'] = {
   init: function() {
@@ -626,135 +577,123 @@ Blockly.Blocks['colour_magenta'] = {
         .appendField("🩷 Magenta");
     this.setOutput(true, "Colour");
     this.setColour(300);
-    this.setTooltip("Magenta color (red + blue)");
+    this.setTooltip("Cor magenta (vermelho + azul)");
     this.setHelpUrl("");
   }
 };
-
 // White color block
 Blockly.Blocks['colour_white'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⚪ White");
+        .appendField("⚪ Branco");
     this.setOutput(true, "Colour");
     this.setColour("#707070"); // Dark gray for better contrast
-    this.setTooltip("White color (all colors)");
+    this.setTooltip("Cor branca (todas as cores)");
     this.setHelpUrl("");
   }
 };
-
 // Orange color block
 Blockly.Blocks['colour_orange'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🟠 Orange");
+        .appendField("🟠 Laranja");
     this.setOutput(true, "Colour");
     this.setColour(30);
-    this.setTooltip("Orange color (strong red + weak green)");
+    this.setTooltip("Cor laranja (vermelho forte + verde fraco)");
     this.setHelpUrl("");
   }
 };
-
 // Pink color block
 Blockly.Blocks['colour_pink'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("💗 Pink");
+        .appendField("💗 Rosa");
     this.setOutput(true, "Colour");
     this.setColour(330);
-    this.setTooltip("Pink color (red + weak blue)");
+    this.setTooltip("Cor rosa (vermelho + azul fraco)");
     this.setHelpUrl("");
   }
 };
-
 // Lime color block
 Blockly.Blocks['colour_lime'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("💚 Lime");
+        .appendField("💚 Verde-Limão");
     this.setOutput(true, "Colour");
     this.setColour(90);
-    this.setTooltip("Lime color (strong green + weak red)");
+    this.setTooltip("Cor verde-limão (verde forte + vermelho fraco)");
     this.setHelpUrl("");
   }
 };
-
 // Sky blue color block
 Blockly.Blocks['colour_skyblue'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("💙 Sky Blue");
+        .appendField("💙 Azul Celeste");
     this.setOutput(true, "Colour");
     this.setColour(200);
-    this.setTooltip("Sky blue color (strong blue + weak green)");
+    this.setTooltip("Cor azul celeste (azul forte + verde fraco)");
     this.setHelpUrl("");
   }
 };
-
 // Turquoise color block
 Blockly.Blocks['colour_turquoise'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🩵 Turquoise");
+        .appendField("🩵 Turquesa");
     this.setOutput(true, "Colour");
     this.setColour(165);
-    this.setTooltip("Turquoise color (green + medium blue)");
+    this.setTooltip("Cor turquesa (verde + azul médio)");
     this.setHelpUrl("");
   }
 };
-
 // Container block for color mix mutator
 Blockly.Blocks['mix_colours_container'] = {
   init: function() {
     this.setColour("#A65C99");
     this.appendDummyInput()
-        .appendField("mix");
+        .appendField("misturar");
     this.appendStatementInput('STACK');
-    this.setTooltip("Add or remove colors to mix.");
+    this.setTooltip("Adicionar ou remover cores para misturar");
     this.contextMenu = false;
   }
 };
-
 // Item block for color mix mutator
 Blockly.Blocks['mix_colours_item'] = {
   init: function() {
     this.setColour("#A65C99");
     this.appendDummyInput()
-        .appendField("color");
+        .appendField("cor");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip("Add a color to the mix.");
+    this.setTooltip("Adicionar uma cor à mistura");
     this.contextMenu = false;
   }
 };
-
 // Color mix block for combining multiple colors
 Blockly.Blocks['mix_colours'] = {
   init: function() {
     this.setColour("#A65C99");
     this.appendDummyInput()
-        .appendField("🎨 Mix");
+        .appendField("🎨 Misturar");
     this.appendValueInput('ADD0')
         .setCheck("Colour");
     this.appendValueInput('ADD1')
         .setCheck("Colour");
     this.setOutput(true, "Colour");
     this.setMutator(new Blockly.Mutator(['mix_colours_item']));
-    this.setTooltip("Mixes multiple LED colors");
+    this.setTooltip("Mistura várias cores de LED");
     this.itemCount_ = 2;
   },
-
   mutationToDom: function() {
     var container = Blockly.utils.xml.createElement('mutation');
     container.setAttribute('items', this.itemCount_);
     return container;
   },
-
   domToMutation: function(xmlElement) {
     this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
     this.updateShape_();
   },
-
   decompose: function(workspace) {
     var containerBlock = workspace.newBlock('mix_colours_container');
     containerBlock.initSvg();
@@ -767,7 +706,6 @@ Blockly.Blocks['mix_colours'] = {
     }
     return containerBlock;
   },
-
   compose: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
     var connections = [];
@@ -788,7 +726,6 @@ Blockly.Blocks['mix_colours'] = {
       Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
     }
   },
-
   saveConnections: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
     var i = 0;
@@ -800,7 +737,6 @@ Blockly.Blocks['mix_colours'] = {
           itemBlock.nextConnection.targetBlock();
     }
   },
-
   updateShape_: function() {
     if (this.itemCount_ && this.getInput('ADD0')) {
       for (var i = 0; i < this.itemCount_; i++) {
@@ -818,183 +754,170 @@ Blockly.Blocks['mix_colours'] = {
     }
   }
 };
-
 // ==========================================
 // Category: LEDs
 // ==========================================
-
 // Turn on LED block
 Blockly.Blocks['bloco_ligar_led'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("💡 Turn on LED of color");
+        .appendField("💡 Ligar LED da cor");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(45);
-    this.setTooltip("Turns on the LED of the selected color");
+    this.setTooltip("Liga o LED da cor selecionada");
     this.setHelpUrl("");
   }
 };
-
 // Turn off LED block
 Blockly.Blocks['bloco_desligar_led'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("🔦 Turn off LED of color");
+        .appendField("🔦 Desligar LED da cor");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(45);
-    this.setTooltip("Turns off the LED of the selected color");
+    this.setTooltip("Desliga o LED da cor selecionada");
     this.setHelpUrl("");
   }
 };
-
 // Turn off all LEDs block
 Blockly.Blocks['bloco_desligar_todos_leds'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔦 Turn off all LEDs");
+        .appendField("🔦 Desligar todos os LEDs");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(45);
-    this.setTooltip("Turns off all LEDs");
+    this.setTooltip("Desliga todos os LEDs");
     this.setHelpUrl("");
   }
 };
-
 // Turn on LED with brightness block
 Blockly.Blocks['bloco_acender_led_brilho'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("🔆 Turn on LED of color");
+        .appendField("🔆 Ligar LED da cor");
     this.appendDummyInput()
-        .appendField("with brightness of")
+        .appendField("com brilho de")
         .appendField(new Blockly.FieldNumber(100, 0, 100), "INTENSITY")
         .appendField("%");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(45);
-    this.setTooltip("Turns on the LED with the brightness you choose, from 0% to 100%");
+    this.setTooltip("Liga o LED com o brilho que você escolher, de 0% a 100%");
     this.setHelpUrl("");
   }
 };
-
 // Blink LED quickly block
 Blockly.Blocks['bloco_piscar_led'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("⚡ Blink LED of color");
+        .appendField("⚡ Piscar LED da cor");
     this.appendDummyInput()
-        .appendField("quickly");
+        .appendField("rapidamente");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(45);
-    this.setTooltip("Blinks the LED quickly (200ms on, 200ms off)");
+    this.setTooltip("Faz o LED piscar rapidamente (200ms ligado, 200ms desligado)");
     this.setHelpUrl("");
   }
 };
-
 // Blink LED slowly block
 Blockly.Blocks['piscar_led_lento'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("🐌 Blink LED of color");
+        .appendField("🐌 Piscar LED da cor");
     this.appendDummyInput()
-        .appendField("slowly");
+        .appendField("devagar");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(45);
-    this.setTooltip("Blinks the LED slowly (1s on, 1s off)");
+    this.setTooltip("Faz o LED piscar lentamente (1s ligado, 1s desligado)");
     this.setHelpUrl("");
   }
 };
-
 // Heartbeat LED animation block
 Blockly.Blocks['bloco_animar_led_coracao'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("💓 Animate LED of color");
+        .appendField("💓 Animar LED da cor");
     this.appendDummyInput()
-        .appendField("heartbeat");
+        .appendField("batimento cardíaco");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(45);
-    this.setTooltip("Simulates a heartbeat with two quick pulses");
+    this.setTooltip("Simula um batimento cardíaco com dois pulsos rápidos");
     this.setHelpUrl("");
   }
 };
-
 // SOS signal LED block
 Blockly.Blocks['bloco_sinalizar_led_sos'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("🆘 Signal LED of color");
+        .appendField("🆘 Sinalizar LED da cor");
     this.appendDummyInput()
-        .appendField("help (SOS)");
+        .appendField("ajuda (SOS)");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(45);
-    this.setTooltip("Emits the help signal S.O.S. in Morse code (... --- ...)");
+    this.setTooltip("Emite o sinal de socorro S.O.S. em código Morse (... --- ...)");
     this.setHelpUrl("");
   }
 };
-
 // Fade LED animation block
 Blockly.Blocks['bloco_animar_led_brilhar'] = {
   init: function() {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("✨ Animate LED of color");
+        .appendField("✨ Animar LED da cor");
     this.appendDummyInput()
-        .appendField("shine and disappear");
+        .appendField("brilhar e desaparecer");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(45);
-    this.setTooltip("Fade-in and fade-out effect with the selected color");
+    this.setTooltip("Efeito de aparecimento e desaparecimento gradual com a cor selecionada");
     this.setHelpUrl("");
   }
 };
-
 // Container block for LED alternate mutator
 Blockly.Blocks['bloco_alternar_led_container'] = {
   init: function() {
     this.setColour(45);
     this.appendDummyInput()
-        .appendField("alternate");
+        .appendField("alternar");
     this.appendStatementInput('STACK');
-    this.setTooltip("Add or remove colors to alternate.");
+    this.setTooltip("Adicionar ou remover cores para alternar.");
     this.contextMenu = false;
   }
 };
-
 // Item block for LED alternate mutator
 Blockly.Blocks['bloco_alternar_led_item'] = {
   init: function() {
     this.setColour(45);
     this.appendDummyInput()
-        .appendField("color");
+        .appendField("cor");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip("Add a color to the alternation.");
+    this.setTooltip("Adicionar uma cor à alternância.");
     this.contextMenu = false;
   }
 };
-
 // Alternate LED colors block
 Blockly.Blocks['bloco_alternar_led'] = {
   init: function() {
@@ -1004,20 +927,17 @@ Blockly.Blocks['bloco_alternar_led'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setMutator(new Blockly.Mutator(['bloco_alternar_led_item']));
-    this.setTooltip("Alternates between multiple LED colors. Use the gear to add more colors!");
+    this.setTooltip("Alterna entre várias cores de LED. Use a engrenagem para adicionar mais cores!");
   },
-
   mutationToDom: function() {
     var container = document.createElement('mutation');
     container.setAttribute('items', this.itemCount_);
     return container;
   },
-
   domToMutation: function(xmlElement) {
     this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
     this.updateShape_();
   },
-
   decompose: function(workspace) {
     var containerBlock = workspace.newBlock('bloco_alternar_led_container');
     containerBlock.initSvg();
@@ -1030,7 +950,6 @@ Blockly.Blocks['bloco_alternar_led'] = {
     }
     return containerBlock;
   },
-
   compose: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
     var connections = [];
@@ -1051,7 +970,6 @@ Blockly.Blocks['bloco_alternar_led'] = {
       Blockly.Mutator.reconnect(connections[i], this, 'COLOUR' + i);
     }
   },
-
   saveConnections: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
     var i = 0;
@@ -1063,7 +981,6 @@ Blockly.Blocks['bloco_alternar_led'] = {
           itemBlock.nextConnection.targetBlock();
     }
   },
-
   updateShape_: function() {
     // Remove all existing color inputs
     var i = 0;
@@ -1071,96 +988,89 @@ Blockly.Blocks['bloco_alternar_led'] = {
       this.removeInput('COLOUR' + i);
       i++;
     }
-
     // Add color inputs
     for (var i = 0; i < this.itemCount_; i++) {
       if (i == 0) {
         this.appendValueInput('COLOUR' + i)
             .setCheck("Colour")
-            .appendField("🔄 Alternate LED of color");
+            .appendField("🔄 Alternar LED da cor");
       } else {
         this.appendValueInput('COLOUR' + i)
             .setCheck("Colour")
-            .appendField("with color");
+            .appendField("com a cor");
       }
     }
   }
 };
-
 // LED color transition block
 Blockly.Blocks['bloco_transicao_led'] = {
   init: function() {
     this.appendValueInput("COLOUR1")
         .setCheck("Colour")
-        .appendField("🌈 Transition LED from color");
+        .appendField("🌈 Transição de LED da cor");
     this.appendValueInput("COLOUR2")
         .setCheck("Colour")
-        .appendField("to color");
+        .appendField("para a cor");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(45);
-    this.setTooltip("Makes a smooth transition between two colors using PWM");
+    this.setTooltip("Faz uma transição suave entre duas cores usando PWM");
     this.setHelpUrl("");
   }
 };
-
 // LED color battle block
 Blockly.Blocks['bloco_batalhar_led'] = {
   init: function() {
     this.appendValueInput("COLOUR1")
         .setCheck("Colour")
-        .appendField("⚔️ Battle LED of color");
+        .appendField("⚔️ Batalhar LED da cor");
     this.appendValueInput("COLOUR2")
         .setCheck("Colour")
-        .appendField("with color");
+        .appendField("com a cor");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(45);
-    this.setTooltip("Creates a battle effect between two colors");
+    this.setTooltip("Cria um efeito de batalha entre duas cores");
     this.setHelpUrl("");
   }
 };
-
 // Container block for LED animation mutator
 Blockly.Blocks['bloco_criar_animacao_led_container'] = {
   init: function() {
     this.setColour(45);
     this.appendDummyInput()
-        .appendField("animation");
+        .appendField("animação");
     this.appendStatementInput('STACK');
-    this.setTooltip("Add or remove animation steps.");
+    this.setTooltip("Adicionar ou remover passos de animação.");
     this.contextMenu = false;
   }
 };
-
 // Action item block for LED animation mutator
 Blockly.Blocks['bloco_criar_animacao_led_action'] = {
   init: function() {
     this.setColour(45);
     this.appendDummyInput()
-        .appendField("action");
+        .appendField("ação");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip("Add an action (turn on/off LED).");
+    this.setTooltip("Adicionar uma ação (ligar/desligar LED).");
     this.contextMenu = false;
   }
 };
-
 // Wait item block for LED animation mutator
 Blockly.Blocks['bloco_criar_animacao_led_wait'] = {
   init: function() {
     this.setColour(45);
     this.appendDummyInput()
-        .appendField("time");
+        .appendField("tempo");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip("Add a time (stay like this for...).");
+    this.setTooltip("Adicionar um tempo (ficar assim por...).");
     this.contextMenu = false;
   }
 };
-
 // Create LED animation block
 Blockly.Blocks['bloco_criar_animacao_led'] = {
   init: function() {
@@ -1170,21 +1080,18 @@ Blockly.Blocks['bloco_criar_animacao_led'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setMutator(new Blockly.Mutator(['bloco_criar_animacao_led_action', 'bloco_criar_animacao_led_wait']));
-    this.setTooltip("Creates a custom LED animation. Use the gear to add more actions and waits!");
+    this.setTooltip("Cria uma animação personalizada de LED. Use a engrenagem para adicionar mais ações e tempos!");
   },
-
   mutationToDom: function() {
     var container = document.createElement('mutation');
     container.setAttribute('steps', JSON.stringify(this.steps_));
     return container;
   },
-
   domToMutation: function(xmlElement) {
     var stepsStr = xmlElement.getAttribute('steps');
     this.steps_ = stepsStr ? JSON.parse(stepsStr) : [];
     this.updateShape_();
   },
-
   decompose: function(workspace) {
     var containerBlock = workspace.newBlock('bloco_criar_animacao_led_container');
     containerBlock.initSvg();
@@ -1198,12 +1105,10 @@ Blockly.Blocks['bloco_criar_animacao_led'] = {
     }
     return containerBlock;
   },
-
   compose: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
     var newSteps = [];
     var connections = [];
-
     // Collect types and connections
     while (itemBlock) {
       if (itemBlock.type === 'bloco_criar_animacao_led_action') {
@@ -1216,7 +1121,6 @@ Blockly.Blocks['bloco_criar_animacao_led'] = {
       itemBlock = itemBlock.nextConnection &&
           itemBlock.nextConnection.targetBlock();
     }
-
     // Disconnect old connections
     for (var i = 0; i < this.steps_.length; i++) {
       var input = this.getInput('STEP' + i);
@@ -1227,10 +1131,8 @@ Blockly.Blocks['bloco_criar_animacao_led'] = {
         }
       }
     }
-
     this.steps_ = newSteps;
     this.updateShape_();
-
     // Reconnect blocks
     for (var i = 0; i < this.steps_.length; i++) {
       if (connections[i]) {
@@ -1238,7 +1140,6 @@ Blockly.Blocks['bloco_criar_animacao_led'] = {
       }
     }
   },
-
   saveConnections: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
     var i = 0;
@@ -1250,7 +1151,6 @@ Blockly.Blocks['bloco_criar_animacao_led'] = {
           itemBlock.nextConnection.targetBlock();
     }
   },
-
   updateShape_: function() {
     // Remove existing inputs
     var i = 0;
@@ -1262,189 +1162,176 @@ Blockly.Blocks['bloco_criar_animacao_led'] = {
     if (this.getInput('EMPTY')) {
       this.removeInput('EMPTY');
     }
-
-    // Add step inputs
+    // Add inputs for each step
     if (this.steps_.length === 0) {
       this.appendDummyInput('EMPTY')
-          .appendField("🎬 Create LED Animation");
+          .appendField("🎬 Criar Animação de LED");
     } else {
       if (this.getInput('EMPTY')) {
         this.removeInput('EMPTY');
       }
-
       for (var i = 0; i < this.steps_.length; i++) {
         if (i == 0) {
           this.appendDummyInput('LABEL0')
-              .appendField("🎬 Create LED Animation");
+              .appendField("🎬 Criar Animação de LED");
         }
-
         if (this.steps_[i] === 'action') {
           this.appendStatementInput('STEP' + i)
               .setCheck(null)
-              .appendField('What to do:');
+              .appendField('O que fazer:');
         } else {
           this.appendValueInput('STEP' + i)
               .setCheck("Time")
-              .appendField('Stay like this for:');
+              .appendField('Ficar assim por:');
         }
       }
     }
   }
 };
-
 // ==========================================
 // Category: LED Matrix
 // ==========================================
-
 // Fill LED matrix block
 Blockly.Blocks['preencher_matriz'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔲 Turn on LED matrix of color");
+        .appendField("🔲 Ligar matriz de LED da cor");
     this.appendValueInput("COLOUR")
         .setCheck("Colour");
     this.appendDummyInput()
-        .appendField("with brightness of")
+        .appendField("com brilho de")
         .appendField(new Blockly.FieldNumber(30, 0, 100), "INTENSITY")
         .appendField("%");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#4a69bd");
-    this.setTooltip("Turns on the entire 5x5 LED matrix with the specified color and intensity");
+    this.setTooltip("Liga toda a matriz 5x5 de LED com a cor e intensidade especificadas");
     this.setHelpUrl("");
   }
 };
-
 // Turn off LED matrix block
 Blockly.Blocks['desligar_matriz'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔲 Turn off LED matrix");
+        .appendField("🔲 Desligar matriz de LED");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#4a69bd");
-    this.setTooltip("Turns off the entire 5x5 LED matrix");
+    this.setTooltip("Desliga toda a matriz 5x5 de LED");
     this.setHelpUrl("");
   }
 };
-
 // Turn on LED at position block
 Blockly.Blocks['acender_led_posicao'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔲 Turn on LED at row")
+        .appendField("🔲 Ligar LED na linha")
         .appendField(new Blockly.FieldNumber(0, 0, 4), "LINHA")
-        .appendField("column")
+        .appendField("coluna")
         .appendField(new Blockly.FieldNumber(0, 0, 4), "COLUNA");
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("with color");
+        .appendField("com a cor");
     this.appendDummyInput()
-        .appendField("and brightness of")
+        .appendField("e brilho de")
         .appendField(new Blockly.FieldNumber(30, 0, 100), "INTENSITY")
         .appendField("%");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#4a69bd");
-    this.setTooltip("Turns on a specific LED in the 5x5 matrix (row: 0-4, column: 0-4)");
+    this.setTooltip("Liga um LED específico na matriz 5x5 (linha: 0-4, coluna: 0-4)");
     this.setHelpUrl("");
   }
 };
-
 // Turn on row block
 Blockly.Blocks['acender_linha'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔲 Turn on row")
+        .appendField("🔲 Ligar linha")
         .appendField(new Blockly.FieldNumber(0, 0, 4), "LINHA");
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("with color");
+        .appendField("com a cor");
     this.appendDummyInput()
-        .appendField("and brightness of")
+        .appendField("e brilho de")
         .appendField(new Blockly.FieldNumber(30, 0, 100), "INTENSITY")
         .appendField("%");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#4a69bd");
-    this.setTooltip("Turns on a complete horizontal row in the 5x5 matrix (row: 0-4)");
+    this.setTooltip("Liga uma linha horizontal completa na matriz 5x5 (linha: 0-4)");
     this.setHelpUrl("");
   }
 };
-
 // Turn on column block
 Blockly.Blocks['acender_coluna'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔲 Turn on column")
+        .appendField("🔲 Ligar coluna")
         .appendField(new Blockly.FieldNumber(0, 0, 4), "COLUNA");
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
-        .appendField("with color");
+        .appendField("com a cor");
     this.appendDummyInput()
-        .appendField("and brightness of")
+        .appendField("e brilho de")
         .appendField(new Blockly.FieldNumber(30, 0, 100), "INTENSITY")
         .appendField("%");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#4a69bd");
-    this.setTooltip("Turns on a complete vertical column in the 5x5 matrix (column: 0-4)");
+    this.setTooltip("Liga uma coluna vertical completa na matriz 5x5 (coluna: 0-4)");
     this.setHelpUrl("");
   }
 };
-
 // Show number on matrix block
 Blockly.Blocks['mostrar_numero_matriz'] = {
   init: function() {
     this.appendValueInput("NUMERO")
         .setCheck("MatrixNumber")
-        .appendField("🔢 Show number");
+        .appendField("🔢 Mostrar número");
     this.appendValueInput("COR")
         .setCheck("Colour")
-        .appendField("with color");
+        .appendField("com a cor");
     this.appendDummyInput()
-        .appendField("and brightness of")
+        .appendField("e brilho de")
         .appendField(new Blockly.FieldNumber(30, 0, 100), "BRILHO")
         .appendField("%");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#4a69bd");
-    this.setTooltip("Shows a number on the 5x5 LED matrix with specified color and brightness");
+    this.setTooltip("Mostra um número na matriz 5x5 de LED com a cor e brilho especificados");
     this.setHelpUrl("");
   }
 };
-
 // Show emoji on matrix block
 Blockly.Blocks['mostrar_emoji'] = {
   init: function() {
     this.appendValueInput("EMOJI")
         .setCheck("MatrixEmoji")
-        .appendField("😊 Show emoji");
+        .appendField("😊 Mostrar emoji");
     this.appendValueInput("COR")
         .setCheck("Colour")
-        .appendField("with color");
+        .appendField("com a cor");
     this.appendDummyInput()
-        .appendField("and brightness of")
+        .appendField("e brilho de")
         .appendField(new Blockly.FieldNumber(30, 0, 100), "BRILHO")
         .appendField("%");
     this.setInputsInline(false);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#4a69bd");
-    this.setTooltip("Shows an emoji on the 5x5 LED matrix with specified color and brightness");
+    this.setTooltip("Mostra um emoji na matriz 5x5 de LED com a cor e brilho especificados");
     this.setHelpUrl("");
   }
 };
-
 // ==========================================
 // Category: Matrix Numbers
 // ==========================================
-
 // Number 0 block for matrix display
 Blockly.Blocks['numero_matriz_0'] = {
   init: function() {
@@ -1452,11 +1339,10 @@ Blockly.Blocks['numero_matriz_0'] = {
         .appendField("0️⃣");
     this.setOutput(true, "MatrixNumber");
     this.setColour("#55a855");
-    this.setTooltip("Number 0");
+    this.setTooltip("Número 0");
     this.setHelpUrl("");
   }
 };
-
 // Number 1 block for matrix display
 Blockly.Blocks['numero_matriz_1'] = {
   init: function() {
@@ -1464,11 +1350,10 @@ Blockly.Blocks['numero_matriz_1'] = {
         .appendField("1️⃣");
     this.setOutput(true, "MatrixNumber");
     this.setColour("#55a855");
-    this.setTooltip("Number 1");
+    this.setTooltip("Número 1");
     this.setHelpUrl("");
   }
 };
-
 // Number 2 block for matrix display
 Blockly.Blocks['numero_matriz_2'] = {
   init: function() {
@@ -1476,11 +1361,10 @@ Blockly.Blocks['numero_matriz_2'] = {
         .appendField("2️⃣");
     this.setOutput(true, "MatrixNumber");
     this.setColour("#55a855");
-    this.setTooltip("Number 2");
+    this.setTooltip("Número 2");
     this.setHelpUrl("");
   }
 };
-
 // Number 3 block for matrix display
 Blockly.Blocks['numero_matriz_3'] = {
   init: function() {
@@ -1488,11 +1372,10 @@ Blockly.Blocks['numero_matriz_3'] = {
         .appendField("3️⃣");
     this.setOutput(true, "MatrixNumber");
     this.setColour("#55a855");
-    this.setTooltip("Number 3");
+    this.setTooltip("Número 3");
     this.setHelpUrl("");
   }
 };
-
 // Number 4 block for matrix display
 Blockly.Blocks['numero_matriz_4'] = {
   init: function() {
@@ -1500,11 +1383,10 @@ Blockly.Blocks['numero_matriz_4'] = {
         .appendField("4️⃣");
     this.setOutput(true, "MatrixNumber");
     this.setColour("#55a855");
-    this.setTooltip("Number 4");
+    this.setTooltip("Número 4");
     this.setHelpUrl("");
   }
 };
-
 // Number 5 block for matrix display
 Blockly.Blocks['numero_matriz_5'] = {
   init: function() {
@@ -1512,11 +1394,10 @@ Blockly.Blocks['numero_matriz_5'] = {
         .appendField("5️⃣");
     this.setOutput(true, "MatrixNumber");
     this.setColour("#55a855");
-    this.setTooltip("Number 5");
+    this.setTooltip("Número 5");
     this.setHelpUrl("");
   }
 };
-
 // Number 6 block for matrix display
 Blockly.Blocks['numero_matriz_6'] = {
   init: function() {
@@ -1524,11 +1405,10 @@ Blockly.Blocks['numero_matriz_6'] = {
         .appendField("6️⃣");
     this.setOutput(true, "MatrixNumber");
     this.setColour("#55a855");
-    this.setTooltip("Number 6");
+    this.setTooltip("Número 6");
     this.setHelpUrl("");
   }
 };
-
 // Number 7 block for matrix display
 Blockly.Blocks['numero_matriz_7'] = {
   init: function() {
@@ -1536,11 +1416,10 @@ Blockly.Blocks['numero_matriz_7'] = {
         .appendField("7️⃣");
     this.setOutput(true, "MatrixNumber");
     this.setColour("#55a855");
-    this.setTooltip("Number 7");
+    this.setTooltip("Número 7");
     this.setHelpUrl("");
   }
 };
-
 // Number 8 block for matrix display
 Blockly.Blocks['numero_matriz_8'] = {
   init: function() {
@@ -1548,11 +1427,10 @@ Blockly.Blocks['numero_matriz_8'] = {
         .appendField("8️⃣");
     this.setOutput(true, "MatrixNumber");
     this.setColour("#55a855");
-    this.setTooltip("Number 8");
+    this.setTooltip("Número 8");
     this.setHelpUrl("");
   }
 };
-
 // Number 9 block for matrix display
 Blockly.Blocks['numero_matriz_9'] = {
   init: function() {
@@ -1560,163 +1438,148 @@ Blockly.Blocks['numero_matriz_9'] = {
         .appendField("9️⃣");
     this.setOutput(true, "MatrixNumber");
     this.setColour("#55a855");
-    this.setTooltip("Number 9");
+    this.setTooltip("Número 9");
     this.setHelpUrl("");
   }
 };
-
 // ==========================================
 // Category: Matrix Emojis
 // ==========================================
-
 // Happy face emoji block for matrix display
 Blockly.Blocks['emoji_rosto_feliz'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("😊 Happy Face");
+        .appendField("😊 Rosto Feliz");
     this.setOutput(true, "MatrixEmoji");
     this.setColour("#FF8C00");
-    this.setTooltip("Happy face emoji");
+    this.setTooltip("Emoji de rosto feliz");
     this.setHelpUrl("");
   }
 };
-
 // Sad face emoji block for matrix display
 Blockly.Blocks['emoji_rosto_triste'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("😢 Sad Face");
+        .appendField("😢 Rosto Triste");
     this.setOutput(true, "MatrixEmoji");
     this.setColour("#FF8C00");
-    this.setTooltip("Sad face emoji");
+    this.setTooltip("Emoji de rosto triste");
     this.setHelpUrl("");
   }
 };
-
 // Surprised face emoji block for matrix display
 Blockly.Blocks['emoji_rosto_surpreso'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("😮 Surprised Face");
+        .appendField("😮 Rosto Surpreso");
     this.setOutput(true, "MatrixEmoji");
     this.setColour("#FF8C00");
-    this.setTooltip("Surprised face emoji");
+    this.setTooltip("Emoji de rosto surpreso");
     this.setHelpUrl("");
   }
 };
-
 // Heart emoji block for matrix display
 Blockly.Blocks['emoji_coracao'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("❤️ Heart");
+        .appendField("❤️ Coração");
     this.setOutput(true, "MatrixEmoji");
     this.setColour("#FF8C00");
-    this.setTooltip("Heart emoji");
+    this.setTooltip("Emoji de coração");
     this.setHelpUrl("");
   }
 };
-
 // Up arrow emoji block for matrix display
 Blockly.Blocks['emoji_seta_cima'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⬆️ Up Arrow");
+        .appendField("⬆️ Seta para Cima");
     this.setOutput(true, "MatrixEmoji");
     this.setColour("#FF8C00");
-    this.setTooltip("Up arrow emoji");
+    this.setTooltip("Emoji de seta para cima");
     this.setHelpUrl("");
   }
 };
-
 // Down arrow emoji block for matrix display
 Blockly.Blocks['emoji_seta_baixo'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⬇️ Down Arrow");
+        .appendField("⬇️ Seta para Baixo");
     this.setOutput(true, "MatrixEmoji");
     this.setColour("#FF8C00");
-    this.setTooltip("Down arrow emoji");
+    this.setTooltip("Emoji de seta para baixo");
     this.setHelpUrl("");
   }
 };
-
 // Sun emoji block for matrix display
 Blockly.Blocks['emoji_sol'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("☀️ Sun");
+        .appendField("☀️ Sol");
     this.setOutput(true, "MatrixEmoji");
     this.setColour("#FF8C00");
-    this.setTooltip("Sun emoji");
+    this.setTooltip("Emoji de sol");
     this.setHelpUrl("");
   }
 };
-
 // Rain emoji block for matrix display
 Blockly.Blocks['emoji_chuva'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🌧️ Rain");
+        .appendField("🌧️ Chuva");
     this.setOutput(true, "MatrixEmoji");
     this.setColour("#FF8C00");
-    this.setTooltip("Rain emoji");
+    this.setTooltip("Emoji de chuva");
     this.setHelpUrl("");
   }
 };
-
 // Flower emoji block for matrix display
 Blockly.Blocks['emoji_flor'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🌸 Flower");
+        .appendField("🌸 Flor");
     this.setOutput(true, "MatrixEmoji");
     this.setColour("#FF8C00");
-    this.setTooltip("Flower emoji");
+    this.setTooltip("Emoji de flor");
     this.setHelpUrl("");
   }
 };
-
 // Ghost emoji block for matrix display
 Blockly.Blocks['emoji_fantasma'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("👻 Ghost");
+        .appendField("👻 Fantasma");
     this.setOutput(true, "MatrixEmoji");
     this.setColour("#FF8C00");
-    this.setTooltip("Ghost emoji");
+    this.setTooltip("Emoji de fantasma");
     this.setHelpUrl("");
   }
 };
-
 // ==========================================
 // Category: Musical Notes
 // ==========================================
-
 // Do note block for musical notes
 Blockly.Blocks['nota_do'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🎵 Do");
+        .appendField("🎵 Dó");
     this.setOutput(true, "Note");
     this.setColour("#EA2027");
-    this.setTooltip("Do note");
+    this.setTooltip("Nota Dó");
     this.setHelpUrl("");
   }
 };
-
 // Re note block for musical notes
 Blockly.Blocks['nota_re'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("👑 Re");
+        .appendField("👑 Ré");
     this.setOutput(true, "Note");
     this.setColour("#EE5A24");
-    this.setTooltip("Re note");
+    this.setTooltip("Nota Ré");
     this.setHelpUrl("");
   }
 };
-
 // Mi note block for musical notes
 Blockly.Blocks['nota_mi'] = {
   init: function() {
@@ -1724,23 +1587,21 @@ Blockly.Blocks['nota_mi'] = {
         .appendField("🐱 Mi");
     this.setOutput(true, "Note");
     this.setColour("#FFC312");
-    this.setTooltip("Mi note");
+    this.setTooltip("Nota Mi");
     this.setHelpUrl("");
   }
 };
-
 // Fa note block for musical notes
 Blockly.Blocks['nota_fa'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🧚‍♀️ Fa");
+        .appendField("🧚‍♀️ Fá");
     this.setOutput(true, "Note");
     this.setColour("#C4E538");
-    this.setTooltip("Fa note");
+    this.setTooltip("Nota Fá");
     this.setHelpUrl("");
   }
 };
-
 // Sol note block for musical notes
 Blockly.Blocks['nota_sol'] = {
   init: function() {
@@ -1748,23 +1609,21 @@ Blockly.Blocks['nota_sol'] = {
         .appendField("☀️ Sol");
     this.setOutput(true, "Note");
     this.setColour("#12CBC4");
-    this.setTooltip("Sol note");
+    this.setTooltip("Nota Sol");
     this.setHelpUrl("");
   }
 };
-
 // La note block for musical notes
 Blockly.Blocks['nota_la'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⭐ La");
+        .appendField("⭐ Lá");
     this.setOutput(true, "Note");
     this.setColour("#833471");
-    this.setTooltip("La note");
+    this.setTooltip("Nota Lá");
     this.setHelpUrl("");
   }
 };
-
 // Si note block for musical notes
 Blockly.Blocks['nota_si'] = {
   init: function() {
@@ -1772,302 +1631,282 @@ Blockly.Blocks['nota_si'] = {
         .appendField("👍 Si");
     this.setOutput(true, "Note");
     this.setColour("#FD7272");
-    this.setTooltip("Si note");
+    this.setTooltip("Nota Si");
     this.setHelpUrl("");
   }
 };
-
 // ==========================================
 // Category: Sound
 // ==========================================
-
 // Play musical note block
 Blockly.Blocks['tocar_nota'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🎵 Play note");
+        .appendField("🎵 Tocar nota");
     this.appendValueInput("NOTA")
         .setCheck("Note");
     this.appendDummyInput()
-        .appendField("in octave")
+        .appendField("na oitava")
         .appendField(new Blockly.FieldDropdown([
             ["4", "4"],
             ["5", "5"],
             ["6", "6"]
         ]), "OCTAVE")
-        .appendField("with volume of")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays a musical note on the buzzer (GPIO21)");
+    this.setTooltip("Toca uma nota musical no buzzer (GPIO21)");
     this.setHelpUrl("");
   }
 };
-
 // Play high sound block
 Blockly.Blocks['tocar_som_agudo'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔔 Play high sound")
-        .appendField("with volume of")
+        .appendField("🔔 Tocar som agudo")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays a high test sound (1000 Hz for 0.5s)");
+    this.setTooltip("Toca um som agudo de teste (1000 Hz por 0.5s)");
     this.setHelpUrl("");
   }
 };
-
 // Stop sound block
 Blockly.Blocks['parar_som'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔇 Stop sound");
+        .appendField("🔇 Parar som");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Stops the buzzer sound");
+    this.setTooltip("Para o som do buzzer");
     this.setHelpUrl("");
   }
 };
-
 // Play repeatedly block
 Blockly.Blocks['tocar_repetidamente'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔁 Play repeatedly");
+        .appendField("🔁 Tocar repetidamente");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays the sounds inside this block repeatedly in an infinite loop");
+    this.setTooltip("Toca os sons dentro deste bloco repetidamente em um loop infinito");
     this.setHelpUrl("");
   }
 };
-
 // Short beep block
 Blockly.Blocks['bipe_curto'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("📍 Short Beep")
-        .appendField("with volume of")
+        .appendField("📍 Bipe curto")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays a short beep");
+    this.setTooltip("Toca um bipe curto");
     this.setHelpUrl("");
   }
 };
-
 // Double beep block
 Blockly.Blocks['bipe_duplo'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("📌 Double Beep")
-        .appendField("with volume of")
+        .appendField("📌 Bipe duplo")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays two quick beeps");
+    this.setTooltip("Toca dois bipes rápidos");
     this.setHelpUrl("");
   }
 };
-
 // Intermittent alert block
 Blockly.Blocks['alerta_intermitente'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🚨 Intermittent Alert")
-        .appendField("with volume of")
+        .appendField("🚨 Alerta intermitente")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays an intermittent alert");
+    this.setTooltip("Toca um alerta intermitente");
     this.setHelpUrl("");
   }
 };
-
 // Call sound block
 Blockly.Blocks['chamada'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("📞 Call")
-        .appendField("with volume of")
+        .appendField("📞 Chamada")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays a call sound");
+    this.setTooltip("Toca um som de chamada");
     this.setHelpUrl("");
   }
 };
-
 // Coin sound block
 Blockly.Blocks['som_de_moeda'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🪙 Coin Sound")
-        .appendField("with volume of")
+        .appendField("🪙 Som de moeda")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays a coin sound");
+    this.setTooltip("Toca um som de moeda");
     this.setHelpUrl("");
   }
 };
-
 // Success sound block
 Blockly.Blocks['som_de_sucesso'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("✅ Success Sound")
-        .appendField("with volume of")
+        .appendField("✅ Som de sucesso")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays a success sound with ascending notes");
+    this.setTooltip("Toca um som de sucesso com notas ascendentes");
     this.setHelpUrl("");
   }
 };
-
 // Failure sound block
 Blockly.Blocks['som_de_falha'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("❌ Failure Sound")
-        .appendField("with volume of")
+        .appendField("❌ Som de falha")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays a failure sound with descending notes");
+    this.setTooltip("Toca um som de falha com notas descendentes");
     this.setHelpUrl("");
   }
 };
-
 // Laser sound block
 Blockly.Blocks['som_de_laser'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔫 Laser Sound")
-        .appendField("with volume of")
+        .appendField("🔫 Som de laser")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays a laser sound");
+    this.setTooltip("Toca um som de laser");
     this.setHelpUrl("");
   }
 };
-
 // Police siren block
 Blockly.Blocks['sirene_policial'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🚓 Police Siren")
-        .appendField("with volume of")
+        .appendField("🚓 Sirene policial")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays a police siren");
+    this.setTooltip("Toca uma sirene policial");
     this.setHelpUrl("");
   }
 };
-
 // Ascending musical scale block
 Blockly.Blocks['escala_musical_sobe'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("📈 Ascending Musical Scale")
-        .appendField("with volume of")
+        .appendField("📈 Escala musical ascendente")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays an ascending musical scale");
+    this.setTooltip("Toca uma escala musical ascendente");
     this.setHelpUrl("");
   }
 };
-
 // Descending musical scale block
 Blockly.Blocks['escala_musical_desce'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("📉 Descending Musical Scale")
-        .appendField("with volume of")
+        .appendField("📉 Escala musical descendente")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays a descending musical scale");
+    this.setTooltip("Toca uma escala musical descendente");
     this.setHelpUrl("");
   }
 };
-
 // Twinkle Twinkle Little Star melody block
 Blockly.Blocks['brilha_brilha_estrelinha'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⭐ Twinkle Twinkle Little Star")
-        .appendField("with volume of")
+        .appendField("⭐ Brilha Brilha Estrelinha")
+        .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Plays the Twinkle Twinkle Little Star melody");
+    this.setTooltip("Toca a melodia de Brilha Brilha Estrelinha");
     this.setHelpUrl("");
   }
 };
-
 // Container block for melody mutator
 Blockly.Blocks['criar_melodia_container'] = {
   init: function() {
     this.setColour("#9a5ba5");
     this.appendDummyInput()
-        .appendField("melody");
+        .appendField("melodia");
     this.appendStatementInput('STACK');
-    this.setTooltip("Add or remove notes from the melody.");
+    this.setTooltip("Adicionar ou remover notas da melodia.");
     this.contextMenu = false;
   }
 };
-
 // Note step block for melody mutator
 Blockly.Blocks['criar_melodia_note_step'] = {
   init: function() {
     this.setColour("#9a5ba5");
     this.appendDummyInput()
-        .appendField("note");
+        .appendField("nota");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip("Add a note to the melody.");
+    this.setTooltip("Adicionar uma nota à melodia.");
     this.contextMenu = false;
   }
 };
-
 // Create melody block
 Blockly.Blocks['criar_melodia'] = {
   init: function() {
@@ -2077,20 +1916,17 @@ Blockly.Blocks['criar_melodia'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setMutator(new Blockly.Mutator(['criar_melodia_note_step']));
-    this.setTooltip("Creates a custom melody. Use the gear to add more notes!");
+    this.setTooltip("Cria uma melodia personalizada. Use a engrenagem para adicionar mais notas!");
   },
-
   mutationToDom: function() {
     var container = document.createElement('mutation');
     container.setAttribute('note_steps', this.noteSteps_);
     return container;
   },
-
   domToMutation: function(xmlElement) {
     this.noteSteps_ = parseInt(xmlElement.getAttribute('note_steps'), 10) || 0;
     this.updateShape_();
   },
-
   decompose: function(workspace) {
     var containerBlock = workspace.newBlock('criar_melodia_container');
     containerBlock.initSvg();
@@ -2103,18 +1939,16 @@ Blockly.Blocks['criar_melodia'] = {
     }
     return containerBlock;
   },
-
   compose: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
     var connections = [];
-
     // Collect existing connections
     while (itemBlock) {
       connections.push(itemBlock.noteConnection_);
       connections.push(itemBlock.timeConnection_);
-      itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
     }
-
     // Disconnect old connections
     for (var i = 0; i < this.noteSteps_; i++) {
       var noteInput = this.getInput('NOTA' + i);
@@ -2132,9 +1966,7 @@ Blockly.Blocks['criar_melodia'] = {
         }
       }
     }
-
     this.noteSteps_ = connections.length / 2;
-
     this.updateShape_();
     // Reconnect blocks
     for (var i = 0; i < this.noteSteps_; i++) {
@@ -2146,7 +1978,6 @@ Blockly.Blocks['criar_melodia'] = {
       }
     }
   },
-
   saveConnections: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
     var i = 0;
@@ -2156,10 +1987,10 @@ Blockly.Blocks['criar_melodia'] = {
       itemBlock.noteConnection_ = noteInput && noteInput.connection.targetConnection;
       itemBlock.timeConnection_ = tempoInput && tempoInput.connection.targetConnection;
       i++;
-      itemBlock = itemBlock.nextConnection && itemBlock.nextConnection.targetBlock();
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
     }
   },
-
   updateShape_: function() {
     // Remove existing inputs
     var i = 0;
@@ -2172,72 +2003,64 @@ Blockly.Blocks['criar_melodia'] = {
     if (this.getInput('EMPTY')) {
       this.removeInput('EMPTY');
     }
-
     // Add inputs for each step
     if (this.noteSteps_ === 0) {
       this.appendDummyInput('EMPTY')
-          .appendField("🎼 Create Melody");
+          .appendField("🎼 Criar Melodia");
     } else {
       if (this.getInput('EMPTY')) {
         this.removeInput('EMPTY');
       }
-
       for (var i = 0; i < this.noteSteps_; i++) {
         if (i == 0) {
           this.appendDummyInput('LABEL0')
-              .appendField("🎼 Create Melody");
+              .appendField("🎼 Criar Melodia");
         }
-
         this.appendValueInput('NOTA' + i)
             .setCheck("Note")
-            .appendField((i + 1) + '. Play note:');
-
+            .appendField((i + 1) + '. Tocar nota:');
         this.appendValueInput('TEMPO' + i)
             .setCheck("Time")
-            .appendField('   for:');
+            .appendField('   por:');
       }
     }
   }
 };
-
 // Container block for soundtrack mutator
 Blockly.Blocks['criar_trilha_sonora_container'] = {
   init: function() {
     this.setColour("#9a5ba5");
     this.appendDummyInput()
-        .appendField("soundtrack");
+        .appendField("trilha sonora");
     this.appendStatementInput('STACK');
-    this.setTooltip("Add or remove soundtrack steps.");
+    this.setTooltip("Adicionar ou remover passos da trilha sonora.");
     this.contextMenu = false;
   }
 };
-
 // Action block for soundtrack mutator
 Blockly.Blocks['criar_trilha_sonora_action'] = {
   init: function() {
     this.setColour("#9a5ba5");
     this.appendDummyInput()
-        .appendField("sound");
+        .appendField("som");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip("Add a sound action (play note, beep, melody, etc).");
+    this.setTooltip("Adicionar uma ação de som (tocar nota, bipe, melodia, etc).");
     this.contextMenu = false;
   }
 };
-
 // Wait block for soundtrack mutator
 Blockly.Blocks['criar_trilha_sonora_wait'] = {
   init: function() {
     this.setColour("#9a5ba5");
     this.appendDummyInput()
-        .appendField("pause");
+        .appendField("pausa");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip("Add a pause (silence for a time).");
+    this.setTooltip("Adicionar uma pausa (silêncio por um tempo).");
     this.contextMenu = false;
   }
 };
-
 // Create soundtrack block
 Blockly.Blocks['criar_trilha_sonora'] = {
   init: function() {
@@ -2247,21 +2070,18 @@ Blockly.Blocks['criar_trilha_sonora'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setMutator(new Blockly.Mutator(['criar_trilha_sonora_action', 'criar_trilha_sonora_wait']));
-    this.setTooltip("Creates a custom soundtrack. Use the gear to add sounds and pauses!");
+    this.setTooltip("Cria uma trilha sonora personalizada. Use a engrenagem para adicionar sons e pausas!");
   },
-
   mutationToDom: function() {
     var container = document.createElement('mutation');
     container.setAttribute('steps', JSON.stringify(this.steps_));
     return container;
   },
-
   domToMutation: function(xmlElement) {
     var stepsStr = xmlElement.getAttribute('steps');
     this.steps_ = stepsStr ? JSON.parse(stepsStr) : [];
     this.updateShape_();
   },
-
   decompose: function(workspace) {
     var containerBlock = workspace.newBlock('criar_trilha_sonora_container');
     containerBlock.initSvg();
@@ -2275,12 +2095,10 @@ Blockly.Blocks['criar_trilha_sonora'] = {
     }
     return containerBlock;
   },
-
   compose: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
     var newSteps = [];
     var connections = [];
-
     // Collect types and connections
     while (itemBlock) {
       if (itemBlock.type === 'criar_trilha_sonora_action') {
@@ -2293,7 +2111,6 @@ Blockly.Blocks['criar_trilha_sonora'] = {
       itemBlock = itemBlock.nextConnection &&
           itemBlock.nextConnection.targetBlock();
     }
-
     // Disconnect old connections
     for (var i = 0; i < this.steps_.length; i++) {
       var input = this.getInput('STEP' + i);
@@ -2304,10 +2121,8 @@ Blockly.Blocks['criar_trilha_sonora'] = {
         }
       }
     }
-
     this.steps_ = newSteps;
     this.updateShape_();
-
     // Reconnect blocks
     for (var i = 0; i < this.steps_.length; i++) {
       if (connections[i]) {
@@ -2315,7 +2130,6 @@ Blockly.Blocks['criar_trilha_sonora'] = {
       }
     }
   },
-
   saveConnections: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
     var i = 0;
@@ -2327,7 +2141,6 @@ Blockly.Blocks['criar_trilha_sonora'] = {
           itemBlock.nextConnection.targetBlock();
     }
   },
-
   updateShape_: function() {
     // Remove existing inputs
     var i = 0;
@@ -2339,53 +2152,46 @@ Blockly.Blocks['criar_trilha_sonora'] = {
     if (this.getInput('EMPTY')) {
       this.removeInput('EMPTY');
     }
-
     // Add inputs for each step
     if (this.steps_.length === 0) {
       this.appendDummyInput('EMPTY')
-          .appendField("🎵 Create Soundtrack");
+          .appendField("🎵 Criar Trilha Sonora");
     } else {
       if (this.getInput('EMPTY')) {
         this.removeInput('EMPTY');
       }
-
       for (var i = 0; i < this.steps_.length; i++) {
         if (i == 0) {
           this.appendDummyInput('LABEL0')
-              .appendField("🎵 Create Soundtrack");
+              .appendField("🎵 Criar Trilha Sonora");
         }
-
         if (this.steps_[i] === 'action') {
           this.appendStatementInput('STEP' + i)
               .setCheck(null)
-              .appendField('🔊 Play:');
+              .appendField('🔊 Tocar:');
         } else {
           this.appendValueInput('STEP' + i)
               .setCheck("Time")
-              .appendField('🔇 Pause for:');
+              .appendField('🔇 Pausar por:');
         }
       }
     }
   }
 };
-
 // ==========================================
 // Category: Matrix Animations
 // ==========================================
-
 // Fast blink animation block
 Blockly.Blocks['matriz_piscar_rapido'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⚡ Make Blink Fast");
+        .appendField("⚡ Fazer Piscar Rápido");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
-    this.setTooltip("Makes the content inside this block blink quickly on the matrix");
-    this.setHelpUrl("");
-
+    this.setTooltip("Faz o conteúdo dentro deste bloco piscar rapidamente na matriz");
     // Shows the tip when the block is created in the workspace
     var self = this;
     setTimeout(function() {
@@ -2395,20 +2201,17 @@ Blockly.Blocks['matriz_piscar_rapido'] = {
     }, 200);
   }
 };
-
 // Slow blink animation block
 Blockly.Blocks['matriz_piscar_lento'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🐌 Make Blink Slowly");
+        .appendField("🐌 Fazer Piscar Devagar");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
-    this.setTooltip("Makes the content inside this block blink slowly on the matrix");
-    this.setHelpUrl("");
-
+    this.setTooltip("Faz o conteúdo dentro deste bloco piscar lentamente na matriz");
     // Shows the tip when the block is created in the workspace
     var self = this;
     setTimeout(function() {
@@ -2418,20 +2221,17 @@ Blockly.Blocks['matriz_piscar_lento'] = {
     }, 200);
   }
 };
-
 // Appear and disappear animation block
 Blockly.Blocks['matriz_aparecer_sumir'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("✨ Make Appear and Disappear");
+        .appendField("✨ Fazer Aparecer e Sumir");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
-    this.setTooltip("Makes the content inside this block appear and disappear gradually");
-    this.setHelpUrl("");
-
+    this.setTooltip("Faz o conteúdo dentro deste bloco aparecer e desaparecer gradualmente");
     // Shows the tip when the block is created in the workspace
     var self = this;
     setTimeout(function() {
@@ -2441,20 +2241,17 @@ Blockly.Blocks['matriz_aparecer_sumir'] = {
     }, 200);
   }
 };
-
 // Pulse brightness animation block
 Blockly.Blocks['matriz_pulsar_brilho'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("💫 Make Pulse Brightness");
+        .appendField("💫 Fazer Pulsar Brilho");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
-    this.setTooltip("Makes the content inside this block pulse with brightness variation");
-    this.setHelpUrl("");
-
+    this.setTooltip("Faz o conteúdo dentro deste bloco pulsar com variação de brilho");
     // Shows the tip when the block is created in the workspace
     var self = this;
     setTimeout(function() {
@@ -2464,20 +2261,17 @@ Blockly.Blocks['matriz_pulsar_brilho'] = {
     }, 200);
   }
 };
-
 // Slide up animation block
 Blockly.Blocks['matriz_deslizar_cima'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⬆️ Make Slide Up");
+        .appendField("⬆️ Fazer Deslizar para Cima");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
-    this.setTooltip("Makes the content inside this block slide up on the matrix");
-    this.setHelpUrl("");
-
+    this.setTooltip("Faz o conteúdo dentro deste bloco deslizar para cima na matriz");
     // Shows the tip when the block is created in the workspace
     var self = this;
     setTimeout(function() {
@@ -2487,20 +2281,17 @@ Blockly.Blocks['matriz_deslizar_cima'] = {
     }, 200);
   }
 };
-
 // Slide left animation block
 Blockly.Blocks['matriz_deslizar_esquerda'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⬅️ Make Slide Left");
+        .appendField("⬅️ Fazer Deslizar para Esquerda");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
-    this.setTooltip("Makes the content inside this block slide left on the matrix");
-    this.setHelpUrl("");
-
+    this.setTooltip("Faz o conteúdo dentro deste bloco deslizar para a esquerda na matriz");
     // Shows the tip when the block is created in the workspace
     var self = this;
     setTimeout(function() {
@@ -2510,20 +2301,17 @@ Blockly.Blocks['matriz_deslizar_esquerda'] = {
     }, 200);
   }
 };
-
 // Slide down animation block
 Blockly.Blocks['matriz_deslizar_baixo'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⬇️ Make Slide Down");
+        .appendField("⬇️ Fazer Deslizar para Baixo");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
-    this.setTooltip("Makes the content inside this block slide down on the matrix");
-    this.setHelpUrl("");
-
+    this.setTooltip("Faz o conteúdo dentro deste bloco deslizar para baixo na matriz");
     // Shows the tip when the block is created in the workspace
     var self = this;
     setTimeout(function() {
@@ -2533,20 +2321,17 @@ Blockly.Blocks['matriz_deslizar_baixo'] = {
     }, 200);
   }
 };
-
 // Slide right animation block
 Blockly.Blocks['matriz_deslizar_direita'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("➡️ Make Slide Right");
+        .appendField("➡️ Fazer Deslizar para Direita");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
-    this.setTooltip("Makes the content inside this block slide right on the matrix");
-    this.setHelpUrl("");
-
+    this.setTooltip("Faz o conteúdo dentro deste bloco deslizar para a direita na matriz");
     // Shows the tip when the block is created in the workspace
     var self = this;
     setTimeout(function() {
@@ -2556,20 +2341,17 @@ Blockly.Blocks['matriz_deslizar_direita'] = {
     }, 200);
   }
 };
-
 // Swing animation block
 Blockly.Blocks['matriz_balancar'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔄 Make Swing");
+        .appendField("🔄 Fazer Balançar");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
-    this.setTooltip("Makes the content inside this block swing from side to side");
-    this.setHelpUrl("");
-
+    this.setTooltip("Faz o conteúdo dentro deste bloco balançar de um lado para o outro");
     // Shows the tip when the block is created in the workspace
     var self = this;
     setTimeout(function() {
@@ -2579,20 +2361,17 @@ Blockly.Blocks['matriz_balancar'] = {
     }, 200);
   }
 };
-
 // Contraction animation block
 Blockly.Blocks['matriz_contracao'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔻 Make Contraction");
+        .appendField("🔻 Fazer Contração");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
-    this.setTooltip("Makes the content inside this block have a contraction effect");
-    this.setHelpUrl("");
-
+    this.setTooltip("Faz o conteúdo dentro deste bloco ter um efeito de contração");
     // Shows the tip when the block is created in the workspace
     var self = this;
     setTimeout(function() {
@@ -2602,12 +2381,11 @@ Blockly.Blocks['matriz_contracao'] = {
     }, 200);
   }
 };
-
 // Flash animation block
 Blockly.Blocks['matriz_dar_flash'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⚡ Give a Color Flash");
+        .appendField("⚡ Dar um Flash de Cor");
     this.appendValueInput("COR")
         .setCheck("Colour");
     this.appendStatementInput("DO")
@@ -2615,9 +2393,7 @@ Blockly.Blocks['matriz_dar_flash'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
-    this.setTooltip("Displays the content inside this block and then gives a flash with the specified color");
-    this.setHelpUrl("");
-
+    this.setTooltip("Exibe o conteúdo dentro deste bloco e depois dá um flash com a cor especificada");
     // Shows the tip when the block is created in the workspace
     var self = this;
     setTimeout(function() {
@@ -2627,78 +2403,69 @@ Blockly.Blocks['matriz_dar_flash'] = {
     }, 200);
   }
 };
-
 // ==========================================
 // Category: Buttons
 // ==========================================
-
 // While button pressed block
 Blockly.Blocks['botao_enquanto_apertado'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🎮 While pressing button")
-        .appendField(new Blockly.FieldDropdown([["🔴 A (Red)", "A"], ["🔵 B (Blue)", "B"], ["🟢 C (Green)", "C"]]), "BOTAO")
-        .appendField("😊 do:");
+        .appendField("🎮 Enquanto pressionar o botão")
+        .appendField(new Blockly.FieldDropdown([["🔴 A (Vermelho)", "A"], ["🔵 B (Azul)", "B"], ["🟢 C (Verde)", "C"]]), "BOTAO")
+        .appendField("😊 fazer:");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.appendDummyInput()
-        .appendField("😕 When released:");
+        .appendField("😕 Quando soltar:");
     this.appendStatementInput("ELSE")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#ee5a24");
-    this.setTooltip("🎈 While you hold the button, it does one thing. When you release it, it does another!");
-    this.setHelpUrl("");
+    this.setTooltip("Enquanto você segurar o botão, faz uma coisa. Quando soltar, faz outra!");
   }
 };
-
 // If button pressed block
 Blockly.Blocks['botao_se_apertado'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🎮 If button is pressed")
-        .appendField(new Blockly.FieldDropdown([["🔴 A (Red)", "A"], ["🔵 B (Blue)", "B"], ["🟢 C (Green)", "C"]]), "BOTAO")
-        .appendField("Action happens:");
+        .appendField("🎮 Se o botão for pressionado")
+        .appendField(new Blockly.FieldDropdown([["🔴 A (Vermelho)", "A"], ["🔵 B (Azul)", "B"], ["🟢 C (Verde)", "C"]]), "BOTAO")
+        .appendField("Ação acontece:");
     this.appendStatementInput("DO")
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#ee5a24");
-    this.setTooltip("😊 When you press the button, it happens once!");
-    this.setHelpUrl("");
+    this.setTooltip("Quando você pressionar o botão, acontece uma vez!");
   }
 };
-
 // ==========================================
 // Category: Matrix Drawing
 // ==========================================
-
 // Container block for matrix drawing mutator
 Blockly.Blocks['criar_desenho_matriz_container'] = {
   init: function() {
     this.setColour("#4a69bd");
     this.appendDummyInput()
-        .appendField("drawing");
+        .appendField("desenho");
     this.appendStatementInput('STACK');
-    this.setTooltip("Add or remove drawing blocks to create your image.");
+    this.setTooltip("Adicionar ou remover blocos de desenho para criar sua imagem.");
     this.contextMenu = false;
   }
 };
-
 // Item block for matrix drawing mutator
 Blockly.Blocks['criar_desenho_matriz_item'] = {
   init: function() {
     this.setColour("#4a69bd");
     this.appendDummyInput()
-        .appendField("drawing block");
+        .appendField("bloco de desenho");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip("Add a drawing block (turn on LED, line, column, etc).");
+    this.setTooltip("Adicionar um bloco de desenho (ligar LED, linha, coluna, etc).");
     this.contextMenu = false;
   }
 };
-
 // Create drawing on matrix block
 Blockly.Blocks['criar_desenho_na_matriz'] = {
   init: function() {
@@ -2708,20 +2475,17 @@ Blockly.Blocks['criar_desenho_na_matriz'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setMutator(new Blockly.Mutator(['criar_desenho_matriz_item']));
-    this.setTooltip("🎨 Creates a drawing canvas for the LED matrix. Combine drawing blocks inside it!");
+    this.setTooltip("Cria uma tela de desenho para a matriz de LED. Combine blocos de desenho dentro dela!");
   },
-
   mutationToDom: function() {
     var container = document.createElement('mutation');
     container.setAttribute('items', this.itemCount_);
     return container;
   },
-
   domToMutation: function(xmlElement) {
     this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
     this.updateShape_();
   },
-
   decompose: function(workspace) {
     var containerBlock = workspace.newBlock('criar_desenho_matriz_container');
     containerBlock.initSvg();
@@ -2734,7 +2498,6 @@ Blockly.Blocks['criar_desenho_na_matriz'] = {
     }
     return containerBlock;
   },
-
   compose: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
     var connections = [];
@@ -2755,7 +2518,6 @@ Blockly.Blocks['criar_desenho_na_matriz'] = {
       Blockly.Mutator.reconnect(connections[i], this, 'DESENHO' + i);
     }
   },
-
   saveConnections: function(containerBlock) {
     var itemBlock = containerBlock.getInputTargetBlock('STACK');
     var i = 0;
@@ -2767,7 +2529,6 @@ Blockly.Blocks['criar_desenho_na_matriz'] = {
           itemBlock.nextConnection.targetBlock();
     }
   },
-
   updateShape_: function() {
     // Remove existing inputs
     var i = 0;
@@ -2779,25 +2540,22 @@ Blockly.Blocks['criar_desenho_na_matriz'] = {
     if (this.getInput('EMPTY')) {
       this.removeInput('EMPTY');
     }
-
     // Add drawing inputs
     if (this.itemCount_ === 0) {
       this.appendDummyInput('EMPTY')
-          .appendField("🎨 Create Drawing on Matrix");
+          .appendField("🎨 Criar Desenho na Matriz");
     } else {
       if (this.getInput('EMPTY')) {
         this.removeInput('EMPTY');
       }
-
       for (var i = 0; i < this.itemCount_; i++) {
         if (i == 0) {
           this.appendDummyInput('LABEL0')
-              .appendField("🎨 Create Drawing on Matrix");
+              .appendField("🎨 Criar Desenho na Matriz");
         }
-
         this.appendStatementInput('DESENHO' + i)
             .setCheck(null)
-            .appendField('Drawing ' + (i + 1) + ':');
+            .appendField('Desenho ' + (i + 1) + ':');
       }
     }
   }

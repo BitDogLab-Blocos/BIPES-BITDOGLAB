@@ -622,9 +622,86 @@ Blockly.Python['delay'] = function(block) {
   return code;
 };
 
+// Delay seconds (alias for compatibility)
+Blockly.Python['delay_seconds'] = function(block) {
+  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var code = 'time.sleep(' + value_time + ')\n';
+  return code;
+};
+
+// Delay milliseconds (alias for delay_ms)
+Blockly.Python['delay_milliseconds'] = function(block) {
+  var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var code = 'time.sleep_ms(' + value_time + ')\n';
+  return code;
+};
+
 /*
 *****************************************************************
-* SOUND BLOCKS 
+* LED RGB CONTROL BLOCKS
+* Generators for BitdogLab RGB LED control (Pins 11, 12, 13)
+*****************************************************************
+*/
+
+// LED RGB Turn On - converts RGB tuple to PWM
+Blockly.Python['led_turn_on'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+
+  // Setup LED pins with PWM
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+
+  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+
+  var code = 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
+  code += 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
+  code += 'led_azul.duty_u16(' + colour + '[2] * 257)\n';
+
+  return code;
+};
+
+// LED RGB Turn Off - turns off only selected color components
+Blockly.Python['led_turn_off'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+
+  // Setup LED pins with PWM
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+
+  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+
+  // Turn off only RGB components that are in selected color
+  var code = 'if ' + colour + '[0] > 0:\n';
+  code += '  led_vermelho.duty_u16(0)\n';
+  code += 'if ' + colour + '[1] > 0:\n';
+  code += '  led_verde.duty_u16(0)\n';
+  code += 'if ' + colour + '[2] > 0:\n';
+  code += '  led_azul.duty_u16(0)\n';
+
+  return code;
+};
+
+// LED RGB Turn Off All - turns off all LEDs
+Blockly.Python['led_turn_off_all'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+
+  return 'led_vermelho.duty_u16(0)\nled_verde.duty_u16(0)\nled_azul.duty_u16(0)\n';
+};
+
+/*
+*****************************************************************
+* SOUND BLOCKS
 * Generators for sound and music operations.
 *****************************************************************
 */
