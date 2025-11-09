@@ -1,8 +1,37 @@
-﻿let UPythonClass = {};
+let UPythonClass = {};
 
 /*
 *****************************************************************
-* COLOR BLOCKS 
+* BASIC BLOCKS (substituem blocks_compressed.js)
+* Generators for basic Blockly blocks
+*****************************************************************
+*/
+
+// Number block generator
+Blockly.Python['math_number'] = function(block) {
+  var number = block.getFieldValue('NUM');
+  var code = String(number);
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Text block generator
+Blockly.Python['text'] = function(block) {
+  var text = block.getFieldValue('TEXT');
+  var code = Blockly.Python.quote_(text);
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Boolean block generator
+Blockly.Python['logic_boolean'] = function(block) {
+  var code = (block.getFieldValue('BOOL') === 'TRUE') ? 'True' : 'False';
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+console.log('[BitdogLab] Geradores básicos carregados: math_number, text, logic_boolean');
+
+/*
+*****************************************************************
+* COLOR BLOCKS
 * Generators for predefined RGB color tuples.
 *****************************************************************
 */
@@ -579,6 +608,16 @@ Blockly.Python['esperar_milisegundos'] = function(block) {
   var code = 'time.sleep_ms(' + value_time + ')\n';
   return code;
 };
+
+// Debug: Confirm time generators are loaded
+console.log('[BitdogLab] Geradores de tempo carregados:', {
+  esperar_segundos: typeof Blockly.Python['esperar_segundos'] !== 'undefined',
+  esperar_milisegundos: typeof Blockly.Python['esperar_milisegundos'] !== 'undefined',
+  tempo_segundos: typeof Blockly.Python['tempo_segundos'] !== 'undefined',
+  tempo_milisegundos: typeof Blockly.Python['tempo_milisegundos'] !== 'undefined',
+  tempo_minutos: typeof Blockly.Python['tempo_minutos'] !== 'undefined',
+  tempo_horas: typeof Blockly.Python['tempo_horas'] !== 'undefined'
+});
 
 // Delay milliseconds block
 Blockly.Python['delay_ms'] = function(block) {
