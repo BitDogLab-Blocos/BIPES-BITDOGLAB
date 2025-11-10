@@ -1,274 +1,6 @@
 <xml>
-    <!-- 1. LÓGICA -->
-    <!--
-    <category name="🧠 Decisões" colour="%{BKY_LOGIC_HUE}">
-      <block type="controls_if"></block>
-      <block type="logic_compare"></block>
-      <block type="logic_operation"></block>
-      <block type="logic_negate"></block>
-      <block type="logic_boolean"></block>
-      <block type="logic_ternary"></block>
-    </category>
-    -->
-    
-    <!-- 2. REPETIÇÕES -->
-    <!--
-    <category name="🔄 Repetições" colour="%{BKY_LOOPS_HUE}">
-      <block type="controls_repeat_ext">
-        <value name="TIMES">
-          <shadow type="math_number">
-            <field name="NUM">10</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="controls_whileUntil"></block>
-      <block type="controls_while_true"></block>
-      <block type="controls_for">
-        <value name="FROM">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="TO">
-          <shadow type="math_number">
-            <field name="NUM">10</field>
-          </shadow>
-        </value>
-        <value name="BY">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="controls_forEach"></block>
-      <block type="controls_flow_statements"></block>
-    </category>
-    -->
-    
-    <!-- 3. MATEMÁTICA -->
-    <!--
-    <category name="🧮 Matemática" colour="%{BKY_MATH_HUE}">
-      <block type="math_number">
-        <field name="NUM">123</field>
-      </block>
-      <block type="math_arithmetic">
-        <value name="A">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="B">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_single">
-        <value name="NUM">
-          <shadow type="math_number">
-            <field name="NUM">9</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_trig">
-        <value name="NUM">
-          <shadow type="math_number">
-            <field name="NUM">45</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_constant"></block>
-      <block type="math_number_property">
-        <value name="NUMBER_TO_CHECK">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_is_divisible_by">
-        <value name="DIVIDEND">
-          <shadow type="math_number">
-            <field name="NUM">12</field>
-          </shadow>
-        </value>
-        <value name="DIVISOR">
-          <shadow type="math_number">
-            <field name="NUM">3</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_round">
-        <value name="NUM">
-          <shadow type="math_number">
-            <field name="NUM">3.1</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_round_to_decimal">
-        <value name="NUMBER_TO_ROUND">
-          <shadow type="math_number">
-            <field name="NUM">3.14159</field>
-          </shadow>
-        </value>
-        <field name="DECIMAL_PLACES">2</field>
-      </block>
-      <block type="math_on_list"></block>
-      <block type="math_modulo">
-        <value name="DIVIDEND">
-          <shadow type="math_number">
-            <field name="NUM">64</field>
-          </shadow>
-        </value>
-        <value name="DIVISOR">
-          <shadow type="math_number">
-            <field name="NUM">10</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_constrain">
-        <value name="VALUE">
-          <shadow type="math_number">
-            <field name="NUM">50</field>
-          </shadow>
-        </value>
-        <value name="LOW">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="HIGH">
-          <shadow type="math_number">
-            <field name="NUM">100</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_random_int">
-        <value name="FROM">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-        <value name="TO">
-          <shadow type="math_number">
-            <field name="NUM">100</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="math_random_float">
-        <value name="FROM">
-          <shadow type="math_number">
-            <field name="NUM">0</field>
-          </shadow>
-        </value>
-        <value name="TO">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-      </block>
-    </category>
-    -->
-    
-    <!-- 4. TEXTO -->
-    <!--
-    <category name="🔡 Texto" colour="%{BKY_TEXTS_HUE}">
-      <block type="text"></block>
-      <block type="text_print_multiple"></block>
-      <block type="text_length">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_charAt">
-        <value name="VALUE">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_getSubstring">
-        <value name="STRING">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_changeCase">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="text_print">
-        <value name="TEXT">
-          <shadow type="text">
-            <field name="TEXT">abc</field>
-          </shadow>
-        </value>
-      </block>
-    </category>
-    -->
-    
-    <!-- 5. LISTAS -->
-    <!--
-    <category name="📜 Listas" colour="%{BKY_LISTS_HUE}">
-      <block type="lists_create_with"></block>
-      <block type="lists_repeat">
-        <value name="NUM">
-          <shadow type="math_number">
-            <field name="NUM">5</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="lists_length"></block>
-      <block type="lists_isEmpty"></block>
-      <block type="lists_indexOf"></block>
-      <block type="list_get_item_simple"></block>
-      <block type="list_remove_item_simple"></block>
-      <block type="list_replace_item"></block>
-      <block type="list_insert_item"></block>
-      <block type="lists_getSublist"></block>
-      <block type="text_split_simple">
-        <value name="SEPARATOR">
-          <shadow type="text">
-            <field name="TEXT">,</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="lists_sort"></block>
-    </category>
-    -->
-    
-    <!-- 6. VARIÁVEIS -->
-    <!--
-    <category name="🏷️ Variáveis" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
-    -->
-    
-    <!-- 7. FUNÇÕES -->
-    <!--
-    <category name="⚙️ Funções" colour="%{BKY_PROCEDURES_HUE}">
-      <block type="procedures_defnoreturn" gap="8">
-        <field name="NAME">fazer_algo</field>
-      </block>
-      <block type="procedures_defreturn" gap="8">
-        <field name="NAME">fazer_algo</field>
-      </block>
-      <block type="procedures_ifreturn" gap="24">
-        <value name="CONDITION">
-          <block type="logic_boolean">
-            <field name="BOOL">TRUE</field>
-          </block>
-        </value>
-      </block>
-      <block type="function_call" gap="16"></block>
-    </category>
-    -->
-    
-    <!-- 8. TEMPO -->
-    <category name="⏱️ Tempo" colour="190">
+    <!-- 8. TIME -->
+    <category name="⏱️ Time" colour="190">
       <block type="esperar_segundos">
         <value name="TIME">
           <shadow type="math_number">
@@ -297,76 +29,8 @@
       </block>
     </category>
     
-    <!-- 9. MÁQUINA E PINOS -->
-    <!--
-    <category name="🔌 Máquina e Pinos" colour="160">
-      <block type="gpio_set">
-        <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
-        </value>
-        <value name="value">
-          <shadow type="logic_boolean">
-            <field name="BOOL"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="gpio_get">
-        <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="pinout"></block>
-      <block type="adc">
-        <value name="pin">
-          <shadow type="math_number">
-            <field name="NUM">26</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="pwm">
-        <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
-        </value>
-        <value name="frequency">
-          <shadow type="math_number">
-            <field name="NUM">1000</field>
-          </shadow>
-        </value>
-        <value name="duty">
-          <shadow type="math_number">
-            <field name="NUM">50</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="pwm.deinit">
-        <value name="pin">
-          <shadow type="pinout">
-            <field name="PIN"></field>
-          </shadow>
-        </value>
-      </block>
-      <block type="get_freq"></block>
-      <block type="set_freq">
-        <value name="freq">
-          <shadow type="math_number">
-            <field name="NUM">125000000</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="reset"></block>
-      <block type="machine_unique_id"></block>
-      <block type="machine_reset_cause"></block>
-    </category>
-    -->
-    
-    <!-- 10. CORES -->
-    <category name="🎨 Cores" colour="#A65C99">
+    <!-- 10. COLORS -->
+    <category name="🎨 Colors" colour="#A65C99">
       <block type="colour_red"></block>
       <block type="colour_green"></block>
       <block type="colour_blue"></block>
@@ -399,8 +63,8 @@
       <block type="bloco_criar_animacao_led"></block>
     </category>
 
-    <!-- 12. MATRIZ DE LEDs -->
-    <category name="🔲 Matriz de LEDs" colour="#4a69bd">
+    <!-- 12. LED MATRIX -->
+    <category name="🔲 LED Matrix" colour="#4a69bd">
       <block type="preencher_matriz"></block>
       <block type="desligar_matriz"></block>
       <block type="acender_led_posicao"></block>
@@ -411,8 +75,8 @@
       <block type="criar_desenho_na_matriz"></block>
     </category>
 
-    <!-- 13. ANIMAÇÕES DA MATRIZ -->
-    <category name="✨ Animações da Matriz" colour="#8e44ad">
+    <!-- 13. MATRIX ANIMATIONS -->
+    <category name="✨ Matrix Animations" colour="#8e44ad">
       <block type="matriz_piscar_rapido"></block>
       <block type="matriz_piscar_lento"></block>
       <block type="matriz_aparecer_sumir"></block>
@@ -426,8 +90,8 @@
       <block type="matriz_dar_flash"></block>
     </category>
 
-    <!-- 14. NÚMEROS MATRIZ -->
-    <category name="🔢 Números Matriz" colour="#55a855">
+    <!-- 14. MATRIX NUMBERS -->
+    <category name="🔢 Matrix Numbers" colour="#55a855">
       <block type="numero_matriz_0"></block>
       <block type="numero_matriz_1"></block>
       <block type="numero_matriz_2"></block>
@@ -440,8 +104,8 @@
       <block type="numero_matriz_9"></block>
     </category>
 
-    <!-- 15. EMOJIS MATRIZ -->
-    <category name="😊 Emojis Matriz" colour="#FF8C00">
+    <!-- 15. MATRIX EMOJIS -->
+    <category name="😊 Matrix Emojis" colour="#FF8C00">
       <block type="emoji_rosto_feliz"></block>
       <block type="emoji_rosto_triste"></block>
       <block type="emoji_rosto_surpreso"></block>
@@ -454,8 +118,8 @@
       <block type="emoji_fantasma"></block>
     </category>
 
-    <!-- 16. NOTAS MUSICAIS -->
-    <category name="🎼 Notas Musicais" colour="#833471">
+    <!-- 16. MUSICAL NOTES -->
+    <category name="🎼 Musical Notes" colour="#833471">
       <block type="nota_do"></block>
       <block type="nota_re"></block>
       <block type="nota_mi"></block>
@@ -465,8 +129,8 @@
       <block type="nota_si"></block>
     </category>
 
-    <!-- 17. SOM -->
-    <category name="🔊 Som" colour="#9a5ba5">
+    <!-- 17. SOUND -->
+    <category name="🔊 Sound" colour="#9a5ba5">
       <block type="tocar_nota"></block>
       <block type="tocar_som_agudo"></block>
       <block type="parar_som"></block>
@@ -487,8 +151,8 @@
       <block type="criar_trilha_sonora"></block>
     </category>
 
-    <!-- 18. BOTÕES -->
-    <category name="🎮 Botões" colour="#ee5a24">
+    <!-- 18. BUTTONS -->
+    <category name="🎮 Buttons" colour="#ee5a24">
       <block type="botao_enquanto_apertado"></block>
       <block type="botao_se_apertado"></block>
     </category>
