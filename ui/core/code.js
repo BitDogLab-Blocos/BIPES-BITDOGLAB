@@ -1,25 +1,12 @@
-/**
- * Based on Blockly Demos: Code
- *
- */
+// Based on Blockly Demos: Code
+// Main application namespace and configuration
 
-/**
- * @fileoverview JavaScript for Blockly's Code demo.
- * @author fraser@google.com (Neil Fraser)
- */
 'use strict';
 
-/**
- * Create a namespace for the application.
- */
+// Application namespace
 var Code = {};
 
-//Lib to installed
-var libToInstall = '';
-
-/**
- * Lookup for names of supported languages.  Keys should be in ISO 639 format.
- */
+// Supported languages (ISO 639 format)
 Code.LANGUAGE_NAME = {
   'en': 'English',
   'pt-br': 'Português Brasileiro',
@@ -31,94 +18,62 @@ Code.LANGUAGE_NAME = {
   'zh-hant': 'Chinese (traditional)'
 };
 
-/**
- * List of RTL languages.
- */
+// RTL (Right-to-Left) language codes
 Code.LANGUAGE_RTL = ['ar', 'fa', 'he', 'lki'];
 
-/**
- * Blockly's main workspace.
- * @type {Blockly.WorkspaceSvg}
- */
+// Main Blockly workspace instance
 Code.workspace = null;
 
-/**
- * Extracts a parameter from the URL.
- * If the parameter is absent default_value is returned.
- * @param {string} name The name of the parameter.
- * @param {string} defaultValue Value to return if parameter not found.
- * @return {string} The parameter value or the default value if not found.
- */
+// Extract URL query parameter (returns defaultValue if not found)
 Code.getStringParamFromUrl = function(name, defaultValue) {
-  var val = location.search.match(new RegExp('[?&]' + name + '=([^&]+)'));
-  return val ? decodeURIComponent(val[1].replace(/\+/g, '%20')) : defaultValue;
+  var val = location.search.match(new RegExp('[?&]' + name + '=([^&]+)')); // Match ?param=value or &param=value
+  return val ? decodeURIComponent(val[1].replace(/\+/g, '%20')) : defaultValue; // Convert + to space, then decode URI
 };
 
-/**
- * Get the language of this user from the URL.
- * @return {string} User's language.
- */
+// Get current language from URL (defaults to 'pt-br')
 Code.getLang = function() {
   var lang = Code.getStringParamFromUrl('lang', 'pt-br');
   if (Code.LANGUAGE_NAME[lang] === undefined) {
-    // Default to Portuguese Brazilian.
-    lang = 'pt-br';
+    lang = 'pt-br'; // Fallback to Portuguese Brazilian
   }
   return lang;
 };
 
-/**
- * Is the current language (Code.LANG) an RTL language?
- * @return {boolean} True if RTL, false if LTR.
- */
+// Check if current language is RTL (Right-to-Left)
 Code.isRtl = function() {
   return Code.LANGUAGE_RTL.indexOf(Code.LANG) != -1;
 };
 
-/**
- * Load blocks saved on App Engine Storage or in session/local storage.
- * @param {string} defaultXml Text representation of default blocks.
- */
+// Load blocks from storage (BlocklyStorage/sessionStorage) or use defaultXml
 Code.loadBlocks = function(defaultXml) {
   try {
     var loadOnce = window.sessionStorage.loadOnceBlocks;
   } catch(e) {
-    // Firefox sometimes throws a SecurityError when accessing sessionStorage.
-    // Restarting Firefox fixes this, so it looks like a bug.
-    var loadOnce = null;
+    var loadOnce = null; // Firefox SecurityError workaround
   }
-  // wait to devices to load
+  // Wait for devices to load before loading blocks (poll every 500ms)
   var interval_ = setInterval(() => {
-    if (typeof UI != 'undefined' && UI ['workspace'].devices.constructor.name == 'Object') {
-      if ('BlocklyStorage' in window && window.location.hash.length > 1) {
-        BlocklyStorage.restoreBlocks ();
-        // An href with #key trigers an AJAX call to retrieve saved blocks.
-        BlocklyStorage.retrieveXml(window.location.hash.substring(1));
+    if (typeof UI != 'undefined' && UI ['workspace'].devices.constructor.name == 'Object') { // Check if devices obj is ready
+      if ('BlocklyStorage' in window && window.location.hash.length > 1) { // Hash like #abc123
+        BlocklyStorage.restoreBlocks();
+        BlocklyStorage.retrieveXml(window.location.hash.substring(1)); // Remove '#' prefix
       } else if (loadOnce) {
-        // Language switching stores the blocks during the reload.
-        delete window.sessionStorage.loadOnceBlocks;
+        delete window.sessionStorage.loadOnceBlocks; // Clear language-switch temp storage
         var xml = Blockly.Xml.textToDom(loadOnce);
         Blockly.Xml.domToWorkspace(xml, Code.workspace);
       } else if (defaultXml) {
-        // Load the editor with default starting blocks.
-        var xml = Blockly.Xml.textToDom(defaultXml);
+        var xml = Blockly.Xml.textToDom(defaultXml); // Load default blocks
         Blockly.Xml.domToWorkspace(xml, Code.workspace);
       } else if ('BlocklyStorage' in window) {
-        // Restore saved blocks in a separate thread so that subsequent
-        // initialization is not affected from a failed load.
-        window.setTimeout(() => {BlocklyStorage.restoreBlocks (); UI ['account'].openLastEdited()}, 0);
+        window.setTimeout(() => {BlocklyStorage.restoreBlocks(); UI['account'].openLastEdited()}, 0); // Async to prevent blocking init
       }
       clearInterval(interval_);
     }}, 500);
 };
 
-/**
- * Save the blocks and reload with a different language.
- */
+// Save blocks and reload page with new language
 Code.changeLanguage = function() {
-  // Store the blocks for the duration of the reload.
-  // MSIE 11 does not support sessionStorage on file:// URLs.
-  if (window.sessionStorage) {
+  if (window.sessionStorage) { // MSIE 11 doesn't support sessionStorage on file://
     var xml = Blockly.Xml.workspaceToDom(Code.workspace);
     var text = Blockly.Xml.domToText(xml);
     window.sessionStorage.loadOnceBlocks = text;
@@ -128,11 +83,11 @@ Code.changeLanguage = function() {
   var newLang = encodeURIComponent(
       languageMenu.options[languageMenu.selectedIndex].value);
   var search = window.location.search;
-  if (search.length <= 1) {
+  if (search.length <= 1) { // No query string yet
     search = '?lang=' + newLang;
-  } else if (search.match(/[?&]lang=[^&]*/)) {
+  } else if (search.match(/[?&]lang=[^&]*/)) { // Lang param exists, replace it
     search = search.replace(/([?&]lang=)[^&]*/, '$1' + newLang);
-  } else {
+  } else { // Other params exist, add lang
     search = search.replace(/\?/, '?lang=' + newLang + '&');
   }
 
@@ -140,88 +95,68 @@ Code.changeLanguage = function() {
       window.location.host + window.location.pathname + search;
 };
 
-/**(DEPRECATED)
- * Bind a function to a button's click event.
- * On touch enabled browsers, ontouchend is treated as equivalent to onclick.
- * @param {!Element|string} el Button element or ID thereof.
- * @param {!Function} func Event handler to bind.
- */
+// DEPRECATED: Bind click event to element (use addEventListener directly)
 Code.bindClick = function(el, func) {
   if (typeof el == 'string') {
     el = document.getElementById(el);
   }
-  el.addEventListener('click', func, true);
+  el.addEventListener('click', func, true); // true = capture phase (bubbles up from parent to target)
 };
 
-/**
- * Load the Prettify CSS and JavaScript.
- */
+// Lazy-load Prettify for syntax highlighting
 Code.importPrettify = function() {
   var script = document.createElement('script');
   script.setAttribute('src', 'https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js');
   document.head.appendChild(script);
 };
 
-
-/**
- * User's language (e.g. "en").
- * @type {string}
- */
+// Current user language
 Code.LANG = Code.getLang();
 
-/**
- * List of tab names.
- * @private
- */
-
+// Available tab names
 Code.TABS_ = ['blocks', 'console', 'files', 'programs', 'device', 'databoard'];
 
-Code.current = ["blocks", "",""]
+// Current visible tabs [full, left, right]
+Code.current = ["blocks", "", ""]
 
-/**
- * Switch the visible pane when a tab is clicked, allows splitting screen.
- * @param {string} navigation Name of tab clicked.
- * @param {Number} _pos Position, 0 to full, 1 to full/left and 2 to right.
- */
+// Switch visible tab/pane with split-screen support
+// _pos: 0=full screen, 1=left split, 2=right split
 Code.handleLink = (_navigation, _pos) => {
-  let _pos0 = _pos == 2 ? 1 : 2
+  let _pos0 = _pos == 2 ? 1 : 2 // Opposite position (1<->2)
   let crt = Code.current
 
+  // Hide and deinitialize tab content
   let turnOff = (elem, pos) => {
     let _tab  = get(`#content_${elem}`),
         _nav  = get(`#tab_${elem}`)
     Code.deinitContent(elem)
 	  _nav.classList.remove('on')
-	  // just to avoid animation glitch
-	  if (pos == 1)
-    	_tab.classList.add(`_pos1`)
-    if (pos == 2)
-    	_tab.classList.add(`_pos2`)
+	  if (pos == 1) _tab.classList.add(`_pos1`) // Temp class prevents CSS animation glitch
+    if (pos == 2) _tab.classList.add(`_pos2`)
   	_tab.classList.remove(`pos${pos}`)
 	  Animate.off(_tab)
   }
 
+  // Show and initialize tab content
   let turnOn = (elem, pos) => {
     let _tab  = get(`#content_${elem}`),
         _nav  = get(`#tab_${elem}`)
     Code.renderContent(elem)
 
-
     _nav.classList.add('on')
 	  Animate.on(_tab)
 	  _tab.classList.remove("_pos1", "_pos2")
-	  if (pos != 0)
-  	  _tab.classList.add(`pos${pos}`)
+	  if (pos != 0) _tab.classList.add(`pos${pos}`)
   }
 
-  // Interpreting link
+  // Full screen mode
   if (_pos == 0){
     turnOn(_navigation, 0)
     Code.current = [_navigation, '', '']
     return
   }
 
-  // User switch opened section
+  // Swap left/right positions
   if (crt[_pos0] == _navigation) {
     let _tab  = get(`#content_${crt[_pos]}`),
         _tab0 = get(`#content_${crt[_pos0]}`)
@@ -230,15 +165,15 @@ Code.handleLink = (_navigation, _pos) => {
  	  _tab.classList.add(`pos${_pos0}`)
  	  _tab0.classList.remove(`pos${_pos0}`)
  	  _tab0.classList.add(`pos${_pos}`)
- 	  Code.current = ['', crt[2], crt[1]]
+ 	  Code.current = ['', crt[2], crt[1]] // Swap array positions [1] and [2]
  	  return
   }
 
-  // User click in the same occupying the whole screen
-  if (crt [0] == _navigation && crt [1] == '' && crt [2] == '')
+  // Already in full screen - ignore duplicate click
+  if (crt[0] == _navigation && crt[1] == '' && crt[2] == '')
     return
 
-  // User left click in a new section while another is occuppying the whole screen
+  // Left click while in full screen - switch tabs
   if (_pos == 1 && crt[0] != ''){
     turnOff(crt[0], 0)
     crt[0] = _navigation
@@ -247,9 +182,9 @@ Code.handleLink = (_navigation, _pos) => {
     return
   }
 
-  // Both have sections, user left click in one again -> occupy all screen
+  // Left click on active split - expand to full screen
   if (_pos == 1){
-    if (crt [_pos] == _navigation && crt[_pos0] != ''){
+    if (crt[_pos] == _navigation && crt[_pos0] != ''){
       turnOff(crt[_pos0], _pos0)
       let _tab  = get(`#content_${crt[_pos]}`)
    	  _tab.classList.remove(`pos${_pos}`)
@@ -259,9 +194,9 @@ Code.handleLink = (_navigation, _pos) => {
     }
   }
 
-  // Both have sections, user right click in one again -> deinit
+  // Right click on active split - close it
   if (_pos == 2){
-    if (crt [_pos] == _navigation && crt[_pos0] != ''){
+    if (crt[_pos] == _navigation && crt[_pos0] != ''){
       turnOff(crt[_pos], _pos)
       let _tab0  = get(`#content_${crt[_pos0]}`)
    	  _tab0.classList.remove(`pos${_pos0}`)
@@ -271,7 +206,7 @@ Code.handleLink = (_navigation, _pos) => {
     }
   }
 
-  // User click in a new section to ocuppy
+  // Click new tab for split position
   if (crt[_pos] != _navigation && crt[0] == ''){
     if (crt[_pos] != '')
       turnOff(crt[_pos], _pos)
@@ -281,7 +216,7 @@ Code.handleLink = (_navigation, _pos) => {
     return
   }
 
-  // User right click in a new section while another is occupying everthing
+  // Right click to create split while in full screen
   if (_pos == 2 && crt[_pos] != _navigation && crt[0] != ''){
     let _tab  = get(`#content_${crt[0]}`)
  	  _tab.classList.add(`pos1`)
@@ -292,24 +227,19 @@ Code.handleLink = (_navigation, _pos) => {
   }
 }
 
-/**
- * Handle the rendering of the tabs;
- * @param {string} _navigation Name of tab.
- */
+// Initialize and render tab content
 Code.renderContent = (_navigation) => {
   if (typeof _navigation == 'undefined')
     return
   let content = get(`#content_${_navigation}`)
   switch (_navigation) {
     case  "databoard":
-      // Wait 10ms because the canvas of chart.js cannot be inited while not displaying
-      setTimeout(() => {
+      setTimeout(() => { // Chart.js canvas needs visible DOM
         if (!window.frames[3].inited) {
           if (typeof window.frames[3].modules == 'object' && typeof window.frames[3].modules.Workspaces == 'object') {
             window.frames[3].initDataStorage()
           } else {
-            /** wait to databoad to load */
-            var interval = setInterval(() => {
+            var interval = setInterval(() => { // Wait for databoard module
               if (typeof window.frames[3].modules == 'object' && typeof window.frames[3].modules.Workspaces == 'object') {
                 window.frames[3].initDataStorage()
                 if (window.frames[3].inited)
@@ -328,9 +258,7 @@ Code.renderContent = (_navigation) => {
       break
     case "files":
       if (Files.editor.init == undefined) {
-        // Horrible fix for line numbers not showing when initing
-        // with less than ten lines
-        Files.editor.setValue(new Array(9).fill('\r\n').join(''))
+        Files.editor.setValue(new Array(9).fill('\r\n').join('')) // Workaround: editor needs 10+ lines to show line numbers
         setTimeout(() => {
           Files.editor.setValue('')
           Files.editor.init = true
@@ -347,15 +275,13 @@ Code.renderContent = (_navigation) => {
   }
   content.focus()
 };
-/**
- * Handle the resizing of the tabs on split mode;
- * @param {string} _navigation Name of tab.
- */
+
+// Resize active tabs (needed for split-screen mode)
 Code.resizeContent = (_navigation) => {
   Code.current.forEach (key => {
     switch (key) {
       case "blocks":
-        setTimeout(()=>{Blockly.svgResize(Code.workspace)}, 250)
+        setTimeout(()=>{Blockly.svgResize(Code.workspace)}, 250) // Delay ensures DOM layout completes
         break
       case "files":
         Files.resize()
@@ -371,10 +297,7 @@ Code.resizeContent = (_navigation) => {
   })
 };
 
-/**
- * Deinit a tab (if it supports).
- * @param {string} _navigation Name of tab to deinit.
- */
+// Deinitialize tab when hiding (cleanup resources)
 Code.deinitContent = (_navigation) => {
   switch (_navigation) {
   case  "databoard":
@@ -388,34 +311,12 @@ Code.deinitContent = (_navigation) => {
   }
 }
 
-/**
- * Attempt to generate the code and display it in the UI, pretty printed.
- * @param code {string} The code generated by Blockly.
- * @param prettyPrintType {string} The file type key for the pretty printer.
- * @param domTarget {string} The id for the dom element to render the code.
- */
-Code.toDOM = function(code, prettyPrintType, domTarget) {
-  var content = document.getElementById(domTarget);
-  content.textContent = '';
-
-  content.textContent = code;
-  if (typeof PR.prettyPrintOne == 'function') {
-    code = content.textContent;
-    code = PR.prettyPrintOne(code, prettyPrintType);
-    content.innerHTML = code;
-  }
-};
-
-/**
- * Check whether all blocks in use have generator functions.
- * @param generator {!Blockly.Generator} The generator to use.
- */
+// Validate all blocks have generator functions (prevents undefined code generation)
 Code.checkAllGeneratorFunctionsDefined = function(generator) {
   var blocks = Code.workspace.getAllBlocks();
   var missingBlockGenerators = [];
 
-  // Cache to track which blocks have been checked and shown alert
-  if (!Code.checkAllGeneratorFunctionsDefined._alreadyAlerted) {
+  if (!Code.checkAllGeneratorFunctionsDefined._alreadyAlerted) { // Static cache to prevent duplicate warnings
     Code.checkAllGeneratorFunctionsDefined._alreadyAlerted = {};
   }
 
@@ -430,72 +331,57 @@ Code.checkAllGeneratorFunctionsDefined = function(generator) {
 
   var valid = missingBlockGenerators.length == 0;
   if (!valid) {
-    // Create a key for this set of missing blocks
-    var missingKey = missingBlockGenerators.sort().join(',');
+    var missingKey = missingBlockGenerators.sort().join(','); // Create unique key for this set of missing blocks
 
-    // Only show alert if we haven't already shown it for this exact set of blocks
     if (!Code.checkAllGeneratorFunctionsDefined._alreadyAlerted[missingKey]) {
-      // Log to console instead of showing alert to avoid annoying the user
       console.warn('Missing generator code for blocks:', missingBlockGenerators.join(', '));
       Code.checkAllGeneratorFunctionsDefined._alreadyAlerted[missingKey] = true;
     }
   } else {
-    // If all generators are now defined, clear the alert cache for a fresh start
-    Code.checkAllGeneratorFunctionsDefined._alreadyAlerted = {};
+    Code.checkAllGeneratorFunctionsDefined._alreadyAlerted = {}; // Reset cache when all valid
   }
   return valid;
 };
 
+// Reload toolbox from XML (string or DOM) or fallback to default.xml
 Code.reloadToolbox = function(XML_) {
   try {
-    // Se XML_ for uma string, converte para DOM
     if (typeof XML_ === 'string') {
       XML_ = Blockly.Xml.textToDom(XML_);
     }
-    
-    // Verifica se XML_ é um objeto DOM válido
+
     if (XML_ && XML_.nodeName) {
       Code.workspace.updateToolbox(XML_);
       UI['notify'].send('Toolbox recarregada com sucesso!');
     } else {
-      // Tenta carregar a toolbox padrão
-      let request = new XMLHttpRequest();
-      request.open('GET', 'toolbox/default.xml', false);
+      let request = new XMLHttpRequest(); // Fallback to default toolbox
+      request.open('GET', 'toolbox/default.xml', false); // Synchronous request
       request.send(null);
-      
+
       if (request.status === 200) {
         let toolboxXml = Blockly.Xml.textToDom(request.responseText);
         Code.workspace.updateToolbox(toolboxXml);
         UI['notify'].send('Toolbox padrão carregada!');
       }
     }
-    
-    Code.workspace.scrollCenter(); // centraliza o workspace
+
+    Code.workspace.scrollCenter();
   } catch (e) {
     console.error('Erro ao recarregar a toolbox:', e);
     UI['notify'].send('Erro ao carregar a toolbox: ' + e.message);
   }
 }
 
-/**
- * If the code should be autogenerated.
- * @private
- */
-
+// Auto-generation flag for continuous code updates
 Code.auto_mode = false;
 
-
-/**
- * Wrap generated code with infinite loop structure for BitdogLab
- * @param {string} rawCode - The raw generated code from Blockly
- * @return {string} The code wrapped in while True loop with proper structure
- */
+// Wrap raw Blockly code with BitdogLab infinite loop structure
 Code.wrapWithInfiniteLoop = function(rawCode) {
   if (!rawCode || rawCode.trim() === '') {
     return '';
   }
 
-  // Collect all import statements, setup, and action code from rawCode
+  // Parse raw code into imports, setup, and action sections
   var lines = rawCode.split('\n');
   var imports = [];
   var setup = [];
@@ -510,16 +396,13 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     var line = lines[i];
     var trimmedLine = line.trim();
 
-    // Skip empty lines
-    if (!trimmedLine) continue;
+    if (!trimmedLine) continue; // Skip empty lines
 
-    // Skip lines that are just value expressions (like arrays, numbers, etc)
-    // These are generated by output blocks that aren't connected to anything
-    if (trimmedLine.startsWith('[') && trimmedLine.endsWith(']')) continue;
-    if (/^\d+$/.test(trimmedLine)) continue; // Skip standalone numbers
+    // Skip orphan value expressions (disconnected output blocks)
+    if (trimmedLine.startsWith('[') && trimmedLine.endsWith(']')) continue; // Arrays like [1, 2, 3]
+    if (/^\d+$/.test(trimmedLine)) continue; // Standalone numbers
 
-    // Check for loop block markers (from BitdogLabConfig)
-    if (trimmedLine === BitdogLabConfig.MARKERS.LOOP_START) {
+    if (trimmedLine === BitdogLabConfig.MARKERS.LOOP_START) { // Custom loop block
       inLoopBlock = true;
       continue;
     }
@@ -529,136 +412,111 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
       continue;
     }
 
-    // If we're in a loop block, add to loop code
     if (inLoopBlock) {
       loopCodeLines.push(line);
       continue;
     }
 
-    // Check for sound block markers (from BitdogLabConfig)
-    if (trimmedLine === BitdogLabConfig.MARKERS.SOUND_START) {
+    if (trimmedLine === BitdogLabConfig.MARKERS.SOUND_START) { // Sound block
       inSoundBlock = true;
-      continue; // Don't add the marker itself
+      continue;
     }
 
     if (trimmedLine === BitdogLabConfig.MARKERS.SOUND_END) {
       inSoundBlock = false;
-      continue; // Don't add the marker itself
+      continue;
     }
 
-    // If we're in a sound block, add to sound code
     if (inSoundBlock) {
       soundCodeLines.push(line);
       continue;
     }
 
-    // Check if it's an import or from import
+    // Categorize lines into imports, setup, or action code
     if (trimmedLine.startsWith('import ') || trimmedLine.startsWith('from ')) {
       imports.push(line);
-    }
-    // Check if it's a setup line (from BitdogLabConfig)
-    else if (BitdogLabConfig.SETUP_PATTERNS.isSetupLine(trimmedLine)) {
+    } else if (BitdogLabConfig.SETUP_PATTERNS.isSetupLine(trimmedLine)) {
       setup.push(line);
-    }
-    // Check if it's a comment
-    else if (trimmedLine.startsWith('#')) {
+    } else if (trimmedLine.startsWith('#')) {
       setup.push(line);
-    }
-    // Everything else is action code
-    else {
+    } else {
       actionCode.push(line);
     }
   }
 
-  // Build the final code structure
+  // Build final code structure
   var finalCode = '';
 
-  // 1. Add imports
+  // 1. Imports section
   if (imports.length > 0) {
     finalCode += imports.join('\n') + '\n';
   }
 
-  // Always add time import for sleep
-  if (finalCode.indexOf('import time') === -1) {
+  if (finalCode.indexOf('import time') === -1) { // Ensure time import for delays
     finalCode += 'import time\n';
   }
 
   finalCode += '\n';
 
-  // 2. Add setup/initialization code (outside loop)
+  // 2. Setup/initialization code (runs once, outside loop)
   if (setup.length > 0) {
     finalCode += '# Bloco de Setup\n';
     finalCode += setup.join('\n') + '\n';
-
-    // Add LED initialization code (from BitdogLabConfig)
     finalCode += BitdogLabConfig.LED_INIT.generateInitCode(rawCode);
     finalCode += '\n';
   }
 
-  // 2.5. Add sound code to action code (sounds should be inside loop when used with buttons)
-  // Check if there are button blocks in the code (they use .value() to read button state)
-  var hasButtonBlocks = rawCode.indexOf('.value()') !== -1;
+  // 2.5. Handle sound code (inside loop if buttons present, else run once)
+  var hasButtonBlocks = rawCode.indexOf('.value()') !== -1; // .value() = button read method
 
   if (soundCodeLines.length > 0) {
     if (hasButtonBlocks) {
-      // Add sound code to actionCode so it goes inside the loop with button logic
-      actionCode = soundCodeLines.concat(actionCode);
+      actionCode = soundCodeLines.concat(actionCode); // Prepend sounds to loop (check button each iteration)
     } else {
-      // Execute sound code once, outside the loop
       finalCode += '# Sons (execução única)\n';
       finalCode += soundCodeLines.join('\n') + '\n';
       finalCode += '\n';
     }
   }
 
-  // 2.6. Add custom loop code (from tocar_repetidamente block)
+  // 2.6. Custom loop code (bypass default loop)
   if (loopCodeLines.length > 0) {
     finalCode += '# Loop de Sons\n';
     finalCode += loopCodeLines.join('\n') + '\n';
-    // If there's a custom loop, don't add the default loop
-    return finalCode;
+    return finalCode; // Early return - custom loop replaces default
   }
 
-  // 3. Check if there's a static configuration (no loop needed)
-  var hasStaticConfig = rawCode.indexOf(BitdogLabConfig.MARKERS.STATIC_CONFIG) !== -1;
+  // 3. Static configuration (no loop needed)
+  var hasStaticConfig = rawCode.indexOf(BitdogLabConfig.MARKERS.STATIC_CONFIG) !== -1; // Check for static LED config marker
 
   if (hasStaticConfig && actionCode.length === 0) {
-    // Se há apenas configuração estática, não cria loop
     finalCode += '# Configuração estática concluída - LEDs fixos\n';
   }
-  // 4. Add infinite loop with action code (apenas se não for configuração estática)
+  // 4. Main infinite loop
   else if (actionCode.length > 0) {
     finalCode += '# Loop Principal\n';
     finalCode += 'while True:\n';
 
-    // Indent all action code
     for (var j = 0; j < actionCode.length; j++) {
       finalCode += '  ' + actionCode[j] + '\n';
     }
 
-    // Add courtesy delay (from BitdogLabConfig)
-    finalCode += BitdogLabConfig.LOOP.getDelayCode();
+    finalCode += BitdogLabConfig.LOOP.getDelayCode(); // Prevent CPU overload
   }
 
   return finalCode;
 };
 
-/**
- * Blockly code generator watcher, if auto_mode is true, will generate code
- * when called by the setInterval, if directly called (this != Window), will generate code.
- * @param generate {!Blockly.generator} If should generate code when called, defaults to Blockly.Python
- * @return {string} The generated code
- */
+// Generate code from workspace (respects auto_mode flag)
 Code.generateCode = function (generator = Blockly.Python) {
-  if (Code.auto_mode || this.constructor.name != 'Window') {
+  if (Code.auto_mode || this.constructor.name != 'Window') { // Auto mode OR direct call (not from setInterval)
     if (Code.checkAllGeneratorFunctionsDefined(generator)) {
       if (generator.name_ == "Python") {
         var rawCode = generator.workspaceToCode(Code.workspace);
         var finalCode = Code.wrapWithInfiniteLoop(rawCode);
 
-        // Se há configuração estática, desativa auto_mode para parar de gerar código
         if (rawCode.indexOf(BitdogLabConfig.MARKERS.STATIC_CONFIG) !== -1) {
-          Code.auto_mode = false;
+          Code.auto_mode = false; // Stop auto-generation for static configs (no need to regenerate)
         }
 
         return finalCode;
@@ -666,157 +524,123 @@ Code.generateCode = function (generator = Blockly.Python) {
       else if (generator.name_ == "Javascript")
         return generator.workspaceToCode(Code.workspace);
     } else
-      //break out of auto_mode if there is a block withouyt a generator function
-      Code.auto_mode = false
+      Code.auto_mode = false // Missing generator - stop auto mode to prevent errors
   }
 }
 
-/**
- * Generate XML Blockly with BIPES extra information, store in Code.xmlCode
- * @param workspace {!Blockly.workspace} If should generate code when called, defaults to Code.workspace
- * @return {string} The generated XML
- */
+// Generate XML from workspace with BIPES metadata
 Code.generateXML = function (workspace = Code.workspace) {
     let xmlDom = Blockly.Xml.workspaceToDom(workspace);
     let xmlText = Blockly.Xml.domToPrettyText(xmlDom);
-    return UI ['workspace'].writeWorkspace(xmlText, true);
+    return UI['workspace'].writeWorkspace(xmlText, true);
 }
 
-
-
-/**
- * Initialize Blockly.  Called on page load.
- */
+// Initialize Blockly workspace and UI (called on page load)
 Code.init = function() {
   Code.initLanguage();
 
   var rtl = Code.isRtl();
 
-  // The toolbox XML specifies each category name using Blockly's messaging
-  // format (eg. `<category name="%{BKY_CATLOGIC}">`).
-  // These message keys need to be defined in `Blockly.Msg` in order to
-  // be decoded by the library. Therefore, we'll use the `MSG` dictionary that's
-  // been defined for each language to import each category name message
-  // into `Blockly.Msg`.
-  // TODO: Clean up the message files so this is done explicitly instead of
-  // through this for-loop.
-
-  //init interval to auto generate Python Code
-  // Delay the start of auto-generation to ensure custom generators are loaded
+  // Import category names from MSG to Blockly.Msg (for toolbox XML decoding)
   setTimeout(function() {
-    Code._generationInterval = setInterval(Code.generateCode, 250);
+    Code._generationInterval = setInterval(Code.generateCode, 250); // Poll every 250ms
     Code.auto_mode = true;
-  }, 500);
+  }, 500); // 500ms delay ensures custom block generators are loaded
 
   for (var messageKey in MSG) {
-    if (messageKey.indexOf('cat') == 0) {
+    if (messageKey.indexOf('cat') == 0) { // Only process category messages (cat*)
       Blockly.Msg[messageKey.toUpperCase()] = MSG[messageKey];
     }
   }
 
-  // Carrega a toolbox XML com todos os blocos disponíveis
+  // Load toolbox XML (BitdogLab default or basic fallback)
   let toolboxXml;
-  
-  // Primeiro tentamos carregar a toolbox específica para o BitdogLab
   let request = new XMLHttpRequest();
-  request.open('GET', 'toolbox/default.xml', false);
+  request.open('GET', 'toolbox/default.xml', false); // Synchronous load (blocking)
   request.send(null);
-  
+
   if (request.status === 200) {
     toolboxXml = Blockly.Xml.textToDom(request.responseText);
   } else {
-    // Fallback para uma toolbox básica se não conseguir carregar o arquivo
-    toolboxXml = Blockly.Xml.textToDom("<xml><category name='Básico' colour='%{BKY_LOGIC_HUE}'><block type='controls_if'></block><block type='logic_compare'></block><block type='controls_repeat_ext'></block><block type='math_number'></block><block type='math_arithmetic'></block><block type='text'></block><block type='text_print'></block></category></xml>");
+    toolboxXml = Blockly.Xml.textToDom("<xml><category name='Básico' colour='%{BKY_LOGIC_HUE}'><block type='controls_if'></block><block type='logic_compare'></block><block type='controls_repeat_ext'></block><block type='math_number'></block><block type='math_arithmetic'></block><block type='text'></block><block type='text_print'></block></category></xml>"); // Minimal fallback toolbox
   }
 
   Code.workspace = Blockly.inject('content_blocks',
       {grid:
-          {spacing: 25,
-           length: 3,
+          {spacing: 25, // Grid spacing in pixels
+           length: 3, // Grid dot size
            colour: '#ccc',
-           snap: true},
+           snap: true}, // Enable snap-to-grid
        media: 'media/',
        rtl: rtl,
        toolbox: toolboxXml,
-       oneBasedIndex: false,
+       oneBasedIndex: false, // Arrays start at 0, not 1
        zoom:
-           {controls: true,
-            wheel: true}
+           {controls: true, // Show zoom buttons
+            wheel: true} // Enable mouse wheel zoom
       });
 
   Code.loadBlocks('');
 
   if ('BlocklyStorage' in window) {
-    // Hook a save function onto unload.
-    BlocklyStorage.backupOnUnload(Code.workspace);
+    BlocklyStorage.backupOnUnload(Code.workspace); // Auto-save on page unload
   }
 
   Code.handleLink(Code.current[0], 0);
-
-  //Code.bindClick('trashButton',
-  //    function() {Code.discard(); Code.renderContent();});
-
 
   Code.bindClick('forumButton',
     function () {window.open("https://github.com/BIPES/BIPES/discussions",'_blank')}
   )
 
-
-
-  // Disable the link button if page isn't backed by App Engine storage.
+  // Setup link button (requires BlocklyStorage)
   var linkButton = document.getElementById('linkButton');
   if ('BlocklyStorage' in window) {
     BlocklyStorage['HTTPREQUEST_ERROR'] = MSG['httpRequestError'];
     BlocklyStorage['LINK_ALERT'] = MSG['linkAlert'];
     BlocklyStorage['HASH_ERROR'] = MSG['hashError'];
     BlocklyStorage['XML_ERROR'] = MSG['xmlError'];
-    Code.bindClick(linkButton,
-        function () {BlocklyStorage.link(Code.workspace);});
+    Code.bindClick(linkButton, function () {BlocklyStorage.link(Code.workspace);});
   } else if (linkButton) {
     linkButton.className = 'disabled';
   }
 
-  // Bind left click/tap and right click on tabs
+  // Bind tab click handlers (left=full/left split, right=right split)
   for (var i = 0; i < Code.TABS_.length; i++) {
     let name = Code.TABS_[i];
     let tab = get(`#tab_${name}`)
     tab.addEventListener("click", (ev) => {
       ev.preventDefault()
-      Code.handleLink(name, 1)
+      Code.handleLink(name, 1) // Left click = position 1 (full or left)
     })
     tab.addEventListener("contextmenu", (ev) => {
-      ev.preventDefault()
-      Code.handleLink(name, 2)
+      ev.preventDefault() // Block browser context menu
+      Code.handleLink(name, 2) // Right click = position 2 (right split)
     })
   }
   Blockly.svgResize(Code.workspace);
 
-  // Lazy-load the syntax-highlighting.
-  window.setTimeout(Code.importPrettify, 1);
+  window.setTimeout(Code.importPrettify, 1); // Lazy-load syntax highlighting
 };
 
-/**
- * Initialize the page language.
- */
+// Initialize page language and direction (RTL/LTR)
 Code.initLanguage = function() {
-  // Set the HTML's language and direction.
   var rtl = Code.isRtl();
   document.dir = rtl ? 'rtl' : 'ltr';
   document.head.parentElement.setAttribute('lang', Code.LANG);
 
-  // Sort languages alphabetically.
+  // Sort languages alphabetically by display name
   var languages = [];
   for (var lang in Code.LANGUAGE_NAME) {
-    languages.push([Code.LANGUAGE_NAME[lang], lang]);
+    languages.push([Code.LANGUAGE_NAME[lang], lang]); // [display name, code]
   }
-  var comp = function(a, b) {
-    // Sort based on first argument ('English', 'Русский', '简体字', etc).
+  var comp = function(a, b) { // Comparator for sorting
     if (a[0] > b[0]) return 1;
     if (a[0] < b[0]) return -1;
     return 0;
   };
   languages.sort(comp);
-  // Populate the language selection menu.
+
+  // Populate language dropdown menu
   var languageMenu = document.getElementById('languageMenu');
   languageMenu.options.length = 0;
   for (var i = 0; i < languages.length; i++) {
@@ -830,8 +654,7 @@ Code.initLanguage = function() {
   }
   languageMenu.addEventListener('change', Code.changeLanguage, true);
 
-  // Inject language strings.
-  //Changed to a fixed title for all languages - BIPES Beta
+  // Inject localized UI strings
   document.getElementById('tab_blocks').textContent = MSG['blocks'];
   document.getElementById('tab_files').textContent = MSG['files'];
   document.getElementById('tab_programs').textContent = MSG['shared'];
@@ -839,7 +662,6 @@ Code.initLanguage = function() {
 
   document.getElementById('linkButton').title = MSG['linkTooltip'];
   document.getElementById('runButton').title = MSG['runTooltip'];
-  //document.getElementById('trashButton').title = MSG['trashTooltip'];
   document.getElementById('saveButton').title = MSG['saveTooltip'];
   document.getElementById('loadButton').title = MSG['loadTooltip'];
   document.getElementById('notificationButton').title = MSG['notificationTooltip'];
@@ -849,21 +671,18 @@ Code.initLanguage = function() {
   document.getElementById('accountButton').title = MSG['accountTooltip'];
 };
 
-/**
- * Discard all blocks from the workspace.
- */
+// Clear workspace (with confirmation if >1 block)
 Code.discard = function() {
   var count = Code.workspace.getAllBlocks().length;
-  if (count < 2 ||
-      window.confirm(Blockly.Msg['DELETE_ALL_BLOCKS'].replace('%1', count))) {
+  if (count < 2 || // Skip confirm for single block
+      window.confirm(Blockly.Msg['DELETE_ALL_BLOCKS'].replace('%1', count))) { // Replace %1 with count
     Code.workspace.clear();
     if (window.location.hash) {
-      window.location.hash = '';
+      window.location.hash = ''; // Clear hash to prevent reload from storage
     }
   }
 };
 
-// Load the Code demo's language strings.
-document.write('<script src="msg/' + Code.LANG + '.js"></script>\n');
-// Load Blockly's language strings.
-document.write('<script src="b.msg/js/' + Code.LANG + '.js"></script>\n');
+// Load localized message files (must execute before DOM ready)
+document.write('<script src="msg/' + Code.LANG + '.js"></script>\n'); // BIPES UI messages
+document.write('<script src="b.msg/js/' + Code.LANG + '.js"></script>\n'); // Blockly core messages
