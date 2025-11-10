@@ -1301,7 +1301,7 @@ Blockly.Python['note'] = function(block) {
 Blockly.Python['tone_type'] = function(block) {
   var dropdown_tone = block.getFieldValue('tone');
   var code = dropdown_tone;
-  return [code, Blockly.JavaScript.ORDER_NONE];
+  return [code, Blockly.Python.ORDER_NONE]; // Fixed: was Blockly.JavaScript.ORDER_NONE
 };
 
 /*
