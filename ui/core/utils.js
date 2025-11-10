@@ -1,557 +1,197 @@
 'use strict';
 
-/*
- * Code from 
- * https://github.com/google/blockly/blob/096d1c46c5066cfa7e59db3b41405b7e854b95d0/tests/playgrounds/screenshot.js
- */
-
-/**
- * @license
- * Copyright 2019 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/**
- * @fileoverview Download screenshot.
- * @author samelh@google.com (Sam El-Husseini)
- */
-
-/**
- * Convert an SVG datauri into a PNG datauri.
- * @param {string} data SVG datauri.
- * @param {number} width Image width.
- * @param {number} height Image height.
- * @param {!Function} callback Callback.
- */
-function svgToPng_(data, width, height, callback) {
-  var canvas = document.createElement("canvas");
-  var context = canvas.getContext("2d");
-  var img = new Image();
-
-  var pixelDensity = 10;
-  canvas.width = width * pixelDensity;
-  canvas.height = height * pixelDensity;
-  img.onload = function() {
-    context.drawImage(
-        img, 0, 0, width, height, 0, 0, canvas.width, canvas.height);
-    try {
-      var dataUri = canvas.toDataURL('image/png');
-      callback(dataUri);
-    } catch (err) {
-      console.warn('Error converting the workspace svg to a png');
-      callback('');
-    }
-  };
-  img.src = data;
-}
-
-/**
- * Create an SVG of the blocks on the workspace.
- * @param {!Blockly.WorkspaceSvg} workspace The workspace.
- * @param {!Function} callback Callback.
- * @param {string=} customCss Custom CSS to append to the SVG.
- */
-function workspaceToSvg_(workspace, callback, customCss) {
-
-  // Go through all text areas and set their value.
-  var textAreas = document.getElementsByTagName("textarea");
-  for (var i = 0; i < textAreas.length; i++) {
-    textAreas[i].innerHTML = textAreas[i].value;
-  }
-
-  var bBox = workspace.getBlocksBoundingBox();
-  var x = bBox.x || bBox.left;
-  var y = bBox.y || bBox.top;
-  var width = bBox.width || bBox.right - x;
-  var height = bBox.height || bBox.bottom - y;
-
-  var blockCanvas = workspace.getCanvas();
-  var clone = blockCanvas.cloneNode(true);
-  clone.removeAttribute('transform');
-
-  var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-  svg.appendChild(clone);
-  svg.setAttribute('viewBox',
-      x + ' ' + y + ' ' + width + ' ' + height);
-
-  svg.setAttribute('class', 'blocklySvg ' +
-    (workspace.options.renderer || 'geras') + '-renderer ' +
-    (workspace.getTheme ? workspace.getTheme().name + '-theme' : ''));
-  svg.setAttribute('width', width);
-  svg.setAttribute('height', height);
-  svg.setAttribute("style", 'background-color: transparent');
-
-  var css = [].slice.call(document.head.querySelectorAll('style'))
-      .filter(function(el) { return /\.blocklySvg/.test(el.innerText) ||
-        (el.id.indexOf('blockly-') === 0); }).map(function(el) {
-        return el.innerText; }).join('\n');
-  var style = document.createElement('style');
-  style.innerHTML = css + '\n' + customCss;
-  svg.insertBefore(style, svg.firstChild);
-
-  var svgAsXML = (new XMLSerializer).serializeToString(svg);
-  svgAsXML = svgAsXML.replace(/&nbsp/g, '&#160');
-  var data = 'data:image/svg+xml,' + encodeURIComponent(svgAsXML);
-
-  svgToPng_(data, width, height, callback);
-}
-
-/**
- * Download a screenshot of the blocks on a Blockly workspace.
- * @param {!Blockly.WorkspaceSvg} workspace The Blockly workspace.
- */
-Blockly.downloadScreenshot = function(workspace) {
-  workspaceToSvg_(workspace, function(datauri) {
-    var a = document.createElement('a');
-    a.download = 'screenshot.png';
-    a.target = '_self';
-    a.href = datauri;
-    document.body.appendChild(a);
-    a.click();
-    a.parentNode.removeChild(a);
-  });
-};
-
-/* END Code from 
- * https://github.com/google/blockly/blob/096d1c46c5066cfa7e59db3b41405b7e854b95d0/tests/playgrounds/screenshot.js
- */
-
-
-/**
- * All generic utilities are concetrated here.
- * Should not be inited, since all functions are static.
- */
-
+// Tool class - Static utilities for code execution and file operations
 class Tool {
-  constructor () {
+  constructor () {}
 
-  }
-  /**(DEPRECATED)
-  * Alias for :js:func:`mux.bufferPush`.
-  * @param {string} code_ - Code to be sent.
-  */
   static runPython (code_) {
-    // if (this.selector.value == "UNO") {
-    //   alert("Generating code for Arduino Uno");
-    //   var code = Blockly.Arduino.workspaceToCode(Code.workspace);
-
-    //   return;
-    // }
     let code;
-    if (code_ == undefined) {
-      // Generate code from workspace and wrap with infinite loop
+    if (code_ == undefined) { // No code provided, generate from workspace
       let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
-      code = Code.wrapWithInfiniteLoop(rawCode);
+      code = Code.wrapWithInfiniteLoop(rawCode); // Wrap in while True loop
     } else {
-      // Use provided code as-is
-      code = code_;
+      code = code_; // Use provided code directly
     }
 
     if (code) {
-      code+='\r\r';//Snek workaround
-
-      mux.bufferPush (`\x05${code}\x04`);
+      code+='\r\r'; // Snek workaround - extra line breaks for compatibility
+      mux.bufferPush (`\x05${code}\x04`); // \x05=raw REPL mode, \x04=soft reboot to execute
     }
   }
 
-  /**Send ``\x03\x03`` to stop running a program, see a `ASCII table
-  * <https://www.ascii-code.com/>`_ to know more.*/
   static stopPython () {
-    //Send Ctrl+C to stop program
-    mux.bufferPush ('\x03\x03');
+    mux.bufferPush ('\x03\x03'); // Ctrl+C twice - interrupt running code
   }
+
   static softReset () {
-    mux.bufferPush ('\x04');
+    mux.bufferPush ('\x04'); // Ctrl+D soft reboot - reset device
   }
 
-  /**(DEPRECATED)
-  * New async sleep function, callend with async await(), which allows UI updates
-  */
-  static asleep (milliseconds) {
-	  return new Promise(resolve => setTimeout(resolve, milliseconds));
-  }
-
-  /**(DEPRECATED)
-  * Delay Javascript code execution.
-  */
-  static sleep (milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-      currentDate = Date.now();
-    }
-    while (currentDate - date < milliseconds);
-  }
-
-  /**
-  * Add a file to the file editor
-  * @param {string} code - Code.
-  * @param {string} file_name - File name for the code.
-  */
   static updateSourceCode (code, file_name) {
     const reader = new FileReader();
-
-    // This fires after the blob has been read/loaded.
-    reader.addEventListener('loadend', (e) => {
+    reader.addEventListener('loadend', (e) => { // Fired when blob is fully loaded
       let text = e.srcElement.result;
-      Files.editor.getDoc().setValue(text);
-
-      UI ['workspace'].content_file_name.value = file_name;
+      Files.editor.getDoc().setValue(text); // Update CodeMirror editor content
+      UI ['workspace'].content_file_name.value = file_name; // Update filename display
     });
+    reader.readAsText(code); // Start async read of blob
+  }
 
-    // Start reading the blob as text.
-    reader.readAsText(code);
-  }
-  /**(DEPRECATED)
-  *Generate code from blocks, appends to the file editor.
-  */
-  static blocksToPython() {
-    let code = Blockly.Python.workspaceToCode(Code.workspace);
-    Files.editor.getDoc().setValue(code);
-  }
-  /**Decode data to fetch status code.
-  * @param {char} data - Response data.
-  * @returns {number} Status code
-  */
-  static decode_resp (data) {
-    if (data[0] == 'W'.charCodeAt(0) && data[1] == 'B'.charCodeAt(0)) {
-      let code = data[2] | (data[3] << 8);
-      return code;
-    } else
-      return -1;
-  }
-  /**Make a date with a unix time, if not passed, will make one.
-  * @param {number} [timestamp] - `Unix time <https://en.wikipedia.org/wiki/Unix_time>`_.
-  * @returns {string} Formatted time, e.g. 08:02:01.
-  */
   static unix2date (timestamp) {
     let date;
     if (timestamp == undefined)
-      date = new Date (+new Date);
+      date = new Date (+new Date); // Current time if no timestamp provided
     else
-      date = new Date(timestamp);
+      date = new Date(timestamp); // Convert Unix timestamp to Date object
     let hours = date.getHours();
-    let minutes = "0" + date.getMinutes();
-    let seconds = "0" + date.getSeconds();
-    return hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+    let minutes = "0" + date.getMinutes(); // Prepend 0 for padding
+    let seconds = "0" + date.getSeconds(); // Prepend 0 for padding
+    return hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2); // Zero-pad to 2 digits (e.g., 08:02:01)
   }
-  /**Checks the income data for useful chuncks, like ``$BIPES-DATA:`` for plotting*/
+
   static bipesVerify () {
-    let re = /\r\n\$(.*):(.*)\r\n/;
+    // Parse BIPES data format: $SENSOR_NAME:value1,value2
+    let re = /\r\n\$(.*):(.*)\r\n/; // Match $NAME:data1,data2 pattern (e.g., $SENSOR:25.5,100)
     let match_;
-    if (re.test(Files.received_string)) {
+    if (re.test(Files.received_string)) { // Check if pattern exists in received data
       match_ = Files.received_string.match(re);
-      if (match_.length == 3) {
-        let coordinates = match_ [2].split(',').map((item)=>item = parseFloat(item))
-        window.frames[3].modules.DataStorage.push(match_[1],coordinates)
+      if (match_.length == 3) { // match[0]=full, match[1]=name, match[2]=data
+        let coordinates = match_ [2].split(',').map((item)=>item = parseFloat(item)) // Convert "25.5,100" to [25.5, 100]
+        window.frames[3].modules.DataStorage.push(match_[1],coordinates) // Push to plot iframe
+      }
+    }
+    Files.received_string = Files.received_string.replace(re, '\r\n') // Remove matched pattern from buffer
+  }
 
-
-        /*STARTDEPRECATED*/
-        //Compatibilty layer with the old BIPES-DATA:INDEX,DATA
-        if (match_[1] == "BIPES-DATA") {
-          coordinates [0] = parseInt(coordinates [0])
-          coordinates [1] = parseFloat(coordinates [1])
-          let q = new Queue(coordinates [0]);
-          q.enqueue(coordinates[1]);
-          // EasyMQTT Bridge removed (IoT feature)
-        }
-        /*ENDDEPRECATED*/
-      }
-    }
-    Files.received_string = Files.received_string.replace(re, '\r\n') //purge received string out
-  }
-  /**Bridge incoming data to MQTT - REMOVED (IoT feature not available)
-  * @param {number} id_ - ID for the MQTT message.
-  * @param {number} value_ - Value for the MQTT message.
-  */
-  static EasyMQTTBridge (id_, value_) {
-    // IoT feature removed - MQTT bridge not available in this version
-    console.log('EasyMQTT Bridge não disponível nesta versão.');
-  }
-  /**Clear 'core/queue.js queue*/
-  static clearQueue () {
-    for (var i=0; i<20; i++) {
-      var t = localStorage.getItem("queue" + i);
-      if (t) {
-        window.localStorage.removeItem('queue' + i);
-        UI ['notify'].log(`Cleaned queue ${i}`);
-      }
-    }
-  }
-  /**Get code for a  MicroPython library, must be available at `ui/pylibs`.
-  * @param {string} pName - File name for a MicroPython library.
-  */
-  static getText (pName) {
-    var request = new XMLHttpRequest();
-        request.open('GET', '/beta2/ui/pylibs/' + pName, true);
-        request.send(null);
-        request.onreadystatechange = function () {
-        if (request.readyState === 4 && request.status === 200) {
-          var type = request.getResponseHeader('Content-Type');
-          if (typeof request.response == 'string') {
-            var Textarea = document.getElementById('content_file_code');
-            Files.editor.getDoc().setValue(request.responseText);
-            Files.file_save_as.className = 'py';
-            var TextareaF = document.getElementById('content_file_name');
-            TextareaF.value = pName;
-        }
-      }
-    }
-  }
-  /**Makes a name for a Blockly project.
-  * @param {string} code - Blockly generated code.
-  * @param {string} ext - File extension.
-  */
   static makeAName (code, ext) {
-    let desc = code.match(/#Description: '(.*)'/)
-    let imp = [...code.matchAll(/import (.*)/g)]
+    let desc = code.match(/#Description: '(.*)'/) // Extract description from Python comment
+    let imp = [...code.matchAll(/import (.*)/g)] // Find all import statements
 
-    if (ext == '') {
+    if (ext == '') { // No extension, just return project name
       return desc ? `${desc [1].slice()}${ext}` : 'My BIPES Project';
     } else {
-      if (desc == null) {
+      if (desc == null) { // No description found, use default
         desc = [];
         desc [1] = 'code';
       }
-      desc [1] = desc [1].toLowerCase()
-      return desc ? `${desc [1].replaceAll(' ', '_').replaceAll('.', '').slice().substring(0,30)}.bipes.${ext}` : imp.length ? `my_${imp.slice(-1)[0][1]}_project.bipes.${ext}` : `my_project.bipes.${ext}`;
+      desc [1] = desc [1].toLowerCase() // Normalize to lowercase
+      return desc ? `${desc [1].replaceAll(' ', '_').replaceAll('.', '').slice().substring(0,30)}.bipes.${ext}` : imp.length ? `my_${imp.slice(-1)[0][1]}_project.bipes.${ext}` : `my_project.bipes.${ext}`; // Sanitize: spaces→_, remove dots, limit 30 chars
     }
   }
-  /**Converts RGB to HEX
-  * @param {number} r - Red color, from 0 to 255.
-  * @param {number} g - Green color, from 0 to 255.
-  * @param {number} b - Blue color, from 0 to 255.
-  * @returns {string} HEX code for the RGB color.
-  */
-  static RGB2HEX(r, g, b) {
-    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
-  }
-  /**Converts HEX to RGB
-  * @param {string} hex - HEX code
-  * @returns {(Object|null)} RGB code for the RGB color.
-  */
-  static HEX2RGB(hex) {
-    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-      return r + r + g + g + b + b;
-    });
 
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
-    } : null;
-  }
-  /**Converts HUE to HEX
-  * @param {number} h - Hue, from 0 to 360.
-  * @param {number} s - Saturation, from 0 to 100.
-  * @param {number} l - Lightness, from 0 to 100.
-  * @returns {string} HEX code for the HUE color.
-  */
-  static HUE2HEX (h,s,l) {
-    l /= 100;
-    const a = s * Math.min(l, 1 - l) / 100;
-    const f = n => {
-      const k = (n + h / 30) % 12;
-      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-      return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
-    };
-    return `#${f(0)}${f(8)}${f(4)}`;
-  }
-
-  /**
-   * throw a notification is the criteria is met.
-   * @param {object} self - A object that contains a ``warning_`` array to keep track if the notification was already thrown.
-   * @param {array} criteria - A array composed by subarrays.
-   * @param {function} criteria.func - Function with the criteria.
-   * @param {string} criteria.str - Message to show as notification if the criteira is met.
-   */
-  static warningIfTrue (self, criteria) {
-    // Don't check state if:
-    //   * It's at the start of a drag.
-    //   * It's not a move event.
-    if (!self.workspace.isDragging || self.workspace.isDragging())
-      return
-
-    let warnings = [];
-    criteria.forEach ((item, index) => {
-      if (item [0] ())
-        warnings.push(item [1])
-    })
-    self.setWarningText(warnings.length > 0 ? warnings.join("\n") : null)
-  }
-
-  /** Return a random UID*/
   static uid () {
+    // Generate unique ID: timestamp in base36 + random string in base36
     return (+new Date).toString(36) + Math.random().toString(36).substr(2);
   }
-  /** Return a empty XML with only project description set, used for new projects*/
+
   static emptyXML () {
-    let account_user = localStorage ['account_user'];
-    return `<xml xmlns="https://bipes.net.br"><workspace><databoard><![CDATA[{"currentWorkspace":"kvflqzky5js84d7x5pe","workspace:kvflqzky5js84d7x5pe":[]}]]></databoard></workspace><block type="project_metadata" id="" x="-212" y="-612"><value name="project_author"><shadow type="text" id=""><field name="TEXT">${account_user}</field></shadow></value><value name="project_iot_id"><shadow type="math_number" id=""><field name="NUM">0</field></shadow></value><value name="project_description"><shadow type="text" id=""><field name="TEXT">My project</field></shadow></value></block></xml>`
+    let account_user = localStorage ['account_user']; // Get username from localStorage
+    return `<xml xmlns="https://bipes.net.br"><workspace><databoard><![CDATA[{"currentWorkspace":"kvflqzky5js84d7x5pe","workspace:kvflqzky5js84d7x5pe":[]}]]></databoard></workspace><block type="project_metadata" id="" x="-212" y="-612"><value name="project_author"><shadow type="text" id=""><field name="TEXT">${account_user}</field></shadow></value><value name="project_iot_id"><shadow type="math_number" id=""><field name="NUM">0</field></shadow></value><value name="project_description"><shadow type="text" id=""><field name="TEXT">My project</field></shadow></value></block></xml>` // XML template with project_metadata block
   }
-
-  static exportScreenshot() {
-	  Blockly.downloadScreenshot(Code.workspace);
-  }
-
-
 }
-/**
- * Handle the Files tab.
- */
+
+// Files class - Manages file operations, editor, and device communication
 class files {
   constructor (fileList) {
-    this.watcher;
-    this.watcher_calledCount = 0;
-    this.put_file_name = null;
-    this.put_file_data = null;
-    this.get_file_name = null;
-    this.get_file_data = null;
-    this.binary_state = 0;
-    this.received_string = "";
-    this.viewOnly = false;
-    /**Object that contains a ``codemirror`` editor*/
+    this.watcher; // Interval timer for file operations
+    this.watcher_calledCount = 0; // Timeout counter
+    this.put_file_name = null; // Upload filename
+    this.put_file_data = null; // Upload file data
+    this.get_file_name = null; // Download filename
+    this.get_file_data = null; // Download file data
+    this.binary_state = 0; // Protocol state machine
+    this.received_string = ""; // Buffer for incoming data
+    this.viewOnly = false; // Flag for view-only mode
+    // Initialize CodeMirror editor with Python mode and line numbers
     this.editor = CodeMirror.fromTextArea(content_file_code, {
       mode: "python",
       lineNumbers: true
     });
-    this.fileList = get('#fileList');
-    this.file_save_as = get('#file_save_as');
+    this.fileList = get('#fileList'); // File list container
+    this.file_save_as = get('#file_save_as'); // Save as input
     this.blocks2Code = {Python: get('#blocks2codePython'), XML: get('#blocks2codeXML')}
     this.blocks2Code.Python.onclick = () => {this.internalPython ()};
     this.blocks2Code.XML.onclick = () => {this.internalXML ()};
   }
-  /**
-   * Display text inside DOM `#file-status` as a operation progress
-   * @param {string} s - The notification to be shown.
-   */
+
   static update_file_status (s) {
-    UI ['workspace'].file_status.innerHTML = s;
+    UI ['workspace'].file_status.innerHTML = s; // Update status display
   }
-  /**
-   * Resize the ``codemirror`` editor, triggered by ``window.onresize`` event.
-   */
+
   resize () {
     if (!Code.current.includes('files'))
       return
-    if (Code.current[0] == 'files')
-      this.editor.setSize(window.innerWidth - (18*$em),window.innerHeight - (6*$em))
-    else
-      this.editor.setSize((window.innerWidth/2) - (18*$em),window.innerHeight - (6*$em))
+    if (Code.current[0] == 'files') // Full width mode
+      this.editor.setSize(window.innerWidth - (18*$em),window.innerHeight - (6*$em)) // 18em for sidebar, 6em for header
+    else // Split view mode
+      this.editor.setSize((window.innerWidth/2) - (18*$em),window.innerHeight - (6*$em)) // Half width for split
   }
-  /**
-   * Upload file to device.
-   */
+
   put_file () {
     switch (Channel ['mux'].currentChannel) {
       case 'webserial':
         var dest_fsize = this.put_file_data.length;
-
         files.update_file_status(`Sending raw (USB) ${this.put_file_name}...`);
 
-        let decoderUint8 =  new TextDecoder().decode(this.put_file_data).replaceAll(/(\r\n|\r|\n)/g, '\\r').replaceAll(/'/g, "\\'").replaceAll(/"/g, '\\"').replaceAll(/\t/g, '    ');
-        UI ['progress'].start(parseInt(decoderUint8.length/Channel ['webserial'].packetSize) + 1);
+        let decoderUint8 =  new TextDecoder().decode(this.put_file_data).replaceAll(/(\r\n|\r|\n)/g, '\\r').replaceAll(/'/g, "\\'").replaceAll(/"/g, '\\"').replaceAll(/\t/g, '    '); // Escape for Python string: newlines→\r, quotes→\', "→\", tabs→4 spaces
+        UI ['progress'].start(parseInt(decoderUint8.length/Channel ['webserial'].packetSize) + 1); // Calculate chunks based on packet size
 
-        //ctrl-C twice: interrupt any running program
         mux.clearBuffer ();
-        mux.bufferUnshift ('\r\x03\x03');
-
+        mux.bufferUnshift ('\r\x03\x03'); // Ctrl+C twice to interrupt
         mux.bufferPush ("import struct\r");
-
- 
-
-        mux.bufferPush (`f=open('${this.put_file_name}', 'w')\r`);
-
+        mux.bufferPush (`f=open('${this.put_file_name}', 'w')\r`); // Open file for writing on device
         mux.bufferPush (`f.write('${decoderUint8}')\r`, () => {files.update_file_status(`Sent ${Files.put_file_data.length} bytes`)});
-
-        mux.bufferPush ("f.close()\r");
-        mux.bufferPush ('\r\r\r');
+        mux.bufferPush ("f.close()\r"); // Close file handle
+        mux.bufferPush ('\r\r\r'); // Triple newline to ensure execution
         files.update_file_status(`File ${this.put_file_name} sent.`);
       break;
     }
   }
-  /**
-   * Get version.
-   */
-  get_ver () {
-    // WEBREPL_REQ_S = "<2sBBQLH64s"
-    var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64);
-    rec[0] = 'W'.charCodeAt(0);
-    rec[1] = 'A'.charCodeAt(0);
-    rec[2] = 3; // GET_VER
-    // rest of "rec" is zero
 
-    // initiate GET_VER
-    this.binary_state = 31;
+  get_ver () {
+    var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64); // WEBREPL_REQ_S = "<2sBBQLH64s" struct format
+    rec[0] = 'W'.charCodeAt(0); // Magic byte 1: 'W'
+    rec[1] = 'A'.charCodeAt(0); // Magic byte 2: 'A'
+    rec[2] = 3; // GET_VER opcode
+    this.binary_state = 31; // Set state for binary response handler
     mux.bufferPush(rec);
   }
-  /**
-   * Get file from DOM `#putFileButton` and calls :js:func:`Files.put_file` to upload
-   */
-  handle_put_file_select() {
 
-    // The event holds a FileList object which is a list of File objects,
-    // but we only support single file selection at the moment.
+  handle_put_file_select() {
     let file_ = UI ['workspace'].put_file_select.files;
-    // Get the file info and load its data.
-    let f = file_[0];
+    let f = file_[0]; // Get first selected file
     this.put_file_name = f.name;
     var reader = new FileReader();
     reader.onload = (e) => {
-        this.put_file_data = new Uint8Array(e.target.result);
-        this.put_file ();
+        this.put_file_data = new Uint8Array(e.target.result); // Convert to byte array
+        this.put_file (); // Upload to device
     };
-    reader.readAsArrayBuffer(f);
+    reader.readAsArrayBuffer(f); // Start async read as binary
   }
-  /**
-   * Get file from ``codemirror``editor and calls :js:func:`Files.put_file` to upload.
-   */
+
   files_save_as () {
+    var codeStr = Files.editor.getDoc().getValue("\n"); // Get CodeMirror content
 
-    //For codemirror
-    var codeStr = Files.editor.getDoc().getValue("\n");
-
-    var bufCode = new Uint8Array(codeStr.length);
+    var bufCode = new Uint8Array(codeStr.length); // Allocate byte array
     for (var i=0, strLen=codeStr.length; i < strLen; i++) {
-    bufCode[i] = codeStr.charCodeAt(i);
+    bufCode[i] = codeStr.charCodeAt(i); // Convert each char to byte
     }
 
-    this.put_file_name = UI ['workspace'].file.value;
-    this.put_file_data = bufCode;
+    this.put_file_name = UI ['workspace'].file.value; // Get filename from input
+    this.put_file_data = bufCode; // Set byte data
 
-    this.put_file ();
+    this.put_file (); // Upload to device
   }
-  /**
-   * List files from device, on success, calls :js:func:`files.updateTable` to display it.
-   */
+
   listFiles () {
-    mux.bufferPush ('import os; os.listdir(\'.\')\r', files.updateTable.bind(this)); //Using ; to trigger only one ">>>"
+    mux.bufferPush ('import os; os.listdir(\'.\')\r', files.updateTable.bind(this)); // ; triggers single >>>
   }
-   /**
-   * Execute a program.
-   * @param {string} file - File name of the script to be executed.
-   */
+
   run (file) {
     files.update_file_status('Executing  ' + file);
-
-    //import only works once
-    //In case module already loaded, unloaded it
-    //to allow it to work all the time
-    //fileS = file.split('.')[0];
-    //mux.bufferPush('import sys \r');
-    //mux.bufferPush('sys.modules.pop(\'' + fileS + '\')\r');
-    //mux.bufferPush('import ' + fileS + '\r');
-    //Filename without .py
     mux.bufferPush (`exec(open(\'./${file}\').read(),globals())\r`);
   }
-  /**
-   * Delete a file.
-   * @param {string} file - File name of the file to be deleted.
-   */
+
   delete (file) {
     let msg = "Are you sure you want to delete " + file + "?";
 
@@ -564,45 +204,32 @@ class files {
       files.update_file_status('Delete aborted for ' + file);
     }
   }
-  /**
-   * Request a file to show in the ``codemirror`` editor.
-   * @param {string} file - File name of the file to be viewed.
-   */
+
   files_view (file) {
     this.viewOnly=true;
     this.get_file(file);
     files.update_file_status('Downloading ' + file);
   }
-  /**
-   * Request a file to download.
-   * @param {string} file - File name of the file to be downloaded.
-   */
+
   files_download (file) {
     this.viewOnly=false;
     this.get_file(file);
   }
-  /**
-   * Get file from device
-   * @param {string} src_fname - File name of the file to be fetched.
-   */
+
   get_file (src_fname) {
     this.file_save_as.className = 'py';
     switch (Channel ['mux'].currentChannel) {
       case 'webserial':
-        // initiate get
         this.binary_state = 91;
         files.update_file_status(`Getting ${src_fname}...`);
 
-        //ctrl-C twice: interrupt any running program
         mux.clearBuffer ();
-        mux.bufferUnshift ('\r\x03\x03');
-
+        mux.bufferUnshift ('\r\x03\x03'); // Ctrl+C twice
         this.get_file_name = src_fname;
         this.received_string = "";
         this.watcher_calledCount = 0;
         mux.bufferPush (`import os, sys; os.stat('${src_fname}')\r`);
-        //mux.bufferPush (`import uos, sys; uos.stat('${src_fname}')\r`);
-        mux.bufferPush (`with open('${src_fname}', 'rb') as infile:\rwhile True:\rresult = infile.read(32)\rif result == b'':\rbreak\r\blen = sys.stdout.write(result)\r`, () => {}); //Includes dummy callback due to '>>> '
+        mux.bufferPush (`with open('${src_fname}', 'rb') as infile:\rwhile True:\rresult = infile.read(32)\rif result == b'':\rbreak\r\blen = sys.stdout.write(result)\r`, () => {}); // Dummy callback for >>>
         mux.bufferPush ("\r\r\r", () => {
           this.watcher = setInterval ( () => {
             if (Files.get_file_webserial_ ()) {
@@ -610,20 +237,18 @@ class files {
               clearInterval (Files.watcher);
             } else {
               Files.watcher_calledCount += 1;
-              if (Files.watcher_calledCount >= 10) {
+              if (Files.watcher_calledCount >= 10) { // 2.5s timeout
                 UI ['notify'].send(MSG['ErrorGET']);
                 clearInterval (Files.watcher);
                 Files.watcher = undefined;
               }
             }
-          }, 250);
+          }, 250); // Poll every 250ms
         });
       break;
     }
   }
-  /**
-   * Subfuction to get file from device with webserial.
-   */
+
   get_file_webserial_ () {
       let re = /sys\.stdout\.write\(result\)\r\n...         \r\n...         \r\n... \r\n(.*)>>> /s;
       let get_file_data_;
@@ -644,9 +269,7 @@ class files {
         return false;
       }
   }
-  /**
-   * Display fetched from device file list in DOM `#fileList`.
-   */
+
   static updateTable () {
     let re = /\[(.+)?\]/g;
     if (re.test(this.received_string)) {
@@ -656,14 +279,12 @@ class files {
       let files_ = eval("[" + split_ + "]");
 
       UI ['notify'].send("File list updated at " + Tool.unix2date() + ".");
-
-
       this.fileList.innerHTML = '';
 
       files_.forEach (file => {
         let wrapper2_ = new DOM ('div');
         let openButton_ = new DOM ('div', {innerText:file, className: 'runText'});
-        if (!(/\./.test(file))) {
+        if (!(/\./.test(file))) { // Directory
           openButton_.flag('is directory');
           wrapper2_.append(openButton_)
           wrapper2_._dom.style.cursor = 'default';
@@ -687,12 +308,10 @@ class files {
         this.fileList.appendChild(wrapper2_._dom)
       })
 
-      Files.received_string = Files.received_string.replace(re, '\r\n') //purge received string out
+      Files.received_string = Files.received_string.replace(re, '\r\n')
     }
   }
-  /**
-   * Push edited XML to the workspace.
-   */
+
   editedXML2Workspace () {
     var result = window.confirm('Changes will be applied directly to the workspace and might break everything, continue?');
     if (result === true) {
@@ -715,24 +334,18 @@ class files {
       }
     }
   }
-  /**
-   * "Open" MicroPython code generated from Blockly in the ``codemirror``editor.
-   */
+
   internalPython () {
     this.file_save_as.className = 'bipes-py';
     let code = Code.generateCode();
     Tool.updateSourceCode(new Blob([code], {type: "text/plain"}), Tool.makeAName(code, 'py'));
   }
-  /**
-   * "Open" XML code generated from Blockly and BIPES in the ``codemirror``editor.
-   */
+
   internalXML () {
     this.file_save_as.className = 'bipes-xml';
     Tool.updateSourceCode(new Blob([Code.generateXML()], {type: "text/plain"}), 'workspace.bipes.xml');
   }
-  /**
-   * Update the displayed name and automatic opened code when switching tabs or projects.
-   */
+
   handleCurrentProject () {
     this.blocks2Code.Python.innerHTML = Tool.makeAName(Code.generateCode(), 'py') + '<span>automatic</span>'
     if (this.file_save_as.className == 'bipes-py')
@@ -741,7 +354,8 @@ class files {
       this.internalXML ();
   }
 }
-/** Make DOM Node element*/
+
+// DOM helper class for dynamic element creation
 class DOM {
   constructor (dom, tags){
     this._dom ;
@@ -753,6 +367,7 @@ class DOM {
       case 'div':
         this._dom = document.createElement (dom);
         if (typeof tags == 'object') for (const tag in tags) {
+          // Apply standard HTML attributes
           if (['innerText', 'className', 'id', 'title', 'innerText'].includes(tag))
             this._dom [tag] = tags [tag]
         }
@@ -760,6 +375,7 @@ class DOM {
 	  case 'video':
         this._dom = document.createElement (dom);
         if (typeof tags == 'object') for (const tag in tags) {
+          // Apply video-specific attributes
           if (['preload', 'controls', 'autoplay'].includes(tag))
             this._dom [tag] = tags [tag]
         }
@@ -767,49 +383,39 @@ class DOM {
     }
 	  return this;
   }
-  /**
-  * Append a ``onclick`` event.
-  * @param {Object[]} self - Object to bind to the call.
-  * @param {function} ev - Function to call on click.
-  * @param {Object[]} args - Arguments to pass to the function.
-  */
+
   onclick (self, ev, args){
+    // Bind click handler with context preservation
     this._dom.onclick = () => {
 			if (typeof args == 'undefined')
 				ev.bind(self)()
 			else if (args.constructor == Array)
-				ev.apply(self, args)
+				ev.apply(self, args) // Apply with arguments array
 		};
 	  return this
   }
-  /**
-  * Appends others :js:func:`DOM`.
-  * @param {Object[]} DOMS - Array of :js:func:`DOM` or/and direct DOM Nodes.
-  */
+
   append (DOMS){
 	  if (DOMS.constructor != Array)
 	    DOMS = [DOMS]
 
 	    DOMS.forEach ((item) => {
+	      // Handle both raw DOM elements and DOM wrapper objects
 	      if (/HTML(.*)Element/.test(item.constructor.name))
 		      this._dom.appendChild(item)
 	      else if (item.constructor.name == 'DOM' && (/HTML(.*)Element/.test(item._dom)))
 		      this._dom.appendChild(item._dom)
 	    })
-
 	    return this
   }
-  /**
-  * Adds a label to the :js:func:`DOM`.
-  * @param {string} str - Message inside the label.
-  */
+
   flag (str) {
+    // Add visual flag/label to element
     this._dom.innerHTML = `${this._dom.innerHTML} <span>${str}</span>`;
   }
 }
 
-
-/** Enables basic css3 animations in the DOM Node element*/
+// Animation utilities for UI transitions
 class Animate {
   constructor (){}
   static off (dom, callback){
@@ -817,44 +423,46 @@ class Animate {
     setTimeout(()=>{
       dom.classList.remove('ani', 'on')
       if (callback != undefined)
-        callback ()
-      }, 250)
+        callback () // Execute after 250ms fade out
+      }, 250) // 250ms fade duration
   }
   static on (dom){
     dom.classList.add('ani')
-    setTimeout(()=>{dom.classList.add('ani', 'on')}, 250)
+    setTimeout(()=>{dom.classList.add('ani', 'on')}, 250) // 250ms fade in
   }
 }
 
-/** Handle ``xterm.js`` terminal*/
+// Terminal management class for serial communication
 class term {
   constructor () {
   }
   static init (dom) {
     terminal.open(get(dom));
     terminal.setOption('fontSize',12);
+    // Configure terminal color scheme
     terminal.setOption('theme', {
-      foreground: '#00FFFF',  // Ciano brilhante para texto padrão (output do código)
-      background: '#000000',  // Fundo preto
-      cursor: '#00FFFF',      // Cursor ciano brilhante
+      foreground: '#00FFFF',
+      background: '#000000',
+      cursor: '#00FFFF',
       black: '#2e3436',
       red: '#cc0000',
-      green: '#00FF00',       // Verde brilhante para mensagens de sistema
+      green: '#00FF00',
       yellow: '#c4a000',
       blue: '#3465a4',
       magenta: '#75507b',
-      cyan: '#00FFFF',        // Ciano bem forte e brilhante
-      white: '#FFFFFF',       // Branco puro
+      cyan: '#00FFFF',
+      white: '#FFFFFF',
       brightBlack: '#555753',
       brightRed: '#ef2929',
       brightGreen: '#8ae234',
       brightYellow: '#fce94f',
       brightBlue: '#729fcf',
       brightMagenta: '#ad7fa8',
-      brightCyan: '#00FFFF',  // Ciano bem forte e brilhante
+      brightCyan: '#00FFFF',
       brightWhite: '#FFFFFF'
     });
     this.resize();
+    // Route terminal input to current channel
     terminal.onData((data) => {
       switch (Channel ['mux'].currentChannel) {
         case 'webserial':
@@ -863,34 +471,33 @@ class term {
       }
     });
   }
-  /** Enable the terminal. */
+
   static on () {
-    terminal.setOption('disableStdin', false);
-    terminal.focus();
+    terminal.setOption('disableStdin', false); // Enable input
+    terminal.focus(); // Set focus to terminal
   }
-  /** Disable the terminal. */
+
   static off () {
-    terminal.setOption('disableStdin', true);
-    terminal.blur();
+    terminal.setOption('disableStdin', true); // Disable input
+    terminal.blur(); // Remove focus from terminal
   }
-  /** Write data in the terminal. */
+
   static write (data) {
-    terminal.write(data);
+    terminal.write(data); // Write data to terminal
   }
-  /**
-   * Resize the ``xterm.js`` terminal, triggered by ``window.onresize`` event.
-   */
+
   static resize () {
     if(!Code.current.includes('console'))
       return
 
+    // Calculate terminal dimensions based on window size
     let cols
     if (Code.current[0] == 'console')
-      cols = Math.max(50, Math.min(200, (window.innerWidth - 4*$em) / 7)) | 0
+      cols = Math.max(50, Math.min(200, (window.innerWidth - 4*$em) / 7)) | 0 // 7px per char
     else
-      cols = Math.max(50, Math.min(200, ((window.innerWidth)/2 - 4*$em) / 7)) | 0
+      cols = Math.max(50, Math.min(200, ((window.innerWidth)/2 - 4*$em) / 7)) | 0 // Half width for split view
 
-    let rows = Math.max(15, Math.min(40, (window.innerHeight - 20*$em) / 12)) | 0
+    let rows = Math.max(15, Math.min(40, (window.innerHeight - 20*$em) / 12)) | 0 // 12px per row
 
     terminal.resize(cols, rows);
   }
