@@ -130,7 +130,6 @@ class files {
   put_file () {
     switch (Channel ['mux'].currentChannel) {
       case 'webserial':
-        var dest_fsize = this.put_file_data.length;
         files.update_file_status(`Sending raw (USB) ${this.put_file_name}...`);
 
         let decoderUint8 =  new TextDecoder().decode(this.put_file_data).replaceAll(/(\r\n|\r|\n)/g, '\\r').replaceAll(/'/g, "\\'").replaceAll(/"/g, '\\"').replaceAll(/\t/g, '    '); // Escape for Python string: newlines→\r, quotes→\', "→\", tabs→4 spaces

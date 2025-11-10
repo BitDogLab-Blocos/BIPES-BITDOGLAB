@@ -1,72 +1,57 @@
 
 'use strict';
 
-/**
- * WebSerial protocol implementation
- * Handles communication with MicroPython devices via Web Serial API
- */
 class WebSerialProtocol {
-  /**
-   * Initialize the WebSerial protocol handler
-   */
   constructor() {
-    this.port = undefined;
-    this.watcher = undefined;
-    this.buffer = [];
-    this.connected = false;
-    this.completeBufferCallback = [];
-    this.lastChars = '';
-    this.encoder = new TextEncoder();
-    this.appendStream = undefined;
-    this.shouldListen = true;
-    this.packetSize = SERIAL_CONFIG.PACKET_SIZE;
-    this.speed = SERIAL_CONFIG.BAUD_RATE;
-    this.terminalBuffer = ''; // Buffer para acumular chunks antes de processar cores
+    this.port = undefined; // Serial port instance
+    this.watcher = undefined; // Polling interval
+    this.buffer = []; // Command queue
+    this.connected = false; // Connection status
+    this.completeBufferCallback = []; // Execution callbacks
+    this.lastChars = ''; // REPL prompt detection
+    this.encoder = new TextEncoder(); // Text to bytes converter
+    this.appendStream = undefined; // Write stream handler
+    this.shouldListen = true; // Data processing flag
+    this.packetSize = SERIAL_CONFIG.PACKET_SIZE; // Data chunk size
+    this.speed = SERIAL_CONFIG.BAUD_RATE; // Serial baud rate
+    this.terminalBuffer = ''; // Line processing buffer
   }
 
-  /**
-   * Poll serial buffer every WATCH_INTERVAL_MS to send queued code
-   * @private
-   */
   _pollSerialBuffer() {
-    if (this.port && this.port.writable && this.port.writable.locked === false) {
-      if (this.buffer.length > 0) {
+    if (this.port?.writable && !this.port.writable.locked) { // Check port availability
+      if (this.buffer.length > 0) { // Commands pending
         UI['progress'].remain(this.buffer.length);
         try {
-          this._serialWrite(this.buffer[0]);
+          this._serialWrite(this.buffer[0]); // Send next command
         } catch (error) {
           this._handleSerialError(error);
         }
       } else {
-        UI['progress'].end();
+        UI['progress'].end(); // All commands sent
       }
     }
   }
 
-  /**
-   * Connect to device using WebSerial protocol
-   * Requests user permission for serial port access
-   */
   connect() {
-    if (typeof navigator.serial === 'undefined') {
+    if (typeof navigator.serial === 'undefined') { // WebSerial not supported
       const errorMsg = MSG['notAvailableFlag'].replaceAll('$1', 'WebSerial API');
       UI['notify'].send(errorMsg);
       term.write(errorMsg);
       return;
     }
 
-    navigator.serial.requestPort().then((port) => {
+    navigator.serial.requestPort().then((port) => { // Request device selection
       UI['workspace'].connecting();
       this.port = port;
 
-      this.port.open({ baudRate: this.speed }).then(() => {
+      this.port.open({ baudRate: this.speed }).then(() => { // Open serial connection
         const appendStream = new WritableStream({
           write(chunk) {
             if (Channel['webserial'].shouldListen) {
               if (typeof chunk === 'string') {
                 Tool.bipesVerify();
 
-                // Keep last characters to check for MicroPython REPL prompt
+                // Check for MicroPython REPL prompt
                 Channel['webserial'].lastChars = Channel['webserial'].lastChars
                   .concat(chunk.substr(-REPL_CONSTANTS.PROMPT_LENGTH, REPL_CONSTANTS.PROMPT_LENGTH))
                   .substr(-REPL_CONSTANTS.PROMPT_LENGTH, REPL_CONSTANTS.PROMPT_LENGTH);
@@ -91,25 +76,25 @@ class WebSerialProtocol {
                 Files.received_string = Files.received_string.concat(chunk);
               }
 
-              // Acumula chunks no buffer
+              // Accumulate chunks in buffer
               Channel['webserial'].terminalBuffer += chunk;
 
-              // Processa linhas completas quando encontrar quebra de linha
+              // Process complete lines on line break
               let lines = Channel['webserial'].terminalBuffer.split(/(\r\n|\r|\n)/);
 
-              // Se não terminou em quebra de linha, guarda o último pedaço no buffer
+              // Keep last incomplete line in buffer
               if (!Channel['webserial'].terminalBuffer.match(/(\r\n|\r|\n)$/)) {
                 Channel['webserial'].terminalBuffer = lines.pop();
               } else {
                 Channel['webserial'].terminalBuffer = '';
               }
 
-              // Processa cada linha completa
+              // Process each complete line
               lines.forEach((line) => {
                 if (line === '\r' || line === '\n' || line === '\r\n') {
-                  term.write(line); // Mantém quebras de linha
+                  term.write(line); // Keep line breaks
                 } else if (line.length > 0) {
-                  // Verifica se é mensagem do sistema (branco) ou output de código (ciano)
+                  // Check if system message (white) or code output (cyan)
                   const isSystemMessage =
                     (line.includes('MicroPython') ||
                     line.includes('Type "help()"') ||
@@ -128,14 +113,14 @@ class WebSerialProtocol {
                     line.includes('  File') ||
                     line.includes('last):') ||
                     line.includes('paste mode')) &&
-                    !line.startsWith('==='); // Linhas com === são código, não sistema
+                    !line.startsWith('==='); // Lines with === are code, not system
 
                   if (isSystemMessage) {
-                    term.write('\x1b[37m' + line + '\x1b[0m'); // Branco
-                  } else if (!line.includes('\x1b[')) { // Se não tem código de cor já
-                    term.write(line); // Usa cor padrão (ciano)
+                    term.write('\x1b[37m' + line + '\x1b[0m'); // White
+                  } else if (!line.includes('\x1b[')) { // If no color code already
+                    term.write(line); // Use default color (cyan)
                   } else {
-                    term.write(line); // Mantém cores existentes (verde das mensagens de conexão)
+                    term.write(line); // Keep existing colors (green from connection messages)
                   }
                 }
               });
@@ -144,14 +129,14 @@ class WebSerialProtocol {
         });
 
         this.port.readable
-          .pipeThrough(new TextDecoderStream())
-          .pipeTo(appendStream);
+          .pipeThrough(new TextDecoderStream()) // Convert bytes to text
+          .pipeTo(appendStream); // Route to stream handler
 
         this._updateUIForConnection();
         this._resetBoard();
 
       }).catch((error) => {
-        if (error.code === ERROR_CODES.PORT_ALREADY_OPEN) {
+        if (error.code === ERROR_CODES.PORT_ALREADY_OPEN) { // Handle existing connection
           this._updateUIForConnection();
           this._resetBoard();
           this.shouldListen = true;
@@ -160,41 +145,34 @@ class WebSerialProtocol {
       });
 
     }).catch((error) => {
-      this._handleSerialError(error);
+      this._handleSerialError(error); // Handle connection failure
     });
   }
 
-  /**
-   * Update UI elements when connection is established
-   * @private
-   */
   _updateUIForConnection() {
-    term.on();
+    term.on(); // Enable terminal input
     term.write('\x1b[32mConnected using Web Serial API!\x1b[m\r\n');
     this.connected = true;
 
     if (UI['workspace'].runButton.status === true) {
-      UI['workspace'].receiving();
+      UI['workspace'].receiving(); // Update UI state
     }
 
     this.watcher = setInterval(
       this._pollSerialBuffer.bind(this),
-      SERIAL_CONFIG.WATCH_INTERVAL_MS
+      SERIAL_CONFIG.WATCH_INTERVAL_MS // Start polling
     );
   }
 
-  /**
-   * Disconnect device
-   */
   disconnect() {
-    const writer = this.port.writable.getWriter();
+    const writer = this.port.writable.getWriter(); // Get write lock
 
     writer.close().then(() => {
       this.port.close().then(() => {
-        this.port = undefined;
+        this.port = undefined; // Clear port reference
       }).catch((error) => {
         this._handleSerialError(error);
-        writer.abort();
+        writer.abort(); // Force close on error
         this.port = undefined;
         this.shouldListen = false;
       });
@@ -203,68 +181,55 @@ class WebSerialProtocol {
         term.write('\x1b[32mDisconnected\x1b[m\r\n');
       }
 
-      this.buffer = [];
+      this.buffer = []; // Clear command queue
       this.lastChars = '';
-      this.terminalBuffer = ''; // Limpa o buffer do terminal
+      this.terminalBuffer = ''; // Clear terminal buffer
       this.connected = false;
-      clearInterval(this.watcher);
-      term.off();
+      clearInterval(this.watcher); // Stop polling
+      term.off(); // Disable terminal
       UI['workspace'].runAbort();
     });
   }
 
-  /**
-   * Reset board on connection if enabled in UI
-   * @private
-   */
   _resetBoard() {
     setTimeout(() => {
-      if (UI['workspace'].resetBoard.checked) {
+      if (UI['workspace'].resetBoard.checked) { // User wants reset
         term.write('\x1b[32mResetting the board...\x1b[m\r\n');
-        this._serialWrite(REPL_CONSTANTS.CTRL_D);
+        this._serialWrite(REPL_CONSTANTS.CTRL_D); // Soft reset
       } else {
-        this._serialWrite(REPL_CONSTANTS.CTRL_C);
+        this._serialWrite(REPL_CONSTANTS.CTRL_C); // Just interrupt
       }
     }, SERIAL_CONFIG.RESET_TIMEOUT_MS);
   }
 
-  /**
-   * Send data directly via serial port
-   * @param {Uint8Array|string|number} data - Data to be sent
-   * @private
-   */
+  serialWrite(data) {
+    this._serialWrite(data); // Public interface
+  }
+
   _serialWrite(data) {
     let dataArrayBuffer;
 
     switch (data.constructor.name) {
       case 'Uint8Array':
-        dataArrayBuffer = data;
+        dataArrayBuffer = data; // Already bytes
         break;
       case 'String':
       case 'Number':
-        dataArrayBuffer = this.encoder.encode(data);
+        dataArrayBuffer = this.encoder.encode(data); // Convert to bytes
         break;
     }
 
-    if (this.port && this.port.writable && dataArrayBuffer !== undefined) {
-      const writer = this.port.writable.getWriter();
+    if (this.port?.writable && !this.port.writable.locked && dataArrayBuffer !== undefined) {
+      const writer = this.port.writable.getWriter(); // Get exclusive access
       writer.write(dataArrayBuffer).then(() => {
-        writer.releaseLock();
-        this.buffer.shift();
+        writer.releaseLock(); // Release for next write
+        this.buffer.shift(); // Remove from queue
       });
     }
   }
 
-  /**
-   * Handle serial communication errors
-   * @param {Error} error - The error object
-   * @private
-   */
   _handleSerialError(error) {
     console.error('Serial communication error:', error);
-    UI['notify'].log(error);
+    UI['notify'].log(error); // Show user notification
   }
 }
-
-// Legacy class names for backward compatibility
-const webserial = WebSerialProtocol;
