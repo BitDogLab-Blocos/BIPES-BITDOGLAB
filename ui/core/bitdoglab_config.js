@@ -4,7 +4,6 @@
 'use strict';
 
 const BitdogLabConfig = {
-
   // GPIO pin assignments for BitdogLab board
   PINS: {
     LED_RED: 13,
@@ -14,14 +13,12 @@ const BitdogLabConfig = {
     BUTTON_A: 5,
     BUTTON_B: 6
   },
-
   // MicroPython variable identifiers for LEDs
   LED_VARS: {
     RED: 'led_vermelho',
     GREEN: 'led_verde',
     BLUE: 'led_azul'
   },
-
   // LED initialization code generator
   LED_INIT: {
     // Generate init code to turn off all used LEDs
@@ -33,12 +30,10 @@ const BitdogLabConfig = {
       if (!hasRed && !hasGreen && !hasBlue) { // No LEDs used
         return '';
       }
-
       let code = '\n# Inicializar LEDs (desligar todos)\n';
       if (hasRed) code += `${this.RED}.duty_u16(0)\n`; // PWM duty cycle = 0 (off)
       if (hasGreen) code += `${this.GREEN}.duty_u16(0)\n`;
       if (hasBlue) code += `${this.BLUE}.duty_u16(0)\n`;
-
       return code;
     },
 
@@ -46,11 +41,9 @@ const BitdogLabConfig = {
     GREEN: 'led_verde',
     BLUE: 'led_azul'
   },
-
   // Main loop configuration
   LOOP: {
     DELAY_MS: 50, // Courtesy delay to prevent CPU overload (50ms)
-
     // Generate sleep statement for loop
     getDelayCode: function() {
       return `  time.sleep_ms(${this.DELAY_MS})  # Pausa de cortesia\n`;
@@ -65,7 +58,6 @@ const BitdogLabConfig = {
     SOUND_END: '# SOUND_BLOCK_END', // Sound block end marker
     STATIC_CONFIG: 'CONFIGURACAO_FIXA' // Static LED configuration marker
   },
-
   // Pattern matching for setup/initialization detection
   SETUP_PATTERNS: {
     // Check if line is hardware setup (Pin/PWM/LED_MATRIX/neopixel init)
@@ -79,7 +71,6 @@ const BitdogLabConfig = {
     }
   }
 };
-
 // CommonJS export for Node.js compatibility
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = BitdogLabConfig;
