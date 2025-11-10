@@ -54,19 +54,18 @@ Code.loadBlocks = function(defaultXml) {
   // Wait for devices to load before loading blocks (poll every 500ms)
   var interval_ = setInterval(() => {
     if (typeof UI != 'undefined' && UI ['workspace'].devices.constructor.name == 'Object') { // Check if devices obj is ready
-      if ('BlocklyStorage' in window && window.location.hash.length > 1) { // Hash like #abc123
-        BlocklyStorage.restoreBlocks();
-        BlocklyStorage.retrieveXml(window.location.hash.substring(1)); // Remove '#' prefix
-      } else if (loadOnce) {
+      // BlocklyStorage removed - using storage.js for auto-save
+      if (loadOnce) {
         delete window.sessionStorage.loadOnceBlocks; // Clear language-switch temp storage
         var xml = Blockly.Xml.textToDom(loadOnce);
         Blockly.Xml.domToWorkspace(xml, Code.workspace);
       } else if (defaultXml) {
         var xml = Blockly.Xml.textToDom(defaultXml); // Load default blocks
         Blockly.Xml.domToWorkspace(xml, Code.workspace);
-      } else if ('BlocklyStorage' in window) {
-        window.setTimeout(() => {BlocklyStorage.restoreBlocks(); UI['account'].openLastEdited()}, 0); // Async to prevent blocking init
       }
+      // else if ('BlocklyStorage' in window) {
+      //   window.setTimeout(() => {BlocklyStorage.restoreBlocks(); UI['account'].openLastEdited()}, 0);
+      // }
       clearInterval(interval_);
     }}, 500);
 };
@@ -582,9 +581,10 @@ Code.init = function() {
 
   Code.loadBlocks('');
 
-  if ('BlocklyStorage' in window) {
-    BlocklyStorage.backupOnUnload(Code.workspace); // Auto-save on page unload
-  }
+  // BlocklyStorage removed - using storage.js for auto-save
+  // if ('BlocklyStorage' in window) {
+  //   BlocklyStorage.backupOnUnload(Code.workspace);
+  // }
 
   Code.handleLink(Code.current[0], 0);
 
@@ -592,17 +592,20 @@ Code.init = function() {
     function () {window.open("https://github.com/BIPES/BIPES/discussions",'_blank')}
   )
 
-  // Setup link button (requires BlocklyStorage)
+  // Link button disabled - BlocklyStorage removed
   var linkButton = document.getElementById('linkButton');
-  if ('BlocklyStorage' in window) {
-    BlocklyStorage['HTTPREQUEST_ERROR'] = MSG['httpRequestError'];
-    BlocklyStorage['LINK_ALERT'] = MSG['linkAlert'];
-    BlocklyStorage['HASH_ERROR'] = MSG['hashError'];
-    BlocklyStorage['XML_ERROR'] = MSG['xmlError'];
-    Code.bindClick(linkButton, function () {BlocklyStorage.link(Code.workspace);});
-  } else if (linkButton) {
+  if (linkButton) {
     linkButton.className = 'disabled';
   }
+  // if ('BlocklyStorage' in window) {
+  //   BlocklyStorage['HTTPREQUEST_ERROR'] = MSG['httpRequestError'];
+  //   BlocklyStorage['LINK_ALERT'] = MSG['linkAlert'];
+  //   BlocklyStorage['HASH_ERROR'] = MSG['hashError'];
+  //   BlocklyStorage['XML_ERROR'] = MSG['xmlError'];
+  //   Code.bindClick(linkButton, function () {BlocklyStorage.link(Code.workspace);});
+  // } else if (linkButton) {
+  //   linkButton.className = 'disabled';
+  // }
 
   // Bind tab click handlers (left=full/left split, right=right split)
   for (var i = 0; i < Code.TABS_.length; i++) {

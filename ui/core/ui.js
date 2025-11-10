@@ -53,7 +53,7 @@ function account (button_, panel_) {
   this.newProjectButton.onclick = () => {this.newProject ()};
 
   this.currentProject = {uid:'', xml:''};
-	this.projects = [];
+	this.projects = {}; // Object to store project UIDs and timestamps
 
 	if (localStorage ['account_user']) {
 	  this.dom_username.innerText = localStorage ['account_user'];
@@ -68,19 +68,29 @@ function account (button_, panel_) {
  */
 account.prototype.restoreProjects = function (projects_) {
   this.projects = projects_;
-  
+
   // Update UI with translated strings
   if (MSG['hello']) document.getElementById('hello_text').textContent = MSG['hello'];
   if (MSG['user']) document.getElementById('user_text').textContent = MSG['user'];
   if (MSG['projects']) document.getElementById('projects_header').textContent = MSG['projects'];
   if (MSG['settings']) document.getElementById('settings_header').textContent = MSG['settings'];
-  
+
+  var hasValidProjects = false;
   for (const prop in this.projects) {
     if (localStorage[prop]) {
-      this.listProject (prop, this.projects[prop])
+      this.listProject (prop, this.projects[prop]);
+      hasValidProjects = true;
     } else {
-      delete this.projects[prop]
+      delete this.projects[prop];
     }
+  }
+
+  // If we have projects but currentProject.uid is not set, set it to the first one
+  if (hasValidProjects && !this.currentProject.uid) {
+    var firstProjectUid = Object.keys(this.projects)[0];
+    this.currentProject.uid = firstProjectUid;
+    this.currentProject.xml = localStorage[firstProjectUid];
+    console.log('[Account] Initialized currentProject.uid to:', firstProjectUid);
   }
 }
 
@@ -88,8 +98,18 @@ account.prototype.restoreProjects = function (projects_) {
  * Open last edited project
  */
 account.prototype.openLastEdited = function () {
-  this.currentProject.uid  = Object.keys(this.projects).reduce((a, b) => (this.projects[a] > this.projects[b]) ? a : b);
+  var projectKeys = Object.keys(this.projects);
+
+  // Check if there are any projects
+  if (projectKeys.length === 0) {
+    console.warn('[Account] No projects to open');
+    return;
+  }
+
+  this.currentProject.uid = projectKeys.reduce((a, b) => (this.projects[a] > this.projects[b]) ? a : b);
   this.currentProject.xml = localStorage[this.currentProject.uid];
+
+  console.log('[Account] Opening project with UID:', this.currentProject.uid);
 
   getIn(this.projectList, `#${this.currentProject.uid}`).className = 'current';
 
