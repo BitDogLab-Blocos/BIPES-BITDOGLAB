@@ -14,7 +14,6 @@
       var xml = Blockly.Xml.workspaceToDom(workspace);
       var xmlText = Blockly.Xml.domToText(xml);
       localStorage.setItem(STORAGE_KEY, xmlText);
-      console.log('[SimpleStorage] Workspace saved');
     } catch (e) {
       console.error('[SimpleStorage] Save error:', e);
     }
@@ -24,10 +23,7 @@
   function loadWorkspace() {
     try {
       var xmlText = localStorage.getItem(STORAGE_KEY);
-      if (!xmlText) {
-        console.log('[SimpleStorage] No saved workspace found');
-        return;
-      }
+      if (!xmlText) return;
 
       var workspace = Blockly.getMainWorkspace();
       if (!workspace) return;
@@ -35,7 +31,6 @@
       workspace.clear();
       var xml = Blockly.Xml.textToDom(xmlText);
       Blockly.Xml.domToWorkspace(xml, workspace);
-      console.log('[SimpleStorage] Workspace loaded');
     } catch (e) {
       console.error('[SimpleStorage] Load error:', e);
     }
@@ -61,21 +56,16 @@
         saveTimeout = setTimeout(saveWorkspace, 500);
       }
     });
-
-    console.log('[SimpleStorage] Auto-save enabled');
   }
 
   // Save on page unload
   window.addEventListener('beforeunload', saveWorkspace);
-  window.addEventListener('unload', saveWorkspace);
 
   // Setup auto-save when workspace is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(setupAutoSave, 1000);
-    });
+    document.addEventListener('DOMContentLoaded', setupAutoSave);
   } else {
-    setTimeout(setupAutoSave, 1000);
+    setupAutoSave();
   }
 
   // Expose load function globally
