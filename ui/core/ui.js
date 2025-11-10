@@ -1,59 +1,46 @@
 'use strict';
 function get (e) {return document.querySelector (e); }
 function getIn (a, b) {return a.querySelector (b); }
-function getAll (e, f) {return get (e).querySelectorAll (f); }
-function style (e) {return get (e).style; }
-function fx (e, vfx) {e.style.Transition = vfx; }
 
 var $em = 16; // size of 1em
 
-/**
- * Attach a panel that contains a button to shows and hides it.
- * @typedef {panel}
- * @param {string} button_ - the query selector for the button.
- * @param {string} panel_ - the query selector for the panel.
- */
+// Base class for toggleable UI panels
 function panel (button_, panel_) {
   this.panel_ = panel_;
   this.button = get (button_);
   this.panel = get (panel_);
   this.button.onclick = () => {this.showPanel ()};
 }
-/**
- * Show or hide the panel.
- */
+// Toggle panel visibility
 panel.prototype.showPanel = function () {
   let panel_ = UI ['responsive'].panels [this.panel_];
 
-  UI ['responsive'].closeZone._dom.classList.add('on')
+  UI ['responsive'].closeZone._dom.classList.add('on') // Activate close overlay
 
   if(!panel_.show) {
     this.panel.id = "show";
     if(panel_.from == 'notify-panel')
-      UI ['notify'].container.id = '';
+      UI ['notify'].container.id = ''; // Hide temp notification when opening panel
  } else {
     this.panel.id = '';
   }
-  panel_.show = !panel_.show;
+  panel_.show = !panel_.show; // Toggle state
   if (this.onOpenPanel_ != undefined)
     this.onOpenPanel_ ();
 }
 
 account.prototype = Object.create (panel.prototype);
-/**
- * The account panel to manage projects and settings.
- * @type panel
- */
+// Account panel: manages user projects and settings
 function account (button_, panel_) {
 	panel.call (this, button_, panel_);
   this.projectList = get("#ProjectList");
   this.newProjectButton = get('#newProjectButton');
   this.dom_username = get('#account_user');
-  this.dom_username.addEventListener("input", () => {localStorage.setItem('account_user', this.dom_username.innerText)});
+  this.dom_username.addEventListener("input", () => {localStorage.setItem('account_user', this.dom_username.innerText)}); // Auto-save username
   this.newProjectButton.onclick = () => {this.newProject ()};
 
   this.currentProject = {uid:'', xml:''};
-	this.projects = {}; // Object to store project UIDs and timestamps
+	this.projects = {}; // {uid: timestamp}
 
 	if (localStorage ['account_user']) {
 	  this.dom_username.innerText = localStorage ['account_user'];
@@ -61,11 +48,7 @@ function account (button_, panel_) {
 	  localStorage.setItem('account_user', 'User');
 	}
 }
-/**
- * Check if project  listed in localStorage's item `bipes_projects` is stored in localStorage
- * and then list it in the account panel. If not, the item is discarted.
- * @param {Object} projects_ - parsed JSON from localStorage's item `bipes_projects`.
- */
+// Restore projects from localStorage and list valid ones
 account.prototype.restoreProjects = function (projects_) {
   this.projects = projects_;
 
@@ -81,7 +64,7 @@ account.prototype.restoreProjects = function (projects_) {
       this.listProject (prop, this.projects[prop]);
       hasValidProjects = true;
     } else {
-      delete this.projects[prop];
+      delete this.projects[prop]; // Clean orphaned project references
     }
   }
 
@@ -94,19 +77,16 @@ account.prototype.restoreProjects = function (projects_) {
   }
 }
 
-/**
- * Open last edited project
- */
+// Open most recently edited project
 account.prototype.openLastEdited = function () {
   var projectKeys = Object.keys(this.projects);
 
-  // Check if there are any projects
   if (projectKeys.length === 0) {
     console.warn('[Account] No projects to open');
     return;
   }
 
-  this.currentProject.uid = projectKeys.reduce((a, b) => (this.projects[a] > this.projects[b]) ? a : b);
+  this.currentProject.uid = projectKeys.reduce((a, b) => (this.projects[a] > this.projects[b]) ? a : b); // Find project with highest timestamp
   this.currentProject.xml = localStorage[this.currentProject.uid];
 
   console.log('[Account] Opening project with UID:', this.currentProject.uid);
@@ -117,15 +97,11 @@ account.prototype.openLastEdited = function () {
   Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), Blockly.getMainWorkspace());
 }
 
-/**
- * List project in the account panel.
- * @param {string} uid - UID of the project
- * @param {string} timestamp - Timestamp for the project
- */
+// Add project to UI list
 account.prototype.listProject = function (uid, timestamp) {
     let project_name = this.getProjectName_ (uid);
     timestamp = Tool.unix2date(timestamp);
-    let short_project_name = project_name.length > 30 ? `${project_name.substring(0,27)}...` : project_name;
+    let short_project_name = project_name.length > 30 ? `${project_name.substring(0,27)}...` : project_name; // Truncate long names
     let wrapper2_ = new DOM ('div', {'id':uid});
     let openButton_ = new DOM ('div', {innerText:short_project_name, className: 'runText', title:`Open project ${project_name}, created at ${timestamp}`})
         .onclick (this, this.openProject, [uid])
@@ -139,10 +115,7 @@ account.prototype.listProject = function (uid, timestamp) {
     wrapper2_.append([openButton_, wrapper_])
     this.projectList.append(wrapper2_._dom)
 }
-/**
- * Open project.
- * @param {string} uid - UID of the project to be opened.
- */
+// Open project by UID
 account.prototype.openProject = function (uid) {
   if (this.currentProject.uid != '') {
     BlocklyStorage.backupBlocks_ ();
@@ -155,15 +128,12 @@ account.prototype.openProject = function (uid) {
 
   getIn(this.projectList, `#${uid}`).className = 'current';
 
-  this.projects[uid] = +new Date();
+  this.projects[uid] = +new Date(); // Update timestamp to mark as recently opened
 
   BlocklyStorage.loadXml_ (xml, Blockly.getMainWorkspace());
   Files.handleCurrentProject ();
 }
-/**
- * Delete project.
- * @param {string} uid - UID of the project to be deleted.
- */
+// Delete project by UID
 account.prototype.deleteProject = function (uid) {
   localStorage.removeItem (uid);
   delete this.projects[uid];
@@ -177,29 +147,24 @@ account.prototype.deleteProject = function (uid) {
     if (Object.keys(this.projects).length == 0) {
       this.newProject ();
     } else {
-      this.openProject (Object.keys(this.projects).reduce((a, b) => (this.projects[a] > this.projects[b]) ? a : b));
+      this.openProject (Object.keys(this.projects).reduce((a, b) => (this.projects[a] > this.projects[b]) ? a : b)); // Open most recent
     }
   }
 }
-/**
- * Get project name from XML stored in localStorage.
- * @param {string} uid - UID of the project.
- */
+// Extract project name from XML
 account.prototype.getProjectName_ = function (uid) {
   let xml = localStorage[uid];
   let project_name = '';
-  let regex_ = /<value name="project_description">.*?<\/value>/;
+  let regex_ = /<value name="project_description">.*?<\/value>/; // Match project_description block
   if (regex_.test(xml)) {
     let project_description_chunk = xml.match (regex_) [0];
-    project_name = project_description_chunk.match (/<field name="TEXT">(.*?)<\/field>/)[1].slice();
+    project_name = project_description_chunk.match (/<field name="TEXT">(.*?)<\/field>/)[1].slice(); // Extract text field
   } else {
     project_name = "My BIPES Project";
   }
   return project_name;
 }
-/**
- * Create new project and open it.
- */
+// Create and open new empty project
 account.prototype.newProject = function () {
   if (this.currentProject.uid != '') {
     BlocklyStorage.backupBlocks_ ();
@@ -208,7 +173,7 @@ account.prototype.newProject = function () {
 
   let emptyXML = Tool.emptyXML ();
   let uid = Tool.uid ();
-  this.projects [uid] = +new Date ();
+  this.projects [uid] = +new Date (); // Store creation timestamp
   localStorage.setItem('bipes_projects', JSON.stringify(this.projects))
   localStorage.setItem (uid, emptyXML)
 
@@ -221,10 +186,7 @@ account.prototype.newProject = function () {
 
   getIn(this.projectList, `#${uid}`).className = 'current';
 }
-/**
- * Import a project to localStorage.
- * @param {string} xml - XML of the project to be imported.
- */
+// Import project from external XML
 account.prototype.importProject = function (xml) {
   if (this.currentProject.uid != '') {
     BlocklyStorage.backupBlocks_ ();
@@ -244,10 +206,7 @@ account.prototype.importProject = function (xml) {
 
   getIn(this.projectList, `#${uid}`).className = 'current';
 }
-/**
- * Set current project name from block to the account panel.
- * @param {string} str_ - Project name to be displayed in the account panle.
- */
+// Update current project name in UI
 account.prototype.setCurrentProjectName_ = function (str_) {
   let short_project_name = str_.length > 30 ? `${str_.substring(0,27)}...` : str_;
 
@@ -262,10 +221,7 @@ account.prototype.onOpenPanel_ = function () {
 }
 
 channelPanel.prototype = Object.create (panel.prototype);
-/**
- * The channel panel to connect and switch protocols.
- * @type panel
- */
+// Channel panel: switches communication protocols
 function channelPanel (button_, panel_) {
 	panel.call (this, button_, panel_);
   this.serial = get ('#serialButton');
@@ -280,28 +236,21 @@ function channelPanel (button_, panel_) {
 }
 
 
-/**
- * The notification class is used to show notifications and keep logs.
- */
+// Notification system: shows temporary alerts and keeps history
 class notify {
   constructor () {
     this.panel_ = '.notify-panel'
 	  this.container = get ('.notify');
 	  this.container.innerHTML = '';
 	  this.panel = get (this.panel_);
-    /**All messages are stored here*/
     this.messages = [];
-    /**All logs are stored here*/
     this.logs = [];
     this.buffer_count = 0;
     this.timeOut;
     this.timeOut2;
   }
 }
-/**
- * Show a notification in the user interface, will also add it to :js:attr:`notify#logs`.
- * @param {string} message - The notification message.
- */
+// Show notification (auto-hides after 3s, groups duplicates)
 notify.prototype.send = function (message) {
   console.log (`Notification: ${message}`);
   this.messages.push ({timestamp: +new Date, message: message});
@@ -317,15 +266,14 @@ notify.prototype.send = function (message) {
   this_message.div.title = message_;
   this_message.div.appendChild(document.createTextNode(message_));
   this_message.div.appendChild(closeButton_);
-  // remove notification on click
   this_message.div.onclick = (ev) => {try {this.panel.removeChild(ev.target.parentNode)}catch(e){};};
   this.panel.appendChild(this_message.div);
 
   let panel_ = UI ['responsive'].panels [this.panel_];
-  if (!panel_.show) {
-    if(last_message == message && this.container.id == 'show') {
+  if (!panel_.show) { // Only show temp notification if panel is closed
+    if(last_message == message && this.container.id == 'show') { // Group duplicate messages
         this.buffer_count = this.buffer_count + 1;
-        this.container.innerHTML = `(${this.buffer_count}x) ${message_}`;
+        this.container.innerHTML = `(${this.buffer_count}x) ${message_}`; // Show counter
     } else {
         if (this.container.innerHTML == '')
           this.container.innerHTML = message_;
@@ -337,29 +285,20 @@ notify.prototype.send = function (message) {
     this.container.id = 'show';
 
     window.clearTimeout(this.timeOut);
-    this.timeOut = setTimeout( () => {
+    this.timeOut = setTimeout( () => { // Hide after 3s
       this.container.id = '';
       this.buffer_count = 0;
       this.timeOut2 = setTimeout( () => {
-      this.container.innerHTML = '';}, 150);
+      this.container.innerHTML = '';}, 150); // Clear content after fade
     }, 3000);
   }
 }
-/**
- * Show a notification in the user interface, will also add it to :js:attr:`notify#logs`.
- * @param {string} message - The notification message.
- */
+// Log message silently (no UI notification)
 notify.prototype.log = function (message) {
   this.logs.push ({timestamp: +new Date, message: message});
 }
 
-/**
- * Do a XML Http request, if in offline mode, will try to find the data inside the index.html file.
- * @param {string} filename - The name of the file
- * @param {string} responsetype - The types of responses, 'document', 'text' or '' (empty).
- * @param {function} onsuccess -Callback function when the the XMLHttpRequest succeed.
- * @param {function} [onfail] - Callback function when the the XMLHttpRequest fails.
- */
+// XMLHttpRequest wrapper: supports online and offline modes
 async function xhrGET (filename, responsetype, onsuccess, onfail) {
   let xmlHTTP = new XMLHttpRequest ();
 
@@ -380,13 +319,13 @@ async function xhrGET (filename, responsetype, onsuccess, onfail) {
         UI ['notify'].send(MSG['ErrorGET']);
       }
   xmlHTTP.send();
-	} else {
-      filename = filename.replace(/[\/\.]/g, '_')
+	} else { // Offline mode: load embedded data
+      filename = filename.replace(/[\/\.]/g, '_') // Normalize filename for variable name
 	    let regex_xml = /_(.*)_xml/;
 	    let regex_json = /_(.*)_json/;
       if (regex_json.test (filename)) {
 	        window.addEventListener('load', () => {
-            onsuccess(JSON.parse (eval(`OFFLINE_${filename}`)));
+            onsuccess(JSON.parse (eval(`OFFLINE_${filename}`))); // Execute embedded data
         }, false);
       } else if (regex_xml.test (filename)) {
         var xml_ = get(`#OFFLINE_${filename}`);
@@ -402,17 +341,15 @@ async function xhrGET (filename, responsetype, onsuccess, onfail) {
   }
 }
 
-/**
- * Handles how the panel are disposed in the user interface.
- */
+// Responsive layout manager: handles panel positioning and dead zones
 class responsive {
   constructor () {
-    this.mobile = window.innerWidth < 60*$em ? true : false;
+    this.mobile = window.innerWidth < 60*$em ? true : false; // 960px breakpoint
     this.body = get ('body');
     this.closeZone = new DOM('div', {id:"closeZone"})
       .onclick (this, this.hidePanels)
 
-    /**The dead area for each panel in 'em', if the users taps out, the panel will close*/
+    // Dead zones for each panel (tap outside to close)
 	  this.panels = {'.toolbar':{from:'toolbar',x:$em*22, x2:0, y:$em*7.5, show:false},
 	                 '.notify-panel':{from:'notify-panel',x:$em*22, x2:0, y:0, show:false},
 	                 '.account-panel':{from:'account',x:$em*22, x2:0, y:$em*0, show:false},
@@ -430,9 +367,7 @@ class responsive {
     };
   }
 }
-/**
- * Hide panels if the users taps outside the dead zone.
- */
+// Close all open panels
 responsive.prototype.hidePanels = function (ev) {
   for (const prop in this.panels) {
       UI [this.panels[prop].from].panel.id=''
@@ -441,44 +376,31 @@ responsive.prototype.hidePanels = function (ev) {
   this.closeZone._dom.classList.remove('on')
 }
 
-/** Show a progress bar under the DOM `.top-menu`. */
+// Progress bar for file transfers
 class progress {
   constructor () {
-    /**DOM node element for the progress bar.*/
 	  this.dom = get ('.progress-bar');
 	  this.div = document.createElement ('div');
 	  this.dom.appendChild (this.div);
 	  this.len;
 	}
 
-	  /**
-   * Sets the progress bar width by the loaded and total to load, e.g. loaded=256, total=1024 equals 75%.
-   * @param {number} loaded - How much has been loaded.
-   * @param {number} total - Total to load.
-   */
+	// Set progress by loaded/total bytes
 	load (loaded, total) {
 		var percent = (loaded * 100 / total);
 		this.div.style.width = percent + '%';
 	}
-	  /**
-   * Sets the progress bar width by the remaining value to load, e.g. 256 from 1024 equals 75%.
-   * @param {number} len_ - How much more to load.
-   */
+	// Set progress by remaining bytes
 	remain (len_) {
 		var percent = ((this.len - len_) * 100 / this.len);
 		this.div.style.width = percent + '%';
 	}
-	  /**
-   * Unhide :js:attr:`notify#dom`. and sets the (estimated) loading length.
-   * @param {number} len_ - The (estimated) loading length.
-   */
+	// Show progress bar
 	start (len_) {
 	  this.len = len_;
 	  this.dom.id = 'on';
 	}
-	  /**
-   * Hides :js:attr:`notify#dom` and reset the style.
-   */
+	// Hide progress bar and reset
 	end () {
 	  this.dom.id = '';
     this.div.style.width = '0%';
@@ -486,11 +408,7 @@ class progress {
 }
 
 
-/**
- * The user interface integration of the Blockly workspace,
- * therefore, will handle XML loading and generation, the target device and its specification and
- * the styling for connection status with the devices.
- */
+// Workspace manager: integrates Blockly, devices, and code execution
 class workspace {
   constructor () {
     if (window.location.pathname.includes ('index.html') && window.location.protocol == 'file:') {
@@ -506,11 +424,10 @@ class workspace {
     this.device_title = getIn(this.content, '#device_title'),
     this.device_img = getIn(this.content, '#device_img'),
     this.device_desc = getIn(this.content, '#device_desc');
-    /** gets `devinfo/devinfo.json` data as an object.*/
     this.devices = [];
     xhrGET("devinfo/devinfo.json", 'json', (response) => {
       this.devices = response.devices;
-      if (!/#(.)/.test(window.location.href)) // checks if there is a file to be loaded
+      if (!/#(.)/.test(window.location.href))
         this.change ();
     });
     this.selector.onchange = () => {this.change ()};
@@ -534,40 +451,30 @@ class workspace {
     this.file = get('#content_file_name');
     this.content_file_name = get('#content_file_name');
     this.put_file_select.onchange = () => {Files.handle_put_file_select ()};
-
-    /** store loaded freeboard JSON, generated by :js:func:`freeboard#serialize`.*/
-    this.freeboard = '';
   }
 }
 
-/**
- * Run program from Blockly workspace or stop current running program, called when clicking
- * DOM `#runButton`. If not connection, will try to connect then run.
- */
+// Run or stop Python program (auto-connects if needed)
 workspace.prototype.run = function () {
   if (this.runButton.status) {
     if(mux.connected ()) {
         Tool.runPython();
     } else {
       Channel ['mux'].connect ();
-      setTimeout(() => { if (mux.connected ()) Tool.runPython();}, 2000);
+      setTimeout(() => { if (mux.connected ()) Tool.runPython();}, 2000); // Wait 2s for connection
     }
   } else {
     Tool.stopPython();
   }
 }
 
-/**
- * Styling for when the platform is trying to connect to a device.
- */
+// UI: connecting state
 workspace.prototype.connecting = function () {
   this.toolbarButton.className = 'icon medium wait';
   this.channel_connect.className = 'wait';
 }
 
-/**
- * Switch for DOM `#connectButton` to connect or disconnect on click.
- */
+// Toggle connect/disconnect
 workspace.prototype.connectClick = function () {
   if (mux.connected ()) {
     mux.disconnect ();
@@ -576,21 +483,17 @@ workspace.prototype.connectClick = function () {
   }
 }
 
-/**
- * Switch on styling for connected to device.
- */
+// UI: receiving data (code running)
 workspace.prototype.receiving = function () {
   this.channel_connect.className = '';
-  this.runButton.status = false;
+  this.runButton.status = false; // false = running, true = stopped
   this.runButton.dom.className = 'icon on';
   this.toolbarButton.className = 'icon medium on';
   this.connectButton.className = 'icon on';
   this.term.className = 'on';
 }
 
-/**
- * Switch off styling for connected to device.
- */
+// UI: idle state (code stopped)
 workspace.prototype.runAbort = function () {
   this.channel_connect.className = '';
   this.runButton.status = true;
@@ -601,11 +504,7 @@ workspace.prototype.runAbort = function () {
   this.connectButton.value = "Connect";
 }
 
-/**
- * Switch the workspace to DOM `#device_selector` selected value if available in :js:attr:`workspace#devices`.
- * Will update the dropdown in the :js:attr:`Blockly.Blocks['pinout']` block, change the toolbox and set :js:attr:`webserial#packetSize`
- * and :js:attr:`webserial#speed` with the target device info.
- */
+// Switch device: updates toolbox, pinout blocks, and serial config
 workspace.prototype.change = function () {
 
   if (this.selector.value in this.devices) {
@@ -614,7 +513,7 @@ workspace.prototype.change = function () {
     this.device_img.src = selected.img,
     this.device_desc.innerHTML = selected.description;
 
-    if (!!selected.toolbox) { // checks if toolbox is set
+    if (!!selected.toolbox) {
        xhrGET(`toolbox/${selected.toolbox}`, 'document', (XML_) => {
         Code.reloadToolbox(XML_);
       });
@@ -625,7 +524,7 @@ workspace.prototype.change = function () {
         UI ['notify'].send(MSG['noToolbox']);
     }
     if (this.devices.constructor.name == 'Object') {
-      /* refreshes block pinout with device change */
+      // Refresh pinout blocks for new device
       let blocks = Code.workspace.getBlocksByType('pinout');
        Code.workspace.getBlocksByType('pinout').forEach ((block, id) => {
          block.refresh ();
@@ -640,10 +539,7 @@ workspace.prototype.change = function () {
     UI ['notify'].send(MSG['invalidDevice']);
 }
 
-/**
- * Change the device in the dropdown DOM `#device_selector` and call :js:func:`workspace#change`
- * @param {string} device - device that will the '#device_selector' be changed to, if available in :js:attr:`workspace#devices`.
- */
+// Change device by name
 workspace.prototype.changeTo = function (device) {
     if (device in this.devices)
       this.selector.value = device,
@@ -652,17 +548,14 @@ workspace.prototype.changeTo = function (device) {
       UI ['notify'].send (MSG['deviceUnavailable'].replace ('%1', device));
 }
 
-/**
- * Generate XML through Blockly and download it.
- * @param {string} uid - optional uid to download a specific project, if none, the current will be downloaded.
- */
+// Generate and download XML file
 workspace.prototype.saveXML = function (uid) {
   let xmlText = '';
   if (uid == undefined) {
     xmlText = Blockly.Xml.domToPrettyText(Blockly.Xml.workspaceToDom(Code.workspace));
     xmlText = this.writeWorkspace (xmlText, true);
   } else {
-    // Bounce in Blockly to make Pretty Text formatting
+    // Format XML from localStorage
     xmlText = Blockly.Xml.domToPrettyText(Blockly.Xml.textToDom(localStorage [uid]));
   }
 
@@ -676,39 +569,26 @@ workspace.prototype.saveXML = function (uid) {
 	document.body.removeChild(element);
 }
 
-/**
- * Read freeboard, device, timestamp and origin from BIPES generated XML.
- * if XML `</workspace>` not available, will set to the first device in :js:attr:`workspace#devices`
- * @param {string} xml - BIPES generated XML.
- * @param {boolean} prettyText - If the XML contains indentation and line breaks (human readable).
- */
+// Extract metadata from BIPES XML (device, timestamp)
 workspace.prototype.readWorkspace = function (xml, prettyText) {
   let regex_;
   if (prettyText)
-    regex_ = /(<workspace>.*<\/workspace>\n)/s;
+    regex_ = /(<workspace>.*<\/workspace>\n)/s; // /s flag for multiline matching
   else
     regex_ = /(<workspace>.*<\/workspace>)/;
   if (regex_.test(xml)) {
     let workspace_chunk = xml.match (regex_) [0];
-    xml = xml.replace (regex_,'');
+    xml = xml.replace (regex_,''); // Remove metadata from XML
 
     try {
       let timestamp = workspace_chunk.match(/<field name="TIMESTAMP">(.+?)<\/field>/) [1];
-    } catch (e) {UI ['notify'].log(e)}
-    try {
-      let freeboard = workspace_chunk.match(/<freeboard><!\[CDATA\[(.+?)\]\]><\/freeboard>/) [1];
-      this.loadFreeboard(freeboard);
-    } catch (e) {UI ['notify'].log(e)}
-    try {
-      let databoard = workspace_chunk.match(/<databoard><!\[CDATA\[(.+?)\]\]><\/databoard>/) [1];
-      this.loadDataboard(databoard)
     } catch (e) {UI ['notify'].log(e)}
     try {
       let device = workspace_chunk.match(/<field name="DEVICE">(.+?)<\/field>/) [1];
       if (this.devices.constructor.name == 'Object') {
         this.changeTo (device);
       } else {
-        /** wait to devices to load */
+        // Wait for devices to load (poll every 500ms)
         var interval_ = setInterval(() => {
           if (this.devices.constructor.name == 'Object') {
             this.changeTo (device);
@@ -718,37 +598,25 @@ workspace.prototype.readWorkspace = function (xml, prettyText) {
       }
     } catch(e) {UI ['notify'].log(e)}
   } else {
-    this.changeTo (Object.keys(this.devices) [0]);
+    this.changeTo (Object.keys(this.devices) [0]); // Fallback to first device
   }
   return xml;
 }
 
-/**
- * Write device, timestamp and origin to Blockly generated XML.
- * @param {string} xml - Blockly generated XML.
- * @param {boolean} prettyText - If the XML contains indentation and line breaks (human readable).
- */
+// Add metadata to Blockly XML (device, timestamp)
 workspace.prototype.writeWorkspace = function (xml, prettyText) {
   let timestamp =  + new Date();
   let device = this.selector.value;
 
-  // IoT features removed - freeboard and databoard disabled
-  let freeboard = '';
-  let databoard = '';
-
   xml = xml.replace(/(xmlns=")(?:.+?)(")/g, '$1https://bipes.net.br$2')
   if (prettyText)
-    xml = xml.replace(/(<xml xmlns=".+?">\n)/, `$1  <workspace>\n    <field name="DEVICE">${device}</field>\n    <field name="TIMESTAMP">${timestamp}</field>\n    <freeboard><![CDATA[${freeboard}]]></freeboard>\n    <databoard><![CDATA[${databoard}]]></databoard> \n  </workspace>\n`);
+    xml = xml.replace(/(<xml xmlns=".+?">\n)/, `$1  <workspace>\n    <field name="DEVICE">${device}</field>\n    <field name="TIMESTAMP">${timestamp}</field>\n  </workspace>\n`);
   else
-    xml = xml.replace(/(<xml xmlns=".+?">)/, `$1<workspace><field name="DEVICE">${device}</field><field name="TIMESTAMP">${timestamp}</field><freeboard><![CDATA[${freeboard}]]></freeboard><databoard><![CDATA[${databoard}]]></databoard></workspace>`);
+    xml = xml.replace(/(<xml xmlns=".+?">)/, `$1<workspace><field name="DEVICE">${device}</field><field name="TIMESTAMP">${timestamp}</field></workspace>`);
   return xml;
 }
 
-/**
- * Load XML, called after clicking the button DOM `#loadButton`.
- * Will check if there is a file, if can be parsed as XML and if contains unique variables already
- * in the Blockly workspace.
- */
+// Load XML from file input
 workspace.prototype.loadXML = function () {
   if  (this.loadButton.files [0] != undefined) {
     let file = this.loadButton.files [0]
@@ -764,11 +632,11 @@ workspace.prototype.loadXML = function () {
         }
         catch (e) {
           UI ['notify'].log(e)
-          if (/Error: Variable id, (.*) is already in use\.$/.test(e))
+          if (/Error: Variable id, (.*) is already in use\.$/.test(e)) // Blockly duplicate ID error
             UI ['notify'].send (`Unique variable is already in use, could not load ${file.name}.`);
           else
             UI ['notify'].send (`Failed to parse data, could not load ${file.name}.`);
-          this.loadButton.value = ''
+          this.loadButton.value = '' // Reset file input
           return;
         }
         UI ['notify'].send (MSG['blocksLoadedFromFile'].replace('%1', file.name));
@@ -781,23 +649,6 @@ workspace.prototype.loadXML = function () {
 }
 
 
-/**
- * Load freeboard from JSON - DISABLED (IoT feature not available)
- * @param {string} JSON_ - serialized freeboard JSON.
- */
-workspace.prototype.loadFreeboard = function (JSON_) {
-  // IoT feature removed - Freeboard dashboard not available in this version
-  console.log('Freeboard não disponível nesta versão.');
-}
-
-/**
- * Load databoard from JSON - DISABLED (IoT feature not available)
- * @param {string} JSON_ - serialized databoard JSON.
- */
-workspace.prototype.loadDataboard = function (JSON_) {
-  // IoT feature removed - Databoard not available in this version
-  console.log('Databoard não disponível nesta versão.');
-}
 
 
 
