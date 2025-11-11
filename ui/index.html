@@ -5,29 +5,22 @@
   <meta name="google" value="notranslate">
   <meta name="viewport" content="width=device-width, user-scalable=no">
   <title>BitdogLab - Aprenda Programação de Forma Divertida</title>
-  <!-- Favicons BitDogLab - FORÇAR NOVO ÍCONE -->
+
+  <!-- Favicons (cache-busting with v=forced2024) -->
   <link rel="icon" type="image/x-icon" href="/bitdog-favicon.ico?v=forced2024">
-  <link rel="shortcut icon" type="image/x-icon" href="/bitdog-favicon.ico?v=forced2024">  
+  <link rel="shortcut icon" type="image/x-icon" href="/bitdog-favicon.ico?v=forced2024">
   <link rel="icon" type="image/png" sizes="32x32" href="/bitdog-icon.png?v=forced2024">
   <link rel="icon" type="image/png" sizes="16x16" href="/bitdog-icon.png?v=forced2024">
   <link rel="apple-touch-icon" sizes="180x180" href="/bitdog-icon.png?v=forced2024">
   <link rel="mask-icon" href="/media/icon/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#fff">
 
-  <!-- Progressive Web Application setup -->
+  <!-- PWA manifest -->
   <link rel="manifest" href="manifest.json"></link>
   <script src="core/manup.js"></script>
-  <!-- End of Progressive Web Application setup -->
-
-
-
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162001686-1"></script>
-
-
 
 <script>
-
+// Legacy cookie utilities (unused)
 function setCookie(cname, cvalue, cpassword_value, exdays) {
   var d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -42,7 +35,7 @@ function getCookie(cname) {
   for(var i = 0; i < ca.length; i++) {
     var c = ca[i];
     while (c.charAt(0) == ' ') {
-      c = c.substring(1);  
+      c = c.substring(1);
     }
     if (c.indexOf(name) == 0) {
       return c.substring(name.length, c.length);
@@ -57,86 +50,52 @@ function checkCookie() {
     var cookies_ = cookies.split('&')
     document.getElementById('url').value = cookies_[0]
     document.getElementById('password').value = cookies_[1].substring("last_pass=".length, cookies_[0].length)
-  } 
-  
+  }
 }
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-162001686-1');
 </script>
   <link rel="stylesheet" href="style.css?ver=0.2.3.1125">
   <link rel="stylesheet" href="core/libs.css">
+  <!-- Blockly core -->
   <script src="core/blockly_compressed.js?ver=0.2.1.8260042"></script>
-  <!-- blocks_compressed.js removido - blocos básicos agora em block_definitions.js -->
   <script src="core/python_compressed.js?ver=0.2.3.9292231"></script>
+
+  <!-- BitdogLab core modules -->
   <script src="core/storage.js"></script>
   <script src="core/utils.js?ver=0.2.3.20251001v2"></script>
-  <!-- storage.js usado para auto-save -->
   <script src="core/bitdoglab_config.js?ver=0.2.3.20251001v4"></script>
   <script src="core/code.js?ver=0.2.3.20251001v4"></script>
   <script src="core/webserial.js?ver=0.2.3.20251001v2"></script>
   <script src="core/channel.js?ver=0.2.3.20251001v2"></script>
   <script src="core/ui.js?ver=0.2.3.1125"></script>
-  <!-- queue.js removido - não usado -->
   <script src="core/FileSaver.js"></script>
-  <!-- shortcut.js removido - atalhos de teclado não usados -->
 
 
-  <!-- Custom Blocks for BIPES Project -->
-  <script src="core/block_definitions.js?ver=20250108v5"></script> <!-- Rafael 24/03/2020 -->
-  <script src="core/generator_stubs.js?ver=20250108v5"></script> <!-- Rafael 24/03/2020 -->
+  <!-- Custom BitdogLab blocks -->
+  <script src="core/block_definitions.js?ver=20250108v5"></script>
+  <script src="core/generator_stubs.js?ver=20250108v5"></script>
 
-  <!-- xterm part -->
+  <!-- Terminal (xterm.js) -->
   <script src="core/xterm.js?ver=4.13.0"></script>
 
-  <!-- Codemirror -->
+  <!-- Code editor (CodeMirror) -->
   <script src="core/codemirror/codemirror.js"></script>
   <script src="core/codemirror/mode/python/python.js"></script>
 
-  <!-- Progressive Web Application setup -->
+  <!-- Unregister service workers for cache clearing -->
   <script type="module">
-  // This is the "Offline copy of pages" service worker
-
-/*
- This code uses the pwa-update web component https://github.com/pwa-builder/pwa-update to register your service worker, tell the user when there is an update available and let the user know when your PWA is ready to use offline.
-
-*/
-
-// TEMPORARIAMENTE DESABILITADO PARA FORÇAR ATUALIZAÇÃO
-// import 'https://cdn.jsdelivr.net/npm/@pwabuilder/pwaupdate';
-// const el = document.createElement('pwa-update');
-// document.body.appendChild(el);
-
-// Desregistrar service worker existente
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
-    for(let registration of registrations) {
-      registration.unregister();
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+          registration.unregister();
+        }
+      });
     }
-  });
-}
-
-</script>
-
-  <!-- End of Progressive Web Application setup -->
-
-
-  <!-- From https://github.com/rafaelaroca/blockly-cv2 for OpenCV  --> 
-  <!-- 
-  <script src="jsCv/en.js"></script>
-  <script src="jsCv/cv2.js"></script>
-  -->
-  <script src="jsCv/v30.js"></script>
-  <script src="jsCv/v30/python.js"></script>
-  <script src="jsCv/v30/blocks.js"></script>
-
+  </script>
 
 </head>
 <body>
 
-  <!-- BitdogLab welcome  <!-- Mensagem de boas-vindas animada -->
+  <!-- Welcome splash modal -->
   <div id="welcome-message" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(75,46,131,0.95); z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; transition:opacity 1s ease;">
     <div style="background-color:white; padding:40px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.3); max-width:80%; position:relative;">
       <h1 style="font-family:'Comic Sans MS', cursive; color:#4b2e83; margin-top:0;">Bem-vindo à BitdogLab!</h1>
@@ -144,24 +103,24 @@ if ('serviceWorker' in navigator) {
       <button id="startAdventureBtn" style="background-color:#4b2e83; color:white; border:none; padding:12px 25px; font-size:18px; border-radius:10px; cursor:pointer; transition:all 0.3s ease; animation:bounce 2s infinite; font-family:'Comic Sans MS', cursive;">Começar a Aventura</button>
     </div>
   </div>
-  
-  <!-- Mensagem de aviso sobre a parceria -->
+
+  <!-- Partnership notice modal -->
   <div id="partnership-notice" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8); z-index:9998; display:none; justify-content:center; align-items:center; text-align:center; transition:opacity 1s ease; opacity:0;">
     <div style="background-color:white; padding:30px; border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.3); max-width:600px; border-left:8px solid #85754d;">
       <h2 style="color:#4b2e83; margin-top:0; font-family:'Comic Sans MS', cursive;">AVISO IMPORTANTE</h2>
       <p style="font-size:16px; line-height:1.5; margin:15px 0; text-align:left;">
-        A BitdogLab é uma parceria oficial do projeto BIPES (Block Based Integrated Platform for Embedded Systems). 
+        A BitdogLab é uma parceria oficial do projeto BIPES (Block Based Integrated Platform for Embedded Systems).
         Essa iniciativa visa democratizar o acesso à programação e robótica para crianças e jovens no Brasil.
       </p>
       <p style="font-size:16px; line-height:1.5; margin:15px 0; text-align:left;">
-        Através desta parceria, fornecemos uma plataforma educacional completa com hardware (placa BitdogLab baseada no Raspberry Pi Pico) 
+        Através desta parceria, fornecemos uma plataforma educacional completa com hardware (placa BitdogLab baseada no Raspberry Pi Pico)
         e software (ambiente de programação por blocos), tornando o aprendizado de programação mais acessível e divertido.
       </p>
       <button id="closePartnershipBtn" style="background-color:#85754d; color:white; border:none; padding:10px 20px; font-size:16px; border-radius:8px; cursor:pointer; transition:all 0.2s ease; margin-top:10px;">Entendi!</button>
     </div>
   </div>
-  
-  <!-- Tutorial passo a passo -->
+
+  <!-- Step-by-step tutorial panel -->
   <div id="tutorial-steps" style="position:fixed; bottom:20px; right:20px; width:350px; background-color:white; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2); z-index:9990; overflow:hidden; display:none; font-family:'Comic Sans MS', cursive;">
     <div style="background-color:#4b2e83; color:white; padding:10px 15px; display:flex; justify-content:space-between; align-items:center;">
       <h3 style="margin:0;">Como Começar</h3>
@@ -235,69 +194,58 @@ if ('serviceWorker' in navigator) {
   </div>
 
   <script>
-    // Adiciona estilos para animação do botão
+    // Bounce animation keyframes for buttons
     document.head.insertAdjacentHTML('beforeend', '<style>@keyframes bounce{0%,20%,50%,80%,100%{transform:translateY(0)}40%{transform:translateY(-20px)}60%{transform:translateY(-10px)}}</style>');
-    
-    // Adiciona o evento após o carregamento da página
+
+    // Welcome flow: splash -> partnership -> tutorial
     window.addEventListener('DOMContentLoaded', function() {
       var startBtn = document.getElementById('startAdventureBtn');
       var welcomeMsg = document.getElementById('welcome-message');
       var partnershipNotice = document.getElementById('partnership-notice');
       var closePartnershipBtn = document.getElementById('closePartnershipBtn');
       var tutorialContainer = document.getElementById('tutorial-steps');
-      
-      // Garante que a mensagem de boas-vindas seja exibida sempre
+
       welcomeMsg.style.display = 'flex';
-      
-      // Adiciona evento de clique ao botão inicial
+
+      // Welcome -> Partnership transition
       if (startBtn && welcomeMsg && partnershipNotice) {
         startBtn.addEventListener('click', function() {
-          console.log('Botão Começar a Aventura clicado');
           welcomeMsg.style.opacity = '0';
           setTimeout(function() {
-            console.log('Fechando mensagem de boas-vindas');
             welcomeMsg.style.display = 'none';
-            // Mostra o aviso de parceria
-            console.log('Mostrando aviso de parceria');
             partnershipNotice.style.display = 'flex';
             partnershipNotice.style.opacity = '0';
-            // Força um reflow antes de mudar a opacidade
-            void partnershipNotice.offsetWidth;
+            void partnershipNotice.offsetWidth; // Force reflow
             setTimeout(function() {
-              console.log('Tornando aviso de parceria visível');
               partnershipNotice.style.opacity = '1';
             }, 50);
           }, 1000);
         });
       }
-      
-      // Adiciona evento de clique ao botão de fechar o aviso de parceria
+
+      // Partnership -> Tutorial transition
       if (closePartnershipBtn && partnershipNotice && tutorialContainer) {
         closePartnershipBtn.addEventListener('click', function() {
           partnershipNotice.style.opacity = '0';
           setTimeout(function() {
             partnershipNotice.style.display = 'none';
-            // Mostra o tutorial de passos
             tutorialContainer.style.display = 'block';
-            // Marca como visitado para não mostrar novamente (opcional)
-            localStorage.setItem('bitdoglab_visited', 'true');
+            localStorage.setItem('bitdoglab_visited', 'true'); // Mark first visit
           }, 1000);
         });
       }
-      
-      // Adiciona evento para o botão "Vamos Programar!"
+
+      // Toggle additional tutorial steps
       var startCodingBtn = document.getElementById('startCodingBtn');
       var additionalSteps = document.getElementById('additional-steps');
-      
+
       if (startCodingBtn && additionalSteps) {
         startCodingBtn.addEventListener('click', function() {
-          // Alterna a visibilidade dos passos adicionais
           if (additionalSteps.style.display === 'block') {
             additionalSteps.style.display = 'none';
           } else {
             additionalSteps.style.display = 'block';
-            // Adiciona um destaque temporário aos passos adicionais
-            additionalSteps.style.backgroundColor = '#f5f0d5';
+            additionalSteps.style.backgroundColor = '#f5f0d5'; // Highlight effect
             setTimeout(function() {
               additionalSteps.style.backgroundColor = '#fafafa';
             }, 1000);
@@ -310,47 +258,40 @@ if ('serviceWorker' in navigator) {
     });
   </script>
   
-  <!-- Script para garantir que a toolbox seja carregada corretamente -->
   <script>
-    // Este script garante que a toolbox (paleta de blocos) seja carregada corretamente
+    // Load Blockly toolbox from XML
     window.addEventListener('load', function() {
       try {
-        // Verifica se o Blockly foi inicializado
         if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace()) {
-          // Carrega a toolbox padrão
           var request = new XMLHttpRequest();
           request.open('GET', 'toolbox/default.xml', true);
           request.onreadystatechange = function() {
             if (request.readyState === 4 && request.status === 200) {
               var toolboxXml = Blockly.Xml.textToDom(request.responseText);
               Blockly.getMainWorkspace().updateToolbox(toolboxXml);
-              console.log('Toolbox carregada com sucesso!');
-              
-              // Força a atualização do workspace
+              console.log('Toolbox loaded');
               Blockly.svgResize(Blockly.getMainWorkspace());
             }
           };
           request.send(null);
         }
       } catch(e) {
-        console.error('Erro ao carregar toolbox:', e);
+        console.error('Toolbox load error:', e);
       }
     });
-    
-    // Adiciona manipuladores de eventos para o tutorial passo a passo
+
+    // Tutorial panel close handlers
     window.addEventListener('DOMContentLoaded', function() {
       var closeTutorialBtn = document.getElementById('closeTutorialBtn');
       var startCodingBtn = document.getElementById('startCodingBtn');
       var tutorialContainer = document.getElementById('tutorial-steps');
-      
-      // Botão para fechar o tutorial
+
       if (closeTutorialBtn && tutorialContainer) {
         closeTutorialBtn.addEventListener('click', function() {
           tutorialContainer.style.display = 'none';
         });
       }
-      
-      // Botão para começar a programar
+
       if (startCodingBtn && tutorialContainer) {
         startCodingBtn.addEventListener('click', function() {
           tutorialContainer.style.display = 'none';
@@ -366,7 +307,6 @@ if ('serviceWorker' in navigator) {
         <div id="tab_blocks" class="tabon">Blocos</div>
         <div id="tab_console" class="taboff">Mensagens</div>
         <div id="tab_device" class="taboff">Dispositivo</div>
-        <!-- Mantendo as outras abas no HTML mas escondidas para preservar a funcionalidade -->
         <div id="tab_files" class="taboff" style="display:none;">Arquivos</div>
         <div id="tab_programs" class="taboff" style="display:none;">Programas</div>
         <div id="tab_iot" class="taboff" style="display:none;">Internet</div>
@@ -392,13 +332,8 @@ if ('serviceWorker' in navigator) {
 
         <label id="loadButton" for="loadXML"  class="notext button icon" title="..."></label>
         <input name="XML" id="loadXML" type="file" accept=".xml" required="">
-
-        <!--<button id="trashButton" class="notext icon" title="..."></button>-->
-
         <button id="notificationButton" class="notext icon" title="..."></button>
-
         <button id="forumButton" class="notext icon" title="..."></button>
-
         <button id="accountButton" class="notext icon" title="..."></button>
       </div>
     </div>
@@ -435,40 +370,17 @@ if ('serviceWorker' in navigator) {
       <br>
       <br>
       <button onclick="term.write('\x1bc');  ">🧹 Limpar tela</button>
-
-      <!--
-            <div class="file-box">
-                <strong>Send a file</strong>
-                <input type="file" id="put-file-select" />
-                <div id="put-file-list"></div>
-                <input type="button" value="Send to device" id="put-file-button" onclick="Files.put_file(); return false;" />
-            </div>
-          <div class="file-box">
-            <strong>Get a file</strong>
-            <input type="text" name="get_filename" id="get_filename" value="" size="13" />
-            <input type="button" value="Get from device" onclick="get_file(); return false;" />
-        </div>
-        <div class="file-box" id="file-status"><span style="color:#707070">(file operation status)</span></div>
-      -->
     </div>
 
     </td>
    </tr>
 </div>
 
-<!-- ################################################## -->
-
   <div id="content_programs" class="content">
     <center>
-	    <!--
-    <iframe src="https://bipes-271213.appspot.com/list" width="100%" height="500" frameBorder="0"></iframe>
-	    -->
     <iframe src="shared.html" width="100%" height="500" frameBorder="0"></iframe>
     </center>
   </div>
-
-
-<!-- ################################################## -->
 
   <div id="content_device" class="content">
     <center>
@@ -490,32 +402,15 @@ if ('serviceWorker' in navigator) {
     </label>
 
     </center>
-
   </div>
 
-
-<!-- ################################################## -->
-
   <div id="content_files" class="content">
-
-
   <div id="file-boxes">
   <div id="file-header">
     <span>File manager</span>
     <label id="putFileButton" for="put-file-select"  class="noteaxt button icon" title="Upload script to device"></label>
     <input name="PutFileList" id="put-file-select" type="file" accept=".md,.py" required="">
-    <!--<input type="button" value="Run Blocks" onclick="Tool.runPython(); return false;" />-->
-
   </div>
-  <!--<input type="button" value="Blocks to editable Python (here)" onclick="Tool.blocksToPython(); return false;" />-->
-
-
-  <!--<div class="file-box">
-  <strong>Send a file</strong>
-  <input type="file" id="put-file-select" />
-  <div id="put-file-list"></div>
-  <input type="button" value="Send to device" id="put-file-button" onclick="Files.put_file(); return false;" />
-  </div>-->
   <div id="file-status">...</div>
   <span id='filesPanel'>
   <details open>
@@ -555,25 +450,17 @@ if ('serviceWorker' in navigator) {
   </div>
 </div>
 
-<!-- ################################################## -->
-
   <div id="content_iot" class="content">
      <iframe id="content_iot" src="freeboard/index.html" width="100%" height="100%" frameBorder="0"></iframe>
   </div>
-
-<!-- ################################################## -->
 
 <div id="content_mqtt" class="content" style="padding: 0;">
   <iframe id="easymqtt_iframe" src="../easymqtt/index.html" width="100%" height="100%" frameBorder="0"></iframe>
 </div>
 
-<!-- ################################################## -->
-
 <div id="content_databoard" class="content" style="padding: 0;">
   <iframe id="databoard_iframe" src="../databoard/index.html" width="100%" height="100%" frameBorder="0"></iframe>
 </div>
-
-<!-- ################################################## -->
 
 </div>
 <div class='progress-bar'></div>
@@ -601,23 +488,22 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script>
-
-// Init blockly
+// Initialize Blockly workspace
 Code.init ();
 
-/* global WebSocket, WebSerial and Bluetooth variable and functions (see core/channel.js) */
+// Communication channels (WebSerial)
 var Channel = {};
 Channel ['webserial'] = new webserial ();
 Channel ['mux'] = new mux ();
 
-//global terminal variable
+// Terminal (xterm.js)
 var terminal = new Terminal ();
-term.init('#term') //init expanded class;
+term.init('#term');
 
-//global Utilities variable and functions (see core/utils.js)
+// File manager
 var Files = new files ('#fileList');
 
-// global User Interface variable and functions (see core/ui.js) */
+// UI components
 var UI = {};
 UI ['responsive'] = new responsive ();
 UI ['notify'] = new notify ();
@@ -628,179 +514,44 @@ UI ['channel-panel'] = new channelPanel ('#channelButton','.channel-panel');
 UI ['toolbar'] = new panel ('#toolbarButton','.toolbar');
 UI ['workspace'] = new workspace ();
 
-
-//Make sure we wont use data from last session (BIPES serial to freeboard bridge)
+// Clear queue from previous session
 Tool.clearQueue ();
 
 window.onload = function() {
-	checkCookie()
-	// loadPage(); //Load modal splash screen - REMOVED
+	checkCookie();
 
-	//i18n
-	//Auto detect user language (from the browser)
+	// i18n: Auto-detect browser language
 	var userLang = navigator.language || navigator.userLanguage + " ";
-	//alert ("The language is: " + userLang);
-	var addMsg="";
+	var addMsg = "";
 
-	//Also, detect language from the URL
+	// Check URL params for language override
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
-	pLang = urlParams.get('lang')
+	pLang = urlParams.get('lang');
 
-	if (!userLang)
-		userLang='en';
-	if (!pLang)
-		pLang='en';
+	if (!userLang) userLang = 'en';
+	if (!pLang) pLang = 'en';
 
-	// Removed BIPES modal initialization code
-
-
-
-	//if (userLang.startsWith("pt")) {
-	//	//alert("pt");
-	//	document.getElementById("modalTitle").innerHTML = MSG["splash_welcome"];
-	//} else {
-	//	//alert("en");
-	//	if (MSG["splash_welcome"]) {
-	//		document.getElementById("modalTitle").innerHTML = MSG["splash_welcome"];
-	//	}
-	//	else {
-	//		document.getElementById("modalTitle").innerHTML = "Welcome to BIPES!";
-	//	}
-	//}
-
-	//BIPES keyboad hotkeys
-	//Source: http://www.openjs.com/scripts/events/keyboard_shortcuts/
-	//Includes core/shortcut.js
-	shortcut.add("Ctrl+Shift+L",function() {
-		//alert("BIPES hotkey: screenshot!");
-		Tool.exportScreenshot();
+	// Keyboard shortcuts (Ctrl+Shift+...)
+	shortcut.add("Ctrl+Shift+L", function() {
+		Tool.exportScreenshot(); // Screenshot
 	});
 
-	shortcut.add("Ctrl+Shift+E",function() {
-		//alert("BIPES hotkey: Run program and switch to console!");
-		Code.handleLink('console',1)
+	shortcut.add("Ctrl+Shift+E", function() {
+		Code.handleLink('console', 1); // Run + switch to console
 		Tool.runPython();
 	});
 
-	shortcut.add("Ctrl+Shift+R",function() {
-		//alert("BIPES hotkey: Run program!");
-		Tool.runPython();
+	shortcut.add("Ctrl+Shift+R", function() {
+		Tool.runPython(); // Run program
 	});
 
-	shortcut.add("Ctrl+Shift+S",function() {
-		//alert("BIPES hotkey: Stop program!");
-		Tool.stopPython();
+	shortcut.add("Ctrl+Shift+S", function() {
+		Tool.stopPython(); // Stop program
 	});
-
-
-
 };
-
-// Removed duplicate BIPES modal functions
 
 </script>
 
-
-<!--
-	Start of modal Splash Screen
--->
-
-<style>
-body {font-family: Arial, Helvetica, sans-serif;}
-
-/* The Modal (background) */
-.modal {
-display: none; /* Hidden by default */
-position: fixed; /* Stay in place */
-z-index: 1000000; /* Sit on top - amazing, but Blockly has z-index up to 100000*/
-padding-top: 100px; /* Location of the box */
-left: 0;
-top: 0;
-width: 100%; /* Full width */
-height: 100%; /* Full height */
-overflow: auto; /* Enable scroll if needed */
-background-color: rgb(0,0,0); /* Fallback color */
-background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-position: relative;
-background-color: #fefefe;
-margin: auto;
-padding: 0;
-border: 1px solid #188;
-width: 80%;
-box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
--webkit-animation-name: animatetop;
--webkit-animation-duration: 0.4s;
-animation-name: animatetop;
-animation-duration: 0.4s
-}
-
-/* Add Animation */
-@-webkit-keyframes animatetop {
-	  from {top:-300px; opacity:0} 
-	    to {top:0; opacity:1}
-}
-
-@keyframes animatetop {
-	  from {top:-300px; opacity:0}
-	    to {top:0; opacity:1}
-}
-
-/* The Close Button */
-.closeM {
-color: white;
-float: right;
-font-size: 28px;
-font-weight: bold;
-}
-
-.closeM:hover,
-.closeM:focus {
-color: #000;
-text-decoration: none;
-cursor: pointer;
-}
-
-.modal-header {
-padding: 2px 16px;
-background-color: #4d4dff;
-color: white;
-}
-
-.modal-body {padding: 2px 16px;}
-
-.modal-footer {
-padding: 2px 16px;
-background-color: #4d4dff;
-color: white;
-}
-</style>
-
-
-<!-- Trigger/Open The Modal 
-	For testing only
-
-<body>
-<button id="myBtn">Open Modal SplashScreen</button>
-
-BIPES
--->
-</div>
-
-
-
-
-
-
-<!--
-	End of modal Splash Screen
--->
-
-
-
-
+</body>
 </html>
