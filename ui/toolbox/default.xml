@@ -1,159 +1,159 @@
 <xml>
-    <!-- 8. TIME -->
-    <category name="⏱️ Time" colour="190">
-      <block type="esperar_segundos">
-        <value name="TIME">
-          <shadow type="math_number">
-            <field name="NUM">1</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="esperar_milisegundos">
-        <value name="TIME">
-          <shadow type="math_number">
-            <field name="NUM">500</field>
-          </shadow>
-        </value>
-      </block>
-      <block type="tempo_segundos">
-        <field name="NUM">1</field>
-      </block>
-      <block type="tempo_milisegundos">
-        <field name="NUM">500</field>
-      </block>
-      <block type="tempo_minutos">
-        <field name="NUM">1</field>
-      </block>
-      <block type="tempo_horas">
-        <field name="NUM">1</field>
-      </block>
-    </category>
-    
-    <!-- 10. COLORS -->
-    <category name="🎨 Colors" colour="#A65C99">
-      <block type="colour_red"></block>
-      <block type="colour_green"></block>
-      <block type="colour_blue"></block>
-      <block type="colour_yellow"></block>
-      <block type="colour_cyan"></block>
-      <block type="colour_magenta"></block>
-      <block type="colour_white"></block>
-      <block type="colour_orange"></block>
-      <block type="colour_pink"></block>
-      <block type="colour_lime"></block>
-      <block type="colour_skyblue"></block>
-      <block type="colour_turquoise"></block>
-      <block type="mix_colours"></block>
-    </category>
+  <!-- 8. TEMPO -->
+  <category name="⏱️ Tempo" colour="190">
+    <block type="esperar_segundos">
+      <value name="TIME">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="esperar_milisegundos">
+      <value name="TIME">
+        <shadow type="math_number">
+          <field name="NUM">500</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="tempo_segundos">
+      <field name="NUM">1</field>
+    </block>
+    <block type="tempo_milisegundos">
+      <field name="NUM">500</field>
+    </block>
+    <block type="tempo_minutos">
+      <field name="NUM">1</field>
+    </block>
+    <block type="tempo_horas">
+      <field name="NUM">1</field>
+    </block>
+  </category>
 
-    <!-- 11. LEDs -->
-    <category name="💡 LEDs" colour="45">
-      <block type="bloco_ligar_led"></block>
-      <block type="bloco_desligar_led"></block>
-      <block type="bloco_desligar_todos_leds"></block>
-      <block type="bloco_acender_led_brilho"></block>
-      <block type="bloco_piscar_led"></block>
-      <block type="piscar_led_lento"></block>
-      <block type="bloco_animar_led_coracao"></block>
-      <block type="bloco_sinalizar_led_sos"></block>
-      <block type="bloco_animar_led_brilhar"></block>
-      <block type="bloco_alternar_led"></block>
-      <block type="bloco_transicao_led"></block>
-      <block type="bloco_batalhar_led"></block>
-      <block type="bloco_criar_animacao_led"></block>
-    </category>
+  <!-- 10. CORES -->
+  <category name="🎨 Cores" colour="#A65C99">
+    <block type="colour_red"></block>
+    <block type="colour_green"></block>
+    <block type="colour_blue"></block>
+    <block type="colour_yellow"></block>
+    <block type="colour_cyan"></block>
+    <block type="colour_magenta"></block>
+    <block type="colour_white"></block>
+    <block type="colour_orange"></block>
+    <block type="colour_pink"></block>
+    <block type="colour_lime"></block>
+    <block type="colour_skyblue"></block>
+    <block type="colour_turquoise"></block>
+    <block type="mix_colours"></block>
+  </category>
 
-    <!-- 12. LED MATRIX -->
-    <category name="🔲 LED Matrix" colour="#4a69bd">
-      <block type="preencher_matriz"></block>
-      <block type="desligar_matriz"></block>
-      <block type="acender_led_posicao"></block>
-      <block type="acender_linha"></block>
-      <block type="acender_coluna"></block>
-      <block type="mostrar_numero_matriz"></block>
-      <block type="mostrar_emoji"></block>
-      <block type="criar_desenho_na_matriz"></block>
-    </category>
+  <!-- 11. LEDS -->
+  <category name="💡 LEDs" colour="45">
+    <block type="bloco_ligar_led"></block>
+    <block type="bloco_desligar_led"></block>
+    <block type="bloco_desligar_todos_leds"></block>
+    <block type="bloco_acender_led_brilho"></block>
+    <block type="bloco_piscar_led"></block>
+    <block type="piscar_led_lento"></block>
+    <block type="bloco_animar_led_coracao"></block>
+    <block type="bloco_sinalizar_led_sos"></block>
+    <block type="bloco_animar_led_brilhar"></block>
+    <block type="bloco_alternar_led"></block>
+    <block type="bloco_transicao_led"></block>
+    <block type="bloco_batalhar_led"></block>
+    <block type="bloco_criar_animacao_led"></block>
+  </category>
 
-    <!-- 13. MATRIX ANIMATIONS -->
-    <category name="✨ Matrix Animations" colour="#8e44ad">
-      <block type="matriz_piscar_rapido"></block>
-      <block type="matriz_piscar_lento"></block>
-      <block type="matriz_aparecer_sumir"></block>
-      <block type="matriz_pulsar_brilho"></block>
-      <block type="matriz_deslizar_cima"></block>
-      <block type="matriz_deslizar_baixo"></block>
-      <block type="matriz_deslizar_esquerda"></block>
-      <block type="matriz_deslizar_direita"></block>
-      <block type="matriz_balancar"></block>
-      <block type="matriz_contracao"></block>
-      <block type="matriz_dar_flash"></block>
-    </category>
+  <!-- 12. MATRIZ DE LEDS -->
+  <category name="🔲 Matriz de LEDs" colour="#4a69bd">
+    <block type="preencher_matriz"></block>
+    <block type="desligar_matriz"></block>
+    <block type="acender_led_posicao"></block>
+    <block type="acender_linha"></block>
+    <block type="acender_coluna"></block>
+    <block type="mostrar_numero_matriz"></block>
+    <block type="mostrar_emoji"></block>
+    <block type="criar_desenho_na_matriz"></block>
+  </category>
 
-    <!-- 14. MATRIX NUMBERS -->
-    <category name="🔢 Matrix Numbers" colour="#55a855">
-      <block type="numero_matriz_0"></block>
-      <block type="numero_matriz_1"></block>
-      <block type="numero_matriz_2"></block>
-      <block type="numero_matriz_3"></block>
-      <block type="numero_matriz_4"></block>
-      <block type="numero_matriz_5"></block>
-      <block type="numero_matriz_6"></block>
-      <block type="numero_matriz_7"></block>
-      <block type="numero_matriz_8"></block>
-      <block type="numero_matriz_9"></block>
-    </category>
+  <!-- 13. ANIMAÇÕES DA MATRIZ -->
+  <category name="✨ Animações da Matriz" colour="#8e44ad">
+    <block type="matriz_piscar_rapido"></block>
+    <block type="matriz_piscar_lento"></block>
+    <block type="matriz_aparecer_sumir"></block>
+    <block type="matriz_pulsar_brilho"></block>
+    <block type="matriz_deslizar_cima"></block>
+    <block type="matriz_deslizar_baixo"></block>
+    <block type="matriz_deslizar_esquerda"></block>
+    <block type="matriz_deslizar_direita"></block>
+    <block type="matriz_balancar"></block>
+    <block type="matriz_contracao"></block>
+    <block type="matriz_dar_flash"></block>
+  </category>
 
-    <!-- 15. MATRIX EMOJIS -->
-    <category name="😊 Matrix Emojis" colour="#FF8C00">
-      <block type="emoji_rosto_feliz"></block>
-      <block type="emoji_rosto_triste"></block>
-      <block type="emoji_rosto_surpreso"></block>
-      <block type="emoji_coracao"></block>
-      <block type="emoji_seta_cima"></block>
-      <block type="emoji_seta_baixo"></block>
-      <block type="emoji_sol"></block>
-      <block type="emoji_chuva"></block>
-      <block type="emoji_flor"></block>
-      <block type="emoji_fantasma"></block>
-    </category>
+  <!-- 14. NÚMEROS NA MATRIZ -->
+  <category name="🔢 Números na Matriz" colour="#55a855">
+    <block type="numero_matriz_0"></block>
+    <block type="numero_matriz_1"></block>
+    <block type="numero_matriz_2"></block>
+    <block type="numero_matriz_3"></block>
+    <block type="numero_matriz_4"></block>
+    <block type="numero_matriz_5"></block>
+    <block type="numero_matriz_6"></block>
+    <block type="numero_matriz_7"></block>
+    <block type="numero_matriz_8"></block>
+    <block type="numero_matriz_9"></block>
+  </category>
 
-    <!-- 16. MUSICAL NOTES -->
-    <category name="🎼 Musical Notes" colour="#833471">
-      <block type="nota_do"></block>
-      <block type="nota_re"></block>
-      <block type="nota_mi"></block>
-      <block type="nota_fa"></block>
-      <block type="nota_sol"></block>
-      <block type="nota_la"></block>
-      <block type="nota_si"></block>
-    </category>
+  <!-- 15. EMOJIS NA MATRIZ -->
+  <category name="😊 Emojis na Matriz" colour="#FF8C00">
+    <block type="emoji_rosto_feliz"></block>
+    <block type="emoji_rosto_triste"></block>
+    <block type="emoji_rosto_surpreso"></block>
+    <block type="emoji_coracao"></block>
+    <block type="emoji_seta_cima"></block>
+    <block type="emoji_seta_baixo"></block>
+    <block type="emoji_sol"></block>
+    <block type="emoji_chuva"></block>
+    <block type="emoji_flor"></block>
+    <block type="emoji_fantasma"></block>
+  </category>
 
-    <!-- 17. SOUND -->
-    <category name="🔊 Sound" colour="#9a5ba5">
-      <block type="tocar_nota"></block>
-      <block type="tocar_som_agudo"></block>
-      <block type="parar_som"></block>
-      <block type="tocar_repetidamente"></block>
-      <block type="bipe_curto"></block>
-      <block type="bipe_duplo"></block>
-      <block type="alerta_intermitente"></block>
-      <block type="chamada"></block>
-      <block type="som_de_moeda"></block>
-      <block type="som_de_sucesso"></block>
-      <block type="som_de_falha"></block>
-      <block type="som_de_laser"></block>
-      <block type="sirene_policial"></block>
-      <block type="escala_musical_sobe"></block>
-      <block type="escala_musical_desce"></block>
-      <block type="brilha_brilha_estrelinha"></block>
-      <block type="criar_melodia"></block>
-      <block type="criar_trilha_sonora"></block>
-    </category>
+  <!-- 16. NOTAS MUSICAIS -->
+  <category name="🎼 Notas Musicais" colour="#833471">
+    <block type="nota_do"></block>
+    <block type="nota_re"></block>
+    <block type="nota_mi"></block>
+    <block type="nota_fa"></block>
+    <block type="nota_sol"></block>
+    <block type="nota_la"></block>
+    <block type="nota_si"></block>
+  </category>
 
-    <!-- 18. BUTTONS -->
-    <category name="🎮 Buttons" colour="#ee5a24">
-      <block type="botao_enquanto_apertado"></block>
-      <block type="botao_se_apertado"></block>
-    </category>
+  <!-- 17. SOM -->
+  <category name="🔊 Som" colour="#9a5ba5">
+    <block type="tocar_nota"></block>
+    <block type="tocar_som_agudo"></block>
+    <block type="parar_som"></block>
+    <block type="tocar_repetidamente"></block>
+    <block type="bipe_curto"></block>
+    <block type="bipe_duplo"></block>
+    <block type="alerta_intermitente"></block>
+    <block type="chamada"></block>
+    <block type="som_de_moeda"></block>
+    <block type="som_de_sucesso"></block>
+    <block type="som_de_falha"></block>
+    <block type="som_de_laser"></block>
+    <block type="sirene_policial"></block>
+    <block type="escala_musical_sobe"></block>
+    <block type="escala_musical_desce"></block>
+    <block type="brilha_brilha_estrelinha"></block>
+    <block type="criar_melodia"></block>
+    <block type="criar_trilha_sonora"></block>
+  </category>
+
+  <!-- 18. BOTÕES -->
+  <category name="🎮 Botões" colour="#ee5a24">
+    <block type="botao_enquanto_apertado"></block>
+    <block type="botao_se_apertado"></block>
+  </category>
 </xml>
