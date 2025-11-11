@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BitDogLab Neon Interativa (Com Categorias)</title>
+  <style>
+    /* Page layout and font */
+    body {
+      background-color: transparent;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    /* Image wrapper */
+    .image-container {
+      position: relative;
+      display: inline-block;
+      margin-top: 20px;
+      transform: scale(0.6);
+      transform-origin: top center;
+    }
+
+    .image-container img {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      display: block;
+    }
+
+    /* Transparent hover zone */
+    .tooltip-rect {
+      position: absolute;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    /* Tooltip box */
+    .tooltip-text {
+      visibility: hidden; 
+      opacity: 0;
+      background: rgba(20, 20, 40, 0.95); 
+      color: #ffffff; 
+      border: 2px solid #00f0ff; 
+      border-radius: 12px; 
+      box-shadow: 0 0 10px #00f0ff, 0 0 20px rgba(0, 240, 255, 0.5); 
+      position: absolute;
+      bottom: 110%; 
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 20px 25px; 
+      width: max-content;
+      max-width: 650px; 
+      font-size: 1.8em; 
+      text-align: left; 
+      transition: opacity 0.3s;
+      z-index: 10;
+    }
+
+    /* Tooltip title */
+    .tooltip-text strong {
+      display: block;
+      color: #00f0ff; 
+      text-shadow: 0 0 4px #00f0ff;
+      font-size: 1.2em; 
+      margin-bottom: 10px;
+    }
+
+    /* Tooltip hover effect */
+    .tooltip-rect:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1; 
+    }
+
+    /* Category section inside tooltip */
+    .category-container {
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(0, 240, 255, 0.3);
+    }
+
+    /* Category title */
+    .category-title {
+        display: block;
+        font-size: 0.9em;
+        color: #00f0ff;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    /* Category tag style */
+    .category-tag {
+        display: inline-block;
+        color: #000000;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-right: 6px;
+        margin-bottom: 6px;
+        font-size: 0.8em;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    /* Title styling */
+    h1 {
+      color: #00f0ff;
+      text-shadow: 0 0 10px #00f0ff;
+      font-size: 2.5em;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>BitDogLab - Conheça sua Placa</h1>
+
+  <div class="image-container">
+    <img src="../media/BITLAB.png" alt="Placa BitDogLab">
+
+    <div class="tooltip-rect" style="top: 8px; left: 585px; width: 440px; height: 70px;">
+      <div class="tooltip-text">
+        <strong>Conector de Sensores</strong>
+        Permite ligar sensores de luz, som, temperatura e muito mais para descobrir o mundo ao redor!
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 157px; left: 606px; width: 130px; height: 60px;">
+      <div class="tooltip-text">
+        <strong>Porta de Expansão</strong>
+        Um lugar mágico para conectar outros módulos e inventar coisas novas.
+      </div>
+    </div>
+
+    <div class="tooltip-rect" style="top: 152px; left: 915px; width: 116px; height: 76px;">
+      <div class="tooltip-text">
+        <strong>Porta de Expansão</strong>
+        Um lugar mágico para conectar outros módulos e inventar coisas novas.
+      </div>
+    </div>
+
+    <div class="tooltip-rect" style="top: 248px; left: 73px; width: 314px; height: 47px;">
+      <div class="tooltip-text">
+        <strong>Microfone</strong>
+        É o "ouvido" da placa! Ele escuta o som do ambiente. Você pode programar algo para acender quando você bater palmas!
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 239px; left: 519px; width: 94px; height: 82px;">
+      <div class="tooltip-text">
+        <strong>Microfone</strong>
+        É o "ouvido" da placa! Ele escuta o som do ambiente. Você pode programar algo para acender quando você bater palmas!
+      </div>
+    </div>
+
+    <div class="tooltip-rect" style="top: 325px; left: 873px; width: 267px; height: 363px;">
+      <div class="tooltip-text">
+        <strong>Display (Tela)</strong>
+        A "carinha" da placa! Aqui você pode mostrar mensagens, desenhos, animações ou criar seus próprios jogos.
+      </div>
+    </div>
+
+    <div class="tooltip-rect" style="top: 489px; left: 1276px; width: 249px; height: 42px;">
+      <div class="tooltip-text">
+        <strong>Display (Tela)</strong>
+        A "carinha" da placa! Aqui você pode mostrar mensagens, desenhos, animações ou criar seus próprios jogos.
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 641px; left: 1281px; width: 245px; height: 100px;">
+      <div class="tooltip-text">
+        <strong>Botão Liga/Desliga</strong>
+        O botão principal para dar energia e vida para sua placa. (Ou para fazê-la dormir!)
+      </div>
+    </div>
+
+    <div class="tooltip-rect" style="top: 647px; left: 1143px; width: 46px; height: 46px;">
+      <div class="tooltip-text">
+        <strong>Botão On/Off</strong>
+        Liga e desliga a placa.
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 669px; left: 17px; width: 269px; height: 53px;">
+      <div class="tooltip-text">
+        <strong>Joystick (Controle)</strong>
+        Igual ao de videogame! Use para controlar jogos, mover um robô ou navegar por menus na telinha.
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 599px; left: 438px; width: 251px; height: 199px;">
+      <div class="tooltip-text">
+        <strong>Joystick (Controle)</strong>
+        Igual ao de videogame! Use para controlar jogos, mover um robô ou navegar por menus na telinha.
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 787px; left: 8px; width: 330px; height: 135px;">
+      <div class="tooltip-text">
+        <strong>Conector de Motores</strong>
+        Use esta porta para conectar motores e rodinhas para construir seu próprio robô ou carrinho!
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 817px; left: 525px; width: 244px; height: 70px;">
+      <div class="tooltip-text">
+        <strong>Conector de Motores</strong>
+        Use esta porta para conectar motores e rodinhas para construir seu próprio robô ou carrinho!
+      </div>
+    </div>
+
+    <div class="tooltip-rect" style="top: 408px; left: 87px; width: 307px; height: 139px;">
+      <div class="tooltip-text">
+        <strong>Matriz de LEDs</strong>
+        Um show de luzes! É um painel com várias luzinhas que você pode acender para fazer desenhos e animações coloridas.
+        
+        <div class="category-container">
+          <span class="category-title">Categorias que usam este periférico:</span>
+          <span class="category-tag" style="background-color: #4a69bd;">🔲 Matriz de LEDs</span>
+          <span class="category-tag" style="background-color: #8e44ad;">✨ Animações da Matriz</span>
+          <span class="category-tag" style="background-color: #55a855;">🔢 Números na Matriz</span>
+          <span class="category-tag" style="background-color: #FF8C00;">😊 Emojis na Matriz</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tooltip-rect" style="top: 365px; left: 514px; width: 191px; height: 214px;">
+      <div class="tooltip-text">
+        <strong>Matriz de LEDs</strong>
+        Um show de luzes! É um painel com várias luzinhas que você pode acender para fazer desenhos e animações coloridas.
+        
+        <div class="category-container">
+          <span class="category-title">Categorias que usam este periférico:</span>
+          <span class="category-tag" style="background-color: #4a69bd;">🔲 Matriz de LEDs</span>
+          <span class="category-tag" style="background-color: #8e44ad;">✨ Animações da Matriz</span>
+          <span class="category-tag" style="background-color: #55a855;">🔢 Números na Matriz</span>
+          <span class="category-tag" style="background-color: #FF8C00;">😊 Emojis na Matriz</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 255px; left: 1303px; width: 208px; height: 49px;">
+      <div class="tooltip-text">
+        <strong>Buzzer (Bip!)</strong>
+        Faz sons e músicas! Você pode programar ele para fazer "bip", tocar uma melodia ou ser um alarme.
+        
+        <div class="category-container">
+          <span class="category-title">Categorias que usam este periférico:</span>
+          <span class="category-tag" style="background-color: #833471;">🎼 Notas Musicais</span>
+          <span class="category-tag" style="background-color: #9a5ba5;">🔊 Som</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tooltip-rect" style="top: 236px; left: 1029px; width: 69px; height: 62px;">
+      <div class="tooltip-text">
+        <strong>Buzzer (Bip!)</strong>
+        Faz sons e músicas! Você pode programar ele para fazer "bip", tocar uma melodia ou ser um alarme.
+        
+        <div class="category-container">
+          <span class="category-title">Categorias que usam este periférico:</span>
+          <span class="category-tag" style="background-color: #833471;">🎼 Notas Musicais</span>
+          <span class="category-tag" style="background-color: #9a5ba5;">🔊 Som</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 710px; left: 963px; width: 108px; height: 91px;">
+      <div class="tooltip-text">
+        <strong>Botão Verde</strong>
+        Aperte para fazer algo acontecer! Pode ser o botão de "Confirmar", "Pular" ou "Ligar" um projeto.
+        
+        <div class="category-container">
+          <span class="category-title">Categorias que usam este periférico:</span>
+          <span class="category-tag" style="background-color: #ee5a24;">🎮 Botões</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 809px; left: 863px; width: 112px; height: 104px;">
+      <div class="tooltip-text">
+        <strong>Botão Vermelho</strong>
+        Aperte para "Parar", "Cancelar" ou "Voltar" em um menu. Você decide o que ele faz!
+        
+        <div class="category-container">
+          <span class="category-title">Categorias que usam este periférico:</span>
+          <span class="category-tag" style="background-color: #ee5a24;">🎮 Botões</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 814px; left: 1040px; width: 111px; height: 105px;">
+      <div class="tooltip-text">
+        <strong>Botão Azul</strong>
+        Um botão especial para qualquer função que você inventar. Pode ser um "Menu" ou um "Poder Especial"!
+        
+        <div class="category-container">
+          <span class="category-title">Categorias que usam este periférico:</span>
+          <span class="category-tag" style="background-color: #ee5a24;">🎮 Botões</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 804px; left: 1265px; width: 348px; height: 97px;">
+      <div class="tooltip-text">
+        <strong>Botão de Interação</strong>
+        Um botão que você pode programar para fazer o que sua imaginação mandar.
+        
+        <div class="category-container">
+          <span class="category-title">Categorias que usam este periférico:</span>
+          <span class="category-tag" style="background-color: #ee5a24;">🎮 Botões</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="tooltip-rect" style="top: 846px; left: 990px; width: 47px; height: 51px;">
+      <div class="tooltip-text">
+        <strong>LED RGB</strong>
+        Uma luz especial que brilha em qualquer cor! Misture vermelho, verde e azul para criar milhões de cores.
+        
+        <div class="category-container">
+          <span class="category-title">Categorias que usam este periférico:</span>
+          <span class="category-tag" style="background-color: #FFBF00;">💡 LEDs</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tooltip-rect" style="top: 959px; left: 1049px; width: 343px; height: 101px;">
+      <div class="tooltip-text">
+        <strong>LED RGB</strong>
+        Uma luz especial que brilha em qualquer cor! Misture vermelho, verde e azul para criar milhões de cores.
+        
+        <div class="category-container">
+          <span class="category-title">Categorias que usam este periférico:</span>
+          <span class="category-tag" style="background-color: #FFBF00;">💡 LEDs</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
