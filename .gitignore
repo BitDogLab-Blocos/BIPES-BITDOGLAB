@@ -26,7 +26,7 @@ Desktop.ini
 # IDEs e Editores
 ## VSCode
 .vscode/settings.json
-
+.vscode/
 ## Vim
 *.swp
 *.swo
