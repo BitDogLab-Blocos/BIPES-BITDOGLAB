@@ -67,7 +67,10 @@ const BitdogLabConfig = {
              line.indexOf(' = PWM(') !== -1 || // PWM initialization with spaces
              line.indexOf('=PWM(') !== -1 || // PWM initialization without spaces
              line.startsWith('LED_MATRIX = ') || // LED matrix setup
-             line.startsWith('np = neopixel'); // Neopixel setup
+             line.startsWith('np = neopixel') || // Neopixel setup
+             line.startsWith('EMOJIS_5X5 = ') || // Emoji patterns dictionary
+             line.startsWith('NUMEROS_5X5 = ') || // Number patterns dictionary
+             line.startsWith('_contador_repeticao = '); // Repetition counter
     }
   }
 };
