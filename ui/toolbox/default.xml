@@ -156,4 +156,129 @@
     <block type="botao_enquanto_apertado"></block>
     <block type="botao_se_apertado"></block>
   </category>
+
+  <!-- 19. REPETIÇÃO -->
+  <category name="🔁 Repetição" colour="#2980b9">
+    <block type="controls_repeat_simple">
+      <value name="TIMES">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="controls_repeat_forever"></block>
+    <block type="controls_repeat_until">
+      <value name="CONDITION">
+        <shadow type="logic_boolean">
+          <field name="BOOL">TRUE</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="controls_while_simple">
+      <value name="CONDITION">
+        <shadow type="logic_boolean">
+          <field name="BOOL">TRUE</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="controls_for_simple">
+      <value name="FROM">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="TO">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="controls_for_step">
+      <value name="FROM">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="TO">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+      <value name="STEP">
+        <shadow type="math_number">
+          <field name="NUM">2</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+
+  <!-- 20. LÓGICA E CONDICIONAIS -->
+  <category name="🧠 Lógica" colour="#d14081">
+    <block type="controls_if_simple">
+      <value name="CONDITION">
+        <shadow type="logic_boolean">
+          <field name="BOOL">TRUE</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="controls_if_else_simple">
+      <value name="CONDITION">
+        <shadow type="logic_boolean">
+          <field name="BOOL">TRUE</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+
+  <!-- 21. COMPARAÇÃO -->
+  <category name="⚖️ Comparação" colour="#d14081">
+    <block type="logic_compare_simple">
+      <value name="A">
+        <shadow type="math_number">
+          <field name="NUM">5</field>
+        </shadow>
+      </value>
+      <value name="B">
+        <shadow type="math_number">
+          <field name="NUM">5</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="logic_boolean">
+      <field name="BOOL">TRUE</field>
+    </block>
+    <block type="logic_boolean">
+      <field name="BOOL">FALSE</field>
+    </block>
+  </category>
+
+  <!-- 22. OPERADORES LÓGICOS -->
+  <category name="🔀 Operadores Lógicos" colour="#d14081">
+    <block type="logic_operation_simple">
+      <value name="A">
+        <shadow type="logic_boolean">
+          <field name="BOOL">TRUE</field>
+        </shadow>
+      </value>
+      <value name="B">
+        <shadow type="logic_boolean">
+          <field name="BOOL">TRUE</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="logic_not_simple">
+      <value name="BOOL">
+        <shadow type="logic_boolean">
+          <field name="BOOL">TRUE</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+
+  <!-- 23. AGUARDAR -->
+  <category name="⏸️ Aguardar" colour="#5C81A6">
+    <block type="time_delay_simple">
+      <field name="SECONDS">1</field>
+    </block>
+  </category>
 </xml>

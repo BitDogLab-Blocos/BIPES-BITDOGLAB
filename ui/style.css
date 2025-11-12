@@ -1,18 +1,16 @@
-/* BitdogLab Theme Colors */
+/* Theme variables */
 :root {
-  --bitdoglab-primary: #4b2e83; /* Purple primary color */
-  --bitdoglab-secondary: #85754d; /* Gold accent color */
-  --bitdoglab-tertiary: #b7a57a; /* Light gold */
-  --bitdoglab-light: #f5f5f5; /* Light background */
-  --bitdoglab-dark: #2d1a4f; /* Dark purple */
-  --bitdoglab-accent: #ff8c00; /* Orange accent for children UI */
-  --bitdoglab-success: #4CAF50; /* Green for success messages */
-  --bitdoglab-warning: #FFC107; /* Yellow for warnings */
-  --bitdoglab-error: #F44336; /* Red for errors */
-  --font-primary: 'Comic Sans MS', 'Marker Felt', sans-serif; /* Child-friendly font */
+  --bitdoglab-primary: #4b2e83;
+  --bitdoglab-secondary: #85754d;
+  --bitdoglab-tertiary: #b7a57a;
+  --bitdoglab-light: #f5f5f5;
+  --bitdoglab-dark: #2d1a4f;
+  --bitdoglab-accent: #ff8c00;
+  --bitdoglab-success: #4CAF50;
+  --bitdoglab-warning: #FFC107;
+  --bitdoglab-error: #F44336;
+  --font-primary: 'Comic Sans MS', 'Marker Felt', sans-serif;
   --font-secondary: BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-
-  /* Adicionando elementos decorativos para uma interface mais amigável para crianças */
   --border-radius-large: 1rem;
   --border-radius-medium: 0.75rem;
   --border-radius-small: 0.5rem;
@@ -25,7 +23,7 @@ body {
   font-family: var(--font-secondary);
   margin: 0;
   overflow: hidden;
-  overscroll-behavior: none; /*disable pull to refresh */
+  overscroll-behavior: none;
 }
 
 label {
@@ -43,10 +41,6 @@ tt {
   margin: 0 0.25em;
   border-radius: 1rem;
   font-weight: bold;
-}
-
-.farSide {
-  text-align: right;
 }
 
 /* Buttons */
@@ -97,7 +91,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: nowrap; /* Impede a quebra de linha */
+  flex-wrap: nowrap;
   padding: 0 .5rem 0 1rem;
   user-select: none;
   width: 100vw;
@@ -110,7 +104,7 @@ h1 {
 .top-menu > .logo {
   display: flex;
   align-items: center;
-  font-size: 1.5rem; /* Reduzido de 1.8rem */
+  font-size: 1.5rem;
   font-weight: 600;
   line-height: 1.125;
   color: white;
@@ -236,7 +230,7 @@ h1 {
   background-color: #fff;
 }
 
-#bluetoothButton, #serialButton, #networkButton, #scanButton{
+#serialButton {
   display: inline-flex;
   align-items: center;
 }
@@ -249,17 +243,6 @@ h1 {
   border-radius: 1.25rem;
   text-align: end;
   width: 100%;
-}
-#closeZone {
-  position: absolute;
-  width: 100vw;
-  height: 100%;
-  top: 0;
-  z-index: 997;
-  display: none;
-}
-#closeZone.on {
-  display: block;
 }
 
 .checkswitch {
@@ -303,13 +286,7 @@ input.checkswitch[type="checkbox"] {
     transform: translateX(100%);
 }
 
-#scanButton {
-  line-height:1.25rem;
-  font-size: 0.8rem;
-  margin: 0.125rem;
-  padding-right: 0.5rem;
-}
-#bluetoothButton, #serialButton, #networkButton {
+#serialButton {
   font-weight: bold;
   line-height:1.75rem;
   font-size: 1rem;
@@ -340,15 +317,9 @@ input.checkswitch[type="checkbox"] {
 		50%	 { background-color: var(--bitdoglab-accent);}
 		100%	 { background-color: #fff;}
 }
-#networkButton, #serialButton {
-  margin-top: -1px;
-}
 
 @-webkit-keyframes spin { 100% { transform:rotate(360deg); } }
 @keyframes spin { 100% { transform:rotate(360deg); } }
-#scanButton:hover:before {
-  animation:spin 1s linear infinite;
-}
 
 /* Tabs */
 .tabs > div {
@@ -367,7 +338,7 @@ input.checkswitch[type="checkbox"] {
 }
 .taboff, .tabon {
   -webkit-tap-highlight-color: transparent;
-  padding: 0.7em .5rem; /* Padding horizontal reduzido */
+  padding: 0.7em .5rem;
   margin: 0 4px;
   border-radius: 0.75em;
   white-space: nowrap;
@@ -507,7 +478,7 @@ pre.content {
   background-attachment: fixed !important;
 }
 
-/* Estilo para botões mais amigáveis para crianças */
+/* Button styles */
 button {
   transition: all 0.3s ease;
 }
@@ -516,55 +487,43 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* Futuristic "Spaceship Control Panel" Buttons */
+/* Console buttons */
 #content_console #file-boxes button {
     font-family: var(--font-primary);
-    font-size: 1rem; /* Increased for better readability */
+    font-size: 1rem;
     font-weight: bold;
     color: white;
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     border: none;
-    border-radius: 5px; /* Reduced radius for a sharper look */
+    border-radius: 5px;
     padding: 0.6rem 1rem;
-    margin: 8px; /* Increased margin for spacing */
+    margin: 8px;
     cursor: pointer;
     transition: all 0.2s ease-out;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-    /* Angular shape */
     clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 90% 100%, 0% 100%);
-    /* Neon Glow Effect */
     box-shadow: 0 0 4px rgba(0, 242, 254, 0.5), 0 0 8px rgba(0, 242, 254, 0.4);
 }
 
 #content_console #file-boxes button:hover {
-    transform: translateY(-3px); /* More pronounced lift */
-    /* Intensified Neon Glow */
+    transform: translateY(-3px);
     box-shadow: 0 0 8px #00f2fe, 0 0 16px #00f2fe, 0 0 24px #4facfe;
 }
 
 #content_console #file-boxes button:active {
-    transform: translateY(1px); /* Pressed down effect */
-    /* Dim the glow on press */
+    transform: translateY(1px);
     box-shadow: 0 0 2px rgba(0, 242, 254, 0.3);
 }
 
-#content_xml {
-  resize: none;
-  outline: none;
-  border: none;
-  font-family: monospace;
-  width: 100%
-}
-
-/* Space background for console and device tabs */
+/* Space background */
 #content_console, #content_device {
   background-color: #1e2749;
-  background-image: 
+  background-image:
     radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
     radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
     radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
     radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
-  background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px; 
+  background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
   background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
   background-attachment: fixed;
 }
@@ -574,18 +533,18 @@ button:hover {
   align-items: center;
 }
 
-/* Adjust text color for readability on space background */
 #content_device, #content_device h3 {
   color: white;
 }
 
+/* Terminal */
 #content_console #term{
-  background: linear-gradient(135deg, #8e44ad, #3498db); /* Purple-blue gradient */
+  background: linear-gradient(135deg, #8e44ad, #3498db);
   margin: .75rem 0;
   overflow: visible;
-  border-radius: 25px; /* More rounded corners */
+  border-radius: 25px;
   transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(142, 68, 173, 0.5), 0 0 30px rgba(52, 152, 219, 0.5); /* Soft neon effect */
+  box-shadow: 0 0 15px rgba(142, 68, 173, 0.5), 0 0 30px rgba(52, 152, 219, 0.5);
   border: 5px solid #fff;
   position: relative;
   padding: 1em;
@@ -610,23 +569,16 @@ button:hover {
   text-shadow: 0 0 10px #fff, 0 0 20px #ff5757, 0 0 30px #ff5757;
 }
 
-#tipsGeneric, #languageIcon {
+#languageIcon {
   display: inline-flex;
   align-items: center;
-  border: 1px solid #aaa;
-  padding: .5rem;
-  border-radius: 2rem;
+  border: none;
   opacity: 0.8;
   margin: .5rem 0;
 }
-#languageIcon {
-  border: none;
-}
-#tipsGeneric:before {
-  margin-right: .25rem;
-}
+
 #content_console #term.on{
-  box-shadow: 0 0 25px rgba(255, 105, 180, 0.9), 0 0 45px rgba(137, 207, 240, 0.9), 0 0 10px #fff inset; /* Pink and baby blue neon glow */
+  box-shadow: 0 0 25px rgba(255, 105, 180, 0.9), 0 0 45px rgba(137, 207, 240, 0.9), 0 0 10px #fff inset;
 }
 #content_console button {
   line-height: 1.5rem;
@@ -670,12 +622,6 @@ button:hover {
   padding: 0 .5rem 0 1.85rem
 }
 #file_save_as.py #updateXMLButton, #file_save_as.py #generated2DeviceButton {
-  display:none;
-}
-#file_save_as.bipes-xml #editor2DeviceButton, #file_save_as.bipes-xml #generated2DeviceButton {
-  display:none;
-}
-#file_save_as.bipes-py #editor2DeviceButton, #file_save_as.bipes-py #updateXMLButton {
   display:none;
 }
 #file_save_as input {
@@ -874,12 +820,6 @@ button.icon.medium:before  {
   height: 2.5rem;
   background-size: auto 5rem;
 }
-#linkButton:before {
-  background-position: left calc(-1.5rem*0) top; /* icon size * index on icons.svg*/
-}
-#linkButton {
-  display: none !important; /* Ocultar botão de compartilhar */
-}
 #saveButton:before, #downloadIcon:before  {
   background-position: left calc(-1.5rem*1) top;
 }
@@ -918,7 +858,7 @@ button.icon.medium:before  {
   background-position: left calc(-1.5rem*12) top;
 }
 
-/* ÍCONES BRANCOS - APENAS TOOLBAR PROBLEMÁTICA */
+/* White icons */
 #notificationButton,
 #accountButton,
 #newProjectButton,
@@ -932,15 +872,6 @@ button.icon.medium:before  {
 }
 #connectButton.on:before {
   background-position: left calc(-1.5rem*13) bottom;
-}
-#scanButton:before {
-  background-position: left calc(-1.5rem*14) top;
-}
-#settingsGeneric:before {
-  background-position: left calc(-1.5rem*16) top;
-}
-#tipsGeneric:before {
-  background-position: left calc(-1.5rem*17) top;
 }
 #refreshFilesList:before {
   background-position: left calc(-1.5rem*18) top;
@@ -965,7 +896,7 @@ button.icon.medium:before  {
   }
 }
 
-/*Select*/
+/* Device selector */
 #deviceSelect {
   display: inline-flex;
   align-items: center;
@@ -976,7 +907,6 @@ button.icon.medium:before  {
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 #device_selector {
-  /* A reset of styles of select object */
   appearance: none;
   background-color: transparent;
   border: none;
@@ -1014,13 +944,6 @@ button.icon.medium:before  {
   box-shadow: 0 3px 6px rgba(0,0,0,0.3);
   transform: translateY(-2px);
   background: var(--bitdoglab-success);
-}
-
-/* Privacy link */
-.privacyLink {
-  font-family: Roboto, Arial, Helvetica, sans-serif;
-  font-size: small;
-  text-decoration: none;
 }
 
 #languageMenu {
@@ -1183,12 +1106,11 @@ button.icon.medium:before  {
     padding-bottom: .125rem;
 }
 
-/* Estilos para a Toolbox Infantil */
+/* Blockly toolbox */
 .blocklyToolboxDiv {
   background: linear-gradient(135deg, #f0f9ff 0%, #e6e6fa 100%);
   border-right: 2px solid #d1c4e9;
-  width: 250px; /* Largura fixa para acomodar os nomes dos blocos */
-  /* Removido transition, overflow e white-space para evitar o comportamento retrátil */
+  width: 250px;
 }
 
 .blocklyTreeRow {
@@ -1206,7 +1128,7 @@ button.icon.medium:before  {
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
-/* Cores do Arco-Íris para as categorias */
+/* Category colors */
 .blocklyTreeRow[aria-level="1"]:nth-child(odd) {
     background-color: #ffadad;
 }
@@ -1255,15 +1177,12 @@ button.icon.medium:before  {
     color: white !important;
 }
 
-/*
- * Oculta o texto do rótulo (label) que aparece acima dos blocos
- * de uma categoria quando ela é selecionada.
- */
+/* Hide flyout label text */
 .blocklyFlyoutLabelText {
   display: none;
 }
 
-/* Custom styles to make the mutator gear more visible */
+/* Mutator icon */
 .blocklyMutatorIcon image {
   transform-origin: center center;
   animation: pulse-mutator 2s infinite ease-in-out;
