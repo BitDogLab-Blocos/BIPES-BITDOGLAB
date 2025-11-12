@@ -30,7 +30,7 @@ Blockly.Blocks['controls_repeat_simple'] = {
       return;
     }
 
-    // List of blocks with internal while True loops (incompatible)
+    // List of blocks with internal while True loops or that need continuous checking (incompatible)
     var incompatibleBlocks = {
       'bloco_piscar_led': 'Piscar LED',
       'piscar_led_lento': 'Piscar LED Lento',
@@ -39,7 +39,9 @@ Blockly.Blocks['controls_repeat_simple'] = {
       'bloco_animar_led_brilhar': 'Animar LED Brilhar',
       'bloco_alternar_led': 'Alternar LED',
       'bloco_transicao_led': 'Transição LED',
-      'bloco_batalhar_led': 'Batalhar LED'
+      'bloco_batalhar_led': 'Batalhar LED',
+      'botao_enquanto_apertado': 'Botão Enquanto Apertado',
+      'botao_se_apertado': 'Botão Se Apertado'
     };
 
     // Check all child blocks
@@ -51,17 +53,26 @@ Blockly.Blocks['controls_repeat_simple'] = {
         // Found incompatible block - show alert popup
         if (!this.warningShown) {
           this.warningShown = true;
-          setTimeout(function(blockName) {
-            alert('⚠️ ATENÇÃO!\n\n' +
-                  'O bloco "' + blockName + '" contém um loop infinito interno e NÃO VAI FUNCIONAR corretamente dentro de "Repetir X vezes".\n\n' +
-                  'Esse bloco já repete para sempre sozinho, então colocá-lo dentro de uma repetição vai criar um loop dentro de outro loop.\n\n' +
-                  'Use apenas blocos simples como:\n' +
-                  '• Ligar LED\n' +
-                  '• Desligar LED\n' +
-                  '• Tocar nota\n' +
-                  '• Mostrar emoji\n' +
-                  '• Mostrar número');
-          }.bind(this, incompatibleBlocks[childType]), 100);
+          setTimeout(function(blockName, isButton) {
+            var message = '⚠️ ATENÇÃO!\n\n';
+
+            if (isButton) {
+              message += 'O bloco "' + blockName + '" precisa estar dentro do loop principal (while True) para verificar continuamente o estado do botão.\n\n' +
+                        'Colocá-lo dentro de "Repetir X vezes" NÃO VAI FUNCIONAR corretamente porque ele será executado apenas N vezes rapidamente, sem tempo para você apertar o botão.\n\n';
+            } else {
+              message += 'O bloco "' + blockName + '" contém um loop infinito interno e NÃO VAI FUNCIONAR corretamente dentro de "Repetir X vezes".\n\n' +
+                        'Esse bloco já repete para sempre sozinho, então colocá-lo dentro de uma repetição vai criar um loop dentro de outro loop.\n\n';
+            }
+
+            message += 'Use apenas blocos simples como:\n' +
+                      '• Ligar LED\n' +
+                      '• Desligar LED\n' +
+                      '• Tocar nota\n' +
+                      '• Mostrar emoji\n' +
+                      '• Mostrar número';
+
+            alert(message);
+          }.bind(this, incompatibleBlocks[childType], childType.indexOf('botao_') === 0), 100);
 
           // Reset warning flag after 3 seconds
           setTimeout(function() {
