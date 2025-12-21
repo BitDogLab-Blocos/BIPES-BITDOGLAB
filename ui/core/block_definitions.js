@@ -1940,6 +1940,81 @@ Blockly.Blocks['brilha_brilha_estrelinha'] = {
     this.setHelpUrl("");
   }
 };
+// Christmas song: Jingle Bells
+Blockly.Blocks['natal_jingle_bells'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎄 Jingle Bells")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#c0392b");
+    this.setTooltip("Toca a melodia de Jingle Bells. Use com 'Repetir para sempre' para loop infinito");
+    this.setHelpUrl("");
+  }
+};
+// Christmas song: Silent Night (Noite Feliz)
+Blockly.Blocks['natal_noite_feliz'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎄 Noite Feliz")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#c0392b");
+    this.setTooltip("Toca a melodia de Noite Feliz (Silent Night). Use com 'Repetir para sempre' para loop infinito");
+    this.setHelpUrl("");
+  }
+};
+// Christmas song: Deck the Halls (Bate o Sino)
+Blockly.Blocks['natal_bate_sino'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎄 Bate o Sino")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#c0392b");
+    this.setTooltip("Toca a melodia de Bate o Sino (Deck the Halls). Use com 'Repetir para sempre' para loop infinito");
+    this.setHelpUrl("");
+  }
+};
+// Christmas song: We Wish You a Merry Christmas (Noel)
+Blockly.Blocks['natal_noel'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎄 Feliz Natal")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#c0392b");
+    this.setTooltip("Toca We Wish You a Merry Christmas. Use com 'Repetir para sempre' para loop infinito");
+    this.setHelpUrl("");
+  }
+};
+// Christmas song: Adeste Fideles (Ó Vinde)
+Blockly.Blocks['natal_o_vinde'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎄 Ó Vinde")
+        .appendField("com volume de")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#c0392b");
+    this.setTooltip("Toca a melodia de Ó Vinde (Adeste Fideles). Use com 'Repetir para sempre' para loop infinito");
+    this.setHelpUrl("");
+  }
+};
 // Container block for melody mutator
 Blockly.Blocks['criar_melodia_container'] = {
   init: function() {

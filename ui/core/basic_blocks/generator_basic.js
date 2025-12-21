@@ -43,7 +43,6 @@ Blockly.Python['controls_repeat_simple'] = function(block) {
 };
 
 // Repeat forever generator
-/*
 Blockly.Python['controls_repeat_forever'] = function(block) {
   var statements = Blockly.Python.statementToCode(block, 'DO');
 
@@ -71,7 +70,6 @@ Blockly.Python['controls_repeat_forever'] = function(block) {
 
   return code;
 };
-*/
 
 // Repeat until generator
 /*

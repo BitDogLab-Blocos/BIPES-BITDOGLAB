@@ -92,7 +92,6 @@ Blockly.Blocks['controls_repeat_simple'] = {
 };
 
 // Repeat forever block
-/*
 Blockly.Blocks['controls_repeat_forever'] = {
   init: function() {
     this.appendDummyInput()
@@ -105,7 +104,6 @@ Blockly.Blocks['controls_repeat_forever'] = {
     this.setHelpUrl("");
   }
 };
-*/
 
 // Repeat until condition block
 /*
