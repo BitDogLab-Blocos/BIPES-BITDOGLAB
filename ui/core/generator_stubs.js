@@ -1114,6 +1114,160 @@ Blockly.Python['brilha_brilha_estrelinha'] = function(block) {
   return code;
 };
 
+// Christmas song: Jingle Bells
+Blockly.Python['natal_jingle_bells'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+  // E E E (Jingle bells)
+  code += 'buzzer.freq(659)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(659)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(659)\ntime.sleep_ms(400)\n';
+  // E E E (Jingle bells)
+  code += 'buzzer.freq(659)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(659)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(659)\ntime.sleep_ms(400)\n';
+  // E G C D E (Jingle all the way)
+  code += 'buzzer.freq(659)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(784)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(523)\ntime.sleep_ms(300)\n';
+  code += 'buzzer.freq(587)\ntime.sleep_ms(100)\n';
+  code += 'buzzer.freq(659)\ntime.sleep_ms(800)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+  return code;
+};
+
+// Christmas song: Silent Night (Noite Feliz)
+Blockly.Python['natal_noite_feliz'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+  // G A G E (Noite feliz)
+  code += 'buzzer.freq(392)\ntime.sleep_ms(400)\n';
+  code += 'buzzer.freq(440)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(392)\ntime.sleep_ms(600)\n';
+  code += 'buzzer.freq(330)\ntime.sleep_ms(800)\n';
+  // G A G E (Noite feliz)
+  code += 'buzzer.freq(392)\ntime.sleep_ms(400)\n';
+  code += 'buzzer.freq(440)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(392)\ntime.sleep_ms(600)\n';
+  code += 'buzzer.freq(330)\ntime.sleep_ms(800)\n';
+  // D D B (Ó Senhor)
+  code += 'buzzer.freq(587)\ntime.sleep_ms(600)\n';
+  code += 'buzzer.freq(587)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(494)\ntime.sleep_ms(800)\n';
+  // C C G (de amor)
+  code += 'buzzer.freq(523)\ntime.sleep_ms(600)\n';
+  code += 'buzzer.freq(523)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(392)\ntime.sleep_ms(800)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+  return code;
+};
+
+// Christmas song: Deck the Halls (Bate o Sino)
+Blockly.Python['natal_bate_sino'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+  // D C B A G A B G (Deck the halls with boughs of holly)
+  code += 'buzzer.freq(587)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(523)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(494)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(440)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(392)\ntime.sleep_ms(300)\n';
+  code += 'buzzer.freq(440)\ntime.sleep_ms(100)\n';
+  code += 'buzzer.freq(494)\ntime.sleep_ms(400)\n';
+  code += 'buzzer.freq(392)\ntime.sleep_ms(400)\n';
+  // A B C A B (Fa la la la la)
+  code += 'buzzer.freq(440)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(494)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(523)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(440)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(494)\ntime.sleep_ms(600)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+  return code;
+};
+
+// Christmas song: We Wish You a Merry Christmas (Noel)
+Blockly.Python['natal_noel'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+  // C F F G F E D (We wish you a merry)
+  code += 'buzzer.freq(262)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(349)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(349)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(392)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(349)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(330)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(294)\ntime.sleep_ms(400)\n';
+  // C C G G A G F E C (Christmas and a happy new year)
+  code += 'buzzer.freq(262)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(262)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(392)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(392)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(440)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(392)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(349)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(330)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(262)\ntime.sleep_ms(600)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+  return code;
+};
+
+// Christmas song: Adeste Fideles (Ó Vinde)
+Blockly.Python['natal_o_vinde'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  var volume = block.getFieldValue('VOLUME');
+  var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+  // G G D C B A G (Adeste fideles)
+  code += 'buzzer.freq(392)\ntime.sleep_ms(400)\n';
+  code += 'buzzer.freq(392)\ntime.sleep_ms(400)\n';
+  code += 'buzzer.freq(587)\ntime.sleep_ms(400)\n';
+  code += 'buzzer.freq(523)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(494)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(440)\ntime.sleep_ms(400)\n';
+  code += 'buzzer.freq(392)\ntime.sleep_ms(600)\n';
+  // D E D C D (Laeti triumphantes)
+  code += 'buzzer.freq(587)\ntime.sleep_ms(400)\n';
+  code += 'buzzer.freq(659)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(587)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(523)\ntime.sleep_ms(200)\n';
+  code += 'buzzer.freq(587)\ntime.sleep_ms(800)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
+  return code;
+};
+
 // Create melody
 Blockly.Python['criar_melodia'] = function(block) {
   if (!block.noteSteps_ || block.noteSteps_ === 0) {

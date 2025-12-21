@@ -151,13 +151,22 @@
     <block type="criar_trilha_sonora"></block>
   </category>
 
-  <!-- 18. BOTÕES -->
+  <!-- 18. SONS DE NATAL -->
+  <category name="🎄 Sons de Natal" colour="#c0392b">
+    <block type="natal_jingle_bells"></block>
+    <block type="natal_noite_feliz"></block>
+    <block type="natal_bate_sino"></block>
+    <block type="natal_noel"></block>
+    <block type="natal_o_vinde"></block>
+  </category>
+
+  <!-- 19. BOTÕES -->
   <category name="🎮 Botões" colour="#ee5a24">
     <block type="botao_enquanto_apertado"></block>
     <block type="botao_se_apertado"></block>
   </category>
 
-  <!-- 19. REPETIÇÃO -->
+  <!-- 20. REPETIÇÃO -->
   <category name="🔁 Repetição" colour="#2980b9">
     <block type="controls_repeat_simple">
       <value name="TIMES">
@@ -166,15 +175,6 @@
         </shadow>
       </value>
     </block>
-    <!--
     <block type="controls_repeat_forever"></block>
-    <block type="controls_repeat_until">
-      <value name="CONDITION">
-        <shadow type="logic_boolean">
-          <field name="BOOL">TRUE</field>
-        </shadow>
-      </value>
-    </block>
-    -->
   </category>
 </xml>
