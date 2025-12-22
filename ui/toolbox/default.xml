@@ -116,6 +116,10 @@
     <block type="emoji_chuva"></block>
     <block type="emoji_flor"></block>
     <block type="emoji_fantasma"></block>
+    <block type="emoji_arvore_natal"></block>
+    <block type="emoji_floco_neve"></block>
+    <block type="emoji_presente"></block>
+    <block type="emoji_sino_natal"></block>
   </category>
 
   <!-- 16. NOTAS MUSICAIS -->
