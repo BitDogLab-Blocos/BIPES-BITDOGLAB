@@ -1611,6 +1611,50 @@ Blockly.Blocks['emoji_fantasma'] = {
     this.setHelpUrl("");
   }
 };
+// Christmas tree emoji block for matrix display
+Blockly.Blocks['emoji_arvore_natal'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎄 Árvore de Natal");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de árvore de Natal");
+    this.setHelpUrl("");
+  }
+};
+// Snowflake emoji block for matrix display
+Blockly.Blocks['emoji_floco_neve'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("❄️ Floco de Neve");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de floco de neve");
+    this.setHelpUrl("");
+  }
+};
+// Gift emoji block for matrix display
+Blockly.Blocks['emoji_presente'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎁 Presente");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de presente de Natal");
+    this.setHelpUrl("");
+  }
+};
+// Christmas bell emoji block for matrix display
+Blockly.Blocks['emoji_sino_natal'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔔 Sino de Natal");
+    this.setOutput(true, "MatrixEmoji");
+    this.setColour("#FF8C00");
+    this.setTooltip("Emoji de sino de Natal");
+    this.setHelpUrl("");
+  }
+};
 // ==========================================
 // Category: Musical Notes
 // ==========================================
