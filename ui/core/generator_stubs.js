@@ -1268,6 +1268,51 @@ Blockly.Python['natal_o_vinde'] = function(block) {
   return code;
 };
 
+// ==========================================
+// DISPLAY BLOCKS
+// ==========================================
+
+// Display Christmas message
+Blockly.Python['display_natal'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(1, scl=Pin(15), sda=Pin(14), freq=400000)\noled = SSD1306_I2C(128, 64, i2c)';
+
+  var code = '';
+  code += '# Limpar display\n';
+  code += 'oled.fill(0)\n';
+  code += '# Desenhar borda decorativa\n';
+  code += 'for i in range(0, 128, 4):\n';
+  code += '  oled.pixel(i, 0, 1)\n';
+  code += '  oled.pixel(i, 63, 1)\n';
+  code += 'for i in range(0, 64, 4):\n';
+  code += '  oled.pixel(0, i, 1)\n';
+  code += '  oled.pixel(127, i, 1)\n';
+  code += '# Desenhar estrelas decorativas\n';
+  code += 'oled.text("*", 10, 5, 1)\n';
+  code += 'oled.text("*", 115, 5, 1)\n';
+  code += 'oled.text("*", 10, 54, 1)\n';
+  code += 'oled.text("*", 115, 54, 1)\n';
+  code += '# Texto principal - FELIZ NATAL!\n';
+  code += 'oled.text("  FELIZ", 20, 20, 1)\n';
+  code += 'oled.text(" NATAL!", 20, 35, 1)\n';
+  code += '# Desenhar arvore de natal (ASCII art)\n';
+  code += 'oled.text("   *", 3, 15, 1)\n';
+  code += 'oled.text("  /|\\\\", 2, 22, 1)\n';
+  code += 'oled.text(" /_|_\\\\", 0, 29, 1)\n';
+  code += 'oled.text("  |||", 3, 36, 1)\n';
+  code += '# Desenhar presente\n';
+  code += 'oled.text(" ___", 100, 30, 1)\n';
+  code += 'oled.text("|_+_|", 98, 37, 1)\n';
+  code += 'oled.text("|___|", 98, 44, 1)\n';
+  code += '# Atualizar display\n';
+  code += 'oled.show()\n';
+
+  return code;
+};
+
 // Create melody
 Blockly.Python['criar_melodia'] = function(block) {
   if (!block.noteSteps_ || block.noteSteps_ === 0) {

@@ -170,7 +170,12 @@
     <block type="botao_se_apertado"></block>
   </category>
 
-  <!-- 20. REPETIÇÃO -->
+  <!-- 20. DISPLAY -->
+  <category name="📺 Display" colour="#16a085">
+    <block type="display_natal"></block>
+  </category>
+
+  <!-- 21. REPETIÇÃO -->
   <category name="🔁 Repetição" colour="#2980b9">
     <block type="controls_repeat_simple">
       <value name="TIMES">
