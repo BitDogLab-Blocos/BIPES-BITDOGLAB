@@ -62,6 +62,10 @@ const BitdogLabConfig = {
   SETUP_PATTERNS: {
     // Check if line is hardware setup (Pin/PWM/LED_MATRIX/neopixel init)
     isSetupLine: function(line) {
+      // Ignore lines that start with whitespace (they are inside blocks)
+      if (line.startsWith(' ') || line.startsWith('\t')) {
+        return false;
+      }
       return line.indexOf(' = Pin(') !== -1 || // Pin initialization with spaces
              line.indexOf('=Pin(') !== -1 || // Pin initialization without spaces
              line.indexOf(' = PWM(') !== -1 || // PWM initialization with spaces

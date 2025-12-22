@@ -2274,7 +2274,7 @@ Blockly.Python['matriz_deslizar_cima'] = function(block) {
   }
   code += '# Capture current matrix state\n';
   code += '_matriz_deslizar = [[np[LED_MATRIX[y][x]] for x in range(5)] for y in range(5)]\n';
-  code += '# Animate sliding up (5 steps to clear everything)\n';
+  code += '# Animate sliding up (5 steps to clear)\n';
   code += 'for passo in range(1, 6):\n';
   code += '    for y in range(5):\n';
   code += '        for x in range(5):\n';
@@ -2305,7 +2305,7 @@ Blockly.Python['matriz_deslizar_esquerda'] = function(block) {
   }
   code += '# Capture current matrix state\n';
   code += '_matriz_deslizar = [[np[LED_MATRIX[y][x]] for x in range(5)] for y in range(5)]\n';
-  code += '# Animate sliding left (5 steps to clear everything)\n';
+  code += '# Animate sliding left (5 steps to clear)\n';
   code += 'for passo in range(1, 6):\n';
   code += '    for y in range(5):\n';
   code += '        for x in range(5):\n';
@@ -2330,13 +2330,10 @@ Blockly.Python['matriz_deslizar_baixo'] = function(block) {
     codigo_interno = codigo_interno.replace(/^  /gm, '');
   }
   var code = '';
-  code += '# Slide down\n';
   if (codigo_interno) {
     code += codigo_interno;
   }
-  code += '# Capture current matrix state\n';
   code += '_matriz_deslizar = [[np[LED_MATRIX[y][x]] for x in range(5)] for y in range(5)]\n';
-  code += '# Animate sliding down (5 steps to clear everything)\n';
   code += 'for passo in range(1, 6):\n';
   code += '    for y in range(5):\n';
   code += '        for x in range(5):\n';
@@ -2367,7 +2364,7 @@ Blockly.Python['matriz_deslizar_direita'] = function(block) {
   }
   code += '# Capture current matrix state\n';
   code += '_matriz_deslizar = [[np[LED_MATRIX[y][x]] for x in range(5)] for y in range(5)]\n';
-  code += '# Animate sliding right (5 steps to clear everything)\n';
+  code += '# Animate sliding right (5 steps to clear)\n';
   code += 'for passo in range(1, 6):\n';
   code += '    for y in range(5):\n';
   code += '        for x in range(5):\n';
