@@ -2070,13 +2070,33 @@ Blockly.Python['emoji_fantasma'] = function(block) {
   return ['"ghost"', Blockly.Python.ORDER_ATOMIC];
 };
 
+// Christmas tree emoji
+Blockly.Python['emoji_arvore_natal'] = function(block) {
+  return ['"christmas_tree"', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Snowflake emoji
+Blockly.Python['emoji_floco_neve'] = function(block) {
+  return ['"snowflake"', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Gift emoji
+Blockly.Python['emoji_presente'] = function(block) {
+  return ['"gift"', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Christmas bell emoji
+Blockly.Python['emoji_sino_natal'] = function(block) {
+  return ['"bell"', Blockly.Python.ORDER_ATOMIC];
+};
+
 // Show emoji on matrix
 Blockly.Python['mostrar_emoji'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
   Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
-  Blockly.Python.definitions_['emojis_matriz'] = 'EMOJIS_5X5 = {"happy": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 1,0,0,0,1, 0,1,1,1,0], "sad": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 1,0,0,0,1], "surprised": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 0,1,1,1,0], "heart": [0,1,0,1,0, 1,1,1,1,1, 1,1,1,1,1, 0,1,1,1,0, 0,0,1,0,0], "arrow_up": [0,0,1,0,0, 0,1,1,1,0, 1,0,1,0,1, 0,0,1,0,0, 0,0,1,0,0], "arrow_down": [0,0,1,0,0, 0,0,1,0,0, 1,0,1,0,1, 0,1,1,1,0, 0,0,1,0,0], "sun": [0,0,0,0,0, 0,1,1,1,0, 0,1,1,1,0, 0,1,1,1,0, 0,0,0,0,0], "rain": [1,0,1,0,1, 0,1,0,1,0, 1,0,1,0,1, 0,1,0,1,0, 1,0,1,0,1], "flower": [0,1,0,1,0, 1,0,1,0,1, 0,1,1,1,0, 0,0,1,0,0, 0,0,1,0,0], "ghost": [0,1,1,1,0, 1,0,1,0,1, 1,1,1,1,1, 1,1,1,1,1, 1,0,1,0,1]}';
+  Blockly.Python.definitions_['emojis_matriz'] = 'EMOJIS_5X5 = {"happy": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 1,0,0,0,1, 0,1,1,1,0], "sad": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 1,0,0,0,1], "surprised": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 0,1,1,1,0], "heart": [0,1,0,1,0, 1,1,1,1,1, 1,1,1,1,1, 0,1,1,1,0, 0,0,1,0,0], "arrow_up": [0,0,1,0,0, 0,1,1,1,0, 1,0,1,0,1, 0,0,1,0,0, 0,0,1,0,0], "arrow_down": [0,0,1,0,0, 0,0,1,0,0, 1,0,1,0,1, 0,1,1,1,0, 0,0,1,0,0], "sun": [0,0,0,0,0, 0,1,1,1,0, 0,1,1,1,0, 0,1,1,1,0, 0,0,0,0,0], "rain": [1,0,1,0,1, 0,1,0,1,0, 1,0,1,0,1, 0,1,0,1,0, 1,0,1,0,1], "flower": [0,1,0,1,0, 1,0,1,0,1, 0,1,1,1,0, 0,0,1,0,0, 0,0,1,0,0], "ghost": [0,1,1,1,0, 1,0,1,0,1, 1,1,1,1,1, 1,1,1,1,1, 1,0,1,0,1], "christmas_tree": [0,0,1,0,0, 0,0,1,0,0, 0,1,1,1,0, 1,1,1,1,1, 0,0,1,0,0], "snowflake": [1,0,1,0,1, 0,0,1,0,0, 1,1,1,1,1, 0,0,1,0,0, 1,0,1,0,1], "gift": [1,0,1,0,1, 0,1,1,1,0, 1,1,1,1,1, 1,0,1,0,1, 1,1,1,1,1], "bell": [0,1,1,1,0, 1,0,0,0,1, 1,0,0,0,1, 1,1,1,1,1, 0,0,1,0,0]}';
   var emoji = Blockly.Python.valueToCode(block, 'EMOJI', Blockly.Python.ORDER_ATOMIC) || '"happy"';
   var cor_rgb = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(255, 255, 0)';
   var brilho = block.getFieldValue('BRILHO');
