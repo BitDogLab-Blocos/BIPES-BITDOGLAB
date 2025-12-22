@@ -2059,6 +2059,21 @@ Blockly.Blocks['natal_o_vinde'] = {
     this.setHelpUrl("");
   }
 };
+// ==========================================
+// DISPLAY BLOCKS
+// ==========================================
+// Display Christmas message block
+Blockly.Blocks['display_natal'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎄 Natal");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Exibe 'FELIZ NATAL!' com arte bonita no display SSD1306");
+    this.setHelpUrl("");
+  }
+};
 // Container block for melody mutator
 Blockly.Blocks['criar_melodia_container'] = {
   init: function() {
