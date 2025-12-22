@@ -22,12 +22,8 @@ Blockly.Python['controls_repeat_simple'] = function(block) {
   // Remove sound block markers
   statements = statements.replace(/# SOUND_BLOCK_START|# SOUND_BLOCK_END/g, '');
 
-  // Add counter initialization to setup (outside loop)
-  Blockly.Python.definitions_['setup_contador_repeticao'] = '_contador_repeticao = 0';
-
-  // Use counter to run N times
-  var code = 'if _contador_repeticao < ' + times + ':\n';
-  code += '  _contador_repeticao += 1\n';
+  // Simple for loop - no counter needed!
+  var code = 'for _rep in range(' + times + '):\n';
 
   if (statements && statements.trim()) {
     // Add indentation line by line
@@ -37,6 +33,8 @@ Blockly.Python['controls_repeat_simple'] = function(block) {
         code += '  ' + lines[i] + '\n';
       }
     }
+  } else {
+    code += '  pass\n';
   }
 
   return code;
