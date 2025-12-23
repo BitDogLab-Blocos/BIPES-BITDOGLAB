@@ -1278,7 +1278,7 @@ Blockly.Python['display_natal'] = function(block) {
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(1, scl=Pin(15), sda=Pin(14), freq=400000)\noled = SSD1306_I2C(128, 64, i2c)';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(1, scl=Pin(3), sda=Pin(2), freq=400000)\noled = SSD1306_I2C(128, 64, i2c)';
 
   var code = '';
   code += '# Limpar display\n';
