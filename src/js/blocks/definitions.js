@@ -2191,7 +2191,7 @@ Blockly.Blocks['display_natal'] = {
 Blockly.Blocks['display_criar_borda'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Criar borda no display");
+        .appendField("🖼️ Criar borda no display");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
@@ -2204,7 +2204,7 @@ Blockly.Blocks['display_criar_borda'] = {
 Blockly.Blocks['display_limpar_borda'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Limpar borda do display");
+        .appendField("🧹 Limpar borda do display");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
@@ -2232,7 +2232,7 @@ Blockly.Blocks['display_atualizar'] = {
 Blockly.Blocks['display_testar_conexao'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Testar conexão do display");
+        .appendField("🔍 Testar conexão do display");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
@@ -2245,7 +2245,7 @@ Blockly.Blocks['display_testar_conexao'] = {
 Blockly.Blocks['display_mostrar'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Mostrar no display");
+        .appendField("📺 Mostrar no display");
     this.appendStatementInput("COMANDOS")
         .setCheck(null);
     this.setPreviousStatement(true, null);
@@ -2260,7 +2260,7 @@ Blockly.Blocks['display_mostrar'] = {
 Blockly.Blocks['display_texto'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Escrever")
+        .appendField("✏️ Escrever")
         .appendField(new Blockly.FieldTextInput("Texto"), "TEXTO")
         .appendField("na linha")
         .appendField(new Blockly.FieldDropdown([
@@ -2288,7 +2288,7 @@ Blockly.Blocks['display_mostrar_calculo'] = {
   init: function() {
     this.appendValueInput("VALOR")
         .setCheck("Number")
-        .appendField("Mostrar resultado cálculo");
+        .appendField("🔢 Mostrar resultado cálculo");
     this.appendDummyInput()
         .appendField("na linha")
         .appendField(new Blockly.FieldDropdown([
