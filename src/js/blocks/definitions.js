@@ -326,6 +326,21 @@ Blockly.Blocks['math_random_float'] = {
     this.setHelpUrl("");
   }
 };
+
+// Print/Show value block - displays a value in the console
+Blockly.Blocks['math_print_value'] = {
+  init: function() {
+    this.appendValueInput("VALUE")
+        .appendField("Mostrar resultado na aba de mensagens:");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip("Mostra o resultado do cálculo na aba de mensagens (console serial)");
+    this.setHelpUrl("");
+  }
+};
+
 // ==========================================
 // Category: Text
 // ==========================================

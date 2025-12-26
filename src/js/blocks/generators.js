@@ -1626,6 +1626,188 @@ Blockly.Python['math_on_list'] = function(block) {
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
+// Arithmetic operations (+, -, *, /, ^)
+Blockly.Python['math_arithmetic'] = function(block) {
+  var OPERATORS = {
+    'ADD': [' + ', Blockly.Python.ORDER_ADDITIVE],
+    'MINUS': [' - ', Blockly.Python.ORDER_ADDITIVE],
+    'MULTIPLY': [' * ', Blockly.Python.ORDER_MULTIPLICATIVE],
+    'DIVIDE': [' / ', Blockly.Python.ORDER_MULTIPLICATIVE],
+    'POWER': [' ** ', Blockly.Python.ORDER_EXPONENTIATION]
+  };
+  var tuple = OPERATORS[block.getFieldValue('OP')];
+  var operator = tuple[0];
+  var order = tuple[1];
+  var argument0 = Blockly.Python.valueToCode(block, 'A', order) || '0';
+  var argument1 = Blockly.Python.valueToCode(block, 'B', order) || '0';
+  var code = argument0 + operator + argument1;
+  return [code, order];
+};
+
+// Math single operations (sqrt, abs, ln, etc)
+Blockly.Python['math_single'] = function(block) {
+  var operator = block.getFieldValue('OP');
+  var code;
+  var arg = Blockly.Python.valueToCode(block, 'NUM', Blockly.Python.ORDER_NONE) || '0';
+
+  switch (operator) {
+    case 'ROOT':
+      Blockly.Python.definitions_['import_math'] = 'import math';
+      code = 'math.sqrt(' + arg + ')';
+      break;
+    case 'ABS':
+      code = 'abs(' + arg + ')';
+      break;
+    case 'LN':
+      Blockly.Python.definitions_['import_math'] = 'import math';
+      code = 'math.log(' + arg + ')';
+      break;
+    case 'LOG10':
+      Blockly.Python.definitions_['import_math'] = 'import math';
+      code = 'math.log10(' + arg + ')';
+      break;
+    case 'EXP':
+      Blockly.Python.definitions_['import_math'] = 'import math';
+      code = 'math.exp(' + arg + ')';
+      break;
+    case 'POW10':
+      code = '10 ** ' + arg;
+      break;
+    default:
+      throw Error('Unknown operator: ' + operator);
+  }
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// Trigonometric functions
+Blockly.Python['math_trig'] = function(block) {
+  var operator = block.getFieldValue('OP');
+  var arg = Blockly.Python.valueToCode(block, 'NUM', Blockly.Python.ORDER_NONE) || '0';
+  Blockly.Python.definitions_['import_math'] = 'import math';
+
+  var code;
+  switch (operator) {
+    case 'SIN':
+      code = 'math.sin(' + arg + ')';
+      break;
+    case 'COS':
+      code = 'math.cos(' + arg + ')';
+      break;
+    case 'TAN':
+      code = 'math.tan(' + arg + ')';
+      break;
+    case 'ASIN':
+      code = 'math.asin(' + arg + ')';
+      break;
+    case 'ACOS':
+      code = 'math.acos(' + arg + ')';
+      break;
+    case 'ATAN':
+      code = 'math.atan(' + arg + ')';
+      break;
+    default:
+      throw Error('Unknown operator: ' + operator);
+  }
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// Math constants
+Blockly.Python['math_constant'] = function(block) {
+  var constant = block.getFieldValue('CONSTANT');
+  Blockly.Python.definitions_['import_math'] = 'import math';
+
+  var code;
+  switch (constant) {
+    case 'PI':
+      code = 'math.pi';
+      break;
+    case 'E':
+      code = 'math.e';
+      break;
+    case 'GOLDEN_RATIO':
+      code = '1.618033988749895';
+      break;
+    case 'SQRT2':
+      code = 'math.sqrt(2)';
+      break;
+    case 'SQRT1_2':
+      code = 'math.sqrt(0.5)';
+      break;
+    case 'INFINITY':
+      code = 'float("inf")';
+      break;
+    default:
+      throw Error('Unknown constant: ' + constant);
+  }
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+// Math round
+Blockly.Python['math_round'] = function(block) {
+  var operator = block.getFieldValue('OP');
+  var arg = Blockly.Python.valueToCode(block, 'NUM', Blockly.Python.ORDER_NONE) || '0';
+
+  var code;
+  switch (operator) {
+    case 'ROUND':
+      code = 'round(' + arg + ')';
+      break;
+    case 'ROUNDUP':
+      Blockly.Python.definitions_['import_math'] = 'import math';
+      code = 'math.ceil(' + arg + ')';
+      break;
+    case 'ROUNDDOWN':
+      Blockly.Python.definitions_['import_math'] = 'import math';
+      code = 'math.floor(' + arg + ')';
+      break;
+    default:
+      throw Error('Unknown operator: ' + operator);
+  }
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// Math modulo (remainder)
+Blockly.Python['math_modulo'] = function(block) {
+  var dividend = Blockly.Python.valueToCode(block, 'DIVIDEND', Blockly.Python.ORDER_MULTIPLICATIVE) || '0';
+  var divisor = Blockly.Python.valueToCode(block, 'DIVISOR', Blockly.Python.ORDER_MULTIPLICATIVE) || '0';
+  var code = dividend + ' % ' + divisor;
+  return [code, Blockly.Python.ORDER_MULTIPLICATIVE];
+};
+
+// Math constrain (limit between min and max)
+Blockly.Python['math_constrain'] = function(block) {
+  var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || '0';
+  var low = Blockly.Python.valueToCode(block, 'LOW', Blockly.Python.ORDER_NONE) || '0';
+  var high = Blockly.Python.valueToCode(block, 'HIGH', Blockly.Python.ORDER_NONE) || '0';
+  var code = 'min(max(' + value + ', ' + low + '), ' + high + ')';
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// Random integer
+Blockly.Python['math_random_int'] = function(block) {
+  Blockly.Python.definitions_['import_random'] = 'import random';
+  var from = Blockly.Python.valueToCode(block, 'FROM', Blockly.Python.ORDER_NONE) || '0';
+  var to = Blockly.Python.valueToCode(block, 'TO', Blockly.Python.ORDER_NONE) || '0';
+  var code = 'random.randint(' + from + ', ' + to + ')';
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// Random float
+Blockly.Python['math_random_float'] = function(block) {
+  Blockly.Python.definitions_['import_random'] = 'import random';
+  var from = Blockly.Python.valueToCode(block, 'FROM', Blockly.Python.ORDER_NONE) || '0';
+  var to = Blockly.Python.valueToCode(block, 'TO', Blockly.Python.ORDER_NONE) || '1';
+  var code = 'random.uniform(' + from + ', ' + to + ')';
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// Print/Show value - prints the result to console
+Blockly.Python['math_print_value'] = function(block) {
+  var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || '0';
+  var code = 'print(' + value + ')\n';
+  return code;
+};
+
 /*
 *****************************************************************
 * LOGIC BLOCKS 
