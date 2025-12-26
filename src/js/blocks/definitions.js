@@ -54,9 +54,106 @@ Blockly.Blocks['logic_boolean'] = {
 };
 
 console.log('[BitdogLab] Blocos básicos carregados: math_number, text, logic_boolean');
+
 // ==========================================
 // Category: Mathematics
 // ==========================================
+
+// Arithmetic operations block
+Blockly.Blocks['math_arithmetic'] = {
+  init: function() {
+    this.appendValueInput("A")
+        .setCheck("Number");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([
+          ["+", "ADD"],
+          ["-", "MINUS"],
+          ["×", "MULTIPLY"],
+          ["÷", "DIVIDE"],
+          ["^", "POWER"]
+        ]), "OP");
+    this.appendValueInput("B")
+        .setCheck("Number");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(230);
+    this.setTooltip("Operações matemáticas básicas");
+    this.setHelpUrl("");
+  }
+};
+
+// Math round block
+Blockly.Blocks['math_round'] = {
+  init: function() {
+    this.appendValueInput("NUM")
+        .setCheck("Number")
+        .appendField(new Blockly.FieldDropdown([
+          ["arredondar", "ROUND"],
+          ["arredondar para cima", "ROUNDUP"],
+          ["arredondar para baixo", "ROUNDDOWN"]
+        ]), "OP");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(230);
+    this.setTooltip("Arredonda um número");
+    this.setHelpUrl("");
+  }
+};
+
+// Math modulo block
+Blockly.Blocks['math_modulo'] = {
+  init: function() {
+    this.appendValueInput("DIVIDEND")
+        .setCheck("Number")
+        .appendField("resto de");
+    this.appendValueInput("DIVISOR")
+        .setCheck("Number")
+        .appendField("÷");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(230);
+    this.setTooltip("Retorna o resto da divisão de dois números");
+    this.setHelpUrl("");
+  }
+};
+
+// Math constrain block
+Blockly.Blocks['math_constrain'] = {
+  init: function() {
+    this.appendValueInput("VALUE")
+        .setCheck("Number")
+        .appendField("limitar");
+    this.appendValueInput("LOW")
+        .setCheck("Number")
+        .appendField("entre");
+    this.appendValueInput("HIGH")
+        .setCheck("Number")
+        .appendField("e");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(230);
+    this.setTooltip("Limita um número entre um valor mínimo e máximo");
+    this.setHelpUrl("");
+  }
+};
+
+// Math random integer block
+Blockly.Blocks['math_random_int'] = {
+  init: function() {
+    this.appendValueInput("FROM")
+        .setCheck("Number")
+        .appendField("número aleatório entre");
+    this.appendValueInput("TO")
+        .setCheck("Number")
+        .appendField("e");
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setColour(230);
+    this.setTooltip("Retorna um número inteiro aleatório entre os valores especificados");
+    this.setHelpUrl("");
+  }
+};
+
 // Mathematical function block for single operations like square root, absolute value, etc.
 Blockly.Blocks['math_single'] = {
   init: function() {
@@ -75,9 +172,9 @@ Blockly.Blocks['math_single'] = {
         .setCheck("Number");
     this.setInputsInline(true);
     this.setOutput(true, "Number");
-    this.setColour("%{BKY_MATH_HUE}");
+    this.setColour(230);
     this.setTooltip("Aplica uma função matemática a um número");
-    this.setHelpUrl("%{BKY_MATH_SINGLE_HELPURL}");
+    this.setHelpUrl("");
   }
 };
 // Trigonometric function block for operations like sine, cosine, etc.
@@ -97,9 +194,9 @@ Blockly.Blocks['math_trig'] = {
         .setCheck("Number");
     this.setInputsInline(true);
     this.setOutput(true, "Number");
-    this.setColour("%{BKY_MATH_HUE}");
+    this.setColour(230);
     this.setTooltip("Aplica uma função trigonométrica a um ângulo");
-    this.setHelpUrl("%{BKY_MATH_TRIG_HELPURL}");
+    this.setHelpUrl("");
   }
 };
 // Mathematical constants block for values like Pi, Euler's number, etc.
@@ -116,9 +213,9 @@ Blockly.Blocks['math_constant'] = {
             ["Infinito (∞)", "INFINITY"]
         ]), "CONSTANT");
     this.setOutput(true, "Number");
-    this.setColour("%{BKY_MATH_HUE}");
+    this.setColour(230);
     this.setTooltip("Retorna uma constante matemática importante");
-    this.setHelpUrl("%{BKY_MATH_CONSTANT_HELPURL}");
+    this.setHelpUrl("");
   }
 };
 // Number property check block for testing if a number is even, odd, positive, or negative
@@ -137,7 +234,7 @@ Blockly.Blocks['math_number_property'] = {
         ]), "PROPERTY");
     this.setInputsInline(true);
     this.setOutput(true, "Boolean");
-    this.setColour("%{BKY_MATH_HUE}");
+    this.setColour(230);
     this.setTooltip("Verifica se um número tem a propriedade selecionada (par, ímpar, positivo ou negativo). Retorna verdadeiro ou falso.");
     this.setHelpUrl("");
   }
@@ -153,7 +250,7 @@ Blockly.Blocks['math_is_divisible_by'] = {
         .appendField("é divisível por");
     this.setInputsInline(true);
     this.setOutput(true, "Boolean");
-    this.setColour("%{BKY_MATH_HUE}");
+    this.setColour(230);
     this.setTooltip("Verifica se o primeiro número pode ser dividido pelo segundo sem deixar resto.");
     this.setHelpUrl("");
   }
@@ -170,7 +267,7 @@ Blockly.Blocks['math_round_to_decimal'] = {
         .appendField("casas decimais");
     this.setInputsInline(true);
     this.setOutput(true, "Number");
-    this.setColour("%{BKY_MATH_HUE}");
+    this.setColour(230);
     this.setTooltip("Arredonda um número para o número especificado de casas decimais.");
     this.setHelpUrl("");
   }
@@ -192,7 +289,7 @@ Blockly.Blocks['math_on_list'] = {
         })
         .appendField("da lista");
     this.setOutput(true);
-    this.setColour("%{BKY_MATH_HUE}");
+    this.setColour(230);
     this.setTooltip("Realiza operações simples com listas de números.");
     this.setHelpUrl("");
   },
@@ -224,7 +321,7 @@ Blockly.Blocks['math_random_float'] = {
         .setCheck("Number");
     this.setInputsInline(true);
     this.setOutput(true, "Number");
-    this.setColour("%{BKY_MATH_HUE}");
+    this.setColour(230);
     this.setTooltip("Retorna um número decimal aleatório entre os valores especificados.");
     this.setHelpUrl("");
   }
