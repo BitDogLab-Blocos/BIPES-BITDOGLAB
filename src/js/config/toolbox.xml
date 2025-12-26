@@ -13,7 +13,129 @@
     <block type="controls_repeat_forever"></block>
   </category>
 
-  <!-- 2. TEMPO -->
+  <!-- 2. MATEMÁTICA -->
+  <category name="🧮 Matemática" colour="230">
+    <block type="math_number">
+      <field name="NUM">123</field>
+    </block>
+    <block type="math_arithmetic">
+      <value name="A">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="B">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_single">
+      <value name="NUM">
+        <shadow type="math_number">
+          <field name="NUM">9</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_trig">
+      <value name="NUM">
+        <shadow type="math_number">
+          <field name="NUM">45</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_constant"></block>
+    <block type="math_number_property">
+      <value name="NUMBER_TO_CHECK">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_is_divisible_by">
+      <value name="DIVIDEND">
+        <shadow type="math_number">
+          <field name="NUM">12</field>
+        </shadow>
+      </value>
+      <value name="DIVISOR">
+        <shadow type="math_number">
+          <field name="NUM">3</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_round">
+      <value name="NUM">
+        <shadow type="math_number">
+          <field name="NUM">3.1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_round_to_decimal">
+      <value name="NUMBER_TO_ROUND">
+        <shadow type="math_number">
+          <field name="NUM">3.14159</field>
+        </shadow>
+      </value>
+      <field name="DECIMAL_PLACES">2</field>
+    </block>
+    <block type="math_on_list"></block>
+    <block type="math_modulo">
+      <value name="DIVIDEND">
+        <shadow type="math_number">
+          <field name="NUM">64</field>
+        </shadow>
+      </value>
+      <value name="DIVISOR">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_constrain">
+      <value name="VALUE">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+      <value name="LOW">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="HIGH">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_random_int">
+      <value name="FROM">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="TO">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_random_float">
+      <value name="FROM">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="TO">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+
+  <!-- 3. TEMPO -->
   <category name="⏱️ Tempo" colour="190">
     <block type="esperar_segundos">
       <value name="TIME">
@@ -43,7 +165,7 @@
     </block>
   </category>
 
-  <!-- 3. CORES -->
+  <!-- 4. CORES -->
   <category name="🎨 Cores" colour="#A65C99">
     <block type="colour_red"></block>
     <block type="colour_green"></block>
@@ -62,7 +184,7 @@
 
   <!-- ========== PERIFÉRICOS (DO MAIS SIMPLES AO MAIS COMPLICADO) ========== -->
 
-  <!-- 4. LEDS -->
+  <!-- 5. LEDS -->
   <category name="💡 LEDs" colour="45">
     <block type="bloco_ligar_led"></block>
     <block type="bloco_desligar_led"></block>
@@ -79,7 +201,7 @@
     <block type="bloco_criar_animacao_led"></block>
   </category>
 
-  <!-- 5. MATRIZ DE LEDS -->
+  <!-- 6. MATRIZ DE LEDS -->
   <category name="🔲 Matriz de LEDs" colour="#4a69bd">
     <block type="preencher_matriz"></block>
     <block type="desligar_matriz"></block>
@@ -91,7 +213,7 @@
     <block type="criar_desenho_na_matriz"></block>
   </category>
 
-  <!-- 6. NÚMEROS NA MATRIZ -->
+  <!-- 7. NÚMEROS NA MATRIZ -->
   <category name="🔢 Números na Matriz" colour="#55a855">
     <block type="numero_matriz_0"></block>
     <block type="numero_matriz_1"></block>
@@ -105,7 +227,7 @@
     <block type="numero_matriz_9"></block>
   </category>
 
-  <!-- 7. EMOJIS NA MATRIZ -->
+  <!-- 8. EMOJIS NA MATRIZ -->
   <category name="😊 Emojis na Matriz" colour="#FF8C00">
     <block type="emoji_rosto_feliz"></block>
     <block type="emoji_rosto_triste"></block>
@@ -123,7 +245,7 @@
     <block type="emoji_sino_natal"></block>
   </category>
 
-  <!-- 8. ANIMAÇÕES DA MATRIZ -->
+  <!-- 9. ANIMAÇÕES DA MATRIZ -->
   <category name="✨ Animações da Matriz" colour="#8e44ad">
     <block type="matriz_piscar_rapido"></block>
     <block type="matriz_piscar_lento"></block>
@@ -138,7 +260,7 @@
     <block type="matriz_dar_flash"></block>
   </category>
 
-  <!-- 9. SOM -->
+  <!-- 10. SOM -->
   <category name="🔊 Som" colour="#9a5ba5">
     <block type="tocar_nota"></block>
     <block type="tocar_som_agudo"></block>
@@ -160,7 +282,7 @@
     <block type="criar_trilha_sonora"></block>
   </category>
 
-  <!-- 10. NOTAS MUSICAIS -->
+  <!-- 11. NOTAS MUSICAIS -->
   <category name="🎼 Notas Musicais" colour="#833471">
     <block type="nota_do"></block>
     <block type="nota_re"></block>
@@ -171,7 +293,7 @@
     <block type="nota_si"></block>
   </category>
 
-  <!-- 11. SONS DE NATAL -->
+  <!-- 12. SONS DE NATAL -->
   <category name="🎄 Sons de Natal" colour="#c0392b">
     <block type="natal_jingle_bells"></block>
     <block type="natal_noite_feliz"></block>
@@ -180,13 +302,13 @@
     <block type="natal_o_vinde"></block>
   </category>
 
-  <!-- 12. BOTÕES -->
+  <!-- 13. BOTÕES -->
   <category name="🎮 Botões" colour="#ee5a24">
     <block type="botao_enquanto_apertado"></block>
     <block type="botao_se_apertado"></block>
   </category>
 
-  <!-- 13. DISPLAY -->
+  <!-- 14. DISPLAY -->
   <category name="📺 Display" colour="#16a085">
     <block type="display_natal"></block>
   </category>
