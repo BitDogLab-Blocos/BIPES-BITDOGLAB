@@ -118,7 +118,7 @@ h1 {
   width: 2.5rem;
   height: 2.5rem;
   background-size: cover;
-  background-image: url(media/BITDOGLAB.jpg);
+  background-image: url(../assets/images/logos/bitdoglab.jpg);
   background-position: center;
   border-radius: 50%;
   margin-right: 0.5rem;
@@ -803,7 +803,7 @@ button:hover {
 button.icon:before, #deviceSelect.icon:before, a.icon:before, span.icon:before, label.icon:before {
   content:"";
   background-size: cover;
-  background-image: url(media/icons.svg);
+  background-image: url(../assets/icons/icons.svg);
   width: 1.5rem;
   height: 1.5rem;
   background-size: auto 3rem;
