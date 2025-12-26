@@ -125,7 +125,7 @@ Blockly.Python['mix_colours'] = function(block) {
 Blockly.Python['preencher_matriz'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var intensity = block.getFieldValue('INTENSITY');
   var code = 'for i in range(25):\n';
@@ -138,7 +138,7 @@ Blockly.Python['preencher_matriz'] = function(block) {
 Blockly.Python['desligar_matriz'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
   var code = 'for i in range(25):\n';
   code += '    np[i] = (0, 0, 0)\n';
   code += 'np.write()\n';
@@ -149,8 +149,8 @@ Blockly.Python['desligar_matriz'] = function(block) {
 Blockly.Python['acender_led_posicao'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
-  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   var linha = block.getFieldValue('LINHA');
   var coluna = block.getFieldValue('COLUNA');
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
@@ -166,8 +166,8 @@ Blockly.Python['acender_led_posicao'] = function(block) {
 Blockly.Python['acender_linha'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
-  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   var linha = block.getFieldValue('LINHA');
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var intensity = block.getFieldValue('INTENSITY');
@@ -183,8 +183,8 @@ Blockly.Python['acender_linha'] = function(block) {
 Blockly.Python['acender_coluna'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
-  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   var coluna = block.getFieldValue('COLUNA');
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var intensity = block.getFieldValue('INTENSITY');
@@ -204,9 +204,9 @@ Blockly.Python['acender_coluna'] = function(block) {
 Blockly.Python['bloco_ligar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var code = 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
   code += 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
@@ -218,9 +218,9 @@ Blockly.Python['bloco_ligar_led'] = function(block) {
 Blockly.Python['bloco_desligar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var code = 'if ' + colour + '[0] > 0:\n';
   code += '    led_vermelho.duty_u16(0)\n';
@@ -235,9 +235,9 @@ Blockly.Python['bloco_desligar_led'] = function(block) {
 Blockly.Python['bloco_desligar_todos_leds'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var code = 'led_vermelho.duty_u16(0)\n';
   code += 'led_verde.duty_u16(0)\n';
   code += 'led_azul.duty_u16(0)\n';
@@ -248,9 +248,9 @@ Blockly.Python['bloco_desligar_todos_leds'] = function(block) {
 Blockly.Python['bloco_acender_led_brilho'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var intensity = block.getFieldValue('INTENSITY');
   var code = 'led_vermelho.duty_u16(int(' + colour + '[0] * 257 * ' + intensity + ' / 100))\n';
@@ -271,9 +271,9 @@ Blockly.Python['bloco_piscar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var code = 'while True:\n';
   code += '    led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
@@ -292,9 +292,9 @@ Blockly.Python['piscar_led_lento'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var code = 'while True:\n';
   code += '    led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
@@ -313,9 +313,9 @@ Blockly.Python['bloco_animar_led_coracao'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var code = 'while True:\n';
   code += '    led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
@@ -342,9 +342,9 @@ Blockly.Python['bloco_sinalizar_led_sos'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var code = 'while True:\n';
   code += '    for _ in range(3):\n';
@@ -386,9 +386,9 @@ Blockly.Python['piscar_led_aleatorio'] = function(block) {
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['import_urandom'] = 'import urandom';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var code = 'while True:\n';
   code += '    intensidade = urandom.randint(0, 1)\n';
@@ -404,9 +404,9 @@ Blockly.Python['bloco_alternar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colours = [];
   var i = 0;
   while (block.getInput('COLOUR' + i)) {
@@ -432,9 +432,9 @@ Blockly.Python['bloco_transicao_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour1 = Blockly.Python.valueToCode(block, 'COLOUR1', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var colour2 = Blockly.Python.valueToCode(block, 'COLOUR2', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var code = 'while True:\n';
@@ -453,9 +453,9 @@ Blockly.Python['bloco_batalhar_led'] = function(block) {
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['import_urandom'] = 'import urandom';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour1 = Blockly.Python.valueToCode(block, 'COLOUR1', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var colour2 = Blockly.Python.valueToCode(block, 'COLOUR2', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var code = 'while True:\n';
@@ -476,9 +476,9 @@ Blockly.Python['bloco_animar_led_brilhar'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var code = 'while True:\n';
   code += '    for i in range(10):\n';
@@ -690,9 +690,9 @@ Blockly.Python['led_turn_on'] = function(block) {
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
 
   // Setup LED pins with PWM
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
 
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
 
@@ -709,9 +709,9 @@ Blockly.Python['led_turn_off'] = function(block) {
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
 
   // Setup LED pins with PWM
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
 
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
 
@@ -731,9 +731,9 @@ Blockly.Python['led_turn_off_all'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
 
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(13), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(11), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(12), freq=1000)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
 
   return 'led_vermelho.duty_u16(0)\nled_verde.duty_u16(0)\nled_azul.duty_u16(0)\n';
 };
@@ -761,7 +761,7 @@ Blockly.Python['tocar_nota'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var octave = block.getFieldValue('OCTAVE');
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
@@ -785,7 +785,7 @@ Blockly.Python['tocar_som_agudo'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -801,7 +801,7 @@ Blockly.Python['tocar_som_agudo'] = function(block) {
 Blockly.Python['parar_som'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.duty_u16(0)\n';
   code += '# SOUND_BLOCK_END\n';
@@ -816,7 +816,7 @@ Blockly.Python['tocar_repetidamente'] = function(block) {
   }
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var code = '# LOOP_BLOCK_START\n';
   code += 'try:\n';
   code += '    while True:\n';
@@ -836,7 +836,7 @@ Blockly.Python['bipe_curto'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -853,7 +853,7 @@ Blockly.Python['bipe_duplo'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -874,7 +874,7 @@ Blockly.Python['alerta_intermitente'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -892,7 +892,7 @@ Blockly.Python['chamada'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -911,7 +911,7 @@ Blockly.Python['som_de_moeda'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -930,7 +930,7 @@ Blockly.Python['som_de_sucesso'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -953,7 +953,7 @@ Blockly.Python['som_de_falha'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -974,7 +974,7 @@ Blockly.Python['som_de_laser'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -995,7 +995,7 @@ Blockly.Python['sirene_policial'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -1014,7 +1014,7 @@ Blockly.Python['escala_musical_sobe'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -1045,7 +1045,7 @@ Blockly.Python['escala_musical_desce'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -1076,7 +1076,7 @@ Blockly.Python['brilha_brilha_estrelinha'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -1119,7 +1119,7 @@ Blockly.Python['natal_jingle_bells'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -1148,7 +1148,7 @@ Blockly.Python['natal_noite_feliz'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -1181,7 +1181,7 @@ Blockly.Python['natal_bate_sino'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -1211,7 +1211,7 @@ Blockly.Python['natal_noel'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -1244,7 +1244,7 @@ Blockly.Python['natal_o_vinde'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
@@ -1278,13 +1278,13 @@ Blockly.Python['display_natal'] = function(block) {
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(1, scl=Pin(3), sda=Pin(2), freq=400000)\noled = SSD1306_I2C(128, 64, i2c)';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var code = '';
   code += '# Limpar display\n';
   code += 'oled.fill(0)\n';
   code += '# Desenhar borda simples\n';
-  code += 'oled.rect(0, 0, 128, 64, 1)\n';
+  code += 'oled.rect(0, 0, ' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', 1)\n';
   code += '# Texto centralizado - FELIZ NATAL\n';
   code += 'oled.text("FELIZ NATAL", 25, 28, 1)\n';
   code += '# Atualizar display\n';
@@ -1301,7 +1301,7 @@ Blockly.Python['criar_melodia'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(21))';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var code = '# SOUND_BLOCK_START\n';
   for (var i = 0; i < block.noteSteps_; i++) {
     var note = Blockly.Python.valueToCode(block, 'NOTA' + i, Blockly.Python.ORDER_ATOMIC);
@@ -2017,8 +2017,8 @@ Blockly.Python['numero_matriz_9'] = function(block) {
 Blockly.Python['mostrar_numero_matriz'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
-  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   Blockly.Python.definitions_['numeros_matriz'] = 'NUMEROS_5X5 = {0: [1,1,1,1,1, 1,0,0,0,1, 1,0,0,0,1, 1,0,0,0,1, 1,1,1,1,1], 1: [0,0,1,0,0, 0,1,1,0,0, 0,0,1,0,0, 0,0,1,0,0, 0,1,1,1,0], 2: [1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1, 1,0,0,0,0, 1,1,1,1,1], 3: [1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1], 4: [1,0,0,0,1, 1,0,0,0,1, 1,1,1,1,1, 0,0,0,0,1, 0,0,0,0,1], 5: [1,1,1,1,1, 1,0,0,0,0, 1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1], 6: [1,1,1,1,1, 1,0,0,0,0, 1,1,1,1,1, 1,0,0,0,1, 1,1,1,1,1], 7: [1,1,1,1,1, 0,0,0,0,1, 0,0,0,1,0, 0,0,1,0,0, 0,1,0,0,0], 8: [1,1,1,1,1, 1,0,0,0,1, 1,1,1,1,1, 1,0,0,0,1, 1,1,1,1,1], 9: [1,1,1,1,1, 1,0,0,0,1, 1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1]}';
   var numero = Blockly.Python.valueToCode(block, 'NUMERO', Blockly.Python.ORDER_ATOMIC) || '0';
   var cor_rgb = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
@@ -2119,8 +2119,8 @@ Blockly.Python['emoji_sino_natal'] = function(block) {
 Blockly.Python['mostrar_emoji'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
-  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   Blockly.Python.definitions_['emojis_matriz'] = 'EMOJIS_5X5 = {"happy": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 1,0,0,0,1, 0,1,1,1,0], "sad": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 1,0,0,0,1], "surprised": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 0,1,1,1,0], "heart": [0,1,0,1,0, 1,1,1,1,1, 1,1,1,1,1, 0,1,1,1,0, 0,0,1,0,0], "arrow_up": [0,0,1,0,0, 0,1,1,1,0, 1,0,1,0,1, 0,0,1,0,0, 0,0,1,0,0], "arrow_down": [0,0,1,0,0, 0,0,1,0,0, 1,0,1,0,1, 0,1,1,1,0, 0,0,1,0,0], "sun": [0,0,0,0,0, 0,1,1,1,0, 0,1,1,1,0, 0,1,1,1,0, 0,0,0,0,0], "rain": [1,0,1,0,1, 0,1,0,1,0, 1,0,1,0,1, 0,1,0,1,0, 1,0,1,0,1], "flower": [0,1,0,1,0, 1,0,1,0,1, 0,1,1,1,0, 0,0,1,0,0, 0,0,1,0,0], "ghost": [0,1,1,1,0, 1,0,1,0,1, 1,1,1,1,1, 1,1,1,1,1, 1,0,1,0,1], "christmas_tree": [0,0,1,0,0, 0,0,1,0,0, 0,1,1,1,0, 1,1,1,1,1, 0,0,1,0,0], "snowflake": [1,0,1,0,1, 0,0,1,0,0, 1,1,1,1,1, 0,0,1,0,0, 1,0,1,0,1], "gift": [1,0,1,0,1, 0,1,1,1,0, 1,1,1,1,1, 1,0,1,0,1, 1,1,1,1,1], "bell": [0,1,1,1,0, 1,0,0,0,1, 1,0,0,0,1, 1,1,1,1,1, 0,0,1,0,0]}';
   var emoji = Blockly.Python.valueToCode(block, 'EMOJI', Blockly.Python.ORDER_ATOMIC) || '"happy"';
   var cor_rgb = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(255, 255, 0)';
@@ -2152,7 +2152,7 @@ Blockly.Python['matriz_piscar_rapido'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
   var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
   if (codigo_interno) {
     codigo_interno = codigo_interno.replace(/^  /gm, '');
@@ -2182,7 +2182,7 @@ Blockly.Python['matriz_piscar_lento'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
   var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
   if (codigo_interno) {
     codigo_interno = codigo_interno.replace(/^  /gm, '');
@@ -2212,7 +2212,7 @@ Blockly.Python['matriz_aparecer_sumir'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
   var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
   if (codigo_interno) {
     codigo_interno = codigo_interno.replace(/^  /gm, '');
@@ -2249,7 +2249,7 @@ Blockly.Python['matriz_pulsar_brilho'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
   var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
   if (codigo_interno) {
     codigo_interno = codigo_interno.replace(/^  /gm, '');
@@ -2286,8 +2286,8 @@ Blockly.Python['matriz_deslizar_cima'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
-  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
   if (codigo_interno) {
     codigo_interno = codigo_interno.replace(/^  /gm, '');
@@ -2317,8 +2317,8 @@ Blockly.Python['matriz_deslizar_esquerda'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
-  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
   if (codigo_interno) {
     codigo_interno = codigo_interno.replace(/^  /gm, '');
@@ -2348,8 +2348,8 @@ Blockly.Python['matriz_deslizar_baixo'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
-  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
   if (codigo_interno) {
     codigo_interno = codigo_interno.replace(/^  /gm, '');
@@ -2376,8 +2376,8 @@ Blockly.Python['matriz_deslizar_direita'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
-  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
   if (codigo_interno) {
     codigo_interno = codigo_interno.replace(/^  /gm, '');
@@ -2407,8 +2407,8 @@ Blockly.Python['matriz_balancar'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
-  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
   if (codigo_interno) {
     codigo_interno = codigo_interno.replace(/^  /gm, '');
@@ -2445,8 +2445,8 @@ Blockly.Python['matriz_contracao'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
-  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
   if (codigo_interno) {
     codigo_interno = codigo_interno.replace(/^  /gm, '');
@@ -2473,7 +2473,7 @@ Blockly.Python['matriz_dar_flash'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
   var codigo_interno = Blockly.Python.statementToCode(block, 'DO');
   if (codigo_interno) {
     codigo_interno = codigo_interno.replace(/^  /gm, '');
@@ -2508,9 +2508,9 @@ Blockly.Python['matriz_dar_flash'] = function(block) {
 Blockly.Python['botao_enquanto_apertado'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['setup_botoes'] =
-    'botao_esquerda = Pin(5, Pin.IN, Pin.PULL_UP)\n' +
-    'botao_direita = Pin(6, Pin.IN, Pin.PULL_UP)\n' +
-    'botao_centro = Pin(10, Pin.IN, Pin.PULL_UP)';
+    'botao_esquerda = Pin(' + BitdogLabConfig.PINS.JOYSTICK_LEFT + ', Pin.IN, Pin.PULL_UP)\n' +
+    'botao_direita = Pin(' + BitdogLabConfig.PINS.JOYSTICK_RIGHT + ', Pin.IN, Pin.PULL_UP)\n' +
+    'botao_centro = Pin(' + BitdogLabConfig.PINS.JOYSTICK_CENTER + ', Pin.IN, Pin.PULL_UP)';
   var botao = block.getFieldValue('BOTAO');
   var variavel_botao;
   switch (botao) {
@@ -2566,9 +2566,9 @@ Blockly.Python['botao_enquanto_apertado'] = function(block) {
 Blockly.Python['botao_se_apertado'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['setup_botoes'] =
-    'botao_esquerda = Pin(5, Pin.IN, Pin.PULL_UP)\n' +
-    'botao_direita = Pin(6, Pin.IN, Pin.PULL_UP)\n' +
-    'botao_centro = Pin(10, Pin.IN, Pin.PULL_UP)';
+    'botao_esquerda = Pin(' + BitdogLabConfig.PINS.JOYSTICK_LEFT + ', Pin.IN, Pin.PULL_UP)\n' +
+    'botao_direita = Pin(' + BitdogLabConfig.PINS.JOYSTICK_RIGHT + ', Pin.IN, Pin.PULL_UP)\n' +
+    'botao_centro = Pin(' + BitdogLabConfig.PINS.JOYSTICK_CENTER + ', Pin.IN, Pin.PULL_UP)';
   var botao = block.getFieldValue('BOTAO');
   var variavel_botao;
   var nome_botao;
@@ -2716,8 +2716,8 @@ Blockly.Python['criar_desenho_na_matriz'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(7), 25)  # Pin 7, 25 LEDs';
-  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = [[24, 23, 22, 21, 20], [15, 16, 17, 18, 19], [14, 13, 12, 11, 10], [5, 6, 7, 8, 9], [4, 3, 2, 1, 0]]';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
+  Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   var code = '';
   code += '# Configure matrix without partial updates\n';
   code += 'for i in range(25):\n';
