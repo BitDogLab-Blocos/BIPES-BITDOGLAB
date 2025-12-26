@@ -2282,6 +2282,34 @@ Blockly.Blocks['display_texto'] = {
     this.setHelpUrl("");
   }
 };
+
+// Display calculation result block
+Blockly.Blocks['display_mostrar_calculo'] = {
+  init: function() {
+    this.appendValueInput("VALOR")
+        .setCheck("Number")
+        .appendField("Mostrar resultado cálculo");
+    this.appendDummyInput()
+        .appendField("na linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"]
+        ]), "LINHA")
+        .appendField(new Blockly.FieldDropdown([
+          ["Esquerda", "LEFT"],
+          ["Centro", "CENTER"],
+          ["Direita", "RIGHT"]
+        ]), "ALINHAMENTO");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Mostra o resultado de um cálculo no display OLED com alinhamento");
+    this.setHelpUrl("");
+  }
+};
 // Container block for melody mutator
 Blockly.Blocks['criar_melodia_container'] = {
   init: function() {
