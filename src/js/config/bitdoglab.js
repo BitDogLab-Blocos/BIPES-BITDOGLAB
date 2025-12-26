@@ -6,12 +6,54 @@
 const BitdogLabConfig = {
   // GPIO pin assignments for BitdogLab board
   PINS: {
+    // RGB LED pins
     LED_RED: 13,
     LED_GREEN: 11,
     LED_BLUE: 12,
+
+    // Sound
     BUZZER: 21,
+
+    // Buttons
     BUTTON_A: 5,
-    BUTTON_B: 6
+    BUTTON_B: 6,
+
+    // Joystick buttons
+    JOYSTICK_LEFT: 5,
+    JOYSTICK_RIGHT: 6,
+    JOYSTICK_CENTER: 10,
+
+    // LED Matrix (NeoPixel)
+    NEOPIXEL: 7,
+
+    // OLED Display (I2C)
+    I2C_SCL: 3,  // I2C Clock
+    I2C_SDA: 2   // I2C Data
+  },
+
+  // LED Matrix configuration
+  NEOPIXEL: {
+    PIN: 7,
+    COUNT: 25,  // 5x5 matrix
+    // LED Matrix mapping (row, column) to neopixel index
+    // This maps physical position [row][col] to the LED number in the strip
+    MATRIX: [
+      [24, 23, 22, 21, 20],  // Row 0
+      [15, 16, 17, 18, 19],  // Row 1
+      [14, 13, 12, 11, 10],  // Row 2
+      [5,  6,  7,  8,  9],   // Row 3
+      [4,  3,  2,  1,  0]    // Row 4
+    ]
+  },
+
+  // OLED Display configuration
+  DISPLAY: {
+    I2C_BUS: 1,        // I2C bus number
+    SCL_PIN: 3,        // Clock pin
+    SDA_PIN: 2,        // Data pin
+    I2C_FREQ: 400000,  // I2C frequency (400kHz)
+    WIDTH: 128,        // Display width in pixels
+    HEIGHT: 64         // Display height in pixels
   },
   // MicroPython variable identifiers for LEDs
   LED_VARS: {
@@ -75,6 +117,37 @@ const BitdogLabConfig = {
              line.startsWith('EMOJIS_5X5 = ') || // Emoji patterns dictionary
              line.startsWith('NUMEROS_5X5 = ') || // Number patterns dictionary
              line.startsWith('_contador_repeticao = '); // Repetition counter
+    }
+  },
+
+  // Code generation helpers - Generate MicroPython code using the config
+  CODE_GEN: {
+    // Generate NeoPixel setup code
+    getNeopixelSetup: function() {
+      const cfg = BitdogLabConfig.NEOPIXEL;
+      return `np = neopixel.NeoPixel(Pin(${cfg.PIN}), ${cfg.COUNT})  # Pin ${cfg.PIN}, ${cfg.COUNT} LEDs`;
+    },
+
+    // Generate LED Matrix definition
+    getLedMatrixDefinition: function() {
+      const matrix = BitdogLabConfig.NEOPIXEL.MATRIX;
+      return `LED_MATRIX = ${JSON.stringify(matrix)}`;
+    },
+
+    // Generate RGB LED setup code
+    getRGBLedSetup: function() {
+      const pins = BitdogLabConfig.PINS;
+      return {
+        red: `led_vermelho = PWM(Pin(${pins.LED_RED}), freq=1000)`,
+        green: `led_verde = PWM(Pin(${pins.LED_GREEN}), freq=1000)`,
+        blue: `led_azul = PWM(Pin(${pins.LED_BLUE}), freq=1000)`
+      };
+    },
+
+    // Generate OLED Display I2C setup code
+    getDisplaySetup: function() {
+      const disp = BitdogLabConfig.DISPLAY;
+      return `i2c = I2C(${disp.I2C_BUS}, scl=Pin(${disp.SCL_PIN}), sda=Pin(${disp.SDA_PIN}), freq=${disp.I2C_FREQ})\noled = SSD1306_I2C(${disp.WIDTH}, ${disp.HEIGHT}, i2c)`;
     }
   }
 };
