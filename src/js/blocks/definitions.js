@@ -2255,6 +2255,33 @@ Blockly.Blocks['display_mostrar'] = {
     this.setHelpUrl("");
   }
 };
+
+// Display text block
+Blockly.Blocks['display_texto'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Escrever")
+        .appendField(new Blockly.FieldTextInput("Texto"), "TEXTO")
+        .appendField("na linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"]
+        ]), "LINHA")
+        .appendField(new Blockly.FieldDropdown([
+          ["Esquerda", "LEFT"],
+          ["Centro", "CENTER"],
+          ["Direita", "RIGHT"]
+        ]), "ALINHAMENTO");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Escreve texto em uma das 5 linhas do display OLED com alinhamento (considera borda ativa)");
+    this.setHelpUrl("");
+  }
+};
 // Container block for melody mutator
 Blockly.Blocks['criar_melodia_container'] = {
   init: function() {
