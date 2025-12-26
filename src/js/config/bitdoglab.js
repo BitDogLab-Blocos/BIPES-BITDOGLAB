@@ -112,6 +112,10 @@ const BitdogLabConfig = {
              line.indexOf('=Pin(') !== -1 || // Pin initialization without spaces
              line.indexOf(' = PWM(') !== -1 || // PWM initialization with spaces
              line.indexOf('=PWM(') !== -1 || // PWM initialization without spaces
+             line.indexOf(' = I2C(') !== -1 || // I2C initialization with spaces
+             line.indexOf('=I2C(') !== -1 || // I2C initialization without spaces
+             line.indexOf(' = SSD1306_I2C(') !== -1 || // OLED display initialization with spaces
+             line.indexOf('=SSD1306_I2C(') !== -1 || // OLED display initialization without spaces
              line.startsWith('LED_MATRIX = ') || // LED matrix setup
              line.startsWith('np = neopixel') || // Neopixel setup
              line.startsWith('EMOJIS_5X5 = ') || // Emoji patterns dictionary

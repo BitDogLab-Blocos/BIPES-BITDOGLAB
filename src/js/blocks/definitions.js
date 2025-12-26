@@ -2186,6 +2186,75 @@ Blockly.Blocks['display_natal'] = {
     this.setHelpUrl("");
   }
 };
+
+// Display border block
+Blockly.Blocks['display_criar_borda'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Criar borda no display");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Desenha uma borda retangular ao redor do display OLED");
+    this.setHelpUrl("");
+  }
+};
+
+// Display clear border block
+Blockly.Blocks['display_limpar_borda'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Limpar borda do display");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Remove a borda do display OLED");
+    this.setHelpUrl("");
+  }
+};
+
+// Display update container block
+Blockly.Blocks['display_atualizar'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Atualizar display");
+    this.appendStatementInput("COMANDOS")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#e74c3c");
+    this.setTooltip("Container para atualizar o display OLED. Coloque blocos de comandos (texto, formas, bordas, etc.) dentro deste bloco.");
+    this.setHelpUrl("");
+  }
+};
+
+// Display test connection block
+Blockly.Blocks['display_testar_conexao'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Testar conexão do display");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Testa se o display OLED está conectado corretamente e mostra mensagem de diagnóstico");
+    this.setHelpUrl("");
+  }
+};
+
+// Display show block (container)
+Blockly.Blocks['display_mostrar'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Mostrar no display");
+    this.appendStatementInput("COMANDOS")
+        .setCheck(null);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Container para comandos do display. Executa os comandos dentro e depois mostra no display (oled.show()). NÃO limpa o display antes.");
+    this.setHelpUrl("");
+  }
+};
 // Container block for melody mutator
 Blockly.Blocks['criar_melodia_container'] = {
   init: function() {
