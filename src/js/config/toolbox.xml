@@ -301,6 +301,7 @@
   <category name="📺 Display" colour="#16a085">
     <block type="display_testar_conexao"></block>
     <block type="display_texto"></block>
+    <block type="display_mostrar_calculo"></block>
     <block type="display_criar_borda"></block>
     <block type="display_limpar_borda"></block>
     <block type="display_mostrar"></block>

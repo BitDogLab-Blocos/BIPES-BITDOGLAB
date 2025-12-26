@@ -1446,6 +1446,48 @@ Blockly.Python['display_texto'] = function(block) {
   return code;
 };
 
+// Display calculation result
+Blockly.Python['display_mostrar_calculo'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  var valor = Blockly.Python.valueToCode(block, 'VALOR', Blockly.Python.ORDER_NONE) || '0';
+  var linha = block.getFieldValue('LINHA');
+  var alinhamento = block.getFieldValue('ALINHAMENTO');
+
+  // Calcular posição Y baseado na linha
+  var yPositions = {
+    '1': 8,
+    '2': 18,
+    '3': 28,
+    '4': 38,
+    '5': 48
+  };
+  var y = yPositions[linha];
+
+  // Gerar código que cria a variável temporária e calcula posição
+  var code = '';
+
+  // Criar variável temporária para armazenar o resultado
+  code += '_calc_result = str(' + valor + ')\n';
+
+  // Calcular posição X baseado no alinhamento e tamanho do texto
+  if (alinhamento === 'LEFT') {
+    code += '_calc_x = 3\n';
+  } else if (alinhamento === 'CENTER') {
+    code += '_calc_x = max(3, (128 - len(_calc_result) * 8) // 2)\n';
+  } else { // RIGHT
+    code += '_calc_x = max(3, 125 - len(_calc_result) * 8)\n';
+  }
+
+  // Mostrar o resultado no display
+  code += 'oled.text(_calc_result, _calc_x, ' + y + ', 1)\n';
+
+  return code;
+};
+
 // Create melody
 Blockly.Python['criar_melodia'] = function(block) {
   if (!block.noteSteps_ || block.noteSteps_ === 0) {
