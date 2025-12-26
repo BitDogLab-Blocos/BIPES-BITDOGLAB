@@ -1293,6 +1293,116 @@ Blockly.Python['display_natal'] = function(block) {
   return code;
 };
 
+// Display create border
+Blockly.Python['display_criar_borda'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  var code = 'oled.rect(0, 0, ' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', 1)\n';
+  return code;
+};
+
+// Display clear border
+Blockly.Python['display_limpar_borda'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  var code = 'oled.rect(0, 0, ' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', 0)\n';
+  return code;
+};
+
+// Display update container
+Blockly.Python['display_atualizar'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  var code = 'oled.fill(0)\n';
+
+  // Get the statements/commands inside the container
+  var statements = Blockly.Python.statementToCode(block, 'COMANDOS');
+  if (statements) {
+    // Remove the default 2-space indentation that Blockly adds
+    code += statements.replace(/^  /gm, '');
+  }
+
+  code += 'oled.show()\n';
+
+  return code;
+};
+
+// Display test connection
+Blockly.Python['display_testar_conexao'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+
+  // Use SOUND_BLOCK markers to keep code out of the loop (will be executed once in setup)
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'print("=== VARREDURA COMPLETA I2C ===")\n';
+  code += 'configs = [(0,9,8),(0,5,4),(0,17,16),(0,1,0),(0,13,12),(0,21,20),(1,3,2),(1,7,6),(1,15,14),(1,19,18),(1,27,26)]\n';
+  code += 'for bus,scl,sda in configs:\n';
+  code += '  try:\n';
+  code += '    i2c = I2C(bus, scl=Pin(scl), sda=Pin(sda), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\n';
+  code += '    devs = i2c.scan()\n';
+  code += '    if devs:\n';
+  code += '      print("ACHEI! Bus", bus, "SCL=GPIO"+str(scl), "SDA=GPIO"+str(sda), "->", [hex(d) for d in devs])\n';
+  code += '      try:\n';
+  code += '        oled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)\n';
+  code += '        oled.fill(0)\n';
+  code += '        oled.text("FUNCIONOU!", 20, 28, 1)\n';
+  code += '        oled.show()\n';
+  code += '        print(">>> CONFIGURACAO CORRETA:")\n';
+  code += '        print(">>> I2C_BUS:", bus)\n';
+  code += '        print(">>> SCL_PIN:", scl)\n';
+  code += '        print(">>> SDA_PIN:", sda)\n';
+  code += '        break\n';
+  code += '      except: pass\n';
+  code += '  except: pass\n';
+  code += 'else:\n';
+  code += '  print("NADA ENCONTRADO!")\n';
+  code += 'print("=== FIM ===")\n';
+  code += '# SOUND_BLOCK_END\n';
+
+  return code;
+};
+
+// Display show (container - does NOT clear display)
+Blockly.Python['display_mostrar'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  var code = '';
+
+  // Get the statements/commands inside the container
+  var statements = Blockly.Python.statementToCode(block, 'COMANDOS');
+  if (statements) {
+    // Remove the default 2-space indentation that Blockly adds
+    var cleanStatements = statements.replace(/^  /gm, '');
+
+    // Split by lines and add oled.show() after each non-empty line
+    var lines = cleanStatements.split('\n');
+    for (var i = 0; i < lines.length; i++) {
+      if (lines[i].trim()) {
+        code += lines[i] + '\n';
+        // Add show() after each command (except time.sleep commands)
+        if (lines[i].indexOf('time.sleep') === -1 && lines[i].indexOf('#') !== 0) {
+          code += 'oled.show()\n';
+        }
+      }
+    }
+  }
+
+  return code;
+};
+
 // Create melody
 Blockly.Python['criar_melodia'] = function(block) {
   if (!block.noteSteps_ || block.noteSteps_ === 0) {
