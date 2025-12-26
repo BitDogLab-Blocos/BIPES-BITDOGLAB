@@ -570,7 +570,7 @@ Code.init = function() {
            length: 3, // Grid dot size
            colour: '#ccc',
            snap: true}, // Enable snap-to-grid
-       media: 'media/',
+       media: '../assets/media/',
        rtl: rtl,
        toolbox: toolboxXml,
        oneBasedIndex: false, // Arrays start at 0, not 1
@@ -687,5 +687,5 @@ Code.discard = function() {
 };
 
 // Load localized message files (must execute before DOM ready)
-document.write('<script src="msg/' + Code.LANG + '.js"></script>\n'); // BIPES UI messages
-document.write('<script src="b.msg/js/' + Code.LANG + '.js"></script>\n'); // Blockly core messages
+document.write('<script src="../translations/app/' + Code.LANG + '.js"></script>\n'); // BIPES UI messages
+document.write('<script src="../translations/blockly/languages/' + Code.LANG + '.js"></script>\n'); // Blockly core messages
