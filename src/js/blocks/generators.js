@@ -1403,6 +1403,49 @@ Blockly.Python['display_mostrar'] = function(block) {
   return code;
 };
 
+// Display text
+Blockly.Python['display_texto'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  var texto = block.getFieldValue('TEXTO');
+  var linha = block.getFieldValue('LINHA');
+  var alinhamento = block.getFieldValue('ALINHAMENTO');
+
+  // Calcular posição Y baseado na linha (considerando borda de 1 pixel no topo)
+  // Linhas em: Y = 8, 18, 28, 38, 48 (espaçamento de 10 pixels, começando após a borda)
+  var yPositions = {
+    '1': 8,
+    '2': 18,
+    '3': 28,
+    '4': 38,
+    '5': 48
+  };
+  var y = yPositions[linha];
+
+  // Calcular posição X baseado no alinhamento
+  // Display: 128 pixels de largura, borda de 1 pixel de cada lado = 126 pixels úteis
+  // Cada caractere: 8 pixels de largura
+  // Área útil para texto: de X=2 até X=125 (para evitar sobrepor a borda)
+  var textLength = texto.length;
+  var textWidth = textLength * 8;
+  var usableWidth = 124; // 126 - 2 pixels de margem interna
+  var x;
+
+  if (alinhamento === 'LEFT') {
+    x = 3; // 1 pixel de borda + 2 pixels de margem
+  } else if (alinhamento === 'CENTER') {
+    x = Math.max(3, Math.floor((128 - textWidth) / 2));
+  } else { // RIGHT
+    x = Math.max(3, 125 - textWidth);
+  }
+
+  var code = 'oled.text("' + texto + '", ' + x + ', ' + y + ', 1)\n';
+  return code;
+};
+
 // Create melody
 Blockly.Python['criar_melodia'] = function(block) {
   if (!block.noteSteps_ || block.noteSteps_ === 0) {
