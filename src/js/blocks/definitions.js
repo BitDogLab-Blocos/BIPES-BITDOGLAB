@@ -2191,11 +2191,11 @@ Blockly.Blocks['display_natal'] = {
 Blockly.Blocks['display_criar_borda'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🖼️ Criar borda no display");
+        .appendField("🖼️ Desenhar moldura");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
-    this.setTooltip("Desenha uma borda retangular ao redor do display OLED");
+    this.setTooltip("Desenha uma moldura retangular ao redor do display");
     this.setHelpUrl("");
   }
 };
@@ -2204,11 +2204,11 @@ Blockly.Blocks['display_criar_borda'] = {
 Blockly.Blocks['display_limpar_borda'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🧹 Limpar borda do display");
+        .appendField("🧹 Apagar moldura");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
-    this.setTooltip("Remove a borda do display OLED");
+    this.setTooltip("Apaga a moldura do display");
     this.setHelpUrl("");
   }
 };
@@ -2232,11 +2232,11 @@ Blockly.Blocks['display_atualizar'] = {
 Blockly.Blocks['display_testar_conexao'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔍 Testar conexão do display");
+        .appendField("🔍 Testar se display funciona");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
-    this.setTooltip("Testa se o display OLED está conectado corretamente e mostra mensagem de diagnóstico");
+    this.setTooltip("Testa se o display OLED está conectado e funcionando");
     this.setHelpUrl("");
   }
 };
@@ -2261,8 +2261,8 @@ Blockly.Blocks['display_texto'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("✏️ Escrever")
-        .appendField(new Blockly.FieldTextInput("Texto"), "TEXTO")
-        .appendField("na linha")
+        .appendField(new Blockly.FieldTextInput("Olá!"), "TEXTO")
+        .appendField("linha")
         .appendField(new Blockly.FieldDropdown([
           ["1", "1"],
           ["2", "2"],
@@ -2271,14 +2271,14 @@ Blockly.Blocks['display_texto'] = {
           ["5", "5"]
         ]), "LINHA")
         .appendField(new Blockly.FieldDropdown([
-          ["Esquerda", "LEFT"],
-          ["Centro", "CENTER"],
-          ["Direita", "RIGHT"]
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
         ]), "ALINHAMENTO");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
-    this.setTooltip("Escreve texto em uma das 5 linhas do display OLED com alinhamento (considera borda ativa)");
+    this.setTooltip("Escreve texto no display OLED em uma das 5 linhas");
     this.setHelpUrl("");
   }
 };
@@ -2288,35 +2288,7 @@ Blockly.Blocks['display_mostrar_calculo'] = {
   init: function() {
     this.appendValueInput("VALOR")
         .setCheck("Number")
-        .appendField("🔢 Mostrar resultado cálculo");
-    this.appendDummyInput()
-        .appendField("na linha")
-        .appendField(new Blockly.FieldDropdown([
-          ["1", "1"],
-          ["2", "2"],
-          ["3", "3"],
-          ["4", "4"],
-          ["5", "5"]
-        ]), "LINHA")
-        .appendField(new Blockly.FieldDropdown([
-          ["Esquerda", "LEFT"],
-          ["Centro", "CENTER"],
-          ["Direita", "RIGHT"]
-        ]), "ALINHAMENTO");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#16a085");
-    this.setTooltip("Mostra o resultado de um cálculo no display OLED com alinhamento");
-    this.setHelpUrl("");
-  }
-};
-
-// Display LED state block
-Blockly.Blocks['display_mostrar_estado_led'] = {
-  init: function() {
-    this.appendValueInput("COLOUR")
-        .setCheck("Colour")
-        .appendField("💡 Mostrar estado LED");
+        .appendField("🔢 Mostrar resultado da conta");
     this.appendDummyInput()
         .appendField("linha")
         .appendField(new Blockly.FieldDropdown([
@@ -2327,15 +2299,44 @@ Blockly.Blocks['display_mostrar_estado_led'] = {
           ["5", "5"]
         ]), "LINHA")
         .appendField(new Blockly.FieldDropdown([
-          ["Esquerda", "LEFT"],
-          ["Centro", "CENTER"],
-          ["Direita", "RIGHT"]
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
+        ]), "ALINHAMENTO");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Mostra o resultado de uma conta (da categoria Matemática) no display");
+    this.setHelpUrl("");
+  }
+};
+
+// Display LED state block
+Blockly.Blocks['display_mostrar_estado_led'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("💡 Mostrar se LED");
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour");
+    this.appendDummyInput()
+        .appendField("está ligado linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"]
+        ]), "LINHA")
+        .appendField(new Blockly.FieldDropdown([
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
         ]), "ALINHAMENTO");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
-    this.setTooltip("Mostra o estado do LED RGB (ON/OFF) no display OLED com alinhamento");
+    this.setTooltip("Mostra no display se o LED de uma cor está ligado ou desligado");
     this.setHelpUrl("");
   }
 };
@@ -2344,11 +2345,11 @@ Blockly.Blocks['display_mostrar_estado_led'] = {
 Blockly.Blocks['display_limpar'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🧹 Limpar display");
+        .appendField("🧹 Apagar display");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
-    this.setTooltip("Limpa todo o conteúdo do display OLED");
+    this.setTooltip("Apaga tudo que está no display OLED");
     this.setHelpUrl("");
   }
 };
@@ -2357,7 +2358,7 @@ Blockly.Blocks['display_limpar'] = {
 Blockly.Blocks['display_resetar_contagem'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🔄 Resetar contagem botão")
+        .appendField("🔄 Zerar contador do botão")
         .appendField(new Blockly.FieldDropdown([
           ["A", "A"],
           ["B", "B"],
@@ -2367,7 +2368,7 @@ Blockly.Blocks['display_resetar_contagem'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
-    this.setTooltip("Reseta o contador de cliques do botão selecionado para zero");
+    this.setTooltip("Zera o contador de vezes que o botão foi apertado");
     this.setHelpUrl("");
   }
 };
@@ -2376,12 +2377,13 @@ Blockly.Blocks['display_resetar_contagem'] = {
 Blockly.Blocks['display_mostrar_estado_botao'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🎮 Mostrar estado botão")
+        .appendField("🎮 Mostrar se botão")
         .appendField(new Blockly.FieldDropdown([
           ["A", "A"],
           ["B", "B"],
           ["C", "C"]
         ]), "BOTAO")
+        .appendField("foi apertado")
         .appendField("linha")
         .appendField(new Blockly.FieldDropdown([
           ["1", "1"],
@@ -2391,12 +2393,12 @@ Blockly.Blocks['display_mostrar_estado_botao'] = {
           ["5", "5"]
         ]), "LINHA")
         .appendField(new Blockly.FieldDropdown([
-          ["Esquerda", "LEFT"],
-          ["Centro", "CENTER"],
-          ["Direita", "RIGHT"]
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
         ]), "ALINHAMENTO");
     this.appendDummyInput()
-        .appendField("Mostrar contagem:")
+        .appendField("📊 Contar quantas vezes:")
         .appendField(new Blockly.FieldCheckbox("FALSE"), "MOSTRAR_CONTAGEM")
         .appendField("linha")
         .appendField(new Blockly.FieldDropdown([
@@ -2407,14 +2409,14 @@ Blockly.Blocks['display_mostrar_estado_botao'] = {
           ["5", "5"]
         ]), "LINHA_CONTAGEM")
         .appendField(new Blockly.FieldDropdown([
-          ["Esquerda", "LEFT"],
-          ["Centro", "CENTER"],
-          ["Direita", "RIGHT"]
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
         ]), "ALINHAMENTO_CONTAGEM");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
-    this.setTooltip("Mostra o estado do botão (Press/Solto) e opcionalmente a contagem de cliques");
+    this.setTooltip("Mostra no display se o botão está apertado e quantas vezes foi clicado");
     this.setHelpUrl("");
   }
 };
