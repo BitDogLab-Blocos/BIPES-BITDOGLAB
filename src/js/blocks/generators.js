@@ -1582,6 +1582,7 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
   Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
   Blockly.Python.definitions_['setup_botoes'] =
     'botao_esquerda = Pin(' + BitdogLabConfig.PINS.JOYSTICK_LEFT + ', Pin.IN, Pin.PULL_UP)\n' +
@@ -1625,25 +1626,51 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
 
   var code = '';
 
-  // Initialize counter if showing count
+  // Initialize IRQ system only once using try/except
   if (mostrarContagem) {
-    Blockly.Python.definitions_['setup_' + contador_var] = contador_var + ' = 0';
-    Blockly.Python.definitions_['setup_' + contador_var + '_prev'] = contador_var + '_prev = 1';
+    code += 'try:\n';
+    code += '  _btn_irq_initialized\n';
+    code += 'except:\n';
+    code += '  _btn_a_count = 0\n';
+    code += '  _btn_b_count = 0\n';
+    code += '  _btn_c_count = 0\n';
+    code += '  _btn_a_last_time = 0\n';
+    code += '  _btn_b_last_time = 0\n';
+    code += '  _btn_c_last_time = 0\n';
+    code += '  _debounce_ms = 300\n';
+    code += '  def _btn_a_handler(pin):\n';
+    code += '    global _btn_a_count, _btn_a_last_time\n';
+    code += '    current_time = time.ticks_ms()\n';
+    code += '    if time.ticks_diff(current_time, _btn_a_last_time) > _debounce_ms:\n';
+    code += '      _btn_a_count += 1\n';
+    code += '      _btn_a_last_time = current_time\n';
+    code += '  def _btn_b_handler(pin):\n';
+    code += '    global _btn_b_count, _btn_b_last_time\n';
+    code += '    current_time = time.ticks_ms()\n';
+    code += '    if time.ticks_diff(current_time, _btn_b_last_time) > _debounce_ms:\n';
+    code += '      _btn_b_count += 1\n';
+    code += '      _btn_b_last_time = current_time\n';
+    code += '  def _btn_c_handler(pin):\n';
+    code += '    global _btn_c_count, _btn_c_last_time\n';
+    code += '    current_time = time.ticks_ms()\n';
+    code += '    if time.ticks_diff(current_time, _btn_c_last_time) > _debounce_ms:\n';
+    code += '      _btn_c_count += 1\n';
+    code += '      _btn_c_last_time = current_time\n';
+    code += '  botao_esquerda.irq(trigger=Pin.IRQ_FALLING, handler=_btn_a_handler)\n';
+    code += '  botao_direita.irq(trigger=Pin.IRQ_FALLING, handler=_btn_b_handler)\n';
+    code += '  botao_centro.irq(trigger=Pin.IRQ_FALLING, handler=_btn_c_handler)\n';
+    code += '  _btn_irq_initialized = True\n';
   }
 
-  // Clear display first
-  code += 'oled.fill(0)\n';
-
-  // Detect button press and update counter (if enabled)
-  if (mostrarContagem) {
-    code += 'if ' + variavel_botao + '.value() == 0 and ' + contador_var + '_prev == 1:\n';
-    code += '  ' + contador_var + ' += 1\n';
-    code += contador_var + '_prev = ' + variavel_botao + '.value()\n';
-  }
+  // Read button state once
+  code += '_btn_current = ' + variavel_botao + '.value()\n';
 
   // Show button state
-  code += '_btn_state = "Press" if ' + variavel_botao + '.value() == 0 else "Solto"\n';
+  code += '_btn_state = "Press" if _btn_current == 0 else "Solto"\n';
   code += '_btn_text = "BTN ' + nome_botao + ':" + _btn_state\n';
+
+  // Clear the specific line before writing (fill_rect to erase old text)
+  code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
 
   // Calculate X position for state based on alignment
   if (alinhamento === 'LEFT') {
@@ -1659,6 +1686,9 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
   // Show count if enabled
   if (mostrarContagem) {
     code += '_btn_count_text = "Clicks:" + str(' + contador_var + ')\n';
+
+    // Clear the count line before writing
+    code += 'oled.fill_rect(0, ' + yContagem + ', 128, 8, 0)\n';
 
     // Calculate X position for count based on alignment
     if (alinhamentoContagem === 'LEFT') {
