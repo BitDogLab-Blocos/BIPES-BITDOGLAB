@@ -2310,6 +2310,96 @@ Blockly.Blocks['display_mostrar_calculo'] = {
     this.setHelpUrl("");
   }
 };
+
+// Display LED state block
+Blockly.Blocks['display_mostrar_estado_led'] = {
+  init: function() {
+    this.appendValueInput("COLOUR")
+        .setCheck("Colour")
+        .appendField("💡 Mostrar estado LED");
+    this.appendDummyInput()
+        .appendField("linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"]
+        ]), "LINHA")
+        .appendField(new Blockly.FieldDropdown([
+          ["Esquerda", "LEFT"],
+          ["Centro", "CENTER"],
+          ["Direita", "RIGHT"]
+        ]), "ALINHAMENTO");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Mostra o estado do LED RGB (ON/OFF) no display OLED com alinhamento");
+    this.setHelpUrl("");
+  }
+};
+
+// Display clear block
+Blockly.Blocks['display_limpar'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🧹 Limpar display");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Limpa todo o conteúdo do display OLED");
+    this.setHelpUrl("");
+  }
+};
+
+// Display button state block
+Blockly.Blocks['display_mostrar_estado_botao'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎮 Mostrar estado botão")
+        .appendField(new Blockly.FieldDropdown([
+          ["A", "A"],
+          ["B", "B"],
+          ["C", "C"]
+        ]), "BOTAO")
+        .appendField("linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"]
+        ]), "LINHA")
+        .appendField(new Blockly.FieldDropdown([
+          ["Esquerda", "LEFT"],
+          ["Centro", "CENTER"],
+          ["Direita", "RIGHT"]
+        ]), "ALINHAMENTO");
+    this.appendDummyInput()
+        .appendField("Mostrar contagem:")
+        .appendField(new Blockly.FieldCheckbox("FALSE"), "MOSTRAR_CONTAGEM")
+        .appendField("linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"]
+        ]), "LINHA_CONTAGEM")
+        .appendField(new Blockly.FieldDropdown([
+          ["Esquerda", "LEFT"],
+          ["Centro", "CENTER"],
+          ["Direita", "RIGHT"]
+        ]), "ALINHAMENTO_CONTAGEM");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Mostra o estado do botão (Press/Solto) e opcionalmente a contagem de cliques");
+    this.setHelpUrl("");
+  }
+};
+
 // Container block for melody mutator
 Blockly.Blocks['criar_melodia_container'] = {
   init: function() {

@@ -1301,6 +1301,7 @@ Blockly.Python['display_criar_borda'] = function(block) {
   Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var code = 'oled.rect(0, 0, ' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', 1)\n';
+  code += 'oled.show()\n';
   return code;
 };
 
@@ -1312,6 +1313,7 @@ Blockly.Python['display_limpar_borda'] = function(block) {
   Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var code = 'oled.rect(0, 0, ' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', 0)\n';
+  code += 'oled.show()\n';
   return code;
 };
 
@@ -1443,6 +1445,7 @@ Blockly.Python['display_texto'] = function(block) {
   }
 
   var code = 'oled.text("' + texto + '", ' + x + ', ' + y + ', 1)\n';
+  code += 'oled.show()\n';
   return code;
 };
 
@@ -1484,6 +1487,192 @@ Blockly.Python['display_mostrar_calculo'] = function(block) {
 
   // Mostrar o resultado no display
   code += 'oled.text(_calc_result, _calc_x, ' + y + ', 1)\n';
+  code += 'oled.show()\n';
+
+  return code;
+};
+
+// Display LED state generator
+Blockly.Python['display_mostrar_estado_led'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
+
+  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
+  var linha = block.getFieldValue('LINHA');
+  var alinhamento = block.getFieldValue('ALINHAMENTO');
+
+  // Y positions for 5 lines
+  var yPositions = {'1': 8, '2': 18, '3': 28, '4': 38, '5': 48};
+  var y = yPositions[linha];
+
+  var code = '';
+
+  // Check LED state and determine color name
+  code += '_led_r = led_vermelho.duty_u16()\n';
+  code += '_led_g = led_verde.duty_u16()\n';
+  code += '_led_b = led_azul.duty_u16()\n';
+  code += '_led_color = ' + colour + '\n';
+  code += '_led_state = "ON" if (_led_r > 0 or _led_g > 0 or _led_b > 0) else "OFF"\n';
+
+  // Determine color name based on RGB values
+  code += 'if _led_color == (255, 0, 0):\n';
+  code += '  _color_name = "Verm"\n';
+  code += 'elif _led_color == (0, 255, 0):\n';
+  code += '  _color_name = "Verde"\n';
+  code += 'elif _led_color == (0, 0, 255):\n';
+  code += '  _color_name = "Azul"\n';
+  code += 'elif _led_color == (255, 255, 0):\n';
+  code += '  _color_name = "Amar"\n';
+  code += 'elif _led_color == (0, 255, 255):\n';
+  code += '  _color_name = "Ciano"\n';
+  code += 'elif _led_color == (255, 0, 255):\n';
+  code += '  _color_name = "Magent"\n';
+  code += 'elif _led_color == (255, 255, 255):\n';
+  code += '  _color_name = "Branco"\n';
+  code += 'elif _led_color == (255, 165, 0):\n';
+  code += '  _color_name = "Laran"\n';
+  code += 'elif _led_color == (255, 192, 203):\n';
+  code += '  _color_name = "Rosa"\n';
+  code += 'elif _led_color == (128, 255, 0):\n';
+  code += '  _color_name = "Lima"\n';
+  code += 'elif _led_color == (64, 196, 255):\n';
+  code += '  _color_name = "ACeu"\n';
+  code += 'elif _led_color == (64, 224, 208):\n';
+  code += '  _color_name = "Turq"\n';
+  code += 'else:\n';
+  code += '  _color_name = "Cor"\n';
+
+  code += '_led_text = "LED(" + _color_name + "):" + _led_state\n';
+
+  // Calculate X position based on alignment
+  if (alinhamento === 'LEFT') {
+    code += '_led_x = 3\n';
+  } else if (alinhamento === 'CENTER') {
+    code += '_led_x = max(3, (128 - len(_led_text) * 8) // 2)\n';
+  } else { // RIGHT
+    code += '_led_x = max(3, 125 - len(_led_text) * 8)\n';
+  }
+
+  code += 'oled.text(_led_text, _led_x, ' + y + ', 1)\n';
+  code += 'oled.show()\n';
+
+  return code;
+};
+
+// Display clear generator
+Blockly.Python['display_limpar'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  var code = 'oled.fill(0)\n';
+  code += 'oled.show()\n';
+  return code;
+};
+
+// Display button state generator
+Blockly.Python['display_mostrar_estado_botao'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  Blockly.Python.definitions_['setup_botoes'] =
+    'botao_esquerda = Pin(' + BitdogLabConfig.PINS.JOYSTICK_LEFT + ', Pin.IN, Pin.PULL_UP)\n' +
+    'botao_direita = Pin(' + BitdogLabConfig.PINS.JOYSTICK_RIGHT + ', Pin.IN, Pin.PULL_UP)\n' +
+    'botao_centro = Pin(' + BitdogLabConfig.PINS.JOYSTICK_CENTER + ', Pin.IN, Pin.PULL_UP)';
+
+  var botao = block.getFieldValue('BOTAO');
+  var linha = block.getFieldValue('LINHA');
+  var alinhamento = block.getFieldValue('ALINHAMENTO');
+  var mostrarContagem = block.getFieldValue('MOSTRAR_CONTAGEM') === 'TRUE';
+  var linhaContagem = block.getFieldValue('LINHA_CONTAGEM');
+  var alinhamentoContagem = block.getFieldValue('ALINHAMENTO_CONTAGEM');
+
+  // Y positions for 5 lines
+  var yPositions = {'1': 8, '2': 18, '3': 28, '4': 38, '5': 48};
+  var y = yPositions[linha];
+  var yContagem = yPositions[linhaContagem];
+
+  // Determine button variable and name
+  var variavel_botao;
+  var nome_botao;
+  var contador_var;
+
+  switch (botao) {
+    case 'A':
+      variavel_botao = 'botao_esquerda';
+      nome_botao = 'A';
+      contador_var = '_btn_a_count';
+      break;
+    case 'B':
+      variavel_botao = 'botao_direita';
+      nome_botao = 'B';
+      contador_var = '_btn_b_count';
+      break;
+    case 'C':
+      variavel_botao = 'botao_centro';
+      nome_botao = 'C';
+      contador_var = '_btn_c_count';
+      break;
+  }
+
+  var code = '';
+
+  // Initialize counter if showing count
+  if (mostrarContagem) {
+    Blockly.Python.definitions_['setup_' + contador_var] = contador_var + ' = 0';
+    Blockly.Python.definitions_['setup_' + contador_var + '_prev'] = contador_var + '_prev = 1';
+  }
+
+  // Clear display first
+  code += 'oled.fill(0)\n';
+
+  // Detect button press and update counter (if enabled)
+  if (mostrarContagem) {
+    code += 'if ' + variavel_botao + '.value() == 0 and ' + contador_var + '_prev == 1:\n';
+    code += '  ' + contador_var + ' += 1\n';
+    code += contador_var + '_prev = ' + variavel_botao + '.value()\n';
+  }
+
+  // Show button state
+  code += '_btn_state = "Press" if ' + variavel_botao + '.value() == 0 else "Solto"\n';
+  code += '_btn_text = "BTN ' + nome_botao + ':" + _btn_state\n';
+
+  // Calculate X position for state based on alignment
+  if (alinhamento === 'LEFT') {
+    code += '_btn_x = 3\n';
+  } else if (alinhamento === 'CENTER') {
+    code += '_btn_x = max(3, (128 - len(_btn_text) * 8) // 2)\n';
+  } else { // RIGHT
+    code += '_btn_x = max(3, 125 - len(_btn_text) * 8)\n';
+  }
+
+  code += 'oled.text(_btn_text, _btn_x, ' + y + ', 1)\n';
+
+  // Show count if enabled
+  if (mostrarContagem) {
+    code += '_btn_count_text = "Clicks:" + str(' + contador_var + ')\n';
+
+    // Calculate X position for count based on alignment
+    if (alinhamentoContagem === 'LEFT') {
+      code += '_btn_count_x = 3\n';
+    } else if (alinhamentoContagem === 'CENTER') {
+      code += '_btn_count_x = max(3, (128 - len(_btn_count_text) * 8) // 2)\n';
+    } else { // RIGHT
+      code += '_btn_count_x = max(3, 125 - len(_btn_count_text) * 8)\n';
+    }
+
+    code += 'oled.text(_btn_count_text, _btn_count_x, ' + yContagem + ', 1)\n';
+  }
+
+  code += 'oled.show()\n';
 
   return code;
 };
