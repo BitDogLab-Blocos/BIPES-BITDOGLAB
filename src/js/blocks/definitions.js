@@ -1,3 +1,41 @@
+// ==========================================
+// REPETITION BLOCKS
+// ==========================================
+
+// Repeat N times block
+Blockly.Blocks['controls_repeat_simple'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Repetir")
+        .appendField(new Blockly.FieldNumber(10, 1), "TIMES")
+        .appendField("vezes");
+    this.appendStatementInput("DO")
+        .appendField("fazer");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(120);
+    this.setTooltip("Repete as ações um número específico de vezes. Funciona com todos os blocos, incluindo os que têm loops infinitos!");
+    this.setHelpUrl("");
+  }
+};
+
+// Repeat forever block
+Blockly.Blocks['controls_repeat_forever'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Repetir para sempre");
+    this.appendStatementInput("DO")
+        .appendField("fazer");
+    this.setPreviousStatement(true, null);
+    this.setColour(120);
+    this.setTooltip("Repete continuamente até o programa ser parado (loop infinito)");
+    this.setHelpUrl("");
+  }
+};
+
+console.log('[BitdogLab] Basic repetition blocks loaded successfully!');
+
+// ==========================================
 // Global variable to control if the instruction message has been shown
 var matrixAnimationTipShown = false;
 // Function to show the matrix animation tip (only once)
@@ -2417,6 +2455,48 @@ Blockly.Blocks['display_mostrar_estado_botao'] = {
     this.setNextStatement(true, null);
     this.setColour("#16a085");
     this.setTooltip("Mostra no display se o botão está apertado e quantas vezes foi clicado");
+    this.setHelpUrl("");
+  }
+};
+
+// Display buzzer status block
+Blockly.Blocks['display_mostrar_status_buzzer'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔊 Mostrar status do buzzer")
+        .appendField("linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"]
+        ]), "LINHA")
+        .appendField(new Blockly.FieldDropdown([
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
+        ]), "ALINHAMENTO");
+    this.appendDummyInput()
+        .appendField("🎵 Mostrar frequência:")
+        .appendField(new Blockly.FieldCheckbox("FALSE"), "MOSTRAR_FREQUENCIA")
+        .appendField("linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"]
+        ]), "LINHA_FREQ")
+        .appendField(new Blockly.FieldDropdown([
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
+        ]), "ALINHAMENTO_FREQ");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Mostra no display se o buzzer está tocando e a frequência atual");
     this.setHelpUrl("");
   }
 };

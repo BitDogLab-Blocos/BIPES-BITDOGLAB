@@ -491,16 +491,27 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
   if (hasStaticConfig && actionCode.length === 0) {
     finalCode += '# Configuração estática concluída - LEDs fixos\n';
   }
-  // 4. Main infinite loop
+  // 4. Main infinite loop (skip if "Repetir X vezes" is used)
   else if (actionCode.length > 0) {
-    finalCode += '# Loop Principal\n';
-    finalCode += 'while True:\n';
+    // Check if code contains "Repetir X vezes" block (for _rep in range)
+    var hasRepeatXTimes = actionCode.some(line => line.includes('for _rep in range(') || line.includes('for _inner_rep in range('));
 
-    for (var j = 0; j < actionCode.length; j++) {
-      finalCode += '  ' + actionCode[j] + '\n';
+    if (hasRepeatXTimes) {
+      // No while True needed - "Repetir X vezes" controls the loop
+      for (var j = 0; j < actionCode.length; j++) {
+        finalCode += actionCode[j] + '\n';
+      }
+    } else {
+      // Add default infinite loop
+      finalCode += '# Loop Principal\n';
+      finalCode += 'while True:\n';
+
+      for (var j = 0; j < actionCode.length; j++) {
+        finalCode += '  ' + actionCode[j] + '\n';
+      }
+
+      finalCode += BitdogLabConfig.LOOP.getDelayCode(); // Prevent CPU overload
     }
-
-    finalCode += BitdogLabConfig.LOOP.getDelayCode(); // Prevent CPU overload
   }
 
   return finalCode;

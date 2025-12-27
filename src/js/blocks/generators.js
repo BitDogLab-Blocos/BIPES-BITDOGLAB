@@ -1,3 +1,94 @@
+// ==========================================
+// Basic Blocks - Code Generators
+// Python code generators for repetition blocks
+// ==========================================
+
+console.log('[BitdogLab] Loading basic code generators...');
+
+// ==========================================
+// REPETITION GENERATORS
+// ==========================================
+
+// Repeat N times generator
+Blockly.Python['controls_repeat_simple'] = function(block) {
+  var times = block.getFieldValue('TIMES');
+  var statements = Blockly.Python.statementToCode(block, 'DO');
+
+  // Remove initial indentation (Blockly adds 2 spaces)
+  if (statements) {
+    statements = statements.replace(/^  /gm, '');
+  }
+
+  // Remove sound block markers
+  statements = statements.replace(/# SOUND_BLOCK_START|# SOUND_BLOCK_END/g, '');
+
+  // CRITICAL FIX: Replace 'while True:' with limited iterations
+  // This allows infinite-loop blocks to work inside "Repeat X times"
+  if (statements && statements.includes('while True:')) {
+    // Replace while True: with for loop limited to X times
+    statements = statements.replace(/while True:/g, 'for _inner_rep in range(' + times + '):');
+
+    // Since we already handle the repetition inside, we don't need outer loop
+    var code = '';
+    if (statements && statements.trim()) {
+      code += statements;
+    } else {
+      code += 'pass\n';
+    }
+    return code;
+  }
+
+  // Normal case: Simple for loop
+  var code = 'for _rep in range(' + times + '):\n';
+
+  if (statements && statements.trim()) {
+    // Add indentation line by line
+    var lines = statements.split('\n');
+    for (var i = 0; i < lines.length; i++) {
+      if (lines[i].trim() !== '') {
+        code += '  ' + lines[i] + '\n';
+      }
+    }
+  } else {
+    code += '  pass\n';
+  }
+
+  return code;
+};
+
+// Repeat forever generator
+Blockly.Python['controls_repeat_forever'] = function(block) {
+  var statements = Blockly.Python.statementToCode(block, 'DO');
+
+  // Remove initial indentation (Blockly adds 2 spaces)
+  if (statements) {
+    statements = statements.replace(/^  /gm, '');
+  }
+
+  // Remove sound block markers
+  statements = statements.replace(/# SOUND_BLOCK_START|# SOUND_BLOCK_END/g, '');
+
+  var code = 'while True:\n';
+
+  if (statements && statements.trim()) {
+    // Add indentation line by line
+    var lines = statements.split('\n');
+    for (var i = 0; i < lines.length; i++) {
+      if (lines[i].trim() !== '') {
+        code += '  ' + lines[i] + '\n';
+      }
+    }
+  } else {
+    code += '  pass\n';
+  }
+
+  return code;
+};
+
+console.log('[BitdogLab] Basic code generators loaded successfully!');
+
+// ==========================================
+
 let UPythonClass = {};
 
 /*
@@ -1700,6 +1791,83 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
     }
 
     code += 'oled.text(_btn_count_text, _btn_count_x, ' + yContagem + ', 1)\n';
+  }
+
+  code += 'oled.show()\n';
+
+  return code;
+};
+
+// Display buzzer status generator
+Blockly.Python['display_mostrar_status_buzzer'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
+
+  var linha = block.getFieldValue('LINHA');
+  var alinhamento = block.getFieldValue('ALINHAMENTO');
+  var mostrarFrequencia = block.getFieldValue('MOSTRAR_FREQUENCIA') === 'TRUE';
+  var linhaFreq = block.getFieldValue('LINHA_FREQ');
+  var alinhamentoFreq = block.getFieldValue('ALINHAMENTO_FREQ');
+
+  // Y positions for 5 lines
+  var yPositions = {'1': 8, '2': 18, '3': 28, '4': 38, '5': 48};
+  var y = yPositions[linha];
+  var yFreq = yPositions[linhaFreq];
+
+  var code = '';
+
+  // Initialize buzzer frequency tracking
+  code += 'try:\n';
+  code += '  _buzzer_freq\n';
+  code += 'except:\n';
+  code += '  _buzzer_freq = 0\n';
+
+  // Check buzzer duty cycle to determine if it's playing
+  code += '_buzzer_duty = buzzer.duty_u16()\n';
+  code += '_buzzer_status = "TOCANDO" if _buzzer_duty > 0 else "MUDO"\n';
+  code += '_buzzer_text = "Som:" + _buzzer_status\n';
+
+  // Clear the specific line before writing
+  code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
+
+  // Calculate X position for status based on alignment
+  if (alinhamento === 'LEFT') {
+    code += '_buzzer_x = 3\n';
+  } else if (alinhamento === 'CENTER') {
+    code += '_buzzer_x = max(3, (128 - len(_buzzer_text) * 8) // 2)\n';
+  } else { // RIGHT
+    code += '_buzzer_x = max(3, 125 - len(_buzzer_text) * 8)\n';
+  }
+
+  code += 'oled.text(_buzzer_text, _buzzer_x, ' + y + ', 1)\n';
+
+  // Show frequency if enabled
+  if (mostrarFrequencia) {
+    code += 'if _buzzer_duty > 0:\n';
+    code += '  try:\n';
+    code += '    _current_freq = buzzer.freq()\n';
+    code += '    _buzzer_freq = _current_freq\n';
+    code += '  except:\n';
+    code += '    pass\n';
+    code += '_freq_text = str(_buzzer_freq) + "Hz" if _buzzer_freq > 0 else "0Hz"\n';
+
+    // Clear the frequency line before writing
+    code += 'oled.fill_rect(0, ' + yFreq + ', 128, 8, 0)\n';
+
+    // Calculate X position for frequency based on alignment
+    if (alinhamentoFreq === 'LEFT') {
+      code += '_freq_x = 3\n';
+    } else if (alinhamentoFreq === 'CENTER') {
+      code += '_freq_x = max(3, (128 - len(_freq_text) * 8) // 2)\n';
+    } else { // RIGHT
+      code += '_freq_x = max(3, 125 - len(_freq_text) * 8)\n';
+    }
+
+    code += 'oled.text(_freq_text, _freq_x, ' + yFreq + ', 1)\n';
   }
 
   code += 'oled.show()\n';
