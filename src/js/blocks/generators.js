@@ -1707,6 +1707,43 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
   return code;
 };
 
+// Display reset button counter generator
+Blockly.Python['display_resetar_contagem'] = function(block) {
+  var botao = block.getFieldValue('BOTAO');
+
+  var code = '';
+
+  if (botao === 'ALL') {
+    // Reset all counters
+    code += 'try:\n';
+    code += '  _btn_a_count = 0\n';
+    code += '  _btn_b_count = 0\n';
+    code += '  _btn_c_count = 0\n';
+    code += 'except:\n';
+    code += '  pass\n';
+  } else {
+    // Reset specific counter
+    var contador_var;
+    switch (botao) {
+      case 'A':
+        contador_var = '_btn_a_count';
+        break;
+      case 'B':
+        contador_var = '_btn_b_count';
+        break;
+      case 'C':
+        contador_var = '_btn_c_count';
+        break;
+    }
+    code += 'try:\n';
+    code += '  ' + contador_var + ' = 0\n';
+    code += 'except:\n';
+    code += '  pass\n';
+  }
+
+  return code;
+};
+
 // Create melody
 Blockly.Python['criar_melodia'] = function(block) {
   if (!block.noteSteps_ || block.noteSteps_ === 0) {
