@@ -43,7 +43,7 @@
 
 ## 5. Matematica e Variaveis
 ### Aplicacoes
-- Visualizador de Calculo: Mostrar o resultado de somas ou operacoes matematicas.
+- Visualizador de Calculo: Mostrar o resultado de somas ou operacoes matemat icas.
 - Debug de Variaveis: Monitorar valores de variaveis internas durante loops.
 
 ### Blocos para Criar
