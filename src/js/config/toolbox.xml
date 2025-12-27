@@ -304,6 +304,7 @@
     <block type="display_mostrar_calculo"></block>
     <block type="display_mostrar_estado_led"></block>
     <block type="display_mostrar_estado_botao"></block>
+    <block type="display_resetar_contagem"></block>
     <block type="display_criar_borda"></block>
     <block type="display_limpar_borda"></block>
     <block type="display_limpar"></block>

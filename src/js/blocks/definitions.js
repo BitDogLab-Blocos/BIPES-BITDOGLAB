@@ -2353,6 +2353,25 @@ Blockly.Blocks['display_limpar'] = {
   }
 };
 
+// Display reset button counter block
+Blockly.Blocks['display_resetar_contagem'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔄 Resetar contagem botão")
+        .appendField(new Blockly.FieldDropdown([
+          ["A", "A"],
+          ["B", "B"],
+          ["C", "C"],
+          ["Todos", "ALL"]
+        ]), "BOTAO");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Reseta o contador de cliques do botão selecionado para zero");
+    this.setHelpUrl("");
+  }
+};
+
 // Display button state block
 Blockly.Blocks['display_mostrar_estado_botao'] = {
   init: function() {
