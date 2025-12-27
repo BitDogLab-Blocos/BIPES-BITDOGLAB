@@ -862,11 +862,50 @@ Blockly.Python['tocar_nota'] = function(block) {
   if (!frequency) {
     return '';
   }
+
   var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(0)\n';  // Stop buzzer first (prevent glitches between notes)
+  code += 'time.sleep_ms(50)\n';  // Small pause to prevent frequency overlap
   code += 'buzzer.freq(' + frequency + ')\n';
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'time.sleep(0.5)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  // Update display while playing (if buzzer display is configured)
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+    code += 'for _i in range(5):\n';
+    code += '  try:\n';
+    code += '    _buzzer_duty = buzzer.duty_u16()\n';
+    code += '    if _buzzer_duty > 0:\n';
+    code += '      oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '      oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '      oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '      oled.text(str(buzzer.freq()) + "Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '    oled.show()\n';
+    code += '  except:\n';
+    code += '    pass\n';
+    code += '  time.sleep_ms(100)\n';
+
+    code += 'buzzer.duty_u16(0)\n';
+
+    // Update display one more time to show MUDO after sound stops
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '    pass\n';
+  } else {
+    // No display configured, just play sound normally
+    code += 'time.sleep_ms(500)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -877,13 +916,52 @@ Blockly.Python['tocar_som_agudo'] = function(block) {
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
+
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(0)\n';  // Stop first
+  code += 'time.sleep_ms(50)\n';  // Pause
   code += 'buzzer.freq(1000)\n';
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'time.sleep(0.5)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  // Update display while playing (if buzzer display is configured)
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+    code += 'for _i in range(5):\n';
+    code += '  try:\n';
+    code += '    _buzzer_duty = buzzer.duty_u16()\n';
+    code += '    if _buzzer_duty > 0:\n';
+    code += '      oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '      oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '      oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '      oled.text(str(buzzer.freq()) + "Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '    oled.show()\n';
+    code += '  except:\n';
+    code += '    pass\n';
+    code += '  time.sleep_ms(100)\n';
+
+    code += 'buzzer.duty_u16(0)\n';
+
+    // Update display one more time to show MUDO after sound stops
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '    pass\n';
+  } else {
+    // No display configured, just play sound normally
+    code += 'time.sleep_ms(500)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -893,6 +971,7 @@ Blockly.Python['parar_som'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
+
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.duty_u16(0)\n';
   code += '# SOUND_BLOCK_END\n';
@@ -931,10 +1010,48 @@ Blockly.Python['bipe_curto'] = function(block) {
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(0)\n';
+  code += 'time.sleep_ms(50)\n';
   code += 'buzzer.freq(1500)\n';
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'time.sleep_ms(100)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  // Update display during playback (if buzzer display is configured)
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+    code += 'for _i in range(1):\n';
+    code += '  try:\n';
+    code += '    _buzzer_duty = buzzer.duty_u16()\n';
+    code += '    if _buzzer_duty > 0:\n';
+    code += '      oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '      oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '      oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '      oled.text(str(buzzer.freq()) + "Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '    oled.show()\n';
+    code += '  except:\n';
+    code += '    pass\n';
+    code += '  time.sleep_ms(100)\n';
+
+    code += 'buzzer.duty_u16(0)\n';
+
+    // Update display one more time to show MUDO after sound stops
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '    pass\n';
+  } else {
+    // No display configured, just play sound normally
+    code += 'time.sleep_ms(100)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -948,14 +1065,69 @@ Blockly.Python['bipe_duplo'] = function(block) {
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.freq(1500)\n';
-  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'time.sleep_ms(100)\n';
-  code += 'buzzer.duty_u16(0)\n';
-  code += 'time.sleep_ms(50)\n';
-  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'time.sleep_ms(100)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+
+    // First beep
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.freq(1500)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("1500Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+    code += 'time.sleep_ms(100)\n';
+    code += 'buzzer.duty_u16(0)\n';
+
+    // Pause between beeps
+    code += 'time.sleep_ms(50)\n';
+
+    // Second beep
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("1500Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+    code += 'time.sleep_ms(100)\n';
+    code += 'buzzer.duty_u16(0)\n';
+
+    // Show MUDO after sound stops
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+  } else {
+    // No display configured
+    code += 'buzzer.freq(1500)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'time.sleep_ms(100)\n';
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'time.sleep_ms(100)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -969,11 +1141,45 @@ Blockly.Python['alerta_intermitente'] = function(block) {
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.freq(2000)\n';
-  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'time.sleep_ms(200)\n';
-  code += 'buzzer.duty_u16(0)\n';
-  code += 'time.sleep_ms(800)\n';
+
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.freq(2000)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'for _i in range(2):\n';  // Update twice during 200ms
+    code += '  try:\n';
+    code += '    oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '    oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '    oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '    oled.text("2000Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '    oled.show()\n';
+    code += '  except:\n';
+    code += '    pass\n';
+    code += '  time.sleep_ms(100)\n';
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+    code += 'time.sleep_ms(800)\n';
+  } else {
+    code += 'buzzer.freq(2000)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'time.sleep_ms(200)\n';
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(800)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -987,12 +1193,50 @@ Blockly.Python['chamada'] = function(block) {
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.freq(440)\n';
-  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(523)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+    var frequencies = [440, 523];
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+    for (var i = 0; i < frequencies.length; i++) {
+      code += 'buzzer.freq(' + frequencies[i] + ')\n';
+      code += 'try:\n';
+      code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      code += '  oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        code += '  oled.text("' + frequencies[i] + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      code += '  oled.show()\n';
+      code += 'except:\n';
+      code += '  pass\n';
+      code += 'time.sleep_ms(150)\n';
+    }
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+  } else {
+    code += 'buzzer.freq(440)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'time.sleep_ms(150)\n';
+    code += 'buzzer.freq(523)\n';
+    code += 'time.sleep_ms(150)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -1006,12 +1250,62 @@ Blockly.Python['som_de_moeda'] = function(block) {
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.freq(494)\n';
-  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'time.sleep_ms(100)\n';
-  code += 'buzzer.freq(659)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+    // First tone
+    code += 'buzzer.freq(494)\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("494Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+    code += 'time.sleep_ms(100)\n';
+
+    // Second tone
+    code += 'buzzer.freq(659)\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("659Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+    code += 'time.sleep_ms(150)\n';
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+  } else {
+    code += 'buzzer.freq(494)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'time.sleep_ms(100)\n';
+    code += 'buzzer.freq(659)\n';
+    code += 'time.sleep_ms(150)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -1025,16 +1319,58 @@ Blockly.Python['som_de_sucesso'] = function(block) {
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.freq(392)\n';
-  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'time.sleep_ms(100)\n';
-  code += 'buzzer.freq(440)\n';
-  code += 'time.sleep_ms(100)\n';
-  code += 'buzzer.freq(494)\n';
-  code += 'time.sleep_ms(100)\n';
-  code += 'buzzer.freq(523)\n';
-  code += 'time.sleep_ms(100)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+    var frequencies = [392, 440, 494, 523];
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+    // Play each note with display update
+    for (var i = 0; i < frequencies.length; i++) {
+      code += 'buzzer.freq(' + frequencies[i] + ')\n';
+      code += 'try:\n';
+      code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      code += '  oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        code += '  oled.text("' + frequencies[i] + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      code += '  oled.show()\n';
+      code += 'except:\n';
+      code += '  pass\n';
+      code += 'time.sleep_ms(100)\n';
+    }
+
+    code += 'buzzer.duty_u16(0)\n';
+
+    // Show MUDO after sound stops
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+  } else {
+    // No display configured
+    code += 'buzzer.freq(392)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'time.sleep_ms(100)\n';
+    code += 'buzzer.freq(440)\n';
+    code += 'time.sleep_ms(100)\n';
+    code += 'buzzer.freq(494)\n';
+    code += 'time.sleep_ms(100)\n';
+    code += 'buzzer.freq(523)\n';
+    code += 'time.sleep_ms(100)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -1048,14 +1384,52 @@ Blockly.Python['som_de_falha'] = function(block) {
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.freq(392)\n';
-  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'time.sleep_ms(200)\n';
-  code += 'buzzer.freq(370)\n';
-  code += 'time.sleep_ms(200)\n';
-  code += 'buzzer.freq(349)\n';
-  code += 'time.sleep_ms(200)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+    var frequencies = [392, 370, 349];
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+    for (var i = 0; i < frequencies.length; i++) {
+      code += 'buzzer.freq(' + frequencies[i] + ')\n';
+      code += 'try:\n';
+      code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      code += '  oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        code += '  oled.text("' + frequencies[i] + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      code += '  oled.show()\n';
+      code += 'except:\n';
+      code += '  pass\n';
+      code += 'time.sleep_ms(200)\n';
+    }
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+  } else {
+    code += 'buzzer.freq(392)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'time.sleep_ms(200)\n';
+    code += 'buzzer.freq(370)\n';
+    code += 'time.sleep_ms(200)\n';
+    code += 'buzzer.freq(349)\n';
+    code += 'time.sleep_ms(200)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -1069,14 +1443,52 @@ Blockly.Python['som_de_laser'] = function(block) {
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.freq(2000)\n';
-  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'time.sleep_ms(50)\n';
-  code += 'buzzer.freq(1000)\n';
-  code += 'time.sleep_ms(50)\n';
-  code += 'buzzer.freq(500)\n';
-  code += 'time.sleep_ms(50)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+    var frequencies = [2000, 1000, 500];
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+    for (var i = 0; i < frequencies.length; i++) {
+      code += 'buzzer.freq(' + frequencies[i] + ')\n';
+      code += 'try:\n';
+      code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      code += '  oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        code += '  oled.text("' + frequencies[i] + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      code += '  oled.show()\n';
+      code += 'except:\n';
+      code += '  pass\n';
+      code += 'time.sleep_ms(50)\n';
+    }
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+  } else {
+    code += 'buzzer.freq(2000)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.freq(1000)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.freq(500)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -1090,12 +1502,64 @@ Blockly.Python['sirene_policial'] = function(block) {
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.freq(698)\n';
-  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(587)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+    // First siren tone
+    code += 'buzzer.freq(698)\n';
+    code += 'for _i in range(4):\n';
+    code += '  try:\n';
+    code += '    oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '    oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '    oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '    oled.text("698Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '    oled.show()\n';
+    code += '  except:\n';
+    code += '    pass\n';
+    code += '  time.sleep_ms(100)\n';
+
+    // Second siren tone
+    code += 'buzzer.freq(587)\n';
+    code += 'for _i in range(4):\n';
+    code += '  try:\n';
+    code += '    oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '    oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '    oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '    oled.text("587Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '    oled.show()\n';
+    code += '  except:\n';
+    code += '    pass\n';
+    code += '  time.sleep_ms(100)\n';
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+  } else {
+    code += 'buzzer.freq(698)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(587)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -1109,24 +1573,54 @@ Blockly.Python['escala_musical_sobe'] = function(block) {
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'buzzer.freq(262)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(294)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(330)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(349)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(392)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(440)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(494)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(523)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+    var frequencies = [262, 294, 330, 349, 392, 440, 494, 523];
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+    for (var i = 0; i < frequencies.length; i++) {
+      code += 'buzzer.freq(' + frequencies[i] + ')\n';
+      code += 'try:\n';
+      code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      code += '  oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        code += '  oled.text("' + frequencies[i] + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      code += '  oled.show()\n';
+      code += 'except:\n';
+      code += '  pass\n';
+      code += 'time.sleep_ms(150)\n';
+    }
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+  } else {
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'buzzer.freq(262)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(294)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(330)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(349)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(392)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(440)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(494)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(523)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -1140,24 +1634,54 @@ Blockly.Python['escala_musical_desce'] = function(block) {
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'buzzer.freq(523)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(494)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(440)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(392)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(349)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(330)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(294)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.freq(262)\n';
-  code += 'time.sleep_ms(150)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+    var frequencies = [523, 494, 440, 392, 349, 330, 294, 262];
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+    for (var i = 0; i < frequencies.length; i++) {
+      code += 'buzzer.freq(' + frequencies[i] + ')\n';
+      code += 'try:\n';
+      code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      code += '  oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        code += '  oled.text("' + frequencies[i] + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      code += '  oled.show()\n';
+      code += 'except:\n';
+      code += '  pass\n';
+      code += 'time.sleep_ms(150)\n';
+    }
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+  } else {
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'buzzer.freq(523)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(494)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(440)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(392)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(349)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(330)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(294)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.freq(262)\ntime.sleep_ms(150)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -1171,36 +1695,94 @@ Blockly.Python['brilha_brilha_estrelinha'] = function(block) {
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
-  code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-  code += 'buzzer.freq(392)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(392)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(294)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(294)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(330)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(330)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(294)\n';
-  code += 'time.sleep_ms(800)\n';
-  code += 'buzzer.freq(262)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(262)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(494)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(494)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(440)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(440)\n';
-  code += 'time.sleep_ms(400)\n';
-  code += 'buzzer.freq(392)\n';
-  code += 'time.sleep_ms(800)\n';
-  code += 'buzzer.duty_u16(0)\n';
+
+  if (Blockly.Python.buzzerDisplayConfig) {
+    var cfg = Blockly.Python.buzzerDisplayConfig;
+    var notes = [
+      {freq: 392, duration: 400},
+      {freq: 392, duration: 400},
+      {freq: 294, duration: 400},
+      {freq: 294, duration: 400},
+      {freq: 330, duration: 400},
+      {freq: 330, duration: 400},
+      {freq: 294, duration: 800},
+      {freq: 262, duration: 400},
+      {freq: 262, duration: 400},
+      {freq: 494, duration: 400},
+      {freq: 494, duration: 400},
+      {freq: 440, duration: 400},
+      {freq: 440, duration: 400},
+      {freq: 392, duration: 800}
+    ];
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'time.sleep_ms(50)\n';
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+    for (var i = 0; i < notes.length; i++) {
+      var note = notes[i];
+      code += 'buzzer.freq(' + note.freq + ')\n';
+
+      // Update display multiple times during longer notes
+      var updates = Math.ceil(note.duration / 100);
+      code += 'for _i in range(' + updates + '):\n';
+      code += '  try:\n';
+      code += '    oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      code += '    oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        code += '    oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        code += '    oled.text("' + note.freq + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      code += '    oled.show()\n';
+      code += '  except:\n';
+      code += '    pass\n';
+      code += '  time.sleep_ms(100)\n';
+    }
+
+    code += 'buzzer.duty_u16(0)\n';
+    code += 'try:\n';
+    code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+    code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+    if (cfg.showFreq) {
+      code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+      code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+    }
+    code += '  oled.show()\n';
+    code += 'except:\n';
+    code += '  pass\n';
+  } else {
+    code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+    code += 'buzzer.freq(392)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(392)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(294)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(294)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(330)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(330)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(294)\n';
+    code += 'time.sleep_ms(800)\n';
+    code += 'buzzer.freq(262)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(262)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(494)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(494)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(440)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(440)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(392)\n';
+    code += 'time.sleep_ms(800)\n';
+    code += 'buzzer.duty_u16(0)\n';
+  }
+
   code += '# SOUND_BLOCK_END\n';
   return code;
 };
@@ -1818,61 +2400,15 @@ Blockly.Python['display_mostrar_status_buzzer'] = function(block) {
   var y = yPositions[linha];
   var yFreq = yPositions[linhaFreq];
 
-  var code = '';
+  // Store configuration globally so sound blocks can access it
+  // Always update config to use the latest block settings
+  Blockly.Python.buzzerDisplayConfig = {
+    line: y,
+    freqLine: yFreq,
+    showFreq: mostrarFrequencia
+  };
 
-  // Initialize buzzer frequency tracking
-  code += 'try:\n';
-  code += '  _buzzer_freq\n';
-  code += 'except:\n';
-  code += '  _buzzer_freq = 0\n';
-
-  // Check buzzer duty cycle to determine if it's playing
-  code += '_buzzer_duty = buzzer.duty_u16()\n';
-  code += '_buzzer_status = "TOCANDO" if _buzzer_duty > 0 else "MUDO"\n';
-  code += '_buzzer_text = "Som:" + _buzzer_status\n';
-
-  // Clear the specific line before writing
-  code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
-
-  // Calculate X position for status based on alignment
-  if (alinhamento === 'LEFT') {
-    code += '_buzzer_x = 3\n';
-  } else if (alinhamento === 'CENTER') {
-    code += '_buzzer_x = max(3, (128 - len(_buzzer_text) * 8) // 2)\n';
-  } else { // RIGHT
-    code += '_buzzer_x = max(3, 125 - len(_buzzer_text) * 8)\n';
-  }
-
-  code += 'oled.text(_buzzer_text, _buzzer_x, ' + y + ', 1)\n';
-
-  // Show frequency if enabled
-  if (mostrarFrequencia) {
-    code += 'if _buzzer_duty > 0:\n';
-    code += '  try:\n';
-    code += '    _current_freq = buzzer.freq()\n';
-    code += '    _buzzer_freq = _current_freq\n';
-    code += '  except:\n';
-    code += '    pass\n';
-    code += '_freq_text = str(_buzzer_freq) + "Hz" if _buzzer_freq > 0 else "0Hz"\n';
-
-    // Clear the frequency line before writing
-    code += 'oled.fill_rect(0, ' + yFreq + ', 128, 8, 0)\n';
-
-    // Calculate X position for frequency based on alignment
-    if (alinhamentoFreq === 'LEFT') {
-      code += '_freq_x = 3\n';
-    } else if (alinhamentoFreq === 'CENTER') {
-      code += '_freq_x = max(3, (128 - len(_freq_text) * 8) // 2)\n';
-    } else { // RIGHT
-      code += '_freq_x = max(3, 125 - len(_freq_text) * 8)\n';
-    }
-
-    code += 'oled.text(_freq_text, _freq_x, ' + yFreq + ', 1)\n';
-  }
-
-  code += 'oled.show()\n';
-
-  return code;
+  return '';
 };
 
 // Display reset button counter generator
