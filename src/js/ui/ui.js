@@ -382,6 +382,12 @@ class progress {
 	  this.dom = get ('.progress-bar');
 	  this.div = document.createElement ('div');
 	  this.dom.appendChild (this.div);
+
+	  // Create text element to show percentage
+	  this.text = document.createElement ('span');
+	  this.text.className = 'progress-text';
+	  this.div.appendChild (this.text);
+
 	  this.len;
 	}
 
@@ -389,21 +395,25 @@ class progress {
 	load (loaded, total) {
 		var percent = (loaded * 100 / total);
 		this.div.style.width = percent + '%';
+		this.text.textContent = Math.round(percent) + '%';
 	}
 	// Set progress by remaining bytes
 	remain (len_) {
 		var percent = ((this.len - len_) * 100 / this.len);
 		this.div.style.width = percent + '%';
+		this.text.textContent = Math.round(percent) + '%';
 	}
 	// Show progress bar
 	start (len_) {
 	  this.len = len_;
 	  this.dom.id = 'on';
+	  this.text.textContent = '0%';
 	}
 	// Hide progress bar and reset
 	end () {
 	  this.dom.id = '';
     this.div.style.width = '0%';
+    this.text.textContent = '';
 	}
 }
 

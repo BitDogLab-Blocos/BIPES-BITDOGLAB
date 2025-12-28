@@ -18,6 +18,15 @@ class Tool {
 
     if (code) {
       code+='\r\r'; // Snek workaround - extra line breaks for compatibility
+
+      // Calculate expected buffer size for progress bar
+      const packetSize = Channel['webserial']?.packetSize || 100;
+      const fullCode = `\x05${code}\x04`;
+      const estimatedPackets = Math.ceil(fullCode.length / packetSize);
+
+      // Start progress bar with estimated packet count
+      UI['progress'].start(estimatedPackets);
+
       mux.bufferPush (`\x05${code}\x04`); // \x05=raw REPL mode, \x04=soft reboot to execute
     }
   }

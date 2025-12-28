@@ -1059,7 +1059,7 @@ button.icon.medium:before  {
   top: 4rem;
 }
 .progress-bar#on {
-	height: .35em;
+	height: 1.2em;
 	background-color: rgba(255,255,255,0.2);
 }
 .progress-bar div {
@@ -1072,6 +1072,18 @@ button.icon.medium:before  {
 .progress-bar div{
 	width: 0%;
 	transition: .125s linear width;
+}
+.progress-bar .progress-text {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	line-height: 1.2em;
+	color: #fff;
+	font-size: 0.75em;
+	font-weight: bold;
+	text-shadow: 0 0 3px rgba(0,0,0,0.8);
+	z-index: 1;
+	pointer-events: none;
 }
 @-webkit-keyframes progress {
 	0% {
