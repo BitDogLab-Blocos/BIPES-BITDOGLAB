@@ -222,6 +222,13 @@ Blockly.Python['preencher_matriz'] = function(block) {
   var code = 'for i in range(25):\n';
   code += '    np[i] = (int(' + colour + '[0] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[1] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[2] * ' + intensity + ' * 0.7 / 100))\n';
   code += 'np.write()\n';
+  // Track matrix state
+  code += '# Update matrix tracking\n';
+  code += '_matriz_status = "ON"\n';
+  code += '_matriz_desenho = "Toda Matriz"\n';
+  code += '_matriz_cor = ' + colour + '\n';
+  code += '_matriz_brilho = ' + intensity + '\n';
+  code += '_matriz_leds_count = 25\n';
   return code;
 };
 
@@ -233,6 +240,13 @@ Blockly.Python['desligar_matriz'] = function(block) {
   var code = 'for i in range(25):\n';
   code += '    np[i] = (0, 0, 0)\n';
   code += 'np.write()\n';
+  // Track matrix state
+  code += '# Update matrix tracking\n';
+  code += '_matriz_status = "OFF"\n';
+  code += '_matriz_desenho = ""\n';
+  code += '_matriz_cor = (0, 0, 0)\n';
+  code += '_matriz_brilho = 0\n';
+  code += '_matriz_leds_count = 0\n';
   return code;
 };
 
@@ -2600,6 +2614,99 @@ Blockly.Python['display_mostrar_status_buzzer'] = function(block) {
   return '';
 };
 
+// Display matrix dashboard generator
+Blockly.Python['display_dashboard_matriz'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')';
+
+  // Initialize matrix tracking variables
+  Blockly.Python.definitions_['matriz_tracking'] = '# Matrix tracking variables\n_matriz_status = "OFF"\n_matriz_desenho = ""\n_matriz_cor = (0, 0, 0)\n_matriz_brilho = 0\n_matriz_leds_count = 0';
+
+  // Y positions for 5 lines
+  var yPositions = {'1': 8, '2': 18, '3': 28, '4': 38, '5': 48};
+
+  var code = '';
+
+  // Helper function to get color name from RGB
+  code += '# Display matrix dashboard\n';
+  code += 'def _get_color_name(r, g, b):\n';
+  code += '  if r > 200 and g < 50 and b < 50: return "Vermelho"\n';
+  code += '  if r < 50 and g > 200 and b < 50: return "Verde"\n';
+  code += '  if r < 50 and g < 50 and b > 200: return "Azul"\n';
+  code += '  if r > 200 and g > 200 and b < 50: return "Amarelo"\n';
+  code += '  if r > 200 and g < 50 and b > 200: return "Magenta"\n';
+  code += '  if r < 50 and g > 200 and b > 200: return "Ciano"\n';
+  code += '  if r > 200 and g > 200 and b > 200: return "Branco"\n';
+  code += '  if r < 50 and g < 50 and b < 50: return "Preto"\n';
+  code += '  return "Misto"\n\n';
+
+  // Process each line
+  for (var i = 1; i <= 5; i++) {
+    var info = block.getFieldValue('INFO_LINHA' + i);
+    var align = block.getFieldValue('ALIGN_' + i);
+    var y = yPositions[i.toString()];
+
+    if (info !== 'NONE') {
+      code += '# Line ' + i + '\n';
+      code += 'try:\n';
+      code += '  oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
+
+      // Generate text based on info type
+      var textVar = '_text_l' + i;
+      code += '  ' + textVar + ' = ""\n';
+
+      switch(info) {
+        case 'STATUS':
+          code += '  ' + textVar + ' = "Matriz: " + _matriz_status\n';
+          break;
+        case 'DESENHO':
+          code += '  ' + textVar + ' = _matriz_desenho if _matriz_desenho else "---"\n';
+          break;
+        case 'COR_RGB':
+          code += '  ' + textVar + ' = "RGB:%d,%d,%d" % _matriz_cor\n';
+          break;
+        case 'COR_NOME':
+          code += '  ' + textVar + ' = _get_color_name(_matriz_cor[0], _matriz_cor[1], _matriz_cor[2])\n';
+          break;
+        case 'BRILHO':
+          code += '  ' + textVar + ' = "Brilho: %d%%" % _matriz_brilho\n';
+          break;
+        case 'LEDS_ACESOS':
+          code += '  ' + textVar + ' = "LEDs: %d/25" % _matriz_leds_count\n';
+          break;
+      }
+
+      // Calculate X position based on alignment
+      switch(align) {
+        case 'LEFT':
+          code += '  _x_l' + i + ' = 3\n';
+          break;
+        case 'CENTER':
+          code += '  _x_l' + i + ' = max(0, (128 - len(' + textVar + ') * 8) // 2)\n';
+          break;
+        case 'RIGHT':
+          code += '  _x_l' + i + ' = max(0, 128 - len(' + textVar + ') * 8 - 3)\n';
+          break;
+      }
+
+      code += '  oled.text(' + textVar + ', _x_l' + i + ', ' + y + ', 1)\n';
+      code += 'except:\n';
+      code += '  pass\n';
+    }
+  }
+
+  code += 'try:\n';
+  code += '  oled.show()\n';
+  code += 'except:\n';
+  code += '  pass\n';
+
+  return code;
+};
+
 // Display reset button counter generator
 Blockly.Python['display_resetar_contagem'] = function(block) {
   var botao = block.getFieldValue('BOTAO');
@@ -3602,6 +3709,13 @@ Blockly.Python['mostrar_numero_matriz'] = function(block) {
   code += '            if padrao[y * 5 + x] == 1:\n';
   code += '                np[LED_MATRIX[y][x]] = cor_ajustada\n';
   code += 'np.write()\n';
+  // Track matrix state
+  code += '# Update matrix tracking\n';
+  code += '_matriz_status = "ON"\n';
+  code += '_matriz_desenho = "Numero " + str(' + numero + ')\n';
+  code += '_matriz_cor = ' + cor_rgb + '\n';
+  code += '_matriz_brilho = ' + brilho + '\n';
+  code += '_matriz_leds_count = sum(1 for i in range(25) if np[i] != (0, 0, 0))\n';
   return code;
 };
 
@@ -3689,6 +3803,8 @@ Blockly.Python['mostrar_emoji'] = function(block) {
   Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.NEOPIXEL.PIN + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')  # Pin 7, 25 LEDs';
   Blockly.Python.definitions_['led_matrix'] = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX) + '';
   Blockly.Python.definitions_['emojis_matriz'] = 'EMOJIS_5X5 = {"happy": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 1,0,0,0,1, 0,1,1,1,0], "sad": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 1,0,0,0,1], "surprised": [0,1,0,1,0, 0,1,0,1,0, 0,0,0,0,0, 0,1,1,1,0, 0,1,1,1,0], "heart": [0,1,0,1,0, 1,1,1,1,1, 1,1,1,1,1, 0,1,1,1,0, 0,0,1,0,0], "arrow_up": [0,0,1,0,0, 0,1,1,1,0, 1,0,1,0,1, 0,0,1,0,0, 0,0,1,0,0], "arrow_down": [0,0,1,0,0, 0,0,1,0,0, 1,0,1,0,1, 0,1,1,1,0, 0,0,1,0,0], "sun": [0,0,0,0,0, 0,1,1,1,0, 0,1,1,1,0, 0,1,1,1,0, 0,0,0,0,0], "rain": [1,0,1,0,1, 0,1,0,1,0, 1,0,1,0,1, 0,1,0,1,0, 1,0,1,0,1], "flower": [0,1,0,1,0, 1,0,1,0,1, 0,1,1,1,0, 0,0,1,0,0, 0,0,1,0,0], "ghost": [0,1,1,1,0, 1,0,1,0,1, 1,1,1,1,1, 1,1,1,1,1, 1,0,1,0,1], "christmas_tree": [0,0,1,0,0, 0,0,1,0,0, 0,1,1,1,0, 1,1,1,1,1, 0,0,1,0,0], "snowflake": [1,0,1,0,1, 0,0,1,0,0, 1,1,1,1,1, 0,0,1,0,0, 1,0,1,0,1], "gift": [1,0,1,0,1, 0,1,1,1,0, 1,1,1,1,1, 1,0,1,0,1, 1,1,1,1,1], "bell": [0,1,1,1,0, 1,0,0,0,1, 1,0,0,0,1, 1,1,1,1,1, 0,0,1,0,0]}';
+  Blockly.Python.definitions_['emoji_names_map'] = 'EMOJI_NAMES = {"happy": "Feliz", "sad": "Triste", "surprised": "Surpreso", "heart": "Coracao", "arrow_up": "Seta Cima", "arrow_down": "Seta Baixo", "sun": "Sol", "rain": "Chuva", "flower": "Flor", "ghost": "Fantasma", "christmas_tree": "Arvore Natal", "snowflake": "Floco Neve", "gift": "Presente", "bell": "Sino"}';
+
   var emoji = Blockly.Python.valueToCode(block, 'EMOJI', Blockly.Python.ORDER_ATOMIC) || '"happy"';
   var cor_rgb = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(255, 255, 0)';
   var brilho = block.getFieldValue('BRILHO');
@@ -3704,6 +3820,13 @@ Blockly.Python['mostrar_emoji'] = function(block) {
   code += '            if padrao[y * 5 + x] == 1:\n';
   code += '                np[LED_MATRIX[y][x]] = cor_ajustada\n';
   code += 'np.write()\n';
+  // Track matrix state
+  code += '# Update matrix tracking\n';
+  code += '_matriz_status = "ON"\n';
+  code += '_matriz_desenho = EMOJI_NAMES.get(' + emoji + ', ' + emoji + ')\n';
+  code += '_matriz_cor = ' + cor_rgb + '\n';
+  code += '_matriz_brilho = ' + brilho + '\n';
+  code += '_matriz_leds_count = sum(1 for i in range(25) if np[i] != (0, 0, 0))\n';
   return code;
 };
 

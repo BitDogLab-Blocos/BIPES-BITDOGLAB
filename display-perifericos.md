@@ -82,7 +82,7 @@ Resultado no Display:
 Linha 1: Som: TOCANDO
 Linha 2: 659Hz
 (a frequência muda conforme as notas da melodia)
-
+eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 ## 4. Matriz de LEDs
 ### Aplicacoes
 - Legenda de Icones: Exibir o nome do desenho mostrado na matriz (ex: Matriz mostra coracao, Display mostra "Amor").
