@@ -2507,6 +2507,99 @@ Blockly.Blocks['display_mostrar_status_buzzer'] = {
   }
 };
 
+// Dashboard complete matrix information block
+Blockly.Blocks['display_dashboard_matriz'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("📈 Dashboard da Matriz");
+    this.appendDummyInput()
+        .appendField("Linha 1:")
+        .appendField(new Blockly.FieldDropdown([
+          ["(vazio)", "NONE"],
+          ["Status ON/OFF", "STATUS"],
+          ["Nome do Desenho", "DESENHO"],
+          ["Cor RGB", "COR_RGB"],
+          ["Nome da Cor", "COR_NOME"],
+          ["Brilho %", "BRILHO"],
+          ["LEDs Acesos", "LEDS_ACESOS"]
+        ]), "INFO_LINHA1")
+        .appendField(new Blockly.FieldDropdown([
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
+        ]), "ALIGN_1");
+    this.appendDummyInput()
+        .appendField("Linha 2:")
+        .appendField(new Blockly.FieldDropdown([
+          ["(vazio)", "NONE"],
+          ["Status ON/OFF", "STATUS"],
+          ["Nome do Desenho", "DESENHO"],
+          ["Cor RGB", "COR_RGB"],
+          ["Nome da Cor", "COR_NOME"],
+          ["Brilho %", "BRILHO"],
+          ["LEDs Acesos", "LEDS_ACESOS"]
+        ]), "INFO_LINHA2")
+        .appendField(new Blockly.FieldDropdown([
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
+        ]), "ALIGN_2");
+    this.appendDummyInput()
+        .appendField("Linha 3:")
+        .appendField(new Blockly.FieldDropdown([
+          ["(vazio)", "NONE"],
+          ["Status ON/OFF", "STATUS"],
+          ["Nome do Desenho", "DESENHO"],
+          ["Cor RGB", "COR_RGB"],
+          ["Nome da Cor", "COR_NOME"],
+          ["Brilho %", "BRILHO"],
+          ["LEDs Acesos", "LEDS_ACESOS"]
+        ]), "INFO_LINHA3")
+        .appendField(new Blockly.FieldDropdown([
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
+        ]), "ALIGN_3");
+    this.appendDummyInput()
+        .appendField("Linha 4:")
+        .appendField(new Blockly.FieldDropdown([
+          ["(vazio)", "NONE"],
+          ["Status ON/OFF", "STATUS"],
+          ["Nome do Desenho", "DESENHO"],
+          ["Cor RGB", "COR_RGB"],
+          ["Nome da Cor", "COR_NOME"],
+          ["Brilho %", "BRILHO"],
+          ["LEDs Acesos", "LEDS_ACESOS"]
+        ]), "INFO_LINHA4")
+        .appendField(new Blockly.FieldDropdown([
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
+        ]), "ALIGN_4");
+    this.appendDummyInput()
+        .appendField("Linha 5:")
+        .appendField(new Blockly.FieldDropdown([
+          ["(vazio)", "NONE"],
+          ["Status ON/OFF", "STATUS"],
+          ["Nome do Desenho", "DESENHO"],
+          ["Cor RGB", "COR_RGB"],
+          ["Nome da Cor", "COR_NOME"],
+          ["Brilho %", "BRILHO"],
+          ["LEDs Acesos", "LEDS_ACESOS"]
+        ]), "INFO_LINHA5")
+        .appendField(new Blockly.FieldDropdown([
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
+        ]), "ALIGN_5");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Mostra informações completas da matriz de LEDs no display OLED");
+    this.setHelpUrl("");
+  }
+};
+
 // Container block for melody mutator
 Blockly.Blocks['criar_melodia_container'] = {
   init: function() {
