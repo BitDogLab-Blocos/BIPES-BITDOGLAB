@@ -1904,7 +1904,10 @@ Blockly.Blocks['tocar_nota'] = {
         ]), "OCTAVE")
         .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
-        .appendField("%");
+        .appendField("%")
+        .appendField("por")
+        .appendField(new Blockly.FieldNumber(500, 0, 10000), "DURATION")
+        .appendField("ms");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -1920,11 +1923,14 @@ Blockly.Blocks['tocar_som_agudo'] = {
         .appendField("🔔 Tocar som agudo")
         .appendField("com volume de")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
-        .appendField("%");
+        .appendField("%")
+        .appendField("por")
+        .appendField(new Blockly.FieldNumber(500, 0, 10000), "DURATION")
+        .appendField("ms");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
-    this.setTooltip("Toca um som agudo de teste (1000 Hz por 0.5s)");
+    this.setTooltip("Toca um som agudo de teste (1000 Hz)");
     this.setHelpUrl("");
   }
 };
