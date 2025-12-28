@@ -855,6 +855,7 @@ Blockly.Python['tocar_nota'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var octave = block.getFieldValue('OCTAVE');
   var volume = block.getFieldValue('VOLUME');
+  var duration = block.getFieldValue('DURATION') || 500;
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   note = note.replace(/['"]/g, '').trim();
   var noteKey = note + octave;
@@ -863,16 +864,17 @@ Blockly.Python['tocar_nota'] = function(block) {
     return '';
   }
 
-  var code = '# SOUND_BLOCK_START\n';
+  var code = '';
   code += 'buzzer.duty_u16(0)\n';  // Stop buzzer first (prevent glitches between notes)
-  code += 'time.sleep_ms(50)\n';  // Small pause to prevent frequency overlap
   code += 'buzzer.freq(' + frequency + ')\n';
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
 
   // Update display while playing (if buzzer display is configured)
   if (Blockly.Python.buzzerDisplayConfig) {
     var cfg = Blockly.Python.buzzerDisplayConfig;
-    code += 'for _i in range(5):\n';
+    // Calculate iterations based on duration (100ms per iteration)
+    var iterations = Math.max(1, Math.floor(duration / 100));
+    code += 'for _i in range(' + iterations + '):\n';
     code += '  try:\n';
     code += '    _buzzer_duty = buzzer.duty_u16()\n';
     code += '    if _buzzer_duty > 0:\n';
@@ -902,11 +904,10 @@ Blockly.Python['tocar_nota'] = function(block) {
     code += '    pass\n';
   } else {
     // No display configured, just play sound normally
-    code += 'time.sleep_ms(500)\n';
+    code += 'time.sleep_ms(' + duration + ')\n';
     code += 'buzzer.duty_u16(0)\n';
   }
 
-  code += '# SOUND_BLOCK_END\n';
   return code;
 };
 
@@ -918,17 +919,19 @@ Blockly.Python['tocar_som_agudo'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
 
   var volume = block.getFieldValue('VOLUME');
+  var duration = block.getFieldValue('DURATION') || 500;
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.duty_u16(0)\n';  // Stop first
-  code += 'time.sleep_ms(50)\n';  // Pause
   code += 'buzzer.freq(1000)\n';
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
 
   // Update display while playing (if buzzer display is configured)
   if (Blockly.Python.buzzerDisplayConfig) {
     var cfg = Blockly.Python.buzzerDisplayConfig;
-    code += 'for _i in range(5):\n';
+    // Calculate iterations based on duration (100ms per iteration)
+    var iterations = Math.max(1, Math.floor(duration / 100));
+    code += 'for _i in range(' + iterations + '):\n';
     code += '  try:\n';
     code += '    _buzzer_duty = buzzer.duty_u16()\n';
     code += '    if _buzzer_duty > 0:\n';
@@ -958,7 +961,7 @@ Blockly.Python['tocar_som_agudo'] = function(block) {
     code += '    pass\n';
   } else {
     // No display configured, just play sound normally
-    code += 'time.sleep_ms(500)\n';
+    code += 'time.sleep_ms(' + duration + ')\n';
     code += 'buzzer.duty_u16(0)\n';
   }
 
@@ -1091,6 +1094,7 @@ Blockly.Python['bipe_duplo'] = function(block) {
     code += 'time.sleep_ms(50)\n';
 
     // Second beep
+    code += 'buzzer.freq(1500)\n';
     code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
     code += 'try:\n';
     code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';

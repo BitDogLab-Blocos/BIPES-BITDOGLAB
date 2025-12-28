@@ -416,20 +416,21 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
       continue;
     }
 
-    if (trimmedLine === BitdogLabConfig.MARKERS.SOUND_START) { // Sound block
-      inSoundBlock = true;
-      continue;
-    }
+    // DISABLED: Sound block separation was causing delays between notes to be moved to loop
+    // if (trimmedLine === BitdogLabConfig.MARKERS.SOUND_START) { // Sound block
+    //   inSoundBlock = true;
+    //   continue;
+    // }
 
-    if (trimmedLine === BitdogLabConfig.MARKERS.SOUND_END) {
-      inSoundBlock = false;
-      continue;
-    }
+    // if (trimmedLine === BitdogLabConfig.MARKERS.SOUND_END) {
+    //   inSoundBlock = false;
+    //   continue;
+    // }
 
-    if (inSoundBlock) {
-      soundCodeLines.push(line);
-      continue;
-    }
+    // if (inSoundBlock) {
+    //   soundCodeLines.push(line);
+    //   continue;
+    // }
 
     // Categorize lines into imports, setup, or action code
     if (trimmedLine.startsWith('import ') || trimmedLine.startsWith('from ')) {

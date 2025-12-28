@@ -59,9 +59,7 @@ logs/
 
 # Arquivos de Documentação Temporária
 blocos_atualmente.md
-<<<<<<< HEAD
 analise_blockly_compressed.md
 explicacao_channel.md
-=======
-analise_blockly_compressed.md
->>>>>>> 388c9ffcbd1fdf12d11e2fd802e47790be97b931
+ARQUITETURA.md
+display-perifericos.md
