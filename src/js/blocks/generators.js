@@ -2223,6 +2223,9 @@ Blockly.Python['display_mostrar_estado_led'] = function(block) {
 
   code += '_led_text = "LED(" + _color_name + "):" + _led_state\n';
 
+  // Clear the line before writing (fix for blink updates)
+  code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
+
   // Calculate X position based on alignment
   if (alinhamento === 'LEFT') {
     code += '_led_x = 3\n';
@@ -2256,6 +2259,7 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
   Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
   Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['import_machine'] = 'import machine';
   Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
   Blockly.Python.definitions_['setup_botoes'] =
     'botao_esquerda = Pin(' + BitdogLabConfig.PINS.JOYSTICK_LEFT + ', Pin.IN, Pin.PULL_UP)\n' +
@@ -2375,7 +2379,13 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
     code += 'oled.text(_btn_count_text, _btn_count_x, ' + yContagem + ', 1)\n';
   }
 
-  code += 'oled.show()\n';
+  // Protect display update from IRQ conflicts
+  code += 'try:\n';
+  code += '  state = machine.disable_irq()\n';
+  code += '  oled.show()\n';
+  code += '  machine.enable_irq(state)\n';
+  code += 'except:\n';
+  code += '  oled.show()\n';
 
   return code;
 };
@@ -2458,6 +2468,15 @@ Blockly.Python['criar_melodia'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   var code = '# SOUND_BLOCK_START\n';
+
+  // Check if buzzer display is configured
+  var hasDisplay = Blockly.Python.buzzerDisplayConfig;
+  if (hasDisplay) {
+    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  }
+
   for (var i = 0; i < block.noteSteps_; i++) {
     var note = Blockly.Python.valueToCode(block, 'NOTA' + i, Blockly.Python.ORDER_ATOMIC);
     var tempo = Blockly.Python.valueToCode(block, 'TEMPO' + i, Blockly.Python.ORDER_ATOMIC);
@@ -2473,8 +2492,40 @@ Blockly.Python['criar_melodia'] = function(block) {
     code += '# Note: ' + note + '\n';
     code += 'buzzer.freq(' + frequency + ')\n';
     code += 'buzzer.duty_u16(32768)\n';
+
+    // Update display if configured
+    if (hasDisplay) {
+      var cfg = Blockly.Python.buzzerDisplayConfig;
+      code += 'try:\n';
+      code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      code += '  oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        code += '  oled.text("' + frequency + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      code += '  oled.show()\n';
+      code += 'except:\n';
+      code += '  pass\n';
+    }
+
     code += 'time.sleep_ms(' + tempo + ')\n';
     code += 'buzzer.duty_u16(0)\n';
+
+    // Update display to show MUDO between notes
+    if (hasDisplay && i < block.noteSteps_ - 1) {
+      var cfg = Blockly.Python.buzzerDisplayConfig;
+      code += 'try:\n';
+      code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        code += '  oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        code += '  oled.text("0Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      code += '  oled.show()\n';
+      code += 'except:\n';
+      code += '  pass\n';
+    }
+
     if (i < block.noteSteps_ - 1) {
       code += 'time.sleep_ms(50)\n';
     }
