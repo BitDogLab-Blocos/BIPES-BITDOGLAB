@@ -1797,24 +1797,59 @@ Blockly.Python['natal_jingle_bells'] = function(block) {
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
+
+  // Check if buzzer display is configured
+  var hasDisplay = Blockly.Python.buzzerDisplayConfig;
+  if (hasDisplay) {
+    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  }
+
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+  // Helper function to play note with display update
+  var playNote = function(freq, duration) {
+    var noteCode = 'buzzer.freq(' + freq + ')\n';
+    if (hasDisplay) {
+      var cfg = Blockly.Python.buzzerDisplayConfig;
+      var iterations = Math.max(1, Math.floor(duration / 100));
+      noteCode += 'for _i in range(' + iterations + '):\n';
+      noteCode += '  try:\n';
+      noteCode += '    oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      noteCode += '    oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        noteCode += '    oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        noteCode += '    oled.text("' + freq + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      noteCode += '    oled.show()\n';
+      noteCode += '  except:\n';
+      noteCode += '    pass\n';
+      noteCode += '  time.sleep_ms(100)\n';
+    } else {
+      noteCode += 'time.sleep_ms(' + duration + ')\n';
+    }
+    return noteCode;
+  };
+
   // E E E (Jingle bells)
-  code += 'buzzer.freq(659)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(659)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(659)\ntime.sleep_ms(400)\n';
+  code += playNote(659, 200);
+  code += playNote(659, 200);
+  code += playNote(659, 400);
   // E E E (Jingle bells)
-  code += 'buzzer.freq(659)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(659)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(659)\ntime.sleep_ms(400)\n';
+  code += playNote(659, 200);
+  code += playNote(659, 200);
+  code += playNote(659, 400);
   // E G C D E (Jingle all the way)
-  code += 'buzzer.freq(659)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(784)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(523)\ntime.sleep_ms(300)\n';
-  code += 'buzzer.freq(587)\ntime.sleep_ms(100)\n';
-  code += 'buzzer.freq(659)\ntime.sleep_ms(800)\n';
+  code += playNote(659, 200);
+  code += playNote(784, 200);
+  code += playNote(523, 300);
+  code += playNote(587, 100);
+  code += playNote(659, 800);
+
   code += 'buzzer.duty_u16(0)\n';
   code += '# SOUND_BLOCK_END\n';
   return code;
@@ -1826,28 +1861,63 @@ Blockly.Python['natal_noite_feliz'] = function(block) {
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
+
+  // Check if buzzer display is configured
+  var hasDisplay = Blockly.Python.buzzerDisplayConfig;
+  if (hasDisplay) {
+    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  }
+
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+  // Helper function to play note with display update
+  var playNote = function(freq, duration) {
+    var noteCode = 'buzzer.freq(' + freq + ')\n';
+    if (hasDisplay) {
+      var cfg = Blockly.Python.buzzerDisplayConfig;
+      var iterations = Math.max(1, Math.floor(duration / 100));
+      noteCode += 'for _i in range(' + iterations + '):\n';
+      noteCode += '  try:\n';
+      noteCode += '    oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      noteCode += '    oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        noteCode += '    oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        noteCode += '    oled.text("' + freq + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      noteCode += '    oled.show()\n';
+      noteCode += '  except:\n';
+      noteCode += '    pass\n';
+      noteCode += '  time.sleep_ms(100)\n';
+    } else {
+      noteCode += 'time.sleep_ms(' + duration + ')\n';
+    }
+    return noteCode;
+  };
+
   // G A G E (Noite feliz)
-  code += 'buzzer.freq(392)\ntime.sleep_ms(400)\n';
-  code += 'buzzer.freq(440)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(392)\ntime.sleep_ms(600)\n';
-  code += 'buzzer.freq(330)\ntime.sleep_ms(800)\n';
+  code += playNote(392, 400);
+  code += playNote(440, 200);
+  code += playNote(392, 600);
+  code += playNote(330, 800);
   // G A G E (Noite feliz)
-  code += 'buzzer.freq(392)\ntime.sleep_ms(400)\n';
-  code += 'buzzer.freq(440)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(392)\ntime.sleep_ms(600)\n';
-  code += 'buzzer.freq(330)\ntime.sleep_ms(800)\n';
+  code += playNote(392, 400);
+  code += playNote(440, 200);
+  code += playNote(392, 600);
+  code += playNote(330, 800);
   // D D B (Ó Senhor)
-  code += 'buzzer.freq(587)\ntime.sleep_ms(600)\n';
-  code += 'buzzer.freq(587)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(494)\ntime.sleep_ms(800)\n';
+  code += playNote(587, 600);
+  code += playNote(587, 200);
+  code += playNote(494, 800);
   // C C G (de amor)
-  code += 'buzzer.freq(523)\ntime.sleep_ms(600)\n';
-  code += 'buzzer.freq(523)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(392)\ntime.sleep_ms(800)\n';
+  code += playNote(523, 600);
+  code += playNote(523, 200);
+  code += playNote(392, 800);
+
   code += 'buzzer.duty_u16(0)\n';
   code += '# SOUND_BLOCK_END\n';
   return code;
@@ -1859,25 +1929,60 @@ Blockly.Python['natal_bate_sino'] = function(block) {
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
+
+  // Check if buzzer display is configured
+  var hasDisplay = Blockly.Python.buzzerDisplayConfig;
+  if (hasDisplay) {
+    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  }
+
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+  // Helper function to play note with display update
+  var playNote = function(freq, duration) {
+    var noteCode = 'buzzer.freq(' + freq + ')\n';
+    if (hasDisplay) {
+      var cfg = Blockly.Python.buzzerDisplayConfig;
+      var iterations = Math.max(1, Math.floor(duration / 100));
+      noteCode += 'for _i in range(' + iterations + '):\n';
+      noteCode += '  try:\n';
+      noteCode += '    oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      noteCode += '    oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        noteCode += '    oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        noteCode += '    oled.text("' + freq + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      noteCode += '    oled.show()\n';
+      noteCode += '  except:\n';
+      noteCode += '    pass\n';
+      noteCode += '  time.sleep_ms(100)\n';
+    } else {
+      noteCode += 'time.sleep_ms(' + duration + ')\n';
+    }
+    return noteCode;
+  };
+
   // D C B A G A B G (Deck the halls with boughs of holly)
-  code += 'buzzer.freq(587)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(523)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(494)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(440)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(392)\ntime.sleep_ms(300)\n';
-  code += 'buzzer.freq(440)\ntime.sleep_ms(100)\n';
-  code += 'buzzer.freq(494)\ntime.sleep_ms(400)\n';
-  code += 'buzzer.freq(392)\ntime.sleep_ms(400)\n';
+  code += playNote(587, 200);
+  code += playNote(523, 200);
+  code += playNote(494, 200);
+  code += playNote(440, 200);
+  code += playNote(392, 300);
+  code += playNote(440, 100);
+  code += playNote(494, 400);
+  code += playNote(392, 400);
   // A B C A B (Fa la la la la)
-  code += 'buzzer.freq(440)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(494)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(523)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(440)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(494)\ntime.sleep_ms(600)\n';
+  code += playNote(440, 200);
+  code += playNote(494, 200);
+  code += playNote(523, 200);
+  code += playNote(440, 200);
+  code += playNote(494, 600);
+
   code += 'buzzer.duty_u16(0)\n';
   code += '# SOUND_BLOCK_END\n';
   return code;
@@ -1889,28 +1994,63 @@ Blockly.Python['natal_noel'] = function(block) {
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
+
+  // Check if buzzer display is configured
+  var hasDisplay = Blockly.Python.buzzerDisplayConfig;
+  if (hasDisplay) {
+    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  }
+
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+  // Helper function to play note with display update
+  var playNote = function(freq, duration) {
+    var noteCode = 'buzzer.freq(' + freq + ')\n';
+    if (hasDisplay) {
+      var cfg = Blockly.Python.buzzerDisplayConfig;
+      var iterations = Math.max(1, Math.floor(duration / 100));
+      noteCode += 'for _i in range(' + iterations + '):\n';
+      noteCode += '  try:\n';
+      noteCode += '    oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      noteCode += '    oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        noteCode += '    oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        noteCode += '    oled.text("' + freq + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      noteCode += '    oled.show()\n';
+      noteCode += '  except:\n';
+      noteCode += '    pass\n';
+      noteCode += '  time.sleep_ms(100)\n';
+    } else {
+      noteCode += 'time.sleep_ms(' + duration + ')\n';
+    }
+    return noteCode;
+  };
+
   // C F F G F E D (We wish you a merry)
-  code += 'buzzer.freq(262)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(349)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(349)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(392)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(349)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(330)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(294)\ntime.sleep_ms(400)\n';
+  code += playNote(262, 200);
+  code += playNote(349, 200);
+  code += playNote(349, 200);
+  code += playNote(392, 200);
+  code += playNote(349, 200);
+  code += playNote(330, 200);
+  code += playNote(294, 400);
   // C C G G A G F E C (Christmas and a happy new year)
-  code += 'buzzer.freq(262)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(262)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(392)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(392)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(440)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(392)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(349)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(330)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(262)\ntime.sleep_ms(600)\n';
+  code += playNote(262, 200);
+  code += playNote(262, 200);
+  code += playNote(392, 200);
+  code += playNote(392, 200);
+  code += playNote(440, 200);
+  code += playNote(392, 200);
+  code += playNote(349, 200);
+  code += playNote(330, 200);
+  code += playNote(262, 600);
+
   code += 'buzzer.duty_u16(0)\n';
   code += '# SOUND_BLOCK_END\n';
   return code;
@@ -1922,24 +2062,59 @@ Blockly.Python['natal_o_vinde'] = function(block) {
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
+
+  // Check if buzzer display is configured
+  var hasDisplay = Blockly.Python.buzzerDisplayConfig;
+  if (hasDisplay) {
+    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  }
+
   var volume = block.getFieldValue('VOLUME');
   var duty_cycle = Math.round(65535 * volume * 0.7 / 100);
   var code = '# SOUND_BLOCK_START\n';
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
+
+  // Helper function to play note with display update
+  var playNote = function(freq, duration) {
+    var noteCode = 'buzzer.freq(' + freq + ')\n';
+    if (hasDisplay) {
+      var cfg = Blockly.Python.buzzerDisplayConfig;
+      var iterations = Math.max(1, Math.floor(duration / 100));
+      noteCode += 'for _i in range(' + iterations + '):\n';
+      noteCode += '  try:\n';
+      noteCode += '    oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
+      noteCode += '    oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
+      if (cfg.showFreq) {
+        noteCode += '    oled.fill_rect(0, ' + cfg.freqLine + ', 128, 8, 0)\n';
+        noteCode += '    oled.text("' + freq + 'Hz", 3, ' + cfg.freqLine + ', 1)\n';
+      }
+      noteCode += '    oled.show()\n';
+      noteCode += '  except:\n';
+      noteCode += '    pass\n';
+      noteCode += '  time.sleep_ms(100)\n';
+    } else {
+      noteCode += 'time.sleep_ms(' + duration + ')\n';
+    }
+    return noteCode;
+  };
+
   // G G D C B A G (Adeste fideles)
-  code += 'buzzer.freq(392)\ntime.sleep_ms(400)\n';
-  code += 'buzzer.freq(392)\ntime.sleep_ms(400)\n';
-  code += 'buzzer.freq(587)\ntime.sleep_ms(400)\n';
-  code += 'buzzer.freq(523)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(494)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(440)\ntime.sleep_ms(400)\n';
-  code += 'buzzer.freq(392)\ntime.sleep_ms(600)\n';
+  code += playNote(392, 400);
+  code += playNote(392, 400);
+  code += playNote(587, 400);
+  code += playNote(523, 200);
+  code += playNote(494, 200);
+  code += playNote(440, 400);
+  code += playNote(392, 600);
   // D E D C D (Laeti triumphantes)
-  code += 'buzzer.freq(587)\ntime.sleep_ms(400)\n';
-  code += 'buzzer.freq(659)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(587)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(523)\ntime.sleep_ms(200)\n';
-  code += 'buzzer.freq(587)\ntime.sleep_ms(800)\n';
+  code += playNote(587, 400);
+  code += playNote(659, 200);
+  code += playNote(587, 200);
+  code += playNote(523, 200);
+  code += playNote(587, 800);
+
   code += 'buzzer.duty_u16(0)\n';
   code += '# SOUND_BLOCK_END\n';
   return code;

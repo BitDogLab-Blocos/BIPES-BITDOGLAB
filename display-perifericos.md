@@ -43,10 +43,45 @@ O bloco sempre reflete o estado no momento da leitura, nao preve mudancas futura
 - Aviso Visual de Alarme: Exibir "TOCANDO" quando uma melodia estiver ativa.
 - Frequencia: Mostrar a frequencia da nota atual (ex: 440Hz).
 
-### Blocos para Criar
-- Bloco: Mostrar Status do Buzzer
-  - Entradas: Numero da Linha.
-  - Saida no Display: "Som: Ativo" ou "Som: Mudo".
+### Blocos Existentes
+- Bloco: 🔊 Mostrar status do buzzer
+  - Entradas:
+    - Linha para o status (1-5)
+    - Alinhamento (À esquerda, Ao centro, À direita)
+    - Checkbox "🎵 Mostrar frequência" (ativa/desativa exibição da frequência)
+    - Linha para a frequência (1-5)
+    - Alinhamento da frequência
+  - Saída no Display:
+    - "Som: TOCANDO" quando o buzzer está ativo
+    - "XXXHz" mostra a frequência atual da nota (quando habilitado)
+  - **IMPORTANTE**: Este bloco deve ser colocado ANTES dos blocos de som/melodias natalinas
+  - Funciona com TODOS os blocos de som, incluindo:
+    - Tocar nota
+    - Melodias natalinas (Jingle Bells, Noite Feliz, Bate o Sino, Feliz Natal, Ó Vinde)
+    - Efeitos sonoros (Bipe curto, Bipe duplo, Som de moeda, etc.)
+
+### Como Usar
+1. Adicione o bloco "🔊 Mostrar status do buzzer" NO INÍCIO do seu programa
+2. Configure:
+   - Linha onde aparecerá "Som: TOCANDO" (ex: linha 1)
+   - Marque a checkbox "🎵 Mostrar frequência" se quiser ver as frequências
+   - Escolha a linha para mostrar a frequência (ex: linha 2)
+3. Adicione os blocos de melodias natalinas ou outros sons DEPOIS
+4. Durante a execução, o display mostrará automaticamente:
+   - O status do som (TOCANDO)
+   - A frequência de cada nota (ex: 659Hz, 392Hz, etc.)
+
+### Exemplo de Uso
+```
+1. 🔊 Mostrar status do buzzer (linha 1, mostrar freq: SIM, linha freq: 2)
+2. 🎄 Jingle Bells (volume 50%)
+```
+
+Resultado no Display:
+```
+Linha 1: Som: TOCANDO
+Linha 2: 659Hz
+(a frequência muda conforme as notas da melodia)
 
 ## 4. Matriz de LEDs
 ### Aplicacoes
