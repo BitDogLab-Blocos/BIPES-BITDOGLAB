@@ -10,6 +10,23 @@
   - Entradas: Pino do LED, Numero da Linha.
   - Saida no Display: "LED [Pino]: ON" ou "LED [Pino]: OFF".
 
+### Ordem Correta de Uso
+O bloco "Mostrar Estado do LED" le o estado atual do LED no momento em que e executado. Para visualizar mudancas de estado (como blink), o bloco deve ser posicionado APOS cada mudanca de estado do LED.
+
+Exemplo correto para exibir blink:
+1. Ligar LED
+2. Mostrar Estado do LED (mostrara ON)
+3. Esperar tempo
+4. Desligar LED
+5. Mostrar Estado do LED (mostrara OFF)
+6. Esperar tempo
+
+Exemplo incorreto:
+1. Mostrar Estado do LED (le estado antigo)
+2. Ligar LED (estado muda DEPOIS da leitura)
+
+O bloco sempre reflete o estado no momento da leitura, nao preve mudancas futuras.
+
 ## 2. Botoes
 ### Aplicacoes
 - Contador de Cliques: Exibir quantas vezes o botao A ou B foi pressionado.

@@ -7,6 +7,9 @@ class Tool {
   static runPython (code_) {
     let code;
     if (code_ == undefined) { // No code provided, generate from workspace
+      // Reset buzzer display config before generating code
+      // This ensures it's undefined unless display_mostrar_status_buzzer block sets it
+      delete Blockly.Python.buzzerDisplayConfig;
       let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
       code = Code.wrapWithInfiniteLoop(rawCode); // Wrap in while True loop
     } else {
