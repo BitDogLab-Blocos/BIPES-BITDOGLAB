@@ -260,10 +260,20 @@ Blockly.Python['acender_led_posicao'] = function(block) {
   var coluna = block.getFieldValue('COLUNA');
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var intensity = block.getFieldValue('INTENSITY');
-  var code = 'if 0 <= ' + linha + ' <= 4 and 0 <= ' + coluna + ' <= 4:\n';
+  // Clear matrix first
+  var code = 'for i in range(25):\n';
+  code += '    np[i] = (0, 0, 0)\n';
+  code += 'if 0 <= ' + linha + ' <= 4 and 0 <= ' + coluna + ' <= 4:\n';
   code += '    led_index = LED_MATRIX[4 - ' + linha + '][' + coluna + ']\n';
   code += '    np[led_index] = (int(' + colour + '[0] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[1] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[2] * ' + intensity + ' * 0.7 / 100))\n';
-  code += '    np.write()\n';
+  code += 'np.write()\n';
+  // Track matrix state
+  code += '# Update matrix tracking\n';
+  code += '_matriz_status = "ON"\n';
+  code += '_matriz_desenho = "LED (%d,%d)" % (' + linha + ', ' + coluna + ')\n';
+  code += '_matriz_cor = ' + colour + '\n';
+  code += '_matriz_brilho = ' + intensity + '\n';
+  code += '_matriz_leds_count = sum(1 for i in range(25) if np[i] != (0, 0, 0))\n';
   return code;
 };
 
@@ -276,11 +286,21 @@ Blockly.Python['acender_linha'] = function(block) {
   var linha = block.getFieldValue('LINHA');
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var intensity = block.getFieldValue('INTENSITY');
-  var code = 'if 0 <= ' + linha + ' <= 4:\n';
+  // Clear matrix first
+  var code = 'for i in range(25):\n';
+  code += '    np[i] = (0, 0, 0)\n';
+  code += 'if 0 <= ' + linha + ' <= 4:\n';
   code += '    for x in range(5):\n';
   code += '        led_index = LED_MATRIX[4 - ' + linha + '][x]\n';
   code += '        np[led_index] = (int(' + colour + '[0] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[1] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[2] * ' + intensity + ' * 0.7 / 100))\n';
-  code += '    np.write()\n';
+  code += 'np.write()\n';
+  // Track matrix state
+  code += '# Update matrix tracking\n';
+  code += '_matriz_status = "ON"\n';
+  code += '_matriz_desenho = "Linha " + str(' + linha + ')\n';
+  code += '_matriz_cor = ' + colour + '\n';
+  code += '_matriz_brilho = ' + intensity + '\n';
+  code += '_matriz_leds_count = sum(1 for i in range(25) if np[i] != (0, 0, 0))\n';
   return code;
 };
 
@@ -293,15 +313,25 @@ Blockly.Python['acender_coluna'] = function(block) {
   var coluna = block.getFieldValue('COLUNA');
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var intensity = block.getFieldValue('INTENSITY');
-  var code = 'if 0 <= ' + coluna + ' <= 4:\n';
+  // Clear matrix first
+  var code = 'for i in range(25):\n';
+  code += '    np[i] = (0, 0, 0)\n';
+  code += 'if 0 <= ' + coluna + ' <= 4:\n';
   code += '    for y in range(5):\n';
   code += '        led_index = LED_MATRIX[y][' + coluna + ']\n';
   code += '        r = max(1, int(' + colour + '[0] * ' + intensity + ' / 100))\n';
   code += '        g = max(1, int(' + colour + '[1] * ' + intensity + ' / 100))\n';
   code += '        b = max(1, int(' + colour + '[2] * ' + intensity + ' / 100))\n';
   code += '        np[led_index] = (r, g, b)\n';
-  code += '    np.write()\n';
-  code += '    time.sleep_ms(10)\n';
+  code += 'np.write()\n';
+  code += 'time.sleep_ms(10)\n';
+  // Track matrix state
+  code += '# Update matrix tracking\n';
+  code += '_matriz_status = "ON"\n';
+  code += '_matriz_desenho = "Coluna " + str(' + coluna + ')\n';
+  code += '_matriz_cor = ' + colour + '\n';
+  code += '_matriz_brilho = ' + intensity + '\n';
+  code += '_matriz_leds_count = sum(1 for i in range(25) if np[i] != (0, 0, 0))\n';
   return code;
 };
 

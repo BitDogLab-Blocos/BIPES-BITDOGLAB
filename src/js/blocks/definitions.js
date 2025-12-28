@@ -2511,7 +2511,7 @@ Blockly.Blocks['display_mostrar_status_buzzer'] = {
 Blockly.Blocks['display_dashboard_matriz'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("📈 Dashboard da Matriz");
+        .appendField("📊 Monitor da Matriz");
     this.appendDummyInput()
         .appendField("Linha 1:")
         .appendField(new Blockly.FieldDropdown([
@@ -2595,7 +2595,7 @@ Blockly.Blocks['display_dashboard_matriz'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
-    this.setTooltip("Mostra informações completas da matriz de LEDs no display OLED");
+    this.setTooltip("Mostra informações da matriz de LEDs no display OLED");
     this.setHelpUrl("");
   }
 };
