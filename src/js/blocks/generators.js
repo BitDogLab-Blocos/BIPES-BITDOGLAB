@@ -2263,6 +2263,16 @@ Blockly.Python['display_testar_conexao'] = function(block) {
 };
 
 // Display show (container - does NOT clear display)
+// Simple display show - just calls oled.show()
+Blockly.Python['display_show'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  return 'oled.show()\n';
+};
+
 Blockly.Python['display_mostrar'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
@@ -2333,7 +2343,7 @@ Blockly.Python['display_texto'] = function(block) {
   }
 
   var code = 'oled.text("' + texto + '", ' + x + ', ' + y + ', 1)\n';
-  code += 'oled.show()\n';
+  // NÃO chama oled.show() - o usuário deve colocar um bloco "Atualizar Display" no final
   return code;
 };
 
@@ -2797,10 +2807,16 @@ Blockly.Python['cronometro_iniciar'] = function(block) {
   var name = block.getFieldValue('NAME');
   var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
 
+  // Inicializar variáveis no setup (antes do loop)
+  Blockly.Python.definitions_['crono_' + name] = '# Cronometro ' + name + '\n' + varName + '_start = 0\n' + varName + '_paused = 0\n' + varName + '_running = False';
+
   var code = '';
-  code += varName + '_start = time.ticks_ms()\n';
-  code += varName + '_paused = 0\n';
-  code += varName + '_running = True\n';
+  code += 'if not ' + varName + '_running:\n';
+  code += '  if ' + varName + '_paused > 0:\n';
+  code += '    ' + varName + '_start = time.ticks_ms() - ' + varName + '_paused\n';
+  code += '  else:\n';
+  code += '    ' + varName + '_start = time.ticks_ms()\n';
+  code += '  ' + varName + '_running = True\n';
 
   return code;
 };
@@ -2813,6 +2829,24 @@ Blockly.Python['cronometro_parar'] = function(block) {
   code += 'if ' + varName + '_running:\n';
   code += '  ' + varName + '_paused = time.ticks_diff(time.ticks_ms(), ' + varName + '_start)\n';
   code += '  ' + varName + '_running = False\n';
+
+  return code;
+};
+
+Blockly.Python['cronometro_reiniciar'] = function(block) {
+  var name = block.getFieldValue('NAME');
+  var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
+
+  // Inicializa as variáveis do cronômetro (caso ainda não existam)
+  Blockly.Python.definitions_['crono_' + name] = '# Cronometro ' + name + '\n' +
+    varName + '_start = 0\n' +
+    varName + '_paused = 0\n' +
+    varName + '_running = False';
+
+  var code = '';
+  code += varName + '_start = 0\n';
+  code += varName + '_paused = 0\n';
+  code += varName + '_running = False\n';
 
   return code;
 };
@@ -2865,22 +2899,27 @@ Blockly.Python['cronometro_mostrar'] = function(block) {
       break;
   }
 
-  // Alinhamento
+  // Calcula largura e posição do cronômetro
+  code += '_crono_width = len(_crono_str) * 8\n';
+
+  // Calcula posição X baseado no alinhamento
   switch(align) {
     case 'LEFT':
       code += '_x_crono = 0\n';
       break;
     case 'CENTER':
-      code += '_x_crono = max(0, (128 - len(_crono_str) * 8) // 2)\n';
+      code += '_x_crono = max(0, (128 - _crono_width) // 2)\n';
       break;
     case 'RIGHT':
-      code += '_x_crono = max(0, 128 - len(_crono_str) * 8)\n';
+      code += '_x_crono = max(0, 128 - _crono_width)\n';
       break;
   }
 
-  code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
+  // Limpa APENAS a área onde o cronômetro vai ser escrito (não apaga texto fixo)
+  code += 'oled.fill_rect(_x_crono, ' + y + ', _crono_width, 8, 0)\n';
+
+  // Escreve o cronômetro (sem chamar oled.show())
   code += 'oled.text(_crono_str, _x_crono, ' + y + ', 1)\n';
-  code += 'oled.show()\n';
 
   return code;
 };
@@ -4433,10 +4472,12 @@ Blockly.Python['botao_enquanto_apertado'] = function(block) {
 // Button if pressed
 Blockly.Python['botao_se_apertado'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_botoes'] =
     'botao_esquerda = Pin(' + BitdogLabConfig.PINS.JOYSTICK_LEFT + ', Pin.IN, Pin.PULL_UP)\n' +
     'botao_direita = Pin(' + BitdogLabConfig.PINS.JOYSTICK_RIGHT + ', Pin.IN, Pin.PULL_UP)\n' +
     'botao_centro = Pin(' + BitdogLabConfig.PINS.JOYSTICK_CENTER + ', Pin.IN, Pin.PULL_UP)';
+
   var botao = block.getFieldValue('BOTAO');
   var variavel_botao;
   var nome_botao;
@@ -4457,16 +4498,35 @@ Blockly.Python['botao_se_apertado'] = function(block) {
       variavel_botao = 'botao_esquerda';
       nome_botao = 'esquerda';
   }
+
   var codigo_do = Blockly.Python.statementToCode(block, 'DO');
   if (codigo_do) {
     codigo_do = codigo_do.replace(/^  /gm, '');
   }
   codigo_do = codigo_do.replace(/# SOUND_BLOCK_START|# SOUND_BLOCK_END/g, '');
-  Blockly.Python.definitions_['estado_anterior_' + nome_botao] = 'estado_anterior_botao_' + nome_botao + ' = 1';
+
+  // Inicializa flags e timestamp para debounce
+  Blockly.Python.definitions_['flag_' + nome_botao] = 'flag_botao_' + nome_botao + ' = False';
+  Blockly.Python.definitions_['last_time_' + nome_botao] = 'last_time_' + nome_botao + ' = 0';
+
+  // Cria função de callback IRQ para o botão
+  var callback_code = 'def callback_' + nome_botao + '(pin):\n';
+  callback_code += '  global flag_botao_' + nome_botao + ', last_time_' + nome_botao + '\n';
+  callback_code += '  current_time = time.ticks_ms()\n';
+  callback_code += '  if time.ticks_diff(current_time, last_time_' + nome_botao + ') > 200:\n';
+  callback_code += '    flag_botao_' + nome_botao + ' = True\n';
+  callback_code += '    last_time_' + nome_botao + ' = current_time\n';
+
+  Blockly.Python.definitions_['callback_' + nome_botao] = callback_code;
+
+  // Configura IRQ no setup
+  Blockly.Python.definitions_['irq_' + nome_botao] = variavel_botao + '.irq(trigger=Pin.IRQ_FALLING, handler=callback_' + nome_botao + ')';
+
+  // Código no loop: verifica flag e executa ação
   var code = '';
-  code += '# Edge detection (falling edge) for button ' + nome_botao + '\n';
-  code += 'leitura_atual_' + nome_botao + ' = ' + variavel_botao + '.value()\n';
-  code += 'if leitura_atual_' + nome_botao + ' == 0 and estado_anterior_botao_' + nome_botao + ' == 1:\n';
+  code += '# IRQ-based button detection for ' + nome_botao + '\n';
+  code += 'if flag_botao_' + nome_botao + ':\n';
+  code += '  flag_botao_' + nome_botao + ' = False\n';
   if (codigo_do) {
     var linhas = codigo_do.split('\n');
     for (var i = 0; i < linhas.length; i++) {
@@ -4477,7 +4537,7 @@ Blockly.Python['botao_se_apertado'] = function(block) {
   } else {
     code += '  pass\n';
   }
-  code += 'estado_anterior_botao_' + nome_botao + ' = leitura_atual_' + nome_botao + '\n';
+
   return code;
 };
 

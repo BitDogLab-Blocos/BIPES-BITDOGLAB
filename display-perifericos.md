@@ -112,3 +112,73 @@ eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 - Bloco: Mostrar Tempo de Sistema
   - Entradas: Formato (Segundos/Milisegundos), Numero da Linha.
   - Saida no Display: "Tempo: 123s".
+
+  💡 IDEIA 1: Relógio Digital Simples ⭐⭐⭐
+Bloco: 🕐 Mostrar Horário Atual
+Mostra hora do sistema (HH:MM:SS ou HH:MM)
+Configurações:
+Linha (1-5)
+Alinhamento (Esquerda/Centro/Direita)
+Formato (12h ou 24h)
+Mostrar segundos? (Sim/Não)
+Exemplo: 14:35:42 ou 2:35 PM
+💡 IDEIA 2: Tempo de Execução (Uptime) ⭐⭐⭐⭐
+Bloco: ⏱️ Mostrar Tempo Ligado
+Mostra quanto tempo a placa está rodando desde o boot
+Configurações:
+Linha (1-5)
+Alinhamento
+Formato: "Horas:Min:Seg", "Minutos:Segundos", "Segundos totais", "Milissegundos"
+Exemplo: 00:05:23 (5 minutos e 23 segundos ligado)
+Usa time.ticks_ms() do MicroPython
+💡 IDEIA 3: Cronômetro Controlável ⭐⭐⭐⭐⭐ MAIS COMPLETA!
+3 Blocos integrados: A) 🏁 Iniciar Cronômetro
+Input: Nome do cronômetro (texto)
+
+
+Inicia contagem do zero
+Exemplo: "corrida", "teste"
+B) ⏹️ Parar Cronômetro
+Input: Nome do cronômetro
+Congela o tempo
+C) 📊 Mostrar Cronômetro
+Inputs:
+Nome do cronômetro
+Linha (1-5)
+Alinhamento
+Formato (HH:MM:SS, MM:SS, Segundos)
+Mostra o tempo atual do cronômetro nomeado
+Exemplo no display: Corrida: 00:12.45
+Uso:
+
+1. Iniciar cronômetro "teste"
+2. [código qualquer]
+3. Mostrar cronômetro "teste" (linha 1)
+4. Parar cronômetro "teste"
+💡 IDEIA 4: Contador Regressivo (Timer) ⭐⭐⭐⭐
+Bloco: ⏲️ Mostrar Contagem Regressiva
+Inputs:
+Tempo total (segundos)
+Linha
+Alinhamento
+Texto antes: ex "Resta: "
+Mostra contagem decrescente
+Exemplo: Resta: 00:15 (faltam 15 segundos)
+Pode emitir sinal quando chega a zero
+💡 IDEIA 5: Monitor de Performance (Debug) ⭐⭐⭐⭐⭐ MAIS ÚTIL PARA CRIANÇAS!
+Bloco: 📈 Mostrar Tempo de Execução de Código
+Mede quanto tempo um trecho de código demora
+2 Blocos:
+A) ⏱️ Marcar início
+Input: Nome da medição
+B) 📊 Mostrar tempo decorrido
+Inputs:
+Nome da medição
+Linha
+Alinhamento
+Mostra: Loop: 0.023s (23 milissegundos)
+Uso prático para crianças:
+
+1. Marcar início "animacao"
+2. [Acender 25 LEDs da matriz]
+3. Mostrar tempo decorrido "animacao" (linha 1)

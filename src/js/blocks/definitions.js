@@ -2285,6 +2285,19 @@ Blockly.Blocks['display_testar_conexao'] = {
   }
 };
 
+// Display show block (simple - just calls oled.show())
+Blockly.Blocks['display_show'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎨 Atualizar Display");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Atualiza o display OLED mostrando tudo que foi escrito no buffer (chama oled.show())");
+    this.setHelpUrl("");
+  }
+};
+
 // Display show block (container)
 Blockly.Blocks['display_mostrar'] = {
   init: function() {
@@ -2640,12 +2653,12 @@ Blockly.Blocks['display_mostrar_tempo_ligado'] = {
 Blockly.Blocks['cronometro_iniciar'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🏁 Iniciar Cronômetro")
+        .appendField("🏁 Iniciar/Retomar Cronômetro")
         .appendField(new Blockly.FieldTextInput("crono1"), "NAME");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(190);
-    this.setTooltip("Inicia ou reinicia um cronômetro com o nome especificado");
+    this.setTooltip("Inicia o cronômetro ou retoma de onde pausou");
     this.setHelpUrl("");
   }
 };
@@ -2653,12 +2666,25 @@ Blockly.Blocks['cronometro_iniciar'] = {
 Blockly.Blocks['cronometro_parar'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⏹️ Parar Cronômetro")
+        .appendField("⏸️ Pausar Cronômetro")
         .appendField(new Blockly.FieldTextInput("crono1"), "NAME");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(190);
-    this.setTooltip("Para o cronômetro com o nome especificado");
+    this.setTooltip("Pausa o cronômetro (pode ser retomado depois)");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['cronometro_reiniciar'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔄 Reiniciar Cronômetro")
+        .appendField(new Blockly.FieldTextInput("crono1"), "NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(190);
+    this.setTooltip("Reinicia o cronômetro zerando o tempo (volta para 00:00:00)");
     this.setHelpUrl("");
   }
 };
@@ -2696,7 +2722,7 @@ Blockly.Blocks['cronometro_mostrar'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(190);
-    this.setTooltip("Mostra o tempo decorrido do cronômetro no display OLED");
+    this.setTooltip("Mostra o tempo decorrido do cronômetro no display OLED com rótulo opcional");
     this.setHelpUrl("");
   }
 };
