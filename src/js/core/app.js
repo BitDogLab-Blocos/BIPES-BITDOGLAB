@@ -690,6 +690,7 @@ Code.init = function() {
           'display_mostrar_estado_led',
           'display_mostrar_estado_botao',
           'display_mostrar_status_buzzer',
+          'display_dashboard_matriz',
           'cronometro_mostrar',
           'display_mostrar_tempo_ligado'
         ];
