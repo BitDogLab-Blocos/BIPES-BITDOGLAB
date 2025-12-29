@@ -122,7 +122,13 @@ const BitdogLabConfig = {
              line.startsWith('np = neopixel') || // Neopixel setup
              line.startsWith('EMOJIS_5X5 = ') || // Emoji patterns dictionary
              line.startsWith('NUMEROS_5X5 = ') || // Number patterns dictionary
-             line.startsWith('_contador_repeticao = '); // Repetition counter
+             line.startsWith('_contador_repeticao = ') || // Repetition counter
+             (line.startsWith('_crono_') && (line.endsWith(' = 0') || line.endsWith(' = False'))) || // Cronometro initialization only (exact match)
+             (line.startsWith('estado_anterior_botao_') && line.endsWith(' = 1')) || // Button state initialization only (exact match)
+             line.startsWith('flag_botao_') || // IRQ button flags
+             line.startsWith('last_time_') || // IRQ button debounce timestamps
+             line.startsWith('def callback_') || // IRQ callback functions
+             line.indexOf('.irq(trigger=') !== -1; // IRQ configuration
     }
   },
 

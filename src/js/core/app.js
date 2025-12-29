@@ -392,6 +392,7 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
   var inSoundBlock = false;
   var inLoopBlock = false;
   var inSetupBlock = false;
+  var inFunctionDef = false;
 
   for (var i = 0; i < lines.length; i++) {
     var line = lines[i];
@@ -449,10 +450,28 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     //   continue;
     // }
 
+    // Handle function definitions (multi-line)
+    if (trimmedLine.startsWith('def ')) {
+      inFunctionDef = true;
+      setup.push(line);
+      continue;
+    }
+
+    // If inside function definition, keep adding lines to setup until we hit a non-indented line
+    if (inFunctionDef) {
+      if (line.startsWith(' ') || line.startsWith('\t')) {
+        setup.push(line);
+        continue;
+      } else {
+        // Function ended, process this line normally
+        inFunctionDef = false;
+      }
+    }
+
     // Categorize lines into imports, setup, or action code
     if (trimmedLine.startsWith('import ') || trimmedLine.startsWith('from ')) {
       imports.push(line);
-    } else if (BitdogLabConfig.SETUP_PATTERNS.isSetupLine(trimmedLine)) {
+    } else if (BitdogLabConfig.SETUP_PATTERNS.isSetupLine(line)) {
       setup.push(line);
     } else if (trimmedLine.startsWith('#')) {
       setup.push(line);
