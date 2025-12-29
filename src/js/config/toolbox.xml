@@ -125,7 +125,7 @@
   </category>
 
   <!-- 3. TEMPO -->
-  <category name="⏱️ Tempo" colour="190">
+  <category name="⏱️ Tempo e Relógio" colour="190">
     <block type="esperar_segundos">
       <value name="TIME">
         <shadow type="math_number">
@@ -152,6 +152,7 @@
     <block type="tempo_horas">
       <field name="NUM">1</field>
     </block>
+    <block type="display_mostrar_horario"></block>
   </category>
 
   <!-- 4. CORES -->

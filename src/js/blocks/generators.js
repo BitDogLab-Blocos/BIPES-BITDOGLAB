@@ -2240,32 +2240,24 @@ Blockly.Python['display_testar_conexao'] = function(block) {
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
   Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
 
-  // Use SOUND_BLOCK markers to keep code out of the loop (will be executed once in setup)
-  var code = '# SOUND_BLOCK_START\n';
-  code += 'print("=== VARREDURA COMPLETA I2C ===")\n';
+  // Usa marcadores SETUP_BLOCK para forçar código no setup
+  var code = '';
+  code += BitdogLabConfig.MARKERS.SETUP_START + '\n';
   code += 'configs = [(0,9,8),(0,5,4),(0,17,16),(0,1,0),(0,13,12),(0,21,20),(1,3,2),(1,7,6),(1,15,14),(1,19,18),(1,27,26)]\n';
   code += 'for bus,scl,sda in configs:\n';
   code += '  try:\n';
   code += '    i2c = I2C(bus, scl=Pin(scl), sda=Pin(sda), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\n';
   code += '    devs = i2c.scan()\n';
   code += '    if devs:\n';
-  code += '      print("ACHEI! Bus", bus, "SCL=GPIO"+str(scl), "SDA=GPIO"+str(sda), "->", [hex(d) for d in devs])\n';
   code += '      try:\n';
   code += '        oled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)\n';
   code += '        oled.fill(0)\n';
-  code += '        oled.text("FUNCIONOU!", 20, 28, 1)\n';
+  code += '        oled.text("OLED OK!", 30, 28, 1)\n';
   code += '        oled.show()\n';
-  code += '        print(">>> CONFIGURACAO CORRETA:")\n';
-  code += '        print(">>> I2C_BUS:", bus)\n';
-  code += '        print(">>> SCL_PIN:", scl)\n';
-  code += '        print(">>> SDA_PIN:", sda)\n';
   code += '        break\n';
   code += '      except: pass\n';
   code += '  except: pass\n';
-  code += 'else:\n';
-  code += '  print("NADA ENCONTRADO!")\n';
-  code += 'print("=== FIM ===")\n';
-  code += '# SOUND_BLOCK_END\n';
+  code += BitdogLabConfig.MARKERS.SETUP_END + '\n';
 
   return code;
 };
@@ -2733,6 +2725,68 @@ Blockly.Python['display_dashboard_matriz'] = function(block) {
   code += '  oled.show()\n';
   code += 'except:\n';
   code += '  pass\n';
+
+  return code;
+};
+
+// ========== GERADORES DE TEMPO E RELÓGIO ==========
+
+Blockly.Python['display_mostrar_horario'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  var line = parseInt(block.getFieldValue('LINE'));
+  var align = block.getFieldValue('ALIGN');
+  var format = block.getFieldValue('FORMAT');
+
+  var y = line * 12;
+
+  var code = '';
+  code += '_horario = time.localtime()\n';
+  code += '_hora = _horario[3]\n';
+  code += '_min = _horario[4]\n';
+  code += '_seg = _horario[5]\n';
+
+  // Formatar horário baseado na opção escolhida
+  switch(format) {
+    case '24_FULL':
+      code += '_time_str = "{:02d}:{:02d}:{:02d}".format(_hora, _min, _seg)\n';
+      break;
+    case '24_SHORT':
+      code += '_time_str = "{:02d}:{:02d}".format(_hora, _min)\n';
+      break;
+    case '12_FULL':
+      code += '_periodo = "AM" if _hora < 12 else "PM"\n';
+      code += '_hora_12 = _hora if _hora <= 12 else _hora - 12\n';
+      code += '_hora_12 = 12 if _hora_12 == 0 else _hora_12\n';
+      code += '_time_str = "{:02d}:{:02d}:{:02d} {}".format(_hora_12, _min, _seg, _periodo)\n';
+      break;
+    case '12_SHORT':
+      code += '_periodo = "AM" if _hora < 12 else "PM"\n';
+      code += '_hora_12 = _hora if _hora <= 12 else _hora - 12\n';
+      code += '_hora_12 = 12 if _hora_12 == 0 else _hora_12\n';
+      code += '_time_str = "{:02d}:{:02d} {}".format(_hora_12, _min, _periodo)\n';
+      break;
+  }
+
+  // Alinhamento
+  switch(align) {
+    case 'LEFT':
+      code += '_x_time = 0\n';
+      break;
+    case 'CENTER':
+      code += '_x_time = max(0, (128 - len(_time_str) * 8) // 2)\n';
+      break;
+    case 'RIGHT':
+      code += '_x_time = max(0, 128 - len(_time_str) * 8)\n';
+      break;
+  }
+
+  code += 'oled.text(_time_str, _x_time, ' + y + ', 1)\n';
+  code += 'oled.show()\n';
 
   return code;
 };

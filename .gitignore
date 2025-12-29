@@ -1,4 +1,4 @@
-ERRO.TXT
+
 
 # Arquivos Temporários e de Backup
 *.tmp
@@ -63,6 +63,3 @@ analise_blockly_compressed.md
 explicacao_channel.md
 ARQUITETURA.md
 display-perifericos.md
-
-# Claude Code local settings
-.claude/

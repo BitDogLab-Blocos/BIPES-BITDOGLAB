@@ -98,6 +98,8 @@ const BitdogLabConfig = {
     LOOP_END: '# LOOP_BLOCK_END', // Custom loop block end marker
     SOUND_START: '# SOUND_BLOCK_START', // Sound block start marker
     SOUND_END: '# SOUND_BLOCK_END', // Sound block end marker
+    SETUP_START: '# SETUP_BLOCK_START', // Setup block start marker
+    SETUP_END: '# SETUP_BLOCK_END', // Setup block end marker
     STATIC_CONFIG: 'CONFIGURACAO_FIXA' // Static LED configuration marker
   },
   // Pattern matching for setup/initialization detection

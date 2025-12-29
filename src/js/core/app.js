@@ -388,8 +388,10 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
 
   var soundCodeLines = [];
   var loopCodeLines = [];
+  var setupCodeLines = [];
   var inSoundBlock = false;
   var inLoopBlock = false;
+  var inSetupBlock = false;
 
   for (var i = 0; i < lines.length; i++) {
     var line = lines[i];
@@ -400,6 +402,21 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     // Skip orphan value expressions (disconnected output blocks)
     if (trimmedLine.startsWith('[') && trimmedLine.endsWith(']')) continue; // Arrays like [1, 2, 3]
     if (/^\d+$/.test(trimmedLine)) continue; // Standalone numbers
+
+    if (trimmedLine === BitdogLabConfig.MARKERS.SETUP_START) { // Setup block
+      inSetupBlock = true;
+      continue;
+    }
+
+    if (trimmedLine === BitdogLabConfig.MARKERS.SETUP_END) {
+      inSetupBlock = false;
+      continue;
+    }
+
+    if (inSetupBlock) {
+      setupCodeLines.push(line);
+      continue;
+    }
 
     if (trimmedLine === BitdogLabConfig.MARKERS.LOOP_START) { // Custom loop block
       inLoopBlock = true;
@@ -459,9 +476,14 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
   finalCode += '\n';
 
   // 2. Setup/initialization code (runs once, outside loop)
-  if (setup.length > 0) {
+  if (setup.length > 0 || setupCodeLines.length > 0) {
     finalCode += '# Bloco de Setup\n';
-    finalCode += setup.join('\n') + '\n';
+    if (setup.length > 0) {
+      finalCode += setup.join('\n') + '\n';
+    }
+    if (setupCodeLines.length > 0) {
+      finalCode += setupCodeLines.join('\n') + '\n';
+    }
     finalCode += BitdogLabConfig.LED_INIT.generateInitCode(rawCode);
     finalCode += '\n';
   }

@@ -2600,6 +2600,43 @@ Blockly.Blocks['display_dashboard_matriz'] = {
   }
 };
 
+// ========== BLOCOS DE TEMPO E RELÓGIO ==========
+
+Blockly.Blocks['display_mostrar_horario'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🕐 Mostrar Horário");
+    this.appendDummyInput()
+        .appendField("Linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "0"],
+          ["2", "1"],
+          ["3", "2"],
+          ["4", "3"],
+          ["5", "4"]
+        ]), "LINE")
+        .appendField("Alinhamento")
+        .appendField(new Blockly.FieldDropdown([
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
+        ]), "ALIGN");
+    this.appendDummyInput()
+        .appendField("Formato")
+        .appendField(new Blockly.FieldDropdown([
+          ["24 horas (HH:MM:SS)", "24_FULL"],
+          ["24 horas (HH:MM)", "24_SHORT"],
+          ["12 horas (HH:MM:SS AM/PM)", "12_FULL"],
+          ["12 horas (HH:MM AM/PM)", "12_SHORT"]
+        ]), "FORMAT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(190);
+    this.setTooltip("Mostra o horário atual no display OLED");
+    this.setHelpUrl("");
+  }
+};
+
 // Container block for melody mutator
 Blockly.Blocks['criar_melodia_container'] = {
   init: function() {
