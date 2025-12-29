@@ -2738,11 +2738,13 @@ Blockly.Python['display_mostrar_tempo_ligado'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
-  var line = parseInt(block.getFieldValue('LINE'));
+  var line = block.getFieldValue('LINE');
   var align = block.getFieldValue('ALIGN');
   var format = block.getFieldValue('FORMAT');
 
-  var y = line * 12;
+  // Y positions igual aos outros blocos de display (8, 18, 28, 38, 48)
+  var yPositions = {'0': 8, '1': 18, '2': 28, '3': 38, '4': 48};
+  var y = yPositions[line];
 
   var code = '';
   code += '_uptime_ms = time.ticks_ms()\n';
@@ -2782,7 +2784,7 @@ Blockly.Python['display_mostrar_tempo_ligado'] = function(block) {
       break;
   }
 
-  code += 'oled.fill(0)\n';
+  code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
   code += 'oled.text(_uptime_str, _x_uptime, ' + y + ', 1)\n';
   code += 'oled.show()\n';
 
@@ -2823,12 +2825,15 @@ Blockly.Python['cronometro_mostrar'] = function(block) {
   Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var name = block.getFieldValue('NAME');
-  var line = parseInt(block.getFieldValue('LINE'));
+  var line = block.getFieldValue('LINE');
   var align = block.getFieldValue('ALIGN');
   var format = block.getFieldValue('FORMAT');
 
   var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
-  var y = line * 12;
+
+  // Y positions igual aos outros blocos de display (8, 18, 28, 38, 48)
+  var yPositions = {'0': 8, '1': 18, '2': 28, '3': 38, '4': 48};
+  var y = yPositions[line];
 
   var code = '';
   code += 'if ' + varName + '_running:\n';
@@ -2873,7 +2878,7 @@ Blockly.Python['cronometro_mostrar'] = function(block) {
       break;
   }
 
-  code += 'oled.fill(0)\n';
+  code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
   code += 'oled.text(_crono_str, _x_crono, ' + y + ', 1)\n';
   code += 'oled.show()\n';
 
