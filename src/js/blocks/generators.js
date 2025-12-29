@@ -2731,7 +2731,7 @@ Blockly.Python['display_dashboard_matriz'] = function(block) {
 
 // ========== GERADORES DE TEMPO E RELÓGIO ==========
 
-Blockly.Python['display_mostrar_horario'] = function(block) {
+Blockly.Python['display_mostrar_tempo_ligado'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
   Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
@@ -2745,47 +2745,136 @@ Blockly.Python['display_mostrar_horario'] = function(block) {
   var y = line * 12;
 
   var code = '';
-  code += '_horario = time.localtime()\n';
-  code += '_hora = _horario[3]\n';
-  code += '_min = _horario[4]\n';
-  code += '_seg = _horario[5]\n';
+  code += '_uptime_ms = time.ticks_ms()\n';
+  code += '_uptime_s = _uptime_ms // 1000\n';
 
-  // Formatar horário baseado na opção escolhida
+  // Formatar tempo baseado na opção escolhida
   switch(format) {
-    case '24_FULL':
-      code += '_time_str = "{:02d}:{:02d}:{:02d}".format(_hora, _min, _seg)\n';
+    case 'HMS':
+      code += '_hours = _uptime_s // 3600\n';
+      code += '_mins = (_uptime_s % 3600) // 60\n';
+      code += '_secs = _uptime_s % 60\n';
+      code += '_uptime_str = "{:02d}:{:02d}:{:02d}".format(_hours, _mins, _secs)\n';
       break;
-    case '24_SHORT':
-      code += '_time_str = "{:02d}:{:02d}".format(_hora, _min)\n';
+    case 'MS':
+      code += '_mins = _uptime_s // 60\n';
+      code += '_secs = _uptime_s % 60\n';
+      code += '_uptime_str = "{:02d}:{:02d}".format(_mins, _secs)\n';
       break;
-    case '12_FULL':
-      code += '_periodo = "AM" if _hora < 12 else "PM"\n';
-      code += '_hora_12 = _hora if _hora <= 12 else _hora - 12\n';
-      code += '_hora_12 = 12 if _hora_12 == 0 else _hora_12\n';
-      code += '_time_str = "{:02d}:{:02d}:{:02d} {}".format(_hora_12, _min, _seg, _periodo)\n';
+    case 'SECONDS':
+      code += '_uptime_str = "{}s".format(_uptime_s)\n';
       break;
-    case '12_SHORT':
-      code += '_periodo = "AM" if _hora < 12 else "PM"\n';
-      code += '_hora_12 = _hora if _hora <= 12 else _hora - 12\n';
-      code += '_hora_12 = 12 if _hora_12 == 0 else _hora_12\n';
-      code += '_time_str = "{:02d}:{:02d} {}".format(_hora_12, _min, _periodo)\n';
+    case 'MILLISECONDS':
+      code += '_uptime_str = "{}ms".format(_uptime_ms)\n';
       break;
   }
 
   // Alinhamento
   switch(align) {
     case 'LEFT':
-      code += '_x_time = 0\n';
+      code += '_x_uptime = 0\n';
       break;
     case 'CENTER':
-      code += '_x_time = max(0, (128 - len(_time_str) * 8) // 2)\n';
+      code += '_x_uptime = max(0, (128 - len(_uptime_str) * 8) // 2)\n';
       break;
     case 'RIGHT':
-      code += '_x_time = max(0, 128 - len(_time_str) * 8)\n';
+      code += '_x_uptime = max(0, 128 - len(_uptime_str) * 8)\n';
       break;
   }
 
-  code += 'oled.text(_time_str, _x_time, ' + y + ', 1)\n';
+  code += 'oled.fill(0)\n';
+  code += 'oled.text(_uptime_str, _x_uptime, ' + y + ', 1)\n';
+  code += 'oled.show()\n';
+
+  return code;
+};
+
+Blockly.Python['cronometro_iniciar'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = 'import time';
+
+  var name = block.getFieldValue('NAME');
+  var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
+
+  var code = '';
+  code += varName + '_start = time.ticks_ms()\n';
+  code += varName + '_paused = 0\n';
+  code += varName + '_running = True\n';
+
+  return code;
+};
+
+Blockly.Python['cronometro_parar'] = function(block) {
+  var name = block.getFieldValue('NAME');
+  var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
+
+  var code = '';
+  code += 'if ' + varName + '_running:\n';
+  code += '  ' + varName + '_paused = time.ticks_diff(time.ticks_ms(), ' + varName + '_start)\n';
+  code += '  ' + varName + '_running = False\n';
+
+  return code;
+};
+
+Blockly.Python['cronometro_mostrar'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  var name = block.getFieldValue('NAME');
+  var line = parseInt(block.getFieldValue('LINE'));
+  var align = block.getFieldValue('ALIGN');
+  var format = block.getFieldValue('FORMAT');
+
+  var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
+  var y = line * 12;
+
+  var code = '';
+  code += 'if ' + varName + '_running:\n';
+  code += '  _elapsed_ms = time.ticks_diff(time.ticks_ms(), ' + varName + '_start)\n';
+  code += 'else:\n';
+  code += '  _elapsed_ms = ' + varName + '_paused\n';
+  code += '_elapsed_s = _elapsed_ms // 1000\n';
+
+  // Formatar tempo baseado na opção escolhida
+  switch(format) {
+    case 'HMS':
+      code += '_hours = _elapsed_s // 3600\n';
+      code += '_mins = (_elapsed_s % 3600) // 60\n';
+      code += '_secs = _elapsed_s % 60\n';
+      code += '_crono_str = "{:02d}:{:02d}:{:02d}".format(_hours, _mins, _secs)\n';
+      break;
+    case 'MS_MILLI':
+      code += '_mins = _elapsed_s // 60\n';
+      code += '_secs = _elapsed_s % 60\n';
+      code += '_millis = (_elapsed_ms % 1000) // 10\n';
+      code += '_crono_str = "{:02d}:{:02d}.{:02d}".format(_mins, _secs, _millis)\n';
+      break;
+    case 'S_MILLI':
+      code += '_millis = (_elapsed_ms % 1000) // 10\n';
+      code += '_crono_str = "{}.{:02d}s".format(_elapsed_s, _millis)\n';
+      break;
+    case 'SECONDS':
+      code += '_crono_str = "{}s".format(_elapsed_s)\n';
+      break;
+  }
+
+  // Alinhamento
+  switch(align) {
+    case 'LEFT':
+      code += '_x_crono = 0\n';
+      break;
+    case 'CENTER':
+      code += '_x_crono = max(0, (128 - len(_crono_str) * 8) // 2)\n';
+      break;
+    case 'RIGHT':
+      code += '_x_crono = max(0, 128 - len(_crono_str) * 8)\n';
+      break;
+  }
+
+  code += 'oled.fill(0)\n';
+  code += 'oled.text(_crono_str, _x_crono, ' + y + ', 1)\n';
   code += 'oled.show()\n';
 
   return code;
