@@ -634,6 +634,71 @@ Code.init = function() {
 
   Code.loadBlocks('');
 
+  // Display block reminder notification system
+  Code.showDisplayReminder = function() {
+    // Check if notification already exists
+    if (document.getElementById('displayReminderNotification')) {
+      return; // Don't show multiple notifications
+    }
+
+    // Create notification element
+    var notification = document.createElement('div');
+    notification.id = 'displayReminderNotification';
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #ff9800; color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 350px; font-family: Arial, sans-serif; font-size: 14px; animation: slideIn 0.3s ease-out;';
+    notification.innerHTML = '<strong>⚠️ LEMBRETE!</strong><br>Não esqueça de usar o bloco <strong>🎨 Atualizar Display</strong> depois para mostrar na tela!';
+
+    document.body.appendChild(notification);
+
+    // Add slide-in animation
+    var style = document.createElement('style');
+    style.textContent = '@keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }';
+    document.head.appendChild(style);
+
+    // Auto-remove after 4 seconds
+    setTimeout(function() {
+      if (notification && notification.parentNode) {
+        notification.style.animation = 'slideOut 0.3s ease-in';
+        setTimeout(function() {
+          if (notification && notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }
+    }, 4000);
+  };
+
+  // Add slide-out animation
+  var styleOut = document.createElement('style');
+  styleOut.textContent = '@keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }';
+  document.head.appendChild(styleOut);
+
+  // Listen for block create events
+  Code.workspace.addChangeListener(function(event) {
+    if (event.type === Blockly.Events.BLOCK_CREATE) {
+      var block = Code.workspace.getBlockById(event.blockId);
+      if (block) {
+        var blockType = block.type;
+        // List of display blocks that need the reminder
+        var displayBlocks = [
+          'display_texto',
+          'display_criar_borda',
+          'display_limpar_borda',
+          'display_limpar',
+          'display_mostrar_calculo',
+          'display_mostrar_estado_led',
+          'display_mostrar_estado_botao',
+          'display_mostrar_status_buzzer',
+          'cronometro_mostrar',
+          'display_mostrar_tempo_ligado'
+        ];
+
+        if (displayBlocks.indexOf(blockType) !== -1) {
+          Code.showDisplayReminder();
+        }
+      }
+    }
+  });
+
   // BlocklyStorage removed - using storage.js for auto-save
   // if ('BlocklyStorage' in window) {
   //   BlocklyStorage.backupOnUnload(Code.workspace);

@@ -128,6 +128,14 @@ const BitdogLabConfig = {
              line.startsWith('flag_botao_') || // IRQ button flags
              line.startsWith('last_time_') || // IRQ button debounce timestamps
              line.startsWith('def callback_') || // IRQ callback functions
+             line.startsWith('def _btn_') || // Button handler functions
+             line.startsWith('_btn_a_count') || // Button A counter variable
+             line.startsWith('_btn_b_count') || // Button B counter variable
+             line.startsWith('_btn_c_count') || // Button C counter variable
+             line.startsWith('_btn_a_last_time') || // Button A last time variable
+             line.startsWith('_btn_b_last_time') || // Button B last time variable
+             line.startsWith('_btn_c_last_time') || // Button C last time variable
+             line.startsWith('_debounce_ms') || // Debounce milliseconds variable
              line.indexOf('.irq(trigger=') !== -1; // IRQ configuration
     }
   },
