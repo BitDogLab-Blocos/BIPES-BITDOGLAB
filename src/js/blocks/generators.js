@@ -2197,7 +2197,7 @@ Blockly.Python['display_criar_borda'] = function(block) {
   Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var code = 'oled.rect(0, 0, ' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', 1)\n';
-  code += 'oled.show()\n';
+  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
   return code;
 };
 
@@ -2209,7 +2209,7 @@ Blockly.Python['display_limpar_borda'] = function(block) {
   Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var code = 'oled.rect(0, 0, ' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', 0)\n';
-  code += 'oled.show()\n';
+  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
   return code;
 };
 
@@ -2385,7 +2385,7 @@ Blockly.Python['display_mostrar_calculo'] = function(block) {
 
   // Mostrar o resultado no display
   code += 'oled.text(_calc_result, _calc_x, ' + y + ', 1)\n';
-  code += 'oled.show()\n';
+  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
 
   return code;
 };
@@ -2461,7 +2461,7 @@ Blockly.Python['display_mostrar_estado_led'] = function(block) {
   }
 
   code += 'oled.text(_led_text, _led_x, ' + y + ', 1)\n';
-  code += 'oled.show()\n';
+  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
 
   return code;
 };
@@ -2474,7 +2474,7 @@ Blockly.Python['display_limpar'] = function(block) {
   Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var code = 'oled.fill(0)\n';
-  code += 'oled.show()\n';
+  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
   return code;
 };
 
@@ -2528,40 +2528,48 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
 
   var code = '';
 
-  // Initialize IRQ system only once using try/except
+  // Initialize IRQ system only once using definitions (setup section)
   if (mostrarContagem) {
-    code += 'try:\n';
-    code += '  _btn_irq_initialized\n';
-    code += 'except:\n';
-    code += '  _btn_a_count = 0\n';
-    code += '  _btn_b_count = 0\n';
-    code += '  _btn_c_count = 0\n';
-    code += '  _btn_a_last_time = 0\n';
-    code += '  _btn_b_last_time = 0\n';
-    code += '  _btn_c_last_time = 0\n';
-    code += '  _debounce_ms = 300\n';
-    code += '  def _btn_a_handler(pin):\n';
-    code += '    global _btn_a_count, _btn_a_last_time\n';
-    code += '    current_time = time.ticks_ms()\n';
-    code += '    if time.ticks_diff(current_time, _btn_a_last_time) > _debounce_ms:\n';
-    code += '      _btn_a_count += 1\n';
-    code += '      _btn_a_last_time = current_time\n';
-    code += '  def _btn_b_handler(pin):\n';
-    code += '    global _btn_b_count, _btn_b_last_time\n';
-    code += '    current_time = time.ticks_ms()\n';
-    code += '    if time.ticks_diff(current_time, _btn_b_last_time) > _debounce_ms:\n';
-    code += '      _btn_b_count += 1\n';
-    code += '      _btn_b_last_time = current_time\n';
-    code += '  def _btn_c_handler(pin):\n';
-    code += '    global _btn_c_count, _btn_c_last_time\n';
-    code += '    current_time = time.ticks_ms()\n';
-    code += '    if time.ticks_diff(current_time, _btn_c_last_time) > _debounce_ms:\n';
-    code += '      _btn_c_count += 1\n';
-    code += '      _btn_c_last_time = current_time\n';
-    code += '  botao_esquerda.irq(trigger=Pin.IRQ_FALLING, handler=_btn_a_handler)\n';
-    code += '  botao_direita.irq(trigger=Pin.IRQ_FALLING, handler=_btn_b_handler)\n';
-    code += '  botao_centro.irq(trigger=Pin.IRQ_FALLING, handler=_btn_c_handler)\n';
-    code += '  _btn_irq_initialized = True\n';
+    // Variables initialization (MUST be in setup, NOT in loop)
+    Blockly.Python.definitions_['btn_counter_vars'] =
+      '_btn_a_count = 0\n' +
+      '_btn_b_count = 0\n' +
+      '_btn_c_count = 0\n' +
+      '_btn_a_last_time = 0\n' +
+      '_btn_b_last_time = 0\n' +
+      '_btn_c_last_time = 0\n' +
+      '_debounce_ms = 300';
+
+    // Handler functions (setup section)
+    Blockly.Python.definitions_['btn_a_handler'] =
+      'def _btn_a_handler(pin):\n' +
+      '  global _btn_a_count, _btn_a_last_time\n' +
+      '  current_time = time.ticks_ms()\n' +
+      '  if time.ticks_diff(current_time, _btn_a_last_time) > _debounce_ms:\n' +
+      '    _btn_a_count += 1\n' +
+      '    _btn_a_last_time = current_time';
+
+    Blockly.Python.definitions_['btn_b_handler'] =
+      'def _btn_b_handler(pin):\n' +
+      '  global _btn_b_count, _btn_b_last_time\n' +
+      '  current_time = time.ticks_ms()\n' +
+      '  if time.ticks_diff(current_time, _btn_b_last_time) > _debounce_ms:\n' +
+      '    _btn_b_count += 1\n' +
+      '    _btn_b_last_time = current_time';
+
+    Blockly.Python.definitions_['btn_c_handler'] =
+      'def _btn_c_handler(pin):\n' +
+      '  global _btn_c_count, _btn_c_last_time\n' +
+      '  current_time = time.ticks_ms()\n' +
+      '  if time.ticks_diff(current_time, _btn_c_last_time) > _debounce_ms:\n' +
+      '    _btn_c_count += 1\n' +
+      '    _btn_c_last_time = current_time';
+
+    // IRQ setup (setup section)
+    Blockly.Python.definitions_['btn_irq_setup'] =
+      'botao_esquerda.irq(trigger=Pin.IRQ_FALLING, handler=_btn_a_handler)\n' +
+      'botao_direita.irq(trigger=Pin.IRQ_FALLING, handler=_btn_b_handler)\n' +
+      'botao_centro.irq(trigger=Pin.IRQ_FALLING, handler=_btn_c_handler)';
   }
 
   // Read button state once
@@ -2604,13 +2612,7 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
     code += 'oled.text(_btn_count_text, _btn_count_x, ' + yContagem + ', 1)\n';
   }
 
-  // Protect display update from IRQ conflicts
-  code += 'try:\n';
-  code += '  state = machine.disable_irq()\n';
-  code += '  oled.show()\n';
-  code += '  machine.enable_irq(state)\n';
-  code += 'except:\n';
-  code += '  oled.show()\n';
+  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
 
   return code;
 };
@@ -2731,10 +2733,7 @@ Blockly.Python['display_dashboard_matriz'] = function(block) {
     }
   }
 
-  code += 'try:\n';
-  code += '  oled.show()\n';
-  code += 'except:\n';
-  code += '  pass\n';
+  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
 
   return code;
 };
@@ -2796,7 +2795,7 @@ Blockly.Python['display_mostrar_tempo_ligado'] = function(block) {
 
   code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
   code += 'oled.text(_uptime_str, _x_uptime, ' + y + ', 1)\n';
-  code += 'oled.show()\n';
+  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
 
   return code;
 };

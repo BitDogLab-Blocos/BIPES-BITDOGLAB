@@ -2241,6 +2241,7 @@ Blockly.Blocks['display_criar_borda'] = {
     this.setColour("#16a085");
     this.setTooltip("Desenha uma moldura retangular ao redor do display");
     this.setHelpUrl("");
+    this.setWarningText("⚠️ Não esqueça de usar o bloco '🎨 Atualizar Display' depois para mostrar a moldura!");
   }
 };
 
@@ -2254,6 +2255,7 @@ Blockly.Blocks['display_limpar_borda'] = {
     this.setColour("#16a085");
     this.setTooltip("Apaga a moldura do display");
     this.setHelpUrl("");
+    this.setWarningText("⚠️ Não esqueça de usar o bloco '🎨 Atualizar Display' depois!");
   }
 };
 
@@ -2337,6 +2339,7 @@ Blockly.Blocks['display_texto'] = {
     this.setColour("#16a085");
     this.setTooltip("Escreve texto no display OLED em uma das 5 linhas");
     this.setHelpUrl("");
+    this.setWarningText("⚠️ Não esqueça de usar o bloco '🎨 Atualizar Display' depois para mostrar o texto!");
   }
 };
 
@@ -2365,6 +2368,7 @@ Blockly.Blocks['display_mostrar_calculo'] = {
     this.setColour("#16a085");
     this.setTooltip("Mostra o resultado de uma conta (da categoria Matemática) no display");
     this.setHelpUrl("");
+    this.setWarningText("⚠️ Não esqueça de usar o bloco '🎨 Atualizar Display' depois para mostrar o resultado!");
   }
 };
 
@@ -2395,6 +2399,7 @@ Blockly.Blocks['display_mostrar_estado_led'] = {
     this.setColour("#16a085");
     this.setTooltip("Mostra no display se o LED de uma cor está ligado ou desligado");
     this.setHelpUrl("");
+    this.setWarningText("⚠️ Não esqueça de usar o bloco '🎨 Atualizar Display' depois!");
   }
 };
 
@@ -2408,6 +2413,7 @@ Blockly.Blocks['display_limpar'] = {
     this.setColour("#16a085");
     this.setTooltip("Apaga tudo que está no display OLED");
     this.setHelpUrl("");
+    this.setWarningText("⚠️ Não esqueça de usar o bloco '🎨 Atualizar Display' depois para limpar a tela!");
   }
 };
 
@@ -2475,6 +2481,7 @@ Blockly.Blocks['display_mostrar_estado_botao'] = {
     this.setColour("#16a085");
     this.setTooltip("Mostra no display se o botão está apertado e quantas vezes foi clicado");
     this.setHelpUrl("");
+    this.setWarningText("⚠️ Não esqueça de usar o bloco '🎨 Atualizar Display' depois!");
   }
 };
 
@@ -2517,6 +2524,7 @@ Blockly.Blocks['display_mostrar_status_buzzer'] = {
     this.setColour("#16a085");
     this.setTooltip("Mostra no display se o buzzer está tocando e a frequência atual");
     this.setHelpUrl("");
+    this.setWarningText("⚠️ Não esqueça de usar o bloco '🎨 Atualizar Display' depois!");
   }
 };
 
@@ -2647,6 +2655,7 @@ Blockly.Blocks['display_mostrar_tempo_ligado'] = {
     this.setColour(190);
     this.setTooltip("Mostra há quanto tempo a placa está ligada (uptime)");
     this.setHelpUrl("");
+    this.setWarningText("⚠️ Não esqueça de usar o bloco '🎨 Atualizar Display' depois!");
   }
 };
 
@@ -2724,6 +2733,7 @@ Blockly.Blocks['cronometro_mostrar'] = {
     this.setColour(190);
     this.setTooltip("Mostra o tempo decorrido do cronômetro no display OLED com rótulo opcional");
     this.setHelpUrl("");
+    this.setWarningText("⚠️ Não esqueça de usar o bloco '🎨 Atualizar Display' depois!");
   }
 };
 
