@@ -2602,10 +2602,10 @@ Blockly.Blocks['display_dashboard_matriz'] = {
 
 // ========== BLOCOS DE TEMPO E RELÓGIO ==========
 
-Blockly.Blocks['display_mostrar_horario'] = {
+Blockly.Blocks['display_mostrar_tempo_ligado'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🕐 Mostrar Horário");
+        .appendField("⏱️ Mostrar Tempo Ligado");
     this.appendDummyInput()
         .appendField("Linha")
         .appendField(new Blockly.FieldDropdown([
@@ -2624,15 +2624,79 @@ Blockly.Blocks['display_mostrar_horario'] = {
     this.appendDummyInput()
         .appendField("Formato")
         .appendField(new Blockly.FieldDropdown([
-          ["24 horas (HH:MM:SS)", "24_FULL"],
-          ["24 horas (HH:MM)", "24_SHORT"],
-          ["12 horas (HH:MM:SS AM/PM)", "12_FULL"],
-          ["12 horas (HH:MM AM/PM)", "12_SHORT"]
+          ["HH:MM:SS", "HMS"],
+          ["MM:SS", "MS"],
+          ["Segundos totais", "SECONDS"],
+          ["Milissegundos", "MILLISECONDS"]
         ]), "FORMAT");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(190);
-    this.setTooltip("Mostra o horário atual no display OLED");
+    this.setTooltip("Mostra há quanto tempo a placa está ligada (uptime)");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['cronometro_iniciar'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🏁 Iniciar Cronômetro")
+        .appendField(new Blockly.FieldTextInput("crono1"), "NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(190);
+    this.setTooltip("Inicia ou reinicia um cronômetro com o nome especificado");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['cronometro_parar'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⏹️ Parar Cronômetro")
+        .appendField(new Blockly.FieldTextInput("crono1"), "NAME");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(190);
+    this.setTooltip("Para o cronômetro com o nome especificado");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['cronometro_mostrar'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("📊 Mostrar Cronômetro");
+    this.appendDummyInput()
+        .appendField("Nome")
+        .appendField(new Blockly.FieldTextInput("crono1"), "NAME");
+    this.appendDummyInput()
+        .appendField("Linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "0"],
+          ["2", "1"],
+          ["3", "2"],
+          ["4", "3"],
+          ["5", "4"]
+        ]), "LINE")
+        .appendField("Alinhamento")
+        .appendField(new Blockly.FieldDropdown([
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
+        ]), "ALIGN");
+    this.appendDummyInput()
+        .appendField("Formato")
+        .appendField(new Blockly.FieldDropdown([
+          ["HH:MM:SS", "HMS"],
+          ["MM:SS.ms", "MS_MILLI"],
+          ["Segundos.ms", "S_MILLI"],
+          ["Segundos totais", "SECONDS"]
+        ]), "FORMAT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(190);
+    this.setTooltip("Mostra o tempo decorrido do cronômetro no display OLED");
     this.setHelpUrl("");
   }
 };
