@@ -644,8 +644,10 @@ Code.init = function() {
     // Create notification element
     var notification = document.createElement('div');
     notification.id = 'displayReminderNotification';
-    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #ff9800; color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 350px; font-family: Arial, sans-serif; font-size: 14px; animation: slideIn 0.3s ease-out;';
-    notification.innerHTML = '<strong>⚠️ LEMBRETE!</strong><br>Não esqueça de usar o bloco <strong>🎨 Atualizar Display</strong> depois para mostrar na tela!';
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #ff9800; color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 380px; font-family: Arial, sans-serif; font-size: 15px; line-height: 1.5; animation: slideIn 0.3s ease-out;';
+    notification.innerHTML = '<strong style="font-size: 16px;">💡 LEMBRETE!</strong><br><br>' +
+      'Depois de usar os blocos de display, coloque <strong>UM bloco "🎨 Atualizar Display"</strong> no final para mostrar tudo na tela!<br><br>' +
+      '<small style="opacity: 0.9;">Assim a tela não fica piscando! 😊</small>';
 
     document.body.appendChild(notification);
 
@@ -654,7 +656,7 @@ Code.init = function() {
     style.textContent = '@keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }';
     document.head.appendChild(style);
 
-    // Auto-remove after 4 seconds
+    // Auto-remove after 5 seconds
     setTimeout(function() {
       if (notification && notification.parentNode) {
         notification.style.animation = 'slideOut 0.3s ease-in';
@@ -664,7 +666,7 @@ Code.init = function() {
           }
         }, 300);
       }
-    }, 4000);
+    }, 5000);
   };
 
   // Add slide-out animation
