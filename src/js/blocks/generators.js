@@ -2826,20 +2826,24 @@ Blockly.Python['display_mostrar_tempo_ligado'] = function(block) {
       break;
   }
 
+  // Calcular largura do texto
+  code += '_uptime_width = len(_uptime_str) * 8\n';
+
   // Alinhamento
   switch(align) {
     case 'LEFT':
       code += '_x_uptime = 0\n';
       break;
     case 'CENTER':
-      code += '_x_uptime = max(0, (128 - len(_uptime_str) * 8) // 2)\n';
+      code += '_x_uptime = max(0, (128 - _uptime_width) // 2)\n';
       break;
     case 'RIGHT':
-      code += '_x_uptime = max(0, 128 - len(_uptime_str) * 8)\n';
+      code += '_x_uptime = max(0, 128 - _uptime_width)\n';
       break;
   }
 
-  code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
+  // Limpa APENAS a área onde o número será escrito (não apaga texto fixo)
+  code += 'oled.fill_rect(_x_uptime, ' + y + ', _uptime_width, 8, 0)\n';
   code += 'oled.text(_uptime_str, _x_uptime, ' + y + ', 1)\n';
   // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
 
@@ -2879,6 +2883,8 @@ Blockly.Python['cronometro_parar'] = function(block) {
 };
 
 Blockly.Python['cronometro_reiniciar'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = 'import time';
+
   var name = block.getFieldValue('NAME');
   var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
 
@@ -2889,7 +2895,8 @@ Blockly.Python['cronometro_reiniciar'] = function(block) {
     varName + '_running = False';
 
   var code = '';
-  code += varName + '_start = 0\n';
+  // Reinicia o cronômetro corretamente usando tempo atual
+  code += varName + '_start = time.ticks_ms()\n';
   code += varName + '_paused = 0\n';
   code += varName + '_running = False\n';
 
@@ -2951,17 +2958,20 @@ Blockly.Python['cronometro_mostrar'] = function(block) {
   switch(align) {
     case 'LEFT':
       code += '_x_crono = 0\n';
+      // Apaga área fixa para LEFT (até 10 caracteres = 80 pixels)
+      code += 'oled.fill_rect(_x_crono, ' + y + ', 80, 8, 0)\n';
       break;
     case 'CENTER':
       code += '_x_crono = max(0, (128 - _crono_width) // 2)\n';
+      // Apaga do centro com largura fixa (área de 10 caracteres centralizada)
+      code += 'oled.fill_rect(24, ' + y + ', 80, 8, 0)\n';
       break;
     case 'RIGHT':
       code += '_x_crono = max(0, 128 - _crono_width)\n';
+      // Apaga área fixa para RIGHT (últimos 80 pixels)
+      code += 'oled.fill_rect(48, ' + y + ', 80, 8, 0)\n';
       break;
   }
-
-  // Limpa APENAS a área onde o cronômetro vai ser escrito (não apaga texto fixo)
-  code += 'oled.fill_rect(_x_crono, ' + y + ', _crono_width, 8, 0)\n';
 
   // Escreve o cronômetro (sem chamar oled.show())
   code += 'oled.text(_crono_str, _x_crono, ' + y + ', 1)\n';
