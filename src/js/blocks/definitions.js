@@ -2340,6 +2340,42 @@ Blockly.Blocks['display_texto'] = {
   }
 };
 
+// Display blink text (animation block - includes show() calls)
+Blockly.Blocks['display_piscar_texto'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("💫 Piscar texto")
+        .appendField(new Blockly.FieldTextInput("Olá!"), "TEXTO");
+    this.appendDummyInput()
+        .appendField("linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"]
+        ]), "LINHA")
+        .appendField(new Blockly.FieldDropdown([
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
+        ]), "ALINHAMENTO");
+    this.appendDummyInput()
+        .appendField("Tempo ligado")
+        .appendField(new Blockly.FieldNumber(1, 0.1, 10, 0.1), "TEMPO_LIGADO")
+        .appendField("seg");
+    this.appendDummyInput()
+        .appendField("Tempo apagado")
+        .appendField(new Blockly.FieldNumber(1, 0.1, 10, 0.1), "TEMPO_APAGADO")
+        .appendField("seg");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Faz o texto piscar (aparecer e sumir) - já atualiza o display automaticamente!");
+    this.setHelpUrl("");
+  }
+};
+
 // Display calculation result block
 Blockly.Blocks['display_mostrar_calculo'] = {
   init: function() {
