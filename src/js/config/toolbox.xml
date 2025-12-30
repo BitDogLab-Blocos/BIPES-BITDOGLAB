@@ -152,11 +152,11 @@
     <block type="tempo_horas">
       <field name="NUM">1</field>
     </block>
-    <block type="display_mostrar_tempo_ligado"></block>
     <block type="cronometro_iniciar"></block>
     <block type="cronometro_parar"></block>
     <block type="cronometro_reiniciar"></block>
     <block type="cronometro_mostrar"></block>
+    <block type="display_mostrar_tempo_ligado"></block>
   </category>
 
   <!-- 4. CORES -->
