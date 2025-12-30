@@ -2654,7 +2654,7 @@ Blockly.Blocks['display_dashboard_matriz'] = {
 Blockly.Blocks['display_mostrar_tempo_ligado'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⏱️ Mostrar Tempo Ligado");
+        .appendField("🔌 Tempo BitDogLab ligada");
     this.appendDummyInput()
         .appendField("Linha")
         .appendField(new Blockly.FieldDropdown([
@@ -2681,8 +2681,7 @@ Blockly.Blocks['display_mostrar_tempo_ligado'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(190);
-    this.setTooltip("Mostra há quanto tempo a placa está ligada (uptime)");
-    this.setHelpUrl("");
+    this.setTooltip("Mostra há quanto tempo a BitDogLab está ligada (não pode pausar!)");
   }
 };
 
