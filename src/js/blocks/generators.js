@@ -2347,6 +2347,52 @@ Blockly.Python['display_texto'] = function(block) {
   return code;
 };
 
+// Display blink text generator (animation with automatic show() calls)
+Blockly.Python['display_piscar_texto'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  var texto = block.getFieldValue('TEXTO');
+  var linha = block.getFieldValue('LINHA');
+  var alinhamento = block.getFieldValue('ALINHAMENTO');
+  var tempoLigado = block.getFieldValue('TEMPO_LIGADO');
+  var tempoApagado = block.getFieldValue('TEMPO_APAGADO');
+
+  // Y positions for 5 lines
+  var yPositions = {'1': 8, '2': 18, '3': 28, '4': 38, '5': 48};
+  var y = yPositions[linha];
+
+  var code = '';
+
+  // Estado 1: Mostrar texto
+  code += '# Piscar texto\n';
+  code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
+
+  // Calculate X position based on alignment
+  if (alinhamento === 'LEFT') {
+    code += 'oled.text("' + texto + '", 3, ' + y + ', 1)\n';
+  } else if (alinhamento === 'CENTER') {
+    code += '_blink_x = max(0, (128 - len("' + texto + '") * 8) // 2)\n';
+    code += 'oled.text("' + texto + '", _blink_x, ' + y + ', 1)\n';
+  } else { // RIGHT
+    code += '_blink_x = max(0, 128 - len("' + texto + '") * 8 - 3)\n';
+    code += 'oled.text("' + texto + '", _blink_x, ' + y + ', 1)\n';
+  }
+
+  code += 'oled.show()\n';
+  code += 'time.sleep(' + tempoLigado + ')\n';
+
+  // Estado 2: Apagar texto
+  code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
+  code += 'oled.show()\n';
+  code += 'time.sleep(' + tempoApagado + ')\n';
+
+  return code;
+};
+
 // Display calculation result
 Blockly.Python['display_mostrar_calculo'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
