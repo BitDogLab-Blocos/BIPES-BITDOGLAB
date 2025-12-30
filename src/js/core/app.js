@@ -644,20 +644,24 @@ Code.init = function() {
     // Create notification element
     var notification = document.createElement('div');
     notification.id = 'displayReminderNotification';
-    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #ff9800; color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 380px; font-family: Arial, sans-serif; font-size: 15px; line-height: 1.5; animation: slideIn 0.3s ease-out;';
-    notification.innerHTML = '<strong style="font-size: 16px;">💡 LEMBRETE!</strong><br><br>' +
-      'Depois de usar os blocos de display, coloque <strong>UM bloco "🎨 Atualizar Display"</strong> no final para mostrar tudo na tela!<br><br>' +
-      '<small style="opacity: 0.9;">Assim a tela não fica piscando! 😊</small>';
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #ff9800; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 450px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
+    notification.innerHTML = '<button id="closeDisplayNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+      '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
+      '🖊️ Os blocos de display <strong>preparam</strong> o que vai aparecer.<br><br>' +
+      '🎨 Use <strong>"Atualizar Display"</strong> quando quiser <strong>VER a mudança</strong> na tela!<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Exemplo - Fazer texto piscar:</strong><br>' +
+      '1️⃣ ✏️ Escrever "Olá"<br>' +
+      '2️⃣ 🎨 Atualizar Display <small>(agora aparece!)</small><br>' +
+      '3️⃣ ⏱️ Esperar 2 segundos<br>' +
+      '4️⃣ 🧹 Apagar display<br>' +
+      '5️⃣ 🎨 Atualizar Display <small>(agora some!)</small><br>' +
+      '</div>';
 
     document.body.appendChild(notification);
 
-    // Add slide-in animation
-    var style = document.createElement('style');
-    style.textContent = '@keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }';
-    document.head.appendChild(style);
-
-    // Auto-remove after 5 seconds
-    setTimeout(function() {
+    // Add close button functionality
+    document.getElementById('closeDisplayNotification').addEventListener('click', function() {
       if (notification && notification.parentNode) {
         notification.style.animation = 'slideOut 0.3s ease-in';
         setTimeout(function() {
@@ -666,7 +670,23 @@ Code.init = function() {
           }
         }, 300);
       }
-    }, 5000);
+    });
+
+    // Add hover effect to close button
+    var closeBtn = document.getElementById('closeDisplayNotification');
+    closeBtn.addEventListener('mouseenter', function() {
+      this.style.background = 'rgba(0,0,0,0.4)';
+    });
+    closeBtn.addEventListener('mouseleave', function() {
+      this.style.background = 'rgba(0,0,0,0.2)';
+    });
+
+    // Add slide-in animation
+    var style = document.createElement('style');
+    style.textContent = '@keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }';
+    document.head.appendChild(style);
+
+    // Notification stays until user closes it (no auto-remove)
   };
 
   // Add slide-out animation
