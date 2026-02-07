@@ -340,6 +340,7 @@
     <block type="display_texto"></block>
     <block type="display_piscar_texto"></block>
     <block type="display_mostrar_calculo"></block>
+    <block type="display_mostrar_valor"></block>
     <block type="display_mostrar_estado_led"></block>
     <block type="display_mostrar_estado_botao"></block>
     <block type="display_mostrar_status_buzzer"></block>
