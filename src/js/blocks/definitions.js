@@ -3513,6 +3513,96 @@ Blockly.Blocks['joystick_pintar_matriz'] = {
   }
 };
 // ==========================================
+// Category: Condicionais (Conditionals)
+// ==========================================
+// Bloco "Se" (If) - estrutura condicional genérica
+Blockly.Blocks['controls_if'] = {
+  init: function() {
+    this.appendValueInput("IF0")
+        .setCheck("Boolean")
+        .appendField("Se");
+    this.appendStatementInput("DO0")
+        .appendField("então");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(270);
+    this.setTooltip("Se a condição for verdadeira, executa os blocos dentro.");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco "Se/Senão" (If/Else) - estrutura condicional com alternativa
+Blockly.Blocks['controls_ifelse'] = {
+  init: function() {
+    this.appendValueInput("IF0")
+        .setCheck("Boolean")
+        .appendField("Se");
+    this.appendStatementInput("DO0")
+        .appendField("então");
+    this.appendStatementInput("ELSE")
+        .appendField("senão");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(270);
+    this.setTooltip("Se a condição for verdadeira, executa o primeiro bloco. Caso contrário, executa o bloco 'senão'.");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco de comparação - =, ≠, <, >, ≤, ≥
+Blockly.Blocks['logic_compare'] = {
+  init: function() {
+    this.appendValueInput("A");
+    this.appendValueInput("B")
+        .appendField(new Blockly.FieldDropdown([
+          ["=", "EQ"],
+          ["≠", "NEQ"],
+          ["<", "LT"],
+          ["≤", "LTE"],
+          [">", "GT"],
+          ["≥", "GTE"]
+        ]), "OP");
+    this.setInputsInline(true);
+    this.setOutput(true, "Boolean");
+    this.setColour(270);
+    this.setTooltip("Compara dois valores e retorna verdadeiro ou falso.");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco de operação lógica - E, OU
+Blockly.Blocks['logic_operation'] = {
+  init: function() {
+    this.appendValueInput("A")
+        .setCheck("Boolean");
+    this.appendValueInput("B")
+        .setCheck("Boolean")
+        .appendField(new Blockly.FieldDropdown([
+          ["E", "AND"],
+          ["OU", "OR"]
+        ]), "OP");
+    this.setInputsInline(true);
+    this.setOutput(true, "Boolean");
+    this.setColour(270);
+    this.setTooltip("Combina duas condições com 'E' ou 'OU'.");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco de negação - NÃO
+Blockly.Blocks['logic_negate'] = {
+  init: function() {
+    this.appendValueInput("BOOL")
+        .setCheck("Boolean")
+        .appendField("NÃO");
+    this.setOutput(true, "Boolean");
+    this.setColour(270);
+    this.setTooltip("Inverte uma condição: verdadeiro vira falso e vice-versa.");
+    this.setHelpUrl("");
+  }
+};
+
+// ==========================================
 // Category: Matrix Drawing
 // ==========================================
 // Container block for matrix drawing mutator

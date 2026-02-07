@@ -124,7 +124,37 @@
     </block>
   </category>
 
-  <!-- 3. TEMPO -->
+  <!-- 3. CONDICIONAIS -->
+  <category name="🔀 Condicionais" colour="270">
+    <block type="controls_if"></block>
+    <block type="controls_ifelse"></block>
+    <block type="logic_compare">
+      <value name="A">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+      <value name="B">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="logic_operation">
+      <value name="A">
+        <shadow type="logic_boolean">
+          <field name="BOOL">TRUE</field>
+        </shadow>
+      </value>
+      <value name="B">
+        <shadow type="logic_boolean">
+          <field name="BOOL">TRUE</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+
+  <!-- 4. TEMPO -->
   <category name="⏱️ Tempo e Relógio" colour="190">
     <block type="esperar_segundos">
       <value name="TIME">
@@ -159,7 +189,7 @@
     <block type="display_mostrar_tempo_ligado"></block>
   </category>
 
-  <!-- 4. CORES -->
+  <!-- 5. CORES -->
   <category name="🎨 Cores" colour="#A65C99">
     <block type="colour_red"></block>
     <block type="colour_green"></block>
@@ -178,7 +208,7 @@
 
   <!-- ========== PERIFÉRICOS (DO MAIS SIMPLES AO MAIS COMPLICADO) ========== -->
 
-  <!-- 5. LEDS -->
+  <!-- 6. LEDS -->
   <category name="💡 LEDs" colour="45">
     <block type="bloco_ligar_led"></block>
     <block type="bloco_desligar_led"></block>
@@ -195,7 +225,7 @@
     <block type="bloco_criar_animacao_led"></block>
   </category>
 
-  <!-- 6. MATRIZ DE LEDS -->
+  <!-- 7. MATRIZ DE LEDS -->
   <category name="🔲 Matriz de LEDs" colour="#4a69bd">
     <block type="preencher_matriz"></block>
     <block type="desligar_matriz"></block>
@@ -207,7 +237,7 @@
     <block type="criar_desenho_na_matriz"></block>
   </category>
 
-  <!-- 7. NÚMEROS NA MATRIZ -->
+  <!-- 8. NÚMEROS NA MATRIZ -->
   <category name="🔢 Números na Matriz" colour="#55a855">
     <block type="numero_matriz_0"></block>
     <block type="numero_matriz_1"></block>
@@ -221,7 +251,7 @@
     <block type="numero_matriz_9"></block>
   </category>
 
-  <!-- 8. EMOJIS NA MATRIZ -->
+  <!-- 9. EMOJIS NA MATRIZ -->
   <category name="😊 Emojis na Matriz" colour="#FF8C00">
     <block type="emoji_rosto_feliz"></block>
     <block type="emoji_rosto_triste"></block>
@@ -239,7 +269,7 @@
     <block type="emoji_sino_natal"></block>
   </category>
 
-  <!-- 9. ANIMAÇÕES DA MATRIZ -->
+  <!-- 10. ANIMAÇÕES DA MATRIZ -->
   <category name="✨ Animações da Matriz" colour="#8e44ad">
     <block type="matriz_piscar_rapido"></block>
     <block type="matriz_piscar_lento"></block>
@@ -254,7 +284,7 @@
     <block type="matriz_dar_flash"></block>
   </category>
 
-  <!-- 10. SOM -->
+  <!-- 11. SOM -->
   <category name="🔊 Som" colour="#9a5ba5">
     <block type="tocar_nota"></block>
     <block type="tocar_som_agudo"></block>
@@ -276,7 +306,7 @@
     <block type="criar_trilha_sonora"></block>
   </category>
 
-  <!-- 11. NOTAS MUSICAIS -->
+  <!-- 12. NOTAS MUSICAIS -->
   <category name="🎼 Notas Musicais" colour="#833471">
     <block type="nota_do"></block>
     <block type="nota_re"></block>
@@ -287,7 +317,7 @@
     <block type="nota_si"></block>
   </category>
 
-  <!-- 12. SONS DE NATAL -->
+  <!-- 13. SONS DE NATAL -->
   <category name="🎄 Sons de Natal" colour="#c0392b">
     <block type="natal_jingle_bells"></block>
     <block type="natal_noite_feliz"></block>
@@ -296,13 +326,13 @@
     <block type="natal_o_vinde"></block>
   </category>
 
-  <!-- 13. BOTÕES -->
+  <!-- 14. BOTÕES -->
   <category name="🎮 Botões" colour="#ee5a24">
     <block type="botao_enquanto_apertado"></block>
     <block type="botao_se_apertado"></block>
   </category>
 
-  <!-- 14. DISPLAY OLED -->
+  <!-- 15. DISPLAY OLED -->
   <category name="📺 Display OLED" colour="#16a085">
     <block type="display_testar_conexao"></block>
     <block type="display_show"></block>
