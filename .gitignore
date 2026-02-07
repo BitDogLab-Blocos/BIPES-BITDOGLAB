@@ -57,10 +57,12 @@ logs/
 .env.local
 .env.*.local
 
-# Arquivos de Documentação Temporária
-blocos_atualmente.md
-analise_blockly_compressed.md
-explicacao_channel.md
-ARQUITETURA.md
-display-perifericos.md
-exercicios_display.md
+# GitHub Actions (deploy manual - remover daqui quando quiser ativar)
+.github/
+
+# Arquivos locais de rascunho/ideias
+joystick_ideias*
+
+# Arquivos de Documentação Temporária (ignora todos .md exceto README.md)
+*.md
+!README.md
