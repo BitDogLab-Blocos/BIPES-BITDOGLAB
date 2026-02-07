@@ -14,14 +14,15 @@ const BitdogLabConfig = {
     // Sound
     BUZZER: 21,
 
-    // Buttons
-    BUTTON_A: 5,
-    BUTTON_B: 6,
+    // Buttons (physical)
+    BUTTON_A: 5,         // Left button
+    BUTTON_B: 6,         // Right button
+    BUTTON_C: 10,        // Center button
 
-    // Joystick buttons
-    JOYSTICK_LEFT: 5,
-    JOYSTICK_RIGHT: 6,
-    JOYSTICK_CENTER: 10,
+    // Joystick analog axes (ADC) + press button
+    JOYSTICK_X: 27,      // VRx - ADC1
+    JOYSTICK_Y: 26,      // VRy - ADC0
+    JOYSTICK_SW: 22,     // SW button (press joystick)
 
     // LED Matrix (NeoPixel)
     NEOPIXEL: 7,
@@ -44,6 +45,15 @@ const BitdogLabConfig = {
       [5,  6,  7,  8,  9],   // Row 3
       [4,  3,  2,  1,  0]    // Row 4
     ]
+  },
+
+  // Joystick configuration (KY-023)
+  JOYSTICK: {
+    X_PIN: 27,            // VRx analog axis
+    Y_PIN: 26,            // VRy analog axis
+    SW_PIN: 22,           // SW button
+    CENTER_VALUE: 32768,  // Resting center value
+    DEADZONE: 5000        // Dead zone to avoid drift
   },
 
   // OLED Display configuration
@@ -136,7 +146,11 @@ const BitdogLabConfig = {
              line.startsWith('_btn_b_last_time') || // Button B last time variable
              line.startsWith('_btn_c_last_time') || // Button C last time variable
              line.startsWith('_debounce_ms') || // Debounce milliseconds variable
-             line.indexOf('.irq(trigger=') !== -1; // IRQ configuration
+             line.indexOf('.irq(trigger=') !== -1 || // IRQ configuration
+             line.indexOf(' = ADC(') !== -1 || // ADC initialization
+             line.startsWith('joystick_') || // Joystick variables
+             line.startsWith('botao_joy') || // Joystick button
+             line.startsWith('_joy_') // Joystick helper variables
     }
   },
 
@@ -162,6 +176,12 @@ const BitdogLabConfig = {
         green: `led_verde = PWM(Pin(${pins.LED_GREEN}), freq=1000)`,
         blue: `led_azul = PWM(Pin(${pins.LED_BLUE}), freq=1000)`
       };
+    },
+
+    // Generate Joystick ADC setup code
+    getJoystickSetup: function() {
+      const joy = BitdogLabConfig.JOYSTICK;
+      return `joystick_x = ADC(Pin(${joy.X_PIN}))\njoystick_y = ADC(Pin(${joy.Y_PIN}))\nbotao_joy = Pin(${joy.SW_PIN}, Pin.IN, Pin.PULL_UP)`;
     },
 
     // Generate OLED Display I2C setup code
