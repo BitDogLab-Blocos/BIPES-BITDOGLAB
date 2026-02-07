@@ -2443,6 +2443,49 @@ Blockly.Python['display_mostrar_calculo'] = function(block) {
   return code;
 };
 
+// Display value - generic version to show any numeric value
+Blockly.Python['display_mostrar_valor'] = function(block) {
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.DISPLAY.SCL_PIN + '), sda=Pin(' + BitdogLabConfig.DISPLAY.SDA_PIN + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  var valor = Blockly.Python.valueToCode(block, 'VALOR', Blockly.Python.ORDER_NONE) || '0';
+  var linha = block.getFieldValue('LINHA');
+  var alinhamento = block.getFieldValue('ALINHAMENTO');
+
+  // Calcular posição Y baseado na linha
+  var yPositions = {
+    '1': 8,
+    '2': 18,
+    '3': 28,
+    '4': 38,
+    '5': 48
+  };
+  var y = yPositions[linha];
+
+  // Gerar código que cria a variável temporária e calcula posição
+  var code = '';
+
+  // Criar variável temporária para armazenar o valor
+  code += '_display_value = str(' + valor + ')\n';
+
+  // Calcular posição X baseado no alinhamento e tamanho do texto
+  if (alinhamento === 'LEFT') {
+    code += '_display_x = 3\n';
+  } else if (alinhamento === 'CENTER') {
+    code += '_display_x = max(3, (128 - len(_display_value) * 8) // 2)\n';
+  } else { // RIGHT
+    code += '_display_x = max(3, 125 - len(_display_value) * 8)\n';
+  }
+
+  // Mostrar o valor no display
+  code += 'oled.text(_display_value, _display_x, ' + y + ', 1)\n';
+  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
+
+  return code;
+};
+
 // Display LED state generator
 Blockly.Python['display_mostrar_estado_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
@@ -4020,7 +4063,7 @@ Blockly.Python['mostrar_numero_matriz'] = function(block) {
 
 /*
 *****************************************************************
-* EMOJI BLOCKS 
+* EMOJI BLOCKS
 * Generators for emoji values and display.
 *****************************************************************
 */

@@ -2417,6 +2417,34 @@ Blockly.Blocks['display_mostrar_calculo'] = {
   }
 };
 
+// Display value block - generic version to show any numeric value
+Blockly.Blocks['display_mostrar_valor'] = {
+  init: function() {
+    this.appendValueInput("VALOR")
+        .setCheck("Number")
+        .appendField("📊 Mostrar valor");
+    this.appendDummyInput()
+        .appendField("linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"]
+        ]), "LINHA")
+        .appendField(new Blockly.FieldDropdown([
+          ["À esquerda", "LEFT"],
+          ["Ao centro", "CENTER"],
+          ["À direita", "RIGHT"]
+        ]), "ALINHAMENTO");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Mostra qualquer valor numérico no display (tempo ligado, sensores, etc)");
+    this.setHelpUrl("");
+  }
+};
+
 // Display LED state block
 Blockly.Blocks['display_mostrar_estado_led'] = {
   init: function() {
