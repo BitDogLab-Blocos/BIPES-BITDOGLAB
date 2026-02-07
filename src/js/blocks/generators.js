@@ -3628,9 +3628,29 @@ Blockly.Python['logic_negate'] = function(block) {
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
+// If block - estrutura "Se"
+Blockly.Python['controls_if'] = function(block) {
+  var condition = Blockly.Python.valueToCode(block, 'IF0', Blockly.Python.ORDER_NONE) || 'False';
+  var branch = Blockly.Python.statementToCode(block, 'DO0');
+  branch = Blockly.Python.addLoopTrap(branch, block) || Blockly.Python.PASS;
+  var code = 'if ' + condition + ':\n' + branch;
+  return code;
+};
+
+// If/Else block - estrutura "Se/Senão"
+Blockly.Python['controls_ifelse'] = function(block) {
+  var condition = Blockly.Python.valueToCode(block, 'IF0', Blockly.Python.ORDER_NONE) || 'False';
+  var branchIf = Blockly.Python.statementToCode(block, 'DO0');
+  branchIf = Blockly.Python.addLoopTrap(branchIf, block) || Blockly.Python.PASS;
+  var branchElse = Blockly.Python.statementToCode(block, 'ELSE');
+  branchElse = Blockly.Python.addLoopTrap(branchElse, block) || Blockly.Python.PASS;
+  var code = 'if ' + condition + ':\n' + branchIf + 'else:\n' + branchElse;
+  return code;
+};
+
 /*
 *****************************************************************
-* LIST BLOCKS 
+* LIST BLOCKS
 * Generators for list operations.
 *****************************************************************
 */
