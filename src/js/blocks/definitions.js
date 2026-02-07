@@ -712,10 +712,25 @@ Blockly.Blocks['tempo_horas'] = {
 Blockly.Blocks['tempo_ligado'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⏱️ tempo ligado");
+        .appendField("⏱️ Tempo ligado BitDogLab");
     this.setOutput(true, "Number");
     this.setColour(190);
     this.setTooltip("Retorna há quantos segundos a BitDogLab está ligada");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco que RETORNA o tempo do cronômetro em segundos (para usar em comparações)
+Blockly.Blocks['tempo_cronometro'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⏱️ Tempo cronômetro");
+    this.appendDummyInput()
+        .appendField("Nome")
+        .appendField(new Blockly.FieldTextInput("crono1"), "NAME");
+    this.setOutput(true, "Number");
+    this.setColour(190);
+    this.setTooltip("Retorna quantos segundos se passaram no cronômetro especificado");
     this.setHelpUrl("");
   }
 };

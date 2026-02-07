@@ -187,6 +187,7 @@
     <block type="cronometro_parar"></block>
     <block type="cronometro_reiniciar"></block>
     <block type="cronometro_mostrar"></block>
+    <block type="tempo_cronometro"></block>
     <block type="display_mostrar_tempo_ligado"></block>
   </category>
 

@@ -735,6 +735,22 @@ Blockly.Python['tempo_ligado'] = function(block) {
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
+// Block that RETURNS chronometer time in seconds
+Blockly.Python['tempo_cronometro'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = 'import time';
+
+  // Get chronometer name from block field
+  var name = block.getFieldValue('NAME');
+  var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
+
+  // Initialize chronometer variables if not already defined
+  Blockly.Python.definitions_['init_' + varName] = varName + '_start = 0\n' + varName + '_paused = 0\n' + varName + '_running = False';
+
+  // Return elapsed time in seconds
+  var code = '(time.ticks_diff(time.ticks_ms(), ' + varName + '_start) // 1000 if ' + varName + '_running else ' + varName + '_paused // 1000)';
+  return [code, Blockly.Python.ORDER_CONDITIONAL];
+};
+
 // Wait seconds block
 Blockly.Python['esperar_segundos'] = function(block) {
   var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
