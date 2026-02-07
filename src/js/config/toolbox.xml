@@ -170,6 +170,7 @@
         </shadow>
       </value>
     </block>
+    <block type="tempo_ligado"></block>
     <block type="tempo_segundos">
       <field name="NUM">1</field>
     </block>

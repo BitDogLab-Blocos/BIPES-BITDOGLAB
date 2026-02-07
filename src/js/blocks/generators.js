@@ -728,6 +728,13 @@ Blockly.Python['tempo_horas'] = function(block) {
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
 
+// Block that RETURNS uptime in seconds
+Blockly.Python['tempo_ligado'] = function(block) {
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  var code = '(time.ticks_ms() // 1000)';
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
 // Wait seconds block
 Blockly.Python['esperar_segundos'] = function(block) {
   var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);

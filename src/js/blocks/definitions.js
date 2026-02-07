@@ -708,6 +708,18 @@ Blockly.Blocks['tempo_horas'] = {
   }
 };
 
+// Bloco que RETORNA o tempo ligado em segundos (para usar em comparações)
+Blockly.Blocks['tempo_ligado'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⏱️ tempo ligado");
+    this.setOutput(true, "Number");
+    this.setColour(190);
+    this.setTooltip("Retorna há quantos segundos a BitDogLab está ligada");
+    this.setHelpUrl("");
+  }
+};
+
 // Debug: Confirm time blocks are loaded
 console.log('[BitdogLab] Blocos de tempo carregados:', {
   esperar_segundos: typeof Blockly.Blocks['esperar_segundos'] !== 'undefined',
@@ -715,7 +727,8 @@ console.log('[BitdogLab] Blocos de tempo carregados:', {
   tempo_segundos: typeof Blockly.Blocks['tempo_segundos'] !== 'undefined',
   tempo_milisegundos: typeof Blockly.Blocks['tempo_milisegundos'] !== 'undefined',
   tempo_minutos: typeof Blockly.Blocks['tempo_minutos'] !== 'undefined',
-  tempo_horas: typeof Blockly.Blocks['tempo_horas'] !== 'undefined'
+  tempo_horas: typeof Blockly.Blocks['tempo_horas'] !== 'undefined',
+  tempo_ligado: typeof Blockly.Blocks['tempo_ligado'] !== 'undefined'
 });
 
 // ==========================================
