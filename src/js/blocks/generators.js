@@ -3656,12 +3656,13 @@ Blockly.Python['logic_compare'] = function(block) {
     'GTE': '>='
   };
   var operator = OPERATORS[block.getFieldValue('OP')];
-  var order = (operator == '==' || operator == '!=') ?
-    Blockly.Python.ORDER_EQUALITY : Blockly.Python.ORDER_RELATIONAL;
+  // Em Python, todas as comparações têm a mesma precedência
+  // Usar ORDER_RELATIONAL para todas evita problemas de precedência
+  var order = Blockly.Python.ORDER_RELATIONAL;
   var argument0 = Blockly.Python.valueToCode(block, 'A', order) || '0';
   var argument1 = Blockly.Python.valueToCode(block, 'B', order) || '0';
   var code = argument0 + ' ' + operator + ' ' + argument1;
-  return [code, Blockly.Python.ORDER_CONDITIONAL];
+  return [code, order];
 };
 
 // Boolean value
