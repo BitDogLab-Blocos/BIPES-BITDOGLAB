@@ -3629,10 +3629,8 @@ Blockly.Blocks['logic_compare'] = {
 // Bloco de operação lógica - E, OU
 Blockly.Blocks['logic_operation'] = {
   init: function() {
-    this.appendValueInput("A")
-        .setCheck("Boolean");
+    this.appendValueInput("A");
     this.appendValueInput("B")
-        .setCheck("Boolean")
         .appendField(new Blockly.FieldDropdown([
           ["E", "AND"],
           ["OU", "OR"]
@@ -3640,7 +3638,7 @@ Blockly.Blocks['logic_operation'] = {
     this.setInputsInline(true);
     this.setOutput(true, "Boolean");
     this.setColour(270);
-    this.setTooltip("Combina duas condições com 'E' ou 'OU'.");
+    this.setTooltip("Combina duas condições com 'E' ou 'OU'. Aceita comparações, verdadeiro/falso e outras expressões lógicas.");
     this.setHelpUrl("");
   }
 };
