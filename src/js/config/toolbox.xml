@@ -240,7 +240,7 @@
   </category>
 
   <!-- 8. NÚMEROS NA MATRIZ -->
-  <category name="🔢 Números na Matriz" colour="#55a855">
+  <category name="🔢 Números na Matriz de LEDs" colour="#55a855">
     <block type="numero_matriz_0"></block>
     <block type="numero_matriz_1"></block>
     <block type="numero_matriz_2"></block>
@@ -254,7 +254,7 @@
   </category>
 
   <!-- 9. EMOJIS NA MATRIZ -->
-  <category name="😊 Emojis na Matriz" colour="#FF8C00">
+  <category name="😊 Emojis na Matriz de LEDs" colour="#FF8C00">
     <block type="emoji_rosto_feliz"></block>
     <block type="emoji_rosto_triste"></block>
     <block type="emoji_rosto_surpreso"></block>
@@ -272,7 +272,7 @@
   </category>
 
   <!-- 10. ANIMAÇÕES DA MATRIZ -->
-  <category name="✨ Animações da Matriz" colour="#8e44ad">
+  <category name="✨ Animações da Matriz de LEDs" colour="#8e44ad">
     <block type="matriz_piscar_rapido"></block>
     <block type="matriz_piscar_lento"></block>
     <block type="matriz_aparecer_sumir"></block>
@@ -309,6 +309,7 @@
   </category>
 
   <!-- 12. NOTAS MUSICAIS -->
+  <!-- FORA DE ÉPOCA — descomentar em dezembro
   <category name="🎼 Notas Musicais" colour="#833471">
     <block type="nota_do"></block>
     <block type="nota_re"></block>
@@ -319,7 +320,6 @@
     <block type="nota_si"></block>
   </category>
 
-  <!-- 13. SONS DE NATAL -->
   <category name="🎄 Sons de Natal" colour="#c0392b">
     <block type="natal_jingle_bells"></block>
     <block type="natal_noite_feliz"></block>
@@ -327,6 +327,7 @@
     <block type="natal_noel"></block>
     <block type="natal_o_vinde"></block>
   </category>
+  -->
 
   <!-- 14. BOTÕES -->
   <category name="🎮 Botões" colour="#ee5a24">
@@ -350,5 +351,7 @@
     <block type="display_criar_borda"></block>
     <block type="display_limpar_borda"></block>
     <block type="display_limpar"></block>
+  </category>
+  <category name="🕹️ Joystick" colour="#e67e22">
   </category>
 </xml>

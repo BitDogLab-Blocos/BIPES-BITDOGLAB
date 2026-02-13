@@ -634,6 +634,10 @@ Code.init = function() {
 
   Code.loadBlocks('');
 
+  // Aumentar largura do flyout (painel de blocos)
+  var flyout = Code.workspace.getFlyout();
+  if (flyout) flyout.width_ = 300;
+
   // Display block reminder notification system
   Code.showDisplayReminder = function() {
     // Check if notification already exists
