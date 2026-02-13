@@ -4840,3 +4840,54 @@ Blockly.Python['criar_desenho_na_matriz'] = function(block) {
   code += '# FIXED_CONFIGURATION: Drawing configured, no need for loop\n';
   return code;
 };
+
+// ==========================================
+// Joystick
+// ==========================================
+Blockly.Python['joystick_controlar_led'] = function(block) {
+  var pins = BitdogLabConfig.PINS;
+  var led = BitdogLabConfig.LED;
+  var joy = BitdogLabConfig.JOYSTICK;
+
+  Blockly.Python.definitions_['import_pin']   = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm']   = 'from machine import PWM';
+  Blockly.Python.definitions_['import_adc']   = 'from machine import ADC';
+  Blockly.Python.definitions_['setup_joy_x']  = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
+  Blockly.Python.definitions_['setup_joy_y']  = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
+  Blockly.Python.definitions_['setup_led_red']   = led.VAR_RED   + ' = PWM(Pin(' + pins.LED_RED   + '), freq=' + led.PWM_FREQ + ')';
+  Blockly.Python.definitions_['setup_led_green'] = led.VAR_GREEN + ' = PWM(Pin(' + pins.LED_GREEN + '), freq=' + led.PWM_FREQ + ')';
+  Blockly.Python.definitions_['setup_led_blue']  = led.VAR_BLUE  + ' = PWM(Pin(' + pins.LED_BLUE  + '), freq=' + led.PWM_FREQ + ')';
+
+  var intensidadeInicial = block.getFieldValue('INTENSIDADE_INICIAL') || '50';
+  Blockly.Python.definitions_['setup_intensidade_joy'] = '_intensidade_joy = ' + intensidadeInicial;
+
+  var cor = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(255, 255, 255)';
+  var dirAumentar = block.getFieldValue('DIR_AUMENTAR');
+  var dirDiminuir = block.getFieldValue('DIR_DIMINUIR');
+
+  var COND = {
+    'UP':    '_jy < ' + (joy.CENTER_VALUE - joy.DEADZONE),
+    'DOWN':  '_jy > ' + (joy.CENTER_VALUE + joy.DEADZONE),
+    'LEFT':  '_jx < ' + (joy.CENTER_VALUE - joy.DEADZONE),
+    'RIGHT': '_jx > ' + (joy.CENTER_VALUE + joy.DEADZONE)
+  };
+
+  var code = '';
+  code += '_jx = joy_x.read_u16()\n';
+  code += '_jy = joy_y.read_u16()\n';
+  code += 'if ' + COND[dirAumentar] + ':\n';
+  code += '  _intensidade_joy = min(100, _intensidade_joy + 2)\n';
+  code += 'if ' + COND[dirDiminuir] + ':\n';
+  code += '  _intensidade_joy = max(0, _intensidade_joy - 2)\n';
+  code += led.VAR_RED   + '.duty_u16(int(' + cor + '[0] * 257 * _intensidade_joy / 100))\n';
+  code += led.VAR_GREEN + '.duty_u16(int(' + cor + '[1] * 257 * _intensidade_joy / 100))\n';
+  code += led.VAR_BLUE  + '.duty_u16(int(' + cor + '[2] * 257 * _intensidade_joy / 100))\n';
+
+  return code;
+};
+
+// Getter: retorna _intensidade_joy como valor (para display, LED, etc.)
+Blockly.Python['joystick_intensidade_atual'] = function(_block) {
+  Blockly.Python.definitions_['setup_intensidade_joy'] = Blockly.Python.definitions_['setup_intensidade_joy'] || '_intensidade_joy = 50';
+  return ['_intensidade_joy', Blockly.Python.ORDER_ATOMIC];
+};

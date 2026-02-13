@@ -3376,6 +3376,44 @@ Blockly.Blocks['botao_se_apertado'] = {
   }
 };
 // ==========================================
+// Category: Joystick
+// ==========================================
+// Bloco 1: Controla LED + atualiza a variável _intensidade_joy
+Blockly.Blocks['joystick_controlar_led'] = {
+  init: function() {
+    var DIRECOES = [["↑ Cima", "UP"], ["↓ Baixo", "DOWN"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
+    this.appendValueInput("COR")
+        .setCheck("Colour")
+        .appendField("🕹️ Joystick controla LED  |  cor:");
+    this.appendDummyInput()
+        .appendField("início:")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "INTENSIDADE_INICIAL")
+        .appendField("%   sobe ao mover:")
+        .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_AUMENTAR")
+        .appendField("  desce ao mover:")
+        .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_DIMINUIR");
+    this.setInputsInline(false);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#e67e22");
+    this.setTooltip("Controla o brilho do LED com o joystick. Escolha a cor, o brilho inicial e as direções. Para mostrar o valor no display, use o bloco '🕹️ intensidade atual %'.");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco 2: Retorna a intensidade atual como valor (para display, LED, etc.)
+Blockly.Blocks['joystick_intensidade_atual'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🕹️ intensidade atual %");
+    this.setOutput(true, "Number");
+    this.setColour("#e67e22");
+    this.setTooltip("Retorna o valor atual da intensidade do joystick (0 a 100%). Use dentro do display para mostrar o brilho, ou em qualquer bloco que aceite número.");
+    this.setHelpUrl("");
+  }
+};
+
+// ==========================================
 // Category: Condicionais (Conditionals)
 // ==========================================
 // Bloco "Se" (If) - estrutura condicional genérica
