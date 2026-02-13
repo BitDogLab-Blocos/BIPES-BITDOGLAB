@@ -309,7 +309,6 @@
   </category>
 
   <!-- 12. NOTAS MUSICAIS -->
-  <!-- FORA DE ÉPOCA — descomentar em dezembro
   <category name="🎼 Notas Musicais" colour="#833471">
     <block type="nota_do"></block>
     <block type="nota_re"></block>
@@ -320,6 +319,7 @@
     <block type="nota_si"></block>
   </category>
 
+  <!-- FORA DE ÉPOCA — descomentar em dezembro
   <category name="🎄 Sons de Natal" colour="#c0392b">
     <block type="natal_jingle_bells"></block>
     <block type="natal_noite_feliz"></block>

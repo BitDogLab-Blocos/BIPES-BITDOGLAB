@@ -3382,17 +3382,21 @@ Blockly.Blocks['botao_se_apertado'] = {
 Blockly.Blocks['joystick_controlar_led'] = {
   init: function() {
     var DIRECOES = [["↑ Cima", "UP"], ["↓ Baixo", "DOWN"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
+    this.appendDummyInput()
+        .appendField("🕹️ Joystick controla LED");
     this.appendValueInput("COR")
         .setCheck("Colour")
-        .appendField("🕹️ Joystick controla LED  |  cor:");
+        .appendField("cor:");
     this.appendDummyInput()
         .appendField("início:")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "INTENSIDADE_INICIAL")
-        .appendField("%   sobe ao mover:")
-        .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_AUMENTAR")
-        .appendField("  desce ao mover:")
+        .appendField("%");
+    this.appendDummyInput()
+        .appendField("sobe ao mover:")
+        .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_AUMENTAR");
+    this.appendDummyInput()
+        .appendField("desce ao mover:")
         .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_DIMINUIR");
-    this.setInputsInline(false);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#e67e22");
