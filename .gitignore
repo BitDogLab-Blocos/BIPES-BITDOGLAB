@@ -57,12 +57,10 @@ logs/
 .env.local
 .env.*.local
 
-# GitHub Actions (deploy manual - remover daqui quando quiser ativar)
-.github/
-
 # Arquivos locais de rascunho/ideias
-joystick_ideias*
+joystick_ideias
 
 # Arquivos de Documentação Temporária (ignora todos .md exceto README.md)
 *.md
 !README.md
+.github
