@@ -4852,11 +4852,14 @@ Blockly.Python['joystick_controlar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin']   = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm']   = 'from machine import PWM';
   Blockly.Python.definitions_['import_adc']   = 'from machine import ADC';
+  Blockly.Python.definitions_['import_i2c']   = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
   Blockly.Python.definitions_['setup_joy_x']  = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
   Blockly.Python.definitions_['setup_joy_y']  = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
   Blockly.Python.definitions_['setup_led_red']   = led.VAR_RED   + ' = PWM(Pin(' + pins.LED_RED   + '), freq=' + led.PWM_FREQ + ')';
   Blockly.Python.definitions_['setup_led_green'] = led.VAR_GREEN + ' = PWM(Pin(' + pins.LED_GREEN + '), freq=' + led.PWM_FREQ + ')';
   Blockly.Python.definitions_['setup_led_blue']  = led.VAR_BLUE  + ' = PWM(Pin(' + pins.LED_BLUE  + '), freq=' + led.PWM_FREQ + ')';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var intensidadeInicial = block.getFieldValue('INTENSIDADE_INICIAL') || '50';
   Blockly.Python.definitions_['setup_intensidade_joy'] = '_intensidade_joy = ' + intensidadeInicial;
@@ -4865,19 +4868,23 @@ Blockly.Python['joystick_controlar_led'] = function(block) {
   var dirAumentar = block.getFieldValue('DIR_AUMENTAR');
   var dirDiminuir = block.getFieldValue('DIR_DIMINUIR');
 
+  // Y é invertido: mover para CIMA diminui o valor (tende a 0), BAIXO aumenta (tende a 65535)
+  // X é invertido: ESQUERDA aumenta (tende a 65535), DIREITA diminui (tende a 0)
   var COND = {
-    'UP':    '_jy < ' + (joy.CENTER_VALUE - joy.DEADZONE),
-    'DOWN':  '_jy > ' + (joy.CENTER_VALUE + joy.DEADZONE),
-    'LEFT':  '_jx < ' + (joy.CENTER_VALUE - joy.DEADZONE),
-    'RIGHT': '_jx > ' + (joy.CENTER_VALUE + joy.DEADZONE)
+    'UP':    '_jy < ' + (joy.CENTER_VALUE - joy.DEADZONE),  // cima = valor baixo
+    'DOWN':  '_jy > ' + (joy.CENTER_VALUE + joy.DEADZONE),  // baixo = valor alto
+    'LEFT':  '_jx > ' + (joy.CENTER_VALUE + joy.DEADZONE),  // esquerda = valor alto
+    'RIGHT': '_jx < ' + (joy.CENTER_VALUE - joy.DEADZONE)   // direita = valor baixo
   };
 
   var code = '';
+  code += 'oled.fill(0)\n';
+  code += '# Joystick: Y invertido (cima=0, baixo=65535) | X invertido (esquerda=65535, direita=0)\n';
   code += '_jx = joy_x.read_u16()\n';
   code += '_jy = joy_y.read_u16()\n';
-  code += 'if ' + COND[dirAumentar] + ':\n';
+  code += 'if ' + COND[dirAumentar] + ':  # sobe intensidade\n';
   code += '  _intensidade_joy = min(100, _intensidade_joy + 2)\n';
-  code += 'if ' + COND[dirDiminuir] + ':\n';
+  code += 'if ' + COND[dirDiminuir] + ':  # desce intensidade\n';
   code += '  _intensidade_joy = max(0, _intensidade_joy - 2)\n';
   code += led.VAR_RED   + '.duty_u16(int(' + cor + '[0] * 257 * _intensidade_joy / 100))\n';
   code += led.VAR_GREEN + '.duty_u16(int(' + cor + '[1] * 257 * _intensidade_joy / 100))\n';
