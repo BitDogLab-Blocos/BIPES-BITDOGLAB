@@ -5,7 +5,7 @@
 
 const BitdogLabConfig = {
 
-  // Pinos GPIO -> MUDE AQUI!
+  // Pinos GPIO -> MUDE AQUI PARA OUTRO HARDWARE
   PINS: {
     LED_RED: 13, LED_GREEN: 11, LED_BLUE: 12,
     BUZZER: 21,

@@ -2601,7 +2601,8 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
   Blockly.Python.definitions_['setup_botoes'] =
     'botao_esquerda = Pin(' + BitdogLabConfig.PINS.BUTTON_A + ', Pin.IN, Pin.PULL_UP)\n' +
     'botao_direita = Pin(' + BitdogLabConfig.PINS.BUTTON_B + ', Pin.IN, Pin.PULL_UP)\n' +
-    'botao_centro = Pin(' + BitdogLabConfig.PINS.BUTTON_C + ', Pin.IN, Pin.PULL_UP)';
+    'botao_centro = Pin(' + BitdogLabConfig.PINS.BUTTON_C + ', Pin.IN, Pin.PULL_UP)\n' +
+    'botao_joystick = Pin(' + BitdogLabConfig.PINS.JOYSTICK_SW + ', Pin.IN, Pin.PULL_UP)';
 
   var botao = block.getFieldValue('BOTAO');
   var linha = block.getFieldValue('LINHA');
@@ -2636,6 +2637,11 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
       nome_botao = 'C';
       contador_var = '_btn_c_count';
       break;
+    case 'JOYSTICK':
+      variavel_botao = 'botao_joystick';
+      nome_botao = 'Joystick';
+      contador_var = '_btn_joystick_count';
+      break;
   }
 
   var code = '';
@@ -2647,9 +2653,11 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
       '_btn_a_count = 0\n' +
       '_btn_b_count = 0\n' +
       '_btn_c_count = 0\n' +
+      '_btn_joystick_count = 0\n' +
       '_btn_a_last_time = 0\n' +
       '_btn_b_last_time = 0\n' +
       '_btn_c_last_time = 0\n' +
+      '_btn_joystick_last_time = 0\n' +
       '_debounce_ms = 300';
 
     // Handler functions (setup section)
@@ -2677,11 +2685,20 @@ Blockly.Python['display_mostrar_estado_botao'] = function(block) {
       '    _btn_c_count += 1\n' +
       '    _btn_c_last_time = current_time';
 
+    Blockly.Python.definitions_['btn_joystick_handler'] =
+      'def _btn_joystick_handler(pin):\n' +
+      '  global _btn_joystick_count, _btn_joystick_last_time\n' +
+      '  current_time = time.ticks_ms()\n' +
+      '  if time.ticks_diff(current_time, _btn_joystick_last_time) > _debounce_ms:\n' +
+      '    _btn_joystick_count += 1\n' +
+      '    _btn_joystick_last_time = current_time';
+
     // IRQ setup (setup section)
     Blockly.Python.definitions_['btn_irq_setup'] =
       'botao_esquerda.irq(trigger=Pin.IRQ_FALLING, handler=_btn_a_handler)\n' +
       'botao_direita.irq(trigger=Pin.IRQ_FALLING, handler=_btn_b_handler)\n' +
-      'botao_centro.irq(trigger=Pin.IRQ_FALLING, handler=_btn_c_handler)';
+      'botao_centro.irq(trigger=Pin.IRQ_FALLING, handler=_btn_c_handler)\n' +
+      'botao_joystick.irq(trigger=Pin.IRQ_FALLING, handler=_btn_joystick_handler)';
   }
 
   // Read button state once
@@ -4559,7 +4576,8 @@ Blockly.Python['botao_enquanto_apertado'] = function(block) {
   Blockly.Python.definitions_['setup_botoes'] =
     'botao_esquerda = Pin(' + BitdogLabConfig.PINS.BUTTON_A + ', Pin.IN, Pin.PULL_UP)\n' +
     'botao_direita = Pin(' + BitdogLabConfig.PINS.BUTTON_B + ', Pin.IN, Pin.PULL_UP)\n' +
-    'botao_centro = Pin(' + BitdogLabConfig.PINS.BUTTON_C + ', Pin.IN, Pin.PULL_UP)';
+    'botao_centro = Pin(' + BitdogLabConfig.PINS.BUTTON_C + ', Pin.IN, Pin.PULL_UP)\n' +
+    'botao_joystick = Pin(' + BitdogLabConfig.PINS.JOYSTICK_SW + ', Pin.IN, Pin.PULL_UP)';
   var botao = block.getFieldValue('BOTAO');
   var variavel_botao;
   switch (botao) {
@@ -4571,6 +4589,9 @@ Blockly.Python['botao_enquanto_apertado'] = function(block) {
       break;
     case 'C':
       variavel_botao = 'botao_centro';
+      break;
+    case 'JOYSTICK':
+      variavel_botao = 'botao_joystick';
       break;
     default:
       variavel_botao = 'botao_esquerda';
@@ -4618,7 +4639,8 @@ Blockly.Python['botao_se_apertado'] = function(block) {
   Blockly.Python.definitions_['setup_botoes'] =
     'botao_esquerda = Pin(' + BitdogLabConfig.PINS.BUTTON_A + ', Pin.IN, Pin.PULL_UP)\n' +
     'botao_direita = Pin(' + BitdogLabConfig.PINS.BUTTON_B + ', Pin.IN, Pin.PULL_UP)\n' +
-    'botao_centro = Pin(' + BitdogLabConfig.PINS.BUTTON_C + ', Pin.IN, Pin.PULL_UP)';
+    'botao_centro = Pin(' + BitdogLabConfig.PINS.BUTTON_C + ', Pin.IN, Pin.PULL_UP)\n' +
+    'botao_joystick = Pin(' + BitdogLabConfig.PINS.JOYSTICK_SW + ', Pin.IN, Pin.PULL_UP)';
 
   var botao = block.getFieldValue('BOTAO');
   var variavel_botao;
@@ -4635,6 +4657,10 @@ Blockly.Python['botao_se_apertado'] = function(block) {
     case 'C':
       variavel_botao = 'botao_centro';
       nome_botao = 'centro';
+      break;
+    case 'JOYSTICK':
+      variavel_botao = 'botao_joystick';
+      nome_botao = 'joystick';
       break;
     default:
       variavel_botao = 'botao_esquerda';
