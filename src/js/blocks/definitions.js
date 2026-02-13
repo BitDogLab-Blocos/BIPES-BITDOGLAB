@@ -2530,7 +2530,8 @@ Blockly.Blocks['display_mostrar_estado_botao'] = {
         .appendField(new Blockly.FieldDropdown([
           ["A", "A"],
           ["B", "B"],
-          ["C", "C"]
+          ["C", "C"],
+          ["Joystick", "JOYSTICK"]
         ]), "BOTAO")
         .appendField("foi apertado")
         .appendField("linha")
@@ -3345,7 +3346,7 @@ Blockly.Blocks['botao_enquanto_apertado'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("🎮 Enquanto pressionar o botão")
-        .appendField(new Blockly.FieldDropdown([["🔴 A (Vermelho)", "A"], ["🔵 B (Azul)", "B"], ["🟢 C (Verde)", "C"]]), "BOTAO")
+        .appendField(new Blockly.FieldDropdown([["🔴 A (Vermelho)", "A"], ["🔵 B (Azul)", "B"], ["🟢 C (Verde)", "C"], ["🕹️ Joystick", "JOYSTICK"]]), "BOTAO")
         .appendField("😊 fazer:");
     this.appendStatementInput("DO")
         .setCheck(null);
@@ -3364,7 +3365,7 @@ Blockly.Blocks['botao_se_apertado'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("🎮 Se o botão for pressionado")
-        .appendField(new Blockly.FieldDropdown([["🔴 A (Vermelho)", "A"], ["🔵 B (Azul)", "B"], ["🟢 C (Verde)", "C"]]), "BOTAO")
+        .appendField(new Blockly.FieldDropdown([["🔴 A (Vermelho)", "A"], ["🔵 B (Azul)", "B"], ["🟢 C (Verde)", "C"], ["🕹️ Joystick", "JOYSTICK"]]), "BOTAO")
         .appendField("Ação acontece:");
     this.appendStatementInput("DO")
         .setCheck(null);
@@ -3372,200 +3373,6 @@ Blockly.Blocks['botao_se_apertado'] = {
     this.setNextStatement(true, null);
     this.setColour("#ee5a24");
     this.setTooltip("Quando você pressionar o botão, acontece uma vez!");
-  }
-};
-// ==========================================
-// Category: Joystick
-// ==========================================
-// Base block: Read X axis
-Blockly.Blocks['joystick_ler_x'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🕹️ Posição X do joystick");
-    this.setOutput(true, "Number");
-    this.setColour("#e67e22");
-    this.setTooltip("Lê o eixo X (horizontal) do joystick. Retorna um valor de 0 a 65535. Centro ≈ 32768.");
-  }
-};
-// Base block: Read Y axis
-Blockly.Blocks['joystick_ler_y'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🕹️ Posição Y do joystick");
-    this.setOutput(true, "Number");
-    this.setColour("#e67e22");
-    this.setTooltip("Lê o eixo Y (vertical) do joystick. Retorna um valor de 0 a 65535. Centro ≈ 32768.");
-  }
-};
-// Base block: Read button
-Blockly.Blocks['joystick_ler_botao'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🕹️ Botão do joystick pressionado?");
-    this.setOutput(true, "Boolean");
-    this.setColour("#e67e22");
-    this.setTooltip("Verifica se o botão central do joystick está pressionado. Retorna verdadeiro ou falso.");
-  }
-};
-// Base block: Get direction
-Blockly.Blocks['joystick_direcao'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🕹️ Direção do joystick");
-    this.setOutput(true, "String");
-    this.setColour("#e67e22");
-    this.setTooltip("Retorna a direção do joystick: 'cima', 'baixo', 'esquerda', 'direita' ou 'centro'.");
-  }
-};
-// Base block: Map value to range
-Blockly.Blocks['joystick_mapear'] = {
-  init: function() {
-    this.appendValueInput("VALOR")
-        .setCheck("Number")
-        .appendField("🕹️ Mapear");
-    this.appendDummyInput()
-        .appendField("de 0-65535 para");
-    this.appendValueInput("MIN_OUT")
-        .setCheck("Number");
-    this.appendDummyInput()
-        .appendField("até");
-    this.appendValueInput("MAX_OUT")
-        .setCheck("Number");
-    this.setInputsInline(true);
-    this.setOutput(true, "Number");
-    this.setColour("#e67e22");
-    this.setTooltip("Converte o valor do joystick (0-65535) para outro intervalo. Ex: 0-128 para display, 0-4 para matriz.");
-  }
-};
-// Project block: Zoom Interativo
-Blockly.Blocks['joystick_zoom_interativo'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🔍 Zoom interativo no display");
-    this.appendDummyInput()
-        .appendField("  Tamanho base:")
-        .appendField(new Blockly.FieldDropdown([["10px", "10"], ["15px", "15"], ["20px", "20"]]), "TAMANHO")
-        .appendField("  Mostrar fator na linha")
-        .appendField(new Blockly.FieldDropdown([["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"]]), "LINHA");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#e67e22");
-    this.setTooltip("Mova o joystick para cima/baixo para aumentar/diminuir o zoom de um objeto no display OLED.");
-  }
-};
-// Project block: Mover Player
-Blockly.Blocks['joystick_mover_player'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🕹️ Mover player no display");
-    this.appendDummyInput()
-        .appendField("  Tamanho:")
-        .appendField(new Blockly.FieldDropdown([["4px", "4"], ["6px", "6"], ["8px", "8"], ["10px", "10"]]), "TAMANHO")
-        .appendField("  Velocidade:")
-        .appendField(new Blockly.FieldDropdown([["Lenta", "1"], ["Normal", "2"], ["Rápida", "3"]]), "VELOCIDADE");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#e67e22");
-    this.setTooltip("Controle um quadrado na tela do display OLED usando o joystick. O player não sai das bordas!");
-  }
-};
-// Project block: Lousa Mágica
-Blockly.Blocks['joystick_lousa_magica'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("✍️ Lousa Mágica (Etch A Sketch)");
-    this.appendDummyInput()
-        .appendField("  Espessura do traço:")
-        .appendField(new Blockly.FieldDropdown([["Fina (1px)", "1"], ["Média (2px)", "2"], ["Grossa (3px)", "3"]]), "ESPESSURA");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#e67e22");
-    this.setTooltip("Desenhe livremente no display OLED movendo o joystick. Pressione o botão do joystick para apagar tudo!");
-  }
-};
-// Project block: Seletor de Emoji
-Blockly.Blocks['joystick_seletor_emoji'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🎭 Seletor de emoji sincronizado");
-    this.appendDummyInput()
-        .appendField("  Mostrar nome na linha")
-        .appendField(new Blockly.FieldDropdown([["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"]]), "LINHA")
-        .appendField("  Brilho:")
-        .appendField(new Blockly.FieldDropdown([["Baixo", "20"], ["Médio", "50"], ["Alto", "80"]]), "BRILHO");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#e67e22");
-    this.setTooltip("Mova o joystick para cima/baixo para navegar entre emojis. Mostra o nome no Display e o desenho na Matriz!");
-  }
-};
-// Project block: Theremin Digital
-Blockly.Blocks['joystick_theremin'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🎛️ Theremin digital");
-    this.appendDummyInput()
-        .appendField("  Freq. mínima:")
-        .appendField(new Blockly.FieldNumber(200, 100, 1000), "FREQ_MIN")
-        .appendField("Hz  Freq. máxima:")
-        .appendField(new Blockly.FieldNumber(2000, 500, 5000), "FREQ_MAX")
-        .appendField("Hz");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#e67e22");
-    this.setTooltip("Instrumento musical! Eixo Y controla a frequência (notas), eixo X controla o volume. Barra visual no display.");
-  }
-};
-// Project block: Cursor Matriz 5x5
-Blockly.Blocks['joystick_cursor_matriz'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("💡 Cursor na Matriz 5x5");
-    this.appendValueInput("COR")
-        .setCheck("Colour")
-        .appendField("  Cor:");
-    this.appendDummyInput()
-        .appendField("  Brilho:")
-        .appendField(new Blockly.FieldDropdown([["Baixo", "20"], ["Médio", "50"], ["Alto", "80"], ["Máximo", "100"]]), "BRILHO");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#e67e22");
-    this.setTooltip("Mova um LED pela Matriz 5x5 usando o joystick. O joystick analógico é convertido em posições discretas (0-4).");
-  }
-};
-// Project block: Snake Game
-Blockly.Blocks['joystick_snake'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🐍 Jogo da Cobrinha na Matriz");
-    this.appendDummyInput()
-        .appendField("  Velocidade:")
-        .appendField(new Blockly.FieldDropdown([["Lenta", "500"], ["Normal", "300"], ["Rápida", "150"]]), "VELOCIDADE")
-        .appendField("  Cor cobra:")
-        .appendField(new Blockly.FieldDropdown([["Verde", "GREEN"], ["Azul", "BLUE"], ["Branco", "WHITE"]]), "COR_COBRA");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#e67e22");
-    this.setTooltip("Jogo da cobrinha clássico na Matriz 5x5! Controle com joystick, coma a comida para crescer. Game over se bater na borda!");
-  }
-};
-// Project block: Pintar Matriz
-Blockly.Blocks['joystick_pintar_matriz'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🎨 Pintar na Matriz 5x5");
-    this.appendValueInput("COR")
-        .setCheck("Colour")
-        .appendField("  Cor do pincel:");
-    this.appendDummyInput()
-        .appendField("  Brilho:")
-        .appendField(new Blockly.FieldDropdown([["Baixo", "20"], ["Médio", "50"], ["Alto", "80"]]), "BRILHO");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#e67e22");
-    this.setTooltip("Pinte na Matriz 5x5! Mova com joystick, pressione o botão para alternar entre pintar e mover. Os pixels pintados ficam acesos!");
   }
 };
 // ==========================================
