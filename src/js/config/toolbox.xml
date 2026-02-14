@@ -338,7 +338,6 @@
   <!-- 15. DISPLAY OLED -->
   <category name="📺 Display OLED" colour="#16a085">
     <block type="display_testar_conexao"></block>
-    <block type="display_show"></block>
     <block type="display_texto"></block>
     <block type="display_piscar_texto"></block>
     <block type="display_mostrar_calculo"></block>
@@ -357,5 +356,8 @@
     <block type="joystick_intensidade_atual"></block>
     <block type="joystick_controlar_buzzer"></block>
     <block type="joystick_frequencia_atual"></block>
+    <block type="joystick_mover_player"></block>
+    <block type="joystick_posicao_x"></block>
+    <block type="joystick_posicao_y"></block>
   </category>
 </xml>
