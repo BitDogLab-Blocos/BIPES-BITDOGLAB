@@ -92,9 +92,11 @@ const BitdogLabConfig = {
              line.startsWith('_btn_a_count') ||
              line.startsWith('_btn_b_count') ||
              line.startsWith('_btn_c_count') ||
+             line.startsWith('_btn_joystick_count') ||
              line.startsWith('_btn_a_last_time') ||
              line.startsWith('_btn_b_last_time') ||
              line.startsWith('_btn_c_last_time') ||
+             line.startsWith('_btn_joystick_last_time') ||
              line.startsWith('_debounce_ms') ||
              line.indexOf('.irq(trigger=') !== -1 ||
              line.indexOf(' = ADC(') !== -1 ||
@@ -103,7 +105,17 @@ const BitdogLabConfig = {
              line.startsWith('_joy_') ||
              line.startsWith('_intensidade_joy') ||
              line.startsWith('_freq_joy') ||
-             line.startsWith('_buzzer_mudo');
+             line.startsWith('_buzzer_mudo') ||
+             line.startsWith('_player_size') ||
+             line === '_px = 0' ||
+             line === '_py = 0' ||
+             line.startsWith('EMOJI_NAMES =') ||
+             (line.startsWith('_matriz_') && (
+               line.endsWith(' = "OFF"') ||
+               line.endsWith(' = ""') ||
+               line.endsWith(' = (0, 0, 0)') ||
+               line.endsWith(' = 0') ||
+               line.endsWith(' = False')));
     }
   }
 };

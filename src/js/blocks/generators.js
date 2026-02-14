@@ -5,6 +5,33 @@
 
 console.log('[BitdogLab] Loading basic code generators...');
 
+// Helper: get buzzer display config, scanning workspace as fallback if not yet set
+// This ensures sound blocks work regardless of whether display_mostrar_status_buzzer
+// is placed above or below them in the workspace
+function _getBuzzerDisplayConfig() {
+  if (Blockly.Python.buzzerDisplayConfig) {
+    return Blockly.Python.buzzerDisplayConfig;
+  }
+  // Lazy scan: look for display_mostrar_status_buzzer block in the workspace
+  try {
+    var ws = Blockly.getMainWorkspace();
+    if (!ws) return null;
+    var blocks = ws.getAllBlocks();
+    var yPos = {'1': 8, '2': 18, '3': 28, '4': 38, '5': 48};
+    for (var _bi = 0; _bi < blocks.length; _bi++) {
+      if (blocks[_bi].type === 'display_mostrar_status_buzzer') {
+        Blockly.Python.buzzerDisplayConfig = {
+          line:     yPos[blocks[_bi].getFieldValue('LINHA')],
+          freqLine: yPos[blocks[_bi].getFieldValue('LINHA_FREQ')],
+          showFreq: blocks[_bi].getFieldValue('MOSTRAR_FREQUENCIA') === 'TRUE'
+        };
+        return Blockly.Python.buzzerDisplayConfig;
+      }
+    }
+  } catch(e) {}
+  return null;
+}
+
 // ==========================================
 // REPETITION GENERATORS
 // ==========================================
@@ -938,8 +965,8 @@ Blockly.Python['tocar_nota'] = function(block) {
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
 
   // Update display while playing (if buzzer display is configured)
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
     // Calculate iterations based on duration (100ms per iteration)
     var iterations = Math.max(1, Math.floor(duration / 100));
     code += 'for _i in range(' + iterations + '):\n';
@@ -997,8 +1024,8 @@ Blockly.Python['tocar_som_agudo'] = function(block) {
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
 
   // Update display while playing (if buzzer display is configured)
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
     // Calculate iterations based on duration (100ms per iteration)
     var iterations = Math.max(1, Math.floor(duration / 100));
     code += 'for _i in range(' + iterations + '):\n';
@@ -1093,8 +1120,8 @@ Blockly.Python['bipe_curto'] = function(block) {
   code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
 
   // Update display during playback (if buzzer display is configured)
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
     code += 'for _i in range(1):\n';
     code += '  try:\n';
     code += '    _buzzer_duty = buzzer.duty_u16()\n';
@@ -1144,8 +1171,8 @@ Blockly.Python['bipe_duplo'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
   var code = '# SOUND_BLOCK_START\n';
 
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
 
     // First beep
     code += 'buzzer.duty_u16(0)\n';
@@ -1222,8 +1249,8 @@ Blockly.Python['alerta_intermitente'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
   var code = '# SOUND_BLOCK_START\n';
 
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
     code += 'buzzer.duty_u16(0)\n';
     code += 'time.sleep_ms(50)\n';
     code += 'buzzer.freq(2000)\n';
@@ -1275,8 +1302,8 @@ Blockly.Python['chamada'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
   var code = '# SOUND_BLOCK_START\n';
 
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
     var frequencies = [440, 523];
 
     code += 'buzzer.duty_u16(0)\n';
@@ -1333,8 +1360,8 @@ Blockly.Python['som_de_moeda'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
   var code = '# SOUND_BLOCK_START\n';
 
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
 
     code += 'buzzer.duty_u16(0)\n';
     code += 'time.sleep_ms(50)\n';
@@ -1403,8 +1430,8 @@ Blockly.Python['som_de_sucesso'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
   var code = '# SOUND_BLOCK_START\n';
 
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
     var frequencies = [392, 440, 494, 523];
 
     code += 'buzzer.duty_u16(0)\n';
@@ -1469,8 +1496,8 @@ Blockly.Python['som_de_falha'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
   var code = '# SOUND_BLOCK_START\n';
 
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
     var frequencies = [392, 370, 349];
 
     code += 'buzzer.duty_u16(0)\n';
@@ -1529,8 +1556,8 @@ Blockly.Python['som_de_laser'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
   var code = '# SOUND_BLOCK_START\n';
 
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
     var frequencies = [2000, 1000, 500];
 
     code += 'buzzer.duty_u16(0)\n';
@@ -1589,8 +1616,8 @@ Blockly.Python['sirene_policial'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
   var code = '# SOUND_BLOCK_START\n';
 
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
 
     code += 'buzzer.duty_u16(0)\n';
     code += 'time.sleep_ms(50)\n';
@@ -1661,8 +1688,8 @@ Blockly.Python['escala_musical_sobe'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
   var code = '# SOUND_BLOCK_START\n';
 
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
     var frequencies = [262, 294, 330, 349, 392, 440, 494, 523];
 
     code += 'buzzer.duty_u16(0)\n';
@@ -1723,8 +1750,8 @@ Blockly.Python['escala_musical_desce'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
   var code = '# SOUND_BLOCK_START\n';
 
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
     var frequencies = [523, 494, 440, 392, 349, 330, 294, 262];
 
     code += 'buzzer.duty_u16(0)\n';
@@ -1785,8 +1812,8 @@ Blockly.Python['brilha_brilha_estrelinha'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
   var code = '# SOUND_BLOCK_START\n';
 
-  if (Blockly.Python.buzzerDisplayConfig) {
-    var cfg = Blockly.Python.buzzerDisplayConfig;
+  var cfg = _getBuzzerDisplayConfig();
+  if (cfg) {
     var notes = [
       {freq: 392, duration: 400},
       {freq: 392, duration: 400},
@@ -1884,7 +1911,7 @@ Blockly.Python['natal_jingle_bells'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
 
   // Check if buzzer display is configured
-  var hasDisplay = Blockly.Python.buzzerDisplayConfig;
+  var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
     Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
     Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
@@ -1901,7 +1928,7 @@ Blockly.Python['natal_jingle_bells'] = function(block) {
   var playNote = function(freq, duration) {
     var noteCode = 'buzzer.freq(' + freq + ')\n';
     if (hasDisplay) {
-      var cfg = Blockly.Python.buzzerDisplayConfig;
+      var cfg = hasDisplay;
       var iterations = Math.max(1, Math.floor(duration / 100));
       noteCode += 'for _i in range(' + iterations + '):\n';
       noteCode += '  try:\n';
@@ -1949,7 +1976,7 @@ Blockly.Python['natal_noite_feliz'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
 
   // Check if buzzer display is configured
-  var hasDisplay = Blockly.Python.buzzerDisplayConfig;
+  var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
     Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
     Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
@@ -1966,7 +1993,7 @@ Blockly.Python['natal_noite_feliz'] = function(block) {
   var playNote = function(freq, duration) {
     var noteCode = 'buzzer.freq(' + freq + ')\n';
     if (hasDisplay) {
-      var cfg = Blockly.Python.buzzerDisplayConfig;
+      var cfg = hasDisplay;
       var iterations = Math.max(1, Math.floor(duration / 100));
       noteCode += 'for _i in range(' + iterations + '):\n';
       noteCode += '  try:\n';
@@ -2018,7 +2045,7 @@ Blockly.Python['natal_bate_sino'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
 
   // Check if buzzer display is configured
-  var hasDisplay = Blockly.Python.buzzerDisplayConfig;
+  var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
     Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
     Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
@@ -2035,7 +2062,7 @@ Blockly.Python['natal_bate_sino'] = function(block) {
   var playNote = function(freq, duration) {
     var noteCode = 'buzzer.freq(' + freq + ')\n';
     if (hasDisplay) {
-      var cfg = Blockly.Python.buzzerDisplayConfig;
+      var cfg = hasDisplay;
       var iterations = Math.max(1, Math.floor(duration / 100));
       noteCode += 'for _i in range(' + iterations + '):\n';
       noteCode += '  try:\n';
@@ -2084,7 +2111,7 @@ Blockly.Python['natal_noel'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
 
   // Check if buzzer display is configured
-  var hasDisplay = Blockly.Python.buzzerDisplayConfig;
+  var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
     Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
     Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
@@ -2101,7 +2128,7 @@ Blockly.Python['natal_noel'] = function(block) {
   var playNote = function(freq, duration) {
     var noteCode = 'buzzer.freq(' + freq + ')\n';
     if (hasDisplay) {
-      var cfg = Blockly.Python.buzzerDisplayConfig;
+      var cfg = hasDisplay;
       var iterations = Math.max(1, Math.floor(duration / 100));
       noteCode += 'for _i in range(' + iterations + '):\n';
       noteCode += '  try:\n';
@@ -2153,7 +2180,7 @@ Blockly.Python['natal_o_vinde'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
 
   // Check if buzzer display is configured
-  var hasDisplay = Blockly.Python.buzzerDisplayConfig;
+  var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
     Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
     Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
@@ -2170,7 +2197,7 @@ Blockly.Python['natal_o_vinde'] = function(block) {
   var playNote = function(freq, duration) {
     var noteCode = 'buzzer.freq(' + freq + ')\n';
     if (hasDisplay) {
-      var cfg = Blockly.Python.buzzerDisplayConfig;
+      var cfg = hasDisplay;
       var iterations = Math.max(1, Math.floor(duration / 100));
       noteCode += 'for _i in range(' + iterations + '):\n';
       noteCode += '  try:\n';
@@ -3135,7 +3162,7 @@ Blockly.Python['criar_melodia'] = function(block) {
   var code = '# SOUND_BLOCK_START\n';
 
   // Check if buzzer display is configured
-  var hasDisplay = Blockly.Python.buzzerDisplayConfig;
+  var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
     Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
     Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
@@ -3160,7 +3187,7 @@ Blockly.Python['criar_melodia'] = function(block) {
 
     // Update display if configured
     if (hasDisplay) {
-      var cfg = Blockly.Python.buzzerDisplayConfig;
+      var cfg = hasDisplay;
       code += 'try:\n';
       code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
       code += '  oled.text("Som: TOCANDO", 3, ' + cfg.line + ', 1)\n';
@@ -3178,7 +3205,7 @@ Blockly.Python['criar_melodia'] = function(block) {
 
     // Update display to show MUDO between notes
     if (hasDisplay && i < block.noteSteps_ - 1) {
-      var cfg = Blockly.Python.buzzerDisplayConfig;
+      var cfg = hasDisplay;
       code += 'try:\n';
       code += '  oled.fill_rect(0, ' + cfg.line + ', 128, 8, 0)\n';
       code += '  oled.text("Som: MUDO", 3, ' + cfg.line + ', 1)\n';
@@ -4978,4 +5005,46 @@ Blockly.Python['joystick_controlar_buzzer'] = function(block) {
 Blockly.Python['joystick_frequencia_atual'] = function(_block) {
   Blockly.Python.definitions_['setup_freq_joy'] = Blockly.Python.definitions_['setup_freq_joy'] || '_freq_joy = 1000';
   return ['_freq_joy', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Bloco: Joystick mover player no display
+Blockly.Python['joystick_mover_player'] = function(block) {
+  var pins = BitdogLabConfig.PINS;
+  var display = BitdogLabConfig.DISPLAY;
+
+  Blockly.Python.definitions_['import_pin']     = 'from machine import Pin';
+  Blockly.Python.definitions_['import_adc']     = 'from machine import ADC';
+  Blockly.Python.definitions_['import_i2c']     = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_joy_x']    = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
+  Blockly.Python.definitions_['setup_joy_y']    = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
+  Blockly.Python.definitions_['setup_display']  = 'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\noled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+
+  var tamanho = block.getFieldValue('TAMANHO') || '5';
+  Blockly.Python.definitions_['setup_player_size'] = '_player_size = ' + tamanho;
+  Blockly.Python.definitions_['setup_px'] = '_px = 0';
+  Blockly.Python.definitions_['setup_py'] = '_py = 0';
+
+  var code = '';
+  code += 'oled.fill(0)\n';
+  code += '_jx = joy_x.read_u16()\n';
+  code += '_jy = joy_y.read_u16()\n';
+  code += '# X invertido (esquerda=65535, direita=0) | Y invertido (cima=0, baixo=65535)\n';
+  code += '_px = (65535 - _jx) * (' + display.WIDTH + ' - _player_size) // 65535\n';
+  code += '_py = _jy * (' + display.HEIGHT + ' - _player_size) // 65535\n';
+  code += 'oled.fill_rect(_px, _py, _player_size, _player_size, 1)\n';
+
+  return code;
+};
+
+// Getter: retorna posição X do player
+Blockly.Python['joystick_posicao_x'] = function(_block) {
+  Blockly.Python.definitions_['setup_px'] = Blockly.Python.definitions_['setup_px'] || '_px = 0';
+  return ['_px', Blockly.Python.ORDER_ATOMIC];
+};
+
+// Getter: retorna posição Y do player
+Blockly.Python['joystick_posicao_y'] = function(_block) {
+  Blockly.Python.definitions_['setup_py'] = Blockly.Python.definitions_['setup_py'] || '_py = 0';
+  return ['_py', Blockly.Python.ORDER_ATOMIC];
 };

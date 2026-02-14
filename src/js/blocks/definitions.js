@@ -3459,6 +3459,47 @@ Blockly.Blocks['joystick_frequencia_atual'] = {
   }
 };
 
+// Bloco 5: Mover player no display com joystick
+Blockly.Blocks['joystick_mover_player'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🕹️ Joystick mover no Display");
+    this.appendDummyInput()
+        .appendField("tamanho do player:")
+        .appendField(new Blockly.FieldNumber(5, 2, 20), "TAMANHO")
+        .appendField("px");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#1565c0");
+    this.setTooltip("Move um quadrado pela tela OLED usando o joystick. O player bate nas bordas e não sai da tela.");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco 6: Retorna a posição X do player
+Blockly.Blocks['joystick_posicao_x'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🕹️ Posição X");
+    this.setOutput(true, "Number");
+    this.setColour("#1565c0");
+    this.setTooltip("Retorna a posição X atual do player no display (0 a 128).");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco 7: Retorna a posição Y do player
+Blockly.Blocks['joystick_posicao_y'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🕹️ Posição Y");
+    this.setOutput(true, "Number");
+    this.setColour("#1565c0");
+    this.setTooltip("Retorna a posição Y atual do player no display (0 a 64).");
+    this.setHelpUrl("");
+  }
+};
+
 // ==========================================
 // Category: Condicionais (Conditionals)
 // ==========================================

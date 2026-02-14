@@ -489,6 +489,70 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     }
   }
 
+  // Auto-inject oled.show() after groups of consecutive oled.* commands
+  var processedAction = [];
+  var inOledGroup = false;
+  // lastContextIndent tracks the minimum indent seen from transparent lines after a group
+  // opens. This handles display_dashboard_matriz which wraps each line in try/except:
+  // oled cmds are at indent 2 (inside try), but except: is at indent 0 — so the injected
+  // oled.show() must be at indent 0 (outside the except block), not at indent 2.
+  var lastContextIndent = '';
+
+  for (var k = 0; k < actionCode.length; k++) {
+    var aLine = actionCode[k];
+    var aTrimmed = aLine.trim();
+
+    var isOledCmd = aTrimmed.startsWith('oled.') && aTrimmed !== 'oled.show()';
+    var isOledShow = aTrimmed === 'oled.show()';
+
+    // Group breakers: time.sleep and control flow keywords
+    // NOTE: try/except/finally are NOT breakers — display_dashboard_matriz uses try/except
+    // per line, and breaking there would cause multiple oled.show() per loop (flickering)
+    var isBreaker = false;
+    if (aTrimmed.indexOf('time.sleep') !== -1) isBreaker = true;
+    if (aTrimmed.startsWith('if ') || aTrimmed.startsWith('for ') ||
+        aTrimmed.startsWith('while ') || aTrimmed.startsWith('elif ') ||
+        aTrimmed === 'else:') isBreaker = true;
+
+    if (isOledShow) {
+      // oled.show() terminates the group (no duplicate)
+      inOledGroup = false;
+      processedAction.push(aLine);
+    } else if (isBreaker && inOledGroup) {
+      var breakerIndent = aLine.match(/^(\s*)/)[1];
+      var showIndent = breakerIndent.length <= lastContextIndent.length ? breakerIndent : lastContextIndent;
+      processedAction.push(showIndent + 'oled.show()');
+      inOledGroup = false;
+      processedAction.push(aLine);
+    } else if (isOledCmd) {
+      var oledIndent = aLine.match(/^(\s*)/)[1];
+      if (!inOledGroup) {
+        // New group starting — initialize context indent to the oled command's indent
+        lastContextIndent = oledIndent;
+      }
+      inOledGroup = true;
+      processedAction.push(aLine);
+    } else {
+      // Transparent line — if we're in a group, track indent drops (e.g. except: at indent 0
+      // after oled cmds at indent 2 signals we've exited the try block)
+      if (inOledGroup && aTrimmed !== '') {
+        var tIndent = aLine.match(/^(\s*)/)[1];
+        if (tIndent.length < lastContextIndent.length) {
+          lastContextIndent = tIndent;
+        }
+      }
+      processedAction.push(aLine);
+    }
+  }
+
+  // End of code - close any open oled group using lastContextIndent (not lastOledIndent)
+  // to avoid injecting oled.show() inside a try/except block
+  if (inOledGroup) {
+    processedAction.push(lastContextIndent + 'oled.show()');
+  }
+
+  actionCode = processedAction;
+
   // Build final code structure
   var finalCode = '';
 
@@ -573,6 +637,24 @@ Code.generateCode = function (generator = Blockly.Python) {
   if (Code.auto_mode || this.constructor.name != 'Window') { // Auto mode OR direct call (not from setInterval)
     if (Code.checkAllGeneratorFunctionsDefined(generator)) {
       if (generator.name_ == "Python") {
+        // Pre-scan workspace for display_mostrar_status_buzzer so sound blocks
+        // always find the config regardless of block order in the workspace
+        generator.buzzerDisplayConfig = null;
+        var allBlocks = Code.workspace.getAllBlocks();
+        for (var bi = 0; bi < allBlocks.length; bi++) {
+          if (allBlocks[bi].type === 'display_mostrar_status_buzzer') {
+            var yPositions = {'1': 8, '2': 18, '3': 28, '4': 38, '5': 48};
+            var linha = allBlocks[bi].getFieldValue('LINHA');
+            var mostrarFrequencia = allBlocks[bi].getFieldValue('MOSTRAR_FREQUENCIA') === 'TRUE';
+            var linhaFreq = allBlocks[bi].getFieldValue('LINHA_FREQ');
+            generator.buzzerDisplayConfig = {
+              line: yPositions[linha],
+              freqLine: yPositions[linhaFreq],
+              showFreq: mostrarFrequencia
+            };
+            break;
+          }
+        }
         var rawCode = generator.workspaceToCode(Code.workspace);
         var finalCode = Code.wrapWithInfiniteLoop(rawCode);
 
@@ -647,60 +729,7 @@ Code.init = function() {
   var flyout = Code.workspace.getFlyout();
   if (flyout) flyout.width_ = 300;
 
-  // Display block reminder notification system
-  Code.showDisplayReminder = function() {
-    // Check if notification already exists
-    if (document.getElementById('displayReminderNotification')) {
-      return; // Don't show multiple notifications
-    }
-
-    // Create notification element
-    var notification = document.createElement('div');
-    notification.id = 'displayReminderNotification';
-    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #ff9800; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 450px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
-    notification.innerHTML = '<button id="closeDisplayNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
-      '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
-      '🖊️ Os blocos de display <strong>preparam</strong> o que vai aparecer.<br><br>' +
-      '🎨 Use <strong>"Atualizar Display"</strong> quando quiser <strong>VER a mudança</strong> na tela!<br><br>' +
-      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
-      '<strong>📝 Exemplo - Fazer texto piscar:</strong><br>' +
-      '1️⃣ ✏️ Escrever "Olá"<br>' +
-      '2️⃣ 🎨 Atualizar Display <small>(agora aparece!)</small><br>' +
-      '3️⃣ ⏱️ Esperar 2 segundos<br>' +
-      '4️⃣ 🧹 Apagar display<br>' +
-      '5️⃣ 🎨 Atualizar Display <small>(agora some!)</small><br>' +
-      '</div>';
-
-    document.body.appendChild(notification);
-
-    // Add close button functionality
-    document.getElementById('closeDisplayNotification').addEventListener('click', function() {
-      if (notification && notification.parentNode) {
-        notification.style.animation = 'slideOut 0.3s ease-in';
-        setTimeout(function() {
-          if (notification && notification.parentNode) {
-            notification.parentNode.removeChild(notification);
-          }
-        }, 300);
-      }
-    });
-
-    // Add hover effect to close button
-    var closeBtn = document.getElementById('closeDisplayNotification');
-    closeBtn.addEventListener('mouseenter', function() {
-      this.style.background = 'rgba(0,0,0,0.4)';
-    });
-    closeBtn.addEventListener('mouseleave', function() {
-      this.style.background = 'rgba(0,0,0,0.2)';
-    });
-
-    // Add slide-in animation
-    var style = document.createElement('style');
-    style.textContent = '@keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }';
-    document.head.appendChild(style);
-
-    // Notification stays until user closes it (no auto-remove)
-  };
+  // Display reminder removed - auto oled.show() handles display updates automatically
 
   // Joystick getter reminder notification system
   Code.showJoystickGetterReminder = function(blockType) {
@@ -724,7 +753,6 @@ Code.init = function() {
       '<strong>📝 Exemplo:</strong><br>' +
       '1️⃣ 🕹️ Joystick controla LED <small>(ou Buzzer)</small><br>' +
       '2️⃣ 📊 Mostrar valor: <strong>[' + nomeBloco + ']</strong> linha 1<br>' +
-      '3️⃣ 📺 Atualizar Display <small>(agora aparece na tela!)</small><br>' +
       '</div>';
 
     document.body.appendChild(notification);
@@ -760,30 +788,12 @@ Code.init = function() {
       var block = Code.workspace.getBlockById(event.blockId);
       if (block) {
         var blockType = block.type;
-        // List of display blocks that need the reminder
-        var displayBlocks = [
-          'display_texto',
-          'display_criar_borda',
-          'display_limpar_borda',
-          'display_limpar',
-          'display_mostrar_calculo',
-          'display_mostrar_valor',
-          'display_mostrar_estado_led',
-          'display_mostrar_estado_botao',
-          'display_mostrar_status_buzzer',
-          'display_dashboard_matriz',
-          'cronometro_mostrar',
-          'display_mostrar_tempo_ligado'
-        ];
-
         var joystickGetterBlocks = [
           'joystick_intensidade_atual',
-          'joystick_frequencia_atual'
+          'joystick_frequencia_atual',
+          'joystick_posicao_x',
+          'joystick_posicao_y'
         ];
-
-        if (displayBlocks.indexOf(blockType) !== -1) {
-          Code.showDisplayReminder();
-        }
 
         if (joystickGetterBlocks.indexOf(blockType) !== -1) {
           Code.showJoystickGetterReminder(blockType);
