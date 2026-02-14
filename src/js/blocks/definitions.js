@@ -3452,7 +3452,7 @@ Blockly.Blocks['joystick_frequencia_atual'] = {
         .appendField("🕹️ Frequência Buzzer Hz");
     this.setOutput(true, "Number");
     this.setColour("#1565c0");
-    this.setTooltip("Retorna a frequência atual do buzzer controlado pelo joystick (100 a 4000 Hz).");
+    this.setTooltip("Retorna a frequência atual do buzzer controlado pelo joystick (200 a 4000 Hz).");
     this.setHelpUrl("");
   }
 };
