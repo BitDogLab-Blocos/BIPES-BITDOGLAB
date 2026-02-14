@@ -4929,7 +4929,6 @@ Blockly.Python['joystick_controlar_led'] = function(block) {
   };
 
   var code = '';
-  code += 'oled.fill(0)\n';
   code += '# Joystick: Y invertido (cima=0, baixo=65535) | X invertido (esquerda=65535, direita=0)\n';
   code += '_jx = joy_x.read_u16()\n';
   code += '_jy = joy_y.read_u16()\n';
@@ -4940,6 +4939,7 @@ Blockly.Python['joystick_controlar_led'] = function(block) {
   code += led.VAR_RED   + '.duty_u16(int(' + cor + '[0] * 257 * _intensidade_joy / 100))\n';
   code += led.VAR_GREEN + '.duty_u16(int(' + cor + '[1] * 257 * _intensidade_joy / 100))\n';
   code += led.VAR_BLUE  + '.duty_u16(int(' + cor + '[2] * 257 * _intensidade_joy / 100))\n';
+  code += 'oled.fill(0)\n';
 
   return code;
 };
@@ -4986,7 +4986,6 @@ Blockly.Python['joystick_controlar_buzzer'] = function(block) {
   };
 
   var code = '';
-  code += 'oled.fill(0)\n';
   code += '# Joystick: Y invertido (cima=0, baixo=65535) | X invertido (esquerda=65535, direita=0)\n';
   code += '_jx = joy_x.read_u16()\n';
   code += '_jy = joy_y.read_u16()\n';
@@ -4997,6 +4996,7 @@ Blockly.Python['joystick_controlar_buzzer'] = function(block) {
   code += 'if not _buzzer_mudo:  # só toca se não foi silenciado\n';
   code += '  buzzer.freq(_freq_joy)\n';
   code += '  buzzer.duty_u16(' + duty + ')  # volume ' + volume + '%\n';
+  code += 'oled.fill(0)\n';
 
   return code;
 };
