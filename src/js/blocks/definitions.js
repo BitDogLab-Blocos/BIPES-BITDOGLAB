@@ -3381,7 +3381,8 @@ Blockly.Blocks['botao_se_apertado'] = {
 // Bloco 1: Controla LED + atualiza a variável _intensidade_joy
 Blockly.Blocks['joystick_controlar_led'] = {
   init: function() {
-    var DIRECOES = [["↑ Cima", "UP"], ["↓ Baixo", "DOWN"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
+    var DIR_SOBE = [["↑ Cima", "UP"], ["↓ Baixo", "DOWN"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
+    var DIR_DESCE = [["↓ Baixo", "DOWN"], ["↑ Cima", "UP"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
     this.appendDummyInput()
         .appendField("🕹️ Joystick controla LED");
     this.appendValueInput("COR")
@@ -3393,10 +3394,10 @@ Blockly.Blocks['joystick_controlar_led'] = {
         .appendField("%");
     this.appendDummyInput()
         .appendField("sobe ao mover:")
-        .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_AUMENTAR");
+        .appendField(new Blockly.FieldDropdown(DIR_SOBE), "DIR_AUMENTAR");
     this.appendDummyInput()
         .appendField("desce ao mover:")
-        .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_DIMINUIR");
+        .appendField(new Blockly.FieldDropdown(DIR_DESCE), "DIR_DIMINUIR");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#1565c0");
@@ -3420,7 +3421,8 @@ Blockly.Blocks['joystick_intensidade_atual'] = {
 // Bloco 3: Controla a frequência do buzzer com o joystick
 Blockly.Blocks['joystick_controlar_buzzer'] = {
   init: function() {
-    var DIRECOES = [["↑ Cima", "UP"], ["↓ Baixo", "DOWN"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
+    var DIR_SOBE = [["↑ Cima", "UP"], ["↓ Baixo", "DOWN"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
+    var DIR_DESCE = [["↓ Baixo", "DOWN"], ["↑ Cima", "UP"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
     this.appendDummyInput()
         .appendField("🕹️ Joystick controla Buzzer");
     this.appendDummyInput()
@@ -3433,10 +3435,10 @@ Blockly.Blocks['joystick_controlar_buzzer'] = {
         .appendField("%  (0 = mudo, 100 = máximo)");
     this.appendDummyInput()
         .appendField("sobe ao mover:")
-        .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_AUMENTAR");
+        .appendField(new Blockly.FieldDropdown(DIR_SOBE), "DIR_AUMENTAR");
     this.appendDummyInput()
         .appendField("desce ao mover:")
-        .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_DIMINUIR");
+        .appendField(new Blockly.FieldDropdown(DIR_DESCE), "DIR_DIMINUIR");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#1565c0");
