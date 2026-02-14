@@ -380,6 +380,15 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     return '';
   }
 
+  // Wrap all sound blocks with _buzzer_mudo guard (only those in main loop, not inside button callbacks)
+  rawCode = rawCode.replace(
+    /# SOUND_BLOCK_START\n([\s\S]*?)# SOUND_BLOCK_END\n?/g,
+    function(match, content) {
+      var indented = content.replace(/^(.+)$/gm, '  $1');
+      return 'if not _buzzer_mudo:\n' + indented;
+    }
+  );
+
   // Parse raw code into imports, setup, and action sections
   var lines = rawCode.split('\n');
   var imports = [];
