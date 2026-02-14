@@ -4898,3 +4898,54 @@ Blockly.Python['joystick_intensidade_atual'] = function(_block) {
   Blockly.Python.definitions_['setup_intensidade_joy'] = Blockly.Python.definitions_['setup_intensidade_joy'] || '_intensidade_joy = 50';
   return ['_intensidade_joy', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Bloco: Joystick controla buzzer (frequência)
+Blockly.Python['joystick_controlar_buzzer'] = function(block) {
+  var pins = BitdogLabConfig.PINS;
+  var joy = BitdogLabConfig.JOYSTICK;
+
+  Blockly.Python.definitions_['import_pin']     = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm']     = 'from machine import PWM';
+  Blockly.Python.definitions_['import_adc']     = 'from machine import ADC';
+  Blockly.Python.definitions_['import_i2c']     = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_joy_x']    = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
+  Blockly.Python.definitions_['setup_joy_y']    = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
+  Blockly.Python.definitions_['setup_buzzer']   = 'buzzer = PWM(Pin(' + pins.BUZZER + '))';
+  Blockly.Python.definitions_['setup_display']  = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+
+  var freqInicial = block.getFieldValue('FREQ_INICIAL') || '440';
+  Blockly.Python.definitions_['setup_freq_joy'] = '_freq_joy = ' + freqInicial;
+
+  var dirAumentar = block.getFieldValue('DIR_AUMENTAR');
+  var dirDiminuir = block.getFieldValue('DIR_DIMINUIR');
+
+  // Y é invertido: mover para CIMA diminui o valor (tende a 0), BAIXO aumenta (tende a 65535)
+  // X é invertido: ESQUERDA aumenta (tende a 65535), DIREITA diminui (tende a 0)
+  var COND = {
+    'UP':    '_jy < ' + (joy.CENTER_VALUE - joy.DEADZONE),  // cima = valor baixo
+    'DOWN':  '_jy > ' + (joy.CENTER_VALUE + joy.DEADZONE),  // baixo = valor alto
+    'LEFT':  '_jx > ' + (joy.CENTER_VALUE + joy.DEADZONE),  // esquerda = valor alto
+    'RIGHT': '_jx < ' + (joy.CENTER_VALUE - joy.DEADZONE)   // direita = valor baixo
+  };
+
+  var code = '';
+  code += 'oled.fill(0)\n';
+  code += '# Joystick: Y invertido (cima=0, baixo=65535) | X invertido (esquerda=65535, direita=0)\n';
+  code += '_jx = joy_x.read_u16()\n';
+  code += '_jy = joy_y.read_u16()\n';
+  code += 'if ' + COND[dirAumentar] + ':  # sobe frequência\n';
+  code += '  _freq_joy = min(2000, _freq_joy + 20)\n';
+  code += 'if ' + COND[dirDiminuir] + ':  # desce frequência\n';
+  code += '  _freq_joy = max(200, _freq_joy - 20)\n';
+  code += 'buzzer.freq(_freq_joy)\n';
+  code += 'buzzer.duty_u16(32768)  # 50% duty = onda quadrada\n';
+
+  return code;
+};
+
+// Getter: retorna _freq_joy como valor (para display, etc.)
+Blockly.Python['joystick_frequencia_atual'] = function(_block) {
+  Blockly.Python.definitions_['setup_freq_joy'] = Blockly.Python.definitions_['setup_freq_joy'] || '_freq_joy = 1000';
+  return ['_freq_joy', Blockly.Python.ORDER_ATOMIC];
+};
