@@ -702,6 +702,53 @@ Code.init = function() {
     // Notification stays until user closes it (no auto-remove)
   };
 
+  // Joystick getter reminder notification system
+  Code.showJoystickGetterReminder = function(blockType) {
+    // Check if notification already exists
+    if (document.getElementById('joystickGetterNotification')) {
+      return;
+    }
+
+    var nomeBloco = blockType === 'joystick_intensidade_atual'
+      ? '🕹️ Intensidade LED %'
+      : '🕹️ Frequência Buzzer Hz';
+
+    var notification = document.createElement('div');
+    notification.id = 'joystickGetterNotification';
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #1565c0; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 450px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
+    notification.innerHTML = '<button id="closeJoystickNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+      '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
+      '🕹️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
+      '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED para ver o número na tela!<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Exemplo:</strong><br>' +
+      '1️⃣ 🕹️ Joystick controla LED <small>(ou Buzzer)</small><br>' +
+      '2️⃣ 📊 Mostrar valor: <strong>[' + nomeBloco + ']</strong> linha 1<br>' +
+      '3️⃣ 📺 Atualizar Display <small>(agora aparece na tela!)</small><br>' +
+      '</div>';
+
+    document.body.appendChild(notification);
+
+    document.getElementById('closeJoystickNotification').addEventListener('click', function() {
+      if (notification && notification.parentNode) {
+        notification.style.animation = 'slideOut 0.3s ease-in';
+        setTimeout(function() {
+          if (notification && notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }
+    });
+
+    var closeBtn = document.getElementById('closeJoystickNotification');
+    closeBtn.addEventListener('mouseenter', function() {
+      this.style.background = 'rgba(0,0,0,0.4)';
+    });
+    closeBtn.addEventListener('mouseleave', function() {
+      this.style.background = 'rgba(0,0,0,0.2)';
+    });
+  };
+
   // Add slide-out animation
   var styleOut = document.createElement('style');
   styleOut.textContent = '@keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }';
@@ -720,6 +767,7 @@ Code.init = function() {
           'display_limpar_borda',
           'display_limpar',
           'display_mostrar_calculo',
+          'display_mostrar_valor',
           'display_mostrar_estado_led',
           'display_mostrar_estado_botao',
           'display_mostrar_status_buzzer',
@@ -728,8 +776,17 @@ Code.init = function() {
           'display_mostrar_tempo_ligado'
         ];
 
+        var joystickGetterBlocks = [
+          'joystick_intensidade_atual',
+          'joystick_frequencia_atual'
+        ];
+
         if (displayBlocks.indexOf(blockType) !== -1) {
           Code.showDisplayReminder();
+        }
+
+        if (joystickGetterBlocks.indexOf(blockType) !== -1) {
+          Code.showJoystickGetterReminder(blockType);
         }
       }
     }
