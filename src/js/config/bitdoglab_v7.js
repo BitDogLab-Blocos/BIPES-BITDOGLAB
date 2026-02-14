@@ -102,7 +102,8 @@ const BitdogLabConfig = {
              line.startsWith('botao_joy') ||
              line.startsWith('_joy_') ||
              line.startsWith('_intensidade_joy') ||
-             line.startsWith('_freq_joy');
+             line.startsWith('_freq_joy') ||
+             line.startsWith('_buzzer_mudo');
     }
   }
 };

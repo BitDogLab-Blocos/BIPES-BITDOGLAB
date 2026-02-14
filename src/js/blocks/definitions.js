@@ -3399,7 +3399,7 @@ Blockly.Blocks['joystick_controlar_led'] = {
         .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_DIMINUIR");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#e67e22");
+    this.setColour("#1565c0");
     this.setTooltip("Controla o brilho do LED com o joystick. Escolha a cor, o brilho inicial e as direções. Para mostrar o valor no display, use o bloco '🕹️ intensidade atual %'.");
     this.setHelpUrl("");
   }
@@ -3411,7 +3411,7 @@ Blockly.Blocks['joystick_intensidade_atual'] = {
     this.appendDummyInput()
         .appendField("🕹️ Intensidade LED %");
     this.setOutput(true, "Number");
-    this.setColour("#e67e22");
+    this.setColour("#1565c0");
     this.setTooltip("Retorna o valor atual da intensidade do LED controlado pelo joystick (0 a 100%).");
     this.setHelpUrl("");
   }
@@ -3425,8 +3425,12 @@ Blockly.Blocks['joystick_controlar_buzzer'] = {
         .appendField("🕹️ Joystick controla Buzzer");
     this.appendDummyInput()
         .appendField("frequência inicial:")
-        .appendField(new Blockly.FieldNumber(1000, 200, 2000), "FREQ_INICIAL")
-        .appendField("Hz");
+        .appendField(new Blockly.FieldNumber(1000, 200, 4000), "FREQ_INICIAL")
+        .appendField("Hz  (intervalo: 200 – 4000 Hz)");
+    this.appendDummyInput()
+        .appendField("volume:")
+        .appendField(new Blockly.FieldNumber(30, 0, 100), "VOLUME")
+        .appendField("%  (0 = mudo, 100 = máximo)");
     this.appendDummyInput()
         .appendField("sobe ao mover:")
         .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_AUMENTAR");
@@ -3435,8 +3439,8 @@ Blockly.Blocks['joystick_controlar_buzzer'] = {
         .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_DIMINUIR");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#e67e22");
-    this.setTooltip("Controla a frequência do buzzer com o joystick. Para mostrar o valor no display, use o bloco '🕹️ Frequência Buzzer Hz'.");
+    this.setColour("#1565c0");
+    this.setTooltip("Controla a frequência do buzzer com o joystick.\nIntervalo de frequência: 200–4000 Hz\nVolume: 0–100%\nPara mostrar o valor no display, use o bloco '🕹️ Frequência Buzzer Hz'.");
     this.setHelpUrl("");
   }
 };
@@ -3447,7 +3451,7 @@ Blockly.Blocks['joystick_frequencia_atual'] = {
     this.appendDummyInput()
         .appendField("🕹️ Frequência Buzzer Hz");
     this.setOutput(true, "Number");
-    this.setColour("#e67e22");
+    this.setColour("#1565c0");
     this.setTooltip("Retorna a frequência atual do buzzer controlado pelo joystick (100 a 4000 Hz).");
     this.setHelpUrl("");
   }

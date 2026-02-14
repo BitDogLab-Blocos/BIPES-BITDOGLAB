@@ -352,7 +352,7 @@
     <block type="display_limpar_borda"></block>
     <block type="display_limpar"></block>
   </category>
-  <category name="🕹️ Joystick" colour="#e67e22">
+  <category name="🕹️ Joystick" colour="#1565c0">
     <block type="joystick_controlar_led"></block>
     <block type="joystick_intensidade_atual"></block>
     <block type="joystick_controlar_buzzer"></block>
