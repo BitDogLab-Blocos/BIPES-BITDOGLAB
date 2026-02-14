@@ -3409,10 +3409,46 @@ Blockly.Blocks['joystick_controlar_led'] = {
 Blockly.Blocks['joystick_intensidade_atual'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🕹️ intensidade atual %");
+        .appendField("🕹️ Intensidade LED %");
     this.setOutput(true, "Number");
     this.setColour("#e67e22");
-    this.setTooltip("Retorna o valor atual da intensidade do joystick (0 a 100%). Use dentro do display para mostrar o brilho, ou em qualquer bloco que aceite número.");
+    this.setTooltip("Retorna o valor atual da intensidade do LED controlado pelo joystick (0 a 100%).");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco 3: Controla a frequência do buzzer com o joystick
+Blockly.Blocks['joystick_controlar_buzzer'] = {
+  init: function() {
+    var DIRECOES = [["↑ Cima", "UP"], ["↓ Baixo", "DOWN"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
+    this.appendDummyInput()
+        .appendField("🕹️ Joystick controla Buzzer");
+    this.appendDummyInput()
+        .appendField("frequência inicial:")
+        .appendField(new Blockly.FieldNumber(1000, 200, 2000), "FREQ_INICIAL")
+        .appendField("Hz");
+    this.appendDummyInput()
+        .appendField("sobe ao mover:")
+        .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_AUMENTAR");
+    this.appendDummyInput()
+        .appendField("desce ao mover:")
+        .appendField(new Blockly.FieldDropdown(DIRECOES), "DIR_DIMINUIR");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#e67e22");
+    this.setTooltip("Controla a frequência do buzzer com o joystick. Para mostrar o valor no display, use o bloco '🕹️ Frequência Buzzer Hz'.");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco 4: Retorna a frequência atual do buzzer como valor
+Blockly.Blocks['joystick_frequencia_atual'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🕹️ Frequência Buzzer Hz");
+    this.setOutput(true, "Number");
+    this.setColour("#e67e22");
+    this.setTooltip("Retorna a frequência atual do buzzer controlado pelo joystick (100 a 4000 Hz).");
     this.setHelpUrl("");
   }
 };

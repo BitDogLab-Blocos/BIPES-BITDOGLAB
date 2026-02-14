@@ -101,7 +101,8 @@ const BitdogLabConfig = {
              line.startsWith('joystick_') ||
              line.startsWith('botao_joy') ||
              line.startsWith('_joy_') ||
-             line.startsWith('_intensidade_joy');
+             line.startsWith('_intensidade_joy') ||
+             line.startsWith('_freq_joy');
     }
   }
 };

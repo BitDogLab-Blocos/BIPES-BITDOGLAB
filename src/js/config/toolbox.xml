@@ -355,5 +355,7 @@
   <category name="🕹️ Joystick" colour="#e67e22">
     <block type="joystick_controlar_led"></block>
     <block type="joystick_intensidade_atual"></block>
+    <block type="joystick_controlar_buzzer"></block>
+    <block type="joystick_frequencia_atual"></block>
   </category>
 </xml>
