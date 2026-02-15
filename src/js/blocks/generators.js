@@ -5048,3 +5048,73 @@ Blockly.Python['joystick_posicao_y'] = function(_block) {
   Blockly.Python.definitions_['setup_py'] = Blockly.Python.definitions_['setup_py'] || '_py = 0';
   return ['_py', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Bloco 8: Seletor de opções com joystick
+Blockly.Python['joystick_seletor'] = function(block) {
+  var pins = BitdogLabConfig.PINS;
+  var joy = BitdogLabConfig.JOYSTICK;
+
+  Blockly.Python.definitions_['import_pin']  = 'from machine import Pin';
+  Blockly.Python.definitions_['import_adc']  = 'from machine import ADC';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_joy_x'] = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
+  Blockly.Python.definitions_['setup_joy_y'] = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
+  Blockly.Python.definitions_['setup_seletor'] = '_seletor_idx = 0\n_seletor_tempo = 0';
+
+  var dirProximo  = block.getFieldValue('DIR_PROXIMO');
+  var dirAnterior = block.getFieldValue('DIR_ANTERIOR');
+
+  // Cross-axis guard: use 2x deadzone on the perpendicular axis to avoid
+  // accidental triggers when moving diagonally (e.g. pushing left also moves Y slightly)
+  var c = joy.CENTER_VALUE;
+  var dz = joy.DEADZONE;
+  var cdz = dz * 2;
+  var xNear = '_jx > ' + (c - cdz) + ' and _jx < ' + (c + cdz);
+  var yNear = '_jy > ' + (c - cdz) + ' and _jy < ' + (c + cdz);
+  var COND = {
+    'UP':    '_jy < ' + (c - dz) + ' and ' + xNear,
+    'DOWN':  '_jy > ' + (c + dz) + ' and ' + xNear,
+    'LEFT':  '_jx > ' + (c + dz) + ' and ' + yNear,
+    'RIGHT': '_jx < ' + (c - dz) + ' and ' + yNear
+  };
+
+  // Count blocks in OPCOES
+  var count = 0;
+  var tempBlock = block.getInputTargetBlock('OPCOES');
+  while (tempBlock) { count++; tempBlock = tempBlock.getNextBlock(); }
+
+  if (count === 0) return '';
+
+  var code = '';
+  code += '_jx = joy_x.read_u16()\n';
+  code += '_jy = joy_y.read_u16()\n';
+  code += '_agora_sel = time.ticks_ms()\n';
+  code += 'if time.ticks_diff(_agora_sel, _seletor_tempo) > 500:\n';
+  code += '  if ' + COND[dirProximo] + ':\n';
+  code += '    _seletor_idx = (_seletor_idx + 1) % ' + count + '\n';
+  code += '    _seletor_tempo = _agora_sel\n';
+  code += '  elif ' + COND[dirAnterior] + ':\n';
+  code += '    _seletor_idx = (_seletor_idx - 1) % ' + count + '\n';
+  code += '    _seletor_tempo = _agora_sel\n';
+
+  // Generate code for each option block individually.
+  // IMPORTANT: blockToCode() calls scrub_() which appends ALL subsequent blocks in the chain.
+  // To get only THIS block's code, call the generator function directly (bypasses scrub_).
+  var currentBlock = block.getInputTargetBlock('OPCOES');
+  var idx = 0;
+  while (currentBlock) {
+    var genFn = Blockly.Python[currentBlock.type];
+    var blockCode = genFn ? genFn.call(Blockly.Python, currentBlock) : '';
+    if (blockCode && blockCode.trim()) {
+      code += 'if _seletor_idx == ' + idx + ':\n';
+      var lines = blockCode.replace(/\n$/, '').split('\n');
+      for (var li = 0; li < lines.length; li++) {
+        if (lines[li].trim()) code += '  ' + lines[li] + '\n';
+      }
+    }
+    currentBlock = currentBlock.getNextBlock();
+    idx++;
+  }
+
+  return code;
+};
