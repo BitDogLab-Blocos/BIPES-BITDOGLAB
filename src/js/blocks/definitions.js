@@ -3503,15 +3503,17 @@ Blockly.Blocks['joystick_posicao_y'] = {
 // Bloco 8: Cursor de LED na Matriz 5x5 com joystick
 Blockly.Blocks['joystick_cursor_matriz'] = {
   init: function() {
-    this.appendDummyInput()
-        .appendField("🕹️ Cursor na Matriz 5x5");
     this.appendValueInput("COR")
         .setCheck("Colour")
-        .appendField("cor:");
-    this.appendDummyInput()
-        .appendField("brilho:")
+        .appendField("🕹️ Mover ponto de luz na Matriz de LED  brilho:")
         .appendField(new Blockly.FieldNumber(30, 1, 100), "BRILHO")
-        .appendField("%");
+        .appendField("%  cor:");
+    this.appendDummyInput()
+        .appendField("linha inicial:")
+        .appendField(new Blockly.FieldNumber(0, 0, 4), "LINHA_INICIAL")
+        .appendField("  coluna inicial:")
+        .appendField(new Blockly.FieldNumber(0, 0, 4), "COLUNA_INICIAL");
+    this.setInputsInline(false);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#1565c0");
@@ -3526,7 +3528,7 @@ Blockly.Blocks['joystick_seletor'] = {
     var DIR_NEXT = [["↑ Cima", "UP"], ["↓ Baixo", "DOWN"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
     var DIR_PREV = [["↓ Baixo", "DOWN"], ["↑ Cima", "UP"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
     this.appendDummyInput()
-        .appendField("🕹️ Seletor")
+        .appendField("🕹️ Trocar emoji na Matriz de LED")
         .appendField("  próximo:")
         .appendField(new Blockly.FieldDropdown(DIR_NEXT), "DIR_PROXIMO")
         .appendField("  anterior:")

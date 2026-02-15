@@ -782,6 +782,44 @@ Code.init = function() {
   styleOut.textContent = '@keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }';
   document.head.appendChild(styleOut);
 
+  // Seletor reminder notification
+  Code.showJoystickSeletorReminder = function() {
+    if (document.getElementById('joystickSeletorNotification')) return;
+
+    var notification = document.createElement('div');
+    notification.id = 'joystickSeletorNotification';
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #1565c0; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 460px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
+    notification.innerHTML =
+      '<button id="closeJoystickSeletorNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+      '<strong style="font-size: 16px;">💡 Como usar: Trocar emoji na Matriz de LED</strong><br><br>' +
+      '🕹️ Encaixe blocos de <strong>emoji</strong> dentro deste bloco.<br>' +
+      'Use o joystick para <strong>trocar entre eles</strong>!<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 4px;">' +
+      '<strong>📝 Exemplo:</strong><br>' +
+      '🕹️ Trocar emoji na Matriz de LED<br>' +
+      '&nbsp;&nbsp;&nbsp;😊 Mostrar emoji: <strong>coração</strong><br>' +
+      '&nbsp;&nbsp;&nbsp;😊 Mostrar emoji: <strong>carinha feliz</strong><br>' +
+      '&nbsp;&nbsp;&nbsp;😊 Mostrar emoji: <strong>seta</strong><br><br>' +
+      '⚠️ <strong>A ordem que você colocar é a ordem de troca!</strong><br>' +
+      'Joystick → próximo emoji &nbsp;|&nbsp; ← anterior' +
+      '</div>';
+
+    document.body.appendChild(notification);
+
+    document.getElementById('closeJoystickSeletorNotification').addEventListener('click', function() {
+      if (notification && notification.parentNode) {
+        notification.style.animation = 'slideOut 0.3s ease-in';
+        setTimeout(function() {
+          if (notification && notification.parentNode) notification.parentNode.removeChild(notification);
+        }, 300);
+      }
+    });
+
+    var closeBtn = document.getElementById('closeJoystickSeletorNotification');
+    closeBtn.addEventListener('mouseenter', function() { this.style.background = 'rgba(0,0,0,0.4)'; });
+    closeBtn.addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.2)'; });
+  };
+
   // Listen for block create events
   Code.workspace.addChangeListener(function(event) {
     if (event.type === Blockly.Events.BLOCK_CREATE) {
@@ -797,6 +835,10 @@ Code.init = function() {
 
         if (joystickGetterBlocks.indexOf(blockType) !== -1) {
           Code.showJoystickGetterReminder(blockType);
+        }
+
+        if (blockType === 'joystick_seletor') {
+          Code.showJoystickSeletorReminder();
         }
       }
     }

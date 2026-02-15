@@ -110,7 +110,7 @@ const BitdogLabConfig = {
              line === '_px = 0' ||
              line === '_py = 0' ||
              (line.startsWith('_seletor_') && line.endsWith(' = 0')) ||
-             (line.startsWith('_cursor_') && line.endsWith(' = 0')) ||
+             (line.startsWith('_cursor_col = ') || line.startsWith('_cursor_row = ') || line.startsWith('_cursor_tempo = ')) ||
              line.startsWith('EMOJI_NAMES =') ||
              (line.startsWith('_matriz_') && (
                line.endsWith(' = "OFF"') ||
