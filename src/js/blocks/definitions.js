@@ -3500,7 +3500,27 @@ Blockly.Blocks['joystick_posicao_y'] = {
   }
 };
 
-// Bloco 8: Seletor de opções com joystick (container)
+// Bloco 8: Cursor de LED na Matriz 5x5 com joystick
+Blockly.Blocks['joystick_cursor_matriz'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🕹️ Cursor na Matriz 5x5");
+    this.appendValueInput("COR")
+        .setCheck("Colour")
+        .appendField("cor:");
+    this.appendDummyInput()
+        .appendField("brilho:")
+        .appendField(new Blockly.FieldNumber(30, 1, 100), "BRILHO")
+        .appendField("%");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#1565c0");
+    this.setTooltip("Move um LED pela grade 5x5 com o joystick. Pressionar o botão do joystick apaga tudo.");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco 9: Seletor de opções com joystick (container)
 Blockly.Blocks['joystick_seletor'] = {
   init: function() {
     var DIR_NEXT = [["↑ Cima", "UP"], ["↓ Baixo", "DOWN"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
