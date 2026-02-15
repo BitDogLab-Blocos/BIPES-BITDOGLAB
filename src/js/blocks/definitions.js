@@ -3500,6 +3500,28 @@ Blockly.Blocks['joystick_posicao_y'] = {
   }
 };
 
+// Bloco 8: Seletor de opções com joystick (container)
+Blockly.Blocks['joystick_seletor'] = {
+  init: function() {
+    var DIR_NEXT = [["↑ Cima", "UP"], ["↓ Baixo", "DOWN"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
+    var DIR_PREV = [["↓ Baixo", "DOWN"], ["↑ Cima", "UP"], ["← Esquerda", "LEFT"], ["→ Direita", "RIGHT"]];
+    this.appendDummyInput()
+        .appendField("🕹️ Seletor")
+        .appendField("  próximo:")
+        .appendField(new Blockly.FieldDropdown(DIR_NEXT), "DIR_PROXIMO")
+        .appendField("  anterior:")
+        .appendField(new Blockly.FieldDropdown(DIR_PREV), "DIR_ANTERIOR");
+    this.appendStatementInput("OPCOES")
+        .setCheck(null)
+        .appendField("opções:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#1565c0");
+    this.setTooltip("Encaixe blocos como opções. O joystick navega entre elas (muda a cada 500ms). Só o bloco selecionado executa.");
+    this.setHelpUrl("");
+  }
+};
+
 // ==========================================
 // Category: Condicionais (Conditionals)
 // ==========================================
