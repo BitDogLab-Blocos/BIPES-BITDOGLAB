@@ -5061,7 +5061,9 @@ Blockly.Python['joystick_cursor_matriz'] = function(block) {
   Blockly.Python.definitions_['setup_joy_y']     = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
   Blockly.Python.definitions_['setup_matriz']    = 'np = neopixel.NeoPixel(Pin(' + pins.NEOPIXEL + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')';
   Blockly.Python.definitions_['led_matrix']      = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX);
-  Blockly.Python.definitions_['setup_cursor']    = '_cursor_col = 0\n_cursor_row = 0\n_cursor_tempo = 0';
+  var linhaInicial   = 4 - (parseInt(block.getFieldValue('LINHA_INICIAL')) || 0);
+  var colunaInicial  = block.getFieldValue('COLUNA_INICIAL')  || '0';
+  Blockly.Python.definitions_['setup_cursor']    = '_cursor_col = ' + colunaInicial + '\n_cursor_row = ' + linhaInicial + '\n_cursor_tempo = 0';
 
   var joy = BitdogLabConfig.JOYSTICK;
   var cor = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(255, 255, 255)';
