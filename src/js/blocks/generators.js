@@ -5049,7 +5049,57 @@ Blockly.Python['joystick_posicao_y'] = function(_block) {
   return ['_py', Blockly.Python.ORDER_ATOMIC];
 };
 
-// Bloco 8: Seletor de opções com joystick
+// Bloco 8: Cursor de LED na Matriz 5x5 com joystick
+Blockly.Python['joystick_cursor_matriz'] = function(block) {
+  var pins = BitdogLabConfig.PINS;
+
+  Blockly.Python.definitions_['import_pin']      = 'from machine import Pin';
+  Blockly.Python.definitions_['import_adc']      = 'from machine import ADC';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['import_time']     = 'import time';
+  Blockly.Python.definitions_['setup_joy_x']     = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
+  Blockly.Python.definitions_['setup_joy_y']     = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
+  Blockly.Python.definitions_['setup_matriz']    = 'np = neopixel.NeoPixel(Pin(' + pins.NEOPIXEL + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')';
+  Blockly.Python.definitions_['led_matrix']      = 'LED_MATRIX = ' + JSON.stringify(BitdogLabConfig.NEOPIXEL.MATRIX);
+  Blockly.Python.definitions_['setup_cursor']    = '_cursor_col = 0\n_cursor_row = 0\n_cursor_tempo = 0';
+
+  var joy = BitdogLabConfig.JOYSTICK;
+  var cor = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(255, 255, 255)';
+  var brilho = block.getFieldValue('BRILHO');
+  var brilho_float = (brilho * 0.7 / 100).toFixed(4);
+
+  // Extremity thresholds: outer ~25% of joystick range triggers movement
+  var extLow  = 10000;
+  var extHigh = 55000;
+
+  var code = '';
+  code += '_jx = joy_x.read_u16()\n';
+  code += '_jy = joy_y.read_u16()\n';
+  code += '_agora_cur = time.ticks_ms()\n';
+  code += '# Move apenas nas extremidades (D-pad): avança uma casa por vez\n';
+  code += 'if time.ticks_diff(_agora_cur, _cursor_tempo) > 200:\n';
+  code += '  if _jx > ' + extHigh + ':  # esquerda\n';
+  code += '    _cursor_col = max(0, _cursor_col - 1)\n';
+  code += '    _cursor_tempo = _agora_cur\n';
+  code += '  elif _jx < ' + extLow + ':  # direita\n';
+  code += '    _cursor_col = min(4, _cursor_col + 1)\n';
+  code += '    _cursor_tempo = _agora_cur\n';
+  code += '  elif _jy < ' + extLow + ':  # cima\n';
+  code += '    _cursor_row = max(0, _cursor_row - 1)\n';
+  code += '    _cursor_tempo = _agora_cur\n';
+  code += '  elif _jy > ' + extHigh + ':  # baixo\n';
+  code += '    _cursor_row = min(4, _cursor_row + 1)\n';
+  code += '    _cursor_tempo = _agora_cur\n';
+  code += '_cor_cursor = (int(' + cor + '[0] * ' + brilho_float + '), int(' + cor + '[1] * ' + brilho_float + '), int(' + cor + '[2] * ' + brilho_float + '))\n';
+  code += 'for i in range(25):\n';
+  code += '    np[i] = (0, 0, 0)\n';
+  code += 'np[LED_MATRIX[_cursor_row][_cursor_col]] = _cor_cursor\n';
+  code += 'np.write()\n';
+
+  return code;
+};
+
+// Bloco 9: Seletor de opções com joystick
 Blockly.Python['joystick_seletor'] = function(block) {
   var pins = BitdogLabConfig.PINS;
   var joy = BitdogLabConfig.JOYSTICK;
