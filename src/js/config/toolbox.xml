@@ -358,7 +358,7 @@
     <block type="joystick_frequencia_atual"></block>
     <block type="joystick_mover_player"></block>
     <block type="joystick_lousa_magica"></block>
-    <block type="joystick_posicao_x"></block>
+<block type="joystick_posicao_x"></block>
     <block type="joystick_posicao_y"></block>
     <block type="joystick_cursor_matriz"></block>
     <block type="joystick_seletor"></block>
