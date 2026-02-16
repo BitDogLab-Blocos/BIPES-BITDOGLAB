@@ -5037,6 +5037,42 @@ Blockly.Python['joystick_mover_player'] = function(block) {
   return code;
 };
 
+// Bloco: Lousa Mágica no Display
+Blockly.Python['joystick_lousa_magica'] = function(block) {
+  var pins = BitdogLabConfig.PINS;
+  var display = BitdogLabConfig.DISPLAY;
+  var joy = BitdogLabConfig.JOYSTICK;
+
+  Blockly.Python.definitions_['import_pin']     = 'from machine import Pin';
+  Blockly.Python.definitions_['import_adc']     = 'from machine import ADC';
+  Blockly.Python.definitions_['import_i2c']     = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_joy_x']    = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
+  Blockly.Python.definitions_['setup_joy_y']    = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
+  Blockly.Python.definitions_['setup_display']  = 'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\noled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+
+  var tamanho = block.getFieldValue('TAMANHO') || '2';
+  Blockly.Python.definitions_['setup_pen_size'] = '_pen_size = ' + tamanho;
+  Blockly.Python.definitions_['setup_lx'] = '_lx = ' + Math.floor(display.WIDTH / 2);
+  Blockly.Python.definitions_['setup_ly'] = '_ly = ' + Math.floor(display.HEIGHT / 2);
+
+  var c = joy.CENTER_VALUE, dz = joy.DEADZONE;
+  // Divisor controls speed: smaller = faster. Range ~0..32767 each side → /4000 gives ~0..8 px/frame
+  var divisor = 4000;
+
+  var code = '';
+  code += '_jx = joy_x.read_u16()\n';
+  code += '_jy = joy_y.read_u16()\n';
+  code += '# X invertido (esquerda=65535, direita=0)\n';
+  code += 'if _jx < ' + (c - dz) + ' or _jx > ' + (c + dz) + ':\n';
+  code += '  _lx = max(0, min(' + (display.WIDTH - 1) + ', _lx + (' + c + ' - _jx) // ' + divisor + '))\n';
+  code += 'if _jy < ' + (c - dz) + ' or _jy > ' + (c + dz) + ':\n';
+  code += '  _ly = max(0, min(' + (display.HEIGHT - 1) + ', _ly + (_jy - ' + c + ') // ' + divisor + '))\n';
+  code += 'oled.fill_rect(_lx, _ly, _pen_size, _pen_size, 1)\n';
+
+  return code;
+};
+
 // Getter: retorna posição X do player
 Blockly.Python['joystick_posicao_x'] = function(_block) {
   Blockly.Python.definitions_['setup_px'] = Blockly.Python.definitions_['setup_px'] || '_px = 0';

@@ -3476,6 +3476,23 @@ Blockly.Blocks['joystick_mover_player'] = {
   }
 };
 
+// Bloco 5b: Lousa Mágica no Display
+Blockly.Blocks['joystick_lousa_magica'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎨 Lousa Mágica no Display");
+    this.appendDummyInput()
+        .appendField("tamanho da caneta:")
+        .appendField(new Blockly.FieldNumber(2, 1, 10), "TAMANHO")
+        .appendField("px");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#1565c0");
+    this.setTooltip("Desenha no display OLED com o joystick. Quanto mais longe do centro, mais rápido o cursor move. Use um bloco de limpar display para apagar o desenho.");
+    this.setHelpUrl("");
+  }
+};
+
 // Bloco 6: Retorna a posição X do player
 Blockly.Blocks['joystick_posicao_x'] = {
   init: function() {

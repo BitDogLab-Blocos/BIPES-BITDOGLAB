@@ -109,6 +109,9 @@ const BitdogLabConfig = {
              line.startsWith('_player_size') ||
              line === '_px = 0' ||
              line === '_py = 0' ||
+             line.startsWith('_pen_size = ') ||
+             line.startsWith('_lx = ') ||
+             line.startsWith('_ly = ') ||
              (line.startsWith('_seletor_') && line.endsWith(' = 0')) ||
              (line.startsWith('_cursor_col = ') || line.startsWith('_cursor_row = ') || line.startsWith('_cursor_tempo = ')) ||
              line.startsWith('EMOJI_NAMES =') ||
