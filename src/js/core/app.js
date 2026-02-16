@@ -855,6 +855,22 @@ Code.init = function() {
     function () {window.open("https://github.com/BIPES/BIPES/discussions",'_blank')}
   )
 
+  // Version selector: switch between BitdogLab v6 and v7
+  var versionSelector = document.getElementById('device_selector');
+  if (versionSelector) {
+    // Alias para facilitar troca
+    var BitdogLabConfig_V7 = BitdogLabConfig;
+    versionSelector.addEventListener('change', function() {
+      BitdogLabConfig = (this.value === 'v6') ? BitdogLabConfig_V6 : BitdogLabConfig_V7;
+      Code.renderContent();
+      // Aviso para reconectar a placa ao trocar de versão
+      if (typeof mux !== 'undefined' && mux.connected && mux.connected()) {
+        Tool.stopPython();
+        alert('Versão alterada para ' + this.value.toUpperCase() + '!\n\nDesconecte e reconecte a placa USB para aplicar a nova pinagem.');
+      }
+    });
+  }
+
   // Link button disabled - BlocklyStorage removed
   var linkButton = document.getElementById('linkButton');
   if (linkButton) {

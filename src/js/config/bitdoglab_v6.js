@@ -1,21 +1,22 @@
 'use strict';
 
-// BitdogLab v7 — Hardware Configuration
-// Para adaptar para outro hardware: altere PINS e as configurações dos periféricos.
+// BitdogLab v6 — Hardware Configuration
+// Diferenças em relação à v7:
+//   - Display: GPIO14 (SDA) / GPIO15 (SCL)  [v7 usa GPIO2/3]
+//   - Buzzer principal: GPIO10 (Buzzer-B)    [v7 usa GPIO21]
+//   - Sem botão C (GPIO10 é buzzer na v6)
 
-var BitdogLabConfig = {
+const BitdogLabConfig_V6 = {
 
-  // Pinos GPIO -> MUDE AQUI PARA OUTRO HARDWARE
   PINS: {
     LED_RED: 13, LED_GREEN: 11, LED_BLUE: 12,
-    BUZZER: 21,
-    BUTTON_A: 5, BUTTON_B: 6, BUTTON_C: 10,
+    BUZZER: 10,
+    BUTTON_A: 5, BUTTON_B: 6, BUTTON_C: null,
     JOYSTICK_X: 27, JOYSTICK_Y: 26, JOYSTICK_SW: 22,
     NEOPIXEL: 7,
-    I2C_SCL: 3, I2C_SDA: 2
+    I2C_SCL: 15, I2C_SDA: 14
   },
 
-  // Periféricos
   NEOPIXEL: {
     COUNT: 25,
     MATRIX: [
@@ -31,10 +32,8 @@ var BitdogLabConfig = {
 
   DISPLAY: { I2C_BUS: 1, I2C_FREQ: 400000, WIDTH: 128, HEIGHT: 64 },
 
-  // Variáveis Python geradas para os LEDs RGB
   LED: { PWM_FREQ: 1000, VAR_RED: 'led_vermelho', VAR_GREEN: 'led_verde', VAR_BLUE: 'led_azul' },
 
-  // Engine — usada por app.js para montar o código final
   LED_INIT: {
     generateInitCode: function(rawCode) {
       var led = BitdogLabConfig.LED;
@@ -125,4 +124,4 @@ var BitdogLabConfig = {
   }
 };
 
-if (typeof module !== 'undefined' && module.exports) module.exports = BitdogLabConfig;
+if (typeof module !== 'undefined' && module.exports) module.exports = BitdogLabConfig_V6;
