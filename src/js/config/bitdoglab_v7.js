@@ -18,6 +18,7 @@ var BitdogLabConfig = {
   // Periféricos
   NEOPIXEL: {
     COUNT: 25,
+    BRIGHTNESS: 0.7,
     MATRIX: [
       [24, 23, 22, 21, 20],
       [15, 16, 17, 18, 19],
