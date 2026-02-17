@@ -104,7 +104,7 @@ const BitdogLabConfig_V6 = {
              line.startsWith('_joy_') ||
              line.startsWith('_intensidade_joy') ||
              line.startsWith('_freq_joy') ||
-             line.startsWith('_buzzer_mudo') ||
+             (line.startsWith('_buzzer_mudo') && line.indexOf('True') === -1) ||
              line.startsWith('_player_size') ||
              line === '_px = 0' ||
              line === '_py = 0' ||

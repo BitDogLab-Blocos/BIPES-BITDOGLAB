@@ -1091,10 +1091,8 @@ Blockly.Python['parar_som'] = function(block) {
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
 
   var code = '';
-  code += 'buzzer.duty_u16(0)  # zera duty\n';
-  code += 'buzzer.deinit()     # para o PWM completamente\n';
-  code += 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))  # reinicia pronto para próximo uso\n';
-  code += '_buzzer_mudo = True  # impede qualquer bloco de som de reativar o buzzer\n';
+  code += 'buzzer.duty_u16(0)  # silencia o buzzer\n';
+  code += '_buzzer_mudo = True  # impede som nas próximas iterações (quando há botões)\n';
   return code;
 };
 
