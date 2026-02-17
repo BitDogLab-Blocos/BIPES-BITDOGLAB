@@ -2324,28 +2324,19 @@ Blockly.Python['display_atualizar'] = function(block) {
 
 // Display test connection
 Blockly.Python['display_testar_conexao'] = function(block) {
+  var pins = BitdogLabConfig.PINS;
+  var display = BitdogLabConfig.DISPLAY;
+
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
   Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\noled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
 
-  // Usa marcadores SETUP_BLOCK para forçar código no setup
   var code = '';
-  code += BitdogLabConfig.MARKERS.SETUP_START + '\n';
-  code += 'configs = [(0,9,8),(0,5,4),(0,17,16),(0,1,0),(0,13,12),(0,21,20),(1,3,2),(1,7,6),(1,15,14),(1,19,18),(1,27,26)]\n';
-  code += 'for bus,scl,sda in configs:\n';
-  code += '  try:\n';
-  code += '    i2c = I2C(bus, scl=Pin(scl), sda=Pin(sda), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\n';
-  code += '    devs = i2c.scan()\n';
-  code += '    if devs:\n';
-  code += '      try:\n';
-  code += '        oled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)\n';
-  code += '        oled.fill(0)\n';
-  code += '        oled.text("OLED OK!", 30, 28, 1)\n';
-  code += '        oled.show()\n';
-  code += '        break\n';
-  code += '      except: pass\n';
-  code += '  except: pass\n';
-  code += BitdogLabConfig.MARKERS.SETUP_END + '\n';
+  code += 'oled.fill(0)\n';
+  code += 'oled.text("Display OK!", 15, 20, 1)\n';
+  code += 'oled.text("SCL:' + pins.I2C_SCL + ' SDA:' + pins.I2C_SDA + '", 10, 36, 1)\n';
+  code += 'oled.show()\n';
 
   return code;
 };
