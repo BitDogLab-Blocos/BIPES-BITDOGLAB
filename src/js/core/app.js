@@ -380,10 +380,18 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     return '';
   }
 
-  // Wrap all sound blocks with _buzzer_mudo guard (only those in main loop, not inside button callbacks)
+  // Wrap sound blocks with _buzzer_mudo guard only when button blocks are present.
+  // Without buttons, parar_som is used for temporary silence in loops — no guard needed.
+  // With buttons, parar_som is used for permanent stop — guard respects the flag.
+  var hasButtonBlocks = rawCode.indexOf('flag_botao_') !== -1 ||
+                        rawCode.indexOf('.irq(trigger=') !== -1 ||
+                        rawCode.indexOf('.value()') !== -1;
   rawCode = rawCode.replace(
     /# SOUND_BLOCK_START\n([\s\S]*?)# SOUND_BLOCK_END\n?/g,
     function(match, content) {
+      if (!hasButtonBlocks) {
+        return content; // No buttons: always play, parar_som only silences momentarily
+      }
       var indented = content.replace(/^(.+)$/gm, '  $1');
       return 'if not _buzzer_mudo:\n' + indented;
     }
