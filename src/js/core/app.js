@@ -582,7 +582,13 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
       finalCode += setup.join('\n') + '\n';
     }
     if (setupCodeLines.length > 0) {
-      finalCode += setupCodeLines.join('\n') + '\n';
+      var nonEmpty = setupCodeLines.filter(function(l) { return l.trim(); });
+      var minIndent = nonEmpty.reduce(function(min, l) {
+        return Math.min(min, l.match(/^(\s*)/)[1].length);
+      }, Infinity);
+      if (minIndent === Infinity) minIndent = 0;
+      var dedentedSetup = setupCodeLines.map(function(l) { return l.substring(minIndent); });
+      finalCode += dedentedSetup.join('\n') + '\n';
     }
     finalCode += BitdogLabConfig.LED_INIT.generateInitCode(rawCode);
     finalCode += '\n';
