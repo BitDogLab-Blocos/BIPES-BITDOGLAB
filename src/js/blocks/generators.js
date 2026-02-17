@@ -4919,17 +4919,17 @@ Blockly.Python['joystick_controlar_led'] = function(block) {
   var dirAumentar = block.getFieldValue('DIR_AUMENTAR');
   var dirDiminuir = block.getFieldValue('DIR_DIMINUIR');
 
-  // Y é invertido: mover para CIMA diminui o valor (tende a 0), BAIXO aumenta (tende a 65535)
-  // X é invertido: ESQUERDA aumenta (tende a 65535), DIREITA diminui (tende a 0)
+  var invY = (BitdogLabConfig.JOYSTICK.INVERT_Y === true);
+  var invX = (BitdogLabConfig.JOYSTICK.INVERT_X === true);
+  var c = joy.CENTER_VALUE, dz = joy.DEADZONE;
   var COND = {
-    'UP':    '_jy < ' + (joy.CENTER_VALUE - joy.DEADZONE),  // cima = valor baixo
-    'DOWN':  '_jy > ' + (joy.CENTER_VALUE + joy.DEADZONE),  // baixo = valor alto
-    'LEFT':  '_jx > ' + (joy.CENTER_VALUE + joy.DEADZONE),  // esquerda = valor alto
-    'RIGHT': '_jx < ' + (joy.CENTER_VALUE - joy.DEADZONE)   // direita = valor baixo
+    'UP':    (invY ? '_jy > ' + (c + dz) : '_jy < ' + (c - dz)),
+    'DOWN':  (invY ? '_jy < ' + (c - dz) : '_jy > ' + (c + dz)),
+    'LEFT':  (invX ? '_jx < ' + (c - dz) : '_jx > ' + (c + dz)),
+    'RIGHT': (invX ? '_jx > ' + (c + dz) : '_jx < ' + (c - dz)),
   };
 
   var code = '';
-  code += '# Joystick: Y invertido (cima=0, baixo=65535) | X invertido (esquerda=65535, direita=0)\n';
   code += '_jx = joy_x.read_u16()\n';
   code += '_jy = joy_y.read_u16()\n';
   code += 'if ' + COND[dirAumentar] + ':  # sobe intensidade\n';
@@ -4976,17 +4976,17 @@ Blockly.Python['joystick_controlar_buzzer'] = function(block) {
   var dirAumentar = block.getFieldValue('DIR_AUMENTAR');
   var dirDiminuir = block.getFieldValue('DIR_DIMINUIR');
 
-  // Y é invertido: mover para CIMA diminui o valor (tende a 0), BAIXO aumenta (tende a 65535)
-  // X é invertido: ESQUERDA aumenta (tende a 65535), DIREITA diminui (tende a 0)
+  var invY = (BitdogLabConfig.JOYSTICK.INVERT_Y === true);
+  var invX = (BitdogLabConfig.JOYSTICK.INVERT_X === true);
+  var c = joy.CENTER_VALUE, dz = joy.DEADZONE;
   var COND = {
-    'UP':    '_jy < ' + (joy.CENTER_VALUE - joy.DEADZONE),  // cima = valor baixo
-    'DOWN':  '_jy > ' + (joy.CENTER_VALUE + joy.DEADZONE),  // baixo = valor alto
-    'LEFT':  '_jx > ' + (joy.CENTER_VALUE + joy.DEADZONE),  // esquerda = valor alto
-    'RIGHT': '_jx < ' + (joy.CENTER_VALUE - joy.DEADZONE)   // direita = valor baixo
+    'UP':    (invY ? '_jy > ' + (c + dz) : '_jy < ' + (c - dz)),
+    'DOWN':  (invY ? '_jy < ' + (c - dz) : '_jy > ' + (c + dz)),
+    'LEFT':  (invX ? '_jx < ' + (c - dz) : '_jx > ' + (c + dz)),
+    'RIGHT': (invX ? '_jx > ' + (c + dz) : '_jx < ' + (c - dz)),
   };
 
   var code = '';
-  code += '# Joystick: Y invertido (cima=0, baixo=65535) | X invertido (esquerda=65535, direita=0)\n';
   code += '_jx = joy_x.read_u16()\n';
   code += '_jy = joy_y.read_u16()\n';
   code += 'if ' + COND[dirAumentar] + ':  # sobe frequência\n';
@@ -5025,13 +5025,17 @@ Blockly.Python['joystick_mover_player'] = function(block) {
   Blockly.Python.definitions_['setup_px'] = '_px = 0';
   Blockly.Python.definitions_['setup_py'] = '_py = 0';
 
+  var invY = (BitdogLabConfig.JOYSTICK.INVERT_Y === true);
+  var invX = (BitdogLabConfig.JOYSTICK.INVERT_X === true);
+  var exprPx = invX ? '_jx' : '(65535 - _jx)';
+  var exprPy = invY ? '(65535 - _jy)' : '_jy';
+
   var code = '';
   code += 'oled.fill(0)\n';
   code += '_jx = joy_x.read_u16()\n';
   code += '_jy = joy_y.read_u16()\n';
-  code += '# X invertido (esquerda=65535, direita=0) | Y invertido (cima=0, baixo=65535)\n';
-  code += '_px = (65535 - _jx) * (' + display.WIDTH + ' - _player_size) // 65535\n';
-  code += '_py = _jy * (' + display.HEIGHT + ' - _player_size) // 65535\n';
+  code += '_px = ' + exprPx + ' * (' + display.WIDTH + ' - _player_size) // 65535\n';
+  code += '_py = ' + exprPy + ' * (' + display.HEIGHT + ' - _player_size) // 65535\n';
   code += 'oled.fill_rect(_px, _py, _player_size, _player_size, 1)\n';
 
   return code;
@@ -5060,14 +5064,18 @@ Blockly.Python['joystick_lousa_magica'] = function(block) {
   // Divisor controls speed: smaller = faster. Range ~0..32767 each side → /4000 gives ~0..8 px/frame
   var divisor = 4000;
 
+  var invY = (BitdogLabConfig.JOYSTICK.INVERT_Y === true);
+  var invX = (BitdogLabConfig.JOYSTICK.INVERT_X === true);
+  var exprDx = invX ? '(_jx - ' + c + ')' : '(' + c + ' - _jx)';
+  var exprDy = invY ? '(' + c + ' - _jy)' : '(_jy - ' + c + ')';
+
   var code = '';
   code += '_jx = joy_x.read_u16()\n';
   code += '_jy = joy_y.read_u16()\n';
-  code += '# X invertido (esquerda=65535, direita=0)\n';
   code += 'if _jx < ' + (c - dz) + ' or _jx > ' + (c + dz) + ':\n';
-  code += '  _lx = max(0, min(' + (display.WIDTH - 1) + ', _lx + (' + c + ' - _jx) // ' + divisor + '))\n';
+  code += '  _lx = max(0, min(' + (display.WIDTH - 1) + ', _lx + ' + exprDx + ' // ' + divisor + '))\n';
   code += 'if _jy < ' + (c - dz) + ' or _jy > ' + (c + dz) + ':\n';
-  code += '  _ly = max(0, min(' + (display.HEIGHT - 1) + ', _ly + (_jy - ' + c + ') // ' + divisor + '))\n';
+  code += '  _ly = max(0, min(' + (display.HEIGHT - 1) + ', _ly + ' + exprDy + ' // ' + divisor + '))\n';
   code += 'oled.fill_rect(_lx, _ly, _pen_size, _pen_size, 1)\n';
 
   return code;
@@ -5109,6 +5117,12 @@ Blockly.Python['joystick_cursor_matriz'] = function(block) {
   // Extremity thresholds: outer ~25% of joystick range triggers movement
   var extLow  = 10000;
   var extHigh = 55000;
+  var invY = (BitdogLabConfig.JOYSTICK.INVERT_Y === true);
+  var invX = (BitdogLabConfig.JOYSTICK.INVERT_X === true);
+  var condLeft  = invX ? '_jx < ' + extLow  : '_jx > ' + extHigh;
+  var condRight = invX ? '_jx > ' + extHigh : '_jx < ' + extLow;
+  var condUp    = invY ? '_jy > ' + extHigh : '_jy < ' + extLow;
+  var condDown  = invY ? '_jy < ' + extLow  : '_jy > ' + extHigh;
 
   var code = '';
   code += '_jx = joy_x.read_u16()\n';
@@ -5116,16 +5130,16 @@ Blockly.Python['joystick_cursor_matriz'] = function(block) {
   code += '_agora_cur = time.ticks_ms()\n';
   code += '# Move apenas nas extremidades (D-pad): avança uma casa por vez\n';
   code += 'if time.ticks_diff(_agora_cur, _cursor_tempo) > 200:\n';
-  code += '  if _jx > ' + extHigh + ':  # esquerda\n';
+  code += '  if ' + condLeft + ':  # esquerda\n';
   code += '    _cursor_col = max(0, _cursor_col - 1)\n';
   code += '    _cursor_tempo = _agora_cur\n';
-  code += '  elif _jx < ' + extLow + ':  # direita\n';
+  code += '  elif ' + condRight + ':  # direita\n';
   code += '    _cursor_col = min(4, _cursor_col + 1)\n';
   code += '    _cursor_tempo = _agora_cur\n';
-  code += '  elif _jy < ' + extLow + ':  # cima\n';
+  code += '  elif ' + condUp + ':  # cima\n';
   code += '    _cursor_row = max(0, _cursor_row - 1)\n';
   code += '    _cursor_tempo = _agora_cur\n';
-  code += '  elif _jy > ' + extHigh + ':  # baixo\n';
+  code += '  elif ' + condDown + ':  # baixo\n';
   code += '    _cursor_row = min(4, _cursor_row + 1)\n';
   code += '    _cursor_tempo = _agora_cur\n';
   code += '_cor_cursor = (int(' + cor + '[0] * ' + brilho_float + '), int(' + cor + '[1] * ' + brilho_float + '), int(' + cor + '[2] * ' + brilho_float + '))\n';
@@ -5154,16 +5168,18 @@ Blockly.Python['joystick_seletor'] = function(block) {
 
   // Cross-axis guard: use 2x deadzone on the perpendicular axis to avoid
   // accidental triggers when moving diagonally (e.g. pushing left also moves Y slightly)
+  var invY = (BitdogLabConfig.JOYSTICK.INVERT_Y === true);
+  var invX = (BitdogLabConfig.JOYSTICK.INVERT_X === true);
   var c = joy.CENTER_VALUE;
   var dz = joy.DEADZONE;
   var cdz = dz * 2;
   var xNear = '_jx > ' + (c - cdz) + ' and _jx < ' + (c + cdz);
   var yNear = '_jy > ' + (c - cdz) + ' and _jy < ' + (c + cdz);
   var COND = {
-    'UP':    '_jy < ' + (c - dz) + ' and ' + xNear,
-    'DOWN':  '_jy > ' + (c + dz) + ' and ' + xNear,
-    'LEFT':  '_jx > ' + (c + dz) + ' and ' + yNear,
-    'RIGHT': '_jx < ' + (c - dz) + ' and ' + yNear
+    'UP':    (invY ? '_jy > ' + (c + dz) : '_jy < ' + (c - dz)) + ' and ' + xNear,
+    'DOWN':  (invY ? '_jy < ' + (c - dz) : '_jy > ' + (c + dz)) + ' and ' + xNear,
+    'LEFT':  (invX ? '_jx < ' + (c - dz) : '_jx > ' + (c + dz)) + ' and ' + yNear,
+    'RIGHT': (invX ? '_jx > ' + (c + dz) : '_jx < ' + (c - dz)) + ' and ' + yNear,
   };
 
   // Count blocks in OPCOES
