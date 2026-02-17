@@ -664,15 +664,32 @@ Blockly.Python['bloco_criar_animacao_led'] = function(block) {
   }
   Blockly.Python.definitions_['import_time'] = 'import time';
   var code = '';
-  for (var i = 0; i < block.steps_.length; i++) {
+  var i = 0;
+  while (i < block.steps_.length) {
     if (block.steps_[i] === 'action') {
       var stepCode = Blockly.Python.statementToCode(block, 'STEP' + i);
-      if (stepCode) {
-        code += stepCode.replace(/^  /gm, '');
+      var actionCode = stepCode ? stepCode.replace(/^  /gm, '') : '';
+      // Check if the action generates an infinite loop (e.g. bloco_piscar_led)
+      // and the next step is a timed wait — if so, convert to time-bounded loop
+      var nextIsWait = (i + 1 < block.steps_.length && block.steps_[i + 1] === 'wait');
+      var whileTrueMatch = actionCode.match(/^while True:\n([\s\S]*)$/);
+      if (whileTrueMatch && nextIsWait) {
+        Blockly.Python.definitions_['import_utime'] = 'import utime';
+        var timeValue = Blockly.Python.valueToCode(block, 'STEP' + (i + 1), Blockly.Python.ORDER_ATOMIC) || '0';
+        code += '_anim_end = utime.ticks_add(utime.ticks_ms(), ' + timeValue + ')\n';
+        code += 'while utime.ticks_diff(_anim_end, utime.ticks_ms()) > 0:\n';
+        code += whileTrueMatch[1]; // inner body already has correct indentation
+        i += 2; // consumed the wait step too
+      } else {
+        code += actionCode;
+        i += 1;
       }
     } else if (block.steps_[i] === 'wait') {
       var timeValue = Blockly.Python.valueToCode(block, 'STEP' + i, Blockly.Python.ORDER_ATOMIC) || '0';
       code += 'time.sleep_ms(' + timeValue + ')\n';
+      i += 1;
+    } else {
+      i += 1;
     }
   }
   return code;
