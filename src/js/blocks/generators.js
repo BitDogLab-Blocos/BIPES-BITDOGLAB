@@ -247,7 +247,7 @@ Blockly.Python['preencher_matriz'] = function(block) {
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var intensity = block.getFieldValue('INTENSITY');
   var code = 'for i in range(25):\n';
-  code += '    np[i] = (int(' + colour + '[0] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[1] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[2] * ' + intensity + ' * 0.7 / 100))\n';
+  code += '    np[i] = (int(' + colour + '[0] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(' + colour + '[1] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(' + colour + '[2] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100))\n';
   code += 'np.write()\n';
   // Track matrix state
   code += '# Update matrix tracking\n';
@@ -292,7 +292,7 @@ Blockly.Python['acender_led_posicao'] = function(block) {
   code += '    np[i] = (0, 0, 0)\n';
   code += 'if 0 <= ' + linha + ' <= 4 and 0 <= ' + coluna + ' <= 4:\n';
   code += '    led_index = LED_MATRIX[4 - ' + linha + '][' + coluna + ']\n';
-  code += '    np[led_index] = (int(' + colour + '[0] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[1] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[2] * ' + intensity + ' * 0.7 / 100))\n';
+  code += '    np[led_index] = (int(' + colour + '[0] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(' + colour + '[1] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(' + colour + '[2] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100))\n';
   code += 'np.write()\n';
   // Track matrix state
   code += '# Update matrix tracking\n';
@@ -319,7 +319,7 @@ Blockly.Python['acender_linha'] = function(block) {
   code += 'if 0 <= ' + linha + ' <= 4:\n';
   code += '    for x in range(5):\n';
   code += '        led_index = LED_MATRIX[4 - ' + linha + '][x]\n';
-  code += '        np[led_index] = (int(' + colour + '[0] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[1] * ' + intensity + ' * 0.7 / 100), int(' + colour + '[2] * ' + intensity + ' * 0.7 / 100))\n';
+  code += '        np[led_index] = (int(' + colour + '[0] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(' + colour + '[1] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(' + colour + '[2] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100))\n';
   code += 'np.write()\n';
   // Track matrix state
   code += '# Update matrix tracking\n';
@@ -346,9 +346,9 @@ Blockly.Python['acender_coluna'] = function(block) {
   code += 'if 0 <= ' + coluna + ' <= 4:\n';
   code += '    for y in range(5):\n';
   code += '        led_index = LED_MATRIX[y][' + coluna + ']\n';
-  code += '        r = max(1, int(' + colour + '[0] * ' + intensity + ' / 100))\n';
-  code += '        g = max(1, int(' + colour + '[1] * ' + intensity + ' / 100))\n';
-  code += '        b = max(1, int(' + colour + '[2] * ' + intensity + ' / 100))\n';
+  code += '        r = int(' + colour + '[0] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100)\n';
+  code += '        g = int(' + colour + '[1] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100)\n';
+  code += '        b = int(' + colour + '[2] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100)\n';
   code += '        np[led_index] = (r, g, b)\n';
   code += 'np.write()\n';
   code += 'time.sleep_ms(10)\n';
@@ -4139,7 +4139,7 @@ Blockly.Python['mostrar_numero_matriz'] = function(block) {
   var numero = Blockly.Python.valueToCode(block, 'NUMERO', Blockly.Python.ORDER_ATOMIC) || '0';
   var cor_rgb = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var brilho = block.getFieldValue('BRILHO');
-  var brilho_float = brilho * 0.7 / 100;
+  var brilho_float = brilho * BitdogLabConfig.NEOPIXEL.BRIGHTNESS / 100;
   var code = '';
   code += 'for i in range(25):\n';
   code += '    np[i] = (0, 0, 0)\n';
@@ -4250,7 +4250,7 @@ Blockly.Python['mostrar_emoji'] = function(block) {
   var emoji = Blockly.Python.valueToCode(block, 'EMOJI', Blockly.Python.ORDER_ATOMIC) || '"happy"';
   var cor_rgb = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(255, 255, 0)';
   var brilho = block.getFieldValue('BRILHO');
-  var brilho_float = brilho * 0.7 / 100;
+  var brilho_float = brilho * BitdogLabConfig.NEOPIXEL.BRIGHTNESS / 100;
   var code = '';
   code += 'for i in range(25):\n';
   code += '    np[i] = (0, 0, 0)\n';
@@ -4364,13 +4364,13 @@ Blockly.Python['matriz_aparecer_sumir'] = function(block) {
   code += '# Fade in\n';
   code += 'for brilho in range(0, 101, 10):\n';
   code += '    for i in range(25):\n';
-  code += '        np[i] = (int(_cores_finais[i][0] * brilho * 0.7 / 100), int(_cores_finais[i][1] * brilho * 0.7 / 100), int(_cores_finais[i][2] * brilho * 0.7 / 100))\n';
+  code += '        np[i] = (int(_cores_finais[i][0] * brilho * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(_cores_finais[i][1] * brilho * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(_cores_finais[i][2] * brilho * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100))\n';
   code += '    np.write()\n';
   code += '    time.sleep_ms(150)\n';
   code += '# Fade out\n';
   code += 'for brilho in range(100, -1, -10):\n';
   code += '    for i in range(25):\n';
-  code += '        np[i] = (int(_cores_finais[i][0] * brilho * 0.7 / 100), int(_cores_finais[i][1] * brilho * 0.7 / 100), int(_cores_finais[i][2] * brilho * 0.7 / 100))\n';
+  code += '        np[i] = (int(_cores_finais[i][0] * brilho * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(_cores_finais[i][1] * brilho * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(_cores_finais[i][2] * brilho * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100))\n';
   code += '    np.write()\n';
   code += '    time.sleep_ms(150)\n';
   return code;
@@ -4401,13 +4401,13 @@ Blockly.Python['matriz_pulsar_brilho'] = function(block) {
   code += '    # Increase brightness\n';
   code += '    for brilho in range(30, 101, 10):\n';
   code += '        for i in range(25):\n';
-  code += '            np[i] = (int(_cores_pulsar[i][0] * brilho * 0.7 / 100), int(_cores_pulsar[i][1] * brilho * 0.7 / 100), int(_cores_pulsar[i][2] * brilho * 0.7 / 100))\n';
+  code += '            np[i] = (int(_cores_pulsar[i][0] * brilho * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(_cores_pulsar[i][1] * brilho * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(_cores_pulsar[i][2] * brilho * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100))\n';
   code += '        np.write()\n';
   code += '        time.sleep_ms(150)\n';
   code += '    # Decrease brightness\n';
   code += '    for brilho in range(100, 29, -10):\n';
   code += '        for i in range(25):\n';
-  code += '            np[i] = (int(_cores_pulsar[i][0] * brilho * 0.7 / 100), int(_cores_pulsar[i][1] * brilho * 0.7 / 100), int(_cores_pulsar[i][2] * brilho * 0.7 / 100))\n';
+  code += '            np[i] = (int(_cores_pulsar[i][0] * brilho * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(_cores_pulsar[i][1] * brilho * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(_cores_pulsar[i][2] * brilho * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100))\n';
   code += '        np.write()\n';
   code += '        time.sleep_ms(150)\n';
   return code;
@@ -5074,6 +5074,8 @@ Blockly.Python['joystick_lousa_magica'] = function(block) {
   Blockly.Python.definitions_['setup_pen_size'] = '_pen_size = ' + tamanho;
   Blockly.Python.definitions_['setup_lx'] = '_lx = ' + Math.floor(display.WIDTH / 2);
   Blockly.Python.definitions_['setup_ly'] = '_ly = ' + Math.floor(display.HEIGHT / 2);
+  Blockly.Python.definitions_['setup_px'] = '_px = 0';
+  Blockly.Python.definitions_['setup_py'] = '_py = 0';
 
   var c = joy.CENTER_VALUE, dz = joy.DEADZONE;
   // Divisor controls speed: smaller = faster. Range ~0..32767 each side → /4000 gives ~0..8 px/frame
@@ -5092,6 +5094,8 @@ Blockly.Python['joystick_lousa_magica'] = function(block) {
   code += 'if _jy < ' + (c - dz) + ' or _jy > ' + (c + dz) + ':\n';
   code += '  _ly = max(0, min(' + (display.HEIGHT - 1) + ', _ly + ' + exprDy + ' // ' + divisor + '))\n';
   code += 'oled.fill_rect(_lx, _ly, _pen_size, _pen_size, 1)\n';
+  code += '_px = _lx\n';
+  code += '_py = _ly\n';
 
   return code;
 };
@@ -5127,7 +5131,7 @@ Blockly.Python['joystick_cursor_matriz'] = function(block) {
   var joy = BitdogLabConfig.JOYSTICK;
   var cor = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(255, 255, 255)';
   var brilho = block.getFieldValue('BRILHO');
-  var brilho_float = (brilho * 0.7 / 100).toFixed(4);
+  var brilho_float = (brilho * BitdogLabConfig.NEOPIXEL.BRIGHTNESS / 100).toFixed(4);
 
   // Extremity thresholds: outer ~25% of joystick range triggers movement
   var extLow  = 10000;
