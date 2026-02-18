@@ -20,7 +20,7 @@ const BitdogLabConfig_V6 = {
 
   NEOPIXEL: {
     COUNT: 25,
-    BRIGHTNESS: 0.4,
+    BRIGHTNESS: 0.2,
     MATRIX: [
       [24, 23, 22, 21, 20],
       [15, 16, 17, 18, 19],
