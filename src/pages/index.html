@@ -331,21 +331,16 @@ function checkCookie() {
         <label id="loadButton" for="loadXML"  class="notext button icon" title="..."></label>
         <input name="XML" id="loadXML" type="file" accept=".xml" required="">
         <button id="notificationButton" class="notext icon" title="..."></button>
-        <button id="forumButton" class="notext icon" title="..."></button>
-        <button id="accountButton" class="notext icon" title="..."></button>
       </div>
     </div>
 
   <div class='channel-panel'>
     <div>
       <button class='icon' id="serialButton">Serial</button>
-      <label for="resetBoard" class="checkswitch">
-        Reset on connect
-        <input type="checkbox" id="resetBoard" class="checkswitch" value="off">
-        <span></span>
-      </label>
     </div>
   </div>
+  <!-- resetBoard hidden: mantido para compatibilidade com webserial.js -->
+  <input type="checkbox" id="resetBoard" style="display:none" value="off">
 
   <div id="content_blocks" class="content"></div>
   <div id="content_console" class="content">
@@ -446,26 +441,6 @@ function checkCookie() {
 <div class='progress-bar'></div>
 <div class="notify"></div>
 <div class="notify-panel"></div>
-<div class="account-panel">
-  <span>
-    <span id="account_header"><span id="hello_text"></span>, <span id="account_user" role="textbox" contenteditable id="user_text">User</span>!</span>
-    <details open>
-    <summary>
-    <h2 id="projects_header">Projects</h2>
-    <button value="New Project" id="newProjectButton" class="notext button icon" title="Create new project" onclick="/*UI ['workspace'].newProject();*/" /></button>
-    </summary>
-    <span id='ProjectList'></span>
-    </details>
-  </span>
-  <details open>
-  <summary>
-  <h2 id="settings_header">Settings</h2>
-  </summary>
-  <span class="icon" id="languageIcon">
-  <select id="languageMenu"></select>
-  </span>
-  </details>
-</div>
 
 <script>
 // Initialize Blockly workspace

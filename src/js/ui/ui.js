@@ -9,10 +9,11 @@ function panel (button_, panel_) {
   this.panel_ = panel_;
   this.button = get (button_);
   this.panel = get (panel_);
-  this.button.onclick = () => {this.showPanel ()};
+  if (this.button) this.button.onclick = () => {this.showPanel ()};
 }
 // Toggle panel visibility
 panel.prototype.showPanel = function () {
+  if (!this.panel) return;
   let panel_ = UI ['responsive'].panels [this.panel_];
 
   UI ['responsive'].closeZone._dom.classList.add('on') // Activate close overlay
@@ -36,16 +37,22 @@ function account (button_, panel_) {
   this.projectList = get("#ProjectList");
   this.newProjectButton = get('#newProjectButton');
   this.dom_username = get('#account_user');
-  this.dom_username.addEventListener("input", () => {localStorage.setItem('account_user', this.dom_username.innerText)}); // Auto-save username
-  this.newProjectButton.onclick = () => {this.newProject ()};
+  if (this.dom_username) {
+    this.dom_username.addEventListener("input", () => {localStorage.setItem('account_user', this.dom_username.innerText)});
+  }
+  if (this.newProjectButton) {
+    this.newProjectButton.onclick = () => {this.newProject ()};
+  }
 
   this.currentProject = {uid:'', xml:''};
 	this.projects = {}; // {uid: timestamp}
 
-	if (localStorage ['account_user']) {
-	  this.dom_username.innerText = localStorage ['account_user'];
-	} else {
-	  localStorage.setItem('account_user', 'User');
+	if (this.dom_username) {
+	  if (localStorage ['account_user']) {
+	    this.dom_username.innerText = localStorage ['account_user'];
+	  } else {
+	    localStorage.setItem('account_user', 'User');
+	  }
 	}
 }
 // Restore projects from localStorage and list valid ones
@@ -53,10 +60,10 @@ account.prototype.restoreProjects = function (projects_) {
   this.projects = projects_;
 
   // Update UI with translated strings
-  if (MSG['hello']) document.getElementById('hello_text').textContent = MSG['hello'];
-  if (MSG['user']) document.getElementById('user_text').textContent = MSG['user'];
-  if (MSG['projects']) document.getElementById('projects_header').textContent = MSG['projects'];
-  if (MSG['settings']) document.getElementById('settings_header').textContent = MSG['settings'];
+  if (MSG['hello'] && document.getElementById('hello_text')) document.getElementById('hello_text').textContent = MSG['hello'];
+  if (MSG['user'] && document.getElementById('user_text')) document.getElementById('user_text').textContent = MSG['user'];
+  if (MSG['projects'] && document.getElementById('projects_header')) document.getElementById('projects_header').textContent = MSG['projects'];
+  if (MSG['settings'] && document.getElementById('settings_header')) document.getElementById('settings_header').textContent = MSG['settings'];
 
   var hasValidProjects = false;
   for (const prop in this.projects) {
@@ -91,7 +98,7 @@ account.prototype.openLastEdited = function () {
 
   console.log('[Account] Opening project with UID:', this.currentProject.uid);
 
-  getIn(this.projectList, `#${this.currentProject.uid}`).className = 'current';
+  if (this.projectList) getIn(this.projectList, `#${this.currentProject.uid}`).className = 'current';
 
   var xml = UI ['workspace'].readWorkspace (this.currentProject.xml, false);
   Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), Blockly.getMainWorkspace());
@@ -113,20 +120,20 @@ account.prototype.listProject = function (uid, timestamp) {
     let wrapper_ = new DOM ('div')
         .append([downloadButton_, deleteButton_])
     wrapper2_.append([openButton_, wrapper_])
-    this.projectList.append(wrapper2_._dom)
+    if (this.projectList) this.projectList.append(wrapper2_._dom)
 }
 // Open project by UID
 account.prototype.openProject = function (uid) {
   if (this.currentProject.uid != '') {
     BlocklyStorage.backupBlocks_ ();
-    try{getIn(this.projectList, `#${this.currentProject.uid}`).className = ''} catch (e) {};
+    if (this.projectList) try{getIn(this.projectList, `#${this.currentProject.uid}`).className = ''} catch (e) {};
   }
   let xml = localStorage[uid];
 
   this.currentProject.uid = uid;
   this.currentProject.xml = xml;
 
-  getIn(this.projectList, `#${uid}`).className = 'current';
+  if (this.projectList) getIn(this.projectList, `#${uid}`).className = 'current';
 
   this.projects[uid] = +new Date(); // Update timestamp to mark as recently opened
 
@@ -139,7 +146,7 @@ account.prototype.deleteProject = function (uid) {
   delete this.projects[uid];
   localStorage.setItem('bipes_projects', JSON.stringify(this.projects))
 
-  getIn(this.projectList, `#${uid}`).remove();
+  if (this.projectList) getIn(this.projectList, `#${uid}`).remove();
 
   if (this.currentProject.uid == uid) {
     this.currentProject.uid = '';
@@ -168,7 +175,7 @@ account.prototype.getProjectName_ = function (uid) {
 account.prototype.newProject = function () {
   if (this.currentProject.uid != '') {
     BlocklyStorage.backupBlocks_ ();
-    try{getIn(this.projectList, `#${this.currentProject.uid}`).className = ''} catch (e) {};
+    if (this.projectList) try{getIn(this.projectList, `#${this.currentProject.uid}`).className = ''} catch (e) {};
   }
 
   let emptyXML = Tool.emptyXML ();
@@ -184,13 +191,13 @@ account.prototype.newProject = function () {
 
   BlocklyStorage.loadXml_ (emptyXML, Blockly.getMainWorkspace());
 
-  getIn(this.projectList, `#${uid}`).className = 'current';
+  if (this.projectList) getIn(this.projectList, `#${uid}`).className = 'current';
 }
 // Import project from external XML
 account.prototype.importProject = function (xml) {
   if (this.currentProject.uid != '') {
     BlocklyStorage.backupBlocks_ ();
-    try{getIn(this.projectList, `#${this.currentProject.uid}`).className = ''} catch (e) {};
+    if (this.projectList) try{getIn(this.projectList, `#${this.currentProject.uid}`).className = ''} catch (e) {};
   }
   let uid = Tool.uid ();
   this.projects [uid] = +new Date ();
@@ -204,12 +211,13 @@ account.prototype.importProject = function (xml) {
 
   BlocklyStorage.loadXml_ (xml, Blockly.getMainWorkspace());
 
-  getIn(this.projectList, `#${uid}`).className = 'current';
+  if (this.projectList) getIn(this.projectList, `#${uid}`).className = 'current';
 }
 // Update current project name in UI
 account.prototype.setCurrentProjectName_ = function (str_) {
   let short_project_name = str_.length > 30 ? `${str_.substring(0,27)}...` : str_;
 
+  if (!this.projectList) return;
   let a_ = getIn(this.projectList, `#${this.currentProject.uid}`);
   let b_ = getIn(a_, '.runText')
   b_.innerText = short_project_name;
@@ -370,7 +378,8 @@ class responsive {
 // Close all open panels
 responsive.prototype.hidePanels = function (ev) {
   for (const prop in this.panels) {
-      UI [this.panels[prop].from].panel.id=''
+      let ui_ = UI [this.panels[prop].from];
+      if (ui_ && ui_.panel) ui_.panel.id='';
       this.panels[prop].show = false
   }
   this.closeZone._dom.classList.remove('on')
@@ -460,7 +469,7 @@ class workspace {
     this.put_file_select = get('#put-file-select');
     this.file = get('#content_file_name');
     this.content_file_name = get('#content_file_name');
-    this.put_file_select.onchange = () => {Files.handle_put_file_select ()};
+    if (this.put_file_select) this.put_file_select.onchange = () => {Files.handle_put_file_select ()};
   }
 }
 
