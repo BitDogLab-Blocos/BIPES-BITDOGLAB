@@ -2551,6 +2551,9 @@ Blockly.Python['display_mostrar_valor'] = function(block) {
     code += '_display_x = max(3, 125 - len(_display_value) * 8)\n';
   }
 
+  // Limpar área do valor antes de escrever (evita sobreposição de pixels antigos)
+  code += 'oled.fill_rect(_display_x, ' + y + ', 128 - _display_x, 8, 0)\n';
+
   // Mostrar o valor no display
   code += 'oled.text(_display_value, _display_x, ' + y + ', 1)\n';
   // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
