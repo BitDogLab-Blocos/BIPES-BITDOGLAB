@@ -57,7 +57,7 @@ logs/
 .env.local
 .env.*.local
 
-# Arquivos locais de rascunho/ideias
+# Arquivos locais de rascunho/ideiass
 joystick_ideias
 
 # Arquivos de Documentação Temporária (ignora todos .md exceto README.md)

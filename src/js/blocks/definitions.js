@@ -3562,6 +3562,37 @@ Blockly.Blocks['joystick_seletor'] = {
 };
 
 // ==========================================
+// Category: Microfone
+// ==========================================
+// Bloco 0: Testar Microfone no Display
+Blockly.Blocks['microfone_testar'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎙️ Testar Microfone no Display");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#e74c3c");
+    this.setTooltip("Mostra no display OLED o valor raw do ADC, o nível do sinal e se o microfone está respondendo. Use para verificar se o GPIO28 está correto.");
+    this.setHelpUrl("");
+  }
+};
+// Bloco 1: VU Meter na Matriz
+Blockly.Blocks['microfone_vu_meter'] = {
+  init: function() {
+    this.appendValueInput("COR")
+        .setCheck("Colour")
+        .appendField("🎙️ VU Meter na Matriz  brilho:")
+        .appendField(new Blockly.FieldNumber(30, 0, 100), "BRILHO")
+        .appendField("%  cor:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#e74c3c");
+    this.setTooltip("Mostra o nível de volume do microfone na matriz 5x5. Quanto mais alto o som, mais linhas acendem de baixo para cima.");
+    this.setHelpUrl("");
+  }
+};
+
+// ==========================================
 // Category: Condicionais (Conditionals)
 // ==========================================
 // Bloco "Se" (If) - estrutura condicional genérica
