@@ -369,6 +369,7 @@
     <block type="microfone_nivel_atual"></block>
     <block type="microfone_barra_display"></block>
     <block type="microfone_barra_pct"></block>
+    <block type="microfone_controlar_led"></block>
     <block type="microfone_contar_palmas"></block>
     <block type="microfone_total_palmas"></block>
   </category>
