@@ -387,13 +387,16 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
                         rawCode.indexOf('.irq(trigger=') !== -1 ||
                         rawCode.indexOf('.value()') !== -1;
   rawCode = rawCode.replace(
-    /# SOUND_BLOCK_START\n([\s\S]*?)# SOUND_BLOCK_END\n?/g,
-    function(match, content) {
+    // Capture leading whitespace separately so it is consumed by the match and
+    // not left "orphaned" before the first content line when the block sits
+    // inside an if/for (which would add extra indentation to only that line).
+    /([ \t]*)# SOUND_BLOCK_START\n([\s\S]*?)[ \t]*# SOUND_BLOCK_END[ \t]*\n?/g,
+    function(match, leadingIndent, content) {
       if (!hasButtonBlocks) {
         return content; // No buttons: always play, parar_som only silences momentarily
       }
       var indented = content.replace(/^(.+)$/gm, '  $1');
-      return 'if not _buzzer_mudo:\n' + indented;
+      return leadingIndent + 'if not _buzzer_mudo:\n' + indented;
     }
   );
 
@@ -834,6 +837,40 @@ Code.init = function() {
     closeBtn.addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.2)'; });
   };
 
+  // Mic getter reminder notification
+  Code.showMicGetterReminder = function() {
+    if (document.getElementById('micGetterNotification')) return;
+
+    var notification = document.createElement('div');
+    notification.id = 'micGetterNotification';
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #e74c3c; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 450px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
+    notification.innerHTML =
+      '<button id="closeMicGetterNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+      '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
+      '🎙️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
+      '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED para ver o número na tela!<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Exemplo:</strong><br>' +
+      '1️⃣ 🎙️ Acender matriz de LEDs com barulho<br>' +
+      '2️⃣ 📊 Mostrar valor: <strong>[🎙️ Nível do som]</strong> linha 1<br>' +
+      '</div>';
+
+    document.body.appendChild(notification);
+
+    document.getElementById('closeMicGetterNotification').addEventListener('click', function() {
+      if (notification && notification.parentNode) {
+        notification.style.animation = 'slideOut 0.3s ease-in';
+        setTimeout(function() {
+          if (notification && notification.parentNode) notification.parentNode.removeChild(notification);
+        }, 300);
+      }
+    });
+
+    var closeBtn = document.getElementById('closeMicGetterNotification');
+    closeBtn.addEventListener('mouseenter', function() { this.style.background = 'rgba(0,0,0,0.4)'; });
+    closeBtn.addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.2)'; });
+  };
+
   // Listen for block create events
   Code.workspace.addChangeListener(function(event) {
     if (event.type === Blockly.Events.BLOCK_CREATE) {
@@ -853,6 +890,10 @@ Code.init = function() {
 
         if (blockType === 'joystick_seletor') {
           Code.showJoystickSeletorReminder();
+        }
+
+        if (blockType === 'microfone_nivel_atual') {
+          Code.showMicGetterReminder();
         }
       }
     }
