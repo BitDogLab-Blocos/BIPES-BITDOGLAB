@@ -3581,13 +3581,13 @@ Blockly.Blocks['microfone_vu_meter'] = {
   init: function() {
     this.appendValueInput("COR")
         .setCheck("Colour")
-        .appendField("🎙️ VU Meter na Matriz  brilho:")
+        .appendField("🎙️ Acender matriz de LEDs com barulho  brilho:")
         .appendField(new Blockly.FieldNumber(30, 0, 100), "BRILHO")
         .appendField("%  cor:");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#e74c3c");
-    this.setTooltip("Mostra o nível de volume do microfone na matriz 5x5. Quanto mais alto o som, mais linhas acendem de baixo para cima.");
+    this.setTooltip("Quanto mais barulho você fizer, mais LEDs da matriz acendem! Fale, bata palma ou assopre perto do microfone.");
     this.setHelpUrl("");
   }
 };
