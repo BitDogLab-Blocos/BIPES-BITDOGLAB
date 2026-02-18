@@ -5259,14 +5259,11 @@ Blockly.Python['microfone_testar'] = function(block) {
   // Threshold: ±8000 de 32767 (≈25% da escala) — fora disso = pino errado.
   code += '_mic_raw = adc_mic.read_u16()\n';
   code += '_mic_sinal = abs(_mic_raw - _MIC_OFFSET)\n';
-  code += '_mic_bias_ok = _mic_sinal < 8000\n';
-  code += '_mic_pino = "GPIO' + pins.MIC + ' OK" if _mic_bias_ok else "PINO ERRADO?"\n';
   code += '_mic_som = ("som:" + str(_mic_sinal)) if _mic_sinal > 3000 else "silencio"\n';
   code += 'oled.fill(0)\n';
   code += 'oled.text("MIC teste", 0, 0, 1)\n';
-  code += 'oled.text("Raw:" + str(_mic_raw), 0, 14, 1)\n';
-  code += 'oled.text(_mic_pino, 0, 30, 1)\n';
-  code += 'oled.text(_mic_som, 0, 46, 1)\n';
+  code += 'oled.text("Raw:" + str(_mic_raw), 0, 22, 1)\n';
+  code += 'oled.text(_mic_som, 0, 44, 1)\n';
 
   return code;
 };
