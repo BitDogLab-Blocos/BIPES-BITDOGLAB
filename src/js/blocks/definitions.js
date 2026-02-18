@@ -3581,7 +3581,7 @@ Blockly.Blocks['microfone_vu_meter'] = {
   init: function() {
     this.appendValueInput("COR")
         .setCheck("Colour")
-        .appendField("🎙️ Acender matriz de LEDs com barulho  brilho:")
+        .appendField("🎙️ Medidor de barulho na Matriz  brilho:")
         .appendField(new Blockly.FieldNumber(30, 0, 100), "BRILHO")
         .appendField("%  cor:");
     this.setPreviousStatement(true, null);
@@ -3608,8 +3608,8 @@ Blockly.Blocks['microfone_nivel_atual'] = {
 Blockly.Blocks['microfone_barra_display'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🖥️ Barra de barulho no Display  linha:")
-        .appendField(new Blockly.FieldNumber(3, 1, 7), "LINHA");
+        .appendField("🖥️ Medidor de barulho no Display  linha:")
+        .appendField(new Blockly.FieldNumber(3, 1, 5), "LINHA");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#e74c3c");
@@ -3622,7 +3622,7 @@ Blockly.Blocks['microfone_barra_display'] = {
 Blockly.Blocks['microfone_barra_pct'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🖥️ Força do barulho (%)");
+        .appendField("🎙️ Intensidade do barulho (%)");
     this.setOutput(true, "Number");
     this.setColour("#e74c3c");
     this.setTooltip("Retorna a intensidade do barulho como porcentagem (0 = silêncio, 100 = barulho máximo). Use dentro do bloco 'Mostrar valor' do display.");

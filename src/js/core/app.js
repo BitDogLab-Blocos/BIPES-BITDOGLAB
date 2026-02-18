@@ -885,8 +885,8 @@ Code.init = function() {
       '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED para ver a porcentagem na tela!<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Exemplo:</strong><br>' +
-      '1️⃣ 🖥️ Barra de barulho no Display  linha: 3<br>' +
-      '2️⃣ 📊 Mostrar valor: <strong>[🖥️ Força do barulho (%)]</strong> linha 1<br>' +
+      '1️⃣ 🖥️ Medidor de barulho no Display  linha: 3<br>' +
+      '2️⃣ 📊 Mostrar valor: <strong>[🎙️ Intensidade do barulho (%)]</strong> linha 1<br>' +
       '</div>';
 
     document.body.appendChild(notification);

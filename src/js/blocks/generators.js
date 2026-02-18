@@ -5327,7 +5327,8 @@ Blockly.Python['microfone_barra_display'] = function(block) {
   Blockly.Python.definitions_['setup_barra_pct'] = '_barra_pct = 0';
 
   var linha = block.getFieldValue('LINHA');
-  var y = (parseInt(linha) - 1) * 8;
+  var yPositions = {'1': 8, '2': 18, '3': 28, '4': 38, '5': 48};
+  var y = yPositions[linha];
 
   var code = '';
   code += '_mic_peak = 0\n';
@@ -5344,5 +5345,5 @@ Blockly.Python['microfone_barra_display'] = function(block) {
 // Getter: retorna a força do barulho em porcentagem (0–100)
 Blockly.Python['microfone_barra_pct'] = function(_block) {
   Blockly.Python.definitions_['setup_barra_pct'] = Blockly.Python.definitions_['setup_barra_pct'] || '_barra_pct = 0';
-  return ['_barra_pct', Blockly.Python.ORDER_ATOMIC];
+  return ['str(_barra_pct) + "%"', Blockly.Python.ORDER_ATOMIC];
 };
