@@ -109,6 +109,8 @@ const BitdogLabConfig_V6 = {
              line.startsWith('_MIC_OFFSET') ||
              line === '_mic_nivel = 0' ||
              line === '_barra_pct = 0' ||
+             line === '_palmas = 0' ||
+             line === '_mic_ultima_palma = 0' ||
              (line.startsWith('_buzzer_mudo') && line.indexOf('True') === -1) ||
              line.startsWith('_player_size') ||
              line === '_px = 0' ||

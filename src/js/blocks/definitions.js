@@ -3618,6 +3618,32 @@ Blockly.Blocks['microfone_barra_display'] = {
   }
 };
 
+// Bloco 3 — Contador de palmas
+Blockly.Blocks['microfone_contar_palmas'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🖐️ Contar palmas  linha:")
+        .appendField(new Blockly.FieldNumber(1, 1, 5), "LINHA");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#e74c3c");
+    this.setTooltip("Detecta palmas e conta uma por uma. Cada palma só é contada quando o som para e começa de novo — sem contar duas vezes a mesma. Mostra o total no display. Use o bloco '🖐️ Total de palmas' para usar o número no programa.");
+    this.setHelpUrl("");
+  }
+};
+
+// Getter: total de palmas detectadas
+Blockly.Blocks['microfone_total_palmas'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🖐️ Total de palmas");
+    this.setOutput(true, "Number");
+    this.setColour("#e74c3c");
+    this.setTooltip("Retorna quantas palmas foram detectadas até agora. Use dentro de 'Mostrar valor' para ver o número, ou em condições como 'se total de palmas = 3'.");
+    this.setHelpUrl("");
+  }
+};
+
 // Getter: retorna a força do barulho em porcentagem (0–100)
 Blockly.Blocks['microfone_barra_pct'] = {
   init: function() {
