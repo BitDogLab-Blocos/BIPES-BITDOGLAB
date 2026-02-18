@@ -5342,6 +5342,47 @@ Blockly.Python['microfone_barra_display'] = function(block) {
   return code;
 };
 
+// Bloco 3 — Contador de palmas
+Blockly.Python['microfone_contar_palmas'] = function(block) {
+  var pins = BitdogLabConfig.PINS;
+  var display = BitdogLabConfig.DISPLAY;
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_adc'] = 'from machine import ADC';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_mic'] = 'adc_mic = ADC(Pin(' + pins.MIC + '))';
+  Blockly.Python.definitions_['setup_mic_offset'] = '_MIC_OFFSET = 32767';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\noled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_palmas'] = '_palmas = 0\n_mic_ultima_palma = 0';
+
+  var linha = block.getFieldValue('LINHA');
+  var yPositions = {'1': 8, '2': 18, '3': 28, '4': 38, '5': 48};
+  var y = yPositions[linha];
+
+  var code = '';
+  // Janela de 50ms: amostrar continuamente e guardar o pico (palmas são transientes rápidos)
+  code += '_mic_t0 = time.ticks_ms()\n';
+  code += '_mic_peak = 0\n';
+  code += 'while time.ticks_diff(time.ticks_ms(), _mic_t0) < 50:\n';
+  code += '    _s = abs(adc_mic.read_u16() - _MIC_OFFSET)\n';
+  code += '    if _s > _mic_peak: _mic_peak = _s\n';
+  // Conta palma só se: pico acima do limiar E mínimo 300ms desde a última
+  code += '_mic_agora_ms = time.ticks_ms()\n';
+  code += 'if _mic_peak > 20000 and time.ticks_diff(_mic_agora_ms, _mic_ultima_palma) > 300:\n';
+  code += '    _palmas += 1\n';
+  code += '    _mic_ultima_palma = _mic_agora_ms\n';
+  code += 'oled.fill_rect(0, ' + y + ', ' + display.WIDTH + ', 8, 0)\n';
+  code += 'oled.text("Palmas: " + str(_palmas), 0, ' + y + ', 1)\n';
+  return code;
+};
+
+// Getter: total de palmas detectadas
+Blockly.Python['microfone_total_palmas'] = function(_block) {
+  Blockly.Python.definitions_['setup_palmas'] = Blockly.Python.definitions_['setup_palmas'] || '_palmas = 0\n_mic_ultima_palma = 0';
+  return ['_palmas', Blockly.Python.ORDER_ATOMIC];
+};
+
 // Getter: retorna a força do barulho em porcentagem (0–100)
 Blockly.Python['microfone_barra_pct'] = function(_block) {
   Blockly.Python.definitions_['setup_barra_pct'] = Blockly.Python.definitions_['setup_barra_pct'] || '_barra_pct = 0';
