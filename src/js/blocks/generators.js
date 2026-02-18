@@ -2545,14 +2545,18 @@ Blockly.Python['display_mostrar_valor'] = function(block) {
   // Calcular posição X baseado no alinhamento e tamanho do texto
   if (alinhamento === 'LEFT') {
     code += '_display_x = 3\n';
+    code += '_display_x_clear = 3\n';
   } else if (alinhamento === 'CENTER') {
     code += '_display_x = max(3, (128 - len(_display_value) * 8) // 2)\n';
+    code += '_display_x_clear = max(3, _display_x - 16)\n';
   } else { // RIGHT
     code += '_display_x = max(3, 125 - len(_display_value) * 8)\n';
+    // 32px extras à esquerda: cobre transição de até 4 chars (ex: "100%" → "1%")
+    code += '_display_x_clear = max(3, _display_x - 32)\n';
   }
 
   // Limpar área do valor antes de escrever (evita sobreposição de pixels antigos)
-  code += 'oled.fill_rect(_display_x, ' + y + ', 128 - _display_x, 8, 0)\n';
+  code += 'oled.fill_rect(_display_x_clear, ' + y + ', 128 - _display_x_clear, 8, 0)\n';
 
   // Mostrar o valor no display
   code += 'oled.text(_display_value, _display_x, ' + y + ', 1)\n';
@@ -5284,6 +5288,7 @@ Blockly.Python['microfone_vu_meter'] = function(block) {
   Blockly.Python.definitions_['setup_mic_offset'] = '_MIC_OFFSET = 32767';
   Blockly.Python.definitions_['setup_matriz']     = 'np = neopixel.NeoPixel(Pin(' + pins.NEOPIXEL + '), ' + neo.COUNT + ')';
   Blockly.Python.definitions_['led_matrix']       = 'LED_MATRIX = ' + JSON.stringify(neo.MATRIX);
+  Blockly.Python.definitions_['setup_mic_nivel']  = '_mic_nivel = 0';
 
   var cor = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(0, 255, 0)';
   var brilho = block.getFieldValue('BRILHO');
@@ -5297,7 +5302,8 @@ Blockly.Python['microfone_vu_meter'] = function(block) {
   code += '  if _s > _mic_peak: _mic_peak = _s\n';
   // Escala logarítmica igual ao microfone_exemplo.md: log10(1 + 9*vol) — mais sensível a sons baixos
   code += '_mic_vol = min(1.0, _mic_peak / 32767)\n';
-  code += '_mic_nivel = int(5 * math.log10(1 + 9 * _mic_vol))\n';
+  code += '_mic_nivel_raw = int(5 * math.log10(1 + 9 * _mic_vol))\n';
+  code += '_mic_nivel = _mic_nivel_raw if _mic_nivel_raw > _mic_nivel else max(0, _mic_nivel - 1)\n';
   code += '_cor_vu = (int(' + cor + '[0] * ' + brilho_float + '), int(' + cor + '[1] * ' + brilho_float + '), int(' + cor + '[2] * ' + brilho_float + '))\n';
   code += 'for _r in range(5):\n';
   code += '  for _c in range(5):\n';
