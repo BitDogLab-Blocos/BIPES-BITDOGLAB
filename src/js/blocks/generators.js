@@ -5303,3 +5303,9 @@ Blockly.Python['microfone_vu_meter'] = function(block) {
 
   return code;
 };
+
+// Getter: retorna o nível atual do som (0–5)
+Blockly.Python['microfone_nivel_atual'] = function(_block) {
+  Blockly.Python.definitions_['setup_mic_nivel'] = Blockly.Python.definitions_['setup_mic_nivel'] || '_mic_nivel = 0';
+  return ['_mic_nivel', Blockly.Python.ORDER_ATOMIC];
+};

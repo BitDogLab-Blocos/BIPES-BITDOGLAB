@@ -366,5 +366,6 @@
   <category name="🎙️ Microfone" colour="#e74c3c">
     <block type="microfone_testar"></block>
     <block type="microfone_vu_meter"></block>
+    <block type="microfone_nivel_atual"></block>
   </category>
 </xml>

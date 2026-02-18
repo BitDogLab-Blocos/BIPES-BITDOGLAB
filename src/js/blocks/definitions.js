@@ -3587,7 +3587,19 @@ Blockly.Blocks['microfone_vu_meter'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#e74c3c");
-    this.setTooltip("Quanto mais barulho você fizer, mais LEDs da matriz acendem! Fale, bata palma ou assopre perto do microfone.");
+    this.setTooltip("Quanto mais barulho você fizer, mais LEDs da matriz acendem! Fale, bata palma ou assopre perto do microfone. Para mostrar o nível como número no display, use o bloco '🎙️ Nível do som'.");
+    this.setHelpUrl("");
+  }
+};
+
+// Getter: retorna o nível atual do som (0 a 5)
+Blockly.Blocks['microfone_nivel_atual'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎙️ Nível do som");
+    this.setOutput(true, "Number");
+    this.setColour("#e74c3c");
+    this.setTooltip("Retorna o nível atual do som captado pelo microfone (0 = silêncio, 5 = barulho máximo). Use dentro do bloco 'Mostrar valor' do display.");
     this.setHelpUrl("");
   }
 };
