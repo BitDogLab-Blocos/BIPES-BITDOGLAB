@@ -5232,3 +5232,77 @@ Blockly.Python['joystick_seletor'] = function(block) {
 
   return code;
 };
+
+// ==========================================
+// Category: Microfone
+// ==========================================
+
+// Bloco 0: Testar Microfone no Display
+Blockly.Python['microfone_testar'] = function(block) {
+  var pins = BitdogLabConfig.PINS;
+  var display = BitdogLabConfig.DISPLAY;
+
+  Blockly.Python.definitions_['import_pin']       = 'from machine import Pin';
+  Blockly.Python.definitions_['import_adc']       = 'from machine import ADC';
+  Blockly.Python.definitions_['import_i2c']       = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306']   = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_mic']        = 'adc_mic = ADC(Pin(' + pins.MIC + '))';
+  Blockly.Python.definitions_['setup_mic_offset'] = '_MIC_OFFSET = 32767';
+  Blockly.Python.definitions_['setup_display']    = 'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\noled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+
+  var code = '';
+  // Pré-computar tudo antes dos comandos oled para evitar que o auto-inject
+  // de oled.show() do app.js quebre if/else dentro do grupo oled.*
+  //
+  // Lógica: o MAX4466 tem bias DC fixo em ~1.65V (raw ≈ 32767) em silêncio.
+  // Pino flutuante fica preso perto de 0 ou 65535 (sem centro estável).
+  // Threshold: ±8000 de 32767 (≈25% da escala) — fora disso = pino errado.
+  code += '_mic_raw = adc_mic.read_u16()\n';
+  code += '_mic_sinal = abs(_mic_raw - _MIC_OFFSET)\n';
+  code += '_mic_bias_ok = _mic_sinal < 8000\n';
+  code += '_mic_pino = "GPIO' + pins.MIC + ' OK" if _mic_bias_ok else "PINO ERRADO?"\n';
+  code += '_mic_som = ("som:" + str(_mic_sinal)) if _mic_sinal > 3000 else "silencio"\n';
+  code += 'oled.fill(0)\n';
+  code += 'oled.text("MIC teste", 0, 0, 1)\n';
+  code += 'oled.text("Raw:" + str(_mic_raw), 0, 14, 1)\n';
+  code += 'oled.text(_mic_pino, 0, 30, 1)\n';
+  code += 'oled.text(_mic_som, 0, 46, 1)\n';
+
+  return code;
+};
+
+// Bloco 1: VU Meter na Matriz
+Blockly.Python['microfone_vu_meter'] = function(block) {
+  var pins = BitdogLabConfig.PINS;
+  var neo  = BitdogLabConfig.NEOPIXEL;
+
+  Blockly.Python.definitions_['import_pin']       = 'from machine import Pin';
+  Blockly.Python.definitions_['import_adc']       = 'from machine import ADC';
+  Blockly.Python.definitions_['import_neopixel']  = 'import neopixel';
+  Blockly.Python.definitions_['import_math']      = 'import math';
+  Blockly.Python.definitions_['setup_mic']        = 'adc_mic = ADC(Pin(' + pins.MIC + '))';
+  Blockly.Python.definitions_['setup_mic_offset'] = '_MIC_OFFSET = 32767';
+  Blockly.Python.definitions_['setup_matriz']     = 'np = neopixel.NeoPixel(Pin(' + pins.NEOPIXEL + '), ' + neo.COUNT + ')';
+  Blockly.Python.definitions_['led_matrix']       = 'LED_MATRIX = ' + JSON.stringify(neo.MATRIX);
+
+  var cor = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(0, 255, 0)';
+  var brilho = block.getFieldValue('BRILHO');
+  var brilho_float = (brilho * neo.BRIGHTNESS / 100).toFixed(4);
+
+  var code = '';
+  // Pegar pico de 8 amostras rápidas para não perder cruzamentos de zero do sinal de áudio
+  code += '_mic_peak = 0\n';
+  code += 'for _i in range(8):\n';
+  code += '  _s = abs(adc_mic.read_u16() - _MIC_OFFSET)\n';
+  code += '  if _s > _mic_peak: _mic_peak = _s\n';
+  // Escala logarítmica igual ao microfone_exemplo.md: log10(1 + 9*vol) — mais sensível a sons baixos
+  code += '_mic_vol = min(1.0, _mic_peak / 32767)\n';
+  code += '_mic_nivel = int(5 * math.log10(1 + 9 * _mic_vol))\n';
+  code += '_cor_vu = (int(' + cor + '[0] * ' + brilho_float + '), int(' + cor + '[1] * ' + brilho_float + '), int(' + cor + '[2] * ' + brilho_float + '))\n';
+  code += 'for _r in range(5):\n';
+  code += '  for _c in range(5):\n';
+  code += '    np[LED_MATRIX[_r][_c]] = _cor_vu if _r >= (5 - _mic_nivel) else (0, 0, 0)\n';
+  code += 'np.write()\n';
+
+  return code;
+};

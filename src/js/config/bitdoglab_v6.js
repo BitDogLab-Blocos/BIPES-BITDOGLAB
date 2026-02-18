@@ -14,7 +14,8 @@ const BitdogLabConfig_V6 = {
     BUTTON_A: 5, BUTTON_B: 6, BUTTON_C: null,
     JOYSTICK_X: 27, JOYSTICK_Y: 26, JOYSTICK_SW: 22,
     NEOPIXEL: 7,
-    I2C_SCL: 15, I2C_SDA: 14
+    I2C_SCL: 15, I2C_SDA: 14,
+    MIC: 28
   },
 
   NEOPIXEL: {
@@ -37,7 +38,7 @@ const BitdogLabConfig_V6 = {
 
   LED_INIT: {
     generateInitCode: function(rawCode) {
-      var led = BitdogLabConfig.LED;
+      var led = BitdogLabConfig_V6.LED;
       var r = rawCode.indexOf(led.VAR_RED) !== -1;
       var g = rawCode.indexOf(led.VAR_GREEN) !== -1;
       var b = rawCode.indexOf(led.VAR_BLUE) !== -1;
@@ -105,6 +106,7 @@ const BitdogLabConfig_V6 = {
              line.startsWith('_joy_') ||
              line.startsWith('_intensidade_joy') ||
              line.startsWith('_freq_joy') ||
+             line.startsWith('_MIC_OFFSET') ||
              (line.startsWith('_buzzer_mudo') && line.indexOf('True') === -1) ||
              line.startsWith('_player_size') ||
              line === '_px = 0' ||

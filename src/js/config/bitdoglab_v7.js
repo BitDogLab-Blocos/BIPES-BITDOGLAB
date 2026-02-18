@@ -12,7 +12,8 @@ var BitdogLabConfig = {
     BUTTON_A: 5, BUTTON_B: 6, BUTTON_C: 10,
     JOYSTICK_X: 27, JOYSTICK_Y: 26, JOYSTICK_SW: 22,
     NEOPIXEL: 7,
-    I2C_SCL: 3, I2C_SDA: 2
+    I2C_SCL: 3, I2C_SDA: 2,
+    MIC: 28
   },
 
   // Periféricos
@@ -106,6 +107,7 @@ var BitdogLabConfig = {
              line.startsWith('_joy_') ||
              line.startsWith('_intensidade_joy') ||
              line.startsWith('_freq_joy') ||
+             line.startsWith('_MIC_OFFSET') ||
              (line.startsWith('_buzzer_mudo') && line.indexOf('True') === -1) ||
              line.startsWith('_player_size') ||
              line === '_px = 0' ||
