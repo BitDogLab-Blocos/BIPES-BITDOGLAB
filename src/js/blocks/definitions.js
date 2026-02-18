@@ -3604,6 +3604,32 @@ Blockly.Blocks['microfone_nivel_atual'] = {
   }
 };
 
+// Bloco 2 — barra horizontal de volume no OLED
+Blockly.Blocks['microfone_barra_display'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🖥️ Barra de barulho no Display  linha:")
+        .appendField(new Blockly.FieldNumber(3, 1, 7), "LINHA");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#e74c3c");
+    this.setTooltip("Desenha uma barra horizontal no display OLED que cresce conforme o barulho aumenta. Use o bloco '🖥️ Força do barulho (%)' para ler a porcentagem.");
+    this.setHelpUrl("");
+  }
+};
+
+// Getter: retorna a força do barulho em porcentagem (0–100)
+Blockly.Blocks['microfone_barra_pct'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🖥️ Força do barulho (%)");
+    this.setOutput(true, "Number");
+    this.setColour("#e74c3c");
+    this.setTooltip("Retorna a intensidade do barulho como porcentagem (0 = silêncio, 100 = barulho máximo). Use dentro do bloco 'Mostrar valor' do display.");
+    this.setHelpUrl("");
+  }
+};
+
 // ==========================================
 // Category: Condicionais (Conditionals)
 // ==========================================

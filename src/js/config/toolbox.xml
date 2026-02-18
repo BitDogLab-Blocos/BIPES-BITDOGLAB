@@ -367,5 +367,7 @@
     <block type="microfone_testar"></block>
     <block type="microfone_vu_meter"></block>
     <block type="microfone_nivel_atual"></block>
+    <block type="microfone_barra_display"></block>
+    <block type="microfone_barra_pct"></block>
   </category>
 </xml>

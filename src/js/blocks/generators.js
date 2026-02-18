@@ -5312,3 +5312,37 @@ Blockly.Python['microfone_nivel_atual'] = function(_block) {
   Blockly.Python.definitions_['setup_mic_nivel'] = Blockly.Python.definitions_['setup_mic_nivel'] || '_mic_nivel = 0';
   return ['_mic_nivel', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Bloco 2 — barra horizontal de volume no OLED
+Blockly.Python['microfone_barra_display'] = function(block) {
+  var pins = BitdogLabConfig.PINS;
+  var display = BitdogLabConfig.DISPLAY;
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_adc'] = 'from machine import ADC';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['setup_mic'] = 'adc_mic = ADC(Pin(' + pins.MIC + '))';
+  Blockly.Python.definitions_['setup_mic_offset'] = '_MIC_OFFSET = 32767';
+  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\noled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+  Blockly.Python.definitions_['setup_barra_pct'] = '_barra_pct = 0';
+
+  var linha = block.getFieldValue('LINHA');
+  var y = (parseInt(linha) - 1) * 8;
+
+  var code = '';
+  code += '_mic_peak = 0\n';
+  code += 'for _i in range(8):\n';
+  code += '    _s = abs(adc_mic.read_u16() - _MIC_OFFSET)\n';
+  code += '    if _s > _mic_peak: _mic_peak = _s\n';
+  code += '_barra_w = _mic_peak * 128 // 32767\n';
+  code += '_barra_pct = _barra_w * 100 // 128\n';
+  code += 'oled.fill_rect(0, ' + y + ', _barra_w, 6, 1)\n';
+  code += 'oled.fill_rect(_barra_w, ' + y + ', 128 - _barra_w, 6, 0)\n';
+  return code;
+};
+
+// Getter: retorna a força do barulho em porcentagem (0–100)
+Blockly.Python['microfone_barra_pct'] = function(_block) {
+  Blockly.Python.definitions_['setup_barra_pct'] = Blockly.Python.definitions_['setup_barra_pct'] || '_barra_pct = 0';
+  return ['_barra_pct', Blockly.Python.ORDER_ATOMIC];
+};
