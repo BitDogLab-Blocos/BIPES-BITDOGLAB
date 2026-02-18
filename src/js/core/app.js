@@ -78,9 +78,7 @@ Code.changeLanguage = function() {
     window.sessionStorage.loadOnceBlocks = text;
   }
 
-  var languageMenu = document.getElementById('languageMenu');
-  var newLang = encodeURIComponent(
-      languageMenu.options[languageMenu.selectedIndex].value);
+  var newLang = encodeURIComponent(Code.LANG);
   var search = window.location.search;
   if (search.length <= 1) { // No query string yet
     search = '?lang=' + newLang;
@@ -982,9 +980,6 @@ Code.init = function() {
 
   Code.handleLink(Code.current[0], 0);
 
-  Code.bindClick('forumButton',
-    function () {window.open("https://github.com/BIPES/BIPES/discussions",'_blank')}
-  )
 
   // Version selector: switch between BitdogLab v6 and v7
   var versionSelector = document.getElementById('device_selector');
@@ -1053,19 +1048,7 @@ Code.initLanguage = function() {
   };
   languages.sort(comp);
 
-  // Populate language dropdown menu
-  var languageMenu = document.getElementById('languageMenu');
-  languageMenu.options.length = 0;
-  for (var i = 0; i < languages.length; i++) {
-    var tuple = languages[i];
-    var lang = tuple[tuple.length - 1];
-    var option = new Option(tuple[0], lang);
-    if (lang == Code.LANG) {
-      option.selected = true;
-    }
-    languageMenu.options.add(option);
-  }
-  languageMenu.addEventListener('change', Code.changeLanguage, true);
+  // Language menu removed from UI
 
   // Inject localized UI strings
   document.getElementById('tab_blocks').textContent = MSG['blocks'];
@@ -1078,10 +1061,7 @@ Code.initLanguage = function() {
   document.getElementById('saveButton').title = MSG['saveTooltip'];
   document.getElementById('loadButton').title = MSG['loadTooltip'];
   document.getElementById('notificationButton').title = MSG['notificationTooltip'];
-  document.getElementById('languageIcon').title = MSG['languageTooltip'];
   document.getElementById('toolbarButton').title = MSG['toolbarTooltip'];
-  document.getElementById('forumButton').title = MSG['forumTooltip'];
-  document.getElementById('accountButton').title = MSG['accountTooltip'];
 };
 
 // Clear workspace (with confirmation if >1 block)
