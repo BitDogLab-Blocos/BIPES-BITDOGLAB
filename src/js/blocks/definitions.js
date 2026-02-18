@@ -3656,6 +3656,19 @@ Blockly.Blocks['microfone_barra_pct'] = {
   }
 };
 
+Blockly.Blocks['microfone_controlar_led'] = {
+  init: function() {
+    this.appendValueInput("COR")
+        .setCheck("Colour")
+        .appendField("💡 Controlar LED com a Voz  cor:");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#e74c3c");
+    this.setTooltip("Controla o brilho do LED RGB com o volume do microfone. Encaixe um bloco de cor. Falar mais alto = LED mais brilhante.");
+    this.setHelpUrl("");
+  }
+};
+
 // ==========================================
 // Category: Condicionais (Conditionals)
 // ==========================================

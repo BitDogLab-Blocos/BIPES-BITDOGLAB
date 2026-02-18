@@ -5394,3 +5394,37 @@ Blockly.Python['microfone_barra_pct'] = function(_block) {
   Blockly.Python.definitions_['setup_barra_pct'] = Blockly.Python.definitions_['setup_barra_pct'] || '_barra_pct = 0';
   return ['str(_barra_pct) + "%"', Blockly.Python.ORDER_ATOMIC];
 };
+
+// Bloco 4: Controlar LED RGB com a voz
+Blockly.Python['microfone_controlar_led'] = function(block) {
+  var pins = BitdogLabConfig.PINS;
+  var led  = BitdogLabConfig.LED;
+
+  Blockly.Python.definitions_['import_pin']       = 'from machine import Pin';
+  Blockly.Python.definitions_['import_adc']       = 'from machine import ADC';
+  Blockly.Python.definitions_['import_pwm']       = 'from machine import PWM';
+  Blockly.Python.definitions_['import_math']      = 'import math';
+  Blockly.Python.definitions_['setup_mic']        = 'adc_mic = ADC(Pin(' + pins.MIC + '))';
+  Blockly.Python.definitions_['setup_mic_offset'] = '_MIC_OFFSET = 32767';
+  Blockly.Python.definitions_['setup_led_red']    = led.VAR_RED   + ' = PWM(Pin(' + pins.LED_RED   + '), freq=' + led.PWM_FREQ + ')';
+  Blockly.Python.definitions_['setup_led_green']  = led.VAR_GREEN + ' = PWM(Pin(' + pins.LED_GREEN + '), freq=' + led.PWM_FREQ + ')';
+  Blockly.Python.definitions_['setup_led_blue']   = led.VAR_BLUE  + ' = PWM(Pin(' + pins.LED_BLUE  + '), freq=' + led.PWM_FREQ + ')';
+  Blockly.Python.definitions_['setup_mic_nivel']  = '_mic_nivel = 0';
+
+  var cor = Blockly.Python.valueToCode(block, 'COR', Blockly.Python.ORDER_ATOMIC) || '(255, 255, 255)';
+  var r = led.VAR_RED, g = led.VAR_GREEN, b = led.VAR_BLUE;
+
+  var code = '';
+  code += '_mic_peak = 0\n';
+  code += 'for _i in range(8):\n';
+  code += '  _s = abs(adc_mic.read_u16() - _MIC_OFFSET)\n';
+  code += '  if _s > _mic_peak: _mic_peak = _s\n';
+  code += '_mic_vol = min(1.0, _mic_peak / 32767)\n';
+  code += '_mic_nivel_raw = int(5 * math.log10(1 + 9 * _mic_vol))\n';
+  code += '_mic_nivel = _mic_nivel_raw if _mic_nivel_raw > _mic_nivel else max(0, _mic_nivel - 1)\n';
+  code += r + '.duty_u16(int(' + cor + '[0] * 257 * _mic_peak / 32767))\n';
+  code += g + '.duty_u16(int(' + cor + '[1] * 257 * _mic_peak / 32767))\n';
+  code += b + '.duty_u16(int(' + cor + '[2] * 257 * _mic_peak / 32767))\n';
+
+  return code;
+};
