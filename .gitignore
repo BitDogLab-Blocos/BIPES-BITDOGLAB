@@ -63,4 +63,4 @@ joystick_ideias
 # Arquivos de Documentação Temporária (ignora todos .md exceto README.md)
 *.md
 !README.md
-.github
+# .github
