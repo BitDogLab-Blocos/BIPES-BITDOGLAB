@@ -1,0 +1,50 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Danca de luzes: animacao personalizada - liga vermelho, espera, troca pra azul, espera, troca pra verde -->
+  <block type="bloco_criar_animacao_led" x="20" y="20">
+    <mutation steps="[&quot;action&quot;,&quot;wait&quot;,&quot;action&quot;,&quot;wait&quot;,&quot;action&quot;,&quot;wait&quot;]"></mutation>
+    <statement name="STEP0">
+      <block type="bloco_ligar_led">
+        <value name="COLOUR">
+          <block type="colour_red"></block>
+        </value>
+      </block>
+    </statement>
+    <value name="STEP1">
+      <block type="tempo_milisegundos">
+        <field name="NUM">800</field>
+      </block>
+    </value>
+    <statement name="STEP2">
+      <block type="bloco_desligar_todos_leds">
+        <next>
+          <block type="bloco_ligar_led">
+            <value name="COLOUR">
+              <block type="colour_blue"></block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="STEP3">
+      <block type="tempo_milisegundos">
+        <field name="NUM">800</field>
+      </block>
+    </value>
+    <statement name="STEP4">
+      <block type="bloco_desligar_todos_leds">
+        <next>
+          <block type="bloco_ligar_led">
+            <value name="COLOUR">
+              <block type="colour_green"></block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="STEP5">
+      <block type="tempo_milisegundos">
+        <field name="NUM">800</field>
+      </block>
+    </value>
+  </block>
+</xml>

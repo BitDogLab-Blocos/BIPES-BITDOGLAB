@@ -1,0 +1,88 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Cores primarias RGB: a crianca ve cada cor sozinha no LED -->
+  <block type="bloco_ligar_led" x="20" y="20">
+    <value name="COLOUR">
+      <block type="colour_red"></block>
+    </value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME">
+          <block type="math_number">
+            <field name="NUM">2</field>
+          </block>
+        </value>
+        <next>
+          <block type="bloco_desligar_todos_leds">
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME">
+                  <block type="math_number">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="bloco_ligar_led">
+                    <value name="COLOUR">
+                      <block type="colour_green"></block>
+                    </value>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME">
+                          <block type="math_number">
+                            <field name="NUM">2</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="bloco_desligar_todos_leds">
+                            <next>
+                              <block type="esperar_segundos">
+                                <value name="TIME">
+                                  <block type="math_number">
+                                    <field name="NUM">1</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="bloco_ligar_led">
+                                    <value name="COLOUR">
+                                      <block type="colour_blue"></block>
+                                    </value>
+                                    <next>
+                                      <block type="esperar_segundos">
+                                        <value name="TIME">
+                                          <block type="math_number">
+                                            <field name="NUM">2</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="bloco_desligar_todos_leds">
+                                            <next>
+                                              <block type="esperar_segundos">
+                                                <value name="TIME">
+                                                  <block type="math_number">
+                                                    <field name="NUM">1</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

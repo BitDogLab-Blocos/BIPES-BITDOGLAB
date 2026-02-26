@@ -1,0 +1,57 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Batalha de cores: vermelho vs azul 4 rodadas, pausa, verde vs magenta 4 rodadas -->
+  <block type="controls_repeat_simple" x="20" y="20">
+    <field name="TIMES">4</field>
+    <statement name="DO">
+      <block type="bloco_batalhar_led">
+        <value name="COLOUR1">
+          <block type="colour_red"></block>
+        </value>
+        <value name="COLOUR2">
+          <block type="colour_blue"></block>
+        </value>
+      </block>
+    </statement>
+    <next>
+      <block type="bloco_desligar_todos_leds">
+        <next>
+          <block type="esperar_segundos">
+            <value name="TIME">
+              <block type="math_number">
+                <field name="NUM">2</field>
+              </block>
+            </value>
+            <next>
+              <block type="controls_repeat_simple">
+                <field name="TIMES">4</field>
+                <statement name="DO">
+                  <block type="bloco_batalhar_led">
+                    <value name="COLOUR1">
+                      <block type="colour_green"></block>
+                    </value>
+                    <value name="COLOUR2">
+                      <block type="colour_magenta"></block>
+                    </value>
+                  </block>
+                </statement>
+                <next>
+                  <block type="bloco_desligar_todos_leds">
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME">
+                          <block type="math_number">
+                            <field name="NUM">1</field>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,26 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Respiracao: pisca verde devagar 4x como se o LED estivesse respirando -->
+  <block type="controls_repeat_simple" x="20" y="20">
+    <field name="TIMES">4</field>
+    <statement name="DO">
+      <block type="piscar_led_lento">
+        <value name="COLOUR">
+          <block type="colour_green"></block>
+        </value>
+      </block>
+    </statement>
+    <next>
+      <block type="bloco_desligar_todos_leds">
+        <next>
+          <block type="esperar_segundos">
+            <value name="TIME">
+              <block type="math_number">
+                <field name="NUM">1</field>
+              </block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

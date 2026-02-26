@@ -1,0 +1,61 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Por do sol: transicao suave amarelo>vermelho, pausa, vermelho>azul, pausa, azul>desliga -->
+  <block type="bloco_transicao_led" x="20" y="20">
+    <value name="COLOUR1">
+      <block type="colour_yellow"></block>
+    </value>
+    <value name="COLOUR2">
+      <block type="colour_red"></block>
+    </value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <next>
+          <block type="bloco_transicao_led">
+            <value name="COLOUR1">
+              <block type="colour_red"></block>
+            </value>
+            <value name="COLOUR2">
+              <block type="colour_blue"></block>
+            </value>
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME">
+                  <block type="math_number">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="bloco_transicao_led">
+                    <value name="COLOUR1">
+                      <block type="colour_blue"></block>
+                    </value>
+                    <value name="COLOUR2">
+                      <block type="colour_magenta"></block>
+                    </value>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME">
+                          <block type="math_number">
+                            <field name="NUM">2</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="bloco_desligar_todos_leds"></block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

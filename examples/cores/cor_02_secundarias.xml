@@ -1,0 +1,88 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Cores secundarias: amarelo(R+G), ciano(G+B), magenta(R+B) - a crianca aprende mistura de luz -->
+  <block type="bloco_ligar_led" x="20" y="20">
+    <value name="COLOUR">
+      <block type="colour_yellow"></block>
+    </value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME">
+          <block type="math_number">
+            <field name="NUM">2</field>
+          </block>
+        </value>
+        <next>
+          <block type="bloco_desligar_todos_leds">
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME">
+                  <block type="math_number">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="bloco_ligar_led">
+                    <value name="COLOUR">
+                      <block type="colour_cyan"></block>
+                    </value>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME">
+                          <block type="math_number">
+                            <field name="NUM">2</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="bloco_desligar_todos_leds">
+                            <next>
+                              <block type="esperar_segundos">
+                                <value name="TIME">
+                                  <block type="math_number">
+                                    <field name="NUM">1</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="bloco_ligar_led">
+                                    <value name="COLOUR">
+                                      <block type="colour_magenta"></block>
+                                    </value>
+                                    <next>
+                                      <block type="esperar_segundos">
+                                        <value name="TIME">
+                                          <block type="math_number">
+                                            <field name="NUM">2</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="bloco_desligar_todos_leds">
+                                            <next>
+                                              <block type="esperar_segundos">
+                                                <value name="TIME">
+                                                  <block type="math_number">
+                                                    <field name="NUM">1</field>
+                                                  </block>
+                                                </value>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,41 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Coracao batendo: batimento vermelho 5x, pausa para sentir, depois magenta 5x -->
+  <block type="controls_repeat_simple" x="20" y="20">
+    <field name="TIMES">5</field>
+    <statement name="DO">
+      <block type="bloco_animar_led_coracao">
+        <value name="COLOUR">
+          <block type="colour_red"></block>
+        </value>
+      </block>
+    </statement>
+    <next>
+      <block type="bloco_desligar_todos_leds">
+        <next>
+          <block type="esperar_segundos">
+            <value name="TIME">
+              <block type="math_number">
+                <field name="NUM">2</field>
+              </block>
+            </value>
+            <next>
+              <block type="controls_repeat_simple">
+                <field name="TIMES">5</field>
+                <statement name="DO">
+                  <block type="bloco_animar_led_coracao">
+                    <value name="COLOUR">
+                      <block type="colour_magenta"></block>
+                    </value>
+                  </block>
+                </statement>
+                <next>
+                  <block type="bloco_desligar_todos_leds"></block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
