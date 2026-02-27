@@ -633,13 +633,19 @@ Blockly.Python['bloco_transicao_led'] = function(block) {
   Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour1 = Blockly.Python.valueToCode(block, 'COLOUR1', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var colour2 = Blockly.Python.valueToCode(block, 'COLOUR2', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-  var code = 'while True:\n';
-  code += '    for i in range(50):\n';  // Increased from 10 to 50 steps for smoother transition
-  code += '        led_vermelho.duty_u16(int(' + colour1 + '[0] * 257 * (50-i)/50 + ' + colour2 + '[0] * 257 * i/50))\n';
-  code += '        led_verde.duty_u16(int(' + colour1 + '[1] * 257 * (50-i)/50 + ' + colour2 + '[1] * 257 * i/50))\n';
-  code += '        led_azul.duty_u16(int(' + colour1 + '[2] * 257 * (50-i)/50 + ' + colour2 + '[2] * 257 * i/50))\n';
-  code += '        time.sleep_ms(100)\n';  // Increased from 50ms to 100ms for slower transition
-  code += '    time.sleep_ms(1000)\n';  // Increased pause from 500ms to 1000ms
+  // Transition is self-timed (50 steps x 100ms = 5s), no timed-consume needed
+  var singleCycle = block.getNextBlock() !== null || block.getSurroundParent() !== null;
+  var ind = singleCycle ? '' : '    ';
+  var ind2 = singleCycle ? '    ' : '        ';
+  var code = singleCycle ? '' : 'while True:\n';
+  code += ind + 'for i in range(50):\n';
+  code += ind2 + 'led_vermelho.duty_u16(int(' + colour1 + '[0] * 257 * (50-i)/50 + ' + colour2 + '[0] * 257 * i/50))\n';
+  code += ind2 + 'led_verde.duty_u16(int(' + colour1 + '[1] * 257 * (50-i)/50 + ' + colour2 + '[1] * 257 * i/50))\n';
+  code += ind2 + 'led_azul.duty_u16(int(' + colour1 + '[2] * 257 * (50-i)/50 + ' + colour2 + '[2] * 257 * i/50))\n';
+  code += ind2 + 'time.sleep_ms(100)\n';
+  if (!singleCycle) {
+    code += ind + 'time.sleep_ms(1000)\n';
+  }
   return code;
 };
 
