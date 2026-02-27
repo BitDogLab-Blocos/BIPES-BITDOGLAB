@@ -1,0 +1,219 @@
+<xml xmlns="https://bipes.net.br">
+  <workspace>
+    <field name="DEVICE">v7</field>
+    <field name="TIMESTAMP">1772195995934</field>
+  </workspace>
+  <block type="bloco_acender_led_brilho" id="|tqD9.T.yT;*Q~/dPS%i" x="287" y="162">
+    <field name="INTENSITY">10</field>
+    <value name="COLOUR">
+      <block type="colour_red" id="umcoFxXGPt2mH3q~F]mp"></block>
+    </value>
+    <next>
+      <block type="esperar_segundos" id="5J3p9dex.Sv!$hfywfPK">
+        <value name="TIME">
+          <block type="math_number" id="yKbeCNBKGxb=X~(}$-$K">
+            <field name="NUM">0.5</field>
+          </block>
+        </value>
+        <next>
+          <block type="bloco_acender_led_brilho" id="O@y7c|-FG^U-wVCu=wt|">
+            <field name="INTENSITY">50</field>
+            <value name="COLOUR">
+              <block type="colour_red" id="9RW`Bb($Y220vJX0fQwB"></block>
+            </value>
+            <next>
+              <block type="esperar_segundos" id="5pKhzm,YX|nLr%JMF:_T">
+                <value name="TIME">
+                  <block type="math_number" id="5i4OBwwoA_^j`MRx##+J">
+                    <field name="NUM">0.5</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="bloco_acender_led_brilho" id="+n~3)!Vh%ee/8h;}}?ar">
+                    <field name="INTENSITY">100</field>
+                    <value name="COLOUR">
+                      <block type="colour_red" id="/,Y)t#5Wa.xTn7E|JFrI"></block>
+                    </value>
+                    <next>
+                      <block type="esperar_segundos" id="sF`UR7DsJ9B:R=j=`t0$">
+                        <value name="TIME">
+                          <block type="math_number" id="2$DpAfNW9G?b2W7558]^">
+                            <field name="NUM">0.5</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="bloco_acender_led_brilho" id="*n;=r[~IQ`$k7j/Ud^bO">
+                            <field name="INTENSITY">50</field>
+                            <value name="COLOUR">
+                              <block type="colour_red" id="U,3#ulu=gvTS[8EXUC:n"></block>
+                            </value>
+                            <next>
+                              <block type="esperar_segundos" id="n0$fH0Q=_DW-*=LISm%f">
+                                <value name="TIME">
+                                  <block type="math_number" id="S7MX,#4%%1c%s(?MvA9L">
+                                    <field name="NUM">0.5</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="bloco_desligar_todos_leds" id="z27{Oj,ciNCInwhF!D*%">
+                                    <next>
+                                      <block type="bloco_acender_led_brilho" id="g[ctG~%EI3y7z4O%T}U%">
+                                        <field name="INTENSITY">10</field>
+                                        <value name="COLOUR">
+                                          <block type="colour_green" id="t+#J))mx[F1}N@E^h,4V"></block>
+                                        </value>
+                                        <next>
+                                          <block type="esperar_segundos" id="v84}p/.WT~b?*jRtAX)I">
+                                            <value name="TIME">
+                                              <block type="math_number" id="7nH`~BK(fxHCc_wRCxI+">
+                                                <field name="NUM">0.5</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="bloco_acender_led_brilho" id=";)U(;e+lJ7i}@t`Q9SPY">
+                                                <field name="INTENSITY">50</field>
+                                                <value name="COLOUR">
+                                                  <block type="colour_green" id=";SFJSS(9,wLr}8szzXW."></block>
+                                                </value>
+                                                <next>
+                                                  <block type="esperar_segundos" id="1A1Np6t3p/`zYwM4md5v">
+                                                    <value name="TIME">
+                                                      <block type="math_number" id="jl)kxD$Pn/#9ex%X4zH%">
+                                                        <field name="NUM">0.5</field>
+                                                      </block>
+                                                    </value>
+                                                    <next>
+                                                      <block type="bloco_acender_led_brilho" id="_m`3d|IfOe0u?QOm]~Vp">
+                                                        <field name="INTENSITY">100</field>
+                                                        <value name="COLOUR">
+                                                          <block type="colour_green" id="L|^wkuRv;PBeM6;lN8`1"></block>
+                                                        </value>
+                                                        <next>
+                                                          <block type="esperar_segundos" id="%HuTT$@h:*]Bf056B;7N">
+                                                            <value name="TIME">
+                                                              <block type="math_number" id="*llT[M^?pT@XDs,8ZCl/">
+                                                                <field name="NUM">0.5</field>
+                                                              </block>
+                                                            </value>
+                                                            <next>
+                                                              <block type="bloco_acender_led_brilho" id="/XC%w!,:`:@aw[DbIEjQ">
+                                                                <field name="INTENSITY">50</field>
+                                                                <value name="COLOUR">
+                                                                  <block type="colour_green" id="qeO?{`F(:p!PB5`M]8e%"></block>
+                                                                </value>
+                                                                <next>
+                                                                  <block type="esperar_segundos" id="=syU^Kr76U4K_C_Dl.;l">
+                                                                    <value name="TIME">
+                                                                      <block type="math_number" id="B?/kYUQ6;XRw)plX0t3Q">
+                                                                        <field name="NUM">0.5</field>
+                                                                      </block>
+                                                                    </value>
+                                                                    <next>
+                                                                      <block type="bloco_desligar_todos_leds" id="NZ5W5ham|qJB;G0MOK;A">
+                                                                        <next>
+                                                                          <block type="bloco_acender_led_brilho" id="(j]ZEw]]=0Ai!KuiQ{r~">
+                                                                            <field name="INTENSITY">10</field>
+                                                                            <value name="COLOUR">
+                                                                              <block type="colour_blue" id="Z#S2gSPBB%Wl6y;!zz@h"></block>
+                                                                            </value>
+                                                                            <next>
+                                                                              <block type="esperar_segundos" id="TH8%,CKJ3`kM6s.0WnGn">
+                                                                                <value name="TIME">
+                                                                                  <block type="math_number" id="11gYYvb_:kUxG]Kh0Fw-">
+                                                                                    <field name="NUM">0.5</field>
+                                                                                  </block>
+                                                                                </value>
+                                                                                <next>
+                                                                                  <block type="bloco_acender_led_brilho" id="2a#58$V{-*+Wu2h8:wSD">
+                                                                                    <field name="INTENSITY">50</field>
+                                                                                    <value name="COLOUR">
+                                                                                      <block type="colour_blue" id="dzK@z1K$yU{r3TW@5f?G"></block>
+                                                                                    </value>
+                                                                                    <next>
+                                                                                      <block type="esperar_segundos" id="QVRpv1b9Zgc=0:xgN`ws">
+                                                                                        <value name="TIME">
+                                                                                          <block type="math_number" id="tE0@xpx-.nID%HIJ9DAL">
+                                                                                            <field name="NUM">0.5</field>
+                                                                                          </block>
+                                                                                        </value>
+                                                                                        <next>
+                                                                                          <block type="bloco_acender_led_brilho" id="ImRGItck9XFQg5R/2l(8">
+                                                                                            <field name="INTENSITY">100</field>
+                                                                                            <value name="COLOUR">
+                                                                                              <block type="colour_blue" id="`bz)0)qxu^.`^nfih(Nv"></block>
+                                                                                            </value>
+                                                                                            <next>
+                                                                                              <block type="esperar_segundos" id="?h(Z|@V#?selO/`@0TgS">
+                                                                                                <value name="TIME">
+                                                                                                  <block type="math_number" id="(rcG,RF,x5;WR,*eC(|a">
+                                                                                                    <field name="NUM">0.5</field>
+                                                                                                  </block>
+                                                                                                </value>
+                                                                                                <next>
+                                                                                                  <block type="bloco_acender_led_brilho" id="E:^[;ijy~M)C@)M@nkd_">
+                                                                                                    <field name="INTENSITY">50</field>
+                                                                                                    <value name="COLOUR">
+                                                                                                      <block type="colour_blue" id="m9Xia/l{AFzRTMcoe$kZ"></block>
+                                                                                                    </value>
+                                                                                                    <next>
+                                                                                                      <block type="esperar_segundos" id="vyv@oOxyU@W`SpaKfnJO">
+                                                                                                        <value name="TIME">
+                                                                                                          <block type="math_number" id="%R$C;NQp6NXrTEDq@1Ts">
+                                                                                                            <field name="NUM">0.5</field>
+                                                                                                          </block>
+                                                                                                        </value>
+                                                                                                        <next>
+                                                                                                          <block type="bloco_desligar_todos_leds" id="nQ6KRxeD}`0_!M(4:4sw"></block>
+                                                                                                        </next>
+                                                                                                      </block>
+                                                                                                    </next>
+                                                                                                  </block>
+                                                                                                </next>
+                                                                                              </block>
+                                                                                            </next>
+                                                                                          </block>
+                                                                                        </next>
+                                                                                      </block>
+                                                                                    </next>
+                                                                                  </block>
+                                                                                </next>
+                                                                              </block>
+                                                                            </next>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

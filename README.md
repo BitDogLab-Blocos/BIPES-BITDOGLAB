@@ -9,7 +9,7 @@
 
 ### O que e este projeto
 
-BitDogLab Blocos e uma plataforma educacional de programacao em blocos visuais para o Raspberry Pi Pico W com a placa BitDogLab. O objetivo e tornar a programacao de sistemas embarcados acessivel para iniciantes e estudantes, sem necessidade de escrever codigo manualmente.
+BitDogLab Blocos e uma plataforma educacional open source de programacao em blocos visuais para o Raspberry Pi Pico W com a placa BitDogLab. O publico-alvo sao estudantes K-12, com o objetivo de ensina-los a programar atraves de blocos visuais, conectando logica computacional a hardware real de forma acessivel e gratuita, sem necessidade de escrever codigo manualmente.
 
 A plataforma roda diretamente no navegador e se comunica com a placa via Web Serial API, compativel com Chrome e Edge.
 
@@ -70,7 +70,7 @@ Este projeto e baseado no [BIPES](https://bipes.net.br/), plataforma original de
 
 ### What is this project
 
-BitDogLab Blocks is an educational visual block-based programming platform for the Raspberry Pi Pico W using the BitDogLab board. The goal is to make embedded systems programming accessible to beginners and students, without the need to write code manually.
+BitDogLab Blocks is an open source educational visual block-based programming platform for the Raspberry Pi Pico W using the BitDogLab board. The target audience is K-12 students, with the goal of teaching them to program through visual blocks, connecting computational logic to real hardware in an accessible and free way, without the need to write code manually.
 
 The platform runs directly in the browser and communicates with the board via the Web Serial API, compatible with Chrome and Edge.
 

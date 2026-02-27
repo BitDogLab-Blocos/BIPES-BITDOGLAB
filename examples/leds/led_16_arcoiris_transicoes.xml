@@ -1,0 +1,121 @@
+<xml xmlns="https://bipes.net.br">
+  <workspace>
+    <field name="DEVICE">v7</field>
+    <field name="TIMESTAMP">1772196106433</field>
+  </workspace>
+  <block type="bloco_transicao_led" id="VLzH4*ET*Q`P`JYguyad" x="338" y="63">
+    <value name="COLOUR1">
+      <block type="colour_red" id="{|E8FTSRog7i+ft%jz5I"></block>
+    </value>
+    <value name="COLOUR2">
+      <block type="colour_yellow" id="fudQuqd:nfClJ!R4l2T|"></block>
+    </value>
+    <next>
+      <block type="esperar_segundos" id="b0BUF6_b(DwFc5x?GQCn">
+        <value name="TIME">
+          <block type="math_number" id="*caW3qbo?)(la^0-0seC">
+            <field name="NUM">0.5</field>
+          </block>
+        </value>
+        <next>
+          <block type="bloco_transicao_led" id="jj[,|9d1c.^V~J{TWE6E">
+            <value name="COLOUR1">
+              <block type="colour_yellow" id="4h|7@?*rxEn%K!poTjKj"></block>
+            </value>
+            <value name="COLOUR2">
+              <block type="colour_green" id="F{p{+i,B(ffSC8/j.l%."></block>
+            </value>
+            <next>
+              <block type="esperar_segundos" id="SQ}4s5~KFf|@j%OtM+o0">
+                <value name="TIME">
+                  <block type="math_number" id="VNX#yu}:oTDUGJKkjEp_">
+                    <field name="NUM">0.5</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="bloco_transicao_led" id="pbpdDlD=w;!GyyTa9tBB">
+                    <value name="COLOUR1">
+                      <block type="colour_green" id=".=mckMfj/tV(0LeuA|(a"></block>
+                    </value>
+                    <value name="COLOUR2">
+                      <block type="colour_cyan" id="pPsQiI*.I7[}.09r:C~S"></block>
+                    </value>
+                    <next>
+                      <block type="esperar_segundos" id="kA!3e}R?x`D+*sY)W!EF">
+                        <value name="TIME">
+                          <block type="math_number" id="k^lSH,yVd%,[A5?S*ZPJ">
+                            <field name="NUM">0.5</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="bloco_transicao_led" id="=*Z6SAR^|k#Y+/.`!|Fu">
+                            <value name="COLOUR1">
+                              <block type="colour_cyan" id="e^sqv@%ry~5V{K7nwM-+"></block>
+                            </value>
+                            <value name="COLOUR2">
+                              <block type="colour_blue" id="w1lujuGfZ/{!dmPC-y$d"></block>
+                            </value>
+                            <next>
+                              <block type="esperar_segundos" id="ic?ag/D%EN]S+_.|vjX;">
+                                <value name="TIME">
+                                  <block type="math_number" id="CdwXXZ_poCdR4o[xdEey">
+                                    <field name="NUM">0.5</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="bloco_transicao_led" id="Ww^k4~+1.hkR@z,:tFVa">
+                                    <value name="COLOUR1">
+                                      <block type="colour_blue" id="ZB?hJoH1Drb:3K]b0D^1"></block>
+                                    </value>
+                                    <value name="COLOUR2">
+                                      <block type="colour_magenta" id="7;wEL!_Iuq89WrS#x@L6"></block>
+                                    </value>
+                                    <next>
+                                      <block type="esperar_segundos" id="~ou{C*pY8P6F4#6Uu`kO">
+                                        <value name="TIME">
+                                          <block type="math_number" id="ds(4=8hDFxXZJ+H1(hs3">
+                                            <field name="NUM">0.5</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="bloco_transicao_led" id="+(l$W#nXs2Ksjzq.)Y^-">
+                                            <value name="COLOUR1">
+                                              <block type="colour_magenta" id="-jgu[BSc(4a6=rK79VOV"></block>
+                                            </value>
+                                            <value name="COLOUR2">
+                                              <block type="colour_red" id="y*,M^|Vvcmx8RF5;sP+%"></block>
+                                            </value>
+                                            <next>
+                                              <block type="esperar_segundos" id=":}yYIQ_]5.5m!:Bli^::">
+                                                <value name="TIME">
+                                                  <block type="math_number" id="Kc/y8bu%AM6PwA]n{Y[4">
+                                                    <field name="NUM">0.5</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="bloco_desligar_todos_leds" id="Wk+HU/1i(fP.-|7~OJPJ"></block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,63 @@
+<xml xmlns="https://bipes.net.br">
+  <workspace>
+    <field name="DEVICE">v7</field>
+    <field name="TIMESTAMP">1772195850657</field>
+  </workspace>
+  <block type="bloco_ligar_led" id="/j]x@WD,e/|9UfWpagiy" x="363" y="88">
+    <value name="COLOUR">
+      <block type="colour_red" id=";jJ-jn^c^b!Nnbv37A$G"></block>
+    </value>
+    <next>
+      <block type="esperar_segundos" id=")qGD)P)kq_%|e04wR]44">
+        <value name="TIME">
+          <block type="math_number" id="jEF*DjEhvo3SSL!S?j79">
+            <field name="NUM">3</field>
+          </block>
+        </value>
+        <next>
+          <block type="bloco_desligar_todos_leds" id="zi8w$%-;QHR}UoB[=hfp">
+            <next>
+              <block type="bloco_ligar_led" id="Ui8`Z+B(CbMkS%+oR)PP">
+                <value name="COLOUR">
+                  <block type="colour_yellow" id="EC0ExJy@gvYC]V9`E1HO"></block>
+                </value>
+                <next>
+                  <block type="esperar_segundos" id="My,j$|:ggKZx1*V?|)DY">
+                    <value name="TIME">
+                      <block type="math_number" id="I9tdHM~QaHqNr4!YQJ!#">
+                        <field name="NUM">1</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="bloco_desligar_todos_leds" id="mNuznOIKT.s`2wKI#!D5">
+                        <next>
+                          <block type="bloco_ligar_led" id="wc]QK|S.}`kqr7STTGDB">
+                            <value name="COLOUR">
+                              <block type="colour_green" id="SW_t:Q`fsBuFR1qHpowg"></block>
+                            </value>
+                            <next>
+                              <block type="esperar_segundos" id="j[Fo;9~64jCC/u^[?;)~">
+                                <value name="TIME">
+                                  <block type="math_number" id="l+,4Krv?tzoYWju|O5m%">
+                                    <field name="NUM">3</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="bloco_desligar_todos_leds" id="r9E*FBxT+%TGy]$u?mS$"></block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
