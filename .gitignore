@@ -65,8 +65,11 @@ logs/
 .env.local
 .env.*.local
 
-# Arquivos locais de rascunho/ideiass
+# Arquivos locais de rascunho/ideias
 joystick_ideias
+
+# Skill de geracao de apostila (nao versionado)
+skill_apostila_led/
 
 # Arquivos de Documentação Temporária (ignora todos .md exceto README.md)
 *.md
