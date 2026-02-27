@@ -1,0 +1,88 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Tres misturas com 4 cores diferentes cada: rosa-quente (R+Y+M+W), verde-azul-frio (B+C+G+W), roxo-violeta (R+B+M+C) -->
+  <block type="bloco_ligar_led" x="20" y="20">
+    <value name="COLOUR">
+      <block type="mix_colours">
+        <mutation items="4"></mutation>
+        <value name="ADD0">
+          <block type="colour_red"></block>
+        </value>
+        <value name="ADD1">
+          <block type="colour_yellow"></block>
+        </value>
+        <value name="ADD2">
+          <block type="colour_magenta"></block>
+        </value>
+        <value name="ADD3">
+          <block type="colour_white"></block>
+        </value>
+      </block>
+    </value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME">
+          <block type="math_number"><field name="NUM">2</field></block>
+        </value>
+        <next>
+          <block type="bloco_ligar_led">
+            <value name="COLOUR">
+              <block type="mix_colours">
+                <mutation items="4"></mutation>
+                <value name="ADD0">
+                  <block type="colour_blue"></block>
+                </value>
+                <value name="ADD1">
+                  <block type="colour_cyan"></block>
+                </value>
+                <value name="ADD2">
+                  <block type="colour_green"></block>
+                </value>
+                <value name="ADD3">
+                  <block type="colour_white"></block>
+                </value>
+              </block>
+            </value>
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME">
+                  <block type="math_number"><field name="NUM">2</field></block>
+                </value>
+                <next>
+                  <block type="bloco_ligar_led">
+                    <value name="COLOUR">
+                      <block type="mix_colours">
+                        <mutation items="4"></mutation>
+                        <value name="ADD0">
+                          <block type="colour_red"></block>
+                        </value>
+                        <value name="ADD1">
+                          <block type="colour_blue"></block>
+                        </value>
+                        <value name="ADD2">
+                          <block type="colour_magenta"></block>
+                        </value>
+                        <value name="ADD3">
+                          <block type="colour_cyan"></block>
+                        </value>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME">
+                          <block type="math_number"><field name="NUM">2</field></block>
+                        </value>
+                        <next>
+                          <block type="bloco_desligar_todos_leds"></block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -68,8 +68,8 @@ logs/
 # Arquivos locais de rascunho/ideias
 joystick_ideias
 
-# Skill de geracao de apostila (nao versionado)
-skill_apostila_led/
+# Skills locais (nao versionados)
+skill_*/
 
 # Arquivos de Documentação Temporária (ignora todos .md exceto README.md)
 *.md

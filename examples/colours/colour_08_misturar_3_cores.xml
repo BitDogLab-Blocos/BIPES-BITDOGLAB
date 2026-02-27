@@ -1,0 +1,18 @@
+<xml xmlns="https://bipes.net.br">
+  <workspace>
+    <field name="DEVICE">v7</field>
+    <field name="TIMESTAMP">1772214599152</field>
+  </workspace>
+  <block type="bloco_alternar_led" id="ielOk=Z8?$V0L%vHJ~?u" x="237" y="63">
+    <mutation xmlns="https://bipes.net.br" items="3"></mutation>
+    <value name="COLOUR0">
+      <block type="colour_red" id="v_`gQO,CC,.kEj#}-jPv"></block>
+    </value>
+    <value name="COLOUR1">
+      <block type="colour_green" id="m5TQ24c;50xOsxz2L.!a"></block>
+    </value>
+    <value name="COLOUR2">
+      <block type="colour_blue" id=")Yc9^VVg$,Hp;Fs..HJx"></block>
+    </value>
+  </block>
+</xml>
