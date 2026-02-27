@@ -1,23 +1,30 @@
-<xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Respiracao: pisca verde devagar 4x como se o LED estivesse respirando -->
-  <block type="controls_repeat_simple" x="20" y="20">
-    <field name="TIMES">4</field>
-    <statement name="DO">
-      <block type="piscar_led_lento">
-        <value name="COLOUR">
-          <block type="colour_green"></block>
-        </value>
-      </block>
-    </statement>
+<xml xmlns="https://bipes.net.br">
+  <workspace>
+    <field name="DEVICE">v7</field>
+    <field name="TIMESTAMP">1772149545234</field>
+  </workspace>
+  <block type="piscar_led_lento" id="oQ_G:K:BFg~.pEvsp/AY" x="113" y="87">
+    <value name="COLOUR">
+      <block type="colour_green" id="]|JPDQutH!_Sa(L9bT7D"></block>
+    </value>
     <next>
-      <block type="bloco_desligar_todos_leds">
+      <block type="esperar_segundos" id="%o7fKWOAqWF#/I?+tX(F">
+        <value name="TIME">
+          <block type="math_number" id="luDxEJk{lg:@|F1;]::0">
+            <field name="NUM">3</field>
+          </block>
+        </value>
         <next>
-          <block type="esperar_segundos">
-            <value name="TIME">
-              <block type="math_number">
-                <field name="NUM">1</field>
+          <block type="bloco_desligar_todos_leds" id="Jck`_Mo,Fd9JQtFKXE;{">
+            <next>
+              <block type="esperar_segundos" id="fv_GWvr435SF`[K}8Ad_">
+                <value name="TIME">
+                  <block type="math_number" id="YYCImw#^mB]]o1D|88zk">
+                    <field name="NUM">3</field>
+                  </block>
+                </value>
               </block>
-            </value>
+            </next>
           </block>
         </next>
       </block>

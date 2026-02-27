@@ -1,18 +1,21 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Acende 3 cores juntas e apaga uma por uma -->
+  <!-- Apagando uma cor de cada vez: comeca com branco (R+G+B juntos), vai tirando uma por uma -->
+  <!-- Branco = todas ligadas. Tira vermelho = fica ciano. Tira verde = fica azul. Tira azul = apagou -->
   <block type="bloco_ligar_led" x="20" y="20">
     <value name="COLOUR">
-      <block type="colour_red"></block>
+      <block type="colour_white"></block>
     </value>
     <next>
-      <block type="bloco_ligar_led">
-        <value name="COLOUR">
-          <block type="colour_green"></block>
+      <block type="esperar_segundos">
+        <value name="TIME">
+          <block type="math_number">
+            <field name="NUM">3</field>
+          </block>
         </value>
         <next>
-          <block type="bloco_ligar_led">
+          <block type="bloco_desligar_led">
             <value name="COLOUR">
-              <block type="colour_blue"></block>
+              <block type="colour_red"></block>
             </value>
             <next>
               <block type="esperar_segundos">
@@ -24,43 +27,27 @@
                 <next>
                   <block type="bloco_desligar_led">
                     <value name="COLOUR">
-                      <block type="colour_red"></block>
+                      <block type="colour_green"></block>
                     </value>
                     <next>
                       <block type="esperar_segundos">
                         <value name="TIME">
                           <block type="math_number">
-                            <field name="NUM">1</field>
+                            <field name="NUM">2</field>
                           </block>
                         </value>
                         <next>
                           <block type="bloco_desligar_led">
                             <value name="COLOUR">
-                              <block type="colour_green"></block>
+                              <block type="colour_blue"></block>
                             </value>
                             <next>
                               <block type="esperar_segundos">
                                 <value name="TIME">
                                   <block type="math_number">
-                                    <field name="NUM">1</field>
+                                    <field name="NUM">2</field>
                                   </block>
                                 </value>
-                                <next>
-                                  <block type="bloco_desligar_led">
-                                    <value name="COLOUR">
-                                      <block type="colour_blue"></block>
-                                    </value>
-                                    <next>
-                                      <block type="esperar_segundos">
-                                        <value name="TIME">
-                                          <block type="math_number">
-                                            <field name="NUM">1</field>
-                                          </block>
-                                        </value>
-                                      </block>
-                                    </next>
-                                  </block>
-                                </next>
                               </block>
                             </next>
                           </block>

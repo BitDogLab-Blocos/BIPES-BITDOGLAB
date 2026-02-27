@@ -1,36 +1,24 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Vaga-lume: fade verde 3x, pausa, depois fade ciano 3x - como dois vaga-lumes diferentes -->
-  <block type="controls_repeat_simple" x="20" y="20">
-    <field name="TIMES">3</field>
-    <statement name="DO">
-      <block type="bloco_animar_led_brilhar">
-        <value name="COLOUR">
-          <block type="colour_green"></block>
-        </value>
-      </block>
-    </statement>
+  <block type="bloco_animar_led_brilhar" x="20" y="20">
+    <value name="COLOUR">
+      <block type="colour_green"></block>
+    </value>
     <next>
-      <block type="bloco_desligar_todos_leds">
+      <block type="esperar_segundos">
+        <value name="TIME">
+          <block type="math_number">
+            <field name="NUM">3</field>
+          </block>
+        </value>
         <next>
-          <block type="esperar_segundos">
-            <value name="TIME">
-              <block type="math_number">
-                <field name="NUM">2</field>
-              </block>
-            </value>
+          <block type="bloco_desligar_todos_leds">
             <next>
-              <block type="controls_repeat_simple">
-                <field name="TIMES">3</field>
-                <statement name="DO">
-                  <block type="bloco_animar_led_brilhar">
-                    <value name="COLOUR">
-                      <block type="colour_cyan"></block>
-                    </value>
+              <block type="esperar_segundos">
+                <value name="TIME">
+                  <block type="math_number">
+                    <field name="NUM">3</field>
                   </block>
-                </statement>
-                <next>
-                  <block type="bloco_desligar_todos_leds"></block>
-                </next>
+                </value>
               </block>
             </next>
           </block>

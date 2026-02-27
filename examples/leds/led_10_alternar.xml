@@ -1,33 +1,23 @@
-<xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Festa de cores: alterna entre 3 cores 8 vezes - como uma festa! -->
-  <block type="controls_repeat_simple" x="20" y="20">
+<xml xmlns="https://bipes.net.br">
+  <workspace>
+    <field name="DEVICE">v7</field>
+    <field name="TIMESTAMP">1772150558547</field>
+  </workspace>
+  <block type="controls_repeat_simple" id="leTN:AoA`wUpH[DiF.$V" x="588" y="113">
     <field name="TIMES">8</field>
     <statement name="DO">
-      <block type="bloco_alternar_led">
-        <mutation items="3"></mutation>
+      <block type="bloco_alternar_led" id="$!Wmtlvp@RsPissT:MJz">
+        <mutation xmlns="https://bipes.net.br" items="3"></mutation>
         <value name="COLOUR0">
-          <block type="colour_red"></block>
+          <block type="colour_red" id="=zl!{i(X]LFaC8uzJwWm"></block>
         </value>
         <value name="COLOUR1">
-          <block type="colour_green"></block>
+          <block type="colour_green" id="k1g%GeZVW5haDC[0Aqo|"></block>
         </value>
         <value name="COLOUR2">
-          <block type="colour_blue"></block>
+          <block type="colour_blue" id="sBC^2GedL4vveDF!ECRM"></block>
         </value>
       </block>
     </statement>
-    <next>
-      <block type="bloco_desligar_todos_leds">
-        <next>
-          <block type="esperar_segundos">
-            <value name="TIME">
-              <block type="math_number">
-                <field name="NUM">1</field>
-              </block>
-            </value>
-          </block>
-        </next>
-      </block>
-    </next>
   </block>
 </xml>

@@ -1,36 +1,28 @@
-<xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Socorro SOS: envia sinal SOS 2x com pausa entre eles para a crianca ver o padrao se repetindo -->
-  <block type="bloco_sinalizar_led_sos" x="20" y="20">
+<xml xmlns="https://bipes.net.br">
+  <workspace>
+    <field name="DEVICE">v7</field>
+    <field name="TIMESTAMP">1772150487628</field>
+  </workspace>
+  <block type="bloco_sinalizar_led_sos" id="_K21/+*qN[j0BQo}SB4Q" x="337" y="62">
     <value name="COLOUR">
-      <block type="colour_red"></block>
+      <block type="colour_red" id="+mH9y/wq8bK4[P2xTfla"></block>
     </value>
     <next>
-      <block type="bloco_desligar_todos_leds">
+      <block type="esperar_segundos" id="lL74#M_}Ht^OkVU+d,if">
+        <value name="TIME">
+          <block type="math_number" id="Y!of`z0.wBw]-kqDfpg{">
+            <field name="NUM">3</field>
+          </block>
+        </value>
         <next>
-          <block type="esperar_segundos">
-            <value name="TIME">
-              <block type="math_number">
-                <field name="NUM">3</field>
-              </block>
-            </value>
+          <block type="bloco_desligar_todos_leds" id="l)I)=OrGATq:KzWEGmqI">
             <next>
-              <block type="bloco_sinalizar_led_sos">
-                <value name="COLOUR">
-                  <block type="colour_red"></block>
-                </value>
-                <next>
-                  <block type="bloco_desligar_todos_leds">
-                    <next>
-                      <block type="esperar_segundos">
-                        <value name="TIME">
-                          <block type="math_number">
-                            <field name="NUM">1</field>
-                          </block>
-                        </value>
-                      </block>
-                    </next>
+              <block type="esperar_segundos" id="mdg:tO4A.;xvtw@@+YtF">
+                <value name="TIME">
+                  <block type="math_number" id="))rI-]if9.yK@?,Lmq$t">
+                    <field name="NUM">3</field>
                   </block>
-                </next>
+                </value>
               </block>
             </next>
           </block>

@@ -428,6 +428,36 @@ Blockly.Python['bloco_acender_led_brilho'] = function(block) {
 *****************************************************************
 */
 
+// Helper: detect animation context (alone, timed, or composed)
+// Returns { mode: 'infinite'|'timed'|'single', ind: string, ind2: string, header: string }
+function _ledAnimContext(block) {
+  var nextBlock = block.getNextBlock();
+  var hasParent = block.getSurroundParent() !== null;
+  var nextIsWait = nextBlock && (nextBlock.type === 'esperar_segundos' || nextBlock.type === 'esperar_milisegundos');
+
+  if (!nextBlock && !hasParent) {
+    // Alone: infinite loop
+    return { mode: 'infinite', ind: '    ', ind2: '        ', header: 'while True:\n' };
+  } else if (nextIsWait) {
+    // Followed by wait: run animation for that duration, then consume the wait block
+    Blockly.Python.definitions_['import_utime'] = 'import utime';
+    var timeVal = Blockly.Python.valueToCode(nextBlock, 'TIME', Blockly.Python.ORDER_ATOMIC) || '1';
+    var timeMs = nextBlock.type === 'esperar_segundos'
+      ? 'int(' + timeVal + ' * 1000)'
+      : 'int(' + timeVal + ')';
+    nextBlock._animConsumed = true;
+    return {
+      mode: 'timed',
+      ind: '    ', ind2: '        ',
+      header: '_anim_end = utime.ticks_add(utime.ticks_ms(), ' + timeMs + ')\n' +
+              'while utime.ticks_diff(_anim_end, utime.ticks_ms()) > 0:\n'
+    };
+  } else {
+    // Inside repeat or has non-wait next: single cycle
+    return { mode: 'single', ind: '', ind2: '    ', header: '' };
+  }
+}
+
 // Blink LED animation generator
 Blockly.Python['bloco_piscar_led'] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
@@ -437,15 +467,16 @@ Blockly.Python['bloco_piscar_led'] = function(block) {
   Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
   Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-  var code = 'while True:\n';
-  code += '    led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
-  code += '    led_verde.duty_u16(' + colour + '[1] * 257)\n';
-  code += '    led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '    time.sleep_ms(200)\n';
-  code += '    led_vermelho.duty_u16(0)\n';
-  code += '    led_verde.duty_u16(0)\n';
-  code += '    led_azul.duty_u16(0)\n';
-  code += '    time.sleep_ms(200)\n';
+  var ctx = _ledAnimContext(block);
+  var code = ctx.header;
+  code += ctx.ind + 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
+  code += ctx.ind + 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
+  code += ctx.ind + 'led_azul.duty_u16(' + colour + '[2] * 257)\n';
+  code += ctx.ind + 'time.sleep_ms(200)\n';
+  code += ctx.ind + 'led_vermelho.duty_u16(0)\n';
+  code += ctx.ind + 'led_verde.duty_u16(0)\n';
+  code += ctx.ind + 'led_azul.duty_u16(0)\n';
+  code += ctx.ind + 'time.sleep_ms(200)\n';
   return code;
 };
 
@@ -458,15 +489,16 @@ Blockly.Python['piscar_led_lento'] = function(block) {
   Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
   Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-  var code = 'while True:\n';
-  code += '    led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
-  code += '    led_verde.duty_u16(' + colour + '[1] * 257)\n';
-  code += '    led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '    time.sleep_ms(1000)\n';
-  code += '    led_vermelho.duty_u16(0)\n';
-  code += '    led_verde.duty_u16(0)\n';
-  code += '    led_azul.duty_u16(0)\n';
-  code += '    time.sleep_ms(1000)\n';
+  var ctx = _ledAnimContext(block);
+  var code = ctx.header;
+  code += ctx.ind + 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
+  code += ctx.ind + 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
+  code += ctx.ind + 'led_azul.duty_u16(' + colour + '[2] * 257)\n';
+  code += ctx.ind + 'time.sleep_ms(1000)\n';
+  code += ctx.ind + 'led_vermelho.duty_u16(0)\n';
+  code += ctx.ind + 'led_verde.duty_u16(0)\n';
+  code += ctx.ind + 'led_azul.duty_u16(0)\n';
+  code += ctx.ind + 'time.sleep_ms(1000)\n';
   return code;
 };
 
@@ -479,23 +511,24 @@ Blockly.Python['bloco_animar_led_coracao'] = function(block) {
   Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
   Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-  var code = 'while True:\n';
-  code += '    led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
-  code += '    led_verde.duty_u16(' + colour + '[1] * 257)\n';
-  code += '    led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '    time.sleep_ms(100)\n';
-  code += '    led_vermelho.duty_u16(0)\n';
-  code += '    led_verde.duty_u16(0)\n';
-  code += '    led_azul.duty_u16(0)\n';
-  code += '    time.sleep_ms(100)\n';
-  code += '    led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
-  code += '    led_verde.duty_u16(' + colour + '[1] * 257)\n';
-  code += '    led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '    time.sleep_ms(100)\n';
-  code += '    led_vermelho.duty_u16(0)\n';
-  code += '    led_verde.duty_u16(0)\n';
-  code += '    led_azul.duty_u16(0)\n';
-  code += '    time.sleep_ms(700)\n';
+  var ctx = _ledAnimContext(block);
+  var code = ctx.header;
+  code += ctx.ind + 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
+  code += ctx.ind + 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
+  code += ctx.ind + 'led_azul.duty_u16(' + colour + '[2] * 257)\n';
+  code += ctx.ind + 'time.sleep_ms(100)\n';
+  code += ctx.ind + 'led_vermelho.duty_u16(0)\n';
+  code += ctx.ind + 'led_verde.duty_u16(0)\n';
+  code += ctx.ind + 'led_azul.duty_u16(0)\n';
+  code += ctx.ind + 'time.sleep_ms(100)\n';
+  code += ctx.ind + 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
+  code += ctx.ind + 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
+  code += ctx.ind + 'led_azul.duty_u16(' + colour + '[2] * 257)\n';
+  code += ctx.ind + 'time.sleep_ms(100)\n';
+  code += ctx.ind + 'led_vermelho.duty_u16(0)\n';
+  code += ctx.ind + 'led_verde.duty_u16(0)\n';
+  code += ctx.ind + 'led_azul.duty_u16(0)\n';
+  code += ctx.ind + 'time.sleep_ms(700)\n';
   return code;
 };
 
@@ -508,37 +541,38 @@ Blockly.Python['bloco_sinalizar_led_sos'] = function(block) {
   Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
   Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-  var code = 'while True:\n';
-  code += '    for _ in range(3):\n';
-  code += '        led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
-  code += '        led_verde.duty_u16(' + colour + '[1] * 257)\n';
-  code += '        led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '        time.sleep_ms(150)\n';
-  code += '        led_vermelho.duty_u16(0)\n';
-  code += '        led_verde.duty_u16(0)\n';
-  code += '        led_azul.duty_u16(0)\n';
-  code += '        time.sleep_ms(150)\n';
-  code += '    time.sleep_ms(400)\n';
-  code += '    for _ in range(3):\n';
-  code += '        led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
-  code += '        led_verde.duty_u16(' + colour + '[1] * 257)\n';
-  code += '        led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '        time.sleep_ms(500)\n';
-  code += '        led_vermelho.duty_u16(0)\n';
-  code += '        led_verde.duty_u16(0)\n';
-  code += '        led_azul.duty_u16(0)\n';
-  code += '        time.sleep_ms(150)\n';
-  code += '    time.sleep_ms(400)\n';
-  code += '    for _ in range(3):\n';
-  code += '        led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
-  code += '        led_verde.duty_u16(' + colour + '[1] * 257)\n';
-  code += '        led_azul.duty_u16(' + colour + '[2] * 257)\n';
-  code += '        time.sleep_ms(150)\n';
-  code += '        led_vermelho.duty_u16(0)\n';
-  code += '        led_verde.duty_u16(0)\n';
-  code += '        led_azul.duty_u16(0)\n';
-  code += '        time.sleep_ms(150)\n';
-  code += '    time.sleep_ms(800)\n';
+  var ctx = _ledAnimContext(block);
+  var code = ctx.header;
+  code += ctx.ind + 'for _ in range(3):\n';
+  code += ctx.ind2 + 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
+  code += ctx.ind2 + 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
+  code += ctx.ind2 + 'led_azul.duty_u16(' + colour + '[2] * 257)\n';
+  code += ctx.ind2 + 'time.sleep_ms(150)\n';
+  code += ctx.ind2 + 'led_vermelho.duty_u16(0)\n';
+  code += ctx.ind2 + 'led_verde.duty_u16(0)\n';
+  code += ctx.ind2 + 'led_azul.duty_u16(0)\n';
+  code += ctx.ind2 + 'time.sleep_ms(150)\n';
+  code += ctx.ind + 'time.sleep_ms(400)\n';
+  code += ctx.ind + 'for _ in range(3):\n';
+  code += ctx.ind2 + 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
+  code += ctx.ind2 + 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
+  code += ctx.ind2 + 'led_azul.duty_u16(' + colour + '[2] * 257)\n';
+  code += ctx.ind2 + 'time.sleep_ms(500)\n';
+  code += ctx.ind2 + 'led_vermelho.duty_u16(0)\n';
+  code += ctx.ind2 + 'led_verde.duty_u16(0)\n';
+  code += ctx.ind2 + 'led_azul.duty_u16(0)\n';
+  code += ctx.ind2 + 'time.sleep_ms(150)\n';
+  code += ctx.ind + 'time.sleep_ms(400)\n';
+  code += ctx.ind + 'for _ in range(3):\n';
+  code += ctx.ind2 + 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
+  code += ctx.ind2 + 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
+  code += ctx.ind2 + 'led_azul.duty_u16(' + colour + '[2] * 257)\n';
+  code += ctx.ind2 + 'time.sleep_ms(150)\n';
+  code += ctx.ind2 + 'led_vermelho.duty_u16(0)\n';
+  code += ctx.ind2 + 'led_verde.duty_u16(0)\n';
+  code += ctx.ind2 + 'led_azul.duty_u16(0)\n';
+  code += ctx.ind2 + 'time.sleep_ms(150)\n';
+  code += ctx.ind + 'time.sleep_ms(800)\n';
   return code;
 };
 
@@ -620,16 +654,17 @@ Blockly.Python['bloco_batalhar_led'] = function(block) {
   Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour1 = Blockly.Python.valueToCode(block, 'COLOUR1', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var colour2 = Blockly.Python.valueToCode(block, 'COLOUR2', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-  var code = 'while True:\n';
-  code += '    if urandom.randint(0, 1) == 0:\n';
-  code += '        led_vermelho.duty_u16(' + colour1 + '[0] * 257)\n';
-  code += '        led_verde.duty_u16(' + colour1 + '[1] * 257)\n';
-  code += '        led_azul.duty_u16(' + colour1 + '[2] * 257)\n';
-  code += '    else:\n';
-  code += '        led_vermelho.duty_u16(' + colour2 + '[0] * 257)\n';
-  code += '        led_verde.duty_u16(' + colour2 + '[1] * 257)\n';
-  code += '        led_azul.duty_u16(' + colour2 + '[2] * 257)\n';
-  code += '    time.sleep_ms(urandom.randint(100, 300))\n';
+  var ctx = _ledAnimContext(block);
+  var code = ctx.header;
+  code += ctx.ind + 'if urandom.randint(0, 1) == 0:\n';
+  code += ctx.ind2 + 'led_vermelho.duty_u16(' + colour1 + '[0] * 257)\n';
+  code += ctx.ind2 + 'led_verde.duty_u16(' + colour1 + '[1] * 257)\n';
+  code += ctx.ind2 + 'led_azul.duty_u16(' + colour1 + '[2] * 257)\n';
+  code += ctx.ind + 'else:\n';
+  code += ctx.ind2 + 'led_vermelho.duty_u16(' + colour2 + '[0] * 257)\n';
+  code += ctx.ind2 + 'led_verde.duty_u16(' + colour2 + '[1] * 257)\n';
+  code += ctx.ind2 + 'led_azul.duty_u16(' + colour2 + '[2] * 257)\n';
+  code += ctx.ind + 'time.sleep_ms(urandom.randint(100, 300))\n';
   return code;
 };
 
@@ -642,18 +677,19 @@ Blockly.Python['bloco_animar_led_brilhar'] = function(block) {
   Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
   Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-  var code = 'while True:\n';
-  code += '    for i in range(10):\n';
-  code += '        led_vermelho.duty_u16(int(' + colour + '[0] * 257 * i/10))\n';
-  code += '        led_verde.duty_u16(int(' + colour + '[1] * 257 * i/10))\n';
-  code += '        led_azul.duty_u16(int(' + colour + '[2] * 257 * i/10))\n';
-  code += '        time.sleep_ms(50)\n';
-  code += '    for i in range(10, 0, -1):\n';
-  code += '        led_vermelho.duty_u16(int(' + colour + '[0] * 257 * i/10))\n';
-  code += '        led_verde.duty_u16(int(' + colour + '[1] * 257 * i/10))\n';
-  code += '        led_azul.duty_u16(int(' + colour + '[2] * 257 * i/10))\n';
-  code += '        time.sleep_ms(50)\n';
-  code += '    time.sleep_ms(200)\n';
+  var ctx = _ledAnimContext(block);
+  var code = ctx.header;
+  code += ctx.ind + 'for i in range(10):\n';
+  code += ctx.ind2 + 'led_vermelho.duty_u16(int(' + colour + '[0] * 257 * i/10))\n';
+  code += ctx.ind2 + 'led_verde.duty_u16(int(' + colour + '[1] * 257 * i/10))\n';
+  code += ctx.ind2 + 'led_azul.duty_u16(int(' + colour + '[2] * 257 * i/10))\n';
+  code += ctx.ind2 + 'time.sleep_ms(50)\n';
+  code += ctx.ind + 'for i in range(10, 0, -1):\n';
+  code += ctx.ind2 + 'led_vermelho.duty_u16(int(' + colour + '[0] * 257 * i/10))\n';
+  code += ctx.ind2 + 'led_verde.duty_u16(int(' + colour + '[1] * 257 * i/10))\n';
+  code += ctx.ind2 + 'led_azul.duty_u16(int(' + colour + '[2] * 257 * i/10))\n';
+  code += ctx.ind2 + 'time.sleep_ms(50)\n';
+  code += ctx.ind + 'time.sleep_ms(200)\n';
   return code;
 };
 
@@ -797,6 +833,11 @@ Blockly.Python['tempo_cronometro'] = function(block) {
 
 // Wait seconds block
 Blockly.Python['esperar_segundos'] = function(block) {
+  // Skip if already consumed by an animation block (timed mode)
+  if (block._animConsumed) {
+    block._animConsumed = false;
+    return '';
+  }
   var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
   Blockly.Python.definitions_['import_time'] = 'import time';
   var code = 'time.sleep(' + value_time + ')\n';
@@ -805,6 +846,11 @@ Blockly.Python['esperar_segundos'] = function(block) {
 
 // Wait milliseconds block
 Blockly.Python['esperar_milisegundos'] = function(block) {
+  // Skip if already consumed by an animation block (timed mode)
+  if (block._animConsumed) {
+    block._animConsumed = false;
+    return '';
+  }
   var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
   Blockly.Python.definitions_['import_time'] = 'import time';
   var code = 'time.sleep_ms(' + value_time + ')\n';
