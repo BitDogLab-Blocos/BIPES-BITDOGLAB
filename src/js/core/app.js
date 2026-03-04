@@ -408,8 +408,8 @@ Code.filterToolboxByProject = function(project) {
 
 // Project display names
 Code.PROJECT_NAMES = {
-  'basico': 'Basico',
-  'robo': 'Robo Movel',
+  'basico': 'Básico',
+  'robo': 'Robô Móvel',
   'estufa': 'Estufa'
 };
 
@@ -423,7 +423,7 @@ Code.initProjectSelector = function() {
 
   // Restore saved project and update button text
   var saved = localStorage.getItem('bitdoglab_project') || 'basico';
-  btn.textContent = Code.PROJECT_NAMES[saved] || 'Basico';
+  btn.textContent = Code.PROJECT_NAMES[saved] || 'Básico';
 
   // Highlight current card
   function highlightCard(project) {
