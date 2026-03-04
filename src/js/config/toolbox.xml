@@ -351,7 +351,7 @@
     <block type="display_limpar_borda"></block>
     <block type="display_limpar"></block>
   </category>
-  <category name="🕹️ Joystick" colour="#1565c0" data-project="robo">
+  <category name="🕹️ Joystick" colour="#1565c0">
     <block type="joystick_controlar_led"></block>
     <block type="joystick_intensidade_atual"></block>
     <block type="joystick_controlar_buzzer"></block>
@@ -363,7 +363,7 @@
     <block type="joystick_cursor_matriz"></block>
     <block type="joystick_seletor"></block>
   </category>
-  <category name="🎙️ Microfone" colour="#e74c3c" data-project="estufa">
+  <category name="🎙️ Microfone" colour="#e74c3c">
     <block type="microfone_testar"></block>
     <block type="microfone_vu_meter"></block>
     <block type="microfone_nivel_atual"></block>
@@ -372,5 +372,17 @@
     <block type="microfone_controlar_led"></block>
     <block type="microfone_contar_palmas"></block>
     <block type="microfone_total_palmas"></block>
+  </category>
+
+  <!-- ========== CATEGORIAS DE PROJETO (aparecem conforme seletor) ========== -->
+
+  <!-- Projeto: Robo Movel -->
+  <category name="Controle Robo" colour="#e67e22" data-project="robo">
+    <!-- Blocos de motor/controle serao adicionados aqui -->
+  </category>
+
+  <!-- Projeto: Estufa -->
+  <category name="Medicao" colour="#16a085" data-project="estufa">
+    <!-- Blocos de temperatura/sensores serao adicionados aqui -->
   </category>
 </xml>

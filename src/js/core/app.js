@@ -406,23 +406,64 @@ Code.filterToolboxByProject = function(project) {
   }
 };
 
-// Initialize project selector events and restore saved project
-Code.initProjectSelector = function() {
-  var selector = document.getElementById('project_selector');
-  if (!selector) return;
+// Project display names
+Code.PROJECT_NAMES = {
+  'basico': 'Basico',
+  'robo': 'Robo Movel',
+  'estufa': 'Estufa'
+};
 
-  // Restore saved project
-  var saved = localStorage.getItem('bitdoglab_project');
-  if (saved) {
-    selector.value = saved;
+// Initialize project selector modal and restore saved project
+Code.initProjectSelector = function() {
+  var btn = document.getElementById('projectButton');
+  var modal = document.getElementById('project-modal');
+  var closeBtn = document.getElementById('closeProjectModal');
+  var cards = document.querySelectorAll('.project-card');
+  if (!btn || !modal) return;
+
+  // Restore saved project and update button text
+  var saved = localStorage.getItem('bitdoglab_project') || 'basico';
+  btn.textContent = Code.PROJECT_NAMES[saved] || 'Basico';
+
+  // Highlight current card
+  function highlightCard(project) {
+    cards.forEach(function(card) {
+      if (card.getAttribute('data-project') === project) {
+        card.classList.add('selected');
+      } else {
+        card.classList.remove('selected');
+      }
+    });
   }
 
-  // Apply filter on change
-  selector.addEventListener('change', function() {
-    var project = selector.value;
-    localStorage.setItem('bitdoglab_project', project);
-    Code.filterToolboxByProject(project);
-    console.log('[BitdogLab] Projeto selecionado:', project);
+  // Open modal
+  btn.addEventListener('click', function() {
+    highlightCard(localStorage.getItem('bitdoglab_project') || 'basico');
+    modal.style.display = 'flex';
+  });
+
+  // Close modal
+  closeBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+  });
+
+  // Click on card = select project
+  cards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      var project = card.getAttribute('data-project');
+      localStorage.setItem('bitdoglab_project', project);
+      btn.textContent = Code.PROJECT_NAMES[project] || project;
+      Code.filterToolboxByProject(project);
+      modal.style.display = 'none';
+      console.log('[BitdogLab] Projeto selecionado:', project);
+    });
+  });
+
+  // Close modal on background click
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
   });
 };
 
