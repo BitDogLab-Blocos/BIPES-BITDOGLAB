@@ -914,8 +914,10 @@ button.icon.medium:before  {
   font-size: 1rem;
   font-weight: bold;
   height: 2rem;
-  padding: 0 0.8rem;
+  min-width: 8rem;
+  padding: 0 1rem;
   cursor: pointer;
+  white-space: nowrap;
 }
 #projectButton:hover {
   color: var(--bitdoglab-accent);
