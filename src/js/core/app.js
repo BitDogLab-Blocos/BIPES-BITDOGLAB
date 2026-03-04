@@ -369,6 +369,63 @@ Code.reloadToolbox = function(XML_) {
   }
 }
 
+// ==========================================
+// Project Selector — Toolbox Filtering
+// ==========================================
+
+// Original toolbox XML (unfiltered, stored after first load)
+Code._fullToolboxXml = null;
+
+// Filter toolbox categories by selected project.
+// Categories without data-project are always visible (basic).
+// Categories with data-project="x" are visible only when project "x" is selected.
+// Categories with data-project="x,y" are visible in projects "x" or "y".
+Code.filterToolboxByProject = function(project) {
+  if (!Code._fullToolboxXml) return;
+
+  var filtered = Code._fullToolboxXml.cloneNode(true);
+  var categories = filtered.getElementsByTagName('category');
+
+  // Iterate backwards to safely remove nodes
+  for (var i = categories.length - 1; i >= 0; i--) {
+    var cat = categories[i];
+    var dataProject = cat.getAttribute('data-project');
+    if (dataProject) {
+      var projects = dataProject.split(',').map(function(s) { return s.trim(); });
+      if (projects.indexOf(project) === -1) {
+        cat.parentNode.removeChild(cat);
+      }
+    }
+    // No data-project = basic category, always visible
+  }
+
+  try {
+    Code.workspace.updateToolbox(filtered);
+  } catch (e) {
+    console.error('[BitdogLab] Erro ao filtrar toolbox:', e);
+  }
+};
+
+// Initialize project selector events and restore saved project
+Code.initProjectSelector = function() {
+  var selector = document.getElementById('project_selector');
+  if (!selector) return;
+
+  // Restore saved project
+  var saved = localStorage.getItem('bitdoglab_project');
+  if (saved) {
+    selector.value = saved;
+  }
+
+  // Apply filter on change
+  selector.addEventListener('change', function() {
+    var project = selector.value;
+    localStorage.setItem('bitdoglab_project', project);
+    Code.filterToolboxByProject(project);
+    console.log('[BitdogLab] Projeto selecionado:', project);
+  });
+};
+
 // Auto-generation flag for continuous code updates
 Code.auto_mode = false;
 

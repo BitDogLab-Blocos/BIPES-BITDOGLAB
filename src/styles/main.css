@@ -800,7 +800,7 @@ button:hover {
 
 /* Sprited icons. */
 
-button.icon:before, #deviceSelect.icon:before, a.icon:before, span.icon:before, label.icon:before {
+button.icon:before, #deviceSelect.icon:before, #projectSelect.icon:before, a.icon:before, span.icon:before, label.icon:before {
   content:"";
   background-size: cover;
   background-image: url(../assets/icons/icons.svg);
@@ -893,6 +893,41 @@ button.icon.medium:before  {
 @media (max-width: 710px) {
   .tab_collapse {
     display: none;
+  }
+}
+
+/* Project selector */
+#projectSelect {
+  display: inline-flex;
+  align-items: center;
+  border: 2px solid var(--bitdoglab-accent);
+  border-radius: 2rem;
+  padding-left: .5rem;
+  background-color: var(--bitdoglab-dark);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  margin-right: 0.3rem;
+}
+#project_selector {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: inherit;
+  line-height: inherit;
+  height: 2rem;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0 0.5rem;
+}
+#project_selector:focus {
+  color: #000;
+}
+@media (max-width: 59.99em) {
+  #project_selector {
+    width: 10rem;
   }
 }
 

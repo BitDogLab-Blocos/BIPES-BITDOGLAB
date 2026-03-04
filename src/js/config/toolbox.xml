@@ -351,7 +351,7 @@
     <block type="display_limpar_borda"></block>
     <block type="display_limpar"></block>
   </category>
-  <category name="🕹️ Joystick" colour="#1565c0">
+  <category name="🕹️ Joystick" colour="#1565c0" data-project="robo">
     <block type="joystick_controlar_led"></block>
     <block type="joystick_intensidade_atual"></block>
     <block type="joystick_controlar_buzzer"></block>
@@ -363,7 +363,7 @@
     <block type="joystick_cursor_matriz"></block>
     <block type="joystick_seletor"></block>
   </category>
-  <category name="🎙️ Microfone" colour="#e74c3c">
+  <category name="🎙️ Microfone" colour="#e74c3c" data-project="estufa">
     <block type="microfone_testar"></block>
     <block type="microfone_vu_meter"></block>
     <block type="microfone_nivel_atual"></block>

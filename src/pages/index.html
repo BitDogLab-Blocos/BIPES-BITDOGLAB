@@ -256,7 +256,7 @@ function checkCookie() {
   </script>
   
   <script>
-    // Load Blockly toolbox from XML
+    // Load Blockly toolbox from XML and apply project filter
     window.addEventListener('load', function() {
       try {
         if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace()) {
@@ -265,8 +265,19 @@ function checkCookie() {
           request.onreadystatechange = function() {
             if (request.readyState === 4 && request.status === 200) {
               var toolboxXml = Blockly.Xml.textToDom(request.responseText);
-              Blockly.getMainWorkspace().updateToolbox(toolboxXml);
-              console.log('Toolbox loaded');
+
+              // Store original full toolbox for project filtering
+              Code._fullToolboxXml = toolboxXml;
+
+              // Apply project filter (uses saved project or 'basico')
+              var selector = document.getElementById('project_selector');
+              var project = (selector && selector.value) || 'basico';
+              Code.filterToolboxByProject(project);
+
+              // Initialize project selector events
+              Code.initProjectSelector();
+
+              console.log('[BitdogLab] Toolbox loaded, project:', project);
               Blockly.svgResize(Blockly.getMainWorkspace());
             }
           };
@@ -315,6 +326,13 @@ function checkCookie() {
       <div id="channel_connect">
         <button class="icon" id="channelButton" title="Escolher canal de conexão"></button>
         <button class="icon" id="connectButton" title="Conectar/Desconectar"></button>
+      </div>
+      <div class="icon" id="projectSelect">
+        <select id="project_selector" style="color: white;">
+          <option value="basico" style="color: black;">Basico</option>
+          <option value="robo" style="color: black;">Robo Movel</option>
+          <option value="estufa" style="color: black;">Estufa</option>
+        </select>
       </div>
       <div class="icon" id="deviceSelect">
         <select id="device_selector" style="color: white;">
