@@ -377,12 +377,12 @@
   <!-- ========== CATEGORIAS DE PROJETO (aparecem conforme seletor) ========== -->
 
   <!-- Projeto: Robo Movel -->
-  <category name="Controle Robo" colour="#e67e22" data-project="robo">
-    <!-- Blocos de motor/controle serao adicionados aqui -->
+  <category name="Controle Robô" colour="#e67e22" data-project="robo">
+    <label text="Em breve: blocos de motor e sensores" web-class="projectPlaceholder"></label>
   </category>
 
   <!-- Projeto: Estufa -->
-  <category name="Medicao" colour="#16a085" data-project="estufa">
-    <!-- Blocos de temperatura/sensores serao adicionados aqui -->
+  <category name="Medição" colour="#16a085" data-project="estufa">
+    <label text="Em breve: blocos de temperatura e luz" web-class="projectPlaceholder"></label>
   </category>
 </xml>
