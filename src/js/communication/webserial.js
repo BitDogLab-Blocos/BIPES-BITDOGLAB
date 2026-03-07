@@ -1,8 +1,8 @@
 'use strict';
 
 /**
- * WebSerialProtocol - Manages Web Serial communication and I2C sensor detection
- * Detects connected sensors in real-time on I2C0 and I2C1 buses
+ * WebSerialProtocol - Manages Web Serial communication
+ * I2C sensor detection is handled by i2c_scanner.js
  */
 class WebSerialProtocol {
   constructor() {
@@ -18,11 +18,6 @@ class WebSerialProtocol {
     this.packetSize = SERIAL_CONFIG.PACKET_SIZE; // Max packet size
     this.speed = SERIAL_CONFIG.BAUD_RATE; // Connection baud rate
     this.terminalBuffer = '';       // Terminal buffer
-    // I2C scan state variables
-    this._i2cScanPending = false;   // Waiting for scan result
-    this._i2cScanBuffer = '';       // Scan accumulator buffer
-    this._i2cScanInterval = null;   // Periodic scan timer
-    this._lastDetectedDevices = []; // Already detected devices
   }
 
   // Transmit buffer polling
@@ -62,8 +57,9 @@ class WebSerialProtocol {
             if (Channel['webserial'].shouldListen) {
               if (typeof chunk === 'string') {
                 Tool.bipesVerify();
-                // Check I2C scan result
-                Channel['webserial']._checkI2CScanResult(chunk);
+                // Delegate I2C scan processing to i2cScanner
+                i2cScanner.processData(chunk);
+                
                 Channel['webserial'].lastChars = Channel['webserial'].lastChars
                   .concat(chunk.substr(-REPL_CONSTANTS.PROMPT_LENGTH, REPL_CONSTANTS.PROMPT_LENGTH))
                   .substr(-REPL_CONSTANTS.PROMPT_LENGTH, REPL_CONSTANTS.PROMPT_LENGTH);
@@ -174,11 +170,8 @@ class WebSerialProtocol {
 
   // Disconnects from device
   disconnect() {
-    // Stop periodic I2C scan
-    if (this._i2cScanInterval) {
-      clearInterval(this._i2cScanInterval);
-      this._i2cScanInterval = null;
-    }
+    // Stop I2C scanner
+    i2cScanner.stop();
 
     const writer = this.port.writable.getWriter();
 
@@ -200,9 +193,6 @@ class WebSerialProtocol {
       this.buffer = [];
       this.lastChars = '';
       this.terminalBuffer = '';
-      this._i2cScanPending = false;
-      this._i2cScanBuffer = '';
-      this._lastDetectedDevices = [];
       this.connected = false;
       clearInterval(this.watcher);
       term.off();
@@ -210,7 +200,7 @@ class WebSerialProtocol {
     });
   }
 
-  // Resets board and starts I2C scan
+  // Resets board and starts I2C scanner
   _resetBoard() {
     var self = this;
     setTimeout(() => {
@@ -220,123 +210,14 @@ class WebSerialProtocol {
       } else {
         self._serialWrite(REPL_CONSTANTS.CTRL_C); // Keyboard interrupt
       }
-      // Start periodic scan after 3s
+      // Start I2C scanner after board reset
       setTimeout(function() {
-        self._startPeriodicI2CScan();
+        i2cScanner.start(self);
       }, 3000);
     }, SERIAL_CONFIG.RESET_TIMEOUT_MS);
   }
 
-  // Builds I2C scan command
-  _buildScanCmd() {
-    var pins = BitdogLabConfig.PINS;
-    var sensor = BitdogLabConfig.SENSOR;
-    
-    // I2C0: uses GP0/GP1 (v7) or GP14/GP15 (v6)
-    var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
-    var i2c0Scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
-    
-    // Command to scan both buses
-    var cmd = 'from machine import I2C, Pin; ' +
-      '_i2c0=I2C(0,sda=Pin(' + i2c0Sda + '),scl=Pin(' + i2c0Scl + '),freq=' + sensor.I2C_FREQ + '); ' +
-      '_r0=_i2c0.scan(); ';
-    
-    // I2C1: only available on v7 (GP2/GP3)
-    if (pins.I2C_SDA !== undefined && pins.I2C_SCL !== undefined && 
-        pins.I2C0_SDA !== undefined && pins.I2C0_SCL !== undefined) {
-      cmd += '_i2c1=I2C(1,sda=Pin(' + pins.I2C_SDA + '),scl=Pin(' + pins.I2C_SCL + '),freq=400000); _r1=_i2c1.scan(); ';
-    } else {
-      cmd += '_r1=[]; ';
-    }
-    
-    cmd += 'print("__I2C0_SCAN__:" + str(_r0) + " __I2C1_SCAN__:" + str(_r1))\r\n';
-    return cmd;
-  }
-
-  // Starts periodic I2C scan (every 5 seconds)
-  _startPeriodicI2CScan() {
-    var self = this;
-    self._sendI2CScan();
-    
-    this._i2cScanInterval = setInterval(function() {
-      if (self.connected) {
-        self._sendI2CScan();
-      }
-    }, 5000);
-  }
-
-  // Sends I2C scan command
-  _sendI2CScan() {
-    var self = this;
-    if (!self.connected) return;
-    
-    self._serialWrite(REPL_CONSTANTS.CTRL_C);
-    
-    setTimeout(function() {
-      self._i2cScanPending = true;
-      self._i2cScanBuffer = '';
-      self._serialWrite(self._buildScanCmd());
-    }, 200);
-  }
-
-  // Processes I2C scan result
-  _checkI2CScanResult(chunk) {
-    if (!this._i2cScanPending) return;
-    
-    this._i2cScanBuffer = (this._i2cScanBuffer || '') + chunk;
-    
-    // Search for result string in buffer
-    var match = this._i2cScanBuffer.match(/__I2C0_SCAN__:\[([^\]]*)\]\s*__I2C1_SCAN__:\[([^\]]*)\]/);
-    if (!match) return;
-
-    this._i2cScanPending = false;
-    this._i2cScanBuffer = '';
-
-    var i2c0List = match[1].trim();
-    var i2c1List = match[2].trim();
-
-    // Convert address list to object array
-    var currentDevices = [];
-    if (i2c0List) {
-      i2c0List.split(',').forEach(function(s) {
-        if (s.trim()) currentDevices.push({ addr: parseInt(s.trim()), bus: 0 });
-      });
-    }
-    if (i2c1List) {
-      i2c1List.split(',').forEach(function(s) {
-        if (s.trim()) currentDevices.push({ addr: parseInt(s.trim()), bus: 1 });
-      });
-    }
-
-    // Check known sensors
-    var knownDevices = BitdogLabConfig.SENSOR.I2C_KNOWN_DEVICES;
-    var newDevices = [];
-    
-    currentDevices.forEach(function(dev) {
-      if (knownDevices[dev.addr]) {
-        // Check if already detected before (prevents spam)
-        var alreadyDetected = this._lastDetectedDevices.some(function(d) {
-          return d.addr === dev.addr && d.bus === dev.bus;
-        });
-        
-        if (!alreadyDetected) {
-          newDevices.push(dev);
-        }
-      }
-    }.bind(this));
-
-    // Notify new devices
-    newDevices.forEach(function(dev) {
-      var name = knownDevices[dev.addr];
-      UI['notify'].send('Sensor ' + name + ' conectado! (I2C' + dev.bus + ' endereco 0x' + dev.addr.toString(16) + ')');
-      term.write('\r\n\x1b[36m>>> Sensor ' + name + ' detectado no I2C' + dev.bus + ' (0x' + dev.addr.toString(16) + ') <<<\x1b[m\r\n');
-    });
-
-    // Update detected devices list
-    this._lastDetectedDevices = currentDevices;
-  }
-
-  // Sends data via serial
+  // Sends data via serial (public method for i2cScanner)
   _serialWrite(data) {
     let dataArrayBuffer;
     switch (data.constructor.name) {
