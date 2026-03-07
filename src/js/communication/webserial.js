@@ -56,6 +56,8 @@ class WebSerialProtocol {
               // Detect REPL prompts to determine command completion
               if (typeof chunk === 'string') {
                 Tool.bipesVerify();
+                // Check for I2C sensor scan result in incoming data
+                Channel['webserial']._checkI2CScanResult(chunk);
                 Channel['webserial'].lastChars = Channel['webserial'].lastChars
                   .concat(chunk.substr(-REPL_CONSTANTS.PROMPT_LENGTH, REPL_CONSTANTS.PROMPT_LENGTH))
                   .substr(-REPL_CONSTANTS.PROMPT_LENGTH, REPL_CONSTANTS.PROMPT_LENGTH);
@@ -206,7 +208,58 @@ class WebSerialProtocol {
       } else {
         this._serialWrite(REPL_CONSTANTS.CTRL_C); // Keyboard interrupt
       }
+      // After reset, scan I2C0 for known sensors
+      this._scheduleI2CScan();
     }, SERIAL_CONFIG.RESET_TIMEOUT_MS); // Delay before reset
+  }
+
+  // Scan I2C0 bus for known sensors after board is ready
+  _scheduleI2CScan() {
+    var pins = BitdogLabConfig.PINS;
+    var sensor = BitdogLabConfig.SENSOR;
+    var scanCmd = 'from machine import I2C, Pin; print("__I2C0_SCAN__:" + str(I2C(' +
+      sensor.I2C_BUS + ', sda=Pin(' + pins.I2C0_SDA + '), scl=Pin(' + pins.I2C0_SCL +
+      '), freq=' + sensor.I2C_FREQ + ').scan()))\r';
+
+    // Reset scan state (clean slate for reconnections)
+    this._i2cScanPending = false;
+    this._i2cScanBuffer = '';
+
+    // Wait for REPL to be ready after soft reboot, then send scan
+    setTimeout(() => {
+      if (!this.connected) return;
+      this._i2cScanPending = true;
+      console.log('[I2C Scan] Sending scan command...');
+      ProtocolManager.bufferPush(scanCmd);
+    }, 3000);
+  }
+
+  // Called from the incoming stream handler (write chunk) to detect scan result
+  _checkI2CScanResult(chunk) {
+    if (!this._i2cScanPending) return;
+    // Accumulate in a temporary buffer
+    this._i2cScanBuffer = (this._i2cScanBuffer || '') + chunk;
+    var match = this._i2cScanBuffer.match(/__I2C0_SCAN__:\[([^\]]*)\]/);
+    if (!match) return;
+
+    // Found result — stop listening
+    this._i2cScanPending = false;
+    this._i2cScanBuffer = '';
+    console.log('[I2C Scan] Result:', match[0]);
+
+    var knownDevices = BitdogLabConfig.SENSOR.I2C_KNOWN_DEVICES;
+    var addressList = match[1].trim();
+    if (!addressList) return; // No devices found
+
+    var addresses = addressList.split(',').map(function(s) { return parseInt(s.trim()); });
+
+    addresses.forEach(function(addr) {
+      if (knownDevices[addr]) {
+        var name = knownDevices[addr];
+        UI['notify'].send('🌡️ Sensor ' + name + ' conectado! (I2C endereço 0x' + addr.toString(16) + ')');
+        term.write('\r\n\x1b[36m🌡️ Sensor ' + name + ' detectado no I2C0 (0x' + addr.toString(16) + ')\x1b[m\r\n');
+      }
+    });
   }
 
   // Send data to serial port with proper encoding

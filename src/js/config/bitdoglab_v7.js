@@ -13,6 +13,7 @@ var BitdogLabConfig = {
     JOYSTICK_X: 27, JOYSTICK_Y: 26, JOYSTICK_SW: 22,
     NEOPIXEL: 7,
     I2C_SCL: 3, I2C_SDA: 2,
+    I2C0_SCL: 1, I2C0_SDA: 0,
     MIC: 28
   },
 
@@ -32,6 +33,15 @@ var BitdogLabConfig = {
   JOYSTICK: { CENTER_VALUE: 32768, DEADZONE: 5000, INVERT_X: false, INVERT_Y: false },
 
   DISPLAY: { I2C_BUS: 1, I2C_FREQ: 400000, WIDTH: 128, HEIGHT: 64 },
+
+  SENSOR: {
+    I2C_BUS: 0, I2C_FREQ: 400000,
+    AHT20_ADDR: '0x38',
+    // Mapa de endereços I2C conhecidos -> nome do sensor
+    I2C_KNOWN_DEVICES: {
+      0x38: 'AHT20'
+    }
+  },
 
   // Variáveis Python geradas para os LEDs RGB
   LED: { PWM_FREQ: 1000, VAR_RED: 'led_vermelho', VAR_GREEN: 'led_verde', VAR_BLUE: 'led_azul' },
