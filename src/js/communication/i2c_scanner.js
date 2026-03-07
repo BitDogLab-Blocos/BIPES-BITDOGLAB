@@ -120,8 +120,8 @@ class I2CScanner {
     // Parse detected devices
     var currentDevices = this._parseDeviceList(i2c0List, i2c1List);
     
-    // Check for new sensors
-    this._checkNewSensors(currentDevices);
+    // Check for sensor changes (connections and disconnections)
+    this._checkSensorChanges(currentDevices);
 
     // Update detected devices list
     this._lastDetectedDevices = currentDevices;
@@ -148,12 +148,13 @@ class I2CScanner {
   }
 
   /**
-   * Checks for new sensors and notifies
+   * Checks for sensor changes (connections and disconnections)
    */
-  _checkNewSensors(currentDevices) {
+  _checkSensorChanges(currentDevices) {
     var knownDevices = BitdogLabConfig.SENSOR.I2C_KNOWN_DEVICES;
     var self = this;
     
+    // Check for new connections
     currentDevices.forEach(function(dev) {
       if (knownDevices[dev.addr]) {
         // Check if already detected before (prevents spam)
@@ -166,17 +167,40 @@ class I2CScanner {
         }
       }
     });
+    
+    // Check for disconnections
+    this._lastDetectedDevices.forEach(function(dev) {
+      if (knownDevices[dev.addr]) {
+        // Check if still connected
+        var stillConnected = currentDevices.some(function(d) {
+          return d.addr === dev.addr && d.bus === dev.bus;
+        });
+        
+        if (!stillConnected) {
+          self._notifyDisconnection(knownDevices[dev.addr], dev);
+        }
+      }
+    });
   }
 
   /**
-   * Notifies user about detected sensor
+   * Notifies user about detected sensor (AHT20 only)
    */
   _notifySensor(name, device) {
-    var busStr = 'I2C' + device.bus;
-    var addrStr = '0x' + device.addr.toString(16);
-    
-    UI['notify'].send('Sensor ' + name + ' conectado! (' + busStr + ' endereco ' + addrStr + ')');
-    term.write('\r\n\x1b[36m>>> Sensor ' + name + ' detectado no ' + busStr + ' (' + addrStr + ') <<<\x1b[m\r\n');
+    if (name === 'AHT20') {
+      UI['notify'].send('🌡️💧 Sensor de temperatura e umidade conectado!');
+      term.write('\r\n🌡️💧 Sensor de temperatura e umidade conectado!\r\n');
+    }
+  }
+
+  /**
+   * Notifies user about disconnected sensor (AHT20 only)
+   */
+  _notifyDisconnection(name, device) {
+    if (name === 'AHT20') {
+      UI['notify'].send('⚠️ Sensor de temperatura e umidade desconectado!');
+      term.write('\r\n⚠️ >>> Sensor de temperatura e umidade desconectado! <<< ⚠️\x1b[m\r\n');
+    }
   }
 
   /**
