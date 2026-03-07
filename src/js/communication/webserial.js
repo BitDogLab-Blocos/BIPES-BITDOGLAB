@@ -1,40 +1,49 @@
 'use strict';
 
+/**
+ * WebSerialProtocol - Manages Web Serial communication and I2C sensor detection
+ * Detects connected sensors in real-time on I2C0 and I2C1 buses
+ */
 class WebSerialProtocol {
   constructor() {
-    this.port = undefined;           // Web Serial API port instance
-    this.watcher = undefined;        // Interval ID for buffer polling
-    this.buffer = [];               // Queue for outgoing data packets
-    this.connected = false;         // Connection state flag
-    this.completeBufferCallback = []; // Callbacks for completed transmissions
-    this.lastChars = '';            // Buffer for detecting REPL prompts
-    this.encoder = new TextEncoder(); // Text encoder for string conversion
-    this.appendStream = undefined;  // Writable stream for incoming data
-    this.shouldListen = true;       // Controls whether to process incoming data
-    this.packetSize = SERIAL_CONFIG.PACKET_SIZE; // Max packet size for transmission
-    this.speed = SERIAL_CONFIG.BAUD_RATE; // Serial communication baud rate
-    this.terminalBuffer = '';       // Buffer for terminal output processing
+    this.port = undefined;           // Web Serial API port
+    this.watcher = undefined;        // Buffer polling timer
+    this.buffer = [];               // Transmission queue
+    this.connected = false;         // Connection state
+    this.completeBufferCallback = []; // Post-transmission callbacks
+    this.lastChars = '';            // Buffer to detect REPL prompt
+    this.encoder = new TextEncoder(); // Text encoder
+    this.appendStream = undefined;  // Write stream
+    this.shouldListen = true;       // Controls data processing
+    this.packetSize = SERIAL_CONFIG.PACKET_SIZE; // Max packet size
+    this.speed = SERIAL_CONFIG.BAUD_RATE; // Connection baud rate
+    this.terminalBuffer = '';       // Terminal buffer
+    // I2C scan state variables
+    this._i2cScanPending = false;   // Waiting for scan result
+    this._i2cScanBuffer = '';       // Scan accumulator buffer
+    this._i2cScanInterval = null;   // Periodic scan timer
+    this._lastDetectedDevices = []; // Already detected devices
   }
 
-  // Write queued data to serial port
+  // Transmit buffer polling
   _pollSerialBuffer() {
     if (this.port && this.port.writable && !this.port.writable.locked) {
       if (this.buffer.length > 0) {
-        UI['progress'].remain(this.buffer.length); // Update UI progress indicator
+        UI['progress'].remain(this.buffer.length);
         try {
-          this._serialWrite(this.buffer[0]); // Write first packet in queue
+          this._serialWrite(this.buffer[0]);
         } catch (error) {
           this._handleSerialError(error);
         }
       } else {
-        UI['progress'].end(); // Hide progress when queue is empty
+        UI['progress'].end();
       }
     }
   }
 
-  // Connect to serial device
+  // Connects to serial device
   connect() {
-    // Check Web Serial API browser support
+    // Check Web Serial API support
     if (typeof navigator.serial === 'undefined') {
       const errorMsg = MSG['notAvailableFlag'].replaceAll('$1', 'WebSerial API');
       UI['notify'].send(errorMsg);
@@ -42,33 +51,30 @@ class WebSerialProtocol {
       return;
     }
 
-    // Request user to select serial port
     navigator.serial.requestPort().then((port) => {
       UI['workspace'].connecting();
       this.port = port;
 
-      // Open serial connection with configured baud rate
       this.port.open({ baudRate: this.speed }).then(() => {
-        // Create writable stream for processing incoming data
+        // Create stream to process received data
         const appendStream = new WritableStream({
           write(chunk) {
             if (Channel['webserial'].shouldListen) {
-              // Detect REPL prompts to determine command completion
               if (typeof chunk === 'string') {
                 Tool.bipesVerify();
-                // Check for I2C sensor scan result in incoming data
+                // Check I2C scan result
                 Channel['webserial']._checkI2CScanResult(chunk);
                 Channel['webserial'].lastChars = Channel['webserial'].lastChars
                   .concat(chunk.substr(-REPL_CONSTANTS.PROMPT_LENGTH, REPL_CONSTANTS.PROMPT_LENGTH))
                   .substr(-REPL_CONSTANTS.PROMPT_LENGTH, REPL_CONSTANTS.PROMPT_LENGTH);
 
-                // Check for REPL prompt indicating command execution completed
+                // Detect REPL prompt (command completed)
                 if (Channel['webserial'].lastChars.includes(REPL_CONSTANTS.PROMPT)) {
                   UI['workspace'].runButton.status = true;
                   UI['workspace'].runButton.dom.className = 'icon';
                   UI['workspace'].toolbarButton.className = 'icon medium';
 
-                  // Execute completion callback if available
+                  // Execute callback if available
                   if (Channel['webserial'].completeBufferCallback.length > 0) {
                     try {
                       Channel['webserial'].completeBufferCallback[0]();
@@ -78,29 +84,27 @@ class WebSerialProtocol {
                     Channel['webserial'].completeBufferCallback.shift();
                   }
                 } else if (UI['workspace'].runButton.status === true) {
-                  UI['workspace'].receiving(); // Update UI to receiving state
+                  UI['workspace'].receiving();
                 }
 
                 Files.received_string = Files.received_string.concat(chunk);
               }
 
-              // Process terminal output with line buffering
+              // Line processing for terminal
               Channel['webserial'].terminalBuffer += chunk;
               let lines = Channel['webserial'].terminalBuffer.split(/(\r\n|\r|\n)/);
 
-              // Keep incomplete line in buffer
               if (!Channel['webserial'].terminalBuffer.match(/(\r\n|\r|\n)$/)) {
                 Channel['webserial'].terminalBuffer = lines.pop();
               } else {
                 Channel['webserial'].terminalBuffer = '';
               }
 
-              // Process complete lines for terminal display
+              // Display lines in terminal with formatting
               lines.forEach((line) => {
                 if (line === '\r' || line === '\n' || line === '\r\n') {
-                  term.write(line); // Write line endings directly
+                  term.write(line);
                 } else if (line.length > 0) {
-                  // Identify system messages for special formatting
                   const isSystemMessage =
                     (line.includes('MicroPython') ||
                       line.includes('Type "help()"') ||
@@ -121,13 +125,12 @@ class WebSerialProtocol {
                       line.includes('paste mode')) &&
                     !line.startsWith('===');
 
-                  // Apply color coding to system messages
                   if (isSystemMessage) {
-                    term.write('\x1b[37m' + line + '\x1b[0m'); // White text for system messages
+                    term.write('\x1b[37m' + line + '\x1b[0m');
                   } else if (!line.includes('\x1b[')) {
-                    term.write(line); // Regular output
+                    term.write(line);
                   } else {
-                    term.write(line); // Already formatted output
+                    term.write(line);
                   }
                 }
               });
@@ -135,12 +138,11 @@ class WebSerialProtocol {
           }
         });
 
-        // Pipe serial data through text decoder to writable stream
         this.port.readable.pipeThrough(new TextDecoderStream()).pipeTo(appendStream);
         this._updateUIForConnection();
-        this._resetBoard(); // Perform board reset sequence
+        this._resetBoard();
       }).catch((error) => {
-        // Handle case where port is already open
+        // Port already open
         if (error.code === ERROR_CODES.PORT_ALREADY_OPEN) {
           this._updateUIForConnection();
           this._resetBoard();
@@ -149,145 +151,221 @@ class WebSerialProtocol {
         this._handleSerialError(error);
       });
     }).catch((error) => {
-      this._handleSerialError(error); // Handle port selection errors
+      this._handleSerialError(error);
     });
   }
 
-  // Update UI when connected successfully
+  // Updates UI when connected
   _updateUIForConnection() {
-    term.on(); // Enable terminal
-    term.write('\x1b[32mConnected using Web Serial API!\x1b[m\r\n'); // Green success message
+    term.on();
+    term.write('\x1b[32mConnected using Web Serial API!\x1b[m\r\n');
     this.connected = true;
 
     if (UI['workspace'].runButton.status === true) {
-      UI['workspace'].receiving(); // Update UI state
+      UI['workspace'].receiving();
     }
 
-    // Start polling for outgoing data transmission
+    // Start buffer polling
     this.watcher = setInterval(
       this._pollSerialBuffer.bind(this),
       SERIAL_CONFIG.WATCH_INTERVAL_MS
     );
   }
 
-  // Disconnect from serial device
+  // Disconnects from device
   disconnect() {
+    // Stop periodic I2C scan
+    if (this._i2cScanInterval) {
+      clearInterval(this._i2cScanInterval);
+      this._i2cScanInterval = null;
+    }
+
     const writer = this.port.writable.getWriter();
 
     writer.close().then(() => {
       this.port.close().then(() => {
-        this.port = undefined; // Clear port reference
+        this.port = undefined;
       }).catch((error) => {
         this._handleSerialError(error);
-        writer.abort(); // Force close writer on error
+        writer.abort();
         this.port = undefined;
         this.shouldListen = false;
       });
 
       if (term) {
-        term.write('\x1b[32mDisconnected\x1b[m\r\n'); // Green disconnect message
+        term.write('\x1b[32mDisconnected\x1b[m\r\n');
       }
 
-      // Reset all state variables
+      // Reset state variables
       this.buffer = [];
       this.lastChars = '';
       this.terminalBuffer = '';
+      this._i2cScanPending = false;
+      this._i2cScanBuffer = '';
+      this._lastDetectedDevices = [];
       this.connected = false;
-      clearInterval(this.watcher); // Stop buffer polling
-      term.off(); // Disable terminal
-      UI['workspace'].runAbort(); // Update UI to disconnected state
+      clearInterval(this.watcher);
+      term.off();
+      UI['workspace'].runAbort();
     });
   }
 
-  // Reset board if enabled in settings
+  // Resets board and starts I2C scan
   _resetBoard() {
+    var self = this;
     setTimeout(() => {
       if (UI['workspace'].resetBoard.checked) {
         term.write('\x1b[32mResetting the board...\x1b[m\r\n');
-        this._serialWrite(REPL_CONSTANTS.CTRL_D); // Soft reset
+        self._serialWrite(REPL_CONSTANTS.CTRL_D); // Soft reset
       } else {
-        this._serialWrite(REPL_CONSTANTS.CTRL_C); // Keyboard interrupt
+        self._serialWrite(REPL_CONSTANTS.CTRL_C); // Keyboard interrupt
       }
-      // After reset, scan I2C0 for known sensors
-      this._scheduleI2CScan();
-    }, SERIAL_CONFIG.RESET_TIMEOUT_MS); // Delay before reset
+      // Start periodic scan after 3s
+      setTimeout(function() {
+        self._startPeriodicI2CScan();
+      }, 3000);
+    }, SERIAL_CONFIG.RESET_TIMEOUT_MS);
   }
 
-  // Scan I2C0 bus for known sensors after board is ready
-  _scheduleI2CScan() {
+  // Builds I2C scan command
+  _buildScanCmd() {
     var pins = BitdogLabConfig.PINS;
     var sensor = BitdogLabConfig.SENSOR;
-    var scanCmd = 'from machine import I2C, Pin; print("__I2C0_SCAN__:" + str(I2C(' +
-      sensor.I2C_BUS + ', sda=Pin(' + pins.I2C0_SDA + '), scl=Pin(' + pins.I2C0_SCL +
-      '), freq=' + sensor.I2C_FREQ + ').scan()))\r';
-
-    // Reset scan state (clean slate for reconnections)
-    this._i2cScanPending = false;
-    this._i2cScanBuffer = '';
-
-    // Wait for REPL to be ready after soft reboot, then send scan
-    setTimeout(() => {
-      if (!this.connected) return;
-      this._i2cScanPending = true;
-      console.log('[I2C Scan] Sending scan command...');
-      ProtocolManager.bufferPush(scanCmd);
-    }, 3000);
+    
+    // I2C0: uses GP0/GP1 (v7) or GP14/GP15 (v6)
+    var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
+    var i2c0Scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
+    
+    // Command to scan both buses
+    var cmd = 'from machine import I2C, Pin; ' +
+      '_i2c0=I2C(0,sda=Pin(' + i2c0Sda + '),scl=Pin(' + i2c0Scl + '),freq=' + sensor.I2C_FREQ + '); ' +
+      '_r0=_i2c0.scan(); ';
+    
+    // I2C1: only available on v7 (GP2/GP3)
+    if (pins.I2C_SDA !== undefined && pins.I2C_SCL !== undefined && 
+        pins.I2C0_SDA !== undefined && pins.I2C0_SCL !== undefined) {
+      cmd += '_i2c1=I2C(1,sda=Pin(' + pins.I2C_SDA + '),scl=Pin(' + pins.I2C_SCL + '),freq=400000); _r1=_i2c1.scan(); ';
+    } else {
+      cmd += '_r1=[]; ';
+    }
+    
+    cmd += 'print("__I2C0_SCAN__:" + str(_r0) + " __I2C1_SCAN__:" + str(_r1))\r\n';
+    return cmd;
   }
 
-  // Called from the incoming stream handler (write chunk) to detect scan result
+  // Starts periodic I2C scan (every 5 seconds)
+  _startPeriodicI2CScan() {
+    var self = this;
+    self._sendI2CScan();
+    
+    this._i2cScanInterval = setInterval(function() {
+      if (self.connected) {
+        self._sendI2CScan();
+      }
+    }, 5000);
+  }
+
+  // Sends I2C scan command
+  _sendI2CScan() {
+    var self = this;
+    if (!self.connected) return;
+    
+    self._serialWrite(REPL_CONSTANTS.CTRL_C);
+    
+    setTimeout(function() {
+      self._i2cScanPending = true;
+      self._i2cScanBuffer = '';
+      self._serialWrite(self._buildScanCmd());
+    }, 200);
+  }
+
+  // Processes I2C scan result
   _checkI2CScanResult(chunk) {
     if (!this._i2cScanPending) return;
-    // Accumulate in a temporary buffer
+    
     this._i2cScanBuffer = (this._i2cScanBuffer || '') + chunk;
-    var match = this._i2cScanBuffer.match(/__I2C0_SCAN__:\[([^\]]*)\]/);
+    
+    // Search for result string in buffer
+    var match = this._i2cScanBuffer.match(/__I2C0_SCAN__:\[([^\]]*)\]\s*__I2C1_SCAN__:\[([^\]]*)\]/);
     if (!match) return;
 
-    // Found result — stop listening
     this._i2cScanPending = false;
     this._i2cScanBuffer = '';
-    console.log('[I2C Scan] Result:', match[0]);
 
+    var i2c0List = match[1].trim();
+    var i2c1List = match[2].trim();
+
+    // Convert address list to object array
+    var currentDevices = [];
+    if (i2c0List) {
+      i2c0List.split(',').forEach(function(s) {
+        if (s.trim()) currentDevices.push({ addr: parseInt(s.trim()), bus: 0 });
+      });
+    }
+    if (i2c1List) {
+      i2c1List.split(',').forEach(function(s) {
+        if (s.trim()) currentDevices.push({ addr: parseInt(s.trim()), bus: 1 });
+      });
+    }
+
+    // Check known sensors
     var knownDevices = BitdogLabConfig.SENSOR.I2C_KNOWN_DEVICES;
-    var addressList = match[1].trim();
-    if (!addressList) return; // No devices found
-
-    var addresses = addressList.split(',').map(function(s) { return parseInt(s.trim()); });
-
-    addresses.forEach(function(addr) {
-      if (knownDevices[addr]) {
-        var name = knownDevices[addr];
-        UI['notify'].send('🌡️ Sensor ' + name + ' conectado! (I2C endereço 0x' + addr.toString(16) + ')');
-        term.write('\r\n\x1b[36m🌡️ Sensor ' + name + ' detectado no I2C0 (0x' + addr.toString(16) + ')\x1b[m\r\n');
+    var newDevices = [];
+    
+    currentDevices.forEach(function(dev) {
+      if (knownDevices[dev.addr]) {
+        // Check if already detected before (prevents spam)
+        var alreadyDetected = this._lastDetectedDevices.some(function(d) {
+          return d.addr === dev.addr && d.bus === dev.bus;
+        });
+        
+        if (!alreadyDetected) {
+          newDevices.push(dev);
+        }
       }
+    }.bind(this));
+
+    // Notify new devices
+    newDevices.forEach(function(dev) {
+      var name = knownDevices[dev.addr];
+      UI['notify'].send('Sensor ' + name + ' conectado! (I2C' + dev.bus + ' endereco 0x' + dev.addr.toString(16) + ')');
+      term.write('\r\n\x1b[36m>>> Sensor ' + name + ' detectado no I2C' + dev.bus + ' (0x' + dev.addr.toString(16) + ') <<<\x1b[m\r\n');
     });
+
+    // Update detected devices list
+    this._lastDetectedDevices = currentDevices;
   }
 
-  // Send data to serial port with proper encoding
+  // Sends data via serial
   _serialWrite(data) {
     let dataArrayBuffer;
     switch (data.constructor.name) {
       case 'Uint8Array':
-        dataArrayBuffer = data; // Already in binary format
+        dataArrayBuffer = data;
         break;
       case 'String':
       case 'Number':
-        dataArrayBuffer = this.encoder.encode(data); // Convert to Uint8Array
+        dataArrayBuffer = this.encoder.encode(data);
         break;
     }
 
     if (this.port && this.port.writable && dataArrayBuffer !== undefined) {
       const writer = this.port.writable.getWriter();
       writer.write(dataArrayBuffer).then(() => {
-        writer.releaseLock(); // Release writer lock after write
-        this.buffer.shift(); // Remove sent packet from queue
+        writer.releaseLock();
+        if (this.buffer.length > 0) {
+          this.buffer.shift();
+        }
+      }).catch((err) => {
+        writer.releaseLock();
       });
     }
   }
 
-  // Handle serial communication errors
+  // Handles communication errors
   _handleSerialError(error) {
     console.error('Serial communication error:', error);
-    UI['notify'].log(error); // Display error in UI notification system
+    UI['notify'].log(error);
   }
 }
 

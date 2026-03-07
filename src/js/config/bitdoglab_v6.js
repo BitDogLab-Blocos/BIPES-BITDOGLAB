@@ -34,6 +34,14 @@ const BitdogLabConfig_V6 = {
 
   DISPLAY: { I2C_BUS: 1, I2C_FREQ: 400000, WIDTH: 128, HEIGHT: 64 },
 
+  SENSOR: {
+    I2C_BUS: 0, I2C_FREQ: 400000,
+    AHT20_ADDR: '0x38',
+    I2C_KNOWN_DEVICES: {
+      0x38: 'AHT20'
+    }
+  },
+
   LED: { PWM_FREQ: 1000, VAR_RED: 'led_vermelho', VAR_GREEN: 'led_verde', VAR_BLUE: 'led_azul' },
 
   LED_INIT: {

@@ -36,6 +36,7 @@ var BitdogLabConfig = {
 
   SENSOR: {
     I2C_BUS: 0, I2C_FREQ: 400000,
+    I2C_BUS_ALT: 1,  // Barramento alternativo onde o AHT20 está sendo detectado
     AHT20_ADDR: '0x38',
     // Mapa de endereços I2C conhecidos -> nome do sensor
     I2C_KNOWN_DEVICES: {
