@@ -5444,7 +5444,7 @@ Blockly.Python['microfone_total_palmas'] = function(_block) {
 // Getter: retorna a força do barulho em porcentagem (0–100)
 Blockly.Python['microfone_barra_pct'] = function(_block) {
   Blockly.Python.definitions_['setup_barra_pct'] = Blockly.Python.definitions_['setup_barra_pct'] || '_barra_pct = 0';
-  return ['str(_barra_pct) + "%"', Blockly.Python.ORDER_ATOMIC];
+  return ['_barra_pct', Blockly.Python.ORDER_ATOMIC];
 };
 
 // Bloco 4: Controlar LED RGB com a voz
