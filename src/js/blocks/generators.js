@@ -5513,7 +5513,7 @@ function _setupAHT20Definitions() {
     'def _aht20_atualizar():\n' +
     '  global _aht20_temp, _aht20_umid, _aht20_ultimo\n' +
     '  _agora = time.ticks_ms()\n' +
-    '  if time.ticks_diff(_agora, _aht20_ultimo) < 2000: return\n' +
+    '  if time.ticks_diff(_agora, _aht20_ultimo) < 500: return\n' +
     '  _aht20_ultimo = _agora\n' +
     '  _t, _u = _aht20.get_data()\n' +
     '  if _t is not None:\n' +
