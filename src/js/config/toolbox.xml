@@ -382,7 +382,8 @@
   </category>
 
   <!-- Projeto: Estufa -->
-  <category name="Medição" colour="#16a085" data-project="estufa">
-    <label text="Em breve: blocos de temperatura e luz" web-class="projectPlaceholder"></label>
+  <category name="🌡️ Medição" colour="#16a085" data-project="estufa">
+    <block type="sensor_temperatura"></block>
+    <block type="sensor_umidade"></block>
   </category>
 </xml>

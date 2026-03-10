@@ -3877,3 +3877,31 @@ Blockly.Blocks['criar_desenho_na_matriz'] = {
     }
   }
 };
+
+// =============================================
+// BLOCOS DE MEDIÇÃO (Sensores - Projeto Estufa)
+// =============================================
+
+// Bloco: Medir temperatura (°C) — retorna valor numérico
+Blockly.Blocks['sensor_temperatura'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🌡️ Temperatura (°C)");
+    this.setOutput(true, "Number");
+    this.setColour("#16a085");
+    this.setTooltip("Mede a temperatura em graus Celsius usando o sensor AHT20");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Medir umidade (%) — retorna valor numérico
+Blockly.Blocks['sensor_umidade'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("💧 Umidade (%)");
+    this.setOutput(true, "Number");
+    this.setColour("#16a085");
+    this.setTooltip("Mede a umidade relativa do ar em porcentagem usando o sensor AHT20");
+    this.setHelpUrl("");
+  }
+};

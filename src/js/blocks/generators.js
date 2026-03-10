@@ -5480,3 +5480,65 @@ Blockly.Python['microfone_controlar_led'] = function(block) {
 
   return code;
 };
+
+// =============================================
+// GERADORES DE MEDIÇÃO (Sensores - Projeto Estufa)
+// =============================================
+
+// Gerador: Temperatura (°C)
+Blockly.Python['sensor_temperatura'] = function(_block) {
+  var pins = BitdogLabConfig.PINS;
+  var sensor = BitdogLabConfig.SENSOR;
+
+  // I2C0 pins
+  var sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
+  var scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
+
+  Blockly.Python.definitions_['import_pin']    = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c']    = 'from machine import I2C';
+  Blockly.Python.definitions_['import_time']   = 'import time';
+  Blockly.Python.definitions_['import_aht20']  = 'from AHT20 import AHT20';
+  Blockly.Python.definitions_['setup_i2c_sensor'] =
+    '_i2c_sensor = I2C(0, sda=Pin(' + sda + '), scl=Pin(' + scl + '), freq=' + sensor.I2C_FREQ + ')';
+  Blockly.Python.definitions_['setup_aht20']   = '_aht20 = AHT20(_i2c_sensor)';
+  Blockly.Python.definitions_['setup_temp_hum'] = '_temperatura = 0\n_umidade = 0';
+
+  // Read both values (sensor returns tuple)
+  Blockly.Python.definitions_['func_ler_aht20'] =
+    'def _ler_aht20():\n' +
+    '  global _temperatura, _umidade\n' +
+    '  _t, _u = _aht20.get_data()\n' +
+    '  if _t is not None:\n' +
+    '    _temperatura = round(_t, 1)\n' +
+    '    _umidade = round(_u, 1)\n';
+
+  return ['(_ler_aht20() or _temperatura) if True else _temperatura', Blockly.Python.ORDER_CONDITIONAL];
+};
+
+// Gerador: Umidade (%)
+Blockly.Python['sensor_umidade'] = function(_block) {
+  var pins = BitdogLabConfig.PINS;
+  var sensor = BitdogLabConfig.SENSOR;
+
+  var sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
+  var scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
+
+  Blockly.Python.definitions_['import_pin']    = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c']    = 'from machine import I2C';
+  Blockly.Python.definitions_['import_time']   = 'import time';
+  Blockly.Python.definitions_['import_aht20']  = 'from AHT20 import AHT20';
+  Blockly.Python.definitions_['setup_i2c_sensor'] =
+    '_i2c_sensor = I2C(0, sda=Pin(' + sda + '), scl=Pin(' + scl + '), freq=' + sensor.I2C_FREQ + ')';
+  Blockly.Python.definitions_['setup_aht20']   = '_aht20 = AHT20(_i2c_sensor)';
+  Blockly.Python.definitions_['setup_temp_hum'] = '_temperatura = 0\n_umidade = 0';
+
+  Blockly.Python.definitions_['func_ler_aht20'] =
+    'def _ler_aht20():\n' +
+    '  global _temperatura, _umidade\n' +
+    '  _t, _u = _aht20.get_data()\n' +
+    '  if _t is not None:\n' +
+    '    _temperatura = round(_t, 1)\n' +
+    '    _umidade = round(_u, 1)\n';
+
+  return ['(_ler_aht20() or _umidade) if True else _umidade', Blockly.Python.ORDER_CONDITIONAL];
+};
