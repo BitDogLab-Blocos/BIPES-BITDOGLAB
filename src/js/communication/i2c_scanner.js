@@ -184,22 +184,28 @@ class I2CScanner {
   }
 
   /**
-   * Notifies user about detected sensor (AHT20 only)
+   * Notifies user about detected sensor
    */
   _notifySensor(name, device) {
     if (name === 'AHT20') {
       UI['notify'].send('🌡️💧 Sensor de temperatura e umidade conectado!');
       term.write('\r\n🌡️💧 Sensor de temperatura e umidade conectado!\r\n');
+    } else if (name === 'MPU6050') {
+      UI['notify'].send('🏃‍♂️📐 Sensor acelerômetro conectado!');
+      term.write('\r\n🏃‍♂️📐 Sensor acelerômetro conectado!\r\n');
     }
   }
 
   /**
-   * Notifies user about disconnected sensor (AHT20 only)
+   * Notifies user about disconnected sensor
    */
   _notifyDisconnection(name, device) {
     if (name === 'AHT20') {
       UI['notify'].send('⚠️ Sensor de temperatura e umidade desconectado!');
       term.write('\r\n⚠️ >>> Sensor de temperatura e umidade desconectado! <<< ⚠️\x1b[m\r\n');
+    } else if (name === 'MPU6050') {
+      UI['notify'].send('⚠️ Sensor acelerômetro desconectado!');
+      term.write('\r\n⚠️ >>> Sensor acelerômetro desconectado! <<< ⚠️\x1b[m\r\n');
     }
   }
 

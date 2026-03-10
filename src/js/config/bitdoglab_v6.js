@@ -38,7 +38,8 @@ const BitdogLabConfig_V6 = {
     I2C_BUS: 0, I2C_FREQ: 400000,
     AHT20_ADDR: '0x38',
     I2C_KNOWN_DEVICES: {
-      0x38: 'AHT20'
+      0x38: 'AHT20',
+      0x68: 'MPU6050'
     }
   },
 

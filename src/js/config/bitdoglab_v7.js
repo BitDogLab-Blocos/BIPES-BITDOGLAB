@@ -40,7 +40,8 @@ var BitdogLabConfig = {
     AHT20_ADDR: '0x38',
     // Mapa de endereços I2C conhecidos -> nome do sensor
     I2C_KNOWN_DEVICES: {
-      0x38: 'AHT20'
+      0x38: 'AHT20',
+      0x68: 'MPU6050'
     }
   },
 
