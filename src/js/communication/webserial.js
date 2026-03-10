@@ -69,7 +69,10 @@ class WebSerialProtocol {
                   UI['workspace'].runButton.status = true;
                   UI['workspace'].runButton.dom.className = 'icon';
                   UI['workspace'].toolbarButton.className = 'icon medium';
-
+                  // Reiniciar scanner I2C (start() ignora se já rodando)
+                  if (!i2cScanner._isRunning && Channel['webserial'].connected) {
+                    i2cScanner.start(Channel['webserial']);
+                  }
                   // Execute callback if available
                   if (Channel['webserial'].completeBufferCallback.length > 0) {
                     try {

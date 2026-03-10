@@ -5,6 +5,9 @@ class Tool {
   constructor () {}
 
   static runPython (code_) {
+    // Parar scanner I2C ANTES de enviar código (evita CTRL_C durante paste mode)
+    i2cScanner.stop();
+
     let code;
     if (code_ == undefined) { // No code provided, generate from workspace
       // Reset buzzer display config before generating code
@@ -33,6 +36,12 @@ class Tool {
 
   static stopPython () {
     mux.bufferPush ('\x03\x03'); // Ctrl+C twice - interrupt running code
+    // Reiniciar scanner I2C após parar o código do usuário
+    setTimeout(function() {
+      if (typeof Channel !== 'undefined' && Channel['webserial'] && Channel['webserial'].connected) {
+        i2cScanner.start(Channel['webserial']);
+      }
+    }, 500);
   }
 
   static softReset () {
