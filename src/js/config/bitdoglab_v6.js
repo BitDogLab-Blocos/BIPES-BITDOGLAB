@@ -130,6 +130,9 @@ const BitdogLabConfig_V6 = {
              (line.startsWith('_seletor_') && line.endsWith(' = 0')) ||
              (line.startsWith('_cursor_col = ') || line.startsWith('_cursor_row = ') || line.startsWith('_cursor_tempo = ')) ||
              line.startsWith('EMOJI_NAMES =') ||
+             line.startsWith('AHT20_ADDR') ||
+             line.startsWith('_aht20') ||
+             line.startsWith('_i2c_sensor') ||
              (line.startsWith('_matriz_') && (
                line.endsWith(' = "OFF"') ||
                line.endsWith(' = ""') ||

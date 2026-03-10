@@ -566,20 +566,20 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     //   continue;
     // }
 
-    // Handle function definitions (multi-line)
-    if (trimmedLine.startsWith('def ')) {
+    // Handle function and class definitions (multi-line)
+    if (trimmedLine.startsWith('def ') || trimmedLine.startsWith('class ')) {
       inFunctionDef = true;
       setup.push(line);
       continue;
     }
 
-    // If inside function definition, keep adding lines to setup until we hit a non-indented line
+    // If inside function/class definition, keep adding lines to setup until we hit a non-indented line
     if (inFunctionDef) {
       if (line.startsWith(' ') || line.startsWith('\t')) {
         setup.push(line);
         continue;
       } else {
-        // Function ended, process this line normally
+        // Function/class ended, process this line normally
         inFunctionDef = false;
       }
     }
