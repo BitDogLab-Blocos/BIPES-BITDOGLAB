@@ -5499,13 +5499,25 @@ function _setupAHT20Definitions() {
   // Biblioteca AHT20 embutida inline (de sensor_libs.js — sem precisar de .py na placa)
   Blockly.Python.definitions_['lib_aht20'] = SensorLibs.AHT20;
 
-  // AHT20 está no mesmo barramento I2C do display (I2C1 na v7)
-  // Reutiliza o objeto i2c do display
-  Blockly.Python.definitions_['setup_display'] =
-    'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
-    'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_aht20'] = '_aht20 = AHT20(i2c)';
+  // I2C para sensores — tenta I2C0, se AHT20 não responder tenta I2C1
+  var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
+  var i2c0Scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
+
+  var i2c0Expr = 'I2C(' + sensor.I2C_BUS + ', sda=Pin(' + i2c0Sda + '), scl=Pin(' + i2c0Scl + '), freq=' + sensor.I2C_FREQ + ')';
+
+  if (pins.I2C0_SDA !== undefined && pins.I2C_SDA !== undefined) {
+    // v7: init no I2C0, se não responder tenta I2C1
+    var i2c1Expr = 'I2C(1, sda=Pin(' + pins.I2C_SDA + '), scl=Pin(' + pins.I2C_SCL + '), freq=' + sensor.I2C_FREQ + ')';
+    Blockly.Python.definitions_['setup_i2c_sensor'] =
+      '_i2c_sensor = ' + i2c0Expr + '\n' +
+      '_aht20 = AHT20(_i2c_sensor)\n' +
+      '_i2c_sensor = _i2c_sensor if _aht20.is_ready else ' + i2c1Expr + '\n' +
+      '_aht20 = _aht20 if _aht20.is_ready else AHT20(_i2c_sensor)';
+  } else {
+    // v6: só tem um barramento
+    Blockly.Python.definitions_['setup_i2c_sensor'] = '_i2c_sensor = ' + i2c0Expr;
+    Blockly.Python.definitions_['setup_aht20'] = '_aht20 = AHT20(_i2c_sensor)';
+  }
   Blockly.Python.definitions_['setup_aht20_cache'] = '_aht20_temp = 0\n_aht20_umid = 0\n_aht20_ultimo = 0';
 
   // Lê o sensor no máximo a cada 2 segundos e guarda o valor em cache
