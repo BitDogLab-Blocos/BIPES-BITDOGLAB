@@ -1072,6 +1072,49 @@ Code.init = function() {
     closeBtn.addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.2)'; });
   };
 
+  // Estufa toggle reminder notification
+  Code.showEstufaToggleReminder = function(blockType) {
+    if (document.getElementById('estufaToggleNotification')) return;
+
+    var nomeSensor = blockType === 'estufa_toggle_sensor1'
+      ? 'Sensor 1 (esquerda)'
+      : 'Sensor 2 (direita)';
+
+    var nomeBotao = blockType === 'estufa_toggle_sensor1'
+      ? 'Botão A'
+      : 'Botão B';
+
+    var notification = document.createElement('div');
+    notification.id = 'estufaToggleNotification';
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #16a085; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 450px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
+    notification.innerHTML =
+      '<button id="closeEstufaToggleNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+      '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
+      '🌱 Este bloco <strong>liga/desliga</strong> a medição do <strong>' + nomeSensor + '</strong> no display.<br><br>' +
+      '🔘 Coloque dentro de um bloco de <strong>botão</strong> para ligar e desligar apertando!<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Exemplo:</strong><br>' +
+      '1️⃣ 🌱 Efeito Estufa — Comparar 2 sensores<br>' +
+      '2️⃣ 🔘 Quando <strong>' + nomeBotao + '</strong> apertado:<br>' +
+      '&nbsp;&nbsp;&nbsp;&nbsp;🌱 Mostrar/Ocultar medição ' + nomeSensor + '<br>' +
+      '</div>';
+
+    document.body.appendChild(notification);
+
+    document.getElementById('closeEstufaToggleNotification').addEventListener('click', function() {
+      if (notification && notification.parentNode) {
+        notification.style.animation = 'slideOut 0.3s ease-in';
+        setTimeout(function() {
+          if (notification && notification.parentNode) notification.parentNode.removeChild(notification);
+        }, 300);
+      }
+    });
+
+    var closeBtn = document.getElementById('closeEstufaToggleNotification');
+    closeBtn.addEventListener('mouseenter', function() { this.style.background = 'rgba(0,0,0,0.4)'; });
+    closeBtn.addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.2)'; });
+  };
+
   // Listen for block create events
   Code.workspace.addChangeListener(function(event) {
     if (event.type === Blockly.Events.BLOCK_CREATE) {
@@ -1107,6 +1150,10 @@ Code.init = function() {
 
         if (blockType === 'sensor_temperatura' || blockType === 'sensor_umidade') {
           Code.showSensorReminder(blockType);
+        }
+
+        if (blockType === 'estufa_toggle_sensor1' || blockType === 'estufa_toggle_sensor2') {
+          Code.showEstufaToggleReminder(blockType);
         }
       }
     }
