@@ -136,6 +136,8 @@ const BitdogLabConfig_V6 = {
              line.startsWith('_i2c_estufa') ||
              line.startsWith('_aht_esq') ||
              line.startsWith('_aht_dir') ||
+             line.startsWith('_estufa_esq_on') ||
+             line.startsWith('_estufa_dir_on') ||
              (line.startsWith('_matriz_') && (
                line.endsWith(' = "OFF"') ||
                line.endsWith(' = ""') ||

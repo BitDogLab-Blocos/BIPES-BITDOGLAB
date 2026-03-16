@@ -3920,3 +3920,29 @@ Blockly.Blocks['sensor_estufa_comparar'] = {
     this.setHelpUrl("");
   }
 };
+
+// Bloco: Mostrar/Ocultar medição do Sensor 1 (esquerda)
+Blockly.Blocks['estufa_toggle_sensor1'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🌱 Mostrar/Ocultar medição Sensor 1");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Liga ou desliga a exibição da medição do Sensor 1 (lado esquerdo) no experimento Efeito Estufa. Use dentro de um bloco de botão!");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco: Mostrar/Ocultar medição do Sensor 2 (direita)
+Blockly.Blocks['estufa_toggle_sensor2'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🌱 Mostrar/Ocultar medição Sensor 2");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Liga ou desliga a exibição da medição do Sensor 2 (lado direito) no experimento Efeito Estufa. Use dentro de um bloco de botão!");
+    this.setHelpUrl("");
+  }
+};

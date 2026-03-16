@@ -386,5 +386,7 @@
     <block type="sensor_temperatura"></block>
     <block type="sensor_umidade"></block>
     <block type="sensor_estufa_comparar"></block>
+    <block type="estufa_toggle_sensor1"></block>
+    <block type="estufa_toggle_sensor2"></block>
   </category>
 </xml>

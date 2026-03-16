@@ -5584,11 +5584,13 @@ Blockly.Python['sensor_estufa_comparar'] = function(_block) {
     '_aht_esq = AHT20(_i2c_estufa0)\n' +
     '_aht_dir = AHT20(_i2c_estufa1)';
 
+  // Flags de visibilidade dos lados
+  Blockly.Python.definitions_['setup_estufa_flags'] =
+    '_estufa_esq_on = True\n_estufa_dir_on = True';
+
   // Função principal do experimento
   Blockly.Python.definitions_['func_estufa_comparar'] =
     'def _estufa_comparar():\n' +
-    '  t1, u1 = _aht_esq.get_data() if _aht_esq.is_ready else (None, None)\n' +
-    '  t2, u2 = _aht_dir.get_data() if _aht_dir.is_ready else (None, None)\n' +
     '  oled.fill(0)\n' +
     '  # Linha divisória central\n' +
     '  for y in range(64):\n' +
@@ -5596,24 +5598,50 @@ Blockly.Python['sensor_estufa_comparar'] = function(_block) {
     '  # Lado esquerdo — Sensor 1 (I2C0)\n' +
     '  oled.text("Sensor", 2, 0, 1)\n' +
     '  oled.text("1", 22, 12, 1)\n' +
-    '  if t1 is not None:\n' +
-    '    oled.text(str(t1) + " C", 2, 32, 1)\n' +
-    '    oled.text(str(u1) + " %", 2, 48, 1)\n' +
+    '  if _estufa_esq_on:\n' +
+    '    t1, u1 = _aht_esq.get_data() if _aht_esq.is_ready else (None, None)\n' +
+    '    if t1 is not None:\n' +
+    '      oled.text(str(t1) + " C", 2, 32, 1)\n' +
+    '      oled.text(str(u1) + " %", 2, 48, 1)\n' +
+    '    else:\n' +
+    '      oled.text("--.- C", 2, 32, 1)\n' +
+    '      oled.text("--.- %", 2, 48, 1)\n' +
     '  else:\n' +
-    '    oled.text("--.- C", 2, 32, 1)\n' +
-    '    oled.text("--.- %", 2, 48, 1)\n' +
+    '    oled.text("OFF", 14, 38, 1)\n' +
     '  # Lado direito — Sensor 2 (I2C1)\n' +
     '  oled.text("Sensor", 67, 0, 1)\n' +
     '  oled.text("2", 87, 12, 1)\n' +
-    '  if t2 is not None:\n' +
-    '    oled.text(str(t2) + " C", 67, 32, 1)\n' +
-    '    oled.text(str(u2) + " %", 67, 48, 1)\n' +
+    '  if _estufa_dir_on:\n' +
+    '    t2, u2 = _aht_dir.get_data() if _aht_dir.is_ready else (None, None)\n' +
+    '    if t2 is not None:\n' +
+    '      oled.text(str(t2) + " C", 67, 32, 1)\n' +
+    '      oled.text(str(u2) + " %", 67, 48, 1)\n' +
+    '    else:\n' +
+    '      oled.text("--.- C", 67, 32, 1)\n' +
+    '      oled.text("--.- %", 67, 48, 1)\n' +
     '  else:\n' +
-    '    oled.text("--.- C", 67, 32, 1)\n' +
-    '    oled.text("--.- %", 67, 48, 1)\n' +
+    '    oled.text("OFF", 79, 38, 1)\n' +
     '  oled.show()\n';
 
   var code = '_estufa_comparar()\n' +
     'time.sleep_ms(500)\n';
   return code;
+};
+
+// Gerador: Toggle medição Sensor 1 (esquerda)
+Blockly.Python['estufa_toggle_sensor1'] = function(_block) {
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_estufa_flags'] =
+    '_estufa_esq_on = True\n_estufa_dir_on = True';
+
+  return 'global _estufa_esq_on\n_estufa_esq_on = not _estufa_esq_on\n';
+};
+
+// Gerador: Toggle medição Sensor 2 (direita)
+Blockly.Python['estufa_toggle_sensor2'] = function(_block) {
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_estufa_flags'] =
+    '_estufa_esq_on = True\n_estufa_dir_on = True';
+
+  return 'global _estufa_dir_on\n_estufa_dir_on = not _estufa_dir_on\n';
 };
