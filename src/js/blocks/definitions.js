@@ -3916,7 +3916,7 @@ Blockly.Blocks['sensor_estufa_comparar'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
-    this.setTooltip("Experimento Efeito Estufa: divide o display OLED ao meio. Lado esquerdo mostra temperatura e umidade do sensor no I2C0, lado direito mostra do sensor no I2C1. Basta arrastar e rodar!");
+    this.setTooltip("Experimento Efeito Estufa: divide o display OLED ao meio. Lado esquerdo mostra temperatura e umidade do Sensor 1 (I2C1), lado direito mostra do Sensor 2 (I2C0). Basta arrastar e rodar!");
     this.setHelpUrl("");
   }
 };

@@ -5581,8 +5581,8 @@ Blockly.Python['sensor_estufa_comparar'] = function(_block) {
   Blockly.Python.definitions_['setup_estufa_sensores'] =
     '_i2c_estufa0 = I2C(' + sensor.I2C_BUS + ', sda=Pin(' + i2c0Sda + '), scl=Pin(' + i2c0Scl + '), freq=' + sensor.I2C_FREQ + ')\n' +
     '_i2c_estufa1 = I2C(1, sda=Pin(' + pins.I2C_SDA + '), scl=Pin(' + pins.I2C_SCL + '), freq=' + sensor.I2C_FREQ + ')\n' +
-    '_aht_esq = AHT20(_i2c_estufa0)\n' +
-    '_aht_dir = AHT20(_i2c_estufa1)';
+    '_aht_esq = AHT20(_i2c_estufa1)\n' +
+    '_aht_dir = AHT20(_i2c_estufa0)';
 
   // Flags de visibilidade dos lados
   Blockly.Python.definitions_['setup_estufa_flags'] =
@@ -5595,7 +5595,7 @@ Blockly.Python['sensor_estufa_comparar'] = function(_block) {
     '  # Linha divisória central\n' +
     '  for y in range(64):\n' +
     '    oled.pixel(63, y, 1)\n' +
-    '  # Lado esquerdo — Sensor 1 (I2C0)\n' +
+    '  # Lado esquerdo — Sensor 1 (I2C1)\n' +
     '  oled.text("Sensor", 2, 0, 1)\n' +
     '  oled.text("1", 22, 12, 1)\n' +
     '  if _estufa_esq_on:\n' +
@@ -5608,7 +5608,7 @@ Blockly.Python['sensor_estufa_comparar'] = function(_block) {
     '      oled.text("--.- %", 2, 48, 1)\n' +
     '  else:\n' +
     '    oled.text("OFF", 14, 38, 1)\n' +
-    '  # Lado direito — Sensor 2 (I2C1)\n' +
+    '  # Lado direito — Sensor 2 (I2C0)\n' +
     '  oled.text("Sensor", 67, 0, 1)\n' +
     '  oled.text("2", 87, 12, 1)\n' +
     '  if _estufa_dir_on:\n' +
