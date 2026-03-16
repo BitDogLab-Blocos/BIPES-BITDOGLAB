@@ -3912,7 +3912,7 @@ Blockly.Blocks['sensor_estufa_comparar'] = {
     this.appendDummyInput()
         .appendField("🌱 Efeito Estufa — Comparar 2 sensores");
     this.appendDummyInput()
-        .appendField("Esquerda: sensor I2C0  |  Direita: sensor I2C1");
+        .appendField("Esquerda: Sensor 1  |  Direita: Sensor 2");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
