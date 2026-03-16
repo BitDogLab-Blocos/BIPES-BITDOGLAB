@@ -5634,7 +5634,7 @@ Blockly.Python['estufa_toggle_sensor1'] = function(_block) {
   Blockly.Python.definitions_['setup_estufa_flags'] =
     '_estufa_esq_on = True\n_estufa_dir_on = True';
 
-  return 'global _estufa_esq_on\n_estufa_esq_on = not _estufa_esq_on\n';
+  return '_estufa_esq_on = not _estufa_esq_on\n';
 };
 
 // Gerador: Toggle medição Sensor 2 (direita)
@@ -5643,5 +5643,5 @@ Blockly.Python['estufa_toggle_sensor2'] = function(_block) {
   Blockly.Python.definitions_['setup_estufa_flags'] =
     '_estufa_esq_on = True\n_estufa_dir_on = True';
 
-  return 'global _estufa_dir_on\n_estufa_dir_on = not _estufa_dir_on\n';
+  return '_estufa_dir_on = not _estufa_dir_on\n';
 };
