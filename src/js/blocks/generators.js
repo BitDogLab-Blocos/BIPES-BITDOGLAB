@@ -5554,3 +5554,65 @@ Blockly.Python['sensor_umidade'] = function(_block) {
   _setupAHT20Definitions();
   return ['_ler_umidade()', Blockly.Python.ORDER_FUNCTION_CALL];
 };
+
+// Gerador: Experimento Efeito Estufa — 2 sensores, tela dividida
+Blockly.Python['sensor_estufa_comparar'] = function(_block) {
+  var pins = BitdogLabConfig.PINS;
+  var sensor = BitdogLabConfig.SENSOR;
+  var display = BitdogLabConfig.DISPLAY;
+
+  Blockly.Python.definitions_['import_pin']  = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c']  = 'from machine import I2C';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+
+  // Biblioteca AHT20 inline
+  Blockly.Python.definitions_['lib_aht20'] = SensorLibs.AHT20;
+
+  // I2C do display (bus 1)
+  Blockly.Python.definitions_['setup_display'] =
+    'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
+    'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+
+  // Dois sensores AHT20: I2C0 e I2C1
+  var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
+  var i2c0Scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
+
+  Blockly.Python.definitions_['setup_estufa_sensores'] =
+    '_i2c_estufa0 = I2C(' + sensor.I2C_BUS + ', sda=Pin(' + i2c0Sda + '), scl=Pin(' + i2c0Scl + '), freq=' + sensor.I2C_FREQ + ')\n' +
+    '_i2c_estufa1 = I2C(1, sda=Pin(' + pins.I2C_SDA + '), scl=Pin(' + pins.I2C_SCL + '), freq=' + sensor.I2C_FREQ + ')\n' +
+    '_aht_esq = AHT20(_i2c_estufa0)\n' +
+    '_aht_dir = AHT20(_i2c_estufa1)';
+
+  // Função principal do experimento
+  Blockly.Python.definitions_['func_estufa_comparar'] =
+    'def _estufa_comparar():\n' +
+    '  t1, u1 = _aht_esq.get_data() if _aht_esq.is_ready else (None, None)\n' +
+    '  t2, u2 = _aht_dir.get_data() if _aht_dir.is_ready else (None, None)\n' +
+    '  oled.fill(0)\n' +
+    '  # Linha divisória central\n' +
+    '  for y in range(64):\n' +
+    '    oled.pixel(63, y, 1)\n' +
+    '    oled.pixel(64, y, 1)\n' +
+    '  # Lado esquerdo — Sensor 1 (I2C0)\n' +
+    '  oled.text("Sensor 1", 4, 2, 1)\n' +
+    '  if t1 is not None:\n' +
+    '    oled.text(str(t1) + " C", 4, 22, 1)\n' +
+    '    oled.text(str(u1) + " %", 4, 42, 1)\n' +
+    '  else:\n' +
+    '    oled.text("--.- C", 4, 22, 1)\n' +
+    '    oled.text("--.- %", 4, 42, 1)\n' +
+    '  # Lado direito — Sensor 2 (I2C1)\n' +
+    '  oled.text("Sensor 2", 68, 2, 1)\n' +
+    '  if t2 is not None:\n' +
+    '    oled.text(str(t2) + " C", 68, 22, 1)\n' +
+    '    oled.text(str(u2) + " %", 68, 42, 1)\n' +
+    '  else:\n' +
+    '    oled.text("--.- C", 68, 22, 1)\n' +
+    '    oled.text("--.- %", 68, 42, 1)\n' +
+    '  oled.show()\n';
+
+  var code = '_estufa_comparar()\n' +
+    'time.sleep_ms(500)\n';
+  return code;
+};

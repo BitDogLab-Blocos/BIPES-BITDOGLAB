@@ -385,5 +385,6 @@
   <category name="🌡️ Medição" colour="#16a085" data-project="estufa">
     <block type="sensor_temperatura"></block>
     <block type="sensor_umidade"></block>
+    <block type="sensor_estufa_comparar"></block>
   </category>
 </xml>
