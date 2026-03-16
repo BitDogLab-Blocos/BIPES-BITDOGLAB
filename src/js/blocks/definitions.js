@@ -3889,7 +3889,7 @@ Blockly.Blocks['sensor_temperatura'] = {
         .appendField("🌡️ Temperatura (°C)");
     this.setOutput(true, "Number");
     this.setColour("#16a085");
-    this.setTooltip("Mede a temperatura em graus Celsius usando o sensor AHT20");
+    this.setTooltip("Mede a temperatura em graus Celsius usando o sensor AHT20. Use dentro do bloco '📊 Mostrar valor' do display para exibir a temperatura.");
     this.setHelpUrl("");
   }
 };
@@ -3901,7 +3901,7 @@ Blockly.Blocks['sensor_umidade'] = {
         .appendField("💧 Umidade (%)");
     this.setOutput(true, "Number");
     this.setColour("#16a085");
-    this.setTooltip("Mede a umidade relativa do ar em porcentagem usando o sensor AHT20");
+    this.setTooltip("Mede a umidade relativa do ar em porcentagem usando o sensor AHT20. Use dentro do bloco '📊 Mostrar valor' do display para exibir a umidade.");
     this.setHelpUrl("");
   }
 };

@@ -1035,6 +1035,43 @@ Code.init = function() {
     closeBtn.addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.2)'; });
   };
 
+  // Sensor getter reminder notification
+  Code.showSensorReminder = function(blockType) {
+    if (document.getElementById('sensorGetterNotification')) return;
+
+    var nomeBloco = blockType === 'sensor_temperatura'
+      ? '🌡️ Temperatura (°C)'
+      : '💧 Umidade (%)';
+
+    var notification = document.createElement('div');
+    notification.id = 'sensorGetterNotification';
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #16a085; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 450px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
+    notification.innerHTML =
+      '<button id="closeSensorGetterNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+      '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
+      '🌡️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
+      '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED para ver o número na tela!<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Exemplo:</strong><br>' +
+      '1️⃣ 📊 Mostrar valor: <strong>[' + nomeBloco + ']</strong> linha 1<br>' +
+      '</div>';
+
+    document.body.appendChild(notification);
+
+    document.getElementById('closeSensorGetterNotification').addEventListener('click', function() {
+      if (notification && notification.parentNode) {
+        notification.style.animation = 'slideOut 0.3s ease-in';
+        setTimeout(function() {
+          if (notification && notification.parentNode) notification.parentNode.removeChild(notification);
+        }, 300);
+      }
+    });
+
+    var closeBtn = document.getElementById('closeSensorGetterNotification');
+    closeBtn.addEventListener('mouseenter', function() { this.style.background = 'rgba(0,0,0,0.4)'; });
+    closeBtn.addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.2)'; });
+  };
+
   // Listen for block create events
   Code.workspace.addChangeListener(function(event) {
     if (event.type === Blockly.Events.BLOCK_CREATE) {
@@ -1066,6 +1103,10 @@ Code.init = function() {
 
         if (blockType === 'microfone_total_palmas') {
           Code.showPalmasGetterReminder();
+        }
+
+        if (blockType === 'sensor_temperatura' || blockType === 'sensor_umidade') {
+          Code.showSensorReminder(blockType);
         }
       }
     }
