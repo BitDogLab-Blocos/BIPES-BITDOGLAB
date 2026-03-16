@@ -5593,23 +5593,24 @@ Blockly.Python['sensor_estufa_comparar'] = function(_block) {
     '  # Linha divisória central\n' +
     '  for y in range(64):\n' +
     '    oled.pixel(63, y, 1)\n' +
-    '    oled.pixel(64, y, 1)\n' +
     '  # Lado esquerdo — Sensor 1 (I2C0)\n' +
-    '  oled.text("Sensor 1", 4, 2, 1)\n' +
+    '  oled.text("Sensor", 2, 0, 1)\n' +
+    '  oled.text("1", 2, 12, 1)\n' +
     '  if t1 is not None:\n' +
-    '    oled.text(str(t1) + " C", 4, 22, 1)\n' +
-    '    oled.text(str(u1) + " %", 4, 42, 1)\n' +
+    '    oled.text(str(t1) + " C", 2, 32, 1)\n' +
+    '    oled.text(str(u1) + " %", 2, 48, 1)\n' +
     '  else:\n' +
-    '    oled.text("--.- C", 4, 22, 1)\n' +
-    '    oled.text("--.- %", 4, 42, 1)\n' +
+    '    oled.text("--.- C", 2, 32, 1)\n' +
+    '    oled.text("--.- %", 2, 48, 1)\n' +
     '  # Lado direito — Sensor 2 (I2C1)\n' +
-    '  oled.text("Sensor 2", 68, 2, 1)\n' +
+    '  oled.text("Sensor", 67, 0, 1)\n' +
+    '  oled.text("2", 67, 12, 1)\n' +
     '  if t2 is not None:\n' +
-    '    oled.text(str(t2) + " C", 68, 22, 1)\n' +
-    '    oled.text(str(u2) + " %", 68, 42, 1)\n' +
+    '    oled.text(str(t2) + " C", 67, 32, 1)\n' +
+    '    oled.text(str(u2) + " %", 67, 48, 1)\n' +
     '  else:\n' +
-    '    oled.text("--.- C", 68, 22, 1)\n' +
-    '    oled.text("--.- %", 68, 42, 1)\n' +
+    '    oled.text("--.- C", 67, 32, 1)\n' +
+    '    oled.text("--.- %", 67, 48, 1)\n' +
     '  oled.show()\n';
 
   var code = '_estufa_comparar()\n' +
