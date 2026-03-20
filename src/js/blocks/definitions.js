@@ -3955,7 +3955,7 @@ Blockly.Blocks['estufa_toggle_sensor2'] = {
 Blockly.Blocks['estufa_temp_sensor1'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🌡️ Temp Sensor 1");
+        .appendField("🌡️ Temperatura Sensor 1");
     this.setOutput(true, "Number");
     this.setColour("#2980b9");
     this.setTooltip("Valor da temperatura do Sensor 1 em graus Celsius. Encaixe no bloco Plotar ou em blocos de matemática!");
@@ -3967,7 +3967,7 @@ Blockly.Blocks['estufa_temp_sensor1'] = {
 Blockly.Blocks['estufa_umid_sensor1'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("💧 Umid Sensor 1");
+        .appendField("💧 Umidade Sensor 1");
     this.setOutput(true, "Number");
     this.setColour("#2980b9");
     this.setTooltip("Valor da umidade do Sensor 1 em porcentagem. Encaixe no bloco Plotar ou em blocos de matemática!");
@@ -3979,7 +3979,7 @@ Blockly.Blocks['estufa_umid_sensor1'] = {
 Blockly.Blocks['estufa_temp_sensor2'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🌡️ Temp Sensor 2");
+        .appendField("🌡️ Temperatura Sensor 2");
     this.setOutput(true, "Number");
     this.setColour("#2980b9");
     this.setTooltip("Valor da temperatura do Sensor 2 em graus Celsius. Encaixe no bloco Plotar ou em blocos de matemática!");
@@ -3991,7 +3991,7 @@ Blockly.Blocks['estufa_temp_sensor2'] = {
 Blockly.Blocks['estufa_umid_sensor2'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("💧 Umid Sensor 2");
+        .appendField("💧 Umidade Sensor 2");
     this.setOutput(true, "Number");
     this.setColour("#2980b9");
     this.setTooltip("Valor da umidade do Sensor 2 em porcentagem. Encaixe no bloco Plotar ou em blocos de matemática!");
@@ -4004,7 +4004,7 @@ Blockly.Blocks['estufa_plotar'] = {
   init: function() {
     this.appendValueInput('VALOR')
         .setCheck('Number')
-        .appendField("📊 Plotar");
+        .appendField("📊 Mostrar Gráfico");
     this.appendDummyInput()
         .appendField("tipo")
         .appendField(new Blockly.FieldDropdown([
