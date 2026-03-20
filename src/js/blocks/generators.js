@@ -5763,8 +5763,9 @@ Blockly.Python['estufa_plotar'] = function(block) {
   var rotulo = block.getFieldValue('ROTULO');
   var posicao = block.getFieldValue('POSICAO');
   var bufId = 'plot_' + rotulo + '_' + posicao;
+  var varName = '_v_' + rotulo + '_' + posicao;
 
-  var code = '_plot_val = ' + valor + '\n' +
-    '_plot_grafico(\'' + bufId + '\', _plot_val, ' + posicao + ', \'' + rotulo + ':\' + str(round(_plot_val, 1)))\n';
+  var code = varName + ' = ' + valor + '\n' +
+    '_plot_grafico(\'' + bufId + '\', ' + varName + ', ' + posicao + ', \'' + rotulo + ':\' + str(round(' + varName + ', 1)))\n';
   return code;
 };

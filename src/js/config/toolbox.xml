@@ -390,5 +390,15 @@
     <block type="estufa_toggle_sensor2"></block>
   </category>
 
-
+  <category name="📊 Gráficos" colour="#2980b9" data-project="estufa">
+    <label text="Valores dos Sensores" web-class="blockSeparator"></label>
+    <block type="estufa_temp_sensor1"></block>
+    <block type="estufa_umid_sensor1"></block>
+    <block type="estufa_temp_sensor2"></block>
+    <block type="estufa_umid_sensor2"></block>
+    <label text="Plotar no Display" web-class="blockSeparator"></label>
+    <block type="estufa_plotar">
+      <field name="POSICAO">1</field>
+    </block>
+  </category>
 </xml>

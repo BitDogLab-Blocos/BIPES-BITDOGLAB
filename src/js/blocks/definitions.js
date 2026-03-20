@@ -4006,24 +4006,25 @@ Blockly.Blocks['estufa_plotar'] = {
         .setCheck('Number')
         .appendField("📊 Plotar");
     this.appendDummyInput()
-        .appendField("rótulo")
+        .appendField("tipo")
         .appendField(new Blockly.FieldDropdown([
-            ["Temp", "Temp"],
-            ["Umid", "Umid"],
-            ["Resultado", "Res"]
+            ["Temp 1", "Temp1"],
+            ["Temp 2", "Temp2"],
+            ["Umid 1", "Umid1"],
+            ["Umid 2", "Umid2"]
         ]), "ROTULO");
     this.appendDummyInput()
-        .appendField("em")
+        .appendField("na")
         .appendField(new Blockly.FieldDropdown([
-            ["Tela Toda", "0"],
             ["Metade de Cima", "1"],
-            ["Metade de Baixo", "2"]
+            ["Metade de Baixo", "2"],
+            ["Tela Toda", "0"]
         ]), "POSICAO");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#2980b9");
-    this.setTooltip("Plota um gráfico no display. Use dentro de 'repetir para sempre' com um delay de pelo menos 100ms.");
+    this.setTooltip("Mostra um gráfico no display. Escolha o tipo (Temp 1, Temp 2...) e onde mostrar (Cima, Baixo ou Tela Toda). Coloque dentro de 'repetir para sempre' com 'aguardar' de 100ms!");
     this.setHelpUrl("");
   }
 };
