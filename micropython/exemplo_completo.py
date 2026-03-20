@@ -26,7 +26,7 @@ btn_b = Pin(6, Pin.IN, Pin.PULL_UP)
 
 # Display OLED
 try:
-    i2c = I2C(1, scl=Pin(15), sda=Pin(14), freq=400000)
+    i2c = I2C(1, scl=Pin(3), sda=Pin(2), freq=400000)
     oled = SSD1306_I2C(128, 64, i2c)
     tem_display = True
 except:

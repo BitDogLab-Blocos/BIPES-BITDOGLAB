@@ -7,8 +7,8 @@ from ssd1306 import SSD1306_I2C
 
 # Configuração do display OLED
 I2C_BUS = 1
-I2C_SCL = 15
-I2C_SDA = 14
+I2C_SCL = 3
+I2C_SDA = 2
 I2C_FREQ = 400000
 DISPLAY_WIDTH = 128
 DISPLAY_HEIGHT = 64

@@ -7,7 +7,7 @@ from ssd1306 import SSD1306_I2C
 
 # Configuração do display
 try:
-    i2c = I2C(1, scl=Pin(15), sda=Pin(14), freq=400000)
+    i2c = I2C(1, scl=Pin(3), sda=Pin(2), freq=400000)
     oled = SSD1306_I2C(128, 64, i2c)
     tem_display = True
 except:
