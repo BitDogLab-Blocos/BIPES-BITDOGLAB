@@ -1,6 +1,6 @@
 # joystick_controlar_buzzer.py
 # Controla a frequência do buzzer com o joystick
-# Bloco: 🕹️ Joystick controla Buzzer
+# Bloco: Joystick controla Buzzer
 
 from machine import Pin, PWM, ADC
 import time

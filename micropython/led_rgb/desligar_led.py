@@ -1,6 +1,6 @@
 # desligar_led.py
 # Desliga o LED RGB
-# Bloco: 🔦 Desligar LED da cor
+# Bloco: Desligar LED da cor
 
 from machine import Pin, PWM
 
@@ -44,9 +44,9 @@ def desligar_todos_leds():
 if __name__ == "__main__":
     import time
     
-    # Liga o LED na cor vermelha
+ # Liga o LED na cor vermelha
     led_vermelho.duty_u16(255 * 257)
     time.sleep(1)
     
-    # Desliga o LED
+ # Desliga o LED
     desligar_todos_leds()

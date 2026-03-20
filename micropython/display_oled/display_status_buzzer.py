@@ -1,6 +1,6 @@
 # display_status_buzzer.py
 # Mostra o estado do buzzer no display
-# Bloco: 📺 Mostrar status do buzzer
+# Bloco: Mostrar status do buzzer
 
 from machine import Pin, PWM, I2C
 from ssd1306 import SSD1306_I2C

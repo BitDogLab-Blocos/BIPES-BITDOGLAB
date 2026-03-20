@@ -1,6 +1,6 @@
 # acender_led_posicao.py
 # Acende um LED específico na matriz 5x5
-# Bloco: 🔲 Ligar LED na linha X coluna Y
+# Bloco: Ligar LED na linha X coluna Y
 
 from machine import Pin
 import neopixel
@@ -95,19 +95,19 @@ def acender_coluna(coluna, cor, intensidade=30, brilho_global=0.5):
 
 # Exemplo de uso
 if __name__ == "__main__":
-    # Acende o LED na posição (2, 2) - centro
+ # Acende o LED na posição (2, 2) - centro
     acender_led_posicao(2, 2, (255, 0, 0), 50)
     time.sleep(1)
     
-    # Acende a linha 0
+ # Acende a linha 0
     acender_linha(0, (0, 255, 0), 50)
     time.sleep(1)
     
-    # Acende a coluna 3
+ # Acende a coluna 3
     acender_coluna(3, (0, 0, 255), 50)
     time.sleep(1)
     
-    # Desliga a matriz
+ # Desliga a matriz
     for i in range(25):
         np[i] = (0, 0, 0)
     np.write()

@@ -1,6 +1,6 @@
 # display_piscar_texto.py
 # Faz um texto piscar no display OLED
-# Bloco: ✏️ Piscar texto
+# Bloco: Piscar texto
 
 from machine import Pin, I2C
 from ssd1306 import SSD1306_I2C
@@ -17,12 +17,12 @@ y = 8  # linha 1
 
 print("Piscando texto no display...")
 for _ in range(5):
-    # Acende
+ # Acende
     oled.fill_rect(0, y, 128, 8, 0)
     oled.text(texto, x, y, 1)
     oled.show()
     time.sleep_ms(500)
-    # Apaga
+ # Apaga
     oled.fill_rect(0, y, 128, 8, 0)
     oled.show()
     time.sleep_ms(300)

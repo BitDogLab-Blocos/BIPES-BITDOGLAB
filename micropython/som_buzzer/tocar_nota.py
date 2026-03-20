@@ -1,6 +1,6 @@
 # tocar_nota.py
 # Toca uma nota musical no buzzer
-# Bloco: 🎵 Tocar nota
+# Bloco: Tocar nota
 
 from machine import Pin, PWM
 import time
@@ -48,7 +48,7 @@ def parar_som():
 
 # Exemplo de uso
 if __name__ == "__main__":
-    # Toca a escala de Dó maior
+ # Toca a escala de Dó maior
     notas_escala = ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C']
     for nota in notas_escala:
         tocar_nota(nota, 4, 50, 300)

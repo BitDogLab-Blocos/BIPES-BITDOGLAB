@@ -1,6 +1,6 @@
 # emojis.py
 # Padrões de emojis para a matriz 5x5
-# Blocos: 😊 Rosto Feliz, ❤️ Coração, etc
+# Blocos: Rosto Feliz, Coração, etc
 
 # Cada emoji é uma matriz 5x5 onde 1 = LED aceso, 0 = LED apagado
 EMOJIS = {

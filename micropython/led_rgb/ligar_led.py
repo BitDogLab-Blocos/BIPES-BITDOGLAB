@@ -1,6 +1,6 @@
 # ligar_led.py
 # Liga o LED RGB na cor especificada
-# Bloco: 💡 Ligar LED da cor
+# Bloco: Ligar LED da cor
 
 from machine import Pin, PWM
 
@@ -33,17 +33,17 @@ def ligar_led(cor):
 if __name__ == "__main__":
     import time
     
-    # Liga o LED na cor vermelha
+ # Liga o LED na cor vermelha
     ligar_led((255, 0, 0))
     time.sleep(1)
     
-    # Liga o LED na cor verde
+ # Liga o LED na cor verde
     ligar_led((0, 255, 0))
     time.sleep(1)
     
-    # Liga o LED na cor azul
+ # Liga o LED na cor azul
     ligar_led((0, 0, 255))
     time.sleep(1)
     
-    # Desliga o LED
+ # Desliga o LED
     ligar_led((0, 0, 0))

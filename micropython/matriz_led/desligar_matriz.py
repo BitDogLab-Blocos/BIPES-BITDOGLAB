@@ -1,6 +1,6 @@
 # desligar_matriz.py
 # Desliga todos os LEDs da matriz NeoPixel
-# Bloco: 🔲 Desligar Matriz
+# Bloco: Desligar Matriz
 
 from machine import Pin
 import neopixel

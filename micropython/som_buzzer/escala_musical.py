@@ -1,6 +1,6 @@
 # escala_musical.py
 # Toca escalas musicais
-# Blocos: 📈 Escala musical ascendente, 📉 Escala musical descendente
+# Blocos: Escala musical ascendente, Escala musical descendente
 
 from machine import Pin, PWM
 import time

@@ -1,6 +1,6 @@
 # sensor_temperatura_umidade.py
 # Lê temperatura e umidade do sensor AHT20
-# Blocos: 🌡️ Temperatura (°C), 💧 Umidade (%)
+# Blocos: Temperatura (°C), Umidade (%)
 
 from machine import Pin, I2C
 import time
@@ -11,7 +11,7 @@ AHT20_ADDR = 0x38
 
 def tentar_i2c():
     """Tenta encontrar o AHT20 em ambos os barramentos."""
-    # Tenta I2C1
+ # Tenta I2C1
     try:
         i2c = I2C(1, scl=Pin(3), sda=Pin(2), freq=400000)
         if AHT20_ADDR in i2c.scan():
@@ -19,7 +19,7 @@ def tentar_i2c():
             return i2c
     except:
         pass
-    # Tenta I2C0
+ # Tenta I2C0
     try:
         i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=400000)
         if AHT20_ADDR in i2c.scan():
@@ -34,7 +34,7 @@ if i2c_sensor is None:
     print("ERRO: Sensor AHT20 nao encontrado!")
     print("Verifique a conexao do sensor.")
 else:
-    # Variáveis de cache
+ # Variáveis de cache
     _aht20_temp = 0.0
     _aht20_umid = 0.0
     _aht20_ultimo = 0
@@ -66,7 +66,7 @@ else:
         aht20_atualizar()
         return _aht20_umid
 
-    # Loop de leitura
+ # Loop de leitura
     print("Lendo sensor AHT20... Ctrl+C para parar")
     while True:
         temp = ler_temperatura()

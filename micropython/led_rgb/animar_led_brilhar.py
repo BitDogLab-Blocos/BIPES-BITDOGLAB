@@ -1,6 +1,6 @@
 # animar_led_brilhar.py
 # Efeito de brilhar e desaparecer no LED
-# Bloco: ✨ Animar LED da cor brilhar e desaparecer
+# Bloco: Animar LED da cor brilhar e desaparecer
 
 from machine import Pin, PWM
 import time
@@ -26,14 +26,14 @@ def animar_led_brilhar(cor, duracao_total=5):
     tempo_inicio = time.time()
     
     while time.time() - tempo_inicio < duracao_total:
-        # Aumenta o brilho gradualmente
+ # Aumenta o brilho gradualmente
         for i in range(11):
             led_vermelho.duty_u16(int(cor[0] * 257 * i / 10))
             led_verde.duty_u16(int(cor[1] * 257 * i / 10))
             led_azul.duty_u16(int(cor[2] * 257 * i / 10))
             time.sleep_ms(50)
         
-        # Diminui o brilho gradualmente
+ # Diminui o brilho gradualmente
         for i in range(10, -1, -1):
             led_vermelho.duty_u16(int(cor[0] * 257 * i / 10))
             led_verde.duty_u16(int(cor[1] * 257 * i / 10))
@@ -44,10 +44,10 @@ def animar_led_brilhar(cor, duracao_total=5):
 
 # Exemplo de uso
 if __name__ == "__main__":
-    # Efeito de brilho azul por 5 segundos
+ # Efeito de brilho azul por 5 segundos
     animar_led_brilhar((0, 0, 255), 5)
     
-    # Desliga o LED
+ # Desliga o LED
     led_vermelho.duty_u16(0)
     led_verde.duty_u16(0)
     led_azul.duty_u16(0)

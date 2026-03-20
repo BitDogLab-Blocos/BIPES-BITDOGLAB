@@ -1,6 +1,6 @@
 # numeros.py
 # Padrões de números 0-9 para a matriz 5x5
-# Blocos: 0️⃣, 1️⃣, 2️⃣, etc
+# Blocos: 0, 1, 2, etc
 
 # Cada número é uma matriz 5x5 onde 1 = LED aceso, 0 = LED apagado
 NUMEROS = {

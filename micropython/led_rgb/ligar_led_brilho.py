@@ -1,6 +1,6 @@
 # ligar_led_brilho.py
 # Liga o LED RGB com intensidade de brilho
-# Bloco: 🔆 Ligar LED da cor com brilho de X%
+# Bloco: Ligar LED da cor com brilho de X%
 
 from machine import Pin, PWM
 
@@ -30,13 +30,13 @@ def ligar_led_brilho(cor, intensidade):
 if __name__ == "__main__":
     import time
     
-    # Liga o LED na cor vermelha com 50% de brilho
+ # Liga o LED na cor vermelha com 50% de brilho
     ligar_led_brilho((255, 0, 0), 50)
     time.sleep(2)
     
-    # Liga o LED na cor azul com 100% de brilho
+ # Liga o LED na cor azul com 100% de brilho
     ligar_led_brilho((0, 0, 255), 100)
     time.sleep(2)
     
-    # Desliga o LED
+ # Desliga o LED
     ligar_led_brilho((0, 0, 0), 0)

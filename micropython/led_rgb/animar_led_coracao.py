@@ -1,6 +1,6 @@
 # animar_led_coracao.py
 # Animação de batimento cardíaco no LED
-# Bloco: 💓 Animar LED da cor batimento cardíaco
+# Bloco: Animar LED da cor batimento cardíaco
 
 from machine import Pin, PWM
 import time
@@ -26,25 +26,25 @@ def animar_led_coracao(cor, duracao_total=5):
     tempo_inicio = time.time()
     
     while time.time() - tempo_inicio < duracao_total:
-        # Primeiro pulso
+ # Primeiro pulso
         led_vermelho.duty_u16(cor[0] * 257)
         led_verde.duty_u16(cor[1] * 257)
         led_azul.duty_u16(cor[2] * 257)
         time.sleep_ms(100)
         
-        # Pausa curta
+ # Pausa curta
         led_vermelho.duty_u16(0)
         led_verde.duty_u16(0)
         led_azul.duty_u16(0)
         time.sleep_ms(100)
         
-        # Segundo pulso
+ # Segundo pulso
         led_vermelho.duty_u16(cor[0] * 257)
         led_verde.duty_u16(cor[1] * 257)
         led_azul.duty_u16(cor[2] * 257)
         time.sleep_ms(100)
         
-        # Pausa longa
+ # Pausa longa
         led_vermelho.duty_u16(0)
         led_verde.duty_u16(0)
         led_azul.duty_u16(0)
@@ -52,10 +52,10 @@ def animar_led_coracao(cor, duracao_total=5):
 
 # Exemplo de uso
 if __name__ == "__main__":
-    # Batimento cardíaco vermelho por 5 segundos
+ # Batimento cardíaco vermelho por 5 segundos
     animar_led_coracao((255, 0, 0), 5)
     
-    # Desliga o LED
+ # Desliga o LED
     led_vermelho.duty_u16(0)
     led_verde.duty_u16(0)
     led_azul.duty_u16(0)

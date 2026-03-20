@@ -1,6 +1,6 @@
 # joystick_lousa_magica.py
 # Desenha livremente no display usando o joystick
-# Bloco: 🕹️ Lousa Mágica
+# Bloco: Lousa Mágica
 
 from machine import Pin, I2C, ADC
 from ssd1306 import SSD1306_I2C
@@ -30,7 +30,7 @@ while True:
     raw_x = joystick_x.read_u16()
     raw_y = joystick_y.read_u16()
 
-    # Movimentação
+ # Movimentação
     if raw_x < CENTER - DEADZONE:
         _lx = max(0, _lx - 1)
     elif raw_x > CENTER + DEADZONE:
@@ -41,11 +41,11 @@ while True:
     elif raw_y > CENTER + DEADZONE:
         _ly = min(63, _ly + 1)
 
-    # Desenha pixel na posição atual
+ # Desenha pixel na posição atual
     oled.fill_rect(_lx, _ly, _pen_size, _pen_size, 1)
     oled.show()
 
-    # Botão do joystick limpa a tela
+ # Botão do joystick limpa a tela
     if botao_joystick.value() == 0:
         oled.fill(0)
         oled.show()

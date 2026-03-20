@@ -1,6 +1,6 @@
 # botao_enquanto_apertado.py
 # Executa ações enquanto o botão estiver pressionado
-# Bloco: 🎮 Enquanto pressionar o botão
+# Bloco: Enquanto pressionar o botao
 
 from machine import Pin, I2C
 from ssd1306 import SSD1306_I2C

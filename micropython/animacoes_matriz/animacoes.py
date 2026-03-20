@@ -1,6 +1,6 @@
 # animacoes.py
 # Animações para a matriz 5x5 de LEDs
-# Blocos: ⚡ Piscar Rápido, 🐌 Piscar Devagar, ✨ Aparecer e Sumir, etc
+# Blocos: Piscar Rápido, Piscar Devagar, Aparecer e Sumir, etc
 
 from machine import Pin
 import neopixel
@@ -71,13 +71,13 @@ def aparecer_sumir(padrao_func, cor, brilho=30, duracao=5):
     """
     inicio = time.time()
     while time.time() - inicio < duracao:
-        # Aumenta brilho
+ # Aumenta brilho
         for i in range(11):
             intensidade = int(brilho * i / 10)
             padrao_func(cor, intensidade)
             time.sleep_ms(50)
         
-        # Diminui brilho
+ # Diminui brilho
         for i in range(10, -1, -1):
             intensidade = int(brilho * i / 10)
             padrao_func(cor, intensidade)
@@ -100,7 +100,7 @@ def pulsar_brilho(padrao_func, cor, brilho=30, duracao=5):
     
     while time.time() - inicio < duracao:
         t = time.ticks_ms()
-        # Onda senoidal para brilho
+ # Onda senoidal para brilho
         intensidade = int(brilho * (0.5 + 0.5 * math.sin(t / 500)))
         padrao_func(cor, intensidade)
         time.sleep_ms(50)
@@ -156,7 +156,7 @@ def deslizar_direita(padrao, cor, brilho=30):
 
 # Exemplo de uso
 if __name__ == "__main__":
-    # Teste com padrão de coração
+ # Teste com padrão de coração
     coracao = [
         [0, 1, 0, 1, 0],
         [1, 1, 1, 1, 1],

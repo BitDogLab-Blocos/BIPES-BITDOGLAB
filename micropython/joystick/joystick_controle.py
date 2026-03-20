@@ -1,6 +1,6 @@
 # joystick_controle.py
 # Controla LEDs e buzzer com o joystick
-# Blocos: 🕹️ Joystick controla LED, 🕹️ Joystick controla Buzzer
+# Blocos: Joystick controla LED, Joystick controla Buzzer
 
 from machine import Pin, PWM, ADC
 import time
@@ -58,8 +58,8 @@ def controlar_led_joystick(cor, intensidade_inicial=50,
     
     x, y, _ = ler_joystick()
     
-    # Centro está em aproximadamente 2048
-    # Movimento detectado se valor < 1000 ou > 3000
+ # Centro está em aproximadamente 2048
+ # Movimento detectado se valor < 1000 ou > 3000
     
     if dir_aumentar == 'UP' and y < 1000:
         intensidade = min(100, intensidade + 5)
@@ -79,7 +79,7 @@ def controlar_led_joystick(cor, intensidade_inicial=50,
     elif dir_diminuir == 'RIGHT' and x > 3000:
         intensidade = max(0, intensidade - 5)
     
-    # Aplica a cor com a intensidade
+ # Aplica a cor com a intensidade
     led_vermelho.duty_u16(int(cor[0] * 257 * intensidade / 100))
     led_verde.duty_u16(int(cor[1] * 257 * intensidade / 100))
     led_azul.duty_u16(int(cor[2] * 257 * intensidade / 100))
@@ -134,7 +134,7 @@ if __name__ == "__main__":
         print(f"Intensidade: {intensidade}%")
         time.sleep_ms(100)
     
-    # Desliga o LED
+ # Desliga o LED
     led_vermelho.duty_u16(0)
     led_verde.duty_u16(0)
     led_azul.duty_u16(0)

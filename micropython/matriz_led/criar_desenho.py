@@ -1,6 +1,6 @@
 # criar_desenho.py
 # Cria um desenho personalizado na matriz 5x5
-# Bloco: 🔲 Criar desenho na Matriz
+# Bloco: Criar desenho na Matriz
 
 from machine import Pin
 import neopixel

@@ -33,21 +33,21 @@ def sinalizar_sos(cor):
         led_azul.duty_u16(0)
         time.sleep_ms(150)
     
-    # Três piscadas curtas (S)
+ # Três piscadas curtas (S)
     for _ in range(3):
         piscar(150)
     time.sleep_ms(400)
     
-    # Três piscadas longas (O)
+ # Três piscadas longas (O)
     for _ in range(3):
         piscar(500)
     time.sleep_ms(400)
     
-    # Três piscadas curtas (S)
+ # Três piscadas curtas (S)
     for _ in range(3):
         piscar(150)
 
 # Exemplo de uso
 if __name__ == "__main__":
-    # Envia sinal SOS na cor vermelha
+ # Envia sinal SOS na cor vermelha
     sinalizar_sos((255, 0, 0))

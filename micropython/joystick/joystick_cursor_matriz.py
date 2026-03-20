@@ -1,6 +1,6 @@
 # joystick_cursor_matriz.py
 # Move um LED pela matriz 5x5 usando o joystick
-# Bloco: 🕹️ Mover ponto de luz na Matriz
+# Bloco: Mover ponto de luz na Matriz
 
 from machine import Pin, ADC
 import neopixel
@@ -47,14 +47,14 @@ while True:
             _cursor_row = min(4, _cursor_row + 1)
             _cursor_tempo = agora
 
-    # Limpa e acende na posição
+ # Limpa e acende na posição
     for i in range(25):
         np[i] = (0, 0, 0)
     cor_ajustada = (int(cor[0] * fator), int(cor[1] * fator), int(cor[2] * fator))
     np[LED_MATRIX[_cursor_row][_cursor_col]] = cor_ajustada
     np.write()
 
-    # Botão apaga tudo
+ # Botão apaga tudo
     if botao_joystick.value() == 0:
         for i in range(25):
             np[i] = (0, 0, 0)

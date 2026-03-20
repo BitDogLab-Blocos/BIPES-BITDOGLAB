@@ -1,6 +1,6 @@
 # acender_linha_coluna.py
 # Acende uma linha ou coluna inteira da matriz
-# Blocos: 🔲 Acender linha, 🔲 Acender coluna
+# Blocos: Acender linha, Acender coluna
 
 from machine import Pin
 import neopixel

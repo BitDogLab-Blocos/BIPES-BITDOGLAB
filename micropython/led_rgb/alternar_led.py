@@ -1,6 +1,6 @@
 # alternar_led.py
 # Alterna entre várias cores no LED RGB
-# Bloco: 🔄 Alternar LED
+# Bloco: Alternar LED
 
 from machine import Pin, PWM
 import time
@@ -38,7 +38,7 @@ def alternar_cores(cores, tempo_cada=500, duracao_total=5):
         idx += 1
         time.sleep_ms(tempo_cada)
     
-    # Desliga
+ # Desliga
     aplicar_cor((0, 0, 0))
 
 def transicao_cores(cor1, cor2, duracao=5):

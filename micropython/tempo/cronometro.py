@@ -1,6 +1,6 @@
 # cronometro.py
 # Cronômetro para temporização
-# Blocos: 🏁 Iniciar Cronômetro, ⏸️ Pausar, 🔄 Reiniciar
+# Blocos: Iniciar Cronômetro, Pausar, Reiniciar
 
 import time
 

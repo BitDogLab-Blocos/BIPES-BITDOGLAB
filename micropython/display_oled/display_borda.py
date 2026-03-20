@@ -1,6 +1,6 @@
 # display_borda.py
 # Testa criação e remoção de borda no display
-# Blocos: 📺 Criar borda, 📺 Limpar borda
+# Blocos: Criar borda, Limpar borda
 
 from machine import Pin, I2C
 from ssd1306 import SSD1306_I2C

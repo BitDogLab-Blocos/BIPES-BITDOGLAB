@@ -1,6 +1,6 @@
 # joystick_mover_player.py
 # Move um quadrado pelo display usando o joystick
-# Bloco: 🕹️ Mover player no display
+# Bloco: Mover player no display
 
 from machine import Pin, I2C, ADC
 from ssd1306 import SSD1306_I2C
@@ -26,7 +26,7 @@ while True:
     raw_x = joystick_x.read_u16()
     raw_y = joystick_y.read_u16()
 
-    # Movimentação
+ # Movimentação
     if raw_x < CENTER - DEADZONE:
         _px = max(0, _px - 2)
     elif raw_x > CENTER + DEADZONE:
@@ -37,7 +37,7 @@ while True:
     elif raw_y > CENTER + DEADZONE:
         _py = min(64 - _player_size, _py + 2)
 
-    # Desenha
+ # Desenha
     oled.fill(0)
     oled.fill_rect(_px, _py, _player_size, _player_size, 1)
     oled.show()

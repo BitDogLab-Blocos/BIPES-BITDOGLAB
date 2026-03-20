@@ -1,6 +1,6 @@
 # display_estado.py
 # Mostra estados de LEDs, botões e outros componentes no display
-# Blocos: 💡 Mostrar se LED esta ligado, 🎮 Mostrar se botao foi apertado
+# Blocos: Mostrar se LED esta ligado, Mostrar se botao foi apertado
 
 from machine import Pin, PWM, I2C
 from ssd1306 import SSD1306_I2C
@@ -111,21 +111,21 @@ if __name__ == "__main__":
         led_r = PWM(Pin(11), freq=1000)
         led_g = PWM(Pin(12), freq=1000)
         led_b = PWM(Pin(13), freq=1000)
-        
-        # Botões
+
+        # Botoes
         btn_a = Pin(5, Pin.IN, Pin.PULL_UP)
-        
+
         limpar()
-        
+
         # Liga LED vermelho
         led_r.duty_u16(32768)
-        
+
         mostrar_estado_led(32768, 0, 0, "VM", 1, 'LEFT')
         mostrar_estado_botao(btn_a, "A", 2, 'LEFT')
         atualizar()
-        
+
         time.sleep(2)
-        
+
         # Desliga LED
         led_r.duty_u16(0)
         limpar()

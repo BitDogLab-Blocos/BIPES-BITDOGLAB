@@ -1,6 +1,6 @@
 # bipe_curto.py
 # Toca bipes e alertas sonoros
-# Blocos: 📍 Bipe curto, 📍 Bipe duplo, 🚨 Alerta intermitente
+# Blocos: Bipe curto, Bipe duplo, Alerta intermitente
 
 from machine import Pin, PWM
 import time
@@ -27,14 +27,14 @@ def bipe_duplo(volume=50):
     buzzer.duty_u16(0)
     time.sleep_ms(50)
     
-    # Primeiro bipe
+ # Primeiro bipe
     buzzer.freq(1500)
     buzzer.duty_u16(duty_cycle)
     time.sleep_ms(100)
     buzzer.duty_u16(0)
     time.sleep_ms(50)
     
-    # Segundo bipe
+ # Segundo bipe
     buzzer.duty_u16(duty_cycle)
     time.sleep_ms(100)
     buzzer.duty_u16(0)

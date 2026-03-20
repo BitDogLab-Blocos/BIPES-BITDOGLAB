@@ -1,6 +1,6 @@
 # sensor_estufa_comparar.py
 # Compara dois sensores AHT20 no experimento do efeito estufa
-# Bloco: 🌡️ Experimento Efeito Estufa
+# Bloco: Experimento Efeito Estufa
 
 from machine import Pin, I2C
 from ssd1306 import SSD1306_I2C
@@ -41,10 +41,10 @@ while True:
     temp2, umid2 = ler_aht20(_i2c_estufa_dir)
 
     oled.fill(0)
-    # Linha divisória vertical
+ # Linha divisória vertical
     oled.vline(64, 0, 64, 1)
 
-    # Lado esquerdo: Sensor 1
+ # Lado esquerdo: Sensor 1
     oled.text("Sensor 1", 5, 2, 1)
     if temp1 is not None:
         oled.text(str(temp1) + "C", 5, 22, 1)
@@ -52,7 +52,7 @@ while True:
     else:
         oled.text("Erro", 5, 28, 1)
 
-    # Lado direito: Sensor 2
+ # Lado direito: Sensor 2
     oled.text("Sensor 2", 69, 2, 1)
     if temp2 is not None:
         oled.text(str(temp2) + "C", 69, 22, 1)

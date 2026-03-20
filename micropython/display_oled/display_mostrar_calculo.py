@@ -1,6 +1,6 @@
 # display_mostrar_calculo.py
 # Mostra resultados de cálculos no display
-# Bloco: 🔢 Mostrar resultado
+# Bloco: Mostrar resultado
 
 from machine import Pin, I2C
 from ssd1306 import SSD1306_I2C

@@ -1,6 +1,6 @@
 # repetir_n_vezes.py
 # Testa os blocos de repetição
-# Blocos: 🔁 Repetir N vezes, 🔁 Repetir para sempre
+# Blocos: Repetir N vezes, Repetir para sempre
 
 from machine import Pin, PWM
 import time
@@ -23,7 +23,7 @@ print("Fim das 5 repetições!")
 # Descomente abaixo para testar (Ctrl+C para parar)
 # print("Loop infinito - Ctrl+C para sair")
 # while True:
-#     led_vermelho.duty_u16(32768)
-#     time.sleep_ms(500)
-#     led_vermelho.duty_u16(0)
-#     time.sleep_ms(500)
+# led_vermelho.duty_u16(32768)
+# time.sleep_ms(500)
+# led_vermelho.duty_u16(0)
+# time.sleep_ms(500)

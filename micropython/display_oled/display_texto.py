@@ -1,6 +1,6 @@
 # display_texto.py
 # Escreve texto no display OLED SSD1306
-# Bloco: ✏️ Escrever texto
+# Bloco: Escrever texto
 
 from machine import Pin, I2C
 from ssd1306 import SSD1306_I2C

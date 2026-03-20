@@ -1,6 +1,6 @@
 # preencher_matriz.py
 # Preenche toda a matriz 5x5 de LEDs com uma cor
-# Bloco: 🔲 Ligar matriz de LED da cor
+# Bloco: Ligar matriz de LED da cor
 
 from machine import Pin
 import neopixel
@@ -48,13 +48,13 @@ def desligar_matriz():
 
 # Exemplo de uso
 if __name__ == "__main__":
-    # Preenche a matriz com vermelho a 50% de intensidade
+ # Preenche a matriz com vermelho a 50% de intensidade
     preencher_matriz((255, 0, 0), 50)
     time.sleep(2)
     
-    # Preenche a matriz com azul a 30% de intensidade
+ # Preenche a matriz com azul a 30% de intensidade
     preencher_matriz((0, 0, 255), 30)
     time.sleep(2)
     
-    # Desliga a matriz
+ # Desliga a matriz
     desligar_matriz()

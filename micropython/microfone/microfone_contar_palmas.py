@@ -1,6 +1,6 @@
 # microfone_contar_palmas.py
 # Conta palmas detectadas pelo microfone e mostra no display
-# Blocos: 🎙️ Contar palmas, 🖐️ Total de palmas
+# Blocos: Contar palmas, Total de palmas
 
 from machine import Pin, I2C, ADC
 from ssd1306 import SSD1306_I2C
@@ -20,21 +20,21 @@ COOLDOWN_MS = 300
 print("Bata palmas! O contador aparece no display.")
 
 while True:
-    # Lê amostras
+ # Lê amostras
     pico = 0
     for _ in range(50):
         val = abs(mic.read_u16() - _MIC_OFFSET)
         if val > pico:
             pico = val
 
-    # Detecta palma
+ # Detecta palma
     agora = time.ticks_ms()
     if pico > LIMIAR_PALMA and time.ticks_diff(agora, _mic_ultima_palma) > COOLDOWN_MS:
         _palmas += 1
         _mic_ultima_palma = agora
         print("Palma detectada! Total:", _palmas)
 
-    # Mostra no display
+ # Mostra no display
     oled.fill(0)
     oled.text("Contador Palmas", 5, 2, 1)
     oled.text("Palmas: " + str(_palmas), 3, 28, 1)

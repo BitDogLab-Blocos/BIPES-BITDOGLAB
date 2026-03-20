@@ -1,6 +1,6 @@
 # cores_predefinidas.py
 # Cores predefinidas para uso nos LEDs
-# Blocos: 🔴 Vermelho, 🟢 Verde, 🔵 Azul, etc
+# Blocos: Vermelho, 🟢 Verde, Azul, etc
 
 # Cores básicas (RGB)
 VERMELHO = (255, 0, 0)
@@ -40,11 +40,11 @@ def misturar_cores(*cores):
 
 # Exemplo de uso
 if __name__ == "__main__":
-    # Mistura vermelho e azul
+ # Mistura vermelho e azul
     roxo = misturar_cores(VERMELHO, AZUL)
     print(f"Roxo: {roxo}")
     
-    # Lista todas as cores
+ # Lista todas as cores
     cores = {
         'Vermelho': VERMELHO,
         'Verde': VERDE,

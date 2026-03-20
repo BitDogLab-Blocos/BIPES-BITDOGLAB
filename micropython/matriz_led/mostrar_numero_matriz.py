@@ -1,6 +1,6 @@
 # mostrar_numero_matriz.py
 # Mostra números de 0 a 9 na matriz 5x5
-# Bloco: 🔢 Mostrar número
+# Bloco: Mostrar número
 
 from machine import Pin
 import neopixel
@@ -112,11 +112,11 @@ def mostrar_numero(numero, cor, brilho=30):
     padrao = NUMEROS[numero]
     intensidade = brilho / 100 * 0.5
     
-    # Limpa a matriz
+ # Limpa a matriz
     for i in range(25):
         np[i] = (0, 0, 0)
     
-    # Acende os LEDs conforme o padrão
+ # Acende os LEDs conforme o padrão
     for linha in range(5):
         for coluna in range(5):
             if padrao[linha][coluna] == 1:
@@ -130,12 +130,12 @@ def mostrar_numero(numero, cor, brilho=30):
 
 # Exemplo de uso
 if __name__ == "__main__":
-    # Mostra números de 0 a 9
+ # Mostra números de 0 a 9
     for n in range(10):
         mostrar_numero(n, (0, 255, 0), 50)
         time.sleep(1)
     
-    # Desliga a matriz
+ # Desliga a matriz
     for i in range(25):
         np[i] = (0, 0, 0)
     np.write()

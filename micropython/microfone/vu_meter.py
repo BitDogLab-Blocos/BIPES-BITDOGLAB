@@ -1,6 +1,6 @@
 # vu_meter.py
 # Medidor de volume usando o microfone
-# Blocos: 🎙️ Medidor de barulho na Matriz, 🖥️ Medidor de barulho no Display
+# Blocos: Medidor de barulho na Matriz, Medidor de barulho no Display
 
 from machine import Pin, ADC
 import neopixel
@@ -21,7 +21,7 @@ def led_para_nivel(nivel):
     """Converte nível (0-5) para LEDs acesos na coluna 0."""
     leds = []
     for i in range(nivel):
-        # Coluna 0, da base para cima
+ # Coluna 0, da base para cima
         led_idx = 20 - i * 5  # 20, 15, 10, 5, 0
         leds.append(led_idx)
     return leds
@@ -33,7 +33,7 @@ def ler_nivel_som():
     Returns:
         int: Nível de 0 (silêncio) a 5 (barulho máximo)
     """
-    # Lê múltiplas amostras para suavizar
+ # Lê múltiplas amostras para suavizar
     soma = 0
     for _ in range(10):
         valor = mic.read()
@@ -42,9 +42,9 @@ def ler_nivel_som():
     
     media = soma // 10
     
-    # Converte para nível 0-5 (ajustar limiares conforme necessário)
-    # Valor típico em silêncio: ~2048
-    # Valor máximo: ~4095
+ # Converte para nível 0-5 (ajustar limiares conforme necessário)
+ # Valor típico em silêncio: ~2048
+ # Valor máximo: ~4095
     diff = abs(media - 2048)
     
     if diff < 50:
@@ -74,7 +74,7 @@ def ler_intensidade_som():
         time.sleep_us(100)
     
     media = soma // 10
-    # Mapeia 0-2048 para 0-100
+ # Mapeia 0-2048 para 0-100
     return min(100, (media * 100) // 2048)
 
 def vu_meter_matriz(cor, brilho=30):
@@ -88,11 +88,11 @@ def vu_meter_matriz(cor, brilho=30):
     nivel = ler_nivel_som()
     intensidade = brilho / 100 * 0.5
     
-    # Limpa a matriz
+ # Limpa a matriz
     for i in range(25):
         np[i] = (0, 0, 0)
     
-    # Acende LEDs conforme o nível
+ # Acende LEDs conforme o nível
     r = int(cor[0] * intensidade)
     g = int(cor[1] * intensidade)
     b = int(cor[2] * intensidade)
@@ -113,7 +113,7 @@ if __name__ == "__main__":
         print(f"Nivel: {nivel}/5")
         time.sleep_ms(50)
     
-    # Desliga a matriz
+ # Desliga a matriz
     for i in range(25):
         np[i] = (0, 0, 0)
     np.write()

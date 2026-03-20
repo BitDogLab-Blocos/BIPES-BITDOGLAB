@@ -1,6 +1,6 @@
 # mostrar_emoji.py
 # Mostra emojis na matriz 5x5
-# Bloco: 😊 Mostrar emoji
+# Bloco: Mostrar emoji
 
 from machine import Pin
 import neopixel
@@ -139,11 +139,11 @@ def mostrar_emoji(emoji_nome, cor, brilho=30):
     padrao = EMOJIS[emoji_nome]
     intensidade = brilho / 100 * 0.5
     
-    # Limpa a matriz
+ # Limpa a matriz
     for i in range(25):
         np[i] = (0, 0, 0)
     
-    # Acende os LEDs conforme o padrão
+ # Acende os LEDs conforme o padrão
     for linha in range(5):
         for coluna in range(5):
             if padrao[linha][coluna] == 1:
@@ -163,7 +163,7 @@ if __name__ == "__main__":
         mostrar_emoji(emoji, (255, 255, 0), 50)
         time.sleep(1)
     
-    # Desliga a matriz
+ # Desliga a matriz
     for i in range(25):
         np[i] = (0, 0, 0)
     np.write()

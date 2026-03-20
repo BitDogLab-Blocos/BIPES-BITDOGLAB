@@ -1,6 +1,6 @@
 # esperar.py
 # Funções de espera/delay
-# Blocos: ⏱️ Aguardar segundos, ⏱️ Aguardar milissegundos
+# Blocos: Aguardar segundos, Aguardar milissegundos
 
 import time
 

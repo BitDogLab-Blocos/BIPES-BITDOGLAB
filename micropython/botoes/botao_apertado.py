@@ -1,6 +1,6 @@
 # botao_apertado.py
 # Verifica se o botão está pressionado
-# Blocos: 🎮 Enquanto pressionar o botão, 🎮 Se o botão for pressionado
+# Blocos: Enquanto pressionar o botão, Se o botão for pressionado
 
 from machine import Pin
 import time
@@ -43,10 +43,10 @@ def aguardar_botao(botao):
     while not botao_apertado(botao):
         time.sleep_ms(10)
     
-    # Aguarda o debounce
+ # Aguarda o debounce
     time.sleep_ms(50)
     
-    # Aguarda soltar
+ # Aguarda soltar
     while botao_apertado(botao):
         time.sleep_ms(10)
 

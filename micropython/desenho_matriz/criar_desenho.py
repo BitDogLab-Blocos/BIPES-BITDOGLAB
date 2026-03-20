@@ -1,6 +1,6 @@
 # criar_desenho.py
 # Cria desenhos customizados na matriz 5x5
-# Bloco: 🎨 Criar Desenho na Matriz
+# Bloco: Criar Desenho na Matriz
 
 from machine import Pin
 import neopixel
@@ -125,18 +125,18 @@ DESENHOS = {
 if __name__ == "__main__":
     limpar_matriz()
     
-    # Desenha uma casa
+ # Desenha uma casa
     print("Desenhando casa...")
     desenhar_padrao(DESENHOS['casa'], (255, 165, 0), 50)
     time.sleep(2)
     
-    # Desenha uma estrela
+ # Desenha uma estrela
     print("Desenhando estrela...")
     limpar_matriz()
     desenhar_padrao(DESENHOS['estrela'], (255, 255, 0), 50)
     time.sleep(2)
     
-    # Desenha um X
+ # Desenha um X
     print("Desenhando X...")
     limpar_matriz()
     desenhar_x((255, 0, 0), 50)

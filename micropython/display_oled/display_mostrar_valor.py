@@ -1,6 +1,6 @@
 # display_mostrar_valor.py
 # Mostra valores numéricos no display OLED
-# Blocos: 🔢 Mostrar resultado, 📊 Mostrar valor
+# Blocos: Mostrar resultado, Mostrar valor
 
 from machine import Pin, I2C
 from ssd1306 import SSD1306_I2C
@@ -38,7 +38,7 @@ def mostrar_valor(valor, linha=1, alinhamento='LEFT'):
     texto = str(valor)
     y = Y_POSITIONS.get(linha, 8)
     
-    # Limpa a área antes de escrever
+ # Limpa a área antes de escrever
     if alinhamento == 'LEFT':
         x_clear = 3
     elif alinhamento == 'CENTER':
@@ -48,7 +48,7 @@ def mostrar_valor(valor, linha=1, alinhamento='LEFT'):
     
     oled.fill_rect(x_clear, y, 128 - x_clear, 8, 0)
     
-    # Calcula posição X
+ # Calcula posição X
     text_width = len(texto) * 8
     if alinhamento == 'LEFT':
         x = 3
@@ -76,7 +76,7 @@ if __name__ == "__main__":
         
         limpar_display()
         
-        # Contador
+ # Contador
         for i in range(100):
             mostrar_valor(f"Contagem: {i}", 3, 'CENTER')
             atualizar_display()

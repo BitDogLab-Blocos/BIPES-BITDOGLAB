@@ -1,6 +1,6 @@
 # display_dashboard_matriz.py
 # Mostra informações da matriz de LEDs no display
-# Bloco: 📺 Dashboard da Matriz
+# Bloco: Dashboard da Matriz
 
 from machine import Pin, I2C
 from ssd1306 import SSD1306_I2C

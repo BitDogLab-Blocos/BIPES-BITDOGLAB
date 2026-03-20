@@ -1,6 +1,6 @@
 # criar_melodia.py
 # Cria melodias personalizadas
-# Bloco: 🎼 Criar Melodia
+# Bloco: Criar Melodia
 
 from machine import Pin, PWM
 import time

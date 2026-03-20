@@ -1,6 +1,6 @@
 # notas.py
 # Definições das notas musicais
-# Blocos: 🎵 Dó, 👑 Ré, 🐱 Mi, etc
+# Blocos: Dó, Ré, Mi, etc
 
 # Frequências das notas em Hz (oitava 4)
 NOTAS = {
@@ -27,7 +27,7 @@ def nota_frequencia(nota, oitava=4):
     """
     freq_base = NOTAS.get(nota.upper(), 262)
     
-    # Multiplica ou divide por 2 para mudar de oitava
+ # Multiplica ou divide por 2 para mudar de oitava
     if oitava == 4:
         return freq_base
     elif oitava == 5:
