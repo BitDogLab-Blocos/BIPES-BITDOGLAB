@@ -627,7 +627,15 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
       processedAction.push(aLine);
     } else if (isBreaker && inOledGroup) {
       var breakerIndent = aLine.match(/^(\s*)/)[1];
-      var showIndent = breakerIndent.length <= lastContextIndent.length ? breakerIndent : lastContextIndent;
+      // For else/elif, inject oled.show() INSIDE the preceding block (at lastContextIndent)
+      // to avoid breaking the if/else chain with a statement between them
+      var isElseLike = aTrimmed === 'else:' || aTrimmed.startsWith('elif ');
+      var showIndent;
+      if (isElseLike) {
+        showIndent = lastContextIndent;
+      } else {
+        showIndent = breakerIndent.length <= lastContextIndent.length ? breakerIndent : lastContextIndent;
+      }
       processedAction.push(showIndent + 'oled.show()');
       inOledGroup = false;
       processedAction.push(aLine);
