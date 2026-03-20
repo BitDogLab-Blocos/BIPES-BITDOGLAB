@@ -48,6 +48,7 @@ function showMatrixAnimationTip() {
   }
 }
 
+
 // ==========================================
 // Blocos Básicos do Blockly (substituem blocks_compressed.js)
 // ==========================================
@@ -4032,7 +4033,7 @@ Blockly.Blocks['estufa_plotar'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#2980b9");
-    this.setTooltip("Mostra um gráfico no display. Escolha o tipo (Temp 1, Temp 2...) e onde mostrar (Cima, Baixo ou Tela Toda). Coloque dentro de 'repetir para sempre' com 'aguardar' de 100ms!");
+    this.setTooltip("Mostra um gráfico no display. Escolha o tipo e onde mostrar. Use blocos de Matemática para combinar sensores!");
     this.setHelpUrl("");
   }
 };

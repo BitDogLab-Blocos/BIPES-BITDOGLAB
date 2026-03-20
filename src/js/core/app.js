@@ -1159,6 +1159,42 @@ Code.init = function() {
     closeBtn.addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.2)'; });
   };
 
+  // Mostrar Gráfico reminder notification
+  Code.showGraficoReminder = function() {
+    if (document.getElementById('graficoNotification')) return;
+
+    var notification = document.createElement('div');
+    notification.id = 'graficoNotification';
+    notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #2980b9; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 460px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
+    notification.innerHTML =
+      '<button id="closeGraficoNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+      '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
+      '📊 Você pode <strong>somar, subtrair, multiplicar ou dividir</strong> os dados dos sensores!<br><br>' +
+      '🧮 Use os blocos de <strong>Matemática</strong> para combinar sensores. Exemplo: Temperatura Sensor 1 <strong>+</strong> Temperatura Sensor 2<br><br>' +
+      '📺 Use <strong>Metade de Cima</strong> e <strong>Metade de Baixo</strong> para ver <strong>2 gráficos ao mesmo tempo!</strong><br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Exemplo:</strong><br>' +
+      '1️⃣ 🔁 Repetir para sempre:<br>' +
+      '&nbsp;&nbsp;&nbsp;&nbsp;📊 Mostrar Gráfico <strong>[Temp S1 + Temp S2]</strong> tipo Soma Temp na Metade de Cima<br>' +
+      '&nbsp;&nbsp;&nbsp;&nbsp;📊 Mostrar Gráfico <strong>[Umidade S1]</strong> tipo Umidade 1 na Metade de Baixo<br>' +
+      '</div>';
+
+    document.body.appendChild(notification);
+
+    document.getElementById('closeGraficoNotification').addEventListener('click', function() {
+      if (notification && notification.parentNode) {
+        notification.style.animation = 'slideOut 0.3s ease-in';
+        setTimeout(function() {
+          if (notification && notification.parentNode) notification.parentNode.removeChild(notification);
+        }, 300);
+      }
+    });
+
+    var closeBtn = document.getElementById('closeGraficoNotification');
+    closeBtn.addEventListener('mouseenter', function() { this.style.background = 'rgba(0,0,0,0.4)'; });
+    closeBtn.addEventListener('mouseleave', function() { this.style.background = 'rgba(0,0,0,0.2)'; });
+  };
+
   // Listen for block create events
   Code.workspace.addChangeListener(function(event) {
     if (event.type === Blockly.Events.BLOCK_CREATE) {
@@ -1198,6 +1234,10 @@ Code.init = function() {
 
         if (blockType === 'estufa_toggle_sensor1' || blockType === 'estufa_toggle_sensor2') {
           Code.showEstufaToggleReminder(blockType);
+        }
+
+        if (blockType === 'estufa_plotar') {
+          Code.showGraficoReminder();
         }
       }
     }
