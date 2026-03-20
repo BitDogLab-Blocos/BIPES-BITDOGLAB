@@ -3946,3 +3946,84 @@ Blockly.Blocks['estufa_toggle_sensor2'] = {
     this.setHelpUrl("");
   }
 };
+
+// =============================================
+// BLOCOS DE GRÁFICOS (Projeto Estufa)
+// =============================================
+
+// Bloco de valor: Temperatura do Sensor 1
+Blockly.Blocks['estufa_temp_sensor1'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🌡️ Temp Sensor 1");
+    this.setOutput(true, "Number");
+    this.setColour("#2980b9");
+    this.setTooltip("Valor da temperatura do Sensor 1 em graus Celsius. Encaixe no bloco Plotar ou em blocos de matemática!");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco de valor: Umidade do Sensor 1
+Blockly.Blocks['estufa_umid_sensor1'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("💧 Umid Sensor 1");
+    this.setOutput(true, "Number");
+    this.setColour("#2980b9");
+    this.setTooltip("Valor da umidade do Sensor 1 em porcentagem. Encaixe no bloco Plotar ou em blocos de matemática!");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco de valor: Temperatura do Sensor 2
+Blockly.Blocks['estufa_temp_sensor2'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🌡️ Temp Sensor 2");
+    this.setOutput(true, "Number");
+    this.setColour("#2980b9");
+    this.setTooltip("Valor da temperatura do Sensor 2 em graus Celsius. Encaixe no bloco Plotar ou em blocos de matemática!");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco de valor: Umidade do Sensor 2
+Blockly.Blocks['estufa_umid_sensor2'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("💧 Umid Sensor 2");
+    this.setOutput(true, "Number");
+    this.setColour("#2980b9");
+    this.setTooltip("Valor da umidade do Sensor 2 em porcentagem. Encaixe no bloco Plotar ou em blocos de matemática!");
+    this.setHelpUrl("");
+  }
+};
+
+// Bloco statement: Plotar gráfico no display
+Blockly.Blocks['estufa_plotar'] = {
+  init: function() {
+    this.appendValueInput('VALOR')
+        .setCheck('Number')
+        .appendField("📊 Plotar");
+    this.appendDummyInput()
+        .appendField("rótulo")
+        .appendField(new Blockly.FieldDropdown([
+            ["Temp", "Temp"],
+            ["Umid", "Umid"],
+            ["Resultado", "Res"]
+        ]), "ROTULO");
+    this.appendDummyInput()
+        .appendField("em")
+        .appendField(new Blockly.FieldDropdown([
+            ["Tela Toda", "0"],
+            ["Metade de Cima", "1"],
+            ["Metade de Baixo", "2"]
+        ]), "POSICAO");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#2980b9");
+    this.setTooltip("Desenha um gráfico no display com o valor que você encaixar. Use dentro de 'repetir para sempre' para ver o gráfico atualizando!");
+    this.setHelpUrl("");
+  }
+};
