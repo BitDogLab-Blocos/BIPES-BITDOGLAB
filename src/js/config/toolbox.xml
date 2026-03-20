@@ -382,6 +382,10 @@
   </category>
 
   <!-- Projeto: Estufa -->
+  <category name="🔎 Verificação Sensores" colour="#607d8b" data-project="estufa">
+    <block type="verificar_conexao_sensor"></block>
+  </category>
+
   <category name="🌡️ Medição" colour="#16a085" data-project="estufa">
     <block type="sensor_temperatura"></block>
     <block type="sensor_umidade"></block>

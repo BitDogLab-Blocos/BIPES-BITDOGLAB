@@ -4036,3 +4036,19 @@ Blockly.Blocks['estufa_plotar'] = {
     this.setHelpUrl("");
   }
 };
+
+// ==========================================
+// VERIFICAÇÃO DE SENSORES
+// ==========================================
+
+Blockly.Blocks['verificar_conexao_sensor'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔎 Verificar qual sensor está conectado");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#607d8b");
+    this.setTooltip("Verifica quais sensores estão conectados na placa e mostra o resultado no display.");
+    this.setHelpUrl("");
+  }
+};
