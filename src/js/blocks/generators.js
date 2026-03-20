@@ -5719,16 +5719,18 @@ function _setupEstufaGraficos() {
     '    v_min, v_max = min(buf), max(buf)\n' +
     '    v_med = sum(buf) / len(buf)\n' +
     '    if v_max == v_min: v_max = v_min + 1\n' +
-    '    oled.hline(0, y_fim, 128, 1)\n' +
+    '    _sw = max(len(str(round(v_max,1))),len(str(round(v_med,1))),len(str(round(v_min,1))))\n' +
+    '    _x0 = _sw * 4 + 2\n' +
+    '    oled.hline(_x0, y_fim, 128 - _x0, 1)\n' +
     '    n = len(buf)\n' +
     '    for i in range(n):\n' +
     '      y = y_fim - int((buf[i] - v_min) / (v_max - v_min) * alt)\n' +
     '      y = max(y_ini, min(y, y_fim))\n' +
-    '      x = int(i * 127 / (n - 1)) if n > 1 else 0\n' +
+    '      x = _x0 + int(i * (127 - _x0) / (n - 1)) if n > 1 else _x0\n' +
     '      if i > 0:\n' +
     '        yp = y_fim - int((buf[i-1] - v_min) / (v_max - v_min) * alt)\n' +
     '        yp = max(y_ini, min(yp, y_fim))\n' +
-    '        xp = int((i - 1) * 127 / (n - 1))\n' +
+    '        xp = _x0 + int((i - 1) * (127 - _x0) / (n - 1))\n' +
     '        oled.line(xp, yp, x, y, 1)\n' +
     '      else:\n' +
     '        oled.pixel(x, y, 1)\n' +
