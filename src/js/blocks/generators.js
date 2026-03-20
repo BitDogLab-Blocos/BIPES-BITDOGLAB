@@ -5645,3 +5645,122 @@ Blockly.Python['estufa_toggle_sensor2'] = function(_block) {
 
   return '_estufa_dir_on = not _estufa_dir_on\n';
 };
+
+// =============================================
+// GERADORES DE GRÁFICOS (Projeto Estufa)
+// =============================================
+
+// Helper: injeta setup comum dos gráficos (sensores + display + função de plot)
+function _setupEstufaGraficos() {
+  var pins = BitdogLabConfig.PINS;
+  var sensor = BitdogLabConfig.SENSOR;
+  var display = BitdogLabConfig.DISPLAY;
+
+  Blockly.Python.definitions_['import_pin']  = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c']  = 'from machine import I2C';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  Blockly.Python.definitions_['lib_aht20'] = SensorLibs.AHT20;
+
+  Blockly.Python.definitions_['setup_display'] =
+    'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
+    'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+
+  var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
+  var i2c0Scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
+
+  Blockly.Python.definitions_['setup_estufa_sensores'] =
+    '_i2c_estufa0 = I2C(' + sensor.I2C_BUS + ', sda=Pin(' + i2c0Sda + '), scl=Pin(' + i2c0Scl + '), freq=' + sensor.I2C_FREQ + ')\n' +
+    '_i2c_estufa1 = I2C(1, sda=Pin(' + pins.I2C_SDA + '), scl=Pin(' + pins.I2C_SCL + '), freq=' + sensor.I2C_FREQ + ')\n' +
+    '_aht_esq = AHT20(_i2c_estufa1)\n' +
+    '_aht_dir = AHT20(_i2c_estufa0)';
+
+  Blockly.Python.definitions_['setup_plot_buffers'] = '_plot_buffers = {}';
+
+  Blockly.Python.definitions_['func_plot_grafico'] =
+    'def _plot_grafico(buf_id, valor, pos, titulo):\n' +
+    '  if buf_id not in _plot_buffers:\n' +
+    '    _plot_buffers[buf_id] = []\n' +
+    '  buf = _plot_buffers[buf_id]\n' +
+    '  buf.append(valor)\n' +
+    '  if len(buf) > 60:\n' +
+    '    buf.pop(0)\n' +
+    '  if pos == 0:\n' +
+    '    y_tit, y_ini, y_fim = 0, 9, 63\n' +
+    '  elif pos == 1:\n' +
+    '    y_tit, y_ini, y_fim = 0, 9, 31\n' +
+    '  else:\n' +
+    '    y_tit, y_ini, y_fim = 32, 41, 63\n' +
+    '  alt = y_fim - y_ini\n' +
+    '  oled.fill_rect(0, y_tit, 128, y_fim - y_tit + 1, 0)\n' +
+    '  oled.text(titulo, 0, y_tit, 1)\n' +
+    '  if len(buf) < 2:\n' +
+    '    oled.show()\n' +
+    '    return\n' +
+    '  v_min = min(buf)\n' +
+    '  v_max = max(buf)\n' +
+    '  if v_max == v_min:\n' +
+    '    v_max = v_min + 1\n' +
+    '  x0 = 128 - len(buf)\n' +
+    '  for i in range(len(buf)):\n' +
+    '    y = y_fim - int((buf[i] - v_min) / (v_max - v_min) * alt)\n' +
+    '    if i > 0:\n' +
+    '      yp = y_fim - int((buf[i-1] - v_min) / (v_max - v_min) * alt)\n' +
+    '      oled.line(x0 + i - 1, yp, x0 + i, y, 1)\n' +
+    '    else:\n' +
+    '      oled.pixel(x0 + i, y, 1)\n' +
+    '  oled.show()';
+}
+
+// Gerador de valor: Temperatura Sensor 1
+Blockly.Python['estufa_temp_sensor1'] = function(_block) {
+  _setupEstufaGraficos();
+  Blockly.Python.definitions_['func_ler_estufa_temp1'] =
+    'def _ler_estufa_temp1():\n' +
+    '  d = _aht_esq.get_data() if _aht_esq.is_ready else (None, None)\n' +
+    '  return d[0] if d[0] is not None else 0';
+  return ['_ler_estufa_temp1()', Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// Gerador de valor: Umidade Sensor 1
+Blockly.Python['estufa_umid_sensor1'] = function(_block) {
+  _setupEstufaGraficos();
+  Blockly.Python.definitions_['func_ler_estufa_umid1'] =
+    'def _ler_estufa_umid1():\n' +
+    '  d = _aht_esq.get_data() if _aht_esq.is_ready else (None, None)\n' +
+    '  return d[1] if d[1] is not None else 0';
+  return ['_ler_estufa_umid1()', Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// Gerador de valor: Temperatura Sensor 2
+Blockly.Python['estufa_temp_sensor2'] = function(_block) {
+  _setupEstufaGraficos();
+  Blockly.Python.definitions_['func_ler_estufa_temp2'] =
+    'def _ler_estufa_temp2():\n' +
+    '  d = _aht_dir.get_data() if _aht_dir.is_ready else (None, None)\n' +
+    '  return d[0] if d[0] is not None else 0';
+  return ['_ler_estufa_temp2()', Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// Gerador de valor: Umidade Sensor 2
+Blockly.Python['estufa_umid_sensor2'] = function(_block) {
+  _setupEstufaGraficos();
+  Blockly.Python.definitions_['func_ler_estufa_umid2'] =
+    'def _ler_estufa_umid2():\n' +
+    '  d = _aht_dir.get_data() if _aht_dir.is_ready else (None, None)\n' +
+    '  return d[1] if d[1] is not None else 0';
+  return ['_ler_estufa_umid2()', Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+// Gerador statement: Plotar gráfico
+Blockly.Python['estufa_plotar'] = function(block) {
+  _setupEstufaGraficos();
+  var valor = Blockly.Python.valueToCode(block, 'VALOR', Blockly.Python.ORDER_ATOMIC) || '0';
+  var rotulo = block.getFieldValue('ROTULO');
+  var posicao = block.getFieldValue('POSICAO');
+  var bufId = 'plot_' + rotulo + '_' + posicao;
+
+  var code = '_plot_val = ' + valor + '\n' +
+    '_plot_grafico(\'' + bufId + '\', _plot_val, ' + posicao + ', \'' + rotulo + ':\' + str(round(_plot_val, 1)))\n';
+  return code;
+};
