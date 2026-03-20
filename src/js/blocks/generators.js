@@ -5717,6 +5717,7 @@ function _setupEstufaGraficos() {
     '      oled.show()\n' +
     '      return\n' +
     '    v_min, v_max = min(buf), max(buf)\n' +
+    '    v_med = sum(buf) / len(buf)\n' +
     '    if v_max == v_min: v_max = v_min + 1\n' +
     '    oled.hline(0, y_fim, 128, 1)\n' +
     '    n = len(buf)\n' +
@@ -5731,6 +5732,9 @@ function _setupEstufaGraficos() {
     '        oled.line(xp, yp, x, y, 1)\n' +
     '      else:\n' +
     '        oled.pixel(x, y, 1)\n' +
+    '    _dt(104, y_ini, str(round(v_max,1)))\n' +
+    '    _dt(104, y_ini + alt // 2 - 2, str(round(v_med,1)))\n' +
+    '    _dt(104, y_fim - 5, str(round(v_min,1)))\n' +
     '    oled.show()\n' +
     '  except: pass'
 }
