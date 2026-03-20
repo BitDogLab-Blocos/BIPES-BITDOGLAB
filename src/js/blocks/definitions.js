@@ -4008,10 +4008,18 @@ Blockly.Blocks['estufa_plotar'] = {
     this.appendDummyInput()
         .appendField("tipo")
         .appendField(new Blockly.FieldDropdown([
-            ["Temp 1", "Temp1"],
-            ["Temp 2", "Temp2"],
-            ["Umid 1", "Umid1"],
-            ["Umid 2", "Umid2"]
+            ["Temperatura 1", "Temp1"],
+            ["Temperatura 2", "Temp2"],
+            ["Umidade 1", "Umid1"],
+            ["Umidade 2", "Umid2"],
+            ["Soma Temperatura", "SomaTemp"],
+            ["Soma Umidade", "SomaUmid"],
+            ["Subtração Temperatura", "SubTemp"],
+            ["Subtração Umidade", "SubUmid"],
+            ["Multiplicação Temperatura", "MultTemp"],
+            ["Multiplicação Umidade", "MultUmid"],
+            ["Divisão Temperatura", "DivTemp"],
+            ["Divisão Umidade", "DivUmid"]
         ]), "ROTULO");
     this.appendDummyInput()
         .appendField("na")
