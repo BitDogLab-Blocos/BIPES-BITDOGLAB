@@ -83,6 +83,11 @@ var BitdogLabConfig = {
 
   SETUP_PATTERNS: {
     isSetupLine: function(line) {
+      // Verifica linhas com indentação (para _plot_* e outras variáveis globais)
+      var trimmed = line.trim();
+      if (trimmed.startsWith('_plot_buffers')) {
+        return true;
+      }
       if (line.startsWith(' ') || line.startsWith('\t')) return false;
       return line.indexOf(' = Pin(') !== -1 ||
              line.indexOf('=Pin(') !== -1 ||

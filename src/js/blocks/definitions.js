@@ -4023,7 +4023,7 @@ Blockly.Blocks['estufa_plotar'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#2980b9");
-    this.setTooltip("Desenha um gráfico no display com o valor que você encaixar. Use dentro de 'repetir para sempre' para ver o gráfico atualizando!");
+    this.setTooltip("Plota um gráfico no display. Use dentro de 'repetir para sempre' com um delay de pelo menos 100ms.");
     this.setHelpUrl("");
   }
 };

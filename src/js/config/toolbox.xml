@@ -389,4 +389,40 @@
     <block type="estufa_toggle_sensor1"></block>
     <block type="estufa_toggle_sensor2"></block>
   </category>
+
+  <category name="📊 Gráficos" colour="#2980b9" data-project="estufa">
+    <label text="Valores dos Sensores" web-class="blockSeparator"></label>
+    <block type="estufa_temp_sensor1"></block>
+    <block type="estufa_umid_sensor1"></block>
+    <block type="estufa_temp_sensor2"></block>
+    <block type="estufa_umid_sensor2"></block>
+    <label text="Plotar no Display" web-class="blockSeparator"></label>
+    <block type="estufa_plotar">
+      <field name="POSICAO">0</field>
+      <value name="VALOR">
+        <block type="estufa_temp_sensor1"></block>
+      </value>
+    </block>
+    <label text="Exemplo: Gráfico em Tempo Real" web-class="blockSeparator"></label>
+    <block type="controls_repeat_forever">
+      <statement name="DO">
+        <block type="estufa_plotar">
+          <field name="ROTULO">Temp</field>
+          <field name="POSICAO">0</field>
+          <value name="VALOR">
+            <block type="estufa_temp_sensor1"></block>
+          </value>
+          <next>
+            <block type="esperar_milisegundos">
+              <value name="TIME">
+                <shadow type="math_number">
+                  <field name="NUM">100</field>
+                </shadow>
+              </value>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+  </category>
 </xml>

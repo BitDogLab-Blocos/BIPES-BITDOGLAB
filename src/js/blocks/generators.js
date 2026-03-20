@@ -5675,41 +5675,45 @@ function _setupEstufaGraficos() {
     '_aht_esq = AHT20(_i2c_estufa1)\n' +
     '_aht_dir = AHT20(_i2c_estufa0)';
 
-  Blockly.Python.definitions_['setup_plot_buffers'] = '_plot_buffers = {}';
-
   Blockly.Python.definitions_['func_plot_grafico'] =
+    '_plot_buffers = {}\n' +
     'def _plot_grafico(buf_id, valor, pos, titulo):\n' +
-    '  if buf_id not in _plot_buffers:\n' +
-    '    _plot_buffers[buf_id] = []\n' +
-    '  buf = _plot_buffers[buf_id]\n' +
-    '  buf.append(valor)\n' +
-    '  if len(buf) > 60:\n' +
-    '    buf.pop(0)\n' +
-    '  if pos == 0:\n' +
-    '    y_tit, y_ini, y_fim = 0, 9, 63\n' +
-    '  elif pos == 1:\n' +
-    '    y_tit, y_ini, y_fim = 0, 9, 31\n' +
-    '  else:\n' +
-    '    y_tit, y_ini, y_fim = 32, 41, 63\n' +
-    '  alt = y_fim - y_ini\n' +
-    '  oled.fill_rect(0, y_tit, 128, y_fim - y_tit + 1, 0)\n' +
-    '  oled.text(titulo, 0, y_tit, 1)\n' +
-    '  if len(buf) < 2:\n' +
+    '  try:\n' +
+    '    val = float(valor)\n' +
+    '    if buf_id not in _plot_buffers:\n' +
+    '      _plot_buffers[buf_id] = []\n' +
+    '    buf = _plot_buffers[buf_id]\n' +
+    '    buf.append(val)\n' +
+    '    if len(buf) > 60: buf.pop(0)\n' +
+    '    if pos == 0:  # Tela toda: titulo y=0, grafico y=9-63\n' +
+    '      y_tit, y_ini, y_fim = 0, 9, 63\n' +
+    '    elif pos == 1:  # Metade de cima: titulo y=0, grafico y=9-31\n' +
+    '      y_tit, y_ini, y_fim = 0, 9, 31\n' +
+    '    else:  # Metade de baixo: titulo y=32, grafico y=41-63\n' +
+    '      y_tit, y_ini, y_fim = 32, 41, 63\n' +
+    '    alt = y_fim - y_ini\n' +
+    '    oled.fill_rect(0, y_tit, 128, y_fim - y_tit + 1, 0)\n' +
+    '    oled.text(titulo, 0, y_tit, 1)\n' +
+    '    if len(buf) < 2:\n' +
+    '      oled.show()\n' +
+    '      return\n' +
+    '    v_min, v_max = min(buf), max(buf)\n' +
+    '    if v_max == v_min: v_max = v_min + 1\n' +
+    '    oled.hline(0, y_fim, 128, 1)\n' +
+    '    n = len(buf)\n' +
+    '    for i in range(n):\n' +
+    '      y = y_fim - int((buf[i] - v_min) / (v_max - v_min) * alt)\n' +
+    '      y = max(y_ini, min(y, y_fim))\n' +
+    '      x = 127 - (n - 1 - i)\n' +
+    '      if i > 0:\n' +
+    '        yp = y_fim - int((buf[i-1] - v_min) / (v_max - v_min) * alt)\n' +
+    '        yp = max(y_ini, min(yp, y_fim))\n' +
+    '        xp = 127 - (n - i)\n' +
+    '        oled.line(xp, yp, x, y, 1)\n' +
+    '      else:\n' +
+    '        oled.pixel(x, y, 1)\n' +
     '    oled.show()\n' +
-    '    return\n' +
-    '  v_min = min(buf)\n' +
-    '  v_max = max(buf)\n' +
-    '  if v_max == v_min:\n' +
-    '    v_max = v_min + 1\n' +
-    '  x0 = 128 - len(buf)\n' +
-    '  for i in range(len(buf)):\n' +
-    '    y = y_fim - int((buf[i] - v_min) / (v_max - v_min) * alt)\n' +
-    '    if i > 0:\n' +
-    '      yp = y_fim - int((buf[i-1] - v_min) / (v_max - v_min) * alt)\n' +
-    '      oled.line(x0 + i - 1, yp, x0 + i, y, 1)\n' +
-    '    else:\n' +
-    '      oled.pixel(x0 + i, y, 1)\n' +
-    '  oled.show()';
+    '  except: pass'
 }
 
 // Gerador de valor: Temperatura Sensor 1
