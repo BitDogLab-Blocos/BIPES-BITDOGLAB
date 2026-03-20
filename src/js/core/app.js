@@ -599,6 +599,15 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
   // Auto-inject oled.show() after groups of consecutive oled.* commands
   var processedAction = [];
   var inOledGroup = false;
+  // groupHasContent tracks whether the current group has visual content (not just oled.fill(0)).
+  // Groups with only oled.fill(0) are "clear-only" — injecting oled.show() for them
+  // would flash a blank screen in loops, causing visible flicker.
+  var groupHasContent = false;
+  // hadPreviousShow tracks whether an oled.show() was already injected/seen in the current
+  // code branch. A clear-only group is only skipped if there was already a show before it
+  // (trailing clear = redundant). If it's the first/only display op, it needs show().
+  // Reset on else/elif since those are independent code paths.
+  var hadPreviousShow = false;
   // lastContextIndent tracks the minimum indent seen from transparent lines after a group
   // opens. This handles display_dashboard_matriz which wraps each line in try/except:
   // oled cmds are at indent 2 (inside try), but except: is at indent 0 — so the injected
@@ -611,6 +620,7 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
 
     var isOledCmd = aTrimmed.startsWith('oled.') && aTrimmed !== 'oled.show()';
     var isOledShow = aTrimmed === 'oled.show()';
+    var isClearOnly = aTrimmed === 'oled.fill(0)';
 
     // Group breakers: time.sleep and control flow keywords
     // NOTE: try/except/finally are NOT breakers — display_dashboard_matriz uses try/except
@@ -624,6 +634,8 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     if (isOledShow) {
       // oled.show() terminates the group (no duplicate)
       inOledGroup = false;
+      groupHasContent = false;
+      hadPreviousShow = true;
       processedAction.push(aLine);
     } else if (isBreaker && inOledGroup) {
       var breakerIndent = aLine.match(/^(\s*)/)[1];
@@ -636,16 +648,40 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
       } else {
         showIndent = breakerIndent.length <= lastContextIndent.length ? breakerIndent : lastContextIndent;
       }
-      processedAction.push(showIndent + 'oled.show()');
+      // Skip oled.show() for clear-only groups that follow a previous show (trailing clear).
+      // If no previous show, the clear is the primary display op and needs show().
+      var shouldInject = groupHasContent || !hadPreviousShow;
+      if (shouldInject) {
+        processedAction.push(showIndent + 'oled.show()');
+        hadPreviousShow = true;
+      }
       inOledGroup = false;
+      groupHasContent = false;
+      // Reset hadPreviousShow on else/elif — independent code path
+      if (isElseLike) {
+        hadPreviousShow = false;
+      }
       processedAction.push(aLine);
     } else if (isOledCmd) {
       var oledIndent = aLine.match(/^(\s*)/)[1];
+      // If group already has content and we hit oled.fill(0), close the content group
+      // first (inject show for the content), then start a new clear-only group.
+      // This prevents fill(0) from wiping the buffer before the content gets shown.
+      if (inOledGroup && groupHasContent && isClearOnly) {
+        processedAction.push(lastContextIndent + 'oled.show()');
+        hadPreviousShow = true;
+        inOledGroup = false;
+        groupHasContent = false;
+      }
       if (!inOledGroup) {
         // New group starting — initialize context indent to the oled command's indent
         lastContextIndent = oledIndent;
+        groupHasContent = false;
       }
       inOledGroup = true;
+      if (!isClearOnly) {
+        groupHasContent = true;
+      }
       processedAction.push(aLine);
     } else {
       // Transparent line — if we're in a group, track indent drops (e.g. except: at indent 0
@@ -660,9 +696,9 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     }
   }
 
-  // End of code - close any open oled group using lastContextIndent (not lastOledIndent)
-  // to avoid injecting oled.show() inside a try/except block
-  if (inOledGroup) {
+  // End of code - close any open oled group
+  // Skip clear-only groups that follow a previous show (trailing clear = redundant)
+  if (inOledGroup && (groupHasContent || !hadPreviousShow)) {
     processedAction.push(lastContextIndent + 'oled.show()');
   }
 
