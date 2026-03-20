@@ -5675,6 +5675,38 @@ function _setupEstufaGraficos() {
     '_aht_esq = AHT20(_i2c_estufa1)\n' +
     '_aht_dir = AHT20(_i2c_estufa0)';
 
+  // Fonte 5x7 para titulos (maior que 3x5, menor que 8x8 padrao)
+  Blockly.Python.definitions_['fonte_titulo'] =
+    '# Fonte 5x7\n' +
+    '_ft={"0":[0b01110,0b10001,0b10001,0b10001,0b10001,0b10001,0b01110],\n' +
+    '"1":[0b00100,0b01100,0b00100,0b00100,0b00100,0b00100,0b01111],\n' +
+    '"2":[0b01110,0b10001,0b00001,0b00010,0b00100,0b01000,0b11111],\n' +
+    '"3":[0b01110,0b10001,0b00001,0b00110,0b00001,0b10001,0b01110],\n' +
+    '"4":[0b00010,0b00110,0b01010,0b10010,0b11111,0b00010,0b00010],\n' +
+    '"5":[0b11111,0b10000,0b11110,0b00001,0b00001,0b10001,0b01110],\n' +
+    '"6":[0b00110,0b01000,0b10000,0b11110,0b10001,0b10001,0b01110],\n' +
+    '"7":[0b11111,0b00001,0b00010,0b00100,0b01000,0b01000,0b01000],\n' +
+    '"8":[0b01110,0b10001,0b10001,0b01110,0b10001,0b10001,0b01110],\n' +
+    '"9":[0b01110,0b10001,0b10001,0b01111,0b00001,0b00010,0b01100],\n' +
+    '".":[0b00000,0b00000,0b00000,0b00000,0b00000,0b01100,0b01100],\n' +
+    '":":[0b00000,0b01100,0b01100,0b00000,0b01100,0b01100,0b00000],\n' +
+    '"-":[0b00000,0b00000,0b00000,0b11111,0b00000,0b00000,0b00000],\n' +
+    '"T":[0b11111,0b00100,0b00100,0b00100,0b00100,0b00100,0b00100],\n' +
+    '"U":[0b10001,0b10001,0b10001,0b10001,0b10001,0b10001,0b01110],\n' +
+    '"m":[0b00000,0b00000,0b10001,0b11111,0b10001,0b10001,0b10001],\n' +
+    '"i":[0b00100,0b00000,0b00100,0b00100,0b00100,0b00100,0b00100],\n' +
+    '"d":[0b00001,0b00001,0b00001,0b01111,0b10001,0b10001,0b01111],\n' +
+    '"p":[0b00000,0b00000,0b11100,0b10010,0b11100,0b10000,0b10000],\n' +
+    '" ":[0b00000,0b00000,0b00000,0b00000,0b00000,0b00000,0b00000]}\n' +
+    'def _dc(x,y,c):\n' +
+    '  g=_ft.get(c,_ft[" "])\n' +
+    '  for r in range(7):\n' +
+    '    b=g[r]\n' +
+    '    for i in range(5):\n' +
+    '      if b&(0b10000>>i):oled.pixel(x+i,y+r,1)\n' +
+    'def _dt(x,y,t):\n' +
+    '  for c in str(t):_dc(x,y,c);x+=6\n';
+
   Blockly.Python.definitions_['func_plot_grafico'] =
     '_plot_buffers = {}\n' +
     'def _plot_grafico(buf_id, valor, pos, titulo):\n' +
@@ -5685,15 +5717,18 @@ function _setupEstufaGraficos() {
     '    buf = _plot_buffers[buf_id]\n' +
     '    buf.append(val)\n' +
     '    if len(buf) > 60: buf.pop(0)\n' +
-    '    if pos == 0:  # Tela toda: titulo y=0, grafico y=9-63\n' +
-    '      y_tit, y_ini, y_fim = 0, 9, 63\n' +
-    '    elif pos == 1:  # Metade de cima: titulo y=0, grafico y=9-31\n' +
-    '      y_tit, y_ini, y_fim = 0, 9, 31\n' +
-    '    else:  # Metade de baixo: titulo y=32, grafico y=41-63\n' +
-    '      y_tit, y_ini, y_fim = 32, 41, 63\n' +
+    '    # Titulo: 7px de altura (fonte 5x7)\n' +
+    '    if pos == 0:  # Tela toda\n' +
+    '      y_tit, y_ini, y_fim = 0, 8, 63\n' +
+    '    elif pos == 1:  # Metade de cima\n' +
+    '      y_tit, y_ini, y_fim = 0, 8, 31\n' +
+    '    else:  # Metade de baixo\n' +
+    '      y_tit, y_ini, y_fim = 32, 40, 63\n' +
     '    alt = y_fim - y_ini\n' +
-    '    oled.fill_rect(0, y_tit, 128, y_fim - y_tit + 1, 0)\n' +
-    '    oled.text(titulo, 0, y_tit, 1)\n' +
+    '    # Limpa e desenha titulo\n' +
+    '    oled.fill_rect(0, y_tit, 128, 7, 0)\n' +
+    '    _dt(0, y_tit, titulo)\n' +
+    '    oled.fill_rect(0, y_ini, 128, y_fim - y_ini + 1, 0)\n' +
     '    if len(buf) < 2:\n' +
     '      oled.show()\n' +
     '      return\n' +
@@ -5704,11 +5739,11 @@ function _setupEstufaGraficos() {
     '    for i in range(n):\n' +
     '      y = y_fim - int((buf[i] - v_min) / (v_max - v_min) * alt)\n' +
     '      y = max(y_ini, min(y, y_fim))\n' +
-    '      x = 127 - (n - 1 - i)\n' +
+    '      x = int(i * 127 / (n - 1)) if n > 1 else 0\n' +
     '      if i > 0:\n' +
     '        yp = y_fim - int((buf[i-1] - v_min) / (v_max - v_min) * alt)\n' +
     '        yp = max(y_ini, min(yp, y_fim))\n' +
-    '        xp = 127 - (n - i)\n' +
+    '        xp = int((i - 1) * 127 / (n - 1))\n' +
     '        oled.line(xp, yp, x, y, 1)\n' +
     '      else:\n' +
     '        oled.pixel(x, y, 1)\n' +
@@ -5765,7 +5800,8 @@ Blockly.Python['estufa_plotar'] = function(block) {
   var bufId = 'plot_' + rotulo + '_' + posicao;
   var varName = '_v_' + rotulo + '_' + posicao;
 
-  var code = varName + ' = ' + valor + '\n' +
-    '_plot_grafico(\'' + bufId + '\', ' + varName + ', ' + posicao + ', \'' + rotulo + ':\' + str(round(' + varName + ', 1)))\n';
+  var titulo = "'" + rotulo + ":' + str(round(" + varName + ", 1))";
+  var code = varName + ' = (' + valor + ')\n' +
+    "_plot_grafico('" + bufId + "', " + varName + ", " + posicao + ", " + titulo + ")\n";
   return code;
 };
