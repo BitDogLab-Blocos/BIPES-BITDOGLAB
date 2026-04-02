@@ -284,6 +284,26 @@ Code.CUSTOM_OVERRIDES = {
     'Loop de Sons': 'Audio Loop',
     'Configuração estática concluída - LEDs fixos': 'Static configuration complete - fixed LEDs',
     'Loop Principal': 'Main Loop',
+    'Inicializar LEDs (desligar todos)': 'Initialize LEDs (turn all off)',
+    'Inicializar leds (desligar todos)': 'Initialize LEDs (turn all off)',
+    'Pausa de cortesia': 'Courtesy delay',
+    'silencia o buzzer': 'mute the buzzer',
+    'Cronometro': 'Stopwatch',
+    'Toda Matriz': 'Full Matrix',
+    'Linha ': 'Row ',
+    'Coluna ': 'Column ',
+    'Numero ': 'Number ',
+    'Matriz: ': 'Matrix: ',
+    'Brilho: %d%%': 'Brightness: %d%%',
+    'Palmas: ': 'Claps: ',
+    'Vermelho': 'Red',
+    'Verde': 'Green',
+    'Azul': 'Blue',
+    'Amarelo': 'Yellow',
+    'Ciano': 'Cyan',
+    'Branco': 'White',
+    'Preto': 'Black',
+    'Misto': 'Mixed',
     'sobe intensidade': 'increase intensity',
     'desce intensidade': 'decrease intensity',
     'sobe frequência': 'increase frequency',
@@ -440,6 +460,188 @@ Code.CUSTOM_OVERRIDES = {
   }
 };
 
+Code.GENERATED_IDENTIFIER_OVERRIDES = {
+  'en': {
+    exact: {
+      '_agora': '_now',
+      '_agora_cur': '_cursor_now',
+      '_agora_sel': '_selector_now',
+      '_aht20_temp': '_aht20_temperature',
+      'led_vermelho': 'red_led',
+      'led_verde': 'green_led',
+      'led_azul': 'blue_led',
+      '_cor_cursor': '_cursor_color',
+      '_cor_vu': '_vu_color',
+      '_cores_contracao': '_contraction_colors',
+      '_cores_finais': '_final_colors',
+      '_cores_piscar': '_blink_colors',
+      '_cores_pulsar': '_pulse_colors',
+      '_matriz_status': '_matrix_status',
+      '_matriz_desenho': '_matrix_pattern',
+      '_matriz_cor': '_matrix_color',
+      '_matriz_brilho': '_matrix_brightness',
+      '_matriz_leds_count': '_matrix_led_count',
+      '_matriz_temp': '_matrix_buffer',
+      '_matriz_deslizar': '_matrix_slide_buffer',
+      '_matriz_original': '_matrix_original',
+      '_buzzer_mudo': '_buzzer_muted',
+      '_contador_repeticao': '_repeat_counter',
+      '_cursor_tempo': '_cursor_time',
+      '_intensidade_joy': '_joystick_intensity',
+      '_freq_joy': '_joystick_frequency',
+      '_seletor_idx': '_selector_index',
+      '_seletor_tempo': '_selector_time',
+      'botao_joystick': 'joystick_button',
+      '_palmas': '_clap_count',
+      '_mic_agora_ms': '_mic_now_ms',
+      '_mic_ultima_palma': '_mic_last_clap',
+      '_aht20_umid': '_aht20_humidity',
+      '_aht20_ultimo': '_aht20_last_read',
+      '_aht20_atualizar': '_update_aht20',
+      '_ler_temperatura': '_read_temperature',
+      '_ler_umidade': '_read_humidity',
+      '_i2c_estufa': '_greenhouse_i2c',
+      '_i2c_estufa0': '_greenhouse_i2c0',
+      '_i2c_estufa1': '_greenhouse_i2c1',
+      '_aht_esq': '_left_aht20',
+      '_aht_dir': '_right_aht20',
+      '_estufa_esq_on': '_greenhouse_left_on',
+      '_estufa_dir_on': '_greenhouse_right_on',
+      '_estufa_comparar': '_compare_greenhouse',
+      '_ler_estufa_temp1': '_read_greenhouse_temp1',
+      '_ler_estufa_umid1': '_read_greenhouse_humidity1',
+      '_ler_estufa_temp2': '_read_greenhouse_temp2',
+      '_ler_estufa_umid2': '_read_greenhouse_humidity2',
+      '_crono_str': '_stopwatch_text',
+      '_crono_width': '_stopwatch_width',
+      '_x_crono': '_x_stopwatch'
+    },
+    fragments: {
+      '_crono_': '_stopwatch_',
+      'estado_anterior_botao_': 'previous_button_state_',
+      'flag_botao_': 'button_flag_'
+    }
+  }
+};
+
+Code.GENERATED_IDENTIFIER_COMPONENTS = {
+  'en': {
+    agora: 'now',
+    anterior: 'previous',
+    atualizar: 'update',
+    azul: 'blue',
+    botao: 'button',
+    brilho: 'brightness',
+    clap: 'clap',
+    claps: 'claps',
+    coluna: 'column',
+    contagem: 'count',
+    contador: 'counter',
+    cor: 'color',
+    cores: 'colors',
+    crono: 'stopwatch',
+    cronometro: 'stopwatch',
+    desenho: 'pattern',
+    dir: 'right',
+    direita: 'right',
+    esq: 'left',
+    esquerda: 'left',
+    estado: 'state',
+    estufa: 'greenhouse',
+    finais: 'final',
+    freq: 'frequency',
+    frequencia: 'frequency',
+    intensidade: 'intensity',
+    joy: 'joystick',
+    led: 'led',
+    leds: 'leds',
+    ler: 'read',
+    linha: 'row',
+    matriz: 'matrix',
+    mic: 'mic',
+    mostrar: 'display',
+    mudo: 'muted',
+    numero: 'number',
+    numeros: 'numbers',
+    original: 'original',
+    palma: 'clap',
+    palmas: 'claps',
+    piscar: 'blink',
+    proximo: 'next',
+    pulsar: 'pulse',
+    repeticao: 'repeat',
+    seletor: 'selector',
+    sensor: 'sensor',
+    status: 'status',
+    som: 'sound',
+    temp: 'temperature',
+    temperatura: 'temperature',
+    tempo: 'time',
+    ultima: 'last',
+    ultimo: 'last',
+    umid: 'humidity',
+    umidade: 'humidity',
+    verde: 'green',
+    vermelho: 'red'
+  }
+};
+
+Code.GENERATED_CODE_AUDIT_RULES = {
+  'en': {
+    identifierPatterns: [
+      /(^|_)vermelh[oa]?($|_|\d)/,
+      /(^|_)verde($|_|\d)/,
+      /(^|_)azul($|_|\d)/,
+      /(^|_)matriz($|_|\d)/,
+      /(^|_)desenh[oa]?($|_|\d)/,
+      /(^|_)brilho($|_|\d)/,
+      /(^|_)botao($|_|\d)/,
+      /(^|_)crono(?:metro)?($|_|\d)/,
+      /(^|_)palmas?($|_|\d)/,
+      /(^|_)estufa($|_|\d)/,
+      /(^|_)temperatura($|_|\d)/,
+      /(^|_)umid(?:ade)?($|_|\d)/,
+      /(^|_)ler($|_|\d)/,
+      /(^|_)atualizar($|_|\d)/,
+      /(^|_)mudo($|_|\d)/,
+      /(^|_)esq($|_|\d)/,
+      /(^|_)dir($|_|\d)/,
+      /(^|_)seletor($|_|\d)/,
+      /(^|_)repeticao($|_|\d)/,
+      /(^|_)intensidade($|_|\d)/,
+      /(^|_)frequencia($|_|\d)/,
+      /(^|_)agora($|_|\d)/,
+      /(^|_)ultima?($|_|\d)/
+    ],
+    textPatterns: [
+      /\binicializar\b/,
+      /\bdesligar\b/,
+      /\bpausa\b/,
+      /\bcortesia\b/,
+      /\bcronometro\b/,
+      /\btoda matriz\b/,
+      /\blado esquerdo\b/,
+      /\blado direito\b/,
+      /\bdivisoria central\b/,
+      /\bpalmas\b/,
+      /\btemperatura\b/,
+      /\bumidade\b/,
+      /\bbrilho\b/,
+      /\bvermelho\b/,
+      /\bverde\b/,
+      /\bazul\b/,
+      /\bamarelo\b/,
+      /\bciano\b/,
+      /\bbranco\b/,
+      /\bpreto\b/,
+      /\bmisto\b/,
+      /\bnumero\b/,
+      /\bcoluna\b/,
+      /\blinha\b/
+    ]
+  }
+};
+
 Code.ensureMessages = function() {
   if (typeof MSG !== 'object') {
     return;
@@ -520,6 +722,156 @@ Code.translateText = function(text) {
   return prefix + replaced + suffix;
 };
 
+Code.normalizeAuditText = function(text) {
+  if (typeof text !== 'string') {
+    return '';
+  }
+  var normalized = text.toLowerCase();
+  if (normalized.normalize) {
+    normalized = normalized.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+  return normalized;
+};
+
+Code.translateGeneratedIdentifierPart = function(part) {
+  if (Code.LANG !== 'en' || typeof part !== 'string' || !part) {
+    return part;
+  }
+
+  var componentMap = Code.GENERATED_IDENTIFIER_COMPONENTS[Code.LANG] || {};
+  var lowerPart = part.toLowerCase();
+
+  if (componentMap[lowerPart] !== undefined) {
+    var directTranslation = componentMap[lowerPart];
+    if (part === part.toUpperCase()) {
+      return directTranslation.toUpperCase();
+    }
+    if (part.charAt(0) === part.charAt(0).toUpperCase() && part.slice(1) === part.slice(1).toLowerCase()) {
+      return directTranslation.charAt(0).toUpperCase() + directTranslation.slice(1);
+    }
+    return directTranslation;
+  }
+
+  var suffixMatch = part.match(/^([A-Za-z]+)(\d+)$/);
+  if (suffixMatch && componentMap[suffixMatch[1].toLowerCase()] !== undefined) {
+    return componentMap[suffixMatch[1].toLowerCase()] + suffixMatch[2];
+  }
+
+  return part;
+};
+
+Code.translateGeneratedIdentifier = function(token) {
+  if (Code.LANG !== 'en' || typeof token !== 'string') {
+    return token;
+  }
+
+  var config = Code.GENERATED_IDENTIFIER_OVERRIDES[Code.LANG];
+  if (!config) {
+    return token;
+  }
+
+  if (config.exact && config.exact[token] !== undefined) {
+    return config.exact[token];
+  }
+
+  var translated = token;
+  var fragmentKeys = Object.keys(config.fragments || {}).sort(function(a, b) {
+    return b.length - a.length;
+  });
+
+  for (var i = 0; i < fragmentKeys.length; i++) {
+    var fragment = fragmentKeys[i];
+    if (translated.indexOf(fragment) !== -1) {
+      translated = translated.split(fragment).join(config.fragments[fragment]);
+    }
+  }
+
+  if (translated.indexOf('_') !== -1) {
+    var leadingUnderscores = translated.match(/^_+/);
+    var trailingUnderscores = translated.match(/_+$/);
+    var prefix = leadingUnderscores ? leadingUnderscores[0] : '';
+    var suffix = trailingUnderscores ? trailingUnderscores[0] : '';
+    var core = translated.slice(prefix.length, translated.length - suffix.length);
+
+    if (core) {
+      var parts = core.split('_');
+      var mappedParts = [];
+      for (var p = 0; p < parts.length; p++) {
+        mappedParts.push(Code.translateGeneratedIdentifierPart(parts[p]));
+      }
+      translated = prefix + mappedParts.join('_') + suffix;
+    }
+  } else {
+    translated = Code.translateGeneratedIdentifierPart(translated);
+  }
+
+  return translated;
+};
+
+Code.translateGeneratedStringLiterals = function(code) {
+  if (Code.LANG !== 'en' || typeof code !== 'string') {
+    return code;
+  }
+
+  return code.replace(/"([^"\\]|\\.)*"|'([^'\\]|\\.)*'/g, function(literal) {
+    var quote = literal.charAt(0);
+    var content = literal.slice(1, -1);
+    var translated = Code.translateText(content);
+
+    if (translated === content) {
+      return literal;
+    }
+
+    translated = translated.replace(new RegExp(Code.escapeRegex(quote), 'g'), '\\' + quote);
+    return quote + translated + quote;
+  });
+};
+
+Code.auditGeneratedCode = function(code) {
+  if (Code.LANG !== 'en' || typeof code !== 'string') {
+    return {ok: true, identifiers: [], text: []};
+  }
+
+  var rules = Code.GENERATED_CODE_AUDIT_RULES[Code.LANG];
+  if (!rules) {
+    return {ok: true, identifiers: [], text: []};
+  }
+
+  var identifierMatches = [];
+  var textMatches = [];
+  var identifierTokens = code.match(/\b[A-Za-z_][A-Za-z0-9_]*\b/g) || [];
+
+  for (var i = 0; i < identifierTokens.length; i++) {
+    var normalizedToken = Code.normalizeAuditText(identifierTokens[i]);
+    for (var j = 0; j < rules.identifierPatterns.length; j++) {
+      if (rules.identifierPatterns[j].test(normalizedToken)) {
+        identifierMatches.push(identifierTokens[i]);
+        break;
+      }
+    }
+  }
+
+  var lines = code.split('\n');
+  for (var l = 0; l < lines.length; l++) {
+    var normalizedLine = Code.normalizeAuditText(lines[l]);
+    for (var t = 0; t < rules.textPatterns.length; t++) {
+      if (rules.textPatterns[t].test(normalizedLine)) {
+        textMatches.push(lines[l].trim());
+        break;
+      }
+    }
+  }
+
+  identifierMatches = Array.from(new Set(identifierMatches)).sort();
+  textMatches = Array.from(new Set(textMatches)).sort();
+
+  return {
+    ok: identifierMatches.length === 0 && textMatches.length === 0,
+    identifiers: identifierMatches,
+    text: textMatches
+  };
+};
+
 Code.translateDom = function(root) {
   if (!root || Code.LANG === 'pt-br') {
     return;
@@ -581,10 +933,30 @@ Code.translateGeneratedCode = function(code) {
     return code;
   }
 
-  return code.split('\n').map(function(line) {
+  code = code.replace(/\b[A-Za-z_][A-Za-z0-9_]*\b/g, function(token) {
+    return Code.translateGeneratedIdentifier(token);
+  });
+
+  code = Code.translateGeneratedStringLiterals(code);
+
+  code = code.split('\n').map(function(line) {
     var match = line.match(/^(.*?#\s*)(.*)$/);
     return match ? match[1] + Code.translateText(match[2]) : line;
   }).join('\n');
+
+  var audit = Code.auditGeneratedCode(code);
+  Code._lastGeneratedCodeAudit = audit;
+  if (!audit.ok) {
+    var signature = audit.identifiers.join('|') + '||' + audit.text.join('|');
+    if (Code._lastGeneratedCodeAuditSignature !== signature && typeof console !== 'undefined' && console.warn) {
+      console.warn('[BitDogLab i18n] Remaining Portuguese fragments in generated English code:', audit);
+    }
+    Code._lastGeneratedCodeAuditSignature = signature;
+  } else {
+    Code._lastGeneratedCodeAuditSignature = '';
+  }
+
+  return code;
 };
 
 Code.refreshLanguageUI = function() {
