@@ -420,7 +420,23 @@ Code.CUSTOM_OVERRIDES = {
     'Pot\u00eancia de 10 (10^)': 'Power of 10 (10^)',
     'Subtra\u00e7\u00e3o Temperatura': 'Temperature Difference',
     'Subtra\u00e7\u00e3o Umidade': 'Humidity Difference',
-    'Um item aleat\u00f3rio': 'Random item'
+    'Um item aleat\u00f3rio': 'Random item',
+    '\ud83c\udfb5 Criar Trilha Sonora': '\ud83c\udfb5 Create Audio Sequence',
+    '\ud83d\udd32 Desligar matriz de LED': '\ud83d\udd32 Turn Off LED Matrix',
+    '\ud83e\uddf9 Apagar display': '\ud83e\uddf9 Clear Display',
+    '\ud83d\udcfa Mostrar no display': '\ud83d\udcfa Display on OLED',
+    'Nota R\u00e9': 'Note Re',
+    'Nota L\u00e1': 'Note La',
+    'Para o som do buzzer': 'Stops buzzer output',
+    'Mostra no display se o buzzer est\u00e1 tocando e a frequ\u00eancia atual': 'Displays the buzzer state and current frequency on the OLED display.',
+    'Mostra informa\u00e7\u00f5es da matriz de LEDs no display OLED': 'Displays LED matrix status information on the OLED display.',
+    'Retorna a frequ\u00eancia atual do buzzer controlado pelo joystick (200 a 4000 Hz).': 'Returns the current joystick-controlled buzzer frequency (200 to 4000 Hz).',
+    'Desenha no display OLED com o joystick. Quanto mais longe do centro, mais r\u00e1pido o cursor move. Use um bloco de limpar display para apagar o desenho.': 'Draws on the OLED display with the joystick. The farther the stick moves from center, the faster the cursor travels. Use the clear display block to erase the drawing.',
+    'Quanto mais barulho voc\u00ea fizer, mais LEDs da matriz acendem! Fale, bata palma ou assopre perto do microfone. Para mostrar o n\u00edvel como n\u00famero no display, use o bloco \'\ud83c\udf99\ufe0f N\u00edvel do som\'.': 'As the sound level increases, more LEDs in the matrix light up. Speak, clap, or blow near the microphone. To display the measured level as a numeric value, use the \'\ud83c\udf99\ufe0f Sound Level\' block.',
+    'Desenha uma barra horizontal no display OLED que cresce conforme o barulho aumenta. Use o bloco \'\ud83d\udda5\ufe0f For\u00e7a do barulho (%)\' para ler a porcentagem.': 'Draws a horizontal bar on the OLED display that grows as the sound level increases. Use the \'\ud83c\udf99\ufe0f Sound Intensity (%)\' block to read the percentage value.',
+    'Experimento Efeito Estufa: divide o display OLED ao meio. Lado esquerdo mostra temperatura e umidade do Sensor 1 (I2C1), lado direito mostra do Sensor 2 (I2C0). Basta arrastar e rodar!': 'Greenhouse experiment: splits the OLED display into two sections. The left side shows temperature and humidity from Sensor 1 (I2C1), while the right side shows Sensor 2 (I2C0). Drag the block into the workspace and run the program.',
+    'Liga ou desliga a exibi\u00e7\u00e3o da medi\u00e7\u00e3o do Sensor 1 (lado esquerdo) no experimento Efeito Estufa. Use dentro de um bloco de bot\u00e3o!': 'Enables or disables the Sensor 1 measurement readout on the Greenhouse experiment display. Place it inside a button event block.',
+    'Liga ou desliga a exibi\u00e7\u00e3o da medi\u00e7\u00e3o do Sensor 2 (lado direito) no experimento Efeito Estufa. Use dentro de um bloco de bot\u00e3o!': 'Enables or disables the Sensor 2 measurement readout on the Greenhouse experiment display. Place it inside a button event block.'
   }
 };
 
