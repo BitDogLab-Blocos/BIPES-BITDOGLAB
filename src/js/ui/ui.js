@@ -260,6 +260,9 @@ class notify {
 }
 // Show notification (auto-hides after 3s, groups duplicates)
 notify.prototype.send = function (message) {
+  if (Code.translateText) {
+    message = Code.translateText(message);
+  }
   console.log (`Notification: ${message}`);
   this.messages.push ({timestamp: +new Date, message: message});
   let last_message;
@@ -360,6 +363,7 @@ class responsive {
     // Dead zones for each panel (tap outside to close)
 	  this.panels = {'.toolbar':{from:'toolbar',x:$em*22, x2:0, y:$em*7.5, show:false},
 	                 '.notify-panel':{from:'notify-panel',x:$em*22, x2:0, y:0, show:false},
+	                 '.language-panel':{from:'language-panel',x:$em*22, x2:0, y:$em*6.5, show:false},
 	                 '.account-panel':{from:'account',x:$em*22, x2:0, y:$em*0, show:false},
 	                 '.channel-panel':{from:'channel-panel',x:$em*42.5, x2:$em*22, y:$em*24.5, show:false}};
 
@@ -666,7 +670,6 @@ workspace.prototype.loadXML = function () {
     }
   }
 }
-
 
 
 

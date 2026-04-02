@@ -923,6 +923,40 @@ button.icon.medium:before  {
   color: var(--bitdoglab-accent);
 }
 
+#languageButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 4.4rem;
+  height: 2.2rem;
+  padding: 0.2rem 0.75rem 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: linear-gradient(135deg, rgba(15, 76, 129, 0.96), rgba(24, 169, 153, 0.92));
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(15, 76, 129, 0.25);
+}
+
+#languageButton:hover {
+  border-color: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 12px 28px rgba(15, 76, 129, 0.35);
+}
+
+#languageButton:before {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0;
+  background-image: url(../assets/icons/language-toggle.svg);
+  background-size: cover;
+  background-position: center;
+}
+
+#languageButtonLabel {
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
 /* Project modal cards */
 .project-card {
   background: white;
@@ -1018,7 +1052,7 @@ button.icon.medium:before  {
   background: #fff;
   padding: .25em;
 }
-.account-panel, .notify-panel, .notify {
+.account-panel, .notify-panel, .language-panel, .notify {
   user-select: none;
 	transition: top ease .5s, right ease .5s, opacity ease .125s, background linear .5s, margin-right ease .125s;
   transition-delay: 0s, 0s, .1s, 0s, 0s;
@@ -1027,7 +1061,7 @@ button.icon.medium:before  {
   background: #fff;
 }
 @media (min-width: 60em) {
-  .account-panel, .notify-panel {
+  .account-panel, .notify-panel, .language-panel {
     border-radius: 1rem;
     margin: 0.5em;
     border: 1px solid #aaa !important;
@@ -1102,9 +1136,84 @@ button.icon.medium:before  {
   flex-direction: column-reverse;
   justify-content: end;
 }
+.language-panel {
+  position: fixed;
+  top: 4.5rem;
+  right: 0.75rem;
+  z-index: 998;
+  width: 16rem;
+  padding: 0.9rem;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #ffffff, #eef7f8);
+  border: 1px solid rgba(15, 76, 129, 0.16);
+  box-shadow: 0 18px 40px rgba(15, 76, 129, 0.22);
+  transform: translateY(-0.5rem) scale(0.96);
+  pointer-events: none;
+}
+.language-panel#show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.language-panel-header {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0f4c81;
+  margin-bottom: 0.75rem;
+}
+.language-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.55rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgba(15, 76, 129, 0.16);
+  border-radius: 0.95rem;
+  background: #fff;
+  color: #17324d;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 8px 20px rgba(15, 76, 129, 0.08);
+}
+.language-option:last-child {
+  margin-bottom: 0;
+}
+.language-option:hover {
+  border-color: rgba(15, 76, 129, 0.4);
+}
+.language-option.active {
+  border-color: transparent;
+  background: linear-gradient(135deg, #0f4c81, #18a999);
+  color: #fff;
+}
+.language-option-code {
+  min-width: 2.4rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(15, 76, 129, 0.08);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: 0.08em;
+}
+.language-option.active .language-option-code {
+  background: rgba(255, 255, 255, 0.18);
+}
+.language-option-label {
+  font-size: 0.92rem;
+  font-weight: 700;
+}
 @media (max-width: 59.99em) {
   .notify-panel, .account-panel{
     padding-top: 4.5rem;
+  }
+  .language-panel {
+    top: 4.25rem;
+    right: 0.35rem;
+    width: min(15.5rem, calc(100vw - 0.7rem));
   }
 }
 .notify-panel#show, .account-panel#show {

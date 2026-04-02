@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Language toggle icon</title>
+  <desc id="desc">A circuit-style globe with PT and EN labels.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f4c81"/>
+      <stop offset="100%" stop-color="#18a999"/>
+    </linearGradient>
+    <linearGradient id="chip" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffe082"/>
+      <stop offset="100%" stop-color="#ffb300"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#bg)"/>
+  <circle cx="24" cy="30" r="12" fill="none" stroke="#ffffff" stroke-width="2.4"/>
+  <path d="M12 30h24M24 18c4 4.5 4 19.5 0 24M24 18c-4 4.5-4 19.5 0 24M15.5 23.5c2.5 1.7 15.5 1.7 17 0M15.5 36.5c2.5-1.7 15.5-1.7 17 0" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+  <path d="M38 17h8l4 4v6M42 43h9l3-3v-7" fill="none" stroke="#b8fff5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="50" cy="17" r="2.2" fill="#b8fff5"/>
+  <circle cx="54" cy="27" r="2.2" fill="#b8fff5"/>
+  <circle cx="54" cy="33" r="2.2" fill="#b8fff5"/>
+  <circle cx="50" cy="43" r="2.2" fill="#b8fff5"/>
+  <rect x="36" y="12" width="20" height="12" rx="6" fill="url(#chip)"/>
+  <rect x="36" y="40" width="20" height="12" rx="6" fill="#ffffff"/>
+  <text x="46" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="7.6" font-weight="700" fill="#17324d">PT</text>
+  <text x="46" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="7.6" font-weight="700" fill="#0f4c81">EN</text>
+</svg>

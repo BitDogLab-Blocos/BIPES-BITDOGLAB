@@ -32,7 +32,12 @@ Code.getStringParamFromUrl = function(name, defaultValue) {
 
 // Get current language from URL (defaults to 'pt-br')
 Code.getLang = function() {
-  var lang = Code.getStringParamFromUrl('lang', 'pt-br');
+  var storedLang = null;
+  try {
+    storedLang = window.localStorage.getItem('bitdoglab_lang');
+  } catch (e) {}
+
+  var lang = Code.getStringParamFromUrl('lang', storedLang || 'pt-br');
   if (Code.LANGUAGE_NAME[lang] === undefined) {
     lang = 'pt-br'; // Fallback to Portuguese Brazilian
   }
@@ -71,21 +76,30 @@ Code.loadBlocks = function(defaultXml) {
 };
 
 // Save blocks and reload page with new language
-Code.changeLanguage = function() {
+Code.changeLanguage = function(newLang) {
   if (window.sessionStorage) { // MSIE 11 doesn't support sessionStorage on file://
     var xml = Blockly.Xml.workspaceToDom(Code.workspace);
     var text = Blockly.Xml.domToText(xml);
     window.sessionStorage.loadOnceBlocks = text;
   }
 
-  var newLang = encodeURIComponent(Code.LANG);
+  var targetLang = newLang || Code.LANG;
+  if (Code.LANGUAGE_NAME[targetLang] === undefined) {
+    targetLang = 'pt-br';
+  }
+
+  try {
+    window.localStorage.setItem('bitdoglab_lang', targetLang);
+  } catch (e) {}
+
+  var encodedLang = encodeURIComponent(targetLang);
   var search = window.location.search;
   if (search.length <= 1) { // No query string yet
-    search = '?lang=' + newLang;
+    search = '?lang=' + encodedLang;
   } else if (search.match(/[?&]lang=[^&]*/)) { // Lang param exists, replace it
-    search = search.replace(/([?&]lang=)[^&]*/, '$1' + newLang);
+    search = search.replace(/([?&]lang=)[^&]*/, '$1' + encodedLang);
   } else { // Other params exist, add lang
-    search = search.replace(/\?/, '?lang=' + newLang + '&');
+    search = search.replace(/\?/, '?lang=' + encodedLang + '&');
   }
 
   window.location = window.location.protocol + '//' +
@@ -348,8 +362,11 @@ Code.reloadToolbox = function(XML_) {
     }
 
     if (XML_ && XML_.nodeName) {
+      if (Code.translateToolboxXml) {
+        XML_ = Code.translateToolboxXml(XML_);
+      }
       Code.workspace.updateToolbox(XML_);
-      UI['notify'].send('Toolbox recarregada com sucesso!');
+      UI['notify'].send(MSG['toolboxReloaded'] || 'Toolbox recarregada com sucesso!');
     } else {
       let request = new XMLHttpRequest(); // Fallback to default toolbox
       request.open('GET', 'toolbox/default.xml', false); // Synchronous request
@@ -357,15 +374,18 @@ Code.reloadToolbox = function(XML_) {
 
       if (request.status === 200) {
         let toolboxXml = Blockly.Xml.textToDom(request.responseText);
+        if (Code.translateToolboxXml) {
+          toolboxXml = Code.translateToolboxXml(toolboxXml);
+        }
         Code.workspace.updateToolbox(toolboxXml);
-        UI['notify'].send('Toolbox padrão carregada!');
+        UI['notify'].send(MSG['toolboxDefaultLoaded'] || 'Toolbox padrão carregada!');
       }
     }
 
     Code.workspace.scrollCenter();
   } catch (e) {
     console.error('Erro ao recarregar a toolbox:', e);
-    UI['notify'].send('Erro ao carregar a toolbox: ' + e.message);
+    UI['notify'].send((MSG['toolboxLoadError'] || 'Erro ao carregar a toolbox: %1').replace('%1', e.message));
   }
 }
 
@@ -400,6 +420,9 @@ Code.filterToolboxByProject = function(project) {
   }
 
   try {
+    if (Code.translateToolboxXml) {
+      filtered = Code.translateToolboxXml(filtered);
+    }
     Code.workspace.updateToolbox(filtered);
   } catch (e) {
     console.error('[BitdogLab] Erro ao filtrar toolbox:', e);
@@ -408,9 +431,9 @@ Code.filterToolboxByProject = function(project) {
 
 // Project display names
 Code.PROJECT_NAMES = {
-  'basico': 'Básico',
-  'robo': 'Robô Móvel',
-  'estufa': 'Estufa'
+  'basico': 'projectBasic',
+  'robo': 'projectRobot',
+  'estufa': 'projectGreenhouse'
 };
 
 // Initialize project selector modal and restore saved project
@@ -423,7 +446,7 @@ Code.initProjectSelector = function() {
 
   // Restore saved project and update button text
   var saved = localStorage.getItem('bitdoglab_project') || 'basico';
-  btn.textContent = Code.PROJECT_NAMES[saved] || 'Básico';
+  btn.textContent = Code.getProjectLabel ? Code.getProjectLabel(saved) : (Code.PROJECT_NAMES[saved] || 'Básico');
 
   // Highlight current card
   function highlightCard(project) {
@@ -452,7 +475,7 @@ Code.initProjectSelector = function() {
     card.addEventListener('click', function() {
       var project = card.getAttribute('data-project');
       localStorage.setItem('bitdoglab_project', project);
-      btn.textContent = Code.PROJECT_NAMES[project] || project;
+      btn.textContent = Code.getProjectLabel ? Code.getProjectLabel(project) : (Code.PROJECT_NAMES[project] || project);
       Code.filterToolboxByProject(project);
       modal.style.display = 'none';
       console.log('[BitdogLab] Projeto selecionado:', project);
@@ -786,6 +809,9 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
     }
   }
 
+  if (Code.translateGeneratedCode) {
+    finalCode = Code.translateGeneratedCode(finalCode);
+  }
   return finalCode;
 };
 
@@ -837,6 +863,9 @@ Code.generateXML = function (workspace = Code.workspace) {
 
 // Initialize Blockly workspace and UI (called on page load)
 Code.init = function() {
+  if (Code.ensureMessages) {
+    Code.ensureMessages();
+  }
   Code.initLanguage();
 
   var rtl = Code.isRtl();
@@ -865,6 +894,10 @@ Code.init = function() {
     toolboxXml = Blockly.Xml.textToDom("<xml><category name='Básico' colour='%{BKY_LOGIC_HUE}'><block type='controls_if'></block><block type='logic_compare'></block><block type='controls_repeat_ext'></block><block type='math_number'></block><block type='math_arithmetic'></block><block type='text'></block><block type='text_print'></block></category></xml>"); // Minimal fallback toolbox
   }
 
+  if (Code.translateToolboxXml) {
+    toolboxXml = Code.translateToolboxXml(toolboxXml);
+  }
+
   Code.workspace = Blockly.inject('content_blocks',
       {grid:
           {spacing: 25, // Grid spacing in pixels
@@ -885,6 +918,12 @@ Code.init = function() {
   // Aumentar largura do flyout (painel de blocos)
   var flyout = Code.workspace.getFlyout();
   if (flyout) flyout.width_ = 300;
+
+  Code.localizeRuntimePanel = function(element) {
+    if (Code.translateDom) {
+      Code.translateDom(element);
+    }
+  };
 
   // Display reminder removed - auto oled.show() handles display updates automatically
 
@@ -912,6 +951,7 @@ Code.init = function() {
       '2️⃣ 📊 Mostrar valor: <strong>[' + nomeBloco + ']</strong> linha 1<br>' +
       '</div>';
 
+    Code.localizeRuntimePanel(notification);
     document.body.appendChild(notification);
 
     document.getElementById('closeJoystickNotification').addEventListener('click', function() {
@@ -961,6 +1001,7 @@ Code.init = function() {
       'Joystick → próximo emoji &nbsp;|&nbsp; ← anterior' +
       '</div>';
 
+    Code.localizeRuntimePanel(notification);
     document.body.appendChild(notification);
 
     document.getElementById('closeJoystickSeletorNotification').addEventListener('click', function() {
@@ -995,6 +1036,7 @@ Code.init = function() {
       '2️⃣ 📊 Mostrar valor: <strong>[🎙️ Nível do som]</strong> linha 1<br>' +
       '</div>';
 
+    Code.localizeRuntimePanel(notification);
     document.body.appendChild(notification);
 
     document.getElementById('closeMicGetterNotification').addEventListener('click', function() {
@@ -1029,6 +1071,7 @@ Code.init = function() {
       '2️⃣ 📊 Mostrar valor: <strong>[🎙️ Intensidade do barulho (%)]</strong> linha 1<br>' +
       '</div>';
 
+    Code.localizeRuntimePanel(notification);
     document.body.appendChild(notification);
 
     document.getElementById('closeBarraGetterNotification').addEventListener('click', function() {
@@ -1063,6 +1106,7 @@ Code.init = function() {
       '2️⃣ 📊 Mostrar valor: <strong>[🖐️ Total de palmas]</strong> linha 2<br>' +
       '</div>';
 
+    Code.localizeRuntimePanel(notification);
     document.body.appendChild(notification);
 
     document.getElementById('closePalmasGetterNotification').addEventListener('click', function() {
@@ -1100,6 +1144,7 @@ Code.init = function() {
       '1️⃣ 📊 Mostrar valor: <strong>[' + nomeBloco + ']</strong> linha 1<br>' +
       '</div>';
 
+    Code.localizeRuntimePanel(notification);
     document.body.appendChild(notification);
 
     document.getElementById('closeSensorGetterNotification').addEventListener('click', function() {
@@ -1143,6 +1188,7 @@ Code.init = function() {
       '&nbsp;&nbsp;&nbsp;&nbsp;🌱 Mostrar/Ocultar medição ' + nomeSensor + '<br>' +
       '</div>';
 
+    Code.localizeRuntimePanel(notification);
     document.body.appendChild(notification);
 
     document.getElementById('closeEstufaToggleNotification').addEventListener('click', function() {
@@ -1179,6 +1225,7 @@ Code.init = function() {
       '&nbsp;&nbsp;&nbsp;&nbsp;📊 Mostrar Gráfico <strong>[Umidade S1]</strong> tipo Umidade 1 na Metade de Baixo<br>' +
       '</div>';
 
+    Code.localizeRuntimePanel(notification);
     document.body.appendChild(notification);
 
     document.getElementById('closeGraficoNotification').addEventListener('click', function() {
@@ -1262,7 +1309,11 @@ Code.init = function() {
       // Aviso para reconectar a placa ao trocar de versão
       if (typeof mux !== 'undefined' && mux.connected && mux.connected()) {
         Tool.stopPython();
-        alert('Versão alterada para ' + this.value.toUpperCase() + '!\n\nDesconecte e reconecte a placa USB para aplicar a nova pinagem.');
+        alert(
+          (MSG['versionChanged'] || 'Versão alterada para %1!').replace('%1', this.value.toUpperCase()) +
+          '\n\n' +
+          (MSG['reconnectUsbPins'] || 'Desconecte e reconecte a placa USB para aplicar a nova pinagem.')
+        );
       }
     });
   }
@@ -1305,6 +1356,7 @@ Code.initLanguage = function() {
   var rtl = Code.isRtl();
   document.dir = rtl ? 'rtl' : 'ltr';
   document.head.parentElement.setAttribute('lang', Code.LANG);
+  document.title = MSG['title'] || document.title;
 
   // Sort languages alphabetically by display name
   var languages = [];
@@ -1321,17 +1373,37 @@ Code.initLanguage = function() {
   // Language menu removed from UI
 
   // Inject localized UI strings
-  document.getElementById('tab_blocks').textContent = MSG['blocks'];
-  document.getElementById('tab_files').textContent = MSG['files'];
-  document.getElementById('tab_programs').textContent = MSG['shared'];
-  document.getElementById('tab_device').textContent = MSG['device'];
+  if (document.getElementById('tab_blocks')) document.getElementById('tab_blocks').textContent = MSG['blocks'];
+  if (document.getElementById('tab_console')) document.getElementById('tab_console').textContent = MSG['console'] || 'Mensagens';
+  if (document.getElementById('tab_files')) document.getElementById('tab_files').textContent = MSG['files'];
+  if (document.getElementById('tab_programs')) document.getElementById('tab_programs').textContent = MSG['shared'];
+  if (document.getElementById('tab_device')) document.getElementById('tab_device').textContent = MSG['device'];
+  if (document.getElementById('tab_databoard')) document.getElementById('tab_databoard').textContent = MSG['databoard'] || 'Dados';
 
-  document.getElementById('linkButton').title = MSG['linkTooltip'];
-  document.getElementById('runButton').title = MSG['runTooltip'];
-  document.getElementById('saveButton').title = MSG['saveTooltip'];
-  document.getElementById('loadButton').title = MSG['loadTooltip'];
-  document.getElementById('notificationButton').title = MSG['notificationTooltip'];
-  document.getElementById('toolbarButton').title = MSG['toolbarTooltip'];
+  if (document.getElementById('linkButton')) document.getElementById('linkButton').title = MSG['linkTooltip'];
+  if (document.getElementById('runButton')) document.getElementById('runButton').title = MSG['runTooltip'];
+  if (document.getElementById('saveButton')) document.getElementById('saveButton').title = MSG['saveTooltip'];
+  if (document.getElementById('loadButton')) document.getElementById('loadButton').title = MSG['loadTooltip'];
+  if (document.getElementById('notificationButton')) document.getElementById('notificationButton').title = MSG['notificationTooltip'];
+  if (document.getElementById('toolbarButton')) document.getElementById('toolbarButton').title = MSG['toolbarTooltip'];
+
+  if (Code.translateDom) {
+    Code.translateDom(document.body);
+  }
+  if (Code.bindLanguageControls) {
+    Code.bindLanguageControls();
+  }
+
+  var project = localStorage.getItem('bitdoglab_project') || 'basico';
+  var projectButton = document.getElementById('projectButton');
+  if (projectButton && Code.getProjectLabel) {
+    projectButton.textContent = Code.getProjectLabel(project);
+  }
+
+  var deviceFrame = document.getElementById('deviceReferenceFrame');
+  if (deviceFrame) {
+    deviceFrame.src = 'device-reference.html?lang=' + encodeURIComponent(Code.LANG);
+  }
 };
 
 // Clear workspace (with confirmation if >1 block)
@@ -1349,3 +1421,4 @@ Code.discard = function() {
 // Load localized message files (must execute before DOM ready)
 document.write('<script src="../translations/app/' + Code.LANG + '.js"></script>\n'); // BIPES UI messages
 document.write('<script src="../translations/blockly/languages/' + Code.LANG + '.js"></script>\n'); // Blockly core messages
+document.write('<script src="../translations/custom/' + Code.LANG + '.js"></script>\n'); // BitDogLab custom translations

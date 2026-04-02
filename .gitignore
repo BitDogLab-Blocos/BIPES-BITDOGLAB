@@ -74,6 +74,9 @@ Materia_STEM/
 # Tópicos de Eletrônica (não versionado)
 Topicos_eletronica/
 
+# Escrita/local drafts (não versionado)
+escrita/
+
 # Skills locais (nao versionados)
 skill_*/
 

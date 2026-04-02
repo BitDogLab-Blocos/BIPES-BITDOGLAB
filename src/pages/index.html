@@ -66,6 +66,7 @@ function checkCookie() {
   <script src="../js/communication/webserial.js?ver=0.2.3.20251001v2"></script>
   <script src="../js/communication/channel.js?ver=0.2.3.20251001v2"></script>
   <script src="../js/ui/ui.js?ver=0.2.3.1125"></script>
+  <script src="../js/core/i18n.js?ver=20260402v1"></script>
   <script src="../js/lib/filesaver/FileSaver.js"></script>
 
   <!-- Custom BitdogLab blocks (includes basic repetition blocks) -->
@@ -371,6 +372,9 @@ function checkCookie() {
         <label id="loadButton" for="loadXML"  class="notext button icon" title="..."></label>
         <input name="XML" id="loadXML" type="file" accept=".xml" required="">
         <button id="notificationButton" class="notext icon" title="..."></button>
+        <button id="languageButton" class="icon text" title="Mudar idioma">
+          <span id="languageButtonLabel">PT</span>
+        </button>
       </div>
     </div>
 
@@ -416,7 +420,7 @@ function checkCookie() {
   </div>
 
   <div id="content_device" class="content">
-    <iframe src="device-reference.html" width="100%" height="100%" frameBorder="0" style="border:none;"></iframe>
+    <iframe id="deviceReferenceFrame" src="device-reference.html" width="100%" height="100%" frameBorder="0" style="border:none;"></iframe>
   </div>
 
   <div id="content_files" class="content">
@@ -481,6 +485,17 @@ function checkCookie() {
 <div class='progress-bar'></div>
 <div class="notify"></div>
 <div class="notify-panel"></div>
+<div class="language-panel">
+  <div class="language-panel-header" id="languagePanelTitle">Idioma da interface</div>
+  <button class="language-option active" data-lang="pt-br">
+    <span class="language-option-code">PT</span>
+    <span class="language-option-label" id="languageOptionPtLabel">Português (Brasil)</span>
+  </button>
+  <button class="language-option" data-lang="en">
+    <span class="language-option-code">EN</span>
+    <span class="language-option-label" id="languageOptionEnLabel">English</span>
+  </button>
+</div>
 
 <script>
 // Initialize Blockly workspace
@@ -505,6 +520,7 @@ UI ['notify'] = new notify ();
 UI ['progress'] = new progress ();
 UI ['account'] = new account ('#accountButton','.account-panel');
 UI ['notify-panel'] = new panel ('#notificationButton','.notify-panel');
+UI ['language-panel'] = new panel ('#languageButton','.language-panel');
 UI ['channel-panel'] = new channelPanel ('#channelButton','.channel-panel');
 UI ['toolbar'] = new panel ('#toolbarButton','.toolbar');
 UI ['workspace'] = new workspace ();

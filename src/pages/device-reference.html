@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BitDogLab Neon Interativa (Com Categorias)</title>
+  <title>BitDogLab - Conheça sua Placa</title>
   <style>
-    /* Page layout and font */
     body {
+      margin: 0;
       background-color: transparent;
       color: #ffffff;
       font-family: Arial, sans-serif;
       text-align: center;
     }
 
-    /* Image wrapper */
     .image-container {
       position: relative;
       display: inline-block;
@@ -28,7 +27,6 @@
       display: block;
     }
 
-    /* Transparent hover zone */
     .tooltip-rect {
       position: absolute;
       cursor: pointer;
@@ -37,7 +35,6 @@
       box-shadow: none;
     }
 
-    /* Tooltip box */
     .tooltip-text {
       visibility: hidden;
       opacity: 0;
@@ -53,13 +50,12 @@
       padding: 20px 25px;
       width: max-content;
       max-width: 650px;
-      font-size: 1.8em;
+      font-size: 1.7em;
       text-align: left;
       transition: opacity 0.3s;
       z-index: 10;
     }
 
-    /* Tooltip title */
     .tooltip-text strong {
       display: block;
       color: #00f0ff;
@@ -68,41 +64,41 @@
       margin-bottom: 10px;
     }
 
-    /* Tooltip hover effect */
+    .tooltip-body {
+      line-height: 1.5;
+    }
+
     .tooltip-rect:hover .tooltip-text {
       visibility: visible;
       opacity: 1;
     }
 
-    /* Category section inside tooltip */
     .category-container {
-        margin-top: 15px;
-        padding-top: 10px;
-        border-top: 1px solid rgba(0, 240, 255, 0.3);
+      margin-top: 15px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(0, 240, 255, 0.3);
     }
 
-    /* Category title */
     .category-title {
-        display: block;
-        font-size: 0.9em;
-        color: #00f0ff;
-        margin-bottom: 8px;
-        font-weight: bold;
+      display: block;
+      font-size: 0.9em;
+      color: #00f0ff;
+      margin-bottom: 8px;
+      font-weight: bold;
     }
 
-    /* Category tag style */
     .category-tag {
-        display: inline-block;
-        color: #000000;
-        padding: 5px 10px;
-        border-radius: 5px;
-        margin-right: 6px;
-        margin-bottom: 6px;
-        font-size: 0.8em;
-        font-weight: 600;
-        white-space: nowrap;
+      display: inline-block;
+      color: #000000;
+      padding: 5px 10px;
+      border-radius: 5px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      font-size: 0.8em;
+      font-weight: 600;
+      white-space: nowrap;
     }
-    /* Title styling */
+
     h1 {
       color: #00f0ff;
       text-shadow: 0 0 10px #00f0ff;
@@ -113,242 +109,258 @@
   </style>
 </head>
 <body>
-
-  <h1>BitDogLab - Conheça sua Placa</h1>
+  <h1 id="pageTitle">BitDogLab - Conheça sua Placa</h1>
 
   <div class="image-container">
-    <img src="../assets/images/logos/bitlab.png" alt="Placa BitDogLab">
-
-    <div class="tooltip-rect" style="top: 8px; left: 645px; width: 440px; height: 70px;">
-      <div class="tooltip-text">
-        <strong>Conector de Sensores</strong>
-        Permite ligar sensores de luz, som, temperatura e muito mais para descobrir o mundo ao redor!
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 157px; left: 666px; width: 130px; height: 60px;">
-      <div class="tooltip-text">
-        <strong>Porta de Expansão</strong>
-        Um lugar mágico para conectar outros módulos e inventar coisas novas.
-      </div>
-    </div>
-
-    <div class="tooltip-rect" style="top: 152px; left: 975px; width: 116px; height: 76px;">
-      <div class="tooltip-text">
-        <strong>Porta de Expansão</strong>
-        Um lugar mágico para conectar outros módulos e inventar coisas novas.
-      </div>
-    </div>
-
-    <div class="tooltip-rect" style="top: 248px; left: 133px; width: 314px; height: 47px;">
-      <div class="tooltip-text">
-        <strong>Microfone</strong>
-        É o "ouvido" da placa! Ele escuta o som do ambiente. Você pode programar algo para acender quando você bater palmas!
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 239px; left: 579px; width: 94px; height: 82px;">
-      <div class="tooltip-text">
-        <strong>Microfone</strong>
-        É o "ouvido" da placa! Ele escuta o som do ambiente. Você pode programar algo para acender quando você bater palmas!
-      </div>
-    </div>
-
-    <div class="tooltip-rect" style="top: 325px; left: 933px; width: 267px; height: 363px;">
-      <div class="tooltip-text">
-        <strong>Display (Tela)</strong>
-        A "carinha" da placa! Aqui você pode mostrar mensagens, desenhos, animações ou criar seus próprios jogos.
-
-        <div class="category-container">
-          <span class="category-title">Categorias que usam este periférico:</span>
-          <span class="category-tag" style="background-color: #16a085;">📺 Display</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tooltip-rect" style="top: 489px; left: 1336px; width: 249px; height: 42px;">
-      <div class="tooltip-text">
-        <strong>Display (Tela)</strong>
-        A "carinha" da placa! Aqui você pode mostrar mensagens, desenhos, animações ou criar seus próprios jogos.
-
-        <div class="category-container">
-          <span class="category-title">Categorias que usam este periférico:</span>
-          <span class="category-tag" style="background-color: #16a085;">📺 Display</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 641px; left: 1341px; width: 245px; height: 100px;">
-      <div class="tooltip-text">
-        <strong>Botão Liga/Desliga</strong>
-        O botão principal para dar energia e vida para sua placa. (Ou para fazê-la dormir!)
-      </div>
-    </div>
-
-    <div class="tooltip-rect" style="top: 647px; left: 1203px; width: 46px; height: 46px;">
-      <div class="tooltip-text">
-        <strong>Botão On/Off</strong>
-        Liga e desliga a placa.
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 669px; left: 77px; width: 269px; height: 53px;">
-      <div class="tooltip-text">
-        <strong>Joystick (Controle)</strong>
-        Igual ao de videogame! Use para controlar jogos, mover um robô ou navegar por menus na telinha.
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 599px; left: 498px; width: 251px; height: 199px;">
-      <div class="tooltip-text">
-        <strong>Joystick (Controle)</strong>
-        Igual ao de videogame! Use para controlar jogos, mover um robô ou navegar por menus na telinha.
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 787px; left: 68px; width: 330px; height: 135px;">
-      <div class="tooltip-text">
-        <strong>Conector de Motores</strong>
-        Use esta porta para conectar motores e rodinhas para construir seu próprio robô ou carrinho!
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 817px; left: 585px; width: 244px; height: 70px;">
-      <div class="tooltip-text">
-        <strong>Conector de Motores</strong>
-        Use esta porta para conectar motores e rodinhas para construir seu próprio robô ou carrinho!
-      </div>
-    </div>
-
-    <div class="tooltip-rect" style="top: 408px; left: 147px; width: 307px; height: 139px;">
-      <div class="tooltip-text">
-        <strong>Matriz de LEDs</strong>
-        Um show de luzes! É um painel com várias luzinhas que você pode acender para fazer desenhos e animações coloridas.
-        
-        <div class="category-container">
-          <span class="category-title">Categorias que usam este periférico:</span>
-          <span class="category-tag" style="background-color: #4a69bd;">🔲 Matriz de LEDs</span>
-          <span class="category-tag" style="background-color: #8e44ad;">✨ Animações da Matriz</span>
-          <span class="category-tag" style="background-color: #55a855;">🔢 Números na Matriz</span>
-          <span class="category-tag" style="background-color: #FF8C00;">😊 Emojis na Matriz</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tooltip-rect" style="top: 365px; left: 574px; width: 191px; height: 214px;">
-      <div class="tooltip-text">
-        <strong>Matriz de LEDs</strong>
-        Um show de luzes! É um painel com várias luzinhas que você pode acender para fazer desenhos e animações coloridas.
-        
-        <div class="category-container">
-          <span class="category-title">Categorias que usam este periférico:</span>
-          <span class="category-tag" style="background-color: #4a69bd;">🔲 Matriz de LEDs</span>
-          <span class="category-tag" style="background-color: #8e44ad;">✨ Animações da Matriz</span>
-          <span class="category-tag" style="background-color: #55a855;">🔢 Números na Matriz</span>
-          <span class="category-tag" style="background-color: #FF8C00;">😊 Emojis na Matriz</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 255px; left: 1363px; width: 208px; height: 49px;">
-      <div class="tooltip-text">
-        <strong>Buzzer (Bip!)</strong>
-        Faz sons e músicas! Você pode programar ele para fazer "bip", tocar uma melodia ou ser um alarme.
-        
-        <div class="category-container">
-          <span class="category-title">Categorias que usam este periférico:</span>
-          <span class="category-tag" style="background-color: #833471;">🎼 Notas Musicais</span>
-          <span class="category-tag" style="background-color: #9a5ba5;">🔊 Som</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tooltip-rect" style="top: 236px; left: 1089px; width: 69px; height: 62px;">
-      <div class="tooltip-text">
-        <strong>Buzzer (Bip!)</strong>
-        Faz sons e músicas! Você pode programar ele para fazer "bip", tocar uma melodia ou ser um alarme.
-        
-        <div class="category-container">
-          <span class="category-title">Categorias que usam este periférico:</span>
-          <span class="category-tag" style="background-color: #833471;">🎼 Notas Musicais</span>
-          <span class="category-tag" style="background-color: #9a5ba5;">🔊 Som</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 710px; left: 1023px; width: 108px; height: 91px;">
-      <div class="tooltip-text">
-        <strong>Botão Verde</strong>
-        Aperte para fazer algo acontecer! Pode ser o botão de "Confirmar", "Pular" ou "Ligar" um projeto.
-        
-        <div class="category-container">
-          <span class="category-title">Categorias que usam este periférico:</span>
-          <span class="category-tag" style="background-color: #ee5a24;">🎮 Botões</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 809px; left: 923px; width: 112px; height: 104px;">
-      <div class="tooltip-text">
-        <strong>Botão Vermelho</strong>
-        Aperte para "Parar", "Cancelar" ou "Voltar" em um menu. Você decide o que ele faz!
-        
-        <div class="category-container">
-          <span class="category-title">Categorias que usam este periférico:</span>
-          <span class="category-tag" style="background-color: #ee5a24;">🎮 Botões</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 814px; left: 1100px; width: 111px; height: 105px;">
-      <div class="tooltip-text">
-        <strong>Botão Azul</strong>
-        Um botão especial para qualquer função que você inventar. Pode ser um "Menu" ou um "Poder Especial"!
-        
-        <div class="category-container">
-          <span class="category-title">Categorias que usam este periférico:</span>
-          <span class="category-tag" style="background-color: #ee5a24;">🎮 Botões</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 804px; left: 1325px; width: 348px; height: 97px;">
-      <div class="tooltip-text">
-        <strong>Botão de Interação</strong>
-        Um botão que você pode programar para fazer o que sua imaginação mandar.
-        
-        <div class="category-container">
-          <span class="category-title">Categorias que usam este periférico:</span>
-          <span class="category-tag" style="background-color: #ee5a24;">🎮 Botões</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="tooltip-rect" style="top: 846px; left: 1050px; width: 47px; height: 51px;">
-      <div class="tooltip-text">
-        <strong>LED RGB</strong>
-        Uma luz especial que brilha em qualquer cor! Misture vermelho, verde e azul para criar milhões de cores.
-        
-        <div class="category-container">
-          <span class="category-title">Categorias que usam este periférico:</span>
-          <span class="category-tag" style="background-color: #FFBF00;">💡 LEDs</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tooltip-rect" style="top: 959px; left: 1109px; width: 343px; height: 101px;">
-      <div class="tooltip-text">
-        <strong>LED RGB</strong>
-        Uma luz especial que brilha em qualquer cor! Misture vermelho, verde e azul para criar milhões de cores.
-        
-        <div class="category-container">
-          <span class="category-title">Categorias que usam este periférico:</span>
-          <span class="category-tag" style="background-color: #FFBF00;">💡 LEDs</span>
-        </div>
-      </div>
-    </div>
-
+    <img id="boardImage" src="../assets/images/logos/bitlab.png" alt="Placa BitDogLab">
+    <div id="hotspots"></div>
   </div>
 
+  <script>
+    (function() {
+      var supportedLanguages = {'pt-br': true, 'en': true};
+      var urlLang = new URLSearchParams(window.location.search).get('lang');
+      var storedLang = null;
+
+      try {
+        storedLang = window.localStorage.getItem('bitdoglab_lang');
+      } catch (e) {}
+
+      var lang = supportedLanguages[urlLang] ? urlLang : (supportedLanguages[storedLang] ? storedLang : 'pt-br');
+      document.documentElement.lang = lang;
+
+      var copy = {
+        'pt-br': {
+          pageTitle: 'BitDogLab - Conheça sua Placa',
+          imageAlt: 'Placa BitDogLab',
+          categoryTitle: 'Categorias que usam este periférico:',
+          items: {
+            sensorConnector: {
+              title: 'Conector de Sensores',
+              body: 'Permite ligar sensores de luz, som, temperatura e muito mais para descobrir o mundo ao redor!'
+            },
+            expansionPort: {
+              title: 'Porta de Expansão',
+              body: 'Um lugar mágico para conectar outros módulos e inventar coisas novas.'
+            },
+            microphone: {
+              title: 'Microfone',
+              body: 'É o "ouvido" da placa! Ele escuta o som do ambiente. Você pode programar algo para acender quando você bater palmas!'
+            },
+            display: {
+              title: 'Display (Tela)',
+              body: 'A "carinha" da placa! Aqui você pode mostrar mensagens, desenhos, animações ou criar seus próprios jogos.'
+            },
+            powerButtonMain: {
+              title: 'Botão Liga/Desliga',
+              body: 'O botão principal para dar energia e vida para sua placa. (Ou para fazê-la dormir!)'
+            },
+            powerButtonSmall: {
+              title: 'Botão On/Off',
+              body: 'Liga e desliga a placa.'
+            },
+            joystick: {
+              title: 'Joystick (Controle)',
+              body: 'Igual ao de videogame! Use para controlar jogos, mover um robô ou navegar por menus na telinha.'
+            },
+            motorConnector: {
+              title: 'Conector de Motores',
+              body: 'Use esta porta para conectar motores e rodinhas para construir seu próprio robô ou carrinho!'
+            },
+            ledMatrix: {
+              title: 'Matriz de LEDs',
+              body: 'Um show de luzes! É um painel com várias luzinhas que você pode acender para fazer desenhos e animações coloridas.'
+            },
+            buzzer: {
+              title: 'Buzzer (Bip!)',
+              body: 'Faz sons e músicas! Você pode programar ele para fazer "bip", tocar uma melodia ou ser um alarme.'
+            },
+            greenButton: {
+              title: 'Botão Verde',
+              body: 'Aperte para fazer algo acontecer! Pode ser o botão de "Confirmar", "Pular" ou "Ligar" um projeto.'
+            },
+            redButton: {
+              title: 'Botão Vermelho',
+              body: 'Aperte para "Parar", "Cancelar" ou "Voltar" em um menu. Você decide o que ele faz!'
+            },
+            blueButton: {
+              title: 'Botão Azul',
+              body: 'Um botão especial para qualquer função que você inventar. Pode ser um "Menu" ou um "Poder Especial"!'
+            },
+            interactionButton: {
+              title: 'Botão de Interação',
+              body: 'Um botão que você pode programar para fazer o que sua imaginação mandar.'
+            },
+            rgbLed: {
+              title: 'LED RGB',
+              body: 'Uma luz especial que brilha em qualquer cor! Misture vermelho, verde e azul para criar milhões de cores.'
+            }
+          },
+          categories: {
+            display: {label: '📺 Display', color: '#16a085'},
+            ledMatrix: {label: '🔲 Matriz de LEDs', color: '#4a69bd'},
+            matrixAnimations: {label: '✨ Animações da Matriz', color: '#8e44ad'},
+            matrixNumbers: {label: '🔢 Números na Matriz', color: '#55a855'},
+            matrixEmojis: {label: '😊 Emojis na Matriz', color: '#FF8C00'},
+            musicalNotes: {label: '🎼 Notas Musicais', color: '#833471'},
+            sound: {label: '🔊 Som', color: '#9a5ba5'},
+            buttons: {label: '🎮 Botões', color: '#ee5a24'},
+            leds: {label: '💡 LEDs', color: '#FFBF00'}
+          }
+        },
+        'en': {
+          pageTitle: 'BitDogLab - Board Reference',
+          imageAlt: 'BitDogLab board',
+          categoryTitle: 'Blockly categories that use this peripheral:',
+          items: {
+            sensorConnector: {
+              title: 'Sensor Connector',
+              body: 'Header interface for attaching external light, sound, temperature and other GPIO/I2C sensors to the board.'
+            },
+            expansionPort: {
+              title: 'Expansion Port',
+              body: 'General-purpose expansion interface for external modules, add-on circuits and custom hardware experiments.'
+            },
+            microphone: {
+              title: 'Microphone',
+              body: 'On-board microphone input used to sample ambient sound intensity and detect acoustic events such as claps or noise peaks.'
+            },
+            display: {
+              title: 'Display',
+              body: 'Integrated OLED display used to render text, numeric values, icons, menus, animations and runtime feedback from the program.'
+            },
+            powerButtonMain: {
+              title: 'Main Power Button',
+              body: 'Primary power control used to energize or shut down the board.'
+            },
+            powerButtonSmall: {
+              title: 'On/Off Button',
+              body: 'Auxiliary on/off control for enabling or disabling board power.'
+            },
+            joystick: {
+              title: 'Joystick',
+              body: 'Two-axis analog joystick with integrated push input for directional control, menu navigation and interactive applications.'
+            },
+            motorConnector: {
+              title: 'Motor Connector',
+              body: 'Output connector for driving DC motors and other mobile-robot actuators.'
+            },
+            ledMatrix: {
+              title: 'LED Matrix',
+              body: '5x5 addressable RGB LED matrix used for animations, icons, numeric output and visual status indication.'
+            },
+            buzzer: {
+              title: 'Buzzer',
+              body: 'Piezoelectric audio transducer used for tones, alerts, melodies and audible feedback.'
+            },
+            greenButton: {
+              title: 'Green Button',
+              body: 'Programmable user button typically assigned to confirm, start or trigger actions.'
+            },
+            redButton: {
+              title: 'Red Button',
+              body: 'Programmable user button commonly assigned to stop, cancel or back actions.'
+            },
+            blueButton: {
+              title: 'Blue Button',
+              body: 'Programmable user button available for custom interactions such as menu access or alternate actions.'
+            },
+            interactionButton: {
+              title: 'Interaction Button',
+              body: 'General-purpose interaction button for custom input events defined by the program.'
+            },
+            rgbLed: {
+              title: 'RGB LED',
+              body: 'On-board RGB indicator LED used for color feedback, event signaling and system status visualization.'
+            }
+          },
+          categories: {
+            display: {label: '📺 Display', color: '#16a085'},
+            ledMatrix: {label: '🔲 LED Matrix', color: '#4a69bd'},
+            matrixAnimations: {label: '✨ Matrix Animations', color: '#8e44ad'},
+            matrixNumbers: {label: '🔢 Matrix Numbers', color: '#55a855'},
+            matrixEmojis: {label: '😊 Matrix Emojis', color: '#FF8C00'},
+            musicalNotes: {label: '🎼 Musical Notes', color: '#833471'},
+            sound: {label: '🔊 Audio', color: '#9a5ba5'},
+            buttons: {label: '🎮 Buttons', color: '#ee5a24'},
+            leds: {label: '💡 LEDs', color: '#FFBF00'}
+          }
+        }
+      };
+
+      var hotspots = [
+        {style: 'top: 8px; left: 645px; width: 440px; height: 70px;', item: 'sensorConnector'},
+        {style: 'top: 157px; left: 666px; width: 130px; height: 60px;', item: 'expansionPort'},
+        {style: 'top: 152px; left: 975px; width: 116px; height: 76px;', item: 'expansionPort'},
+        {style: 'top: 248px; left: 133px; width: 314px; height: 47px;', item: 'microphone'},
+        {style: 'top: 239px; left: 579px; width: 94px; height: 82px;', item: 'microphone'},
+        {style: 'top: 325px; left: 933px; width: 267px; height: 363px;', item: 'display', categories: ['display']},
+        {style: 'top: 489px; left: 1336px; width: 249px; height: 42px;', item: 'display', categories: ['display']},
+        {style: 'top: 641px; left: 1341px; width: 245px; height: 100px;', item: 'powerButtonMain'},
+        {style: 'top: 647px; left: 1203px; width: 46px; height: 46px;', item: 'powerButtonSmall'},
+        {style: 'top: 669px; left: 77px; width: 269px; height: 53px;', item: 'joystick'},
+        {style: 'top: 599px; left: 498px; width: 251px; height: 199px;', item: 'joystick'},
+        {style: 'top: 787px; left: 68px; width: 330px; height: 135px;', item: 'motorConnector'},
+        {style: 'top: 817px; left: 585px; width: 244px; height: 70px;', item: 'motorConnector'},
+        {style: 'top: 408px; left: 147px; width: 307px; height: 139px;', item: 'ledMatrix', categories: ['ledMatrix', 'matrixAnimations', 'matrixNumbers', 'matrixEmojis']},
+        {style: 'top: 365px; left: 574px; width: 191px; height: 214px;', item: 'ledMatrix', categories: ['ledMatrix', 'matrixAnimations', 'matrixNumbers', 'matrixEmojis']},
+        {style: 'top: 255px; left: 1363px; width: 208px; height: 49px;', item: 'buzzer', categories: ['musicalNotes', 'sound']},
+        {style: 'top: 236px; left: 1089px; width: 69px; height: 62px;', item: 'buzzer', categories: ['musicalNotes', 'sound']},
+        {style: 'top: 710px; left: 1023px; width: 108px; height: 91px;', item: 'greenButton', categories: ['buttons']},
+        {style: 'top: 809px; left: 923px; width: 112px; height: 104px;', item: 'redButton', categories: ['buttons']},
+        {style: 'top: 814px; left: 1100px; width: 111px; height: 105px;', item: 'blueButton', categories: ['buttons']},
+        {style: 'top: 804px; left: 1325px; width: 348px; height: 97px;', item: 'interactionButton', categories: ['buttons']},
+        {style: 'top: 846px; left: 1050px; width: 47px; height: 51px;', item: 'rgbLed', categories: ['leds']},
+        {style: 'top: 959px; left: 1109px; width: 343px; height: 101px;', item: 'rgbLed', categories: ['leds']}
+      ];
+
+      var locale = copy[lang];
+
+      function escapeHtml(text) {
+        return String(text)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function renderCategories(categoryKeys) {
+        if (!categoryKeys || !categoryKeys.length) {
+          return '';
+        }
+
+        var tags = categoryKeys.map(function(key) {
+          var category = locale.categories[key];
+          return '<span class="category-tag" style="background-color: ' + escapeHtml(category.color) + ';">' + escapeHtml(category.label) + '</span>';
+        }).join('');
+
+        return (
+          '<div class="category-container">' +
+            '<span class="category-title">' + escapeHtml(locale.categoryTitle) + '</span>' +
+            tags +
+          '</div>'
+        );
+      }
+
+      function renderHotspot(hotspot) {
+        var item = locale.items[hotspot.item];
+        return (
+          '<div class="tooltip-rect" style="' + hotspot.style + '">' +
+            '<div class="tooltip-text">' +
+              '<strong>' + escapeHtml(item.title) + '</strong>' +
+              '<div class="tooltip-body">' + escapeHtml(item.body) + '</div>' +
+              renderCategories(hotspot.categories) +
+            '</div>' +
+          '</div>'
+        );
+      }
+
+      document.title = locale.pageTitle;
+      document.getElementById('pageTitle').textContent = locale.pageTitle;
+      document.getElementById('boardImage').alt = locale.imageAlt;
+      document.getElementById('hotspots').innerHTML = hotspots.map(renderHotspot).join('');
+    })();
+  </script>
 </body>
 </html>
