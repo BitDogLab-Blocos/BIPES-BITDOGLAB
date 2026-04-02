@@ -941,15 +941,25 @@ Code.init = function() {
     var notification = document.createElement('div');
     notification.id = 'joystickGetterNotification';
     notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #1565c0; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 450px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
-    notification.innerHTML = '<button id="closeJoystickNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
-      '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
-      '🕹️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
-      '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED para ver o número na tela!<br><br>' +
-      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
-      '<strong>📝 Exemplo:</strong><br>' +
-      '1️⃣ 🕹️ Joystick controla LED <small>(ou Buzzer)</small><br>' +
-      '2️⃣ 📊 Mostrar valor: <strong>[' + nomeBloco + ']</strong> linha 1<br>' +
-      '</div>';
+    notification.innerHTML = Code.LANG === 'en'
+      ? '<button id="closeJoystickNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+        '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
+        '🕹️ This block <strong>does nothing on its own!</strong><br><br>' +
+        '📊 Place it inside the <strong>"Show Numeric Value"</strong> OLED display block to visualize the value on-screen.<br><br>' +
+        '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+        '<strong>📝 Example:</strong><br>' +
+        '1️⃣ 🕹️ Joystick-Controlled LED <small>(or buzzer)</small><br>' +
+        '2️⃣ 📊 Show Numeric Value: <strong>[' + nomeBloco + ']</strong> line 1<br>' +
+        '</div>'
+      : '<button id="closeJoystickNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+        '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
+        '🕹️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
+        '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED para ver o número na tela!<br><br>' +
+        '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+        '<strong>📝 Exemplo:</strong><br>' +
+        '1️⃣ 🕹️ Joystick controla LED <small>(ou Buzzer)</small><br>' +
+        '2️⃣ 📊 Mostrar valor: <strong>[' + nomeBloco + ']</strong> linha 1<br>' +
+        '</div>';
 
     Code.localizeRuntimePanel(notification);
     document.body.appendChild(notification);
@@ -986,7 +996,21 @@ Code.init = function() {
     var notification = document.createElement('div');
     notification.id = 'joystickSeletorNotification';
     notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #1565c0; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 460px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
-    notification.innerHTML =
+    notification.innerHTML = Code.LANG === 'en'
+      ? '<button id="closeJoystickSeletorNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+        '<strong style="font-size: 16px;">💡 How to use: Switch LED matrix emojis</strong><br><br>' +
+        '🕹️ Place <strong>emoji</strong> blocks inside this container.<br>' +
+        'Use the joystick to <strong>switch between them</strong>.<br><br>' +
+        '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 4px;">' +
+        '<strong>📝 Example:</strong><br>' +
+        '🕹️ Switch LED Matrix Emoji<br>' +
+        '&nbsp;&nbsp;&nbsp;😊 Show Emoji: <strong>heart</strong><br>' +
+        '&nbsp;&nbsp;&nbsp;😊 Show Emoji: <strong>happy face</strong><br>' +
+        '&nbsp;&nbsp;&nbsp;😊 Show Emoji: <strong>arrow</strong><br><br>' +
+        '⚠️ <strong>The order you place them in defines the selection order.</strong><br>' +
+        'Joystick → next emoji &nbsp;|&nbsp; ← previous emoji' +
+        '</div>'
+      :
       '<button id="closeJoystickSeletorNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
       '<strong style="font-size: 16px;">💡 Como usar: Trocar emoji na Matriz de LED</strong><br><br>' +
       '🕹️ Encaixe blocos de <strong>emoji</strong> dentro deste bloco.<br>' +
@@ -1025,7 +1049,17 @@ Code.init = function() {
     var notification = document.createElement('div');
     notification.id = 'micGetterNotification';
     notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #e74c3c; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 450px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
-    notification.innerHTML =
+    notification.innerHTML = Code.LANG === 'en'
+      ? '<button id="closeMicGetterNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+        '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
+        '🎙️ This block <strong>does nothing on its own!</strong><br><br>' +
+        '📊 Place it inside the <strong>"Show Numeric Value"</strong> OLED display block to inspect the measured value.<br><br>' +
+        '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+        '<strong>📝 Example:</strong><br>' +
+        '1️⃣ 🎙️ LED matrix sound-level meter<br>' +
+        '2️⃣ 📊 Show Numeric Value: <strong>[🎙️ Sound Level]</strong> line 1<br>' +
+        '</div>'
+      :
       '<button id="closeMicGetterNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
       '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
       '🎙️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
@@ -1060,7 +1094,17 @@ Code.init = function() {
     var notification = document.createElement('div');
     notification.id = 'barraGetterNotification';
     notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #e74c3c; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 450px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
-    notification.innerHTML =
+    notification.innerHTML = Code.LANG === 'en'
+      ? '<button id="closeBarraGetterNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+        '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
+        '🖥️ This block <strong>does nothing on its own!</strong><br><br>' +
+        '📊 Place it inside the <strong>"Show Numeric Value"</strong> OLED display block to inspect the percentage value.<br><br>' +
+        '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+        '<strong>📝 Example:</strong><br>' +
+        '1️⃣ 🖥️ OLED sound level meter  line: 3<br>' +
+        '2️⃣ 📊 Show Numeric Value: <strong>[🎙️ Sound Intensity (%)]</strong> line 1<br>' +
+        '</div>'
+      :
       '<button id="closeBarraGetterNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
       '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
       '🖥️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
@@ -1095,7 +1139,17 @@ Code.init = function() {
     var notification = document.createElement('div');
     notification.id = 'palmasGetterNotification';
     notification.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #e74c3c; color: white; padding: 18px 45px 18px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 10000; max-width: 450px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; animation: slideIn 0.3s ease-out;';
-    notification.innerHTML =
+    notification.innerHTML = Code.LANG === 'en'
+      ? '<button id="closePalmasGetterNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+        '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
+        '🖐️ This block <strong>does nothing on its own!</strong><br><br>' +
+        '📊 Use it inside <strong>"Show Numeric Value"</strong> to display the count, or inside conditions such as <strong>"if total claps = 3"</strong>.<br><br>' +
+        '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+        '<strong>📝 Example:</strong><br>' +
+        '1️⃣ 🖐️ Clap Counter  sensitivity: medium  line: 1<br>' +
+        '2️⃣ 📊 Show Numeric Value: <strong>[🖐️ Total Claps]</strong> line 2<br>' +
+        '</div>'
+      :
       '<button id="closePalmasGetterNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
       '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
       '🖐️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
@@ -1144,6 +1198,19 @@ Code.init = function() {
       '1️⃣ 📊 Mostrar valor: <strong>[' + nomeBloco + ']</strong> linha 1<br>' +
       '</div>';
 
+    if (Code.LANG === 'en') {
+      nomeBloco = blockType === 'sensor_temperatura' ? '🌡️ Temperature (°C)' : '💧 Humidity (%)';
+      notification.innerHTML =
+        '<button id="closeSensorGetterNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+        '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
+        '🌡️ This block <strong>does nothing on its own!</strong><br><br>' +
+        '📊 Place it inside the <strong>"Show Numeric Value"</strong> OLED display block to inspect the reading.<br><br>' +
+        '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+        '<strong>📝 Example:</strong><br>' +
+        '1️⃣ 📊 Show Numeric Value: <strong>[' + nomeBloco + ']</strong> line 1<br>' +
+        '</div>';
+    }
+
     Code.localizeRuntimePanel(notification);
     document.body.appendChild(notification);
 
@@ -1188,6 +1255,28 @@ Code.init = function() {
       '&nbsp;&nbsp;&nbsp;&nbsp;🌱 Mostrar/Ocultar medição ' + nomeSensor + '<br>' +
       '</div>';
 
+    if (Code.LANG === 'en') {
+      nomeSensor = blockType === 'estufa_toggle_sensor1'
+        ? 'Sensor 1 (left side)'
+        : 'Sensor 2 (right side)';
+
+      nomeBotao = blockType === 'estufa_toggle_sensor1'
+        ? 'Button A'
+        : 'Button B';
+
+      notification.innerHTML =
+        '<button id="closeEstufaToggleNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+        '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
+        '🌱 This block <strong>toggles</strong> the <strong>' + nomeSensor + '</strong> measurement on the display.<br><br>' +
+        '🔘 Place it inside a <strong>button</strong> block so the readout can be turned on and off with a button press.<br><br>' +
+        '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+        '<strong>📝 Example:</strong><br>' +
+        '1️⃣ 🌱 Greenhouse Experiment - Compare 2 Sensors<br>' +
+        '2️⃣ 🔘 When <strong>' + nomeBotao + '</strong> is pressed:<br>' +
+        '&nbsp;&nbsp;&nbsp;&nbsp;🌱 Show/Hide ' + nomeSensor + ' Measurement<br>' +
+        '</div>';
+    }
+
     Code.localizeRuntimePanel(notification);
     document.body.appendChild(notification);
 
@@ -1224,6 +1313,21 @@ Code.init = function() {
       '&nbsp;&nbsp;&nbsp;&nbsp;📊 Mostrar Gráfico <strong>[Temp S1 + Temp S2]</strong> tipo Soma Temp na Metade de Cima<br>' +
       '&nbsp;&nbsp;&nbsp;&nbsp;📊 Mostrar Gráfico <strong>[Umidade S1]</strong> tipo Umidade 1 na Metade de Baixo<br>' +
       '</div>';
+
+    if (Code.LANG === 'en') {
+      notification.innerHTML =
+        '<button id="closeGraficoNotification" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.2); border: none; color: white; font-size: 20px; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; line-height: 1;">&times;</button>' +
+        '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
+        '📊 You can <strong>add, subtract, multiply, or divide</strong> sensor data.<br><br>' +
+        '🧮 Use <strong>Mathematics</strong> blocks to combine sensor values. Example: Temperature Sensor 1 <strong>+</strong> Temperature Sensor 2<br><br>' +
+        '📺 Use <strong>Top Half</strong> and <strong>Bottom Half</strong> to display <strong>2 graphs at the same time.</strong><br><br>' +
+        '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+        '<strong>📝 Example:</strong><br>' +
+        '1️⃣ 🔁 Repeat forever:<br>' +
+        '&nbsp;&nbsp;&nbsp;&nbsp;📊 Plot Graph <strong>[Temp S1 + Temp S2]</strong> type Sum Temp on the Top Half<br>' +
+        '&nbsp;&nbsp;&nbsp;&nbsp;📊 Plot Graph <strong>[Humidity S1]</strong> type Humidity 1 on the Bottom Half<br>' +
+        '</div>';
+    }
 
     Code.localizeRuntimePanel(notification);
     document.body.appendChild(notification);
