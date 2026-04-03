@@ -90,8 +90,23 @@ class SSD1306:
     def fill(self, col):
         self.framebuf.fill(col)
 
+    def fill_rect(self, x, y, w, h, col):
+        self.framebuf.fill_rect(x, y, w, h, col)
+
     def pixel(self, x, y, col):
         self.framebuf.pixel(x, y, col)
+
+    def hline(self, x, y, w, col):
+        self.framebuf.hline(x, y, w, col)
+
+    def vline(self, x, y, h, col):
+        self.framebuf.vline(x, y, h, col)
+
+    def line(self, x1, y1, x2, y2, col):
+        self.framebuf.line(x1, y1, x2, y2, col)
+
+    def rect(self, x, y, w, h, col):
+        self.framebuf.rect(x, y, w, h, col)
 
     def scroll(self, dx, dy):
         self.framebuf.scroll(dx, dy)

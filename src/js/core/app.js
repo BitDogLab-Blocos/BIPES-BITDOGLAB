@@ -49,6 +49,54 @@ Code.isRtl = function() {
   return Code.LANGUAGE_RTL.indexOf(Code.LANG) != -1;
 };
 
+// Add runtime compatibility helpers for minimalist SSD1306 builds that expose
+// only fill/pixel/scroll/text but not FrameBuffer drawing helpers.
+Code.getOledCompatSetupCode = function() {
+  return [
+    '# OLED compatibility helpers',
+    'if not hasattr(oled, "fill_rect"):',
+    '  def _oled_hline(x, y, w, c):',
+    '    for _x in range(x, x + max(0, w)):',
+    '      oled.pixel(_x, y, c)',
+    '  def _oled_vline(x, y, h, c):',
+    '    for _y in range(y, y + max(0, h)):',
+    '      oled.pixel(x, _y, c)',
+    '  def _oled_fill_rect(x, y, w, h, c):',
+    '    for _yy in range(y, y + max(0, h)):',
+    '      for _xx in range(x, x + max(0, w)):',
+    '        oled.pixel(_xx, _yy, c)',
+    '  def _oled_rect(x, y, w, h, c):',
+    '    if w <= 0 or h <= 0:',
+    '      return',
+    '    _oled_hline(x, y, w, c)',
+    '    _oled_hline(x, y + h - 1, w, c)',
+    '    _oled_vline(x, y, h, c)',
+    '    _oled_vline(x + w - 1, y, h, c)',
+    '  def _oled_line(x0, y0, x1, y1, c):',
+    '    dx = abs(x1 - x0)',
+    '    sx = 1 if x0 < x1 else -1',
+    '    dy = -abs(y1 - y0)',
+    '    sy = 1 if y0 < y1 else -1',
+    '    err = dx + dy',
+    '    while True:',
+    '      oled.pixel(x0, y0, c)',
+    '      if x0 == x1 and y0 == y1:',
+    '        break',
+    '      e2 = err * 2',
+    '      if e2 >= dy:',
+    '        err += dy',
+    '        x0 += sx',
+    '      if e2 <= dx:',
+    '        err += dx',
+    '        y0 += sy',
+    '  oled.hline = _oled_hline',
+    '  oled.vline = _oled_vline',
+    '  oled.fill_rect = _oled_fill_rect',
+    '  oled.rect = _oled_rect',
+    '  oled.line = _oled_line'
+  ].join('\n') + '\n';
+};
+
 // Load blocks from storage (BlocklyStorage/sessionStorage) or use defaultXml
 Code.loadBlocks = function(defaultXml) {
   try {
@@ -755,6 +803,9 @@ Code.wrapWithInfiniteLoop = function(rawCode) {
       if (minIndent === Infinity) minIndent = 0;
       var dedentedSetup = setupCodeLines.map(function(l) { return l.substring(minIndent); });
       finalCode += dedentedSetup.join('\n') + '\n';
+    }
+    if (rawCode.indexOf('SSD1306_I2C(') !== -1) {
+      finalCode += Code.getOledCompatSetupCode();
     }
     finalCode += BitdogLabConfig.LED_INIT.generateInitCode(rawCode);
     finalCode += '\n';
