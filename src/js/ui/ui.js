@@ -54,10 +54,20 @@ function account (button_, panel_) {
 	    localStorage.setItem('account_user', 'User');
 	  }
 	}
+
+  try {
+    this.restoreProjects(JSON.parse(localStorage.getItem('bipes_projects') || '{}'));
+  } catch (e) {
+    console.warn('[Account] Failed to restore project list:', e);
+    this.restoreProjects({});
+  }
 }
 // Restore projects from localStorage and list valid ones
 account.prototype.restoreProjects = function (projects_) {
-  this.projects = projects_;
+  this.projects = (projects_ && typeof projects_ === 'object') ? projects_ : {};
+  if (this.projectList) {
+    this.projectList.innerHTML = '';
+  }
 
   // Update UI with translated strings
   if (MSG['hello'] && document.getElementById('hello_text')) document.getElementById('hello_text').textContent = MSG['hello'];
@@ -99,9 +109,13 @@ account.prototype.openLastEdited = function () {
   console.log('[Account] Opening project with UID:', this.currentProject.uid);
 
   if (this.projectList) getIn(this.projectList, `#${this.currentProject.uid}`).className = 'current';
-
-  var xml = UI ['workspace'].readWorkspace (this.currentProject.xml, false);
-  Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), Blockly.getMainWorkspace());
+  if (window.SimpleStorage && SimpleStorage.openProjectByUid) {
+    SimpleStorage.openProjectByUid(this.currentProject.uid);
+  } else {
+    var xml = UI ['workspace'].readWorkspace (this.currentProject.xml, false);
+    Blockly.getMainWorkspace().clear();
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), Blockly.getMainWorkspace());
+  }
 }
 
 // Add project to UI list
@@ -125,10 +139,15 @@ account.prototype.listProject = function (uid, timestamp) {
 // Open project by UID
 account.prototype.openProject = function (uid) {
   if (this.currentProject.uid != '') {
-    BlocklyStorage.backupBlocks_ ();
+    if (window.SimpleStorage && SimpleStorage.saveCurrentProject) {
+      SimpleStorage.saveCurrentProject();
+    }
     if (this.projectList) try{getIn(this.projectList, `#${this.currentProject.uid}`).className = ''} catch (e) {};
   }
   let xml = localStorage[uid];
+  if (!xml) {
+    return;
+  }
 
   this.currentProject.uid = uid;
   this.currentProject.xml = xml;
@@ -137,14 +156,25 @@ account.prototype.openProject = function (uid) {
 
   this.projects[uid] = +new Date(); // Update timestamp to mark as recently opened
 
-  BlocklyStorage.loadXml_ (xml, Blockly.getMainWorkspace());
+  if (window.SimpleStorage && SimpleStorage.openProjectByUid) {
+    SimpleStorage.openProjectByUid(uid);
+  } else {
+    Blockly.getMainWorkspace().clear();
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(UI ['workspace'].readWorkspace(xml, false)), Blockly.getMainWorkspace());
+  }
   Files.handleCurrentProject ();
 }
 // Delete project by UID
 account.prototype.deleteProject = function (uid) {
-  localStorage.removeItem (uid);
+  if (window.SimpleStorage && SimpleStorage.deleteProject) {
+    SimpleStorage.deleteProject(uid);
+  } else {
+    localStorage.removeItem(uid);
+    delete this.projects[uid];
+    localStorage.setItem('bipes_projects', JSON.stringify(this.projects));
+  }
+
   delete this.projects[uid];
-  localStorage.setItem('bipes_projects', JSON.stringify(this.projects))
 
   if (this.projectList) getIn(this.projectList, `#${uid}`).remove();
 
@@ -174,7 +204,9 @@ account.prototype.getProjectName_ = function (uid) {
 // Create and open new empty project
 account.prototype.newProject = function () {
   if (this.currentProject.uid != '') {
-    BlocklyStorage.backupBlocks_ ();
+    if (window.SimpleStorage && SimpleStorage.saveCurrentProject) {
+      SimpleStorage.saveCurrentProject();
+    }
     if (this.projectList) try{getIn(this.projectList, `#${this.currentProject.uid}`).className = ''} catch (e) {};
   }
 
@@ -189,14 +221,21 @@ account.prototype.newProject = function () {
 
   this.listProject (uid, this.projects [uid]);
 
-  BlocklyStorage.loadXml_ (emptyXML, Blockly.getMainWorkspace());
+  if (window.SimpleStorage && SimpleStorage.createProject) {
+    SimpleStorage.createProject(uid, emptyXML);
+  } else {
+    Blockly.getMainWorkspace().clear();
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(UI ['workspace'].readWorkspace(emptyXML, false)), Blockly.getMainWorkspace());
+  }
 
   if (this.projectList) getIn(this.projectList, `#${uid}`).className = 'current';
 }
 // Import project from external XML
 account.prototype.importProject = function (xml) {
   if (this.currentProject.uid != '') {
-    BlocklyStorage.backupBlocks_ ();
+    if (window.SimpleStorage && SimpleStorage.saveCurrentProject) {
+      SimpleStorage.saveCurrentProject();
+    }
     if (this.projectList) try{getIn(this.projectList, `#${this.currentProject.uid}`).className = ''} catch (e) {};
   }
   let uid = Tool.uid ();
@@ -209,7 +248,12 @@ account.prototype.importProject = function (xml) {
 
   this.listProject (uid, this.projects [uid]);
 
-  BlocklyStorage.loadXml_ (xml, Blockly.getMainWorkspace());
+  if (window.SimpleStorage && SimpleStorage.createProject) {
+    SimpleStorage.createProject(uid, xml);
+  } else {
+    Blockly.getMainWorkspace().clear();
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(UI ['workspace'].readWorkspace(xml, false)), Blockly.getMainWorkspace());
+  }
 
   if (this.projectList) getIn(this.projectList, `#${uid}`).className = 'current';
 }
@@ -670,7 +714,6 @@ workspace.prototype.loadXML = function () {
     }
   }
 }
-
 
 
 

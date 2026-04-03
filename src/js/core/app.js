@@ -107,18 +107,23 @@ Code.loadBlocks = function(defaultXml) {
   // Wait for devices to load before loading blocks (poll every 500ms)
   var interval_ = setInterval(() => {
     if (typeof UI != 'undefined' && UI ['workspace'].devices.constructor.name == 'Object') { // Check if devices obj is ready
-      // BlocklyStorage removed - using storage.js for auto-save
+      var restored = false;
       if (loadOnce) {
         delete window.sessionStorage.loadOnceBlocks; // Clear language-switch temp storage
         var xml = Blockly.Xml.textToDom(loadOnce);
         Blockly.Xml.domToWorkspace(xml, Code.workspace);
+        restored = true;
+      } else if (window.SimpleStorage && typeof window.SimpleStorage.restoreLastSession === 'function') {
+        restored = !!window.SimpleStorage.restoreLastSession();
       } else if (defaultXml) {
         var xml = Blockly.Xml.textToDom(defaultXml); // Load default blocks
         Blockly.Xml.domToWorkspace(xml, Code.workspace);
+        restored = true;
       }
-      // else if ('BlocklyStorage' in window) {
-      //   window.setTimeout(() => {BlocklyStorage.restoreBlocks(); UI['account'].openLastEdited()}, 0);
-      // }
+      if (!restored && defaultXml) {
+        var fallbackXml = Blockly.Xml.textToDom(defaultXml);
+        Blockly.Xml.domToWorkspace(fallbackXml, Code.workspace);
+      }
       clearInterval(interval_);
     }}, 500);
 };
