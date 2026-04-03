@@ -549,7 +549,6 @@ Code.GENERATED_IDENTIFIER_COMPONENTS = {
     estado: 'state',
     estufa: 'greenhouse',
     finais: 'final',
-    freq: 'frequency',
     frequencia: 'frequency',
     intensidade: 'intensity',
     joy: 'joystick',
@@ -583,6 +582,59 @@ Code.GENERATED_IDENTIFIER_COMPONENTS = {
     umidade: 'humidity',
     verde: 'green',
     vermelho: 'red'
+  }
+};
+
+Code.GENERATED_IDENTIFIER_RESERVED = {
+  'en': {
+    ADC: true,
+    I2C: true,
+    IN: true,
+    IRQ_FALLING: true,
+    NeoPixel: true,
+    OUT: true,
+    PWM: true,
+    PULL_UP: true,
+    Pin: true,
+    SSD1306_I2C: true,
+    abs: true,
+    callback: true,
+    current_time: true,
+    duty: true,
+    duty_u16: true,
+    fill: true,
+    fill_rect: true,
+    freq: true,
+    handler: true,
+    height: true,
+    import: true,
+    int: true,
+    irq: true,
+    len: true,
+    line: true,
+    machine: true,
+    max: true,
+    min: true,
+    neopixel: true,
+    oled: true,
+    pixel: true,
+    range: true,
+    rect: true,
+    scl: true,
+    scan: true,
+    sda: true,
+    show: true,
+    sleep: true,
+    sleep_ms: true,
+    str: true,
+    text: true,
+    ticks_diff: true,
+    ticks_ms: true,
+    time: true,
+    trigger: true,
+    value: true,
+    width: true,
+    write: true
   }
 };
 
@@ -770,6 +822,11 @@ Code.translateGeneratedIdentifier = function(token) {
     return token;
   }
 
+  var reserved = Code.GENERATED_IDENTIFIER_RESERVED[Code.LANG] || {};
+  if (reserved[token]) {
+    return token;
+  }
+
   if (config.exact && config.exact[token] !== undefined) {
     return config.exact[token];
   }
@@ -806,6 +863,47 @@ Code.translateGeneratedIdentifier = function(token) {
   }
 
   return translated;
+};
+
+Code.shouldTranslateGeneratedIdentifier = function(token) {
+  if (Code.LANG !== 'en' || typeof token !== 'string') {
+    return false;
+  }
+
+  var reserved = Code.GENERATED_IDENTIFIER_RESERVED[Code.LANG] || {};
+  if (reserved[token]) {
+    return false;
+  }
+
+  var config = Code.GENERATED_IDENTIFIER_OVERRIDES[Code.LANG] || {};
+  if (config.exact && config.exact[token] !== undefined) {
+    return true;
+  }
+
+  var fragmentKeys = Object.keys(config.fragments || {});
+  for (var i = 0; i < fragmentKeys.length; i++) {
+    if (token.indexOf(fragmentKeys[i]) !== -1) {
+      return true;
+    }
+  }
+
+  if (token.indexOf('_') === -1) {
+    return false;
+  }
+
+  var normalizedToken = Code.normalizeAuditText(token);
+  var rules = Code.GENERATED_CODE_AUDIT_RULES[Code.LANG];
+  if (!rules) {
+    return false;
+  }
+
+  for (var j = 0; j < rules.identifierPatterns.length; j++) {
+    if (rules.identifierPatterns[j].test(normalizedToken)) {
+      return true;
+    }
+  }
+
+  return false;
 };
 
 Code.translateGeneratedStringLiterals = function(code) {
@@ -934,6 +1032,9 @@ Code.translateGeneratedCode = function(code) {
   }
 
   code = code.replace(/\b[A-Za-z_][A-Za-z0-9_]*\b/g, function(token) {
+    if (!Code.shouldTranslateGeneratedIdentifier(token)) {
+      return token;
+    }
     return Code.translateGeneratedIdentifier(token);
   });
 
