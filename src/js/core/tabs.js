@@ -3,8 +3,13 @@
 var Code = window.Code || (window.Code = {});
 var TabsManager = {};
 
-Code.TABS_ = ['blocks', 'console', 'files', 'programs', 'device', 'databoard'];
+Code.TABS_ = ['blocks', 'console', 'files', 'device', 'databoard'];
 Code.current = ['blocks', '', ''];
+
+TabsManager.getDataboardWindow = function() {
+  var iframe = document.getElementById('databoard_iframe');
+  return iframe ? iframe.contentWindow : null;
+};
 
 TabsManager.handleLink = function(_navigation, _pos) {
   var _pos0 = _pos === 2 ? 1 : 2;
@@ -109,21 +114,24 @@ TabsManager.renderContent = function(_navigation) {
   switch (_navigation) {
     case 'databoard':
       setTimeout(function() {
-        if (!window.frames[3].inited) {
-          if (typeof window.frames[3].modules === 'object' && typeof window.frames[3].modules.Workspaces === 'object') {
-            window.frames[3].initDataStorage();
+        var databoardWindow = TabsManager.getDataboardWindow();
+        if (!databoardWindow) return;
+
+        if (!databoardWindow.inited) {
+          if (typeof databoardWindow.modules === 'object' && typeof databoardWindow.modules.Workspaces === 'object') {
+            databoardWindow.initDataStorage();
           } else {
             var interval = setInterval(function() {
-              if (typeof window.frames[3].modules === 'object' && typeof window.frames[3].modules.Workspaces === 'object') {
-                window.frames[3].initDataStorage();
-                if (window.frames[3].inited) {
+              if (typeof databoardWindow.modules === 'object' && typeof databoardWindow.modules.Workspaces === 'object') {
+                databoardWindow.initDataStorage();
+                if (databoardWindow.inited) {
                   clearInterval(interval);
                 }
               }
             }, 500);
           }
         } else {
-          window.frames[3].initGrid();
+          databoardWindow.initGrid();
         }
       }, 10);
       break;
@@ -141,7 +149,6 @@ TabsManager.renderContent = function(_navigation) {
       term.resize();
       break;
     case 'device':
-    case 'programs':
       break;
   }
 
@@ -162,7 +169,6 @@ TabsManager.resizeContent = function() {
         break;
       case 'databoard':
       case 'device':
-      case 'programs':
         break;
     }
   });
@@ -171,8 +177,9 @@ TabsManager.resizeContent = function() {
 TabsManager.deinitContent = function(_navigation) {
   switch (_navigation) {
     case 'databoard':
-      if (window.frames[3].grid_inited) {
-        window.frames[3].deinitGrid();
+      var databoardWindow = TabsManager.getDataboardWindow();
+      if (databoardWindow && databoardWindow.grid_inited) {
+        databoardWindow.deinitGrid();
       }
       break;
     case 'blocks':

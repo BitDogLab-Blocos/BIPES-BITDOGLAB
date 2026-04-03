@@ -392,10 +392,10 @@ td {
   padding: 0;
   vertical-align: top;
 }
-#content_blocks, #content_iot {
+#content_blocks {
   visibility: hidden;
 }
-.content:not(#content_blocks):not(#content_iot){
+.content:not(#content_blocks){
   display: none;
 }
 .content {
@@ -414,7 +414,7 @@ td {
 .content#content_blocks {
   margin-top: -1px;
 }
-.content.ani#content_blocks, .content.ani#content_iot, #content_iot.ani #content_iot {
+.content.ani#content_blocks {
   visibility: visible !important;
 }
 .content.ani:not(#content_console):not(#content_files) {
@@ -454,7 +454,7 @@ pre.content {
 .content-padding {
   padding: 0;
 }
-#content_blocks, #content_device, #content_code, #content_console, #content_files, #content_device, #content_programs, #content_mqtt, #content_iot, #content_databoard {
+#content_blocks, #content_device, #content_code, #content_console, #content_files, #content_databoard {
   height: calc(100vh - 4rem);
 }
 #content_device, #content_code, #content_console {

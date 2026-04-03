@@ -12,45 +12,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicons/bitdog-logo.jpg">
   <meta name="theme-color" content="#2980b9">
 
-  <!-- PWA manifest -->
-  <link rel="manifest" href="manifest.json"></link>
-  <script src="core/manup.js"></script>
-
-<script>
-// Legacy cookie utilities (unused)
-function setCookie(cname, cvalue, cpassword_value, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  var expires = "expires="+d.toUTCString();
-  document.cookie = cname + "=" + cvalue + "&"+ "last_pass="+ cpassword_value + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-  var name = cname + "=";
-  var ca = document.cookie.split(';');
-  console.log(ca)
-  for(var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
-
-function checkCookie() {
-  var cookies = getCookie("last_ip");
-  if (cookies != "") {
-    var cookies_ = cookies.split('&')
-    document.getElementById('url').value = cookies_[0]
-    document.getElementById('password').value = cookies_[1].substring("last_pass=".length, cookies_[0].length)
-  }
-}
-</script>
-  <link rel="stylesheet" href="../styles/main.css?ver=0.2.3.1125">
+  <link rel="stylesheet" href="../styles/main.css?ver=20260403a7">
   <link rel="stylesheet" href="../styles/libs.css">
   <!-- Blockly core -->
   <script src="../js/lib/blockly/blockly_compressed.js?ver=0.2.1.8260042"></script>
@@ -58,11 +20,11 @@ function checkCookie() {
 
   <!-- BitdogLab core modules -->
   <script src="../js/core/storage.js?ver=20260402v3"></script>
-  <script src="../js/core/utils.js?ver=0.2.3.20251001v2"></script>
+  <script src="../js/core/utils.js?ver=20260403a7"></script>
   <script src="../js/config/bitdoglab_v7.js"></script>
   <script src="../js/config/bitdoglab_v6.js"></script>
-  <script src="../js/core/language.js?ver=20260402a3"></script>
-  <script src="../js/core/tabs.js?ver=20260402a3"></script>
+  <script src="../js/core/language.js?ver=20260403a7"></script>
+  <script src="../js/core/tabs.js?ver=20260403a7"></script>
   <script src="../js/core/codegen.js?ver=20260402a3"></script>
   <script src="../js/core/filemanager.js?ver=20260402a3"></script>
   <script src="../js/core/workspace.js?ver=20260402a3"></script>
@@ -365,9 +327,6 @@ function checkCookie() {
         <div id="tab_console" class="taboff">Mensagens</div>
         <div id="tab_device" class="taboff">Dispositivo</div>
         <div id="tab_files" class="taboff" style="display:none;">Arquivos</div>
-        <div id="tab_programs" class="taboff" style="display:none;">Programas</div>
-        <div id="tab_iot" class="taboff" style="display:none;">Internet</div>
-        <div id="tab_mqtt" class="taboff" style="display:none;" onclick='document.getElementById("easymqtt_iframe").contentWindow.startEasyMQTT(window.easyMQTT_session);'>Mensagens</div>
         <div id="tab_databoard" class="taboff" style="display:none;">Dados</div>
       </div>
       <button id="toolbarButton" class="notext icon medium" title="Ferramentas"></button>
@@ -435,12 +394,6 @@ function checkCookie() {
    </tr>
 </div>
 
-  <div id="content_programs" class="content">
-    <center>
-    <iframe src="shared.html" width="100%" height="500" frameBorder="0"></iframe>
-    </center>
-  </div>
-
   <div id="content_device" class="content">
     <iframe id="deviceReferenceFrame" src="device-reference.html" width="100%" height="100%" frameBorder="0" style="border:none;"></iframe>
   </div>
@@ -489,14 +442,6 @@ function checkCookie() {
 
   <link rel="stylesheet" href="../js/lib/codemirror/codemirror.css">
   </div>
-</div>
-
-  <div id="content_iot" class="content">
-     <iframe id="content_iot" src="freeboard/index.html" width="100%" height="100%" frameBorder="0"></iframe>
-  </div>
-
-<div id="content_mqtt" class="content" style="padding: 0;">
-  <iframe id="easymqtt_iframe" src="../easymqtt/index.html" width="100%" height="100%" frameBorder="0"></iframe>
 </div>
 
 <div id="content_databoard" class="content" style="padding: 0;">
@@ -551,8 +496,6 @@ UI ['workspace'] = new workspace ();
 Tool.clearQueue ();
 
 window.onload = function() {
-	checkCookie();
-
 	// i18n: Auto-detect browser language
 	var userLang = navigator.language || navigator.userLanguage + " ";
 	var addMsg = "";

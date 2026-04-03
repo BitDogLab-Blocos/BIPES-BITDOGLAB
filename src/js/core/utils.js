@@ -86,7 +86,14 @@ class Tool {
       match_ = Files.received_string.match(re);
       if (match_.length == 3) { // match[0]=full, match[1]=name, match[2]=data
         let coordinates = match_ [2].split(',').map((item)=>item = parseFloat(item)) // Convert "25.5,100" to [25.5, 100]
-        window.frames[3].modules.DataStorage.push(match_[1],coordinates) // Push to plot iframe
+        const databoardIframe = document.getElementById('databoard_iframe');
+        const databoardWindow = databoardIframe ? databoardIframe.contentWindow : null;
+        if (databoardWindow &&
+            databoardWindow.modules &&
+            databoardWindow.modules.DataStorage &&
+            typeof databoardWindow.modules.DataStorage.push === 'function') {
+          databoardWindow.modules.DataStorage.push(match_[1],coordinates); // Push to plot iframe
+        }
       }
     }
     Files.received_string = Files.received_string.replace(re, '\r\n') // Remove matched pattern from buffer
