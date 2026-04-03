@@ -80,7 +80,16 @@ function checkCookie() {
   <script src="../js/blocks/definitions/sensor.js?ver=20260402a2"></script>
   <script src="../js/blocks/definitions/index.js?ver=20260402a2"></script>
   <script src="../js/blocks/sensor_libs.js?ver=20260309v1"></script>
-  <script src="../js/blocks/generators.js?ver=20260218v1"></script>
+  <script src="../js/blocks/generators/helpers.js?ver=20260402a1"></script>
+  <script src="../js/blocks/generators/base.js?ver=20260402a1"></script>
+  <script src="../js/blocks/generators/led.js?ver=20260402a1"></script>
+  <script src="../js/blocks/generators/matrix.js?ver=20260402a1"></script>
+  <script src="../js/blocks/generators/display.js?ver=20260402a1"></script>
+  <script src="../js/blocks/generators/sound.js?ver=20260402a1"></script>
+  <script src="../js/blocks/generators/input.js?ver=20260402a1"></script>
+  <script src="../js/blocks/generators/joystick.js?ver=20260402a1"></script>
+  <script src="../js/blocks/generators/sensor.js?ver=20260402a1"></script>
+  <script src="../js/blocks/generators/index.js?ver=20260402a1"></script>
 
   <!-- Terminal (xterm.js) -->
   <script src="../js/lib/xterm/xterm.js?ver=4.13.0"></script>
@@ -552,22 +561,24 @@ window.onload = function() {
 	if (!pLang) pLang = 'en';
 
 	// Keyboard shortcuts (Ctrl+Shift+...)
-	shortcut.add("Ctrl+Shift+L", function() {
-		Tool.exportScreenshot(); // Screenshot
-	});
+	if (typeof shortcut !== 'undefined' && shortcut && typeof shortcut.add === 'function') {
+		shortcut.add("Ctrl+Shift+L", function() {
+			Tool.exportScreenshot(); // Screenshot
+		});
 
-	shortcut.add("Ctrl+Shift+E", function() {
-		Code.handleLink('console', 1); // Run + switch to console
-		Tool.runPython();
-	});
+		shortcut.add("Ctrl+Shift+E", function() {
+			Code.handleLink('console', 1); // Run + switch to console
+			Tool.runPython();
+		});
 
-	shortcut.add("Ctrl+Shift+R", function() {
-		Tool.runPython(); // Run program
-	});
+		shortcut.add("Ctrl+Shift+R", function() {
+			Tool.runPython(); // Run program
+		});
 
-	shortcut.add("Ctrl+Shift+S", function() {
-		Tool.stopPython(); // Stop program
-	});
+		shortcut.add("Ctrl+Shift+S", function() {
+			Tool.stopPython(); // Stop program
+		});
+	}
 };
 
 </script>

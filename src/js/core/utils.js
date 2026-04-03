@@ -44,6 +44,14 @@ class Tool {
     }, 500);
   }
 
+  static clearQueue () {
+    // Silently clear any pending serial queue leftovers during page boot.
+    if (typeof Channel !== 'undefined' && Channel['webserial']) {
+      Channel['webserial'].buffer = [];
+      Channel['webserial'].completeBufferCallback = [];
+    }
+  }
+
   static softReset () {
     mux.bufferPush ('\x04'); // Ctrl+D soft reboot - reset device
   }
