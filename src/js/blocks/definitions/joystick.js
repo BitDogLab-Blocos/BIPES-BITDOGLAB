@@ -123,7 +123,7 @@ Blockly.Blocks['joystick_posicao_x'] = {
         .appendField("🕹️ Posição X");
     this.setOutput(true, "Number");
     this.setColour("#1565c0");
-    this.setTooltip("Retorna a posição X atual do player no display (0 a 128).");
+    this.setTooltip("Retorna a posição X do joystick mapeada para o display. Se houver um player ou lousa ativos, usa essa posição atual. Pode ser usada dentro do bloco 'Mostrar valor'.");
     this.setHelpUrl("");
   }
 };
@@ -135,7 +135,7 @@ Blockly.Blocks['joystick_posicao_y'] = {
         .appendField("🕹️ Posição Y");
     this.setOutput(true, "Number");
     this.setColour("#1565c0");
-    this.setTooltip("Retorna a posição Y atual do player no display (0 a 64).");
+    this.setTooltip("Retorna a posição Y do joystick mapeada para o display. Se houver um player ou lousa ativos, usa essa posição atual. Pode ser usada dentro do bloco 'Mostrar valor'.");
     this.setHelpUrl("");
   }
 };

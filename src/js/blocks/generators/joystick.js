@@ -1,6 +1,38 @@
 // Auto-extracted from legacy generators.js into joystick.js
 'use strict';
 
+function ensureJoystickDisplayPositionSupport() {
+  var pins = BitdogLabConfig.PINS;
+  var display = BitdogLabConfig.DISPLAY;
+  var invY = (BitdogLabConfig.JOYSTICK.INVERT_Y === true);
+  var invX = (BitdogLabConfig.JOYSTICK.INVERT_X === true);
+  var exprPx = invX ? '_jx' : '(65535 - _jx)';
+  var exprPy = invY ? '(65535 - _jy)' : '_jy';
+
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_adc'] = 'from machine import ADC';
+  Blockly.Python.definitions_['setup_joy_x'] = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
+  Blockly.Python.definitions_['setup_joy_y'] = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
+  Blockly.Python.definitions_['setup_px'] = Blockly.Python.definitions_['setup_px'] || '_px = 0';
+  Blockly.Python.definitions_['setup_py'] = Blockly.Python.definitions_['setup_py'] || '_py = 0';
+  Blockly.Python.definitions_['setup_player_size'] = Blockly.Python.definitions_['setup_player_size'] || '_player_size = 5';
+  Blockly.Python.definitions_['setup_joy_has_position'] = Blockly.Python.definitions_['setup_joy_has_position'] || '_joy_has_position = False';
+  Blockly.Python.definitions_['joy_position_x_helper'] =
+    'def _joystick_pos_x_val():\n' +
+    '  global _joy_has_position, _px, _player_size\n' +
+    '  if _joy_has_position:\n' +
+    '    return _px\n' +
+    '  _jx = joy_x.read_u16()\n' +
+    '  return ' + exprPx + ' * (' + display.WIDTH + ' - _player_size) // 65535';
+  Blockly.Python.definitions_['joy_position_y_helper'] =
+    'def _joystick_pos_y_val():\n' +
+    '  global _joy_has_position, _py, _player_size\n' +
+    '  if _joy_has_position:\n' +
+    '    return _py\n' +
+    '  _jy = joy_y.read_u16()\n' +
+    '  return ' + exprPy + ' * (' + display.HEIGHT + ' - _player_size) // 65535';
+}
+
 Blockly.Python["joystick_controlar_led"] = function(block) {
   var pins = BitdogLabConfig.PINS;
   var led = BitdogLabConfig.LED;
@@ -126,6 +158,7 @@ Blockly.Python["joystick_mover_player"] = function(block) {
   Blockly.Python.definitions_['setup_player_size'] = '_player_size = ' + tamanho;
   Blockly.Python.definitions_['setup_px'] = '_px = 0';
   Blockly.Python.definitions_['setup_py'] = '_py = 0';
+  Blockly.Python.definitions_['setup_joy_has_position'] = Blockly.Python.definitions_['setup_joy_has_position'] || '_joy_has_position = False';
 
   var invY = (BitdogLabConfig.JOYSTICK.INVERT_Y === true);
   var invX = (BitdogLabConfig.JOYSTICK.INVERT_X === true);
@@ -138,6 +171,7 @@ Blockly.Python["joystick_mover_player"] = function(block) {
   code += '_jy = joy_y.read_u16()\n';
   code += '_px = ' + exprPx + ' * (' + display.WIDTH + ' - _player_size) // 65535\n';
   code += '_py = ' + exprPy + ' * (' + display.HEIGHT + ' - _player_size) // 65535\n';
+  code += '_joy_has_position = True\n';
   code += 'oled.fill_rect(_px, _py, _player_size, _player_size, 1)\n';
 
   return code;
@@ -162,6 +196,7 @@ Blockly.Python["joystick_lousa_magica"] = function(block) {
   Blockly.Python.definitions_['setup_ly'] = '_ly = ' + Math.floor(display.HEIGHT / 2);
   Blockly.Python.definitions_['setup_px'] = '_px = 0';
   Blockly.Python.definitions_['setup_py'] = '_py = 0';
+  Blockly.Python.definitions_['setup_joy_has_position'] = Blockly.Python.definitions_['setup_joy_has_position'] || '_joy_has_position = False';
 
   var c = joy.CENTER_VALUE, dz = joy.DEADZONE;
   // Divisor controls speed: smaller = faster. Range ~0..32767 each side → /4000 gives ~0..8 px/frame
@@ -182,18 +217,19 @@ Blockly.Python["joystick_lousa_magica"] = function(block) {
   code += 'oled.fill_rect(_lx, _ly, _pen_size, _pen_size, 1)\n';
   code += '_px = _lx\n';
   code += '_py = _ly\n';
+  code += '_joy_has_position = True\n';
 
   return code;
 };
 
 Blockly.Python["joystick_posicao_x"] = function(_block) {
-  Blockly.Python.definitions_['setup_px'] = Blockly.Python.definitions_['setup_px'] || '_px = 0';
-  return ['_px', Blockly.Python.ORDER_ATOMIC];
+  ensureJoystickDisplayPositionSupport();
+  return ['_joystick_pos_x_val()', Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Python["joystick_posicao_y"] = function(_block) {
-  Blockly.Python.definitions_['setup_py'] = Blockly.Python.definitions_['setup_py'] || '_py = 0';
-  return ['_py', Blockly.Python.ORDER_ATOMIC];
+  ensureJoystickDisplayPositionSupport();
+  return ['_joystick_pos_y_val()', Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Python["joystick_cursor_matriz"] = function(block) {

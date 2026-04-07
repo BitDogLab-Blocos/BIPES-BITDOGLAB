@@ -1,5 +1,10 @@
 'use strict';
 
+// Temporary screenshot aid:
+// disable automatic I2C polling so the generated-code capture stays clean.
+// Set back to false after taking the print for IMG 04.
+const BITDOGLAB_DISABLE_AUTO_I2C_SCANNER = false;
+
 /**
  * I2CScanner - Manages periodic I2C bus scanning and sensor detection
  * Detects sensors on both I2C0 and I2C1 buses independently of WebSerial
@@ -19,6 +24,7 @@ class I2CScanner {
    * @param {WebSerialProtocol} serial - WebSerial instance for sending commands
    */
   start(serial) {
+    if (BITDOGLAB_DISABLE_AUTO_I2C_SCANNER) return;
     if (this._isRunning) return;
     this._isRunning = true;
     this._serial = serial;
@@ -118,6 +124,7 @@ class I2CScanner {
    * @param {string} chunk - Incoming data chunk from serial
    */
   processData(chunk) {
+    if (BITDOGLAB_DISABLE_AUTO_I2C_SCANNER) return;
     if (!this._scanPending) return;
 
     this._scanBuffer = (this._scanBuffer || '') + chunk;
