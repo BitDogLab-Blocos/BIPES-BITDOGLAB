@@ -338,6 +338,7 @@
   <!-- 15. DISPLAY OLED -->
   <category name="📺 Display OLED" colour="#16a085">
     <block type="display_testar_conexao"></block>
+    <block type="display_testar_sh1107"></block>
     <block type="display_texto"></block>
     <block type="display_piscar_texto"></block>
     <block type="display_mostrar_calculo"></block>

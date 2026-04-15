@@ -81,6 +81,50 @@ Blockly.Python["display_testar_conexao"] = function(block) {
   return code;
 };
 
+Blockly.Python["display_testar_sh1107"] = function(_block) {
+  var pins = BitdogLabConfig.PINS;
+  var display = BitdogLabConfig.DISPLAY;
+
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
+
+  var code = '';
+  code += '# SETUP_BLOCK_START\n';
+  code += '_sh1107_i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n';
+  code += '_sh1107_scan = _sh1107_i2c.scan()\n';
+  code += '_sh1107_addr = None\n';
+  code += 'for _addr in (0x3C, 0x3D):\n';
+  code += '  if _addr in _sh1107_scan:\n';
+  code += '    _sh1107_addr = _addr\n';
+  code += '    break\n';
+  code += 'if _sh1107_addr is None:\n';
+  code += '  _sh1107_addr = 0x3C\n';
+  code += 'try:\n';
+  code += '  oled = SH1107_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', _sh1107_i2c, address=_sh1107_addr)\n';
+  code += 'except Exception:\n';
+  code += '  _sh1107_addr = 0x3D if _sh1107_addr == 0x3C else 0x3C\n';
+  code += '  try:\n';
+  code += '    oled = SH1107_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', _sh1107_i2c, address=_sh1107_addr)\n';
+  code += '  except Exception:\n';
+  code += '    oled = None\n';
+  code += 'if oled is not None:\n';
+  code += '  oled.fill(0)\n';
+  code += '  oled.rect(0, 0, ' + display.WIDTH + ', ' + display.HEIGHT + ', 1)\n';
+  code += '  oled.text("SH1107 OK", 24, 8, 1)\n';
+  code += '  oled.text("SDA:' + pins.I2C_SDA + ' SCL:' + pins.I2C_SCL + '", 8, 24, 1)\n';
+  code += '  oled.text("I2C:' + display.I2C_BUS + '", 8, 38, 1)\n';
+  code += '  oled.text("ADDR:" + hex(_sh1107_addr), 8, 50, 1)\n';
+  code += '  oled.show()\n';
+  code += '  print("SH1107 OK em", hex(_sh1107_addr))\n';
+  code += 'else:\n';
+  code += '  print("Falha ao iniciar SH1107 nos pinos SDA=' + pins.I2C_SDA + ' SCL=' + pins.I2C_SCL + '")\n';
+  code += '  print("I2C scan:", _sh1107_scan)\n';
+  code += '# SETUP_BLOCK_END\n';
+
+  return code;
+};
+
 Blockly.Python["display_show"] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';

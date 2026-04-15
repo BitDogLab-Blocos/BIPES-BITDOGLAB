@@ -68,6 +68,19 @@ Blockly.Blocks['display_testar_conexao'] = {
   }
 };
 
+// Display test SH1107 block
+Blockly.Blocks['display_testar_sh1107'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Testar display SH1107");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Testa o display SH1107 usando a mesma pinagem I2C do OLED SSD1306 e envia a biblioteca junto no codigo.");
+    this.setHelpUrl("");
+  }
+};
+
 // Display show block (simple - just calls oled.show())
 Blockly.Blocks['display_show'] = {
   init: function() {

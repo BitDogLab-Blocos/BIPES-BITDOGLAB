@@ -89,6 +89,8 @@ const BitdogLabConfig_V6 = {
              line.indexOf('=Pin(') !== -1 ||
              line.indexOf(' = PWM(') !== -1 ||
              line.indexOf('=PWM(') !== -1 ||
+             line.indexOf(' = const(') !== -1 ||
+             line.indexOf('=const(') !== -1 ||
              line.indexOf(' = I2C(') !== -1 ||
              line.indexOf('=I2C(') !== -1 ||
              line.indexOf(' = SSD1306_I2C(') !== -1 ||
