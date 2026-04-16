@@ -156,23 +156,33 @@ Blockly.Python["sensor_umidade"] = function(_block) {
   return ['_ler_umidade()', Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
-Blockly.Python["sensor_estufa_comparar"] = function(_block) {
+Blockly.Python["sensor_estufa_comparar"] = function(block) {
   var pins = BitdogLabConfig.PINS;
   var sensor = BitdogLabConfig.SENSOR;
   var display = BitdogLabConfig.DISPLAY;
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
 
   Blockly.Python.definitions_['import_pin']  = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c']  = 'from machine import I2C';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
 
   // Biblioteca AHT20 inline
   Blockly.Python.definitions_['lib_aht20'] = SensorLibs.AHT20;
 
   // I2C do display (bus 1)
-  Blockly.Python.definitions_['setup_display'] =
-    'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
-    'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+  if (displayType === 'LARGE') {
+    Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
+    Blockly.Python.definitions_['setup_display'] =
+      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
+      '_sh1107_scan = i2c.scan()\n' +
+      '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
+      'oled = SH1107_I2C(128, 128, i2c, address=_sh1107_addr, rotate=90)';
+  } else {
+    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+    Blockly.Python.definitions_['setup_display'] =
+      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
+      'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+  }
 
   // Dois sensores AHT20: I2C0 e I2C1
   var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
@@ -222,6 +232,43 @@ Blockly.Python["sensor_estufa_comparar"] = function(_block) {
     '  else:\n' +
     '    oled.text("OFF", 79, 38, 1)\n' +
     '  oled.show()\n';
+
+  if (displayType === 'LARGE') {
+    Blockly.Python.definitions_['func_estufa_comparar'] =
+      'def _estufa_comparar():\n' +
+      '  oled.fill(0)\n' +
+      '  for y in range(128):\n' +
+      '    oled.pixel(63, y, 1)\n' +
+      '  oled.text("Sensor", 8, 8, 1)\n' +
+      '  oled.text("1", 28, 20, 1)\n' +
+      '  oled.text("Sensor", 72, 8, 1)\n' +
+      '  oled.text("2", 92, 20, 1)\n' +
+      '  if _estufa_esq_on:\n' +
+      '    t1, u1 = _aht_esq.get_data() if _aht_esq.is_ready else (None, None)\n' +
+      '    oled.text("Temp", 4, 44, 1)\n' +
+      '    oled.text("Umid", 4, 84, 1)\n' +
+      '    if t1 is not None:\n' +
+      '      oled.text(str(t1) + " C", 4, 58, 1)\n' +
+      '      oled.text(str(u1) + " %", 4, 98, 1)\n' +
+      '    else:\n' +
+      '      oled.text("--.- C", 4, 58, 1)\n' +
+      '      oled.text("--.- %", 4, 98, 1)\n' +
+      '  else:\n' +
+      '    oled.text("OFF", 16, 68, 1)\n' +
+      '  if _estufa_dir_on:\n' +
+      '    t2, u2 = _aht_dir.get_data() if _aht_dir.is_ready else (None, None)\n' +
+      '    oled.text("Temp", 68, 44, 1)\n' +
+      '    oled.text("Umid", 68, 84, 1)\n' +
+      '    if t2 is not None:\n' +
+      '      oled.text(str(t2) + " C", 68, 58, 1)\n' +
+      '      oled.text(str(u2) + " %", 68, 98, 1)\n' +
+      '    else:\n' +
+      '      oled.text("--.- C", 68, 58, 1)\n' +
+      '      oled.text("--.- %", 68, 98, 1)\n' +
+      '  else:\n' +
+      '    oled.text("OFF", 80, 68, 1)\n' +
+      '  oled.show()\n';
+  }
 
   var code = '_estufa_comparar()\n' +
     'time.sleep_ms(500)\n';

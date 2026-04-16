@@ -99,6 +99,8 @@ var BitdogLabConfig = {
              line.indexOf('=I2C(') !== -1 ||
              line.indexOf(' = SSD1306_I2C(') !== -1 ||
              line.indexOf('=SSD1306_I2C(') !== -1 ||
+             line.indexOf(' = SH1107_I2C(') !== -1 ||
+             line.indexOf('=SH1107_I2C(') !== -1 ||
              line.startsWith('LED_MATRIX = ') ||
              line.startsWith('np = neopixel') ||
              line.startsWith('EMOJIS_5X5 = ') ||
@@ -143,6 +145,7 @@ var BitdogLabConfig = {
              line.startsWith('EMOJI_NAMES =') ||
              line.startsWith('AHT20_ADDR') ||
              line.startsWith('_aht20') ||
+             line.startsWith('_sh1107_') ||
              line.startsWith('_i2c_sensor') ||
              line.startsWith('_i2c_estufa') ||
              line.startsWith('_aht_esq') ||

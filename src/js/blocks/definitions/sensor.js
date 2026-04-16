@@ -28,10 +28,16 @@ Blockly.Blocks['sensor_estufa_comparar'] = {
         .appendField("🌱 Efeito Estufa — Comparar 2 sensores");
     this.appendDummyInput()
         .appendField("Esquerda: Sensor 1  |  Direita: Sensor 2");
+    this.appendDummyInput()
+        .appendField("tipo de display")
+        .appendField(new Blockly.FieldDropdown([
+          ["pequeno OLED", "SMALL"],
+          ["grande SH1107", "LARGE"]
+        ]), "DISPLAY_TYPE");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
-    this.setTooltip("Experimento Efeito Estufa: divide o display OLED ao meio. Lado esquerdo mostra temperatura e umidade do Sensor 1 (I2C1), lado direito mostra do Sensor 2 (I2C0). Basta arrastar e rodar!");
+    this.setTooltip("Experimento Efeito Estufa: divide o display ao meio. Escolha display pequeno ou grande. Lado esquerdo mostra temperatura e umidade do Sensor 1 (I2C1), lado direito mostra do Sensor 2 (I2C0).");
     this.setHelpUrl("");
   }
 };
