@@ -346,12 +346,13 @@ Blockly.Python["estufa_plotar"] = function(block) {
   var valor = Blockly.Python.valueToCode(block, 'VALOR', Blockly.Python.ORDER_ATOMIC) || '0';
   var rotulo = block.getFieldValue('ROTULO');
   var posicao = block.getFieldValue('POSICAO');
+  var displayType = block.getFieldValue('DISPLAY_TYPE');
   var bufId = 'plot_' + rotulo + '_' + posicao;
   var varName = '_v_' + rotulo + '_' + posicao;
 
   var titulo = "'" + rotulo + ":' + str(round(" + varName + ", 1))";
   var code = varName + ' = (' + valor + ')\n' +
-    "_plot_grafico('" + bufId + "', " + varName + ", " + posicao + ", " + titulo + ")\n";
+    "_plot_grafico('" + bufId + "', " + varName + ", " + posicao + ", " + titulo + ", '" + displayType + "')\n";
   return code;
 };
 

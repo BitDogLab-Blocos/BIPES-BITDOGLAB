@@ -161,6 +161,12 @@ Blockly.Blocks['estufa_plotar'] = {
             ["Metade de Baixo", "2"],
             ["Tela Toda", "0"]
         ]), "POSICAO");
+    this.appendDummyInput()
+        .appendField("tipo de display")
+        .appendField(new Blockly.FieldDropdown([
+            ["pequeno OLED", "SMALL"],
+            ["grande SH1107", "LARGE"]
+        ]), "DISPLAY_TYPE");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
