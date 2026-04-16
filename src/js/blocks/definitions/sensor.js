@@ -46,6 +46,12 @@ Blockly.Blocks['sensor_estufa_comparar'] = {
 Blockly.Blocks['estufa_toggle_sensor1'] = {
   init: function() {
     this.appendDummyInput()
+        .appendField("tipo de display")
+        .appendField(new Blockly.FieldDropdown([
+          ["pequeno OLED", "SMALL"],
+          ["grande SH1107", "LARGE"]
+        ]), "DISPLAY_TYPE");
+    this.appendDummyInput()
         .appendField("🌱 Mostrar/Ocultar medição Sensor 1");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -58,6 +64,12 @@ Blockly.Blocks['estufa_toggle_sensor1'] = {
 // Bloco: Mostrar/Ocultar medição do Sensor 2 (direita)
 Blockly.Blocks['estufa_toggle_sensor2'] = {
   init: function() {
+    this.appendDummyInput()
+        .appendField("tipo de display")
+        .appendField(new Blockly.FieldDropdown([
+          ["pequeno OLED", "SMALL"],
+          ["grande SH1107", "LARGE"]
+        ]), "DISPLAY_TYPE");
     this.appendDummyInput()
         .appendField("🌱 Mostrar/Ocultar medição Sensor 2");
     this.setPreviousStatement(true, null);

@@ -49,6 +49,29 @@ function _setupAHT20Definitions() {
     '  return _aht20_umid\n';
 }
 
+function _setupEstufaMeasurementDisplay(displayType) {
+  var pins = BitdogLabConfig.PINS;
+  var display = BitdogLabConfig.DISPLAY;
+
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+
+  if (displayType === 'LARGE') {
+    Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
+    Blockly.Python.definitions_['setup_display'] =
+      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
+      '_sh1107_scan = i2c.scan()\n' +
+      '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
+      'oled = SH1107_I2C(128, 128, i2c, address=_sh1107_addr, rotate=90)';
+  } else {
+    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+    Blockly.Python.definitions_['setup_display'] =
+      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
+      'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+  }
+}
+
 function _setupEstufaGraficos() {
   var pins = BitdogLabConfig.PINS;
   var sensor = BitdogLabConfig.SENSOR;
@@ -162,27 +185,10 @@ Blockly.Python["sensor_estufa_comparar"] = function(block) {
   var display = BitdogLabConfig.DISPLAY;
   var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
 
-  Blockly.Python.definitions_['import_pin']  = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c']  = 'from machine import I2C';
-  Blockly.Python.definitions_['import_time'] = 'import time';
+  _setupEstufaMeasurementDisplay(displayType);
 
   // Biblioteca AHT20 inline
   Blockly.Python.definitions_['lib_aht20'] = SensorLibs.AHT20;
-
-  // I2C do display (bus 1)
-  if (displayType === 'LARGE') {
-    Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
-    Blockly.Python.definitions_['setup_display'] =
-      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
-      '_sh1107_scan = i2c.scan()\n' +
-      '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
-      'oled = SH1107_I2C(128, 128, i2c, address=_sh1107_addr, rotate=90)';
-  } else {
-    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-    Blockly.Python.definitions_['setup_display'] =
-      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
-      'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
-  }
 
   // Dois sensores AHT20: I2C0 e I2C1
   var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
@@ -275,7 +281,11 @@ Blockly.Python["sensor_estufa_comparar"] = function(block) {
   return code;
 };
 
-Blockly.Python["estufa_toggle_sensor1"] = function(_block) {
+Blockly.Python["estufa_toggle_sensor1"] = function(block) {
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  if (!Blockly.Python.definitions_['setup_display']) {
+    _setupEstufaMeasurementDisplay(displayType);
+  }
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_estufa_flags'] =
     '_estufa_esq_on = True\n_estufa_dir_on = True';
@@ -283,7 +293,11 @@ Blockly.Python["estufa_toggle_sensor1"] = function(_block) {
   return '_estufa_esq_on = not _estufa_esq_on\n';
 };
 
-Blockly.Python["estufa_toggle_sensor2"] = function(_block) {
+Blockly.Python["estufa_toggle_sensor2"] = function(block) {
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  if (!Blockly.Python.definitions_['setup_display']) {
+    _setupEstufaMeasurementDisplay(displayType);
+  }
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['setup_estufa_flags'] =
     '_estufa_esq_on = True\n_estufa_dir_on = True';
