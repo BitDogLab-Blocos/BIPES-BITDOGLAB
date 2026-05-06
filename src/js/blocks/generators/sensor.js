@@ -1,4 +1,4 @@
-// Auto-extracted from legacy generators.js into sensor.js
+     // Auto-extracted from legacy generators.js into sensor.js
 'use strict';
 
 function _setupAHT20Definitions() {
