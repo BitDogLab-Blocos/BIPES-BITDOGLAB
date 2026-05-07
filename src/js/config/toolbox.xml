@@ -382,6 +382,11 @@
     <label text="Em breve: blocos de motor e sensores" web-class="projectPlaceholder"></label>
   </category>
 
+  <!-- Projeto: Piano Musical -->
+  <category name="🎹 Controle Piano" colour="#22c55e" data-project="piano">
+    <block type="piano_interativo"></block>
+  </category>
+
   <!-- Projeto: Estufa -->
   <category name="🔎 Verificação Sensores" colour="#607d8b" data-project="estufa">
     <block type="verificar_conexao_sensor"></block>
