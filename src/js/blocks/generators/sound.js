@@ -2,9 +2,9 @@
 'use strict';
 
 const NOTE_FREQUENCIES = {
-  'C4': 262, 'D4': 294, 'E4': 330, 'F4': 349, 'G4': 392, 'A4': 440, 'B4': 494,
-  'C5': 523, 'D5': 587, 'E5': 659, 'F5': 698, 'G5': 784, 'A5': 880, 'B5': 988,
-  'C6': 1047, 'D6': 1175, 'E6': 1319, 'F6': 1397, 'G6': 1568, 'A6': 1760, 'B6': 1976
+  'C4': 262, 'C#4': 277, 'D4': 294, 'D#4': 311, 'E4': 330, 'F4': 349, 'F#4': 370, 'G4': 392, 'G#4': 415, 'A4': 440, 'A#4': 466, 'B4': 494,
+  'C5': 523, 'C#5': 554, 'D5': 587, 'D#5': 622, 'E5': 659, 'F5': 698, 'F#5': 740, 'G5': 784, 'G#5': 831, 'A5': 880, 'A#5': 932, 'B5': 988,
+  'C6': 1047, 'C#6': 1109, 'D6': 1175, 'D#6': 1245, 'E6': 1319, 'F6': 1397, 'F#6': 1480, 'G6': 1568, 'G#6': 1661, 'A6': 1760, 'A#6': 1865, 'B6': 1976
 };
 
 Blockly.Python["nota_do"] = function(block) {
@@ -37,6 +37,31 @@ Blockly.Python["nota_si"] = function(block) {
 
 Blockly.Python["piano_interativo"] = function(block) {
   return '';
+};
+
+Blockly.Python["temporizacao"] = function(block) {
+  return '';
+};
+
+// Piano note block (simple: note dropdown + volume)
+Blockly.Python["piano_nota"] = function(block) {
+  var note = block.getFieldValue('NOTE');
+  var volume = block.getFieldValue('VOLUME') || 50;
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
+  Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
+  var noteKey = note + '4';
+  var frequency = NOTE_FREQUENCIES[noteKey];
+  if (!frequency) return '';
+  var duty = Math.round(65535 * volume * 0.7 / 100);
+  var code = 'buzzer.duty_u16(0)\n';
+  code += 'buzzer.freq(' + frequency + ')\n';
+  code += 'buzzer.duty_u16(' + duty + ')\n';
+  code += 'time.sleep(0.5)\n';
+  code += 'buzzer.duty_u16(0)\n';
+  return code;
 };
 
 Blockly.Python["tocar_nota"] = function(block) {

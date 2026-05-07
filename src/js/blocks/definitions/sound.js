@@ -90,6 +90,43 @@ Blockly.Blocks['piano_interativo'] = {
     this.setHelpUrl("");
   }
 };
+// Timing launcher block (opens timing panel in the piano)
+Blockly.Blocks['temporizacao'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("♩ Temporização");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#f59e0b");
+    this.setTooltip("Abre as figuras rítmicas. Clique numa nota do piano e depois na figura para criar a nota com a duração certa.");
+    this.setHelpUrl("");
+  }
+};
+// Piano note block (simpler: just note + volume, no octave/duration)
+Blockly.Blocks['piano_nota'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎹 Tocar")
+        .appendField(new Blockly.FieldDropdown([
+          ["C (Dó)", "C"], ["C# (Dó#)", "C#"],
+          ["D (Ré)", "D"], ["D# (Ré#)", "D#"],
+          ["E (Mi)", "E"],
+          ["F (Fá)", "F"], ["F# (Fá#)", "F#"],
+          ["G (Sol)", "G"], ["G# (Sol#)", "G#"],
+          ["A (Lá)", "A"], ["A# (Lá#)", "A#"],
+          ["B (Si)", "B"]
+        ]), "NOTE")
+        .appendField("volume")
+        .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
+        .appendField("%");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setInputsInline(true);
+    this.setColour("#22c55e");
+    this.setTooltip("Toca uma nota musical no buzzer (gerado pelo piano interativo)");
+    this.setHelpUrl("");
+  }
+};
 
 // ==========================================
 // Category: Sound
