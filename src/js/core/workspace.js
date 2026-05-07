@@ -526,6 +526,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
       if (blockType === 'piano_interativo') {
         Code.showInteractivePiano();
       }
+      if (blockType === 'temporizacao') {
+        Code.showInteractivePiano();
+      }
     }
   });
 };

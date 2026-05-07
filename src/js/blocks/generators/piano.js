@@ -5,31 +5,34 @@
 
 var PianoManager = {};
 
+// ── White keys ──
 PianoManager.NOTES = [
-  { label: 'C', name: 'Dó', type: 'nota_do', frequency: 262, color: '#EA2027' },
-  { label: 'D', name: 'Ré', type: 'nota_re', frequency: 294, color: '#EE5A24' },
-  { label: 'E', name: 'Mi', type: 'nota_mi', frequency: 330, color: '#FFC312' },
-  { label: 'F', name: 'Fá', type: 'nota_fa', frequency: 349, color: '#C4E538' },
-  { label: 'G', name: 'Sol', type: 'nota_sol', frequency: 392, color: '#12CBC4' },
-  { label: 'A', name: 'Lá', type: 'nota_la', frequency: 440, color: '#833471' },
-  { label: 'B', name: 'Si', type: 'nota_si', frequency: 494, color: '#FD7272' }
+  { label: 'C', name: 'Dó', freq: 262, value: 'C', color: '#EA2027' },
+  { label: 'D', name: 'Ré', freq: 294, value: 'D', color: '#EE5A24' },
+  { label: 'E', name: 'Mi', freq: 330, value: 'E', color: '#FFC312' },
+  { label: 'F', name: 'Fá', freq: 349, value: 'F', color: '#C4E538' },
+  { label: 'G', name: 'Sol', freq: 392, value: 'G', color: '#12CBC4' },
+  { label: 'A', name: 'Lá', freq: 440, value: 'A', color: '#833471' },
+  { label: 'B', name: 'Si', freq: 494, value: 'B', color: '#FD7272' }
 ];
 
-PianoManager.BLACK_KEYS = [
-  { label: 'C#', left: 0.68, frequency: 277 },
-  { label: 'D#', left: 1.68, frequency: 311 },
-  { label: 'F#', left: 3.68, frequency: 370 },
-  { label: 'G#', left: 4.68, frequency: 415 },
-  { label: 'A#', left: 5.68, frequency: 466 }
+// ── Black keys (sharps) ──
+PianoManager.SHARPS = [
+  { label: 'C#', left: 0.68, freq: 277, value: 'C#' },
+  { label: 'D#', left: 1.68, freq: 311, value: 'D#' },
+  { label: 'F#', left: 3.68, freq: 370, value: 'F#' },
+  { label: 'G#', left: 4.68, freq: 415, value: 'G#' },
+  { label: 'A#', left: 5.68, freq: 466, value: 'A#' }
 ];
 
+// ── Show panel ──
 PianoManager.show = function() {
   var existing = document.getElementById('interactive-piano-panel');
   if (existing) { existing.style.display = 'block'; return; }
 
   var panel = document.createElement('div');
   panel.id = 'interactive-piano-panel';
-  panel.style.cssText = 'position:fixed; left:' + Math.max(20, (window.innerWidth - 820) / 2) + 'px; top:' + Math.max(20, (window.innerHeight - 340) / 2) + 'px; width:820px; height:340px; background:linear-gradient(180deg,#111827,#020617); border:4px solid #22c55e; border-radius:18px; box-shadow:0 16px 45px rgba(0,0,0,0.45); z-index:10001; display:flex; flex-direction:column; overflow:hidden; resize:both; min-width:360px; min-height:180px; max-width:1400px; font-family:Arial,sans-serif; color:white; user-select:none;';
+  panel.style.cssText = 'position:fixed; left:' + Math.max(20, (window.innerWidth - 820) / 2) + 'px; top:' + Math.max(20, (window.innerHeight - 340) / 2) + 'px; width:820px; height:340px; background:linear-gradient(180deg,#111827,#020617); border:4px solid #22c55e; border-radius:18px; box-shadow:0 16px 45px rgba(0,0,0,0.45); z-index:10001; display:flex; flex-direction:column; overflow:hidden; resize:both; min-width:360px; min-height:200px; max-width:1400px; font-family:Arial,sans-serif; color:white; user-select:none;';
 
   var header = document.createElement('div');
   header.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:10px 16px; cursor:grab; background:linear-gradient(90deg,#14532d,#22c55e); flex-shrink:0;';
@@ -55,12 +58,14 @@ PianoManager.show = function() {
   function onDrag(e) { panel.style.left = Math.max(0, e.clientX - dx) + 'px'; panel.style.top = Math.max(0, e.clientY - dy) + 'px'; }
   function offDrag() { document.removeEventListener('mousemove', onDrag); document.removeEventListener('mouseup', offDrag); }
 
-  var center = document.createElement('div');
-  center.style.cssText = 'flex:1; display:flex; align-items:center; justify-content:center; padding:10px; overflow:hidden;';
+  // ── Keyboard area ──
+  var kbArea = document.createElement('div');
+  kbArea.style.cssText = 'flex:1; display:flex; align-items:center; justify-content:center; padding:8px 10px; overflow:hidden;';
 
   var wrap = document.createElement('div');
   wrap.style.cssText = 'aspect-ratio:770/270; max-width:100%; max-height:100%; width:100%; position:relative; background:#020617; border-radius:12px; padding:12px; box-sizing:border-box;';
 
+  // White keys
   var wk = document.createElement('div');
   wk.style.cssText = 'display:grid; grid-template-columns:repeat(7,1fr); gap:4px; height:100%;';
 
@@ -69,30 +74,55 @@ PianoManager.show = function() {
     k.type = 'button';
     k.innerHTML = '<span style="font-size:clamp(10px,2vw,24px); font-weight:bold;">' + note.label + '</span><span style="font-size:clamp(8px,1.4vw,13px); color:' + note.color + ';">' + note.name + '</span>';
     k.style.cssText = 'display:flex; flex-direction:column; justify-content:flex-end; align-items:center; height:100%; width:100%; padding:0 2px clamp(16px,2.5vw,24px); background:linear-gradient(180deg,#ffffff,#e5e7eb); color:#111827; border:none; border-bottom:clamp(4px,1vw,10px) solid ' + note.color + '; border-radius:0 0 10px 10px; box-shadow:inset 0 -6px 12px rgba(0,0,0,.1); cursor:pointer; transition:transform .08s,filter .08s;';
-    PianoManager._bindKey(k, function() { Code.playPianoNote(note.frequency); Code.createNoteBlockFromPiano(note.type, index); });
+    PianoManager._bindKey(k, function() {
+      Code.playPianoNote(note.freq);
+      PianoManager._createPianoBlock(note.value, index);
+    });
     wk.appendChild(k);
   });
 
+  // Black keys
   var bk = document.createElement('div');
   bk.style.cssText = 'position:absolute; left:12px; right:12px; top:12px; height:28%; pointer-events:none;';
 
-  PianoManager.BLACK_KEYS.forEach(function(n) {
+  PianoManager.SHARPS.forEach(function(n) {
     var k = document.createElement('button');
     k.type = 'button';
     k.textContent = n.label;
     k.style.cssText = 'position:absolute; left:calc((100%/7)*' + n.left + '); width:calc(100%/7*.48); height:100%; transform:translateX(-50%); background:linear-gradient(180deg,#1f2937,#020617); color:#9ca3af; border:1px solid #000; border-bottom:clamp(2px,0.5vw,4px) solid #000; border-radius:0 0 4px 4px; box-shadow:0 3px 6px rgba(0,0,0,.5); font-weight:bold; font-size:clamp(6px,1vw,10px); display:flex; align-items:flex-end; justify-content:center; padding-bottom:clamp(4px,0.8vw,8px); cursor:pointer; pointer-events:auto; z-index:2; transition:transform .08s,filter .08s;';
-    PianoManager._bindKey(k, function() { Code.playPianoNote(n.frequency); });
+    PianoManager._bindKey(k, function() {
+      Code.playPianoNote(n.freq);
+      PianoManager._createPianoBlock(n.value, 3);
+    });
     bk.appendChild(k);
   });
 
   wrap.appendChild(wk);
   wrap.appendChild(bk);
-  center.appendChild(wrap);
+  kbArea.appendChild(wrap);
   panel.appendChild(header);
-  panel.appendChild(center);
+  panel.appendChild(kbArea);
   document.body.appendChild(panel);
 };
 
+// ── Create piano_nota block ──
+PianoManager._createPianoBlock = function(noteValue, index) {
+  if (!Code.workspace || !Blockly.Blocks['piano_nota']) return;
+
+  var block = Code.workspace.newBlock('piano_nota');
+  block.initSvg();
+  block.setFieldValue(noteValue, 'NOTE');
+  block.setFieldValue('50', 'VOLUME');
+  block.render();
+
+  var m = Code.workspace.getMetrics ? Code.workspace.getMetrics() : null;
+  var x = m ? m.viewLeft + 60 + (index % 4) * 220 : 60 + (index % 4) * 220;
+  var y = m ? m.viewTop + 60 + Math.floor(index / 4) * 50 : 60;
+  block.moveBy(x, y);
+  block.select();
+};
+
+// ── Key bind helper ──
 PianoManager._bindKey = function(key, action) {
   key.addEventListener('mousedown', function() { key.style.filter = 'brightness(.85)'; key.style.transform = 'translateY(3px)'; });
   key.addEventListener('mouseup', function() { key.style.filter = ''; key.style.transform = ''; });
@@ -100,6 +130,7 @@ PianoManager._bindKey = function(key, action) {
   key.addEventListener('click', action);
 };
 
+// ── Audio ──
 PianoManager.playNote = function(freq) {
   var AC = window.AudioContext || window.webkitAudioContext;
   if (!AC) return;
@@ -114,19 +145,6 @@ PianoManager.playNote = function(freq) {
   o.start(); o.stop(ctx.currentTime + 0.6);
 };
 
-PianoManager.createNoteBlock = function(type, index) {
-  if (!Code.workspace || !Blockly.Blocks[type] || !Blockly.Blocks['tocar_nota']) return;
-  var p = Code.workspace.newBlock('tocar_nota');
-  var n = Code.workspace.newBlock(type);
-  p.initSvg(); n.initSvg();
-  p.getInput('NOTA').connection.connect(n.outputConnection);
-  p.render(); n.render();
-  var m = Code.workspace.getMetrics ? Code.workspace.getMetrics() : null;
-  var x = m ? m.viewLeft + 60 + (index % 3) * 240 : 60;
-  var y = m ? m.viewTop + 60 + Math.floor(index / 3) * 100 : 60;
-  p.moveBy(x, y); p.select();
-};
-
+// ── Expose ──
 Code.showInteractivePiano = PianoManager.show;
 Code.playPianoNote = PianoManager.playNote;
-Code.createNoteBlockFromPiano = PianoManager.createNoteBlock;
