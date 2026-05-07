@@ -527,7 +527,7 @@ WorkspaceManager.bindWorkspaceHints = function() {
         Code.showInteractivePiano();
       }
       if (blockType === 'temporizacao') {
-        Code.showInteractivePiano();
+        Code.showTimingPanel();
       }
     }
   });
