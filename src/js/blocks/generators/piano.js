@@ -102,6 +102,13 @@ PianoManager.show = function() {
   kbArea.appendChild(wrap);
   panel.appendChild(header);
   panel.appendChild(kbArea);
+
+  // Resize hint
+  var hint = document.createElement('div');
+  hint.style.cssText = 'position:absolute; bottom:6px; right:10px; font-size:11px; color:rgba(255,255,255,.75); pointer-events:none; z-index:5;';
+  hint.textContent = 'arraste o canto';
+  panel.appendChild(hint);
+
   document.body.appendChild(panel);
 };
 
