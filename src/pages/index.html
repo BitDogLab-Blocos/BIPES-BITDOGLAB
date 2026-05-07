@@ -57,6 +57,7 @@
   <script src="../js/blocks/generators/joystick.js?ver=20260402a1"></script>
   <script src="../js/blocks/generators/sensor.js?ver=20260402a1"></script>
   <script src="../js/blocks/generators/index.js?ver=20260402a1"></script>
+  <script src="../js/blocks/generators/piano.js?ver=20260507v1"></script>
 
   <!-- Terminal (xterm.js) -->
   <script src="../js/lib/xterm/xterm.js?ver=4.13.0"></script>
@@ -140,7 +141,7 @@
       <h3 style="margin:0;">Como Começar</h3>
       <button id="closeTutorialBtn" style="background:none; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
     </div>
-    
+
     <div class="tutorial-content" style="padding:15px;">
       <div class="tutorial-step" style="margin-bottom:20px; display:flex; align-items:center;">
         <div style="width:30px; height:30px; background-color:#4b2e83; color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:10px; flex-shrink:0;">1</div>
@@ -149,7 +150,7 @@
           <p style="margin:0; font-size:14px; line-height:1.4;">Arraste blocos da paleta à esquerda para a área de trabalho.</p>
         </div>
       </div>
-      
+
       <div class="tutorial-step" style="margin-bottom:20px; display:flex; align-items:center;">
         <div style="width:30px; height:30px; background-color:#4b2e83; color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:10px; flex-shrink:0;">2</div>
         <div>
@@ -157,7 +158,7 @@
           <p style="margin:0; font-size:14px; line-height:1.4;">Antes de começar, instale o MicroPython na sua placa. Você pode fazer isso via modo BOOTSEL <a href="https://micropython.org/download/" target="_blank" style="color:#4b2e83; text-decoration:underline;">clicando aqui</a>.</p>
         </div>
       </div>
-      
+
       <div class="tutorial-step" style="margin-bottom:20px; display:flex; align-items:center;">
         <div style="width:30px; height:30px; background-color:#4b2e83; color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:10px; flex-shrink:0;">3</div>
         <div>
@@ -165,7 +166,7 @@
           <p style="margin:0; font-size:14px; line-height:1.4;">Clique no botão de dispositivo e conecte sua placa via USB.</p>
         </div>
       </div>
-      
+
       <div class="tutorial-step" style="margin-bottom:20px; display:flex; align-items:center;">
         <div style="width:30px; height:30px; background-color:#4b2e83; color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:10px; flex-shrink:0;">4</div>
         <div>
@@ -173,7 +174,7 @@
           <p style="margin:0; font-size:14px; line-height:1.4;">Monte os blocos como um quebra-cabeça para criar seu programa.</p>
         </div>
       </div>
-      
+
       <div class="tutorial-step" style="margin-bottom:20px; display:flex; align-items:center;">
         <div style="width:30px; height:30px; background-color:#4b2e83; color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:10px; flex-shrink:0;">5</div>
         <div>
@@ -181,7 +182,7 @@
           <p style="margin:0; font-size:14px; line-height:1.4;">Clique no botão de execução para enviar seu código para a placa.</p>
         </div>
       </div>
-      
+
       <div class="tutorial-step" style="margin-bottom:0; display:flex; align-items:center;">
         <div style="width:30px; height:30px; background-color:#4b2e83; color:white; border-radius:50%; display:flex; justify-content:center; align-items:center; margin-right:10px; flex-shrink:0;">6</div>
         <div>
@@ -190,7 +191,7 @@
         </div>
       </div>
     </div>
-    
+
     <div id="additional-steps" style="display:none; padding:15px; border-top:1px solid #e0e0e0; background-color:#fafafa;">
       <h4 style="color:#4b2e83; margin-top:0; font-weight:bold;">Vamos começar a programar:</h4>
       <ol style="padding-left:20px; margin-bottom:10px;">
@@ -201,7 +202,7 @@
         <li style="margin-bottom:0;"><strong>Salve seu projeto:</strong> Clique no botão de salvamento frequentemente para não perder seu trabalho</li>
       </ol>
     </div>
-    
+
     <div style="padding:10px 15px; background-color:#f0f0f0; text-align:right;">
       <button id="startCodingBtn" style="background-color:#85754d; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; transition:all 0.2s ease;">Vamos Programar!</button>
     </div>
@@ -271,7 +272,7 @@
       }
     });
   </script>
-  
+
   <script>
     // Load Blockly toolbox from XML and apply project filter
     window.addEventListener('load', function() {
@@ -374,7 +375,7 @@
 
   <div id="content_blocks" class="content"></div>
   <div id="content_console" class="content">
-       
+
     <tr height="25%" id="termTR">
      <td>
         <div style="display:inline-block; vertical-align:top; ">
