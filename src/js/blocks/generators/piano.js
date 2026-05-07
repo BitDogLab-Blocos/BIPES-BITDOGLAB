@@ -27,27 +27,23 @@ PianoManager.show = function() {
   var existing = document.getElementById('interactive-piano-panel');
   if (existing) { existing.style.display = 'block'; return; }
 
-  // ── Panel: resize nativo + arrastável ──
   var panel = document.createElement('div');
   panel.id = 'interactive-piano-panel';
-  panel.style.cssText = 'position:fixed; left:' + Math.max(20, (window.innerWidth - 820) / 2) + 'px; top:' + Math.max(20, (window.innerHeight - 340) / 2) + 'px; width:820px; height:340px; background:#111827; border:3px solid #22c55e; border-radius:14px; box-shadow:0 20px 60px rgba(0,0,0,.5); z-index:10001; display:flex; flex-direction:column; overflow:hidden; resize:both; min-width:320px; min-height:160px; max-width:1400px; font-family:Arial,sans-serif; color:white; user-select:none;';
+  panel.style.cssText = 'position:fixed; left:' + Math.max(20, (window.innerWidth - 820) / 2) + 'px; top:' + Math.max(20, (window.innerHeight - 340) / 2) + 'px; width:820px; height:340px; background:linear-gradient(180deg,#111827,#020617); border:4px solid #22c55e; border-radius:18px; box-shadow:0 16px 45px rgba(0,0,0,0.45); z-index:10001; display:flex; flex-direction:column; overflow:hidden; resize:both; min-width:360px; min-height:180px; max-width:1400px; font-family:Arial,sans-serif; color:white; user-select:none;';
 
-  // ── Cabeçalho (arrastar) ──
   var header = document.createElement('div');
-  header.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:8px 14px; cursor:grab; background:rgba(255,255,255,.05); border-bottom:1px solid rgba(255,255,255,.08); flex-shrink:0;';
-  header.innerHTML = '<div><strong style="font-size:18px;">🎹 Piano Musical</strong><span style="font-size:12px; opacity:.6; margin-left:10px;">Arraste para mover | Redimensione pelo canto</span></div>';
+  header.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:10px 16px; cursor:grab; background:linear-gradient(90deg,#14532d,#22c55e); flex-shrink:0;';
+  header.innerHTML = '<div><strong style="font-size:20px;">🎹 Piano Musical</strong></div>';
 
   var close = document.createElement('button');
   close.textContent = '\u00d7';
-  close.style.cssText = 'background:rgba(255,255,255,.1); color:white; border:1px solid rgba(255,255,255,.25); border-radius:50%; width:32px; height:32px; font-size:22px; line-height:22px; cursor:pointer; flex-shrink:0;';
+  close.style.cssText = 'background:rgba(255,255,255,.15); color:white; border:2px solid rgba(255,255,255,.4); border-radius:50%; width:34px; height:34px; font-size:24px; line-height:24px; cursor:pointer; flex-shrink:0;';
   close.addEventListener('click', function() { panel.style.display = 'none'; });
   header.appendChild(close);
 
-  // ── Drag ──
   var dx, dy;
   header.addEventListener('mousedown', function(e) {
     if (e.target !== close) {
-      panel.style.transform = 'none';
       panel.style.left = panel.offsetLeft + 'px';
       panel.style.top = panel.offsetTop + 'px';
       dx = e.clientX - panel.offsetLeft;
@@ -59,36 +55,32 @@ PianoManager.show = function() {
   function onDrag(e) { panel.style.left = Math.max(0, e.clientX - dx) + 'px'; panel.style.top = Math.max(0, e.clientY - dy) + 'px'; }
   function offDrag() { document.removeEventListener('mousemove', onDrag); document.removeEventListener('mouseup', offDrag); }
 
-  // ── Área flexível que mantém proporção ──
   var center = document.createElement('div');
   center.style.cssText = 'flex:1; display:flex; align-items:center; justify-content:center; padding:10px; overflow:hidden;';
 
-  // ── Wrapper com aspect-ratio fixo (contém o teclado) ──
   var wrap = document.createElement('div');
-  wrap.style.cssText = 'aspect-ratio:770/270; max-width:100%; max-height:100%; width:100%; height:auto; position:relative; background:#020617; border-radius:10px; padding:14px; box-sizing:border-box;';
+  wrap.style.cssText = 'aspect-ratio:770/270; max-width:100%; max-height:100%; width:100%; position:relative; background:#020617; border-radius:12px; padding:12px; box-sizing:border-box;';
 
-  // ── Teclas brancas ──
   var wk = document.createElement('div');
   wk.style.cssText = 'display:grid; grid-template-columns:repeat(7,1fr); gap:4px; height:100%;';
 
   PianoManager.NOTES.forEach(function(note, index) {
     var k = document.createElement('button');
     k.type = 'button';
-    k.innerHTML = '<span style="font-size:clamp(10px,2.5vw,26px); font-weight:bold;">' + note.label + '</span><span style="font-size:clamp(8px,1.6vw,14px); margin-top:2px; color:' + note.color + ';">' + note.name + '</span>';
-    k.style.cssText = 'display:flex; flex-direction:column; justify-content:flex-end; align-items:center; height:100%; width:100%; padding:0 2px 8px; background:linear-gradient(180deg,#fff,#e5e7eb); color:#111827; border:none; border-bottom:clamp(4px,1.2vw,12px) solid ' + note.color + '; border-radius:0 0 8px 8px; box-shadow:inset 0 -6px 10px rgba(0,0,0,.1); cursor:pointer; transition:transform .08s,filter .08s;';
+    k.innerHTML = '<span style="font-size:clamp(10px,2vw,24px); font-weight:bold;">' + note.label + '</span><span style="font-size:clamp(8px,1.4vw,13px); color:' + note.color + ';">' + note.name + '</span>';
+    k.style.cssText = 'display:flex; flex-direction:column; justify-content:flex-end; align-items:center; height:100%; width:100%; padding:0 2px clamp(16px,2.5vw,24px); background:linear-gradient(180deg,#ffffff,#e5e7eb); color:#111827; border:none; border-bottom:clamp(4px,1vw,10px) solid ' + note.color + '; border-radius:0 0 10px 10px; box-shadow:inset 0 -6px 12px rgba(0,0,0,.1); cursor:pointer; transition:transform .08s,filter .08s;';
     PianoManager._bindKey(k, function() { Code.playPianoNote(note.frequency); Code.createNoteBlockFromPiano(note.type, index); });
     wk.appendChild(k);
   });
 
-  // ── Teclas pretas ──
   var bk = document.createElement('div');
-  bk.style.cssText = 'position:absolute; left:14px; right:14px; top:14px; height:48%; pointer-events:none;';
+  bk.style.cssText = 'position:absolute; left:12px; right:12px; top:12px; height:28%; pointer-events:none;';
 
   PianoManager.BLACK_KEYS.forEach(function(n) {
     var k = document.createElement('button');
     k.type = 'button';
     k.textContent = n.label;
-    k.style.cssText = 'position:absolute; left:calc((100%/7)*' + n.left + '); width:calc(100%/7*.58); height:100%; transform:translateX(-50%); background:linear-gradient(180deg,#1f2937,#020617); color:#d1d5db; border:1px solid #000; border-bottom:clamp(3px,1vw,8px) solid #000; border-radius:0 0 6px 6px; box-shadow:0 4px 8px rgba(0,0,0,.5); font-weight:bold; font-size:clamp(7px,1.4vw,12px); padding-top:35%; cursor:pointer; pointer-events:auto; z-index:2; transition:transform .08s,filter .08s;';
+    k.style.cssText = 'position:absolute; left:calc((100%/7)*' + n.left + '); width:calc(100%/7*.48); height:100%; transform:translateX(-50%); background:linear-gradient(180deg,#1f2937,#020617); color:#9ca3af; border:1px solid #000; border-bottom:clamp(2px,0.5vw,4px) solid #000; border-radius:0 0 4px 4px; box-shadow:0 3px 6px rgba(0,0,0,.5); font-weight:bold; font-size:clamp(6px,1vw,10px); display:flex; align-items:flex-end; justify-content:center; padding-bottom:clamp(4px,0.8vw,8px); cursor:pointer; pointer-events:auto; z-index:2; transition:transform .08s,filter .08s;';
     PianoManager._bindKey(k, function() { Code.playPianoNote(n.frequency); });
     bk.appendChild(k);
   });
