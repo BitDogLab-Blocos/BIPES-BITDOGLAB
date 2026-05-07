@@ -105,8 +105,13 @@ PianoManager.show = function() {
   document.body.appendChild(panel);
 };
 
+PianoManager._lastNoteValue = null;
+PianoManager._lastNoteName = null;
+
 // ── Create piano_nota block ──
 PianoManager._createPianoBlock = function(noteValue, index) {
+  PianoManager._lastNoteValue = noteValue;
+  PianoManager._lastNoteName = noteValue + ' (4ª oitava)';
   if (!Code.workspace || !Blockly.Blocks['piano_nota']) return;
 
   var block = Code.workspace.newBlock('piano_nota');
