@@ -35,6 +35,10 @@ Blockly.Python["nota_si"] = function(block) {
   return ['B', Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Python["piano_interativo"] = function(block) {
+  return '';
+};
+
 Blockly.Python["tocar_nota"] = function(block) {
   var note = Blockly.Python.valueToCode(block, 'NOTA', Blockly.Python.ORDER_ATOMIC);
   if (!note) {

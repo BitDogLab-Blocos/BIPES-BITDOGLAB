@@ -78,6 +78,19 @@ Blockly.Blocks['nota_si'] = {
     this.setHelpUrl("");
   }
 };
+// Interactive piano launcher block
+Blockly.Blocks['piano_interativo'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🎹 Piano interativo");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#22c55e");
+    this.setTooltip("Abre um piano grande na tela. Ao clicar em uma tecla, o bloco da nota aparece na área de trabalho.");
+    this.setHelpUrl("");
+  }
+};
+
 // ==========================================
 // Category: Sound
 // ==========================================

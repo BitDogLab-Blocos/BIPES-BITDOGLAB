@@ -20,7 +20,8 @@ Code.APP_MESSAGES = {
     reconnectUsbPins: 'Desconecte e reconecte a placa USB para aplicar a nova pinagem.',
     projectBasic: 'Básico',
     projectRobot: 'Robô Móvel',
-    projectGreenhouse: 'Estufa'
+    projectGreenhouse: 'Estufa',
+    projectPiano: 'Piano Musical'
   },
   'en': {
     hello: 'Hello',
@@ -77,7 +78,8 @@ Code.APP_MESSAGES = {
     reconnectUsbPins: 'Disconnect and reconnect the USB board to apply the new pin mapping.',
     projectBasic: 'Basics',
     projectRobot: 'Mobile Robot',
-    projectGreenhouse: 'Greenhouse'
+    projectGreenhouse: 'Greenhouse',
+    projectPiano: 'Musical Piano'
   }
 };
 
@@ -705,7 +707,8 @@ Code.getProjectLabel = function(project) {
   var keys = {
     basico: 'projectBasic',
     robo: 'projectRobot',
-    estufa: 'projectGreenhouse'
+    estufa: 'projectGreenhouse',
+    piano: 'projectPiano'
   };
   return MSG[keys[project]] || project;
 };

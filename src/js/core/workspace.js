@@ -6,6 +6,16 @@ var WorkspaceManager = {};
 Code.workspace = null;
 Code._fullToolboxXml = null;
 
+WorkspaceManager.PIANO_NOTES = [
+  { label: 'Dó', type: 'nota_do', color: '#EA2027', black: false },
+  { label: 'Ré', type: 'nota_re', color: '#EE5A24', black: false },
+  { label: 'Mi', type: 'nota_mi', color: '#FFC312', black: false },
+  { label: 'Fá', type: 'nota_fa', color: '#C4E538', black: false },
+  { label: 'Sol', type: 'nota_sol', color: '#12CBC4', black: false },
+  { label: 'Lá', type: 'nota_la', color: '#833471', black: false },
+  { label: 'Si', type: 'nota_si', color: '#FD7272', black: false }
+];
+
 WorkspaceManager.loadBlocks = function(defaultXml) {
   var loadOnce = null;
   try {
@@ -100,7 +110,8 @@ WorkspaceManager.filterToolboxByProject = function(project) {
 WorkspaceManager.PROJECT_NAMES = {
   'basico': 'projectBasic',
   'robo': 'projectRobot',
-  'estufa': 'projectGreenhouse'
+  'estufa': 'projectGreenhouse',
+  'piano': 'projectPiano'
 };
 
 WorkspaceManager.initProjectSelector = function() {
@@ -484,6 +495,101 @@ WorkspaceManager.showGraficoReminder = function() {
   });
 };
 
+WorkspaceManager.showInteractivePiano = function() {
+  var existing = document.getElementById('interactive-piano-panel');
+  if (existing) {
+    existing.style.display = 'block';
+    return;
+  }
+
+  var panel = document.createElement('div');
+  panel.id = 'interactive-piano-panel';
+  panel.style.cssText = [
+    'position: fixed',
+    'left: 50%',
+    'bottom: 28px',
+    'transform: translateX(-50%)',
+    'width: min(920px, 92vw)',
+    'background: linear-gradient(135deg, #14532d, #22c55e)',
+    'border: 4px solid #bbf7d0',
+    'border-radius: 18px',
+    'box-shadow: 0 16px 45px rgba(0,0,0,0.35)',
+    'z-index: 10001',
+    'padding: 18px',
+    'font-family: Arial, sans-serif',
+    'color: white'
+  ].join('; ');
+
+  var header = document.createElement('div');
+  header.style.cssText = 'display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; gap:12px;';
+  header.innerHTML = '<div><strong style="font-size:22px;">🎹 Piano Musical</strong><div style="font-size:14px; opacity:.9; margin-top:4px;">Clique em uma tecla para criar o bloco da nota na tela.</div></div>';
+
+  var close = document.createElement('button');
+  close.textContent = '×';
+  close.style.cssText = 'background:rgba(255,255,255,.2); color:white; border:2px solid rgba(255,255,255,.5); border-radius:50%; width:38px; height:38px; font-size:28px; line-height:28px; cursor:pointer;';
+  close.addEventListener('click', function() {
+    panel.style.display = 'none';
+  });
+  header.appendChild(close);
+
+  var keys = document.createElement('div');
+  keys.style.cssText = 'display:grid; grid-template-columns:repeat(7, 1fr); gap:8px; height:210px;';
+
+  WorkspaceManager.PIANO_NOTES.forEach(function(note, index) {
+    var key = document.createElement('button');
+    key.type = 'button';
+    key.textContent = note.label;
+    key.setAttribute('data-note-type', note.type);
+    key.style.cssText = [
+      'background:white',
+      'color:#111827',
+      'border:0',
+      'border-bottom:12px solid ' + note.color,
+      'border-radius:0 0 12px 12px',
+      'box-shadow: inset 0 -10px 20px rgba(0,0,0,.12), 0 6px 12px rgba(0,0,0,.2)',
+      'font-size:28px',
+      'font-weight:bold',
+      'cursor:pointer',
+      'padding-top:120px',
+      'transition: transform .08s ease, filter .08s ease'
+    ].join('; ');
+    key.addEventListener('mousedown', function() {
+      key.style.transform = 'translateY(5px)';
+      key.style.filter = 'brightness(.92)';
+    });
+    key.addEventListener('mouseup', function() {
+      key.style.transform = '';
+      key.style.filter = '';
+    });
+    key.addEventListener('mouseleave', function() {
+      key.style.transform = '';
+      key.style.filter = '';
+    });
+    key.addEventListener('click', function() {
+      Code.createNoteBlockFromPiano(note.type, index);
+    });
+    keys.appendChild(key);
+  });
+
+  panel.appendChild(header);
+  panel.appendChild(keys);
+  document.body.appendChild(panel);
+};
+
+WorkspaceManager.createNoteBlockFromPiano = function(type, index) {
+  if (!Code.workspace || !Blockly.Blocks[type]) return;
+
+  var block = Code.workspace.newBlock(type);
+  block.initSvg();
+  block.render();
+
+  var metrics = Code.workspace.getMetrics ? Code.workspace.getMetrics() : null;
+  var x = metrics ? metrics.viewLeft + 60 + (index % 7) * 90 : 60 + (index % 7) * 90;
+  var y = metrics ? metrics.viewTop + 60 + Math.floor(index / 7) * 70 : 60;
+  block.moveBy(x, y);
+  block.select();
+};
+
 WorkspaceManager.bindWorkspaceHints = function() {
   Code.workspace.addChangeListener(function(event) {
     if (event.type === Blockly.Events.BLOCK_CREATE) {
@@ -521,6 +627,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
       }
       if (blockType === 'estufa_plotar') {
         Code.showGraficoReminder();
+      }
+      if (blockType === 'piano_interativo') {
+        Code.showInteractivePiano();
       }
     }
   });
@@ -611,5 +720,7 @@ Code.showPalmasGetterReminder = WorkspaceManager.showPalmasGetterReminder;
 Code.showSensorReminder = WorkspaceManager.showSensorReminder;
 Code.showEstufaToggleReminder = WorkspaceManager.showEstufaToggleReminder;
 Code.showGraficoReminder = WorkspaceManager.showGraficoReminder;
+Code.showInteractivePiano = WorkspaceManager.showInteractivePiano;
+Code.createNoteBlockFromPiano = WorkspaceManager.createNoteBlockFromPiano;
 Code.initWorkspace = WorkspaceManager.initWorkspace;
 Code.discard = WorkspaceManager.discard;
