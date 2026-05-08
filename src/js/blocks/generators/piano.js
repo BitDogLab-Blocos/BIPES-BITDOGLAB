@@ -5,6 +5,9 @@
 
 var PianoManager = {};
 
+// Shared sequence state for music sequencer (also used by timing.js)
+window.MusicSequence = window.MusicSequence || { lastBlock: null };
+
 // ── White keys ──
 PianoManager.NOTES = [
   { label: 'C', name: 'Dó', freq: 262, value: 'C', color: '#EA2027' },
@@ -115,7 +118,7 @@ PianoManager.show = function() {
 PianoManager._lastNoteValue = null;
 PianoManager._lastNoteName = null;
 
-// ── Create piano_nota block ──
+// ── Create piano_nota block (chained to sequence) ──
 PianoManager._createPianoBlock = function(noteValue, index) {
   PianoManager._lastNoteValue = noteValue;
   PianoManager._lastNoteName = noteValue + ' (4ª oitava)';
@@ -127,10 +130,17 @@ PianoManager._createPianoBlock = function(noteValue, index) {
   block.setFieldValue('50', 'VOLUME');
   block.render();
 
-  var m = Code.workspace.getMetrics ? Code.workspace.getMetrics() : null;
-  var x = m ? m.viewLeft + 60 + (index % 4) * 220 : 60 + (index % 4) * 220;
-  var y = m ? m.viewTop + 60 + Math.floor(index / 4) * 50 : 60;
-  block.moveBy(x, y);
+  if (window.MusicSequence.lastBlock && window.MusicSequence.lastBlock.nextConnection && block.previousConnection) {
+    // Chain below the last block
+    window.MusicSequence.lastBlock.nextConnection.connect(block.previousConnection);
+  } else {
+    // First block: place at initial position
+    var m = Code.workspace.getMetrics ? Code.workspace.getMetrics() : null;
+    var x = m ? m.viewLeft + 60 : 60;
+    var y = m ? m.viewTop + 60 : 60;
+    block.moveBy(x, y);
+  }
+  window.MusicSequence.lastBlock = block;
   block.select();
 };
 

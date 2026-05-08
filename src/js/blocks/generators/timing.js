@@ -79,38 +79,29 @@ TimingManager.show = function() {
   document.body.appendChild(panel);
 };
 
-TimingManager._createTimingBlocks = function(fig) {
-  if (!Code.workspace) return;
-
-  var hasNote = PianoManager && PianoManager._lastNoteValue;
-
-  if (hasNote && Blockly.Blocks['piano_nota'] && Blockly.Blocks['esperar_milisegundos']) {
-    var noteBlock = Code.workspace.newBlock('piano_nota');
-    var delayBlock = Code.workspace.newBlock('esperar_milisegundos');
-    var numBlock = Code.workspace.newBlock('math_number');
-    noteBlock.initSvg(); delayBlock.initSvg(); numBlock.initSvg();
-    noteBlock.setFieldValue(PianoManager._lastNoteValue, 'NOTE');
-    noteBlock.setFieldValue('50', 'VOLUME');
-    numBlock.setFieldValue(String(fig.ms), 'NUM');
-    delayBlock.getInput('TIME').connection.connect(numBlock.outputConnection);
-    noteBlock.nextConnection.connect(delayBlock.previousConnection);
-    noteBlock.render(); delayBlock.render(); numBlock.render();
+TimingManager._chainBlock = function(block) {
+  if (window.MusicSequence.lastBlock && window.MusicSequence.lastBlock.nextConnection && block.previousConnection) {
+    window.MusicSequence.lastBlock.nextConnection.connect(block.previousConnection);
+  } else {
     var m = Code.workspace.getMetrics ? Code.workspace.getMetrics() : null;
     var x = m ? m.viewLeft + 60 : 60;
     var y = m ? m.viewTop + 60 : 60;
-    noteBlock.moveBy(x, y); noteBlock.select();
-  } else if (Blockly.Blocks['esperar_milisegundos']) {
-    var delayBlock = Code.workspace.newBlock('esperar_milisegundos');
-    var numBlock = Code.workspace.newBlock('math_number');
-    delayBlock.initSvg(); numBlock.initSvg();
-    numBlock.setFieldValue(String(fig.ms), 'NUM');
-    delayBlock.getInput('TIME').connection.connect(numBlock.outputConnection);
-    delayBlock.render(); numBlock.render();
-    var m = Code.workspace.getMetrics ? Code.workspace.getMetrics() : null;
-    var x = m ? m.viewLeft + 60 : 60;
-    var y = m ? m.viewTop + 60 : 60;
-    delayBlock.moveBy(x, y); delayBlock.select();
+    block.moveBy(x, y);
   }
+  window.MusicSequence.lastBlock = block;
+};
+
+TimingManager._createTimingBlocks = function(fig) {
+  if (!Code.workspace || !Blockly.Blocks['esperar_milisegundos']) return;
+
+  var delayBlock = Code.workspace.newBlock('esperar_milisegundos');
+  var numBlock = Code.workspace.newBlock('math_number');
+  delayBlock.initSvg(); numBlock.initSvg();
+  numBlock.setFieldValue(String(fig.ms), 'NUM');
+  delayBlock.getInput('TIME').connection.connect(numBlock.outputConnection);
+  delayBlock.render(); numBlock.render();
+  TimingManager._chainBlock(delayBlock);
+  delayBlock.select();
 };
 
 Code.showTimingPanel = TimingManager.show;
