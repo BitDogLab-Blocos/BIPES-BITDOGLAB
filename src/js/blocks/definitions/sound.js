@@ -1,14 +1,34 @@
 // ==========================================
 // Category: Musical Notes
 // ==========================================
+// Use international note names when English is active
+var __isEnglishNotes = (typeof Code !== 'undefined' && Code.LANG === 'en');
+var __noteLabel = {
+  do: __isEnglishNotes ? '🎵 C' : '🎵 Dó',
+  re: __isEnglishNotes ? '👑 D' : '👑 Ré',
+  mi: __isEnglishNotes ? '🐱 E' : '🐱 Mi',
+  fa: __isEnglishNotes ? '🧚‍♀️ F' : '🧚‍♀️ Fá',
+  sol: __isEnglishNotes ? '☀️ G' : '☀️ Sol',
+  la: __isEnglishNotes ? '⭐ A' : '⭐ Lá',
+  si: __isEnglishNotes ? '👍 B' : '👍 Si'
+};
+var __noteTooltip = {
+  do: __isEnglishNotes ? 'Note C' : 'Nota Dó',
+  re: __isEnglishNotes ? 'Note D' : 'Nota Ré',
+  mi: __isEnglishNotes ? 'Note E' : 'Nota Mi',
+  fa: __isEnglishNotes ? 'Note F' : 'Nota Fá',
+  sol: __isEnglishNotes ? 'Note G' : 'Nota Sol',
+  la: __isEnglishNotes ? 'Note A' : 'Nota Lá',
+  si: __isEnglishNotes ? 'Note B' : 'Nota Si'
+};
 // Do note block for musical notes
 Blockly.Blocks['nota_do'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🎵 Dó");
+        .appendField(__noteLabel.do);
     this.setOutput(true, "Note");
     this.setColour("#EA2027");
-    this.setTooltip("Nota Dó");
+    this.setTooltip(__noteTooltip.do);
     this.setHelpUrl("");
   }
 };
@@ -16,10 +36,10 @@ Blockly.Blocks['nota_do'] = {
 Blockly.Blocks['nota_re'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("👑 Ré");
+        .appendField(__noteLabel.re);
     this.setOutput(true, "Note");
     this.setColour("#EE5A24");
-    this.setTooltip("Nota Ré");
+    this.setTooltip(__noteTooltip.re);
     this.setHelpUrl("");
   }
 };
@@ -27,10 +47,10 @@ Blockly.Blocks['nota_re'] = {
 Blockly.Blocks['nota_mi'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🐱 Mi");
+        .appendField(__noteLabel.mi);
     this.setOutput(true, "Note");
     this.setColour("#FFC312");
-    this.setTooltip("Nota Mi");
+    this.setTooltip(__noteTooltip.mi);
     this.setHelpUrl("");
   }
 };
@@ -38,10 +58,10 @@ Blockly.Blocks['nota_mi'] = {
 Blockly.Blocks['nota_fa'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🧚‍♀️ Fá");
+        .appendField(__noteLabel.fa);
     this.setOutput(true, "Note");
     this.setColour("#C4E538");
-    this.setTooltip("Nota Fá");
+    this.setTooltip(__noteTooltip.fa);
     this.setHelpUrl("");
   }
 };
@@ -49,10 +69,10 @@ Blockly.Blocks['nota_fa'] = {
 Blockly.Blocks['nota_sol'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("☀️ Sol");
+        .appendField(__noteLabel.sol);
     this.setOutput(true, "Note");
     this.setColour("#12CBC4");
-    this.setTooltip("Nota Sol");
+    this.setTooltip(__noteTooltip.sol);
     this.setHelpUrl("");
   }
 };
@@ -60,10 +80,10 @@ Blockly.Blocks['nota_sol'] = {
 Blockly.Blocks['nota_la'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("⭐ Lá");
+        .appendField(__noteLabel.la);
     this.setOutput(true, "Note");
     this.setColour("#833471");
-    this.setTooltip("Nota Lá");
+    this.setTooltip(__noteTooltip.la);
     this.setHelpUrl("");
   }
 };
@@ -71,10 +91,10 @@ Blockly.Blocks['nota_la'] = {
 Blockly.Blocks['nota_si'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("👍 Si");
+        .appendField(__noteLabel.si);
     this.setOutput(true, "Note");
     this.setColour("#FD7272");
-    this.setTooltip("Nota Si");
+    this.setTooltip(__noteTooltip.si);
     this.setHelpUrl("");
   }
 };
@@ -107,7 +127,15 @@ Blockly.Blocks['piano_nota'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("🎹 Tocar")
-        .appendField(new Blockly.FieldDropdown([
+        .appendField(new Blockly.FieldDropdown((__isEnglishNotes ? [
+          ["C", "C"], ["C#", "C#"],
+          ["D", "D"], ["D#", "D#"],
+          ["E", "E"],
+          ["F", "F"], ["F#", "F#"],
+          ["G", "G"], ["G#", "G#"],
+          ["A", "A"], ["A#", "A#"],
+          ["B", "B"]
+        ] : [
           ["C (Dó)", "C"], ["C# (Dó#)", "C#"],
           ["D (Ré)", "D"], ["D# (Ré#)", "D#"],
           ["E (Mi)", "E"],
@@ -115,7 +143,7 @@ Blockly.Blocks['piano_nota'] = {
           ["G (Sol)", "G"], ["G# (Sol#)", "G#"],
           ["A (Lá)", "A"], ["A# (Lá#)", "A#"],
           ["B (Si)", "B"]
-        ]), "NOTE")
+        ])), "NOTE")
         .appendField("volume")
         .appendField(new Blockly.FieldNumber(50, 0, 100), "VOLUME")
         .appendField("%");
