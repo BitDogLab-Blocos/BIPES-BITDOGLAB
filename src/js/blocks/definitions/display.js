@@ -127,7 +127,12 @@ Blockly.Blocks['display_texto'] = {
           ["À esquerda", "LEFT"],
           ["Ao centro", "CENTER"],
           ["À direita", "RIGHT"]
-        ]), "ALINHAMENTO");
+        ]), "ALINHAMENTO")
+        .appendField("tipo de display")
+        .appendField(new Blockly.FieldDropdown([
+          ["pequeno OLED", "SMALL"],
+          ["grande SH1107", "LARGE"]
+        ]), "DISPLAY_TYPE");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
@@ -219,7 +224,12 @@ Blockly.Blocks['display_mostrar_valor'] = {
           ["À esquerda", "LEFT"],
           ["Ao centro", "CENTER"],
           ["À direita", "RIGHT"]
-        ]), "ALINHAMENTO");
+        ]), "ALINHAMENTO")
+        .appendField("tipo de display")
+        .appendField(new Blockly.FieldDropdown([
+          ["pequeno OLED", "SMALL"],
+          ["grande SH1107", "LARGE"]
+        ]), "DISPLAY_TYPE");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
