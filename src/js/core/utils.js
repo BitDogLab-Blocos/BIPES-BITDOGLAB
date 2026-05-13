@@ -44,6 +44,21 @@ class Tool {
     }, 500);
   }
 
+  static saveAsMainPy () {
+    // Gera o código dos blocos (mesma lógica do runPython)
+    delete Blockly.Python.buzzerDisplayConfig;
+    let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
+    let code = Code.wrapWithInfiniteLoop(rawCode);
+    if (!code) return;
+
+    // Prepara para salvar como main.py via put_file()
+    let encoder = new TextEncoder();
+    Files.put_file_name = 'main.py';
+    Files.put_file_data = encoder.encode(code);
+    Files.put_file();
+    files.update_file_status('Salvando main.py na placa...');
+  }
+
   static clearQueue () {
     // Silently clear any pending serial queue leftovers during page boot.
     if (typeof Channel !== 'undefined' && Channel['webserial']) {
