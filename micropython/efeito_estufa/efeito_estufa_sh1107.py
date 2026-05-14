@@ -203,7 +203,7 @@ while True:
     oled.vline(64, 0, 128, 1)
 
     # Lado esquerdo: Sensor 1 (centralizado no eixo Y)
-    oled.text("Sensor 1", 5, 44, 1)
+    oled.text("Sensor 1", 1, 44, 1)
     if temp1 is not None:
         oled.text(str(temp1) + "C", 5, 64, 1)
         oled.text(str(umid1) + "%", 5, 80, 1)
