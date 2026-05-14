@@ -505,9 +505,11 @@ class workspace {
     this.connectButton = get('#connectButton');
     this.saveButton = get('#saveButton');
     this.loadButton = get('#loadXML');
+    this.saveMainButton = get('#saveMainButton');
     this.connectButton.onclick = () => {this.connectClick ()};
     this.runButton.dom.onclick = () => {this.run ()};
     this.saveButton.onclick = () => {this.saveXML ()};
+    if (this.saveMainButton) this.saveMainButton.onclick = () => {this.saveMain ()};
 	  this.loadButton.addEventListener ('change', () => {this.loadXML ()});
 
     this.resetBoard = get('#resetBoard');
@@ -532,6 +534,16 @@ workspace.prototype.run = function () {
     }
   } else {
     Tool.stopPython();
+  }
+}
+
+// Save generated code as main.py on the board (auto-connects if needed)
+workspace.prototype.saveMain = function () {
+  if (mux.connected ()) {
+    Tool.saveAsMainPy ();
+  } else {
+    Channel ['mux'].connect ();
+    setTimeout(() => { if (mux.connected ()) Tool.saveAsMainPy ();}, 2000);
   }
 }
 
