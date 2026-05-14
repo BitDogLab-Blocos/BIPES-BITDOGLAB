@@ -44,20 +44,62 @@ class Tool {
     }, 500);
   }
 
-  static saveAsMainPy () {
-    // Gera o código dos blocos (mesma lógica do runPython)
-    delete Blockly.Python.buzzerDisplayConfig;
-    let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
-    let code = Code.wrapWithInfiniteLoop(rawCode);
-    if (!code) return;
+static saveAsMainPy () {
+  // Guarda o _sendScan original e substitui por função vazia
+  const originalSendScan = i2cScanner._sendScan.bind(i2cScanner);
+  i2cScanner._sendScan = () => {};
+  i2cScanner.stop();
 
-    // Prepara para salvar como main.py via put_file()
-    let encoder = new TextEncoder();
-    Files.put_file_name = 'main.py';
-    Files.put_file_data = encoder.encode(code);
-    Files.put_file();
-    files.update_file_status('Salvando main.py na placa...');
-  }
+  mux.clearBuffer();
+  mux.bufferPush('\x03\x03');
+
+  setTimeout(() => {
+    Tool._doSaveAsMainPy(() => {
+      // Restaura o scanner só depois que terminar
+      i2cScanner._sendScan = originalSendScan;
+      setTimeout(() => {
+        if (Channel['webserial']?.connected) i2cScanner.start(Channel['webserial']);
+      }, 500);
+    });
+  }, 500);
+}
+
+static _doSaveAsMainPy (onDone) {
+  delete Blockly.Python.buzzerDisplayConfig;
+  let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
+  let code = Code.wrapWithInfiniteLoop(rawCode);
+  if (!code) return;
+
+  const bytes = new TextEncoder().encode(code);
+  let binary = '';
+  bytes.forEach(b => binary += String.fromCharCode(b));
+  const b64 = btoa(binary);
+
+  const chunkSize = 48;
+  const chunks = [];
+  for (let i = 0; i < b64.length; i += chunkSize)
+    chunks.push(b64.slice(i, i + chunkSize));
+
+  UI['progress'].start(chunks.length + 2);
+  files.update_file_status('Salvando main.py na placa...');
+
+  mux.clearBuffer();
+  mux.bufferPush("import ubinascii; f=open('main.py','wb')\r", () => {
+    let i = 0;
+    function sendNext() {
+      if (i < chunks.length) {
+        mux.bufferPush(`f.write(ubinascii.a2b_base64('${chunks[i++]}'))\r`, sendNext);
+      } else {
+        mux.bufferPush("f.close()\r", () => {
+          files.update_file_status('main.py salvo com sucesso!');
+          if (onDone) onDone();
+        });
+      }
+    }
+    sendNext();
+  });
+}
+
 
   static clearQueue () {
     // Silently clear any pending serial queue leftovers during page boot.
