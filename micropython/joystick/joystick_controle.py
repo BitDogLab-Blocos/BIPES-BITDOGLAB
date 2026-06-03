@@ -11,18 +11,14 @@ JOYSTICK_Y_PIN = 26  # GPIO26 - Eixo Y
 JOYSTICK_SW_PIN = 22 # GPIO22 - Botão
 
 # Pinos de saída
-LED_RED = 11
-LED_GREEN = 12
-LED_BLUE = 13
+LED_RED = 13
+LED_GREEN = 11
+LED_BLUE = 12
 BUZZER_PIN = 21
 
 # Inicializa ADCs do joystick
 adc_x = ADC(Pin(JOYSTICK_X_PIN))
 adc_y = ADC(Pin(JOYSTICK_Y_PIN))
-adc_x.width(ADC.WIDTH_12BIT)
-adc_y.width(ADC.WIDTH_12BIT)
-adc_x.atten(ADC.ATTN_11DB)
-adc_y.atten(ADC.ATTN_11DB)
 
 # Inicializa LEDs e buzzer
 led_vermelho = PWM(Pin(LED_RED), freq=1000)
@@ -35,11 +31,11 @@ def ler_joystick():
     Lê os valores do joystick.
     
     Returns:
-        tuple: (x, y, pressionado) onde x e y estão entre 0 e 4095
+        tuple: (x, y, pressionado) onde x e y estão entre 0 e 65535
                e pressionado é True/False
     """
-    x = adc_x.read()
-    y = adc_y.read()
+    x = adc_x.read_u16()
+    y = adc_y.read_u16()
     sw = Pin(JOYSTICK_SW_PIN, Pin.IN, Pin.PULL_UP).value() == 0
     return x, y, sw
 
@@ -58,25 +54,25 @@ def controlar_led_joystick(cor, intensidade_inicial=50,
     
     x, y, _ = ler_joystick()
     
- # Centro está em aproximadamente 2048
- # Movimento detectado se valor < 1000 ou > 3000
+ # Centro está em aproximadamente 32768
+ # Movimento detectado se valor sair da zona morta da v7
     
-    if dir_aumentar == 'UP' and y < 1000:
+    if dir_aumentar == 'UP' and y < 27768:
         intensidade = min(100, intensidade + 5)
-    elif dir_aumentar == 'DOWN' and y > 3000:
+    elif dir_aumentar == 'DOWN' and y > 37768:
         intensidade = min(100, intensidade + 5)
-    elif dir_aumentar == 'LEFT' and x < 1000:
+    elif dir_aumentar == 'LEFT' and x < 27768:
         intensidade = min(100, intensidade + 5)
-    elif dir_aumentar == 'RIGHT' and x > 3000:
+    elif dir_aumentar == 'RIGHT' and x > 37768:
         intensidade = min(100, intensidade + 5)
     
-    if dir_diminuir == 'UP' and y < 1000:
+    if dir_diminuir == 'UP' and y < 27768:
         intensidade = max(0, intensidade - 5)
-    elif dir_diminuir == 'DOWN' and y > 3000:
+    elif dir_diminuir == 'DOWN' and y > 37768:
         intensidade = max(0, intensidade - 5)
-    elif dir_diminuir == 'LEFT' and x < 1000:
+    elif dir_diminuir == 'LEFT' and x < 27768:
         intensidade = max(0, intensidade - 5)
-    elif dir_diminuir == 'RIGHT' and x > 3000:
+    elif dir_diminuir == 'RIGHT' and x > 37768:
         intensidade = max(0, intensidade - 5)
     
  # Aplica a cor com a intensidade
@@ -102,22 +98,22 @@ def controlar_buzzer_joystick(freq_inicial=1000, volume=30,
     
     x, y, _ = ler_joystick()
     
-    if dir_aumentar == 'UP' and y < 1000:
+    if dir_aumentar == 'UP' and y < 27768:
         frequencia = min(4000, frequencia + 100)
-    elif dir_aumentar == 'DOWN' and y > 3000:
+    elif dir_aumentar == 'DOWN' and y > 37768:
         frequencia = min(4000, frequencia + 100)
-    elif dir_aumentar == 'LEFT' and x < 1000:
+    elif dir_aumentar == 'LEFT' and x < 27768:
         frequencia = min(4000, frequencia + 100)
-    elif dir_aumentar == 'RIGHT' and x > 3000:
+    elif dir_aumentar == 'RIGHT' and x > 37768:
         frequencia = min(4000, frequencia + 100)
     
-    if dir_diminuir == 'UP' and y < 1000:
+    if dir_diminuir == 'UP' and y < 27768:
         frequencia = max(200, frequencia - 100)
-    elif dir_diminuir == 'DOWN' and y > 3000:
+    elif dir_diminuir == 'DOWN' and y > 37768:
         frequencia = max(200, frequencia - 100)
-    elif dir_diminuir == 'LEFT' and x < 1000:
+    elif dir_diminuir == 'LEFT' and x < 27768:
         frequencia = max(200, frequencia - 100)
-    elif dir_diminuir == 'RIGHT' and x > 3000:
+    elif dir_diminuir == 'RIGHT' and x > 37768:
         frequencia = max(200, frequencia - 100)
     
     buzzer.freq(frequencia)

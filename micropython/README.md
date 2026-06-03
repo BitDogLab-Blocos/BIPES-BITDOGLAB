@@ -10,7 +10,7 @@ micropython/
 ├── matriz_led/           # Matriz 5x5 de LEDs NeoPixel
 ├── display_oled/         # Display OLED SSD1306
 ├── som_buzzer/           # Buzzer e sons
-├── botoes/               # Botões A, B e Joystick
+├── botoes/               # Botões A, B, C e Joystick
 ├── joystick/             # Controle via joystick analógico
 ├── microfone/            # Sensor de som/microfone
 ├── tempo/                # Funções de tempo e delay
@@ -28,9 +28,9 @@ micropython/
 ## Pinagem da BitDogLab
 
 ### LEDs RGB
-- **LED Vermelho**: GPIO 11
-- **LED Verde**: GPIO 12
-- **LED Azul**: GPIO 13
+- **LED Vermelho**: GPIO 13
+- **LED Verde**: GPIO 11
+- **LED Azul**: GPIO 12
 
 ### Matriz NeoPixel 5x5
 - **Data**: GPIO 7
@@ -38,6 +38,7 @@ micropython/
 ### Botões
 - **Botão A**: GPIO 5
 - **Botão B**: GPIO 6
+- **Botão C**: GPIO 10
 - **Botão Joystick**: GPIO 22
 
 ### Joystick Analógico
@@ -51,8 +52,8 @@ micropython/
 - **ADC**: GPIO 28
 
 ### Display OLED (I2C)
-- **SCL**: GPIO 15
-- **SDA**: GPIO 14
+- **SCL**: GPIO 3
+- **SDA**: GPIO 2
 - **Endereço I2C**: 0x3C
 
 ## Como Usar
