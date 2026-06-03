@@ -6,9 +6,9 @@ from machine import Pin, PWM
 import time
 
 # Configuração dos pinos do LED RGB
-LED_RED = 11   # GPIO11 - Vermelho
-LED_GREEN = 12 # GPIO12 - Verde
-LED_BLUE = 13  # GPIO13 - Azul
+LED_RED = 13   # GPIO13 - Vermelho
+LED_GREEN = 11 # GPIO11 - Verde
+LED_BLUE = 12  # GPIO12 - Azul
 
 # Inicializa os LEDs com PWM
 led_vermelho = PWM(Pin(LED_RED), freq=1000)
