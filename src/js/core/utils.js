@@ -94,17 +94,29 @@ static _doSaveAsMainPy (onDone) {
   for (let i = 0; i < b64.length; i += chunkSize)
     chunks.push(b64.slice(i, i + chunkSize));
 
-  UI['progress'].start(chunks.length + 3);
+  const totalSteps = chunks.length + 3;
+  let completedSteps = 0;
+  const advanceProgress = () => {
+    completedSteps += 1;
+    UI['progress'].load(completedSteps, totalSteps);
+  };
+
+  UI['progress'].start(totalSteps, true);
   files.update_file_status('Salvando main.py na placa...');
 
   mux.clearBuffer();
   mux.bufferPush("import ubinascii; f=open('main.py','wb')\r", () => {
+    advanceProgress();
     let i = 0;
     function sendNext() {
       if (i < chunks.length) {
-        mux.bufferPush(`f.write(ubinascii.a2b_base64('${chunks[i++]}'))\r`, sendNext);
+        mux.bufferPush(`f.write(ubinascii.a2b_base64('${chunks[i++]}'))\r`, () => {
+          advanceProgress();
+          sendNext();
+        });
       } else {
         mux.bufferPush("f.close()\r", () => {
+          advanceProgress();
           Files.received_string = '';
           mux.bufferPush("import os; print('__BIPES_MAIN_SAVED__', os.stat('main.py')[6])\r", () => {
             setTimeout(() => {
@@ -115,6 +127,8 @@ static _doSaveAsMainPy (onDone) {
               files.update_file_status(verified
                 ? `main.py salvo e verificado (${savedBytes} bytes)! Pode desconectar e reiniciar a placa.`
                 : 'Falha ao verificar main.py na placa.');
+              advanceProgress();
+              setTimeout(() => UI['progress'].end(true), 400);
               if (onDone) onDone(verified);
             }, 50);
           });

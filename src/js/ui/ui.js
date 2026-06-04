@@ -446,6 +446,7 @@ class progress {
 	  this.div.appendChild (this.text);
 
 	  this.len;
+	  this.manual = false;
 	}
 
 	// Set progress by loaded/total bytes
@@ -456,21 +457,26 @@ class progress {
 	}
 	// Set progress by remaining bytes
 	remain (len_) {
+		if (this.manual) return;
 		var percent = ((this.len - len_) * 100 / this.len);
 		this.div.style.width = percent + '%';
 		this.text.textContent = Math.round(percent) + '%';
 	}
 	// Show progress bar
-	start (len_) {
+	start (len_, manual_) {
 	  this.len = len_;
+	  this.manual = !!manual_;
 	  this.dom.id = 'on';
+	  this.div.style.width = '0%';
 	  this.text.textContent = '0%';
 	}
 	// Hide progress bar and reset
-	end () {
+	end (force_) {
+	  if (this.manual && !force_) return;
 	  this.dom.id = '';
     this.div.style.width = '0%';
     this.text.textContent = '';
+    this.manual = false;
 	}
 }
 
@@ -726,7 +732,6 @@ workspace.prototype.loadXML = function () {
     }
   }
 }
-
 
 
 
