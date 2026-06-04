@@ -36,7 +36,7 @@ class AHT20:
         """
         if not self.is_ready:
             return None, None
-        
+
         try:
             self.i2c.writeto(self.addr, b'\xac\x33\x00')
             time.sleep(0.1)

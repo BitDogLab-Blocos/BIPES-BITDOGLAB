@@ -979,6 +979,12 @@ button.icon.medium:before  {
   transform: translateY(-1px);
 }
 
+#saveMainButton:disabled {
+  cursor: wait;
+  opacity: 0.65;
+  transform: none;
+}
+
 #saveMainButton:before {
   background-position: left calc(-1.5rem*1) top;
 }
