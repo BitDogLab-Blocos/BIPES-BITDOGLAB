@@ -924,20 +924,20 @@ Blockly.Python["brilha_brilha_estrelinha"] = function(block) {
   var cfg = _getBuzzerDisplayConfig();
   if (cfg) {
     var notes = [
-      {freq: 392, duration: 400},
-      {freq: 392, duration: 400},
-      {freq: 294, duration: 400},
-      {freq: 294, duration: 400},
-      {freq: 330, duration: 400},
-      {freq: 330, duration: 400},
-      {freq: 294, duration: 800},
       {freq: 262, duration: 400},
       {freq: 262, duration: 400},
-      {freq: 494, duration: 400},
-      {freq: 494, duration: 400},
+      {freq: 392, duration: 400},
+      {freq: 392, duration: 400},
       {freq: 440, duration: 400},
       {freq: 440, duration: 400},
-      {freq: 392, duration: 800}
+      {freq: 392, duration: 800},
+      {freq: 349, duration: 400},
+      {freq: 349, duration: 400},
+      {freq: 330, duration: 400},
+      {freq: 330, duration: 400},
+      {freq: 294, duration: 400},
+      {freq: 294, duration: 400},
+      {freq: 262, duration: 800}
     ];
 
     code += 'buzzer.duty_u16(0)\n';
@@ -977,33 +977,33 @@ Blockly.Python["brilha_brilha_estrelinha"] = function(block) {
     code += '  pass\n';
   } else {
     code += 'buzzer.duty_u16(' + duty_cycle + ')\n';
-    code += 'buzzer.freq(392)\n';
+    code += 'buzzer.freq(262)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(262)\n';
     code += 'time.sleep_ms(400)\n';
     code += 'buzzer.freq(392)\n';
     code += 'time.sleep_ms(400)\n';
-    code += 'buzzer.freq(294)\n';
+    code += 'buzzer.freq(392)\n';
     code += 'time.sleep_ms(400)\n';
-    code += 'buzzer.freq(294)\n';
+    code += 'buzzer.freq(440)\n';
     code += 'time.sleep_ms(400)\n';
-    code += 'buzzer.freq(330)\n';
+    code += 'buzzer.freq(440)\n';
     code += 'time.sleep_ms(400)\n';
-    code += 'buzzer.freq(330)\n';
-    code += 'time.sleep_ms(400)\n';
-    code += 'buzzer.freq(294)\n';
+    code += 'buzzer.freq(392)\n';
     code += 'time.sleep_ms(800)\n';
-    code += 'buzzer.freq(262)\n';
+    code += 'buzzer.freq(349)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(349)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(330)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(330)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(294)\n';
+    code += 'time.sleep_ms(400)\n';
+    code += 'buzzer.freq(294)\n';
     code += 'time.sleep_ms(400)\n';
     code += 'buzzer.freq(262)\n';
-    code += 'time.sleep_ms(400)\n';
-    code += 'buzzer.freq(494)\n';
-    code += 'time.sleep_ms(400)\n';
-    code += 'buzzer.freq(494)\n';
-    code += 'time.sleep_ms(400)\n';
-    code += 'buzzer.freq(440)\n';
-    code += 'time.sleep_ms(400)\n';
-    code += 'buzzer.freq(440)\n';
-    code += 'time.sleep_ms(400)\n';
-    code += 'buzzer.freq(392)\n';
     code += 'time.sleep_ms(800)\n';
     code += 'buzzer.duty_u16(0)\n';
   }
