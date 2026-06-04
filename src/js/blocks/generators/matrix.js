@@ -46,10 +46,8 @@ Blockly.Python["acender_led_posicao"] = function(block) {
   var coluna = block.getFieldValue('COLUNA');
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var intensity = block.getFieldValue('INTENSITY');
-  // Clear matrix first
-  var code = 'for i in range(25):\n';
-  code += '    np[i] = (0, 0, 0)\n';
-  code += 'if 0 <= ' + linha + ' <= 4 and 0 <= ' + coluna + ' <= 4:\n';
+  // Preserve the other LEDs so multiple position blocks compose a drawing.
+  var code = 'if 0 <= ' + linha + ' <= 4 and 0 <= ' + coluna + ' <= 4:\n';
   code += '    led_index = LED_MATRIX[4 - ' + linha + '][' + coluna + ']\n';
   code += '    np[led_index] = (int(' + colour + '[0] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(' + colour + '[1] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(' + colour + '[2] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100))\n';
   code += 'np.write()\n';
@@ -71,10 +69,8 @@ Blockly.Python["acender_linha"] = function(block) {
   var linha = block.getFieldValue('LINHA');
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var intensity = block.getFieldValue('INTENSITY');
-  // Clear matrix first
-  var code = 'for i in range(25):\n';
-  code += '    np[i] = (0, 0, 0)\n';
-  code += 'if 0 <= ' + linha + ' <= 4:\n';
+  // Preserve the other LEDs so rows can be combined with other drawing blocks.
+  var code = 'if 0 <= ' + linha + ' <= 4:\n';
   code += '    for x in range(5):\n';
   code += '        led_index = LED_MATRIX[4 - ' + linha + '][x]\n';
   code += '        np[led_index] = (int(' + colour + '[0] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(' + colour + '[1] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100), int(' + colour + '[2] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100))\n';
@@ -97,10 +93,8 @@ Blockly.Python["acender_coluna"] = function(block) {
   var coluna = block.getFieldValue('COLUNA');
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
   var intensity = block.getFieldValue('INTENSITY');
-  // Clear matrix first
-  var code = 'for i in range(25):\n';
-  code += '    np[i] = (0, 0, 0)\n';
-  code += 'if 0 <= ' + coluna + ' <= 4:\n';
+  // Preserve the other LEDs so columns can be combined with other drawing blocks.
+  var code = 'if 0 <= ' + coluna + ' <= 4:\n';
   code += '    for y in range(5):\n';
   code += '        led_index = LED_MATRIX[y][' + coluna + ']\n';
   code += '        r = int(' + colour + '[0] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100)\n';
@@ -108,7 +102,6 @@ Blockly.Python["acender_coluna"] = function(block) {
   code += '        b = int(' + colour + '[2] * ' + intensity + ' * ' + BitdogLabConfig.NEOPIXEL.BRIGHTNESS + ' / 100)\n';
   code += '        np[led_index] = (r, g, b)\n';
   code += 'np.write()\n';
-  code += 'time.sleep_ms(10)\n';
   // Track matrix state
   code += '# Update matrix tracking\n';
   code += '_matriz_status = "ON"\n';
