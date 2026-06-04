@@ -18,6 +18,9 @@ class WebSerialProtocol {
     this.packetSize = SERIAL_CONFIG.PACKET_SIZE; // Max packet size
     this.speed = SERIAL_CONFIG.BAUD_RATE; // Connection baud rate
     this.terminalBuffer = '';       // Terminal buffer
+    this._replRecoveryTimer = null; // Retries Ctrl+C until the REPL prompt appears
+    this._replRecoveryAttempts = 0;
+    this._recoveringRepl = false;
   }
 
   // Transmit buffer polling
@@ -66,6 +69,7 @@ class WebSerialProtocol {
 
                 // Detect REPL prompt (command completed)
                 if (Channel['webserial'].lastChars.includes(REPL_CONSTANTS.PROMPT)) {
+                  Channel['webserial']._finishReplRecovery();
                   UI['workspace'].runButton.status = true;
                   UI['workspace'].runButton.dom.className = 'icon';
                   UI['workspace'].toolbarButton.className = 'icon medium';
@@ -160,10 +164,6 @@ class WebSerialProtocol {
     term.write('\x1b[32mConnected using Web Serial API!\x1b[m\r\n');
     this.connected = true;
 
-    if (UI['workspace'].runButton.status === true) {
-      UI['workspace'].receiving();
-    }
-
     // Start buffer polling
     this.watcher = setInterval(
       this._pollSerialBuffer.bind(this),
@@ -175,6 +175,7 @@ class WebSerialProtocol {
   disconnect() {
     // Stop I2C scanner
     i2cScanner.stop();
+    this._stopReplRecovery();
 
     const writer = this.port.writable.getWriter();
 
@@ -203,20 +204,63 @@ class WebSerialProtocol {
     });
   }
 
-  // Resets board and starts I2C scanner
+  // Interrupts an auto-running main.py and waits until the REPL is ready.
+  _startReplRecovery() {
+    var self = this;
+    const maxAttempts = 10;
+
+    this._stopReplRecovery();
+    this._recoveringRepl = true;
+    this._replRecoveryAttempts = 0;
+    i2cScanner.stop();
+
+    function interruptMain() {
+      if (!self.connected || !self._recoveringRepl) return;
+
+      if (self._replRecoveryAttempts >= maxAttempts) {
+        self._stopReplRecovery();
+        const message = 'A placa não respondeu. Pressione parar ou reconecte a placa.';
+        UI['notify'].send(message);
+        term.write('\r\n' + message + '\r\n');
+        return;
+      }
+
+      self._replRecoveryAttempts += 1;
+      self._serialWrite(REPL_CONSTANTS.CTRL_C + REPL_CONSTANTS.CTRL_C);
+      self._replRecoveryTimer = setTimeout(interruptMain, 350);
+    }
+
+    interruptMain();
+  }
+
+  _finishReplRecovery() {
+    if (!this._recoveringRepl) return;
+    this._stopReplRecovery();
+    if (!i2cScanner._isRunning && this.connected) {
+      i2cScanner.start(this);
+    }
+  }
+
+  _stopReplRecovery() {
+    if (this._replRecoveryTimer) {
+      clearTimeout(this._replRecoveryTimer);
+      this._replRecoveryTimer = null;
+    }
+    this._recoveringRepl = false;
+    this._replRecoveryAttempts = 0;
+  }
+
+  // Stops an auto-running main.py before enabling tools and I2C scanning.
   _resetBoard() {
     var self = this;
     setTimeout(() => {
       if (UI['workspace'].resetBoard.checked) {
         term.write('\x1b[32mResetting the board...\x1b[m\r\n');
         self._serialWrite(REPL_CONSTANTS.CTRL_D); // Soft reset
+        setTimeout(() => self._startReplRecovery(), 500);
       } else {
-        self._serialWrite(REPL_CONSTANTS.CTRL_C); // Keyboard interrupt
+        self._startReplRecovery();
       }
-      // Start I2C scanner after board reset
-      setTimeout(function() {
-        i2cScanner.start(self);
-      }, 3000);
     }, SERIAL_CONFIG.RESET_TIMEOUT_MS);
   }
 
