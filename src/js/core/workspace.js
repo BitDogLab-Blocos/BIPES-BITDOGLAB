@@ -559,6 +559,46 @@ WorkspaceManager.importCategoryMessages = function() {
   }
 };
 
+WorkspaceManager.tuneBlocklyControls = function() {
+  if (Blockly.ZoomControls) {
+    Blockly.ZoomControls.prototype.WIDTH_ = 38;
+    Blockly.ZoomControls.prototype.HEIGHT_ = 38;
+    Blockly.ZoomControls.prototype.SMALL_SPACING_ = 4;
+    Blockly.ZoomControls.prototype.LARGE_SPACING_ = 12;
+    Blockly.ZoomControls.prototype.MARGIN_VERTICAL_ = 24;
+    Blockly.ZoomControls.prototype.MARGIN_HORIZONTAL_ = 24;
+  }
+
+  if (Blockly.Trashcan) {
+    Blockly.Trashcan.prototype.WIDTH_ = 56;
+    Blockly.Trashcan.prototype.BODY_HEIGHT_ = 52;
+    Blockly.Trashcan.prototype.LID_HEIGHT_ = 19;
+    Blockly.Trashcan.prototype.MARGIN_VERTICAL_ = 24;
+    Blockly.Trashcan.prototype.MARGIN_HORIZONTAL_ = 24;
+    Blockly.Trashcan.OPACITY_MIN_ = 0.78;
+    Blockly.Trashcan.OPACITY_MAX_ = 1;
+  }
+};
+
+WorkspaceManager.scaleSvgSpriteImages = function(selector, scale) {
+  document.querySelectorAll(selector).forEach((image) => {
+    ['width', 'height', 'x', 'y'].forEach((attribute) => {
+      const value = Number(image.getAttribute(attribute));
+      if (!Number.isNaN(value)) image.setAttribute(attribute, value * scale);
+    });
+  });
+};
+
+WorkspaceManager.enhanceBlocklyControls = function() {
+  document.querySelectorAll('.blocklyZoom clipPath rect').forEach((rect) => {
+    rect.setAttribute('width', 38);
+    rect.setAttribute('height', 38);
+  });
+
+  WorkspaceManager.scaleSvgSpriteImages('.blocklyZoom image', 1.19);
+  WorkspaceManager.scaleSvgSpriteImages('.blocklyTrash image', 1.18);
+};
+
 WorkspaceManager.initWorkspace = function() {
   var rtl = Code.isRtl();
 
@@ -568,6 +608,7 @@ WorkspaceManager.initWorkspace = function() {
 
   WorkspaceManager.importCategoryMessages();
   var toolboxXml = WorkspaceManager.loadToolboxXml();
+  WorkspaceManager.tuneBlocklyControls();
 
   Code.workspace = Blockly.inject('content_blocks', {
     grid: {
@@ -587,6 +628,7 @@ WorkspaceManager.initWorkspace = function() {
   });
 
   Code.loadBlocks('');
+  WorkspaceManager.enhanceBlocklyControls();
 
   var flyout = Code.workspace.getFlyout();
   if (flyout) flyout.width_ = 300;
