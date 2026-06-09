@@ -130,7 +130,3 @@ Reference file: `Controle_giro.py` (same folder).
 - Tune `SPEED_GIRO` and `Kp` to match robot dynamics.
 
 ---
-
-Se quiser, eu posso:
-- fazer um commit destes READMEs, ou
-- adicionar um pequeno bloco com valores de exemplo para `Kp` e um procedimento rápido de tuning.
