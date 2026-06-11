@@ -1,18 +1,44 @@
 // Auto-extracted from legacy generators.js into display.js
 'use strict';
 
-Blockly.Python["display_natal"] = function(block) {
+function _setupDisplayDefinitions(displayType) {
+  var pins = BitdogLabConfig.PINS;
+  var display = BitdogLabConfig.DISPLAY;
+
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+
+  if (displayType === 'LARGE') {
+    Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
+    Blockly.Python.definitions_['setup_display'] =
+      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
+      '_sh1107_scan = i2c.scan()\n' +
+      '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
+      'oled = SH1107_I2C(128, 128, i2c, address=_sh1107_addr, rotate=90)\n' +
+      '_display_width = 128\n' +
+      '_display_height = 128';
+  } else {
+    Blockly.Python.definitions_['lib_ssd1306'] = SensorLibs.SSD1306;
+    Blockly.Python.definitions_['setup_display'] =
+      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
+      '_ssd1306_scan = i2c.scan()\n' +
+      '_ssd1306_addr = 0x3C if 0x3C in _ssd1306_scan else (0x3D if 0x3D in _ssd1306_scan else 0x3C)\n' +
+      'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c, addr=_ssd1306_addr)\n' +
+      '_display_width = ' + display.WIDTH + '\n' +
+      '_display_height = ' + display.HEIGHT;
+  }
+}
+
+Blockly.Python["display_natal"] = function(block) {
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var code = '';
   code += '# Limpar display\n';
   code += 'oled.fill(0)\n';
   code += '# Desenhar borda simples\n';
-  code += 'oled.rect(0, 0, ' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', 1)\n';
+  code += 'oled.rect(0, 0, _display_width, _display_height, 1)\n';
   code += '# Texto centralizado - FELIZ NATAL\n';
   code += 'oled.text("FELIZ NATAL", 25, 28, 1)\n';
   code += '# Atualizar display\n';
@@ -22,32 +48,26 @@ Blockly.Python["display_natal"] = function(block) {
 };
 
 Blockly.Python["display_criar_borda"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
 
-  var code = 'oled.rect(0, 0, ' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', 1)\n';
+  var code = 'oled.rect(0, 0, _display_width, _display_height, 1)\n';
   // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
   return code;
 };
 
 Blockly.Python["display_limpar_borda"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
 
-  var code = 'oled.rect(0, 0, ' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', 0)\n';
+  var code = 'oled.rect(0, 0, _display_width, _display_height, 0)\n';
   // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
   return code;
 };
 
 Blockly.Python["display_atualizar"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
 
   var code = 'oled.fill(0)\n';
 
@@ -65,12 +85,9 @@ Blockly.Python["display_atualizar"] = function(block) {
 
 Blockly.Python["display_testar_conexao"] = function(block) {
   var pins = BitdogLabConfig.PINS;
-  var display = BitdogLabConfig.DISPLAY;
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
 
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\noled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+  _setupDisplayDefinitions(displayType);
 
   var code = '';
   code += 'oled.fill(0)\n';
@@ -127,19 +144,15 @@ Blockly.Python["display_testar_sh1107"] = function(_block) {
 };
 
 Blockly.Python["display_show"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
 
   return 'oled.show()\n';
 };
 
 Blockly.Python["display_mostrar"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
 
   var code = '';
 
@@ -168,16 +181,7 @@ Blockly.Python["display_mostrar"] = function(block) {
 Blockly.Python["display_texto"] = function(block) {
   var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
 
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-
-  if (displayType === 'LARGE') {
-    Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
-    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\n_sh1107_scan = i2c.scan()\n_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\noled = SH1107_I2C(128, 128, i2c, address=_sh1107_addr, rotate=90)';
-  } else {
-    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
-  }
+  _setupDisplayDefinitions(displayType);
 
   var texto = block.getFieldValue('TEXTO');
   var linha = block.getFieldValue('LINHA');
@@ -217,11 +221,9 @@ Blockly.Python["display_texto"] = function(block) {
 };
 
 Blockly.Python["display_piscar_texto"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var texto = block.getFieldValue('TEXTO');
   var linha = block.getFieldValue('LINHA');
@@ -262,10 +264,8 @@ Blockly.Python["display_piscar_texto"] = function(block) {
 };
 
 Blockly.Python["display_mostrar_calculo"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
 
   var valor = Blockly.Python.valueToCode(block, 'VALOR', Blockly.Python.ORDER_NONE) || '0';
   var linha = block.getFieldValue('LINHA');
@@ -306,16 +306,7 @@ Blockly.Python["display_mostrar_calculo"] = function(block) {
 Blockly.Python["display_mostrar_valor"] = function(block) {
   var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
 
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-
-  if (displayType === 'LARGE') {
-    Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
-    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\n_sh1107_scan = i2c.scan()\n_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\noled = SH1107_I2C(128, 128, i2c, address=_sh1107_addr, rotate=90)';
-  } else {
-    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
-  }
+  _setupDisplayDefinitions(displayType);
 
   var valor = Blockly.Python.valueToCode(block, 'VALOR', Blockly.Python.ORDER_NONE) || '0';
   var linha = block.getFieldValue('LINHA');
@@ -361,11 +352,9 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
 };
 
 Blockly.Python["display_mostrar_estado_led"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
   Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
   Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
   Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
@@ -436,10 +425,8 @@ Blockly.Python["display_mostrar_estado_led"] = function(block) {
 };
 
 Blockly.Python["display_limpar"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
 
   var code = 'oled.fill(0)\n';
   // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
@@ -447,12 +434,10 @@ Blockly.Python["display_limpar"] = function(block) {
 };
 
 Blockly.Python["display_mostrar_estado_botao"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['import_machine'] = 'import machine';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
   Blockly.Python.definitions_['setup_botoes'] =
     'botao_esquerda = Pin(' + BitdogLabConfig.PINS.BUTTON_A + ', Pin.IN, Pin.PULL_UP)\n' +
     'botao_direita = Pin(' + BitdogLabConfig.PINS.BUTTON_B + ', Pin.IN, Pin.PULL_UP)\n' +
@@ -602,11 +587,9 @@ Blockly.Python["display_mostrar_estado_botao"] = function(block) {
 };
 
 Blockly.Python["display_mostrar_status_buzzer"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
 
   var linha = block.getFieldValue('LINHA');
@@ -632,10 +615,8 @@ Blockly.Python["display_mostrar_status_buzzer"] = function(block) {
 };
 
 Blockly.Python["display_dashboard_matriz"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.PINS.NEOPIXEL + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')';
 
@@ -721,11 +702,9 @@ Blockly.Python["display_dashboard_matriz"] = function(block) {
 };
 
 Blockly.Python["display_mostrar_tempo_ligado"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var line = block.getFieldValue('LINE');
   var align = block.getFieldValue('ALIGN');
@@ -838,11 +817,9 @@ Blockly.Python["cronometro_reiniciar"] = function(block) {
 };
 
 Blockly.Python["cronometro_mostrar"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  _setupDisplayDefinitions(displayType);
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var name = block.getFieldValue('NAME');
   var line = block.getFieldValue('LINE');
