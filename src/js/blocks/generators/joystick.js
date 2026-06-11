@@ -41,14 +41,12 @@ Blockly.Python["joystick_controlar_led"] = function(block) {
   Blockly.Python.definitions_['import_pin']   = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm']   = 'from machine import PWM';
   Blockly.Python.definitions_['import_adc']   = 'from machine import ADC';
-  Blockly.Python.definitions_['import_i2c']   = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  _setupDisplayDefinitions('SMALL');
   Blockly.Python.definitions_['setup_joy_x']  = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
   Blockly.Python.definitions_['setup_joy_y']  = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
   Blockly.Python.definitions_['setup_led_red']   = led.VAR_RED   + ' = PWM(Pin(' + pins.LED_RED   + '), freq=' + led.PWM_FREQ + ')';
   Blockly.Python.definitions_['setup_led_green'] = led.VAR_GREEN + ' = PWM(Pin(' + pins.LED_GREEN + '), freq=' + led.PWM_FREQ + ')';
   Blockly.Python.definitions_['setup_led_blue']  = led.VAR_BLUE  + ' = PWM(Pin(' + pins.LED_BLUE  + '), freq=' + led.PWM_FREQ + ')';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var intensidadeInicial = block.getFieldValue('INTENSIDADE_INICIAL') || '50';
   Blockly.Python.definitions_['setup_intensidade_joy'] = '_intensidade_joy = ' + intensidadeInicial;
@@ -94,12 +92,10 @@ Blockly.Python["joystick_controlar_buzzer"] = function(block) {
   Blockly.Python.definitions_['import_pin']     = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm']     = 'from machine import PWM';
   Blockly.Python.definitions_['import_adc']     = 'from machine import ADC';
-  Blockly.Python.definitions_['import_i2c']     = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  _setupDisplayDefinitions('SMALL');
   Blockly.Python.definitions_['setup_joy_x']    = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
   Blockly.Python.definitions_['setup_joy_y']    = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
   Blockly.Python.definitions_['setup_buzzer']   = 'buzzer = PWM(Pin(' + pins.BUZZER + '))';
-  Blockly.Python.definitions_['setup_display']  = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var freqInicial = block.getFieldValue('FREQ_INICIAL') || '1000';
   Blockly.Python.definitions_['setup_freq_joy'] = '_freq_joy = ' + freqInicial;
@@ -148,11 +144,9 @@ Blockly.Python["joystick_mover_player"] = function(block) {
 
   Blockly.Python.definitions_['import_pin']     = 'from machine import Pin';
   Blockly.Python.definitions_['import_adc']     = 'from machine import ADC';
-  Blockly.Python.definitions_['import_i2c']     = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  _setupDisplayDefinitions('SMALL');
   Blockly.Python.definitions_['setup_joy_x']    = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
   Blockly.Python.definitions_['setup_joy_y']    = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
-  Blockly.Python.definitions_['setup_display']  = 'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\noled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
 
   var tamanho = block.getFieldValue('TAMANHO') || '5';
   Blockly.Python.definitions_['setup_player_size'] = '_player_size = ' + tamanho;
@@ -184,11 +178,9 @@ Blockly.Python["joystick_lousa_magica"] = function(block) {
 
   Blockly.Python.definitions_['import_pin']     = 'from machine import Pin';
   Blockly.Python.definitions_['import_adc']     = 'from machine import ADC';
-  Blockly.Python.definitions_['import_i2c']     = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
+  _setupDisplayDefinitions('SMALL');
   Blockly.Python.definitions_['setup_joy_x']    = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
   Blockly.Python.definitions_['setup_joy_y']    = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
-  Blockly.Python.definitions_['setup_display']  = 'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\noled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
 
   var tamanho = block.getFieldValue('TAMANHO') || '2';
   Blockly.Python.definitions_['setup_pen_size'] = '_pen_size = ' + tamanho;

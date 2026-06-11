@@ -65,10 +65,7 @@ function _setupEstufaMeasurementDisplay(displayType) {
       '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
       'oled = SH1107_I2C(128, 128, i2c, address=_sh1107_addr, rotate=90)';
   } else {
-    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-    Blockly.Python.definitions_['setup_display'] =
-      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
-      'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+    _setupDisplayDefinitions('SMALL');
   }
 }
 
@@ -89,10 +86,7 @@ function _setupEstufaGraficos(displayType) {
       '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
       'oled = SH1107_I2C(128, 128, i2c, address=_sh1107_addr, rotate=90)';
   } else {
-    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-    Blockly.Python.definitions_['setup_display'] =
-      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
-      'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+    _setupDisplayDefinitions('SMALL');
   }
 
   Blockly.Python.definitions_['lib_aht20'] = SensorLibs.AHT20;
@@ -419,15 +413,10 @@ Blockly.Python["estufa_plotar"] = function(block) {
 Blockly.Python["verificar_conexao_sensor"] = function(_block) {
   var pins = BitdogLabConfig.PINS;
   var sensor = BitdogLabConfig.SENSOR;
-  var display = BitdogLabConfig.DISPLAY;
 
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-
-  Blockly.Python.definitions_['setup_display'] =
-    'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
-    'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
+  _setupDisplayDefinitions('SMALL');
 
   var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
   var i2c0Scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
