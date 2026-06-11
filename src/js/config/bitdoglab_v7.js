@@ -145,6 +145,9 @@ var BitdogLabConfig = {
              line.startsWith('EMOJI_NAMES =') ||
              line.startsWith('AHT20_ADDR') ||
              line.startsWith('_aht20') ||
+             line.startsWith('_ssd1306_') ||
+             line.startsWith('_display_width') ||
+             line.startsWith('_display_height') ||
              line.startsWith('_sh1107_') ||
              line.startsWith('_i2c_sensor') ||
              line.startsWith('_i2c_estufa') ||
