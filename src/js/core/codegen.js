@@ -329,6 +329,7 @@ CodeGeneratorManager.generateCode = function(generator) {
     if (CodeGeneratorManager.checkAllGeneratorFunctionsDefined(generator)) {
       if (generator.name_ === 'Python') {
         generator.buzzerDisplayConfig = null;
+        generator.activeDisplayType = null;
         var allBlocks = Code.workspace.getAllBlocks();
         for (var bi = 0; bi < allBlocks.length; bi++) {
           if (allBlocks[bi].type === 'display_mostrar_status_buzzer') {
@@ -339,7 +340,8 @@ CodeGeneratorManager.generateCode = function(generator) {
             generator.buzzerDisplayConfig = {
               line: yPositions[linha],
               freqLine: yPositions[linhaFreq],
-              showFreq: mostrarFrequencia
+              showFreq: mostrarFrequencia,
+              displayType: allBlocks[bi].getFieldValue('DISPLAY_TYPE') || 'SMALL'
             };
             break;
           }

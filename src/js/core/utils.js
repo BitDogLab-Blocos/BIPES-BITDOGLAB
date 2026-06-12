@@ -13,6 +13,7 @@ class Tool {
       // Reset buzzer display config before generating code
       // This ensures it's undefined unless display_mostrar_status_buzzer block sets it
       delete Blockly.Python.buzzerDisplayConfig;
+      delete Blockly.Python.activeDisplayType;
       let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
       code = Code.wrapWithInfiniteLoop(rawCode); // Wrap in while True loop
     } else {
@@ -76,6 +77,7 @@ static saveAsMainPy () {
 
 static _doSaveAsMainPy (onDone) {
   delete Blockly.Python.buzzerDisplayConfig;
+  delete Blockly.Python.activeDisplayType;
   let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
   let code = Code.wrapWithInfiniteLoop(rawCode);
   if (!code) {

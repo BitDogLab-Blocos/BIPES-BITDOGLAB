@@ -132,7 +132,7 @@ Blockly.Blocks['display_texto'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("✏️ Escrever")
-        .appendField(new Blockly.FieldTextInput("Olá!"), "TEXTO")
+        .appendField(new Blockly.FieldTextInput("Ola!"), "TEXTO")
         .appendField("linha")
         .appendField(new Blockly.FieldDropdown([
           ["1", "1"],
@@ -145,12 +145,8 @@ Blockly.Blocks['display_texto'] = {
           ["À esquerda", "LEFT"],
           ["Ao centro", "CENTER"],
           ["À direita", "RIGHT"]
-        ]), "ALINHAMENTO")
-        .appendField("tipo de display")
-        .appendField(new Blockly.FieldDropdown([
-          ["pequeno OLED", "SMALL"],
-          ["grande SH1107", "LARGE"]
-        ]), "DISPLAY_TYPE");
+        ]), "ALINHAMENTO");
+    appendDisplayTypeInput(this);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
@@ -164,7 +160,7 @@ Blockly.Blocks['display_piscar_texto'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("💫 Piscar texto")
-        .appendField(new Blockly.FieldTextInput("Olá!"), "TEXTO");
+        .appendField(new Blockly.FieldTextInput("Ola!"), "TEXTO");
     this.appendDummyInput()
         .appendField("linha")
         .appendField(new Blockly.FieldDropdown([
@@ -244,12 +240,8 @@ Blockly.Blocks['display_mostrar_valor'] = {
           ["À esquerda", "LEFT"],
           ["Ao centro", "CENTER"],
           ["À direita", "RIGHT"]
-        ]), "ALINHAMENTO")
-        .appendField("tipo de display")
-        .appendField(new Blockly.FieldDropdown([
-          ["pequeno OLED", "SMALL"],
-          ["grande SH1107", "LARGE"]
-        ]), "DISPLAY_TYPE");
+        ]), "ALINHAMENTO");
+    appendDisplayTypeInput(this);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
@@ -554,7 +546,7 @@ Blockly.Blocks['cronometro_iniciar'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(190);
-    this.setTooltip("Inicia o cronômetro ou retoma de onde pausou");
+    this.setTooltip("Inicia o cronômetro uma vez. Dentro de um bloco de botão, retoma de onde pausou.");
     this.setHelpUrl("");
   }
 };
