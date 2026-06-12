@@ -140,10 +140,10 @@ Blockly.Python["botao_se_apertado"] = function(block) {
 
 Blockly.Python["microfone_testar"] = function(block) {
   var pins = BitdogLabConfig.PINS;
+  _setupDisplayForBlock(block);
 
   Blockly.Python.definitions_['import_pin']       = 'from machine import Pin';
   Blockly.Python.definitions_['import_adc']       = 'from machine import ADC';
-  _setupDisplayDefinitions('SMALL');
   Blockly.Python.definitions_['setup_mic']        = 'adc_mic = ADC(Pin(' + pins.MIC + '))';
   Blockly.Python.definitions_['setup_mic_offset'] = '_MIC_OFFSET = 32767';
 
@@ -209,9 +209,9 @@ Blockly.Python["microfone_nivel_atual"] = function(_block) {
 
 Blockly.Python["microfone_barra_display"] = function(block) {
   var pins = BitdogLabConfig.PINS;
+  _setupDisplayForBlock(block);
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_adc'] = 'from machine import ADC';
-  _setupDisplayDefinitions('SMALL');
   Blockly.Python.definitions_['setup_mic'] = 'adc_mic = ADC(Pin(' + pins.MIC + '))';
   Blockly.Python.definitions_['setup_mic_offset'] = '_MIC_OFFSET = 32767';
   Blockly.Python.definitions_['setup_barra_pct'] = '_barra_pct = 0';
@@ -225,19 +225,18 @@ Blockly.Python["microfone_barra_display"] = function(block) {
   code += 'for _i in range(8):\n';
   code += '    _s = abs(adc_mic.read_u16() - _MIC_OFFSET)\n';
   code += '    if _s > _mic_peak: _mic_peak = _s\n';
-  code += '_barra_w = _mic_peak * 128 // 32767\n';
-  code += '_barra_pct = _barra_w * 100 // 128\n';
+  code += '_barra_w = _mic_peak * _display_width // 32767\n';
+  code += '_barra_pct = _barra_w * 100 // _display_width\n';
   code += 'oled.fill_rect(0, ' + y + ', _barra_w, 6, 1)\n';
-  code += 'oled.fill_rect(_barra_w, ' + y + ', 128 - _barra_w, 6, 0)\n';
+  code += 'oled.fill_rect(_barra_w, ' + y + ', _display_width - _barra_w, 6, 0)\n';
   return code;
 };
 
 Blockly.Python["microfone_contar_palmas"] = function(block) {
   var pins = BitdogLabConfig.PINS;
-  var display = BitdogLabConfig.DISPLAY;
+  _setupDisplayForBlock(block);
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_adc'] = 'from machine import ADC';
-  _setupDisplayDefinitions('SMALL');
   Blockly.Python.definitions_['setup_mic'] = 'adc_mic = ADC(Pin(' + pins.MIC + '))';
   Blockly.Python.definitions_['setup_mic_offset'] = '_MIC_OFFSET = 32767';
   Blockly.Python.definitions_['import_time'] = 'import time';
@@ -259,7 +258,7 @@ Blockly.Python["microfone_contar_palmas"] = function(block) {
   code += 'if _mic_peak > 20000 and time.ticks_diff(_mic_agora_ms, _mic_ultima_palma) > 300:\n';
   code += '    _palmas += 1\n';
   code += '    _mic_ultima_palma = _mic_agora_ms\n';
-  code += 'oled.fill_rect(0, ' + y + ', ' + display.WIDTH + ', 8, 0)\n';
+  code += 'oled.fill_rect(0, ' + y + ', _display_width, 8, 0)\n';
   code += 'oled.text("Palmas: " + str(_palmas), 0, ' + y + ', 1)\n';
   return code;
 };

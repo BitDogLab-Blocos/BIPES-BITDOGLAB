@@ -1021,7 +1021,7 @@ Blockly.Python["natal_jingle_bells"] = function(block) {
   // Check if buzzer display is configured
   var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
-    _setupDisplayDefinitions('SMALL');
+    _setupDisplayForConfig(hasDisplay);
   }
 
   var volume = block.getFieldValue('VOLUME');
@@ -1083,7 +1083,7 @@ Blockly.Python["natal_noite_feliz"] = function(block) {
   // Check if buzzer display is configured
   var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
-    _setupDisplayDefinitions('SMALL');
+    _setupDisplayForConfig(hasDisplay);
   }
 
   var volume = block.getFieldValue('VOLUME');
@@ -1149,7 +1149,7 @@ Blockly.Python["natal_bate_sino"] = function(block) {
   // Check if buzzer display is configured
   var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
-    _setupDisplayDefinitions('SMALL');
+    _setupDisplayForConfig(hasDisplay);
   }
 
   var volume = block.getFieldValue('VOLUME');
@@ -1212,7 +1212,7 @@ Blockly.Python["natal_noel"] = function(block) {
   // Check if buzzer display is configured
   var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
-    _setupDisplayDefinitions('SMALL');
+    _setupDisplayForConfig(hasDisplay);
   }
 
   var volume = block.getFieldValue('VOLUME');
@@ -1278,7 +1278,7 @@ Blockly.Python["natal_o_vinde"] = function(block) {
   // Check if buzzer display is configured
   var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
-    _setupDisplayDefinitions('SMALL');
+    _setupDisplayForConfig(hasDisplay);
   }
 
   var volume = block.getFieldValue('VOLUME');
@@ -1345,7 +1345,7 @@ Blockly.Python["criar_melodia"] = function(block) {
   // Check if buzzer display is configured
   var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
-    _setupDisplayDefinitions('SMALL');
+    _setupDisplayForConfig(hasDisplay);
   }
 
   for (var i = 0; i < block.noteSteps_; i++) {
