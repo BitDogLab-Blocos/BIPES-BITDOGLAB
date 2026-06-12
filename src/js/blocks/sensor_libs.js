@@ -176,6 +176,51 @@ class SSD1306_I2C(SSD1306):
     '    except: return None, None\n',
 
   // =============================================
+  // MPU6050 - Giroscopio/acelerometro do robo movel
+  // Fonte: firmware/PyLibs/MPU6050.py
+  // =============================================
+  MPU6050:
+    'MPU6050_ADDR = 0x68\n' +
+    'class MPU6050:\n' +
+    '  def __init__(self, i2c, addr=MPU6050_ADDR):\n' +
+    '    self.i2c = i2c\n' +
+    '    self.addr = addr\n' +
+    '    self.offset_z = 0.0\n' +
+    '    self.is_ready = False\n' +
+    '    try:\n' +
+    '      self.i2c.writeto_mem(self.addr, 0x6B, b"\\x00")\n' +
+    '      self.i2c.writeto_mem(self.addr, 0x1B, b"\\x00")\n' +
+    '      self.i2c.writeto_mem(self.addr, 0x1C, b"\\x00")\n' +
+    '      self.is_ready = True\n' +
+    '    except Exception as exc:\n' +
+    '      print("MPU6050: erro ao inicializar:", exc)\n' +
+    '  def _read_i16(self, reg):\n' +
+    '    data = self.i2c.readfrom_mem(self.addr, reg, 2)\n' +
+    '    value = (data[0] << 8) | data[1]\n' +
+    '    return value - 65536 if value > 32767 else value\n' +
+    '  def _gyro_dps(self, reg):\n' +
+    '    return self._read_i16(reg) / 131.0\n' +
+    '  def _accel_g(self, reg):\n' +
+    '    return self._read_i16(reg) / 16384.0\n' +
+    '  def gz(self):\n' +
+    '    if not self.is_ready: return 0.0\n' +
+    '    return self._gyro_dps(0x47) - self.offset_z\n' +
+    '  def ax(self):\n' +
+    '    return self._accel_g(0x3B) if self.is_ready else 0.0\n' +
+    '  def ay(self):\n' +
+    '    return self._accel_g(0x3D) if self.is_ready else 0.0\n' +
+    '  def az(self):\n' +
+    '    return self._accel_g(0x3F) if self.is_ready else 0.0\n' +
+    '  def calibrate(self, samples=300, delay=5):\n' +
+    '    if not self.is_ready: return False\n' +
+    '    total = 0.0\n' +
+    '    for _ in range(samples):\n' +
+    '      total += self._gyro_dps(0x47)\n' +
+    '      sleep_ms(delay)\n' +
+    '    self.offset_z = total / samples\n' +
+    '    return True\n',
+
+  // =============================================
   // SH1107 - Display OLED I2C
   // Fonte base: firmware/PyLibs/sh1107.py
   // =============================================

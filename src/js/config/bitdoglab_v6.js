@@ -34,8 +34,31 @@ const BitdogLabConfig_V6 = {
 
   DISPLAY: { I2C_BUS: 1, I2C_FREQ: 400000, WIDTH: 128, HEIGHT: 64 },
 
+  ROBOT: {
+    MPU_I2C_BUS: 0,
+    MPU_I2C_SDA: 0,
+    MPU_I2C_SCL: 1,
+    MPU_I2C_BUS_ALT: 1,
+    MPU_I2C_SDA_ALT: 14,
+    MPU_I2C_SCL_ALT: 15,
+    I2C_FREQ: 400000,
+    LEFT_FWD: 4,
+    LEFT_BWD: 9,
+    LEFT_PWM: 8,
+    RIGHT_FWD: 18,
+    RIGHT_BWD: 19,
+    RIGHT_PWM: 16,
+    STBY: 20,
+    PWM_FREQ: 1000,
+    TURN_SPEED: 35000,
+    TURN_DEADZONE_DPS: 0.8,
+    TURN_TIMEOUT_MIN_MS: 1500,
+    TURN_TIMEOUT_MS_PER_DEGREE: 120
+  },
+
   SENSOR: {
     I2C_BUS: 0, I2C_FREQ: 400000,
+    I2C_BUS_ALT: 1,
     AHT20_ADDR: '0x38',
     I2C_KNOWN_DEVICES: {
       0x38: 'AHT20',
@@ -140,6 +163,7 @@ const BitdogLabConfig_V6 = {
              (line.startsWith('_cursor_col = ') || line.startsWith('_cursor_row = ') || line.startsWith('_cursor_tempo = ')) ||
              line.startsWith('EMOJI_NAMES =') ||
              line.startsWith('AHT20_ADDR') ||
+             line.startsWith('MPU6050_ADDR') ||
              line.startsWith('_aht20') ||
              line.startsWith('_ssd1306_') ||
              line.startsWith('_display_width') ||
