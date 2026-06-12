@@ -425,7 +425,7 @@ Blockly.Python["display_limpar"] = function(block) {
   _setupDisplayForBlock(block);
 
   var code = 'oled.fill(0)\n';
-  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
+  code += 'oled.show()\n';
   return code;
 };
 
@@ -756,29 +756,67 @@ Blockly.Python["display_mostrar_tempo_ligado"] = function(block) {
   return code;
 };
 
+function _setupCronometroDefinitions(name) {
+  var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
+  Blockly.Python.definitions_['crono_' + varName] =
+    '# Cronometro ' + name + '\n' +
+    varName + '_start = 0\n' +
+    varName + '_paused = 0\n' +
+    varName + '_running = False\n' +
+    varName + '_started = False';
+  return varName;
+}
+
+function _isCronometroManualTrigger(block) {
+  var parent = block && block.getSurroundParent ? block.getSurroundParent() : null;
+  var triggerBlocks = {
+    botao_se_apertado: true,
+    botao_enquanto_apertado: true
+  };
+
+  while (parent) {
+    if (triggerBlocks[parent.type]) {
+      return true;
+    }
+
+    parent = parent.getSurroundParent ? parent.getSurroundParent() : null;
+  }
+
+  return false;
+}
+
 Blockly.Python["cronometro_iniciar"] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
 
   var name = block.getFieldValue('NAME');
-  var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
-
-  // Inicializar variáveis no setup (antes do loop)
-  Blockly.Python.definitions_['crono_' + name] = '# Cronometro ' + name + '\n' + varName + '_start = 0\n' + varName + '_paused = 0\n' + varName + '_running = False';
+  var varName = _setupCronometroDefinitions(name);
+  var isManualTrigger = _isCronometroManualTrigger(block);
 
   var code = '';
-  code += 'if not ' + varName + '_running:\n';
-  code += '  if ' + varName + '_paused > 0:\n';
-  code += '    ' + varName + '_start = time.ticks_ms() - ' + varName + '_paused\n';
-  code += '  else:\n';
-  code += '    ' + varName + '_start = time.ticks_ms()\n';
-  code += '  ' + varName + '_running = True\n';
+  if (isManualTrigger) {
+    code += 'if not ' + varName + '_running:\n';
+    code += '  if ' + varName + '_paused > 0:\n';
+    code += '    ' + varName + '_start = time.ticks_ms() - ' + varName + '_paused\n';
+    code += '  else:\n';
+    code += '    ' + varName + '_start = time.ticks_ms()\n';
+    code += '  ' + varName + '_running = True\n';
+    code += '  ' + varName + '_started = True\n';
+  } else {
+    code += 'if not ' + varName + '_started:\n';
+    code += '  ' + varName + '_start = time.ticks_ms()\n';
+    code += '  ' + varName + '_paused = 0\n';
+    code += '  ' + varName + '_running = True\n';
+    code += '  ' + varName + '_started = True\n';
+  }
 
   return code;
 };
 
 Blockly.Python["cronometro_parar"] = function(block) {
+  Blockly.Python.definitions_['import_time'] = 'import time';
+
   var name = block.getFieldValue('NAME');
-  var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
+  var varName = _setupCronometroDefinitions(name);
 
   var code = '';
   code += 'if ' + varName + '_running:\n';
@@ -792,19 +830,14 @@ Blockly.Python["cronometro_reiniciar"] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
 
   var name = block.getFieldValue('NAME');
-  var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
-
-  // Inicializa as variáveis do cronômetro (caso ainda não existam)
-  Blockly.Python.definitions_['crono_' + name] = '# Cronometro ' + name + '\n' +
-    varName + '_start = 0\n' +
-    varName + '_paused = 0\n' +
-    varName + '_running = False';
+  var varName = _setupCronometroDefinitions(name);
 
   var code = '';
   // Reinicia o cronômetro corretamente usando tempo atual
   code += varName + '_start = time.ticks_ms()\n';
   code += varName + '_paused = 0\n';
   code += varName + '_running = False\n';
+  code += varName + '_started = False\n';
 
   return code;
 };
@@ -818,7 +851,7 @@ Blockly.Python["cronometro_mostrar"] = function(block) {
   var align = block.getFieldValue('ALIGN');
   var format = block.getFieldValue('FORMAT');
 
-  var varName = '_crono_' + name.replace(/[^a-zA-Z0-9]/g, '_');
+  var varName = _setupCronometroDefinitions(name);
 
   // Y positions igual aos outros blocos de display (8, 18, 28, 38, 48)
   var yPositions = {'0': 8, '1': 18, '2': 28, '3': 38, '4': 48};
