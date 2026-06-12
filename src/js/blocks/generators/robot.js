@@ -62,8 +62,25 @@ function _setupRoboMovelDefinitions() {
     '  _robo_dir_tras.value(0)\n' +
     '  _robo_dir_pwm.duty_u16(0)\n' +
     '\n' +
+    'def _robo_mover_reto(esq_frente, esq_tras, dir_frente, dir_tras, tempo):\n' +
+    '  t = max(0, float(tempo))\n' +
+    '  _robo_parar()\n' +
+    '  _robo_stby.value(1)\n' +
+    '  if t <= 0:\n' +
+    '    return\n' +
+    '  sleep_ms(50)\n' +
+    '  _robo_esq_frente.value(esq_frente)\n' +
+    '  _robo_esq_tras.value(esq_tras)\n' +
+    '  _robo_dir_frente.value(dir_frente)\n' +
+    '  _robo_dir_tras.value(dir_tras)\n' +
+    '  _robo_esq_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
+    '  _robo_dir_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
+    '  sleep(t)\n' +
+    '  _robo_parar()\n' +
+    '\n' +
     'def _robo_pivot_esq(velocidade):\n' +
     '  d = _robo_pwm(velocidade)\n' +
+    '  _robo_stby.value(1)\n' +
     '  _robo_esq_frente.value(0)\n' +
     '  _robo_esq_tras.value(1)\n' +
     '  _robo_esq_pwm.duty_u16(d)\n' +
@@ -73,6 +90,7 @@ function _setupRoboMovelDefinitions() {
     '\n' +
     'def _robo_pivot_dir(velocidade):\n' +
     '  d = _robo_pwm(velocidade)\n' +
+    '  _robo_stby.value(1)\n' +
     '  _robo_esq_frente.value(1)\n' +
     '  _robo_esq_tras.value(0)\n' +
     '  _robo_esq_pwm.duty_u16(d)\n' +
@@ -81,15 +99,19 @@ function _setupRoboMovelDefinitions() {
     '  _robo_dir_pwm.duty_u16(d)\n' +
     '\n' +
     'def _robo_frente(tempo):\n' +
+    '  _robo_mover_reto(0, 1, 0, 1, tempo)\n' +
+    '\n' +
+    'def _robo_tras(tempo):\n' +
     '  t = max(0, float(tempo))\n' +
     '  if t <= 0:\n' +
     '    _robo_parar()\n' +
     '    return\n' +
-    '  _robo_esq_frente.value(0)\n' +
-    '  _robo_esq_tras.value(1)\n' +
+    '  _robo_stby.value(1)\n' +
+    '  _robo_esq_frente.value(1)\n' +
+    '  _robo_esq_tras.value(0)\n' +
     '  _robo_esq_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
-    '  _robo_dir_frente.value(0)\n' +
-    '  _robo_dir_tras.value(1)\n' +
+    '  _robo_dir_frente.value(1)\n' +
+    '  _robo_dir_tras.value(0)\n' +
     '  _robo_dir_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
     '  sleep(t)\n' +
     '  _robo_parar()\n' +
@@ -166,6 +188,12 @@ Blockly.Python['robo_frente'] = function(block) {
   _setupRoboMovelDefinitions();
   var tempo = Blockly.Python.valueToCode(block, 'TEMPO', Blockly.Python.ORDER_ATOMIC) || '1';
   return _roboSetupCode('_robo_frente(' + tempo + ')\n');
+};
+
+Blockly.Python['robo_tras'] = function(block) {
+  _setupRoboMovelDefinitions();
+  var tempo = Blockly.Python.valueToCode(block, 'TEMPO', Blockly.Python.ORDER_ATOMIC) || '1';
+  return _roboSetupCode('_robo_tras(' + tempo + ')\n');
 };
 
 Blockly.Python['robo_girar'] = function(block) {

@@ -10,6 +10,7 @@
     'sensor_temperatura',
     'robo_inicializar',
     'robo_frente',
+    'robo_tras',
     'robo_girar'
   ];
   var missing = requiredBlocks.filter(function(type) {

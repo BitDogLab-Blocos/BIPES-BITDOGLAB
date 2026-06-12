@@ -21,8 +21,8 @@
   <!-- BitdogLab core modules -->
   <script src="../js/core/storage.js?ver=20260402v3"></script>
   <script src="../js/core/utils.js?ver=20260612a1"></script>
-  <script src="../js/config/bitdoglab_v7.js?ver=20260611a1"></script>
-  <script src="../js/config/bitdoglab_v6.js?ver=20260611a1"></script>
+  <script src="../js/config/bitdoglab_v7.js?ver=20260612a4"></script>
+  <script src="../js/config/bitdoglab_v6.js?ver=20260612a4"></script>
   <script src="../js/core/language.js?ver=20260403a7"></script>
   <script src="../js/core/tabs.js?ver=20260403a7"></script>
   <script src="../js/core/codegen.js?ver=20260612a1"></script>
@@ -45,8 +45,8 @@
   <script src="../js/blocks/definitions/input.js?ver=20260612a1"></script>
   <script src="../js/blocks/definitions/joystick.js?ver=20260612a1"></script>
   <script src="../js/blocks/definitions/sensor.js?ver=20260612a1"></script>
-  <script src="../js/blocks/definitions/robot.js?ver=20260612a1"></script>
-  <script src="../js/blocks/definitions/index.js?ver=20260402a2"></script>
+  <script src="../js/blocks/definitions/robot.js?ver=20260612a5"></script>
+  <script src="../js/blocks/definitions/index.js?ver=20260612a3"></script>
   <script src="../js/blocks/sensor_libs.js?ver=20260612a1"></script>
   <script src="../js/blocks/generators/helpers.js?ver=20260612a1"></script>
   <script src="../js/blocks/generators/base.js?ver=20260402a1"></script>
@@ -57,7 +57,7 @@
   <script src="../js/blocks/generators/input.js?ver=20260612a1"></script>
   <script src="../js/blocks/generators/joystick.js?ver=20260612a1"></script>
   <script src="../js/blocks/generators/sensor.js?ver=20260612a1"></script>
-  <script src="../js/blocks/generators/robot.js?ver=20260612a1"></script>
+  <script src="../js/blocks/generators/robot.js?ver=20260612a8"></script>
   <script src="../js/blocks/generators/index.js?ver=20260402a1"></script>
   <script src="../js/blocks/generators/piano.js?ver=20260507v1"></script>
   <script src="../js/blocks/generators/timing.js?ver=20260507v1"></script>
@@ -301,7 +301,7 @@
       try {
         if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace()) {
           var request = new XMLHttpRequest();
-          request.open('GET', '../js/config/toolbox.xml', true);
+          request.open('GET', '../js/config/toolbox.xml?ver=20260612a4', true);
           request.onreadystatechange = function() {
             if (request.readyState === 4 && request.status === 200) {
               var toolboxXml = Blockly.Xml.textToDom(request.responseText);
