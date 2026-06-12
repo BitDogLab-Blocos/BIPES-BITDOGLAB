@@ -202,3 +202,8 @@ Blockly.Python['robo_girar'] = function(block) {
   var direcao = block.getFieldValue('DIRECAO') || 'L';
   return _roboSetupCode('_robo_girar(' + graus + ', "' + direcao + '")\n');
 };
+
+Blockly.Python['robo_parar'] = function(_block) {
+  _setupRoboMovelDefinitions();
+  return _roboSetupCode('_robo_parar()\n');
+};
