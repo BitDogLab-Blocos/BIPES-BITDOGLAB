@@ -389,6 +389,13 @@
         </shadow>
       </value>
     </block>
+    <block type="robo_tras">
+      <value name="TEMPO">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
     <block type="robo_girar">
       <value name="GRAUS">
         <shadow type="math_number">

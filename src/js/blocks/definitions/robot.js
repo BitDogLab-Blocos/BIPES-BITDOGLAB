@@ -31,6 +31,22 @@ Blockly.Blocks['robo_frente'] = {
   }
 };
 
+Blockly.Blocks['robo_tras'] = {
+  init: function() {
+    this.appendValueInput("TEMPO")
+        .setCheck("Number")
+        .appendField("⬇️ Andar para trás");
+    this.appendDummyInput()
+        .appendField("segundos");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#e67e22");
+    this.setTooltip("Faz o robô andar de ré pelo tempo escolhido em segundos e depois parar.");
+    this.setHelpUrl("");
+  }
+};
+
 Blockly.Blocks['robo_girar'] = {
   init: function() {
     this.appendValueInput("GRAUS")
