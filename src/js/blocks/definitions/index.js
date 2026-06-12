@@ -9,6 +9,7 @@
     'microfone_testar',
     'sensor_temperatura',
     'robo_inicializar',
+    'robo_frente',
     'robo_girar'
   ];
   var missing = requiredBlocks.filter(function(type) {

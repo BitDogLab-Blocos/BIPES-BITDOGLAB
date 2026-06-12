@@ -37,6 +37,7 @@ function _setupRoboMovelDefinitions() {
     '_robo_dir_pwm.freq(' + robot.PWM_FREQ + ')\n' +
     '_robo_stby = Pin(' + robot.STBY + ', Pin.OUT)\n' +
     '_robo_stby.value(1)\n' +
+    '_robo_vel_movimento = ' + robot.MOVE_SPEED + '\n' +
     '_robo_vel_giro = ' + robot.TURN_SPEED + '\n' +
     '_robo_zona_morta_giro = ' + robot.TURN_DEADZONE_DPS + '\n' +
     '_robo_timeout_min_ms = ' + robot.TURN_TIMEOUT_MIN_MS + '\n' +
@@ -78,6 +79,20 @@ function _setupRoboMovelDefinitions() {
     '  _robo_dir_frente.value(0)\n' +
     '  _robo_dir_tras.value(1)\n' +
     '  _robo_dir_pwm.duty_u16(d)\n' +
+    '\n' +
+    'def _robo_frente(tempo):\n' +
+    '  t = max(0, float(tempo))\n' +
+    '  if t <= 0:\n' +
+    '    _robo_parar()\n' +
+    '    return\n' +
+    '  _robo_esq_frente.value(0)\n' +
+    '  _robo_esq_tras.value(1)\n' +
+    '  _robo_esq_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
+    '  _robo_dir_frente.value(0)\n' +
+    '  _robo_dir_tras.value(1)\n' +
+    '  _robo_dir_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
+    '  sleep(t)\n' +
+    '  _robo_parar()\n' +
     '\n' +
     'def _robo_inicializar(espera=5):\n' +
     '  global _robo_pronto, _robo_angulo\n' +
@@ -145,6 +160,12 @@ Blockly.Python['robo_inicializar'] = function(block) {
   var espera = Number(block.getFieldValue('ESPERA'));
   if (!isFinite(espera) || espera < 0) espera = 0;
   return _roboSetupCode('_robo_inicializar(' + espera + ')\n');
+};
+
+Blockly.Python['robo_frente'] = function(block) {
+  _setupRoboMovelDefinitions();
+  var tempo = Blockly.Python.valueToCode(block, 'TEMPO', Blockly.Python.ORDER_ATOMIC) || '1';
+  return _roboSetupCode('_robo_frente(' + tempo + ')\n');
 };
 
 Blockly.Python['robo_girar'] = function(block) {
