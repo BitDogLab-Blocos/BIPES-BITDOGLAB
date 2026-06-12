@@ -132,7 +132,7 @@ Blockly.Blocks['display_texto'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("✏️ Escrever")
-        .appendField(new Blockly.FieldTextInput("Olá!"), "TEXTO")
+        .appendField(new Blockly.FieldTextInput("Ola!"), "TEXTO")
         .appendField("linha")
         .appendField(new Blockly.FieldDropdown([
           ["1", "1"],
@@ -160,7 +160,7 @@ Blockly.Blocks['display_piscar_texto'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("💫 Piscar texto")
-        .appendField(new Blockly.FieldTextInput("Olá!"), "TEXTO");
+        .appendField(new Blockly.FieldTextInput("Ola!"), "TEXTO");
     this.appendDummyInput()
         .appendField("linha")
         .appendField(new Blockly.FieldDropdown([
@@ -546,7 +546,7 @@ Blockly.Blocks['cronometro_iniciar'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(190);
-    this.setTooltip("Inicia o cronômetro ou retoma de onde pausou");
+    this.setTooltip("Inicia o cronômetro uma vez. Dentro de um bloco de botão, retoma de onde pausou.");
     this.setHelpUrl("");
   }
 };
