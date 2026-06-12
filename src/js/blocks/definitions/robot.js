@@ -78,3 +78,15 @@ Blockly.Blocks['robo_parar'] = {
     this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['robo_joystick'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🕹️ Controlar robô com joystick");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#e67e22");
+    this.setTooltip("Controla o robô continuamente pelo joystick: frente, ré, giro para esquerda/direita e parado no centro.");
+    this.setHelpUrl("");
+  }
+};

@@ -483,6 +483,7 @@ window.BITDOGLAB_CUSTOM_TRANSLATIONS['en'] = {
   "⬇️ Andar para trás": "⬇️ Move backward",
   "↪️ Girar robô": "↪️ Turn robot",
   "⏹️ Parar robô": "⏹️ Stop robot",
+  "🕹️ Controlar robô com joystick": "🕹️ Control robot with joystick",
   "graus para": "degrees to",
   "esquerda": "left",
   "direita": "right",

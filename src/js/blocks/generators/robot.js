@@ -2,7 +2,7 @@
 
 function _setupRoboMovelDefinitions() {
   var robot = BitdogLabConfig.ROBOT;
-  Blockly.Python.definitions_['import_robo_machine'] = 'from machine import Pin, PWM, I2C';
+  Blockly.Python.definitions_['import_robo_machine'] = 'from machine import Pin, PWM, I2C, ADC';
   Blockly.Python.definitions_['import_robo_time'] = 'from time import sleep, sleep_ms, ticks_ms, ticks_diff';
   Blockly.Python.definitions_['lib_mpu6050'] = SensorLibs.MPU6050;
 
@@ -173,6 +173,63 @@ function _setupRoboMovelDefinitions() {
     '  print("Giro", "esquerda" if direcao == "L" else "direita", round(acumulado, 1), "graus")\n';
 }
 
+function _setupRoboJoystickDefinitions() {
+  _setupRoboMovelDefinitions();
+
+  var pins = BitdogLabConfig.PINS;
+  var joy = BitdogLabConfig.JOYSTICK;
+  var invX = joy.INVERT_X === true;
+  var invY = joy.INVERT_Y === true;
+  var dxExpr = invX ? '(_jx - _robo_joy_centro)' : '(_robo_joy_centro - _jx)';
+  var dyExpr = invY ? '(_jy - _robo_joy_centro)' : '(_robo_joy_centro - _jy)';
+
+  Blockly.Python.definitions_['setup_robo_joystick'] =
+    BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+    '_robo_joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))\n' +
+    '_robo_joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))\n' +
+    '_robo_joy_centro = ' + joy.CENTER_VALUE + '\n' +
+    '_robo_joy_zona_morta = ' + joy.DEADZONE + '\n' +
+    BitdogLabConfig.MARKERS.SETUP_END;
+
+  Blockly.Python.definitions_['func_robo_joystick'] =
+    'def _robo_set_frente_continuo():\n' +
+    '  _robo_stby.value(1)\n' +
+    '  _robo_esq_frente.value(0)\n' +
+    '  _robo_esq_tras.value(1)\n' +
+    '  _robo_dir_frente.value(0)\n' +
+    '  _robo_dir_tras.value(1)\n' +
+    '  _robo_esq_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
+    '  _robo_dir_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
+    '\n' +
+    'def _robo_set_tras_continuo():\n' +
+    '  _robo_stby.value(1)\n' +
+    '  _robo_esq_frente.value(1)\n' +
+    '  _robo_esq_tras.value(0)\n' +
+    '  _robo_dir_frente.value(1)\n' +
+    '  _robo_dir_tras.value(0)\n' +
+    '  _robo_esq_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
+    '  _robo_dir_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
+    '\n' +
+    'def _robo_controlar_joystick():\n' +
+    '  _jx = _robo_joy_x.read_u16()\n' +
+    '  _jy = _robo_joy_y.read_u16()\n' +
+    '  _dx = ' + dxExpr + '\n' +
+    '  _dy = ' + dyExpr + '\n' +
+    '  if abs(_dx) <= _robo_joy_zona_morta and abs(_dy) <= _robo_joy_zona_morta:\n' +
+    '    _robo_parar()\n' +
+    '  elif abs(_dy) >= abs(_dx):\n' +
+    '    if _dy > 0:\n' +
+    '      _robo_set_frente_continuo()\n' +
+    '    else:\n' +
+    '      _robo_set_tras_continuo()\n' +
+    '  else:\n' +
+    '    if _dx < 0:\n' +
+    '      _robo_pivot_esq(_robo_vel_giro)\n' +
+    '    else:\n' +
+    '      _robo_pivot_dir(_robo_vel_giro)\n' +
+    '  sleep_ms(40)\n';
+}
+
 function _roboSetupCode(code) {
   return BitdogLabConfig.MARKERS.SETUP_START + '\n' + code + BitdogLabConfig.MARKERS.SETUP_END + '\n';
 }
@@ -206,4 +263,16 @@ Blockly.Python['robo_girar'] = function(block) {
 Blockly.Python['robo_parar'] = function(_block) {
   _setupRoboMovelDefinitions();
   return _roboSetupCode('_robo_parar()\n');
+};
+
+Blockly.Python['robo_joystick'] = function(_block) {
+  _setupRoboJoystickDefinitions();
+  var code = BitdogLabConfig.MARKERS.LOOP_START + '\n';
+  code += 'try:\n';
+  code += '  while True:\n';
+  code += '    _robo_controlar_joystick()\n';
+  code += 'finally:\n';
+  code += '  _robo_parar()\n';
+  code += BitdogLabConfig.MARKERS.LOOP_END + '\n';
+  return code;
 };
