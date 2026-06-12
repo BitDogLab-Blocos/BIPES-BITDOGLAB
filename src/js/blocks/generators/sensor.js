@@ -12,10 +12,11 @@ function _setupAHT20Definitions() {
 
   var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
   var i2c0Scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
+  var i2c1Bus = sensor.I2C_BUS_ALT !== undefined ? sensor.I2C_BUS_ALT : 1;
   var i2c0Expr = 'I2C(' + sensor.I2C_BUS + ', sda=Pin(' + i2c0Sda + '), scl=Pin(' + i2c0Scl + '), freq=' + sensor.I2C_FREQ + ')';
 
   if (pins.I2C0_SDA !== undefined && pins.I2C_SDA !== undefined) {
-    var i2c1Expr = 'I2C(1, sda=Pin(' + pins.I2C_SDA + '), scl=Pin(' + pins.I2C_SCL + '), freq=' + sensor.I2C_FREQ + ')';
+    var i2c1Expr = 'I2C(' + i2c1Bus + ', sda=Pin(' + pins.I2C_SDA + '), scl=Pin(' + pins.I2C_SCL + '), freq=' + sensor.I2C_FREQ + ')';
     Blockly.Python.definitions_['setup_i2c_sensor'] =
       '_i2c_sensor = ' + i2c0Expr + '\n' +
       '_aht20 = AHT20(_i2c_sensor)\n' +
@@ -65,10 +66,11 @@ function _setupEstufaGraficos(displayType) {
 
   var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
   var i2c0Scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
+  var i2c1Bus = sensor.I2C_BUS_ALT !== undefined ? sensor.I2C_BUS_ALT : 1;
 
   Blockly.Python.definitions_['setup_estufa_sensores'] =
     '_i2c_estufa0 = I2C(' + sensor.I2C_BUS + ', sda=Pin(' + i2c0Sda + '), scl=Pin(' + i2c0Scl + '), freq=' + sensor.I2C_FREQ + ')\n' +
-    '_i2c_estufa1 = I2C(1, sda=Pin(' + pins.I2C_SDA + '), scl=Pin(' + pins.I2C_SCL + '), freq=' + sensor.I2C_FREQ + ')\n' +
+    '_i2c_estufa1 = I2C(' + i2c1Bus + ', sda=Pin(' + pins.I2C_SDA + '), scl=Pin(' + pins.I2C_SCL + '), freq=' + sensor.I2C_FREQ + ')\n' +
     '_aht_esq = AHT20(_i2c_estufa1)\n' +
     '_aht_dir = AHT20(_i2c_estufa0)';
 
@@ -222,10 +224,11 @@ Blockly.Python["sensor_estufa_comparar"] = function(block) {
   // Dois sensores AHT20: I2C0 e I2C1
   var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
   var i2c0Scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
+  var i2c1Bus = sensor.I2C_BUS_ALT !== undefined ? sensor.I2C_BUS_ALT : 1;
 
   Blockly.Python.definitions_['setup_estufa_sensores'] =
     '_i2c_estufa0 = I2C(' + sensor.I2C_BUS + ', sda=Pin(' + i2c0Sda + '), scl=Pin(' + i2c0Scl + '), freq=' + sensor.I2C_FREQ + ')\n' +
-    '_i2c_estufa1 = I2C(1, sda=Pin(' + pins.I2C_SDA + '), scl=Pin(' + pins.I2C_SCL + '), freq=' + sensor.I2C_FREQ + ')\n' +
+    '_i2c_estufa1 = I2C(' + i2c1Bus + ', sda=Pin(' + pins.I2C_SDA + '), scl=Pin(' + pins.I2C_SCL + '), freq=' + sensor.I2C_FREQ + ')\n' +
     '_aht_esq = AHT20(_i2c_estufa1)\n' +
     '_aht_dir = AHT20(_i2c_estufa0)';
 
@@ -391,11 +394,12 @@ Blockly.Python["verificar_conexao_sensor"] = function(block) {
 
   var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
   var i2c0Scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
+  var i2c1Bus = sensor.I2C_BUS_ALT !== undefined ? sensor.I2C_BUS_ALT : 1;
 
   Blockly.Python.definitions_['func_verificar_sensores'] =
     'def _verificar_sensores():\n' +
-    '  _i0 = I2C(0, sda=Pin(' + i2c0Sda + '), scl=Pin(' + i2c0Scl + '), freq=' + sensor.I2C_FREQ + ')\n' +
-    '  _i1 = I2C(1, sda=Pin(' + pins.I2C_SDA + '), scl=Pin(' + pins.I2C_SCL + '), freq=' + sensor.I2C_FREQ + ')\n' +
+    '  _i0 = I2C(' + sensor.I2C_BUS + ', sda=Pin(' + i2c0Sda + '), scl=Pin(' + i2c0Scl + '), freq=' + sensor.I2C_FREQ + ')\n' +
+    '  _i1 = I2C(' + i2c1Bus + ', sda=Pin(' + pins.I2C_SDA + '), scl=Pin(' + pins.I2C_SCL + '), freq=' + sensor.I2C_FREQ + ')\n' +
     '  _r0 = _i0.scan()\n' +
     '  _r1 = _i1.scan()\n' +
     '  _nomes = {56:"Temp e Umid", 104:"Acelerometro", 119:"Temp e Umid"}\n' +

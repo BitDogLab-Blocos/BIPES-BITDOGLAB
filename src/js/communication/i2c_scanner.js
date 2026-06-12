@@ -98,19 +98,20 @@ class I2CScanner {
     var pins = BitdogLabConfig.PINS;
     var sensor = BitdogLabConfig.SENSOR;
 
-    // I2C0: uses GP0/GP1 (v7) or GP14/GP15 (v6)
+    // Primary I2C bus from the active board configuration.
     var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
     var i2c0Scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;
+    var i2c1Bus = sensor.I2C_BUS_ALT !== undefined ? sensor.I2C_BUS_ALT : 1;
 
     // Command to scan both buses
     var cmd = 'from machine import I2C, Pin; ' +
-      '_i2c0=I2C(0,sda=Pin(' + i2c0Sda + '),scl=Pin(' + i2c0Scl + '),freq=' + sensor.I2C_FREQ + '); ' +
+      '_i2c0=I2C(' + sensor.I2C_BUS + ',sda=Pin(' + i2c0Sda + '),scl=Pin(' + i2c0Scl + '),freq=' + sensor.I2C_FREQ + '); ' +
       '_r0=_i2c0.scan(); ';
 
-    // I2C1: only available on v7 (GP2/GP3)
+    // Alternate I2C bus, when the board exposes a second configured pair.
     if (pins.I2C_SDA !== undefined && pins.I2C_SCL !== undefined &&
         pins.I2C0_SDA !== undefined && pins.I2C0_SCL !== undefined) {
-      cmd += '_i2c1=I2C(1,sda=Pin(' + pins.I2C_SDA + '),scl=Pin(' + pins.I2C_SCL + '),freq=400000); _r1=_i2c1.scan(); ';
+      cmd += '_i2c1=I2C(' + i2c1Bus + ',sda=Pin(' + pins.I2C_SDA + '),scl=Pin(' + pins.I2C_SCL + '),freq=' + sensor.I2C_FREQ + '); _r1=_i2c1.scan(); ';
     } else {
       cmd += '_r1=[]; ';
     }
@@ -213,8 +214,9 @@ class I2CScanner {
       UI['notify'].send('🌡️💧 Sensor de temperatura e umidade conectado!');
       term.write('\r\n🌡️💧 Sensor de temperatura e umidade conectado!\r\n');
     } else if (name === 'MPU6050') {
-      UI['notify'].send('🏃‍♂️📐 Sensor acelerômetro conectado!');
-      term.write('\r\n🏃‍♂️📐 Sensor acelerômetro conectado!\r\n');
+      var message = '📐 Sensor acelerômetro MPU6050 conectado no I2C' + device.bus + '!';
+      UI['notify'].send(message);
+      term.write('\r\n' + message + '\r\n');
     }
   }
 
@@ -226,8 +228,9 @@ class I2CScanner {
       UI['notify'].send('⚠️ Sensor de temperatura e umidade desconectado!');
       term.write('\r\n⚠️ >>> Sensor de temperatura e umidade desconectado! <<< ⚠️\x1b[m\r\n');
     } else if (name === 'MPU6050') {
-      UI['notify'].send('⚠️ Sensor acelerômetro desconectado!');
-      term.write('\r\n⚠️ >>> Sensor acelerômetro desconectado! <<< ⚠️\x1b[m\r\n');
+      var message = '⚠️ Sensor acelerômetro MPU6050 desconectado do I2C' + device.bus + '!';
+      UI['notify'].send(message);
+      term.write('\r\n>>> ' + message + ' <<<\x1b[m\r\n');
     }
   }
 

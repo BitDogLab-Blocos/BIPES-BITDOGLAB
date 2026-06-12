@@ -7,7 +7,9 @@
     'tocar_nota',
     'joystick_controlar_led',
     'microfone_testar',
-    'sensor_temperatura'
+    'sensor_temperatura',
+    'robo_inicializar',
+    'robo_girar'
   ];
   var missing = requiredBlocks.filter(function(type) {
     return !global.Blockly || !global.Blockly.Blocks || !global.Blockly.Blocks[type];
