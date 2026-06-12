@@ -17,20 +17,25 @@ function ensureJoystickDisplayPositionSupport() {
   Blockly.Python.definitions_['setup_py'] = Blockly.Python.definitions_['setup_py'] || '_py = 0';
   Blockly.Python.definitions_['setup_player_size'] = Blockly.Python.definitions_['setup_player_size'] || '_player_size = 5';
   Blockly.Python.definitions_['setup_joy_has_position'] = Blockly.Python.definitions_['setup_joy_has_position'] || '_joy_has_position = False';
+  Blockly.Python.definitions_['setup_display_size_defaults'] =
+    'if "_display_width" not in globals():\n' +
+    '  _display_width = ' + display.WIDTH + '\n' +
+    'if "_display_height" not in globals():\n' +
+    '  _display_height = ' + display.HEIGHT;
   Blockly.Python.definitions_['joy_position_x_helper'] =
     'def _joystick_pos_x_val():\n' +
     '  global _joy_has_position, _px, _player_size\n' +
     '  if _joy_has_position:\n' +
     '    return _px\n' +
     '  _jx = joy_x.read_u16()\n' +
-    '  return ' + exprPx + ' * (' + display.WIDTH + ' - _player_size) // 65535';
+    '  return ' + exprPx + ' * (_display_width - _player_size) // 65535';
   Blockly.Python.definitions_['joy_position_y_helper'] =
     'def _joystick_pos_y_val():\n' +
     '  global _joy_has_position, _py, _player_size\n' +
     '  if _joy_has_position:\n' +
     '    return _py\n' +
     '  _jy = joy_y.read_u16()\n' +
-    '  return ' + exprPy + ' * (' + display.HEIGHT + ' - _player_size) // 65535';
+    '  return ' + exprPy + ' * (_display_height - _player_size) // 65535';
 }
 
 Blockly.Python["joystick_controlar_led"] = function(block) {
@@ -41,14 +46,11 @@ Blockly.Python["joystick_controlar_led"] = function(block) {
   Blockly.Python.definitions_['import_pin']   = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm']   = 'from machine import PWM';
   Blockly.Python.definitions_['import_adc']   = 'from machine import ADC';
-  Blockly.Python.definitions_['import_i2c']   = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
   Blockly.Python.definitions_['setup_joy_x']  = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
   Blockly.Python.definitions_['setup_joy_y']  = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
   Blockly.Python.definitions_['setup_led_red']   = led.VAR_RED   + ' = PWM(Pin(' + pins.LED_RED   + '), freq=' + led.PWM_FREQ + ')';
   Blockly.Python.definitions_['setup_led_green'] = led.VAR_GREEN + ' = PWM(Pin(' + pins.LED_GREEN + '), freq=' + led.PWM_FREQ + ')';
   Blockly.Python.definitions_['setup_led_blue']  = led.VAR_BLUE  + ' = PWM(Pin(' + pins.LED_BLUE  + '), freq=' + led.PWM_FREQ + ')';
-  Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var intensidadeInicial = block.getFieldValue('INTENSIDADE_INICIAL') || '50';
   Blockly.Python.definitions_['setup_intensidade_joy'] = '_intensidade_joy = ' + intensidadeInicial;
@@ -77,7 +79,6 @@ Blockly.Python["joystick_controlar_led"] = function(block) {
   code += led.VAR_RED   + '.duty_u16(int(' + cor + '[0] * 257 * _intensidade_joy / 100))\n';
   code += led.VAR_GREEN + '.duty_u16(int(' + cor + '[1] * 257 * _intensidade_joy / 100))\n';
   code += led.VAR_BLUE  + '.duty_u16(int(' + cor + '[2] * 257 * _intensidade_joy / 100))\n';
-  code += 'oled.fill(0)\n';
 
   return code;
 };
@@ -94,12 +95,9 @@ Blockly.Python["joystick_controlar_buzzer"] = function(block) {
   Blockly.Python.definitions_['import_pin']     = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm']     = 'from machine import PWM';
   Blockly.Python.definitions_['import_adc']     = 'from machine import ADC';
-  Blockly.Python.definitions_['import_i2c']     = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
   Blockly.Python.definitions_['setup_joy_x']    = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
   Blockly.Python.definitions_['setup_joy_y']    = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
   Blockly.Python.definitions_['setup_buzzer']   = 'buzzer = PWM(Pin(' + pins.BUZZER + '))';
-  Blockly.Python.definitions_['setup_display']  = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
 
   var freqInicial = block.getFieldValue('FREQ_INICIAL') || '1000';
   Blockly.Python.definitions_['setup_freq_joy'] = '_freq_joy = ' + freqInicial;
@@ -132,7 +130,6 @@ Blockly.Python["joystick_controlar_buzzer"] = function(block) {
   code += 'if not _buzzer_mudo:  # só toca se não foi silenciado\n';
   code += '  buzzer.freq(_freq_joy)\n';
   code += '  buzzer.duty_u16(' + duty + ')  # volume ' + volume + '%\n';
-  code += 'oled.fill(0)\n';
 
   return code;
 };
@@ -144,15 +141,12 @@ Blockly.Python["joystick_frequencia_atual"] = function(_block) {
 
 Blockly.Python["joystick_mover_player"] = function(block) {
   var pins = BitdogLabConfig.PINS;
-  var display = BitdogLabConfig.DISPLAY;
+  _setupDisplayForBlock(block);
 
   Blockly.Python.definitions_['import_pin']     = 'from machine import Pin';
   Blockly.Python.definitions_['import_adc']     = 'from machine import ADC';
-  Blockly.Python.definitions_['import_i2c']     = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
   Blockly.Python.definitions_['setup_joy_x']    = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
   Blockly.Python.definitions_['setup_joy_y']    = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
-  Blockly.Python.definitions_['setup_display']  = 'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\noled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
 
   var tamanho = block.getFieldValue('TAMANHO') || '5';
   Blockly.Python.definitions_['setup_player_size'] = '_player_size = ' + tamanho;
@@ -169,8 +163,8 @@ Blockly.Python["joystick_mover_player"] = function(block) {
   code += 'oled.fill(0)\n';
   code += '_jx = joy_x.read_u16()\n';
   code += '_jy = joy_y.read_u16()\n';
-  code += '_px = ' + exprPx + ' * (' + display.WIDTH + ' - _player_size) // 65535\n';
-  code += '_py = ' + exprPy + ' * (' + display.HEIGHT + ' - _player_size) // 65535\n';
+  code += '_px = ' + exprPx + ' * (_display_width - _player_size) // 65535\n';
+  code += '_py = ' + exprPy + ' * (_display_height - _player_size) // 65535\n';
   code += '_joy_has_position = True\n';
   code += 'oled.fill_rect(_px, _py, _player_size, _player_size, 1)\n';
 
@@ -179,21 +173,18 @@ Blockly.Python["joystick_mover_player"] = function(block) {
 
 Blockly.Python["joystick_lousa_magica"] = function(block) {
   var pins = BitdogLabConfig.PINS;
-  var display = BitdogLabConfig.DISPLAY;
   var joy = BitdogLabConfig.JOYSTICK;
+  _setupDisplayForBlock(block);
 
   Blockly.Python.definitions_['import_pin']     = 'from machine import Pin';
   Blockly.Python.definitions_['import_adc']     = 'from machine import ADC';
-  Blockly.Python.definitions_['import_i2c']     = 'from machine import I2C';
-  Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
   Blockly.Python.definitions_['setup_joy_x']    = 'joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
   Blockly.Python.definitions_['setup_joy_y']    = 'joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
-  Blockly.Python.definitions_['setup_display']  = 'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\noled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c)';
 
   var tamanho = block.getFieldValue('TAMANHO') || '2';
   Blockly.Python.definitions_['setup_pen_size'] = '_pen_size = ' + tamanho;
-  Blockly.Python.definitions_['setup_lx'] = '_lx = ' + Math.floor(display.WIDTH / 2);
-  Blockly.Python.definitions_['setup_ly'] = '_ly = ' + Math.floor(display.HEIGHT / 2);
+  Blockly.Python.definitions_['setup_lx'] = '_lx = _display_width // 2';
+  Blockly.Python.definitions_['setup_ly'] = '_ly = _display_height // 2';
   Blockly.Python.definitions_['setup_px'] = '_px = 0';
   Blockly.Python.definitions_['setup_py'] = '_py = 0';
   Blockly.Python.definitions_['setup_joy_has_position'] = Blockly.Python.definitions_['setup_joy_has_position'] || '_joy_has_position = False';
@@ -211,9 +202,9 @@ Blockly.Python["joystick_lousa_magica"] = function(block) {
   code += '_jx = joy_x.read_u16()\n';
   code += '_jy = joy_y.read_u16()\n';
   code += 'if _jx < ' + (c - dz) + ' or _jx > ' + (c + dz) + ':\n';
-  code += '  _lx = max(0, min(' + (display.WIDTH - 1) + ', _lx + ' + exprDx + ' // ' + divisor + '))\n';
+  code += '  _lx = max(0, min(_display_width - 1, _lx + ' + exprDx + ' // ' + divisor + '))\n';
   code += 'if _jy < ' + (c - dz) + ' or _jy > ' + (c + dz) + ':\n';
-  code += '  _ly = max(0, min(' + (display.HEIGHT - 1) + ', _ly + ' + exprDy + ' // ' + divisor + '))\n';
+  code += '  _ly = max(0, min(_display_height - 1, _ly + ' + exprDy + ' // ' + divisor + '))\n';
   code += 'oled.fill_rect(_lx, _ly, _pen_size, _pen_size, 1)\n';
   code += '_px = _lx\n';
   code += '_py = _ly\n';

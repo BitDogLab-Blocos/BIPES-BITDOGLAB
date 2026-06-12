@@ -1021,9 +1021,7 @@ Blockly.Python["natal_jingle_bells"] = function(block) {
   // Check if buzzer display is configured
   var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
-    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+    _setupDisplayForConfig(hasDisplay);
   }
 
   var volume = block.getFieldValue('VOLUME');
@@ -1085,9 +1083,7 @@ Blockly.Python["natal_noite_feliz"] = function(block) {
   // Check if buzzer display is configured
   var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
-    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+    _setupDisplayForConfig(hasDisplay);
   }
 
   var volume = block.getFieldValue('VOLUME');
@@ -1153,9 +1149,7 @@ Blockly.Python["natal_bate_sino"] = function(block) {
   // Check if buzzer display is configured
   var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
-    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+    _setupDisplayForConfig(hasDisplay);
   }
 
   var volume = block.getFieldValue('VOLUME');
@@ -1218,9 +1212,7 @@ Blockly.Python["natal_noel"] = function(block) {
   // Check if buzzer display is configured
   var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
-    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+    _setupDisplayForConfig(hasDisplay);
   }
 
   var volume = block.getFieldValue('VOLUME');
@@ -1286,9 +1278,7 @@ Blockly.Python["natal_o_vinde"] = function(block) {
   // Check if buzzer display is configured
   var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
-    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+    _setupDisplayForConfig(hasDisplay);
   }
 
   var volume = block.getFieldValue('VOLUME');
@@ -1355,9 +1345,7 @@ Blockly.Python["criar_melodia"] = function(block) {
   // Check if buzzer display is configured
   var hasDisplay = _getBuzzerDisplayConfig();
   if (hasDisplay) {
-    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-    Blockly.Python.definitions_['import_ssd1306'] = 'from ssd1306 import SSD1306_I2C';
-    Blockly.Python.definitions_['setup_display'] = 'i2c = I2C(' + BitdogLabConfig.DISPLAY.I2C_BUS + ', scl=Pin(' + BitdogLabConfig.PINS.I2C_SCL + '), sda=Pin(' + BitdogLabConfig.PINS.I2C_SDA + '), freq=' + BitdogLabConfig.DISPLAY.I2C_FREQ + ')\noled = SSD1306_I2C(' + BitdogLabConfig.DISPLAY.WIDTH + ', ' + BitdogLabConfig.DISPLAY.HEIGHT + ', i2c)';
+    _setupDisplayForConfig(hasDisplay);
   }
 
   for (var i = 0; i < block.noteSteps_; i++) {

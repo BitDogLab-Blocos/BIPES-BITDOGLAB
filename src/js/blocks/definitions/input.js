@@ -44,6 +44,7 @@ Blockly.Blocks['microfone_testar'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("🎙️ Testar Microfone no Display");
+    appendDisplayTypeInput(this);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#e74c3c");
@@ -85,6 +86,7 @@ Blockly.Blocks['microfone_barra_display'] = {
     this.appendDummyInput()
         .appendField("🖥️ Medidor de barulho no Display  linha:")
         .appendField(new Blockly.FieldNumber(3, 1, 5), "LINHA");
+    appendDisplayTypeInput(this);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#e74c3c");
@@ -99,6 +101,7 @@ Blockly.Blocks['microfone_contar_palmas'] = {
     this.appendDummyInput()
         .appendField("🖐️ Contar palmas  linha:")
         .appendField(new Blockly.FieldNumber(1, 1, 5), "LINHA");
+    appendDisplayTypeInput(this);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#e74c3c");
