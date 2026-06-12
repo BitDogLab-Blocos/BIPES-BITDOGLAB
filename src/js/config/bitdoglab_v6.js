@@ -50,6 +50,7 @@ const BitdogLabConfig_V6 = {
     RIGHT_PWM: 16,
     STBY: 20,
     PWM_FREQ: 1000,
+    MOVE_SPEED: 35000,
     TURN_SPEED: 35000,
     TURN_DEADZONE_DPS: 0.8,
     TURN_TIMEOUT_MIN_MS: 1500,

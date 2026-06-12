@@ -382,6 +382,13 @@
     <block type="robo_inicializar">
       <field name="ESPERA">5</field>
     </block>
+    <block type="robo_frente">
+      <value name="TEMPO">
+        <shadow type="math_number">
+          <field name="NUM">2</field>
+        </shadow>
+      </value>
+    </block>
     <block type="robo_girar">
       <value name="GRAUS">
         <shadow type="math_number">
