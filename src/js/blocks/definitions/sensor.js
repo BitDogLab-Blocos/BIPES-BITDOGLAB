@@ -28,12 +28,7 @@ Blockly.Blocks['sensor_estufa_comparar'] = {
         .appendField("🌱 Efeito Estufa — Comparar 2 sensores");
     this.appendDummyInput()
         .appendField("Esquerda: Sensor 1  |  Direita: Sensor 2");
-    this.appendDummyInput()
-        .appendField("tipo de display")
-        .appendField(new Blockly.FieldDropdown([
-          ["pequeno OLED", "SMALL"],
-          ["grande SH1107", "LARGE"]
-        ]), "DISPLAY_TYPE");
+    appendDisplayTypeInput(this);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
@@ -47,12 +42,7 @@ Blockly.Blocks['estufa_toggle_sensor1'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("🌱 Mostrar/Ocultar medição Sensor 1");
-    this.appendDummyInput()
-        .appendField("tipo de display")
-        .appendField(new Blockly.FieldDropdown([
-          ["pequeno OLED", "SMALL"],
-          ["grande SH1107", "LARGE"]
-        ]), "DISPLAY_TYPE");
+    appendDisplayTypeInput(this);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
@@ -66,12 +56,7 @@ Blockly.Blocks['estufa_toggle_sensor2'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("🌱 Mostrar/Ocultar medição Sensor 2");
-    this.appendDummyInput()
-        .appendField("tipo de display")
-        .appendField(new Blockly.FieldDropdown([
-          ["pequeno OLED", "SMALL"],
-          ["grande SH1107", "LARGE"]
-        ]), "DISPLAY_TYPE");
+    appendDisplayTypeInput(this);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");
@@ -161,12 +146,7 @@ Blockly.Blocks['estufa_plotar'] = {
             ["Metade de Baixo", "2"],
             ["Tela Toda", "0"]
         ]), "POSICAO");
-    this.appendDummyInput()
-        .appendField("tipo de display")
-        .appendField(new Blockly.FieldDropdown([
-            ["pequeno OLED", "SMALL"],
-            ["grande SH1107", "LARGE"]
-        ]), "DISPLAY_TYPE");
+    appendDisplayTypeInput(this);
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -184,6 +164,7 @@ Blockly.Blocks['verificar_conexao_sensor'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("🔎 Verificar qual sensor está conectado");
+    appendDisplayTypeInput(this);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#607d8b");

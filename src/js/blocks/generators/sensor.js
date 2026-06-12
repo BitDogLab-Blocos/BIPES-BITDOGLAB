@@ -50,44 +50,16 @@ function _setupAHT20Definitions() {
 }
 
 function _setupEstufaMeasurementDisplay(displayType) {
-  var pins = BitdogLabConfig.PINS;
-  var display = BitdogLabConfig.DISPLAY;
-
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  _setupDisplayDefinitions(displayType);
   Blockly.Python.definitions_['import_time'] = 'import time';
-
-  if (displayType === 'LARGE') {
-    Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
-    Blockly.Python.definitions_['setup_display'] =
-      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
-      '_sh1107_scan = i2c.scan()\n' +
-      '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
-      'oled = SH1107_I2C(128, 128, i2c, address=_sh1107_addr, rotate=90)';
-  } else {
-    _setupDisplayDefinitions('SMALL');
-  }
 }
 
 function _setupEstufaGraficos(displayType) {
   var pins = BitdogLabConfig.PINS;
   var sensor = BitdogLabConfig.SENSOR;
-  var display = BitdogLabConfig.DISPLAY;
 
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  _setupDisplayDefinitions(displayType);
   Blockly.Python.definitions_['import_time'] = 'import time';
-
-  if (displayType === 'LARGE') {
-    Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
-    Blockly.Python.definitions_['setup_display'] =
-      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
-      '_sh1107_scan = i2c.scan()\n' +
-      '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
-      'oled = SH1107_I2C(128, 128, i2c, address=_sh1107_addr, rotate=90)';
-  } else {
-    _setupDisplayDefinitions('SMALL');
-  }
 
   Blockly.Python.definitions_['lib_aht20'] = SensorLibs.AHT20;
 
@@ -240,8 +212,7 @@ Blockly.Python["sensor_umidade"] = function(_block) {
 Blockly.Python["sensor_estufa_comparar"] = function(block) {
   var pins = BitdogLabConfig.PINS;
   var sensor = BitdogLabConfig.SENSOR;
-  var display = BitdogLabConfig.DISPLAY;
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  var displayType = _getDisplayType(block);
 
   _setupEstufaMeasurementDisplay(displayType);
 
@@ -340,7 +311,7 @@ Blockly.Python["sensor_estufa_comparar"] = function(block) {
 };
 
 Blockly.Python["estufa_toggle_sensor1"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  var displayType = _getDisplayType(block);
   if (!Blockly.Python.definitions_['setup_display']) {
     _setupEstufaMeasurementDisplay(displayType);
   }
@@ -352,7 +323,7 @@ Blockly.Python["estufa_toggle_sensor1"] = function(block) {
 };
 
 Blockly.Python["estufa_toggle_sensor2"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  var displayType = _getDisplayType(block);
   if (!Blockly.Python.definitions_['setup_display']) {
     _setupEstufaMeasurementDisplay(displayType);
   }
@@ -396,7 +367,7 @@ Blockly.Python["estufa_umid_sensor2"] = function(_block) {
 };
 
 Blockly.Python["estufa_plotar"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
+  var displayType = _getDisplayType(block);
   _setupEstufaGraficos(displayType);
   var valor = Blockly.Python.valueToCode(block, 'VALOR', Blockly.Python.ORDER_ATOMIC) || '0';
   var rotulo = block.getFieldValue('ROTULO');
@@ -410,13 +381,13 @@ Blockly.Python["estufa_plotar"] = function(block) {
   return code
 };
 
-Blockly.Python["verificar_conexao_sensor"] = function(_block) {
+Blockly.Python["verificar_conexao_sensor"] = function(block) {
   var pins = BitdogLabConfig.PINS;
   var sensor = BitdogLabConfig.SENSOR;
+  _setupDisplayForBlock(block);
 
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  _setupDisplayDefinitions('SMALL');
 
   var i2c0Sda = pins.I2C0_SDA !== undefined ? pins.I2C0_SDA : pins.I2C_SDA;
   var i2c0Scl = pins.I2C0_SCL !== undefined ? pins.I2C0_SCL : pins.I2C_SCL;

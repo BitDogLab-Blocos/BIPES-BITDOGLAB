@@ -4,6 +4,18 @@
 function _setupDisplayDefinitions(displayType) {
   var pins = BitdogLabConfig.PINS;
   var display = BitdogLabConfig.DISPLAY;
+  displayType = displayType || DEFAULT_DISPLAY_TYPE;
+
+  if (!Blockly.Python.definitions_['setup_display']) {
+    Blockly.Python.activeDisplayType = null;
+  }
+  if (Blockly.Python.activeDisplayType && Blockly.Python.activeDisplayType !== displayType) {
+    Blockly.Python.definitions_['display_type_warning'] =
+      '# AVISO: blocos com tipos de display diferentes foram usados no mesmo programa.\n' +
+      '# Use um unico tipo de display por programa para evitar conflito no objeto global oled.';
+    return;
+  }
+  Blockly.Python.activeDisplayType = displayType;
 
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
@@ -30,8 +42,7 @@ function _setupDisplayDefinitions(displayType) {
 }
 
 Blockly.Python["display_natal"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
   Blockly.Python.definitions_['import_time'] = 'import time';
 
   var code = '';
@@ -48,8 +59,7 @@ Blockly.Python["display_natal"] = function(block) {
 };
 
 Blockly.Python["display_criar_borda"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
 
   var code = 'oled.rect(0, 0, _display_width, _display_height, 1)\n';
   // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
@@ -57,8 +67,7 @@ Blockly.Python["display_criar_borda"] = function(block) {
 };
 
 Blockly.Python["display_limpar_borda"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
 
   var code = 'oled.rect(0, 0, _display_width, _display_height, 0)\n';
   // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
@@ -66,8 +75,7 @@ Blockly.Python["display_limpar_borda"] = function(block) {
 };
 
 Blockly.Python["display_atualizar"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
 
   var code = 'oled.fill(0)\n';
 
@@ -85,9 +93,7 @@ Blockly.Python["display_atualizar"] = function(block) {
 
 Blockly.Python["display_testar_conexao"] = function(block) {
   var pins = BitdogLabConfig.PINS;
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
 
   var code = '';
   code += 'oled.fill(0)\n';
@@ -144,15 +150,13 @@ Blockly.Python["display_testar_sh1107"] = function(_block) {
 };
 
 Blockly.Python["display_show"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
 
   return 'oled.show()\n';
 };
 
 Blockly.Python["display_mostrar"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
 
   var code = '';
 
@@ -179,9 +183,7 @@ Blockly.Python["display_mostrar"] = function(block) {
 };
 
 Blockly.Python["display_texto"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
 
   var texto = block.getFieldValue('TEXTO');
   var linha = block.getFieldValue('LINHA');
@@ -221,8 +223,7 @@ Blockly.Python["display_texto"] = function(block) {
 };
 
 Blockly.Python["display_piscar_texto"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
   Blockly.Python.definitions_['import_time'] = 'import time';
 
   var texto = block.getFieldValue('TEXTO');
@@ -264,8 +265,7 @@ Blockly.Python["display_piscar_texto"] = function(block) {
 };
 
 Blockly.Python["display_mostrar_calculo"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
 
   var valor = Blockly.Python.valueToCode(block, 'VALOR', Blockly.Python.ORDER_NONE) || '0';
   var linha = block.getFieldValue('LINHA');
@@ -304,9 +304,7 @@ Blockly.Python["display_mostrar_calculo"] = function(block) {
 };
 
 Blockly.Python["display_mostrar_valor"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
 
   var valor = Blockly.Python.valueToCode(block, 'VALOR', Blockly.Python.ORDER_NONE) || '0';
   var linha = block.getFieldValue('LINHA');
@@ -352,8 +350,7 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
 };
 
 Blockly.Python["display_mostrar_estado_led"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
   Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
@@ -425,8 +422,7 @@ Blockly.Python["display_mostrar_estado_led"] = function(block) {
 };
 
 Blockly.Python["display_limpar"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
 
   var code = 'oled.fill(0)\n';
   // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
@@ -434,8 +430,7 @@ Blockly.Python["display_limpar"] = function(block) {
 };
 
 Blockly.Python["display_mostrar_estado_botao"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
   Blockly.Python.definitions_['import_time'] = 'import time';
   Blockly.Python.definitions_['import_machine'] = 'import machine';
   Blockly.Python.definitions_['setup_botoes'] =
@@ -587,8 +582,7 @@ Blockly.Python["display_mostrar_estado_botao"] = function(block) {
 };
 
 Blockly.Python["display_mostrar_status_buzzer"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  var displayType = _setupDisplayForBlock(block);
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
 
@@ -608,15 +602,15 @@ Blockly.Python["display_mostrar_status_buzzer"] = function(block) {
   Blockly.Python.buzzerDisplayConfig = {
     line: y,
     freqLine: yFreq,
-    showFreq: mostrarFrequencia
+    showFreq: mostrarFrequencia,
+    displayType: displayType
   };
 
   return '';
 };
 
 Blockly.Python["display_dashboard_matriz"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
   Blockly.Python.definitions_['setup_matriz'] = 'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.PINS.NEOPIXEL + '), ' + BitdogLabConfig.NEOPIXEL.COUNT + ')';
 
@@ -702,8 +696,7 @@ Blockly.Python["display_dashboard_matriz"] = function(block) {
 };
 
 Blockly.Python["display_mostrar_tempo_ligado"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
   Blockly.Python.definitions_['import_time'] = 'import time';
 
   var line = block.getFieldValue('LINE');
@@ -817,8 +810,7 @@ Blockly.Python["cronometro_reiniciar"] = function(block) {
 };
 
 Blockly.Python["cronometro_mostrar"] = function(block) {
-  var displayType = block.getFieldValue('DISPLAY_TYPE') || 'SMALL';
-  _setupDisplayDefinitions(displayType);
+  _setupDisplayForBlock(block);
   Blockly.Python.definitions_['import_time'] = 'import time';
 
   var name = block.getFieldValue('NAME');
