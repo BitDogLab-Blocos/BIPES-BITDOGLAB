@@ -11,7 +11,8 @@
     'robo_inicializar',
     'robo_frente',
     'robo_tras',
-    'robo_girar'
+    'robo_girar',
+    'robo_parar'
   ];
   var missing = requiredBlocks.filter(function(type) {
     return !global.Blockly || !global.Blockly.Blocks || !global.Blockly.Blocks[type];

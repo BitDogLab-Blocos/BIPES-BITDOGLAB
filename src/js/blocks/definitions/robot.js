@@ -66,3 +66,15 @@ Blockly.Blocks['robo_girar'] = {
     this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['robo_parar'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⏹️ Parar robô");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#e67e22");
+    this.setTooltip("Para imediatamente os motores do robô.");
+    this.setHelpUrl("");
+  }
+};

@@ -404,6 +404,7 @@
       </value>
       <field name="DIRECAO">L</field>
     </block>
+    <block type="robo_parar"></block>
   </category>
 
   <!-- Projeto: Piano Musical -->

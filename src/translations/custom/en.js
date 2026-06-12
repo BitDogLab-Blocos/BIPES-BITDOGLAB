@@ -482,6 +482,7 @@ window.BITDOGLAB_CUSTOM_TRANSLATIONS['en'] = {
   "⬆️ Andar para frente": "⬆️ Move forward",
   "⬇️ Andar para trás": "⬇️ Move backward",
   "↪️ Girar robô": "↪️ Turn robot",
+  "⏹️ Parar robô": "⏹️ Stop robot",
   "graus para": "degrees to",
   "esquerda": "left",
   "direita": "right",
