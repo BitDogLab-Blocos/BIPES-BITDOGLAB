@@ -155,15 +155,18 @@ class I2CScanner {
    */
   _parseDeviceList(i2c0List, i2c1List) {
     var devices = [];
+    var sensor = BitdogLabConfig.SENSOR;
+    var primaryBus = sensor.I2C_BUS;
+    var alternateBus = sensor.I2C_BUS_ALT !== undefined ? sensor.I2C_BUS_ALT : 1;
 
     if (i2c0List) {
       i2c0List.split(',').forEach(function(s) {
-        if (s.trim()) devices.push({ addr: parseInt(s.trim()), bus: 0 });
+        if (s.trim()) devices.push({ addr: parseInt(s.trim()), bus: primaryBus });
       });
     }
     if (i2c1List) {
       i2c1List.split(',').forEach(function(s) {
-        if (s.trim()) devices.push({ addr: parseInt(s.trim()), bus: 1 });
+        if (s.trim()) devices.push({ addr: parseInt(s.trim()), bus: alternateBus });
       });
     }
 
@@ -176,32 +179,34 @@ class I2CScanner {
   _checkSensorChanges(currentDevices) {
     var knownDevices = BitdogLabConfig.SENSOR.I2C_KNOWN_DEVICES;
     var self = this;
+    var currentKnownDevices = currentDevices.filter(function(dev) {
+      return knownDevices[dev.addr];
+    });
+    var previousKnownDevices = this._lastDetectedDevices.filter(function(dev) {
+      return knownDevices[dev.addr];
+    });
 
     // Check for new connections
-    currentDevices.forEach(function(dev) {
-      if (knownDevices[dev.addr]) {
-        // Check if already detected before (prevents spam)
-        var alreadyDetected = self._lastDetectedDevices.some(function(d) {
-          return d.addr === dev.addr && d.bus === dev.bus;
-        });
+    currentKnownDevices.forEach(function(dev) {
+      // Check if already detected before (prevents spam)
+      var alreadyDetected = previousKnownDevices.some(function(d) {
+        return d.addr === dev.addr && d.bus === dev.bus;
+      });
 
-        if (!alreadyDetected) {
-          self._notifySensor(knownDevices[dev.addr], dev);
-        }
+      if (!alreadyDetected) {
+        self._notifySensor(knownDevices[dev.addr], dev);
       }
     });
 
     // Check for disconnections
-    this._lastDetectedDevices.forEach(function(dev) {
-      if (knownDevices[dev.addr]) {
-        // Check if still connected
-        var stillConnected = currentDevices.some(function(d) {
-          return d.addr === dev.addr && d.bus === dev.bus;
-        });
+    previousKnownDevices.forEach(function(dev) {
+      // Check if still connected
+      var stillConnected = currentKnownDevices.some(function(d) {
+        return d.addr === dev.addr && d.bus === dev.bus;
+      });
 
-        if (!stillConnected) {
-          self._notifyDisconnection(knownDevices[dev.addr], dev);
-        }
+      if (!stillConnected) {
+        self._notifyDisconnection(knownDevices[dev.addr], dev);
       }
     });
   }
@@ -210,11 +215,12 @@ class I2CScanner {
    * Notifies user about detected sensor
    */
   _notifySensor(name, device) {
+    var busLabel = this._formatBusLabel(device.bus);
     if (name === 'AHT20') {
       UI['notify'].send('🌡️💧 Sensor de temperatura e umidade conectado!');
       term.write('\r\n🌡️💧 Sensor de temperatura e umidade conectado!\r\n');
     } else if (name === 'MPU6050') {
-      var message = '📐 Sensor acelerômetro MPU6050 conectado no I2C' + device.bus + '!';
+      var message = '📐 Sensor acelerômetro MPU6050 conectado no ' + busLabel + '!';
       UI['notify'].send(message);
       term.write('\r\n' + message + '\r\n');
     }
@@ -224,14 +230,19 @@ class I2CScanner {
    * Notifies user about disconnected sensor
    */
   _notifyDisconnection(name, device) {
+    var busLabel = this._formatBusLabel(device.bus);
     if (name === 'AHT20') {
       UI['notify'].send('⚠️ Sensor de temperatura e umidade desconectado!');
       term.write('\r\n⚠️ >>> Sensor de temperatura e umidade desconectado! <<< ⚠️\x1b[m\r\n');
     } else if (name === 'MPU6050') {
-      var message = '⚠️ Sensor acelerômetro MPU6050 desconectado do I2C' + device.bus + '!';
+      var message = '⚠️ Sensor acelerômetro MPU6050 desconectado do ' + busLabel + '!';
       UI['notify'].send(message);
       term.write('\r\n>>> ' + message + ' <<<\x1b[m\r\n');
     }
+  }
+
+  _formatBusLabel(bus) {
+    return 'I2C' + bus;
   }
 
   /**
