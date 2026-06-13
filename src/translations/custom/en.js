@@ -477,6 +477,7 @@ window.BITDOGLAB_CUSTOM_TRANSLATIONS['en'] = {
   "🕹️ Joystick": "🕹️ Joystick",
   "🎙️ Microfone": "🎙️ Microphone",
   "Controle Robô": "Robot Control",
+  "🕹️ Controle Robô": "🕹️ Robot Control",
   "🤖 Inicializar robô": "🤖 Initialize robot",
   "esperar": "wait",
   "⬆️ Andar para frente": "⬆️ Move forward",
