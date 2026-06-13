@@ -198,6 +198,11 @@ function _setupRoboMovelDefinitions() {
     '  _robo_angulo += gz * dt\n' +
     '  return _robo_angulo\n' +
     '\n' +
+    'def _robo_aceleracao_x():\n' +
+    '  if not _robo_mpu.is_ready:\n' +
+    '    return 0.0\n' +
+    '  return _robo_mpu.ax() * 9.80665\n' +
+    '\n' +
     'def _robo_esperar_movimento(tempo):\n' +
     '  duracao_ms = int(max(0, float(tempo)) * 1000)\n' +
     '  inicio = ticks_ms()\n' +
@@ -338,4 +343,9 @@ Blockly.Python['robo_joystick'] = function(_block) {
 Blockly.Python['robo_giro_valor'] = function(_block) {
   _setupRoboMovelDefinitions();
   return ['_robo_giro()', Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+Blockly.Python['robo_aceleracao_x'] = function(_block) {
+  _setupRoboMovelDefinitions();
+  return ['_robo_aceleracao_x()', Blockly.Python.ORDER_FUNCTION_CALL];
 };

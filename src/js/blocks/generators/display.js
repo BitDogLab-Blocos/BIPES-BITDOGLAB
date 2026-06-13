@@ -330,12 +330,13 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
       '_robo_display_giro_ultimo_ms = 0\n' +
       BitdogLabConfig.MARKERS.SETUP_END;
   }
+  var sufixoUnidade = valueBlock && valueBlock.type === 'robo_aceleracao_x' ? ' + " m/s2"' : '';
 
   // Gerar código que cria a variável temporária e calcula posição
   var code = '';
 
   // Criar variável temporária para armazenar o valor
-  code += '_display_value = str(' + valor + ')\n';
+  code += '_display_value = str(' + valor + ')' + sufixoUnidade + '\n';
 
   // Calcular posição X baseado no alinhamento e tamanho do texto
   if (alinhamento === 'LEFT') {
