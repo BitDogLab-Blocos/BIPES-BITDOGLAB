@@ -408,6 +408,9 @@
     <block type="robo_joystick"></block>
   </category>
 
+  <category name="📐 Movimento e Inclinação" colour="#8e44ad" data-project="robo">
+  </category>
+
   <!-- Projeto: Piano Musical -->
   <category name="🎹 Controle Piano" colour="#22c55e" data-project="piano">
     <block type="piano_interativo"></block>
