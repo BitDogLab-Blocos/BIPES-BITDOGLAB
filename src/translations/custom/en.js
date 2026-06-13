@@ -486,6 +486,7 @@ window.BITDOGLAB_CUSTOM_TRANSLATIONS['en'] = {
   "↪️ Girar robô": "↪️ Turn robot",
   "⏹️ Parar robô": "⏹️ Stop robot",
   "🕹️ Controlar robô com joystick": "🕹️ Control robot with joystick",
+  "🧭 Giro do robô": "🧭 Robot rotation",
   "graus para": "degrees to",
   "esquerda": "left",
   "direita": "right",
