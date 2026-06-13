@@ -415,6 +415,7 @@ WorkspaceManager.showRobotRotationReminder = function() {
     ? WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
       '🧭 This block <strong>does nothing on its own!</strong><br><br>' +
+      '🤖 Use <strong>Initialize robot</strong> before reading this value, including inside a button action.<br><br>' +
       '🧮 Use it inside <strong>Mathematics</strong>, <strong>if</strong> blocks, and comparisons to make decisions from the robot rotation.<br><br>' +
       '📊 To show it on the display, use the ready-made <strong>Show Numeric Value + Robot rotation</strong> example in this category.<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
@@ -426,6 +427,7 @@ WorkspaceManager.showRobotRotationReminder = function() {
     : WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
       '🧭 Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
+      '🤖 Use <strong>Inicializar robô</strong> antes de ler este valor, inclusive dentro da ação de um botão.<br><br>' +
       '🧮 Use dentro de blocos de <strong>Matemática</strong>, <strong>se</strong> e comparações para tomar decisões pelo giro do robô.<br><br>' +
       '📊 Para mostrar no display, use o exemplo pronto <strong>Mostrar valor + Giro do robô</strong> desta categoria.<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
@@ -451,6 +453,7 @@ WorkspaceManager.showRobotAccelerationReminder = function(blockType) {
     ? WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
       '↔️ This block <strong>does nothing on its own!</strong><br><br>' +
+      '🤖 Use <strong>Initialize robot</strong> before reading this value, including inside a button action.<br><br>' +
       '🧮 Use it inside <strong>Mathematics</strong>, <strong>if</strong> blocks, and comparisons to make decisions from the robot movement or tilt.<br><br>' +
       '📊 To show it on the display, use the ready-made <strong>Show Numeric Value + Acceleration X</strong> example in this category.<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
@@ -462,6 +465,7 @@ WorkspaceManager.showRobotAccelerationReminder = function(blockType) {
     : WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
       '↔️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
+      '🤖 Use <strong>Inicializar robô</strong> antes de ler este valor, inclusive dentro da ação de um botão.<br><br>' +
       '🧮 Use dentro de blocos de <strong>Matemática</strong>, <strong>se</strong> e comparações para tomar decisões pelo movimento ou inclinação do robô.<br><br>' +
       '📊 Para mostrar no display, use o exemplo pronto <strong>Mostrar valor + Aceleração X</strong> desta categoria.<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
