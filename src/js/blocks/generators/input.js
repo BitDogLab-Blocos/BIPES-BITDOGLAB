@@ -36,6 +36,8 @@ Blockly.Python["botao_enquanto_apertado"] = function(block) {
   }
   codigo_do = codigo_do.replace(/# SOUND_BLOCK_START|# SOUND_BLOCK_END/g, '');
   codigo_else = codigo_else.replace(/# SOUND_BLOCK_START|# SOUND_BLOCK_END/g, '');
+  codigo_do = codigo_do.replace(/# SETUP_BLOCK_START|# SETUP_BLOCK_END/g, '');
+  codigo_else = codigo_else.replace(/# SETUP_BLOCK_START|# SETUP_BLOCK_END/g, '');
   var code = '';
   code += 'if ' + variavel_botao + '.value() == 0:\n';
   if (codigo_do) {
@@ -101,6 +103,7 @@ Blockly.Python["botao_se_apertado"] = function(block) {
     codigo_do = codigo_do.replace(/^  /gm, '');
   }
   codigo_do = codigo_do.replace(/# SOUND_BLOCK_START|# SOUND_BLOCK_END/g, '');
+  codigo_do = codigo_do.replace(/# SETUP_BLOCK_START|# SETUP_BLOCK_END/g, '');
 
   // Inicializa flags e timestamp para debounce
   Blockly.Python.definitions_['flag_' + nome_botao] = 'flag_botao_' + nome_botao + ' = False';
