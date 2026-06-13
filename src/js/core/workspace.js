@@ -444,6 +444,42 @@ WorkspaceManager.showRobotRotationReminder = function() {
   });
 };
 
+WorkspaceManager.showRobotAccelerationReminder = function(blockType) {
+  var closeId = 'closeRobotAccelerationNotification';
+  var nomeBloco = Code.LANG === 'en' ? '↔️ Acceleration X' : '↔️ Aceleração X';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
+      '↔️ This block <strong>does nothing on its own!</strong><br><br>' +
+      '🧮 Use it inside <strong>Mathematics</strong>, <strong>if</strong> blocks, and comparisons to make decisions from the robot movement or tilt.<br><br>' +
+      '📊 To show it on the display, use the ready-made <strong>Show Numeric Value + Acceleration X</strong> example in this category.<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Examples:</strong><br>' +
+      '1️⃣ If <strong>[' + nomeBloco + '] &gt; 0.5</strong>, turn on an LED<br>' +
+      '2️⃣ Compare <strong>[' + nomeBloco + ']</strong> with 0 to discover the direction of the tilt<br>' +
+      '3️⃣ Use <strong>[' + nomeBloco + '] * 10</strong> in a Mathematics block<br>' +
+      '</div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
+      '↔️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
+      '🧮 Use dentro de blocos de <strong>Matemática</strong>, <strong>se</strong> e comparações para tomar decisões pelo movimento ou inclinação do robô.<br><br>' +
+      '📊 Para mostrar no display, use o exemplo pronto <strong>Mostrar valor + Aceleração X</strong> desta categoria.<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Exemplos:</strong><br>' +
+      '1️⃣ Se <strong>[' + nomeBloco + '] &gt; 0.5</strong>, acender um LED<br>' +
+      '2️⃣ Comparar <strong>[' + nomeBloco + ']</strong> com 0 para descobrir o lado da inclinação<br>' +
+      '3️⃣ Usar <strong>[' + nomeBloco + '] * 10</strong> em um bloco de Matemática<br>' +
+      '</div>';
+
+  WorkspaceManager.createReminder({
+    id: 'robotAccelerationNotification',
+    closeId: closeId,
+    background: '#8e44ad',
+    maxWidth: '460px',
+    html: html
+  });
+};
+
 WorkspaceManager.showEstufaToggleReminder = function(blockType) {
   var closeId = 'closeEstufaToggleNotification';
   var nomeSensor;
@@ -554,6 +590,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
       }
       if (blockType === 'robo_giro_valor') {
         Code.showRobotRotationReminder();
+      }
+      if (blockType === 'robo_aceleracao_x') {
+        Code.showRobotAccelerationReminder(blockType);
       }
       if (blockType === 'estufa_toggle_sensor1' || blockType === 'estufa_toggle_sensor2') {
         Code.showEstufaToggleReminder(blockType);
@@ -697,6 +736,7 @@ Code.showBarraGetterReminder = WorkspaceManager.showBarraGetterReminder;
 Code.showPalmasGetterReminder = WorkspaceManager.showPalmasGetterReminder;
 Code.showSensorReminder = WorkspaceManager.showSensorReminder;
 Code.showRobotRotationReminder = WorkspaceManager.showRobotRotationReminder;
+Code.showRobotAccelerationReminder = WorkspaceManager.showRobotAccelerationReminder;
 Code.showEstufaToggleReminder = WorkspaceManager.showEstufaToggleReminder;
 Code.showGraficoReminder = WorkspaceManager.showGraficoReminder;
 Code.initWorkspace = WorkspaceManager.initWorkspace;
