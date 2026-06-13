@@ -56,6 +56,12 @@ function _setupRoboMovelDefinitions() {
     '  _robo_display_giro_linha_y = 8\n' +
     '  _robo_display_giro_alinhamento = "CENTER"\n' +
     '  _robo_display_giro_ultimo_ms = 0\n' +
+    'try:\n' +
+    '  _robo_display_acel_x_ativo\n' +
+    'except NameError:\n' +
+    '  _robo_display_acel_x_ativo = False\n' +
+    '  _robo_display_acel_x_linha_y = 18\n' +
+    '  _robo_display_acel_x_alinhamento = "CENTER"\n' +
     end;
 
   Blockly.Python.definitions_['func_robo_movel'] =
@@ -176,7 +182,7 @@ function _setupRoboMovelDefinitions() {
     '      _robo_pivot_esq(_robo_vel_giro)\n' +
     '    else:\n' +
     '      _robo_pivot_dir(_robo_vel_giro)\n' +
-    '    _robo_mostrar_giro_display(_robo_angulo)\n' +
+    '    _robo_atualizar_display_instrumentos(False)\n' +
     '    sleep_ms(10)\n' +
     '  _robo_parar()\n' +
     '  _robo_giro_tempo = ticks_ms()\n' +
@@ -185,9 +191,7 @@ function _setupRoboMovelDefinitions() {
     '\n' +
     'def _robo_giro():\n' +
     '  global _robo_angulo, _robo_giro_tempo\n' +
-    '  if not _robo_pronto:\n' +
-    '    _robo_inicializar(0)\n' +
-    '  if not _robo_mpu.is_ready:\n' +
+    '  if not _robo_pronto or not _robo_mpu.is_ready:\n' +
     '    return _robo_angulo\n' +
     '  agora = ticks_ms()\n' +
     '  dt = min(ticks_diff(agora, _robo_giro_tempo) / 1000.0, 0.05)\n' +
@@ -199,7 +203,7 @@ function _setupRoboMovelDefinitions() {
     '  return _robo_angulo\n' +
     '\n' +
     'def _robo_aceleracao_x():\n' +
-    '  if not _robo_mpu.is_ready:\n' +
+    '  if not _robo_pronto or not _robo_mpu.is_ready:\n' +
     '    return 0.0\n' +
     '  return _robo_mpu.ax() * 9.80665\n' +
     '\n' +
@@ -207,33 +211,40 @@ function _setupRoboMovelDefinitions() {
     '  duracao_ms = int(max(0, float(tempo)) * 1000)\n' +
     '  inicio = ticks_ms()\n' +
     '  while ticks_diff(ticks_ms(), inicio) < duracao_ms:\n' +
-    '    _robo_mostrar_giro_display(_robo_angulo)\n' +
+    '    _robo_atualizar_display_instrumentos(True)\n' +
     '    sleep_ms(40)\n' +
     '\n' +
-    'def _robo_mostrar_giro_display(valor):\n' +
+    'def _robo_atualizar_display_instrumentos(atualizar_giro=True):\n' +
     '  global _robo_display_giro_ultimo_ms\n' +
-    '  if not _robo_display_giro_ativo:\n' +
+    '  if not _robo_display_giro_ativo and not _robo_display_acel_x_ativo:\n' +
     '    return\n' +
     '  agora = ticks_ms()\n' +
     '  if ticks_diff(agora, _robo_display_giro_ultimo_ms) < 200:\n' +
     '    return\n' +
     '  _robo_display_giro_ultimo_ms = agora\n' +
     '  try:\n' +
-    '    texto = str(round(valor, 1))\n' +
-    '    if _robo_display_giro_alinhamento == "LEFT":\n' +
-    '      x = 3\n' +
-    '      x_clear = 3\n' +
-    '    elif _robo_display_giro_alinhamento == "RIGHT":\n' +
-    '      x = max(3, 125 - len(texto) * 8)\n' +
-    '      x_clear = max(3, x - 32)\n' +
-    '    else:\n' +
-    '      x = max(3, (128 - len(texto) * 8) // 2)\n' +
-    '      x_clear = max(3, x - 24)\n' +
-    '    oled.fill_rect(x_clear, _robo_display_giro_linha_y, 128 - x_clear, 8, 0)\n' +
-    '    oled.text(texto, x, _robo_display_giro_linha_y, 1)\n' +
+    '    if _robo_display_giro_ativo:\n' +
+    '      valor_giro = _robo_giro() if atualizar_giro else _robo_angulo\n' +
+    '      _robo_escrever_valor_display(valor_giro, _robo_display_giro_linha_y, _robo_display_giro_alinhamento, "")\n' +
+    '    if _robo_display_acel_x_ativo:\n' +
+    '      _robo_escrever_valor_display(_robo_aceleracao_x(), _robo_display_acel_x_linha_y, _robo_display_acel_x_alinhamento, " m/s2")\n' +
     '    oled.show()\n' +
     '  except Exception:\n' +
-    '    pass\n';
+    '    pass\n' +
+    '\n' +
+    'def _robo_escrever_valor_display(valor, linha_y, alinhamento, sufixo=""):\n' +
+    '  texto = str(round(valor, 1)) + sufixo\n' +
+    '  if alinhamento == "LEFT":\n' +
+    '    x = 3\n' +
+    '    x_clear = 3\n' +
+    '  elif alinhamento == "RIGHT":\n' +
+    '    x = max(3, 125 - len(texto) * 8)\n' +
+    '    x_clear = max(3, x - 40)\n' +
+    '  else:\n' +
+    '    x = max(3, (128 - len(texto) * 8) // 2)\n' +
+    '    x_clear = max(3, x - 32)\n' +
+    '  oled.fill_rect(x_clear, linha_y, 128 - x_clear, 8, 0)\n' +
+    '  oled.text(texto, x, linha_y, 1)\n';
 }
 
 function _setupRoboJoystickDefinitions() {
