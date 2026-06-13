@@ -278,7 +278,9 @@ CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode) {
     finalCode += '\n';
   }
 
-  hasButtonBlocks = rawCode.indexOf('.value()') !== -1;
+  hasButtonBlocks = rawCode.indexOf('flag_botao_') !== -1 ||
+                    rawCode.indexOf('.irq(trigger=') !== -1 ||
+                    rawCode.indexOf('.value()') !== -1;
   if (soundCodeLines.length > 0) {
     if (hasButtonBlocks) {
       actionCode = soundCodeLines.concat(actionCode);
@@ -302,7 +304,7 @@ CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode) {
       return line.indexOf('for _rep in range(') !== -1 || line.indexOf('for _inner_rep in range(') !== -1;
     });
 
-    if (hasRepeatXTimes) {
+    if (hasRepeatXTimes && !hasButtonBlocks) {
       for (var j = 0; j < actionCode.length; j++) {
         finalCode += actionCode[j] + '\n';
       }
