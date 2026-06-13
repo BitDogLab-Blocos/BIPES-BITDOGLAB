@@ -378,7 +378,7 @@
   <!-- ========== CATEGORIAS DE PROJETO (aparecem conforme seletor) ========== -->
 
   <!-- Projeto: Robo Movel -->
-  <category name="Controle Robô" colour="#e67e22" data-project="robo">
+  <category name="🕹️ Controle Robô" colour="#e67e22" data-project="robo">
     <block type="robo_inicializar">
       <field name="ESPERA">5</field>
     </block>
