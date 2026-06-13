@@ -409,6 +409,15 @@
   </category>
 
   <category name="📐 Movimento e Inclinação" colour="#8e44ad" data-project="robo">
+    <block type="robo_giro_valor"></block>
+    <block type="display_mostrar_valor">
+      <value name="VALOR">
+        <block type="robo_giro_valor"></block>
+      </value>
+      <field name="LINHA">1</field>
+      <field name="ALINHAMENTO">CENTER</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block>
   </category>
 
   <!-- Projeto: Piano Musical -->

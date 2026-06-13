@@ -48,6 +48,14 @@ function _setupRoboMovelDefinitions() {
     '_robo_mpu_scl_alt = ' + (hasAltMpuI2c ? robot.MPU_I2C_SCL_ALT : 'None') + '\n' +
     '_robo_pronto = False\n' +
     '_robo_angulo = 0.0\n' +
+    '_robo_giro_tempo = ticks_ms()\n' +
+    'try:\n' +
+    '  _robo_display_giro_ativo\n' +
+    'except NameError:\n' +
+    '  _robo_display_giro_ativo = False\n' +
+    '  _robo_display_giro_linha_y = 8\n' +
+    '  _robo_display_giro_alinhamento = "CENTER"\n' +
+    '  _robo_display_giro_ultimo_ms = 0\n' +
     end;
 
   Blockly.Python.definitions_['func_robo_movel'] =
@@ -75,7 +83,7 @@ function _setupRoboMovelDefinitions() {
     '  _robo_dir_tras.value(dir_tras)\n' +
     '  _robo_esq_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
     '  _robo_dir_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
-    '  sleep(t)\n' +
+    '  _robo_esperar_movimento(t)\n' +
     '  _robo_parar()\n' +
     '\n' +
     'def _robo_pivot_esq(velocidade):\n' +
@@ -113,11 +121,11 @@ function _setupRoboMovelDefinitions() {
     '  _robo_dir_frente.value(1)\n' +
     '  _robo_dir_tras.value(0)\n' +
     '  _robo_dir_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
-    '  sleep(t)\n' +
+    '  _robo_esperar_movimento(t)\n' +
     '  _robo_parar()\n' +
     '\n' +
     'def _robo_inicializar(espera=5):\n' +
-    '  global _robo_pronto, _robo_angulo\n' +
+    '  global _robo_pronto, _robo_angulo, _robo_giro_tempo\n' +
     '  _robo_parar()\n' +
     '  if espera > 0:\n' +
     '    print("Coloque o robo no chao. Iniciando em", espera, "s")\n' +
@@ -133,10 +141,11 @@ function _setupRoboMovelDefinitions() {
     '  print("Calibrando giro. Nao mexa no robo.")\n' +
     '  _robo_pronto = _robo_mpu.calibrate()\n' +
     '  _robo_angulo = 0.0\n' +
+    '  _robo_giro_tempo = ticks_ms()\n' +
     '  print("Robo pronto!" if _robo_pronto else "Falha ao calibrar o robo.")\n' +
     '\n' +
     'def _robo_girar(graus, direcao="L"):\n' +
-    '  global _robo_angulo\n' +
+    '  global _robo_angulo, _robo_giro_tempo\n' +
     '  if not _robo_pronto:\n' +
     '    _robo_inicializar(0)\n' +
     '  if not _robo_mpu.is_ready:\n' +
@@ -167,10 +176,59 @@ function _setupRoboMovelDefinitions() {
     '      _robo_pivot_esq(_robo_vel_giro)\n' +
     '    else:\n' +
     '      _robo_pivot_dir(_robo_vel_giro)\n' +
+    '    _robo_mostrar_giro_display(_robo_angulo)\n' +
     '    sleep_ms(10)\n' +
     '  _robo_parar()\n' +
+    '  _robo_giro_tempo = ticks_ms()\n' +
     '  sleep_ms(200)\n' +
-    '  print("Giro", "esquerda" if direcao == "L" else "direita", round(acumulado, 1), "graus")\n';
+    '  print("Giro", "esquerda" if direcao == "L" else "direita", round(acumulado, 1), "graus")\n' +
+    '\n' +
+    'def _robo_giro():\n' +
+    '  global _robo_angulo, _robo_giro_tempo\n' +
+    '  if not _robo_pronto:\n' +
+    '    _robo_inicializar(0)\n' +
+    '  if not _robo_mpu.is_ready:\n' +
+    '    return _robo_angulo\n' +
+    '  agora = ticks_ms()\n' +
+    '  dt = min(ticks_diff(agora, _robo_giro_tempo) / 1000.0, 0.05)\n' +
+    '  _robo_giro_tempo = agora\n' +
+    '  gz = _robo_mpu.gz()\n' +
+    '  if abs(gz) < _robo_zona_morta_giro:\n' +
+    '    gz = 0.0\n' +
+    '  _robo_angulo += gz * dt\n' +
+    '  return _robo_angulo\n' +
+    '\n' +
+    'def _robo_esperar_movimento(tempo):\n' +
+    '  duracao_ms = int(max(0, float(tempo)) * 1000)\n' +
+    '  inicio = ticks_ms()\n' +
+    '  while ticks_diff(ticks_ms(), inicio) < duracao_ms:\n' +
+    '    _robo_mostrar_giro_display(_robo_angulo)\n' +
+    '    sleep_ms(40)\n' +
+    '\n' +
+    'def _robo_mostrar_giro_display(valor):\n' +
+    '  global _robo_display_giro_ultimo_ms\n' +
+    '  if not _robo_display_giro_ativo:\n' +
+    '    return\n' +
+    '  agora = ticks_ms()\n' +
+    '  if ticks_diff(agora, _robo_display_giro_ultimo_ms) < 200:\n' +
+    '    return\n' +
+    '  _robo_display_giro_ultimo_ms = agora\n' +
+    '  try:\n' +
+    '    texto = str(round(valor, 1))\n' +
+    '    if _robo_display_giro_alinhamento == "LEFT":\n' +
+    '      x = 3\n' +
+    '      x_clear = 3\n' +
+    '    elif _robo_display_giro_alinhamento == "RIGHT":\n' +
+    '      x = max(3, 125 - len(texto) * 8)\n' +
+    '      x_clear = max(3, x - 32)\n' +
+    '    else:\n' +
+    '      x = max(3, (128 - len(texto) * 8) // 2)\n' +
+    '      x_clear = max(3, x - 24)\n' +
+    '    oled.fill_rect(x_clear, _robo_display_giro_linha_y, 128 - x_clear, 8, 0)\n' +
+    '    oled.text(texto, x, _robo_display_giro_linha_y, 1)\n' +
+    '    oled.show()\n' +
+    '  except Exception:\n' +
+    '    pass\n';
 }
 
 function _setupRoboJoystickDefinitions() {
@@ -275,4 +333,9 @@ Blockly.Python['robo_joystick'] = function(_block) {
   code += '  _robo_parar()\n';
   code += BitdogLabConfig.MARKERS.LOOP_END + '\n';
   return code;
+};
+
+Blockly.Python['robo_giro_valor'] = function(_block) {
+  _setupRoboMovelDefinitions();
+  return ['_robo_giro()', Blockly.Python.ORDER_FUNCTION_CALL];
 };

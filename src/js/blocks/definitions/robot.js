@@ -90,3 +90,14 @@ Blockly.Blocks['robo_joystick'] = {
     this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['robo_giro_valor'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🧭 Giro do robô");
+    this.setOutput(true, "Number");
+    this.setColour("#8e44ad");
+    this.setTooltip("Retorna o giro atual do robô em graus, medido pelo eixo Z do MPU6050. Use em Display, Matemática, Condicionais e comparações, por exemplo: giro do robô > 45.");
+    this.setHelpUrl("");
+  }
+};

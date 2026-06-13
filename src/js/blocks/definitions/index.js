@@ -13,7 +13,8 @@
     'robo_tras',
     'robo_girar',
     'robo_parar',
-    'robo_joystick'
+    'robo_joystick',
+    'robo_giro_valor'
   ];
   var missing = requiredBlocks.filter(function(type) {
     return !global.Blockly || !global.Blockly.Blocks || !global.Blockly.Blocks[type];

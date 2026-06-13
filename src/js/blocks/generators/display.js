@@ -320,6 +320,17 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
   };
   var y = yPositions[linha];
 
+  var valueBlock = block.getInputTargetBlock && block.getInputTargetBlock('VALOR');
+  if (valueBlock && valueBlock.type === 'robo_giro_valor') {
+    Blockly.Python.definitions_['setup_robo_display_giro_config'] =
+      BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+      '_robo_display_giro_ativo = True\n' +
+      '_robo_display_giro_linha_y = ' + y + '\n' +
+      '_robo_display_giro_alinhamento = "' + alinhamento + '"\n' +
+      '_robo_display_giro_ultimo_ms = 0\n' +
+      BitdogLabConfig.MARKERS.SETUP_END;
+  }
+
   // Gerar código que cria a variável temporária e calcula posição
   var code = '';
 
