@@ -521,6 +521,41 @@ WorkspaceManager.showRobotInstrumentDisplayReminder = function() {
   });
 };
 
+WorkspaceManager.showRobotBatteryVoltageReminder = function() {
+  var closeId = 'closeRobotBatteryVoltageNotification';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
+      '🔋 This block reads the <strong>battery voltage</strong> in volts (V).<br><br>' +
+      'Think of voltage as the battery strength pushing energy to the robot.<br><br>' +
+      '📊 Place it inside <strong>Show Numeric Value</strong> to see it on the display.<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Examples:</strong><br>' +
+      '1️⃣ Show Numeric Value: <strong>[Battery voltage]</strong><br>' +
+      '2️⃣ If <strong>[Battery voltage] &lt; 6</strong>, show a warning<br>' +
+      '3️⃣ Compare the value before and after the robot moves<br>' +
+      '</div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
+      '🔋 Este bloco lê a <strong>tensão da bateria</strong> em volts (V).<br><br>' +
+      'Pense na tensão como a força da bateria empurrando energia para o robô.<br><br>' +
+      '📊 Encaixe no bloco <strong>Mostrar valor</strong> para ver no display.<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Exemplos:</strong><br>' +
+      '1️⃣ Mostrar valor: <strong>[Tensão da bateria]</strong><br>' +
+      '2️⃣ Se <strong>[Tensão da bateria] &lt; 6</strong>, mostrar um aviso<br>' +
+      '3️⃣ Comparar o valor antes e depois do robô andar<br>' +
+      '</div>';
+
+  WorkspaceManager.createReminder({
+    id: 'robotBatteryVoltageNotification',
+    closeId: closeId,
+    background: '#27ae60',
+    maxWidth: '460px',
+    html: html
+  });
+};
+
 WorkspaceManager.showEstufaToggleReminder = function(blockType) {
   var closeId = 'closeEstufaToggleNotification';
   var nomeSensor;
@@ -644,6 +679,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
       if (blockType === 'robo_transferidor_360') {
         Code.showRobotInstrumentDisplayReminder();
       }
+      if (blockType === 'robo_tensao_bateria') {
+        Code.showRobotBatteryVoltageReminder();
+      }
       if (blockType === 'display_mostrar_valor') {
         var valorBlock = block.getInputTargetBlock && block.getInputTargetBlock('VALOR');
         if (valorBlock && valorBlock.type === 'robo_giro_valor') {
@@ -655,6 +693,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
           valorBlock.type === 'robo_aceleracao_z'
         )) {
           Code.showRobotInstrumentDisplayReminder();
+        }
+        if (valorBlock && valorBlock.type === 'robo_tensao_bateria') {
+          Code.showRobotBatteryVoltageReminder();
         }
       }
       if (blockType === 'estufa_toggle_sensor1' || blockType === 'estufa_toggle_sensor2') {
@@ -801,6 +842,7 @@ Code.showSensorReminder = WorkspaceManager.showSensorReminder;
 Code.showRobotRotationReminder = WorkspaceManager.showRobotRotationReminder;
 Code.showRobotAccelerationReminder = WorkspaceManager.showRobotAccelerationReminder;
 Code.showRobotInstrumentDisplayReminder = WorkspaceManager.showRobotInstrumentDisplayReminder;
+Code.showRobotBatteryVoltageReminder = WorkspaceManager.showRobotBatteryVoltageReminder;
 Code.showEstufaToggleReminder = WorkspaceManager.showEstufaToggleReminder;
 Code.showGraficoReminder = WorkspaceManager.showGraficoReminder;
 Code.initWorkspace = WorkspaceManager.initWorkspace;

@@ -57,6 +57,15 @@ const BitdogLabConfig_V6 = {
     TURN_TIMEOUT_MS_PER_DEGREE: 120
   },
 
+  ROBOT_POWER: {
+    INA226_I2C_BUS: 1,
+    INA226_I2C_SDA: 14,
+    INA226_I2C_SCL: 15,
+    INA226_ADDR: 0x40,
+    SHUNT_RESISTOR_OHMS: 0.1,
+    I2C_FREQ: 400000
+  },
+
   SENSOR: {
     I2C_BUS: 0, I2C_FREQ: 400000,
     I2C_BUS_ALT: 1,

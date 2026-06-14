@@ -221,6 +221,44 @@ class SSD1306_I2C(SSD1306):
     '    return True\n',
 
   // =============================================
+  // INA226 - Sensor de tensao/corrente do robo movel
+  // Fonte: firmware/PyLibs/INA226.py
+  // =============================================
+  INA226:
+    'INA226_ADDR = 0x40\n' +
+    'CONFIG_REG = 0x00\n' +
+    'SHUNT_VOLTAGE_REG = 0x01\n' +
+    'BUS_VOLTAGE_REG = 0x02\n' +
+    'class INA226:\n' +
+    '  def __init__(self, i2c, addr=INA226_ADDR, shunt_resistor=0.1):\n' +
+    '    self.i2c = i2c\n' +
+    '    self.addr = addr\n' +
+    '    self.shunt_resistor = shunt_resistor\n' +
+    '    self.is_ready = False\n' +
+    '    try:\n' +
+    '      self.configure()\n' +
+    '      self.is_ready = True\n' +
+    '    except Exception as exc:\n' +
+    '      print("INA226: erro ao inicializar:", exc)\n' +
+    '  def _write_register(self, reg, value):\n' +
+    '    self.i2c.writeto_mem(self.addr, reg, bytearray([(value >> 8) & 0xFF, value & 0xFF]))\n' +
+    '  def _read_register(self, reg):\n' +
+    '    data = self.i2c.readfrom_mem(self.addr, reg, 2)\n' +
+    '    return (data[0] << 8) | data[1]\n' +
+    '  def _read_signed_register(self, reg):\n' +
+    '    value = self._read_register(reg)\n' +
+    '    return value - 65536 if value > 32767 else value\n' +
+    '  def configure(self):\n' +
+    '    self._write_register(CONFIG_REG, 0x4127)\n' +
+    '  def voltage(self):\n' +
+    '    if not self.is_ready: return 0.0\n' +
+    '    return self._read_register(BUS_VOLTAGE_REG) * 1.25 / 1000\n' +
+    '  def current(self):\n' +
+    '    if not self.is_ready or self.shunt_resistor == 0: return 0.0\n' +
+    '    shunt_voltage = self._read_signed_register(SHUNT_VOLTAGE_REG) * 2.5 / 1000000\n' +
+    '    return -(shunt_voltage / self.shunt_resistor)\n',
+
+  // =============================================
   // SH1107 - Display OLED I2C
   // Fonte base: firmware/PyLibs/sh1107.py
   // =============================================

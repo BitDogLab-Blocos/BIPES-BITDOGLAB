@@ -358,13 +358,19 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
     valueBlock.type === 'robo_giro_valor' ||
     valueBlock.type === 'robo_aceleracao_x' ||
     valueBlock.type === 'robo_aceleracao_y' ||
-    valueBlock.type === 'robo_aceleracao_z'
+    valueBlock.type === 'robo_aceleracao_z' ||
+    valueBlock.type === 'robo_tensao_bateria'
   );
-  var sufixoUnidade = valueBlock && (
+  var sufixoUnidade = '';
+  if (valueBlock && (
     valueBlock.type === 'robo_aceleracao_x' ||
     valueBlock.type === 'robo_aceleracao_y' ||
     valueBlock.type === 'robo_aceleracao_z'
-  ) ? ' + " m/s2"' : '';
+  )) {
+    sufixoUnidade = ' + " m/s2"';
+  } else if (valueBlock && valueBlock.type === 'robo_tensao_bateria') {
+    sufixoUnidade = ' + " V"';
+  }
 
   // Gerar código que cria a variável temporária e calcula posição
   var code = '';

@@ -450,7 +450,17 @@
     </block>
   </category>
 
-  <category name="🔋 Bateria do Robô" colour="#27ae60" data-project="robo"></category>
+  <category name="🔋 Bateria do Robô" colour="#27ae60" data-project="robo">
+    <block type="robo_tensao_bateria"></block>
+    <block type="display_mostrar_valor">
+      <value name="VALOR">
+        <block type="robo_tensao_bateria"></block>
+      </value>
+      <field name="LINHA">1</field>
+      <field name="ALINHAMENTO">CENTER</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block>
+  </category>
 
   <!-- Projeto: Piano Musical -->
   <category name="🎹 Controle Piano" colour="#22c55e" data-project="piano">
