@@ -484,6 +484,39 @@ WorkspaceManager.showRobotAccelerationReminder = function(blockType) {
   });
 };
 
+WorkspaceManager.showRobotInstrumentDisplayReminder = function() {
+  var closeId = 'closeRobotInstrumentDisplayNotification';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
+      '🤖 These robot values only work after the robot has been initialized.<br><br>' +
+      'Place <strong>Initialize robot</strong> before these display blocks, or inside the button action before the movement and readings.<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Example:</strong><br>' +
+      '1️⃣ Initialize robot<br>' +
+      '2️⃣ Move or turn the robot<br>' +
+      '3️⃣ Show Numeric Value: <strong>[Robot rotation]</strong> or <strong>[Acceleration X]</strong><br>' +
+      '</div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
+      '🤖 Estes valores do robô só funcionam depois que o robô foi inicializado.<br><br>' +
+      'Coloque <strong>Inicializar robô</strong> antes destes blocos de display, ou dentro da ação do botão antes dos movimentos e leituras.<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Exemplo:</strong><br>' +
+      '1️⃣ Inicializar robô<br>' +
+      '2️⃣ Andar ou girar o robô<br>' +
+      '3️⃣ Mostrar valor: <strong>[Giro do robô]</strong> ou <strong>[Aceleração X]</strong><br>' +
+      '</div>';
+
+  WorkspaceManager.createReminder({
+    id: 'robotInstrumentDisplayNotification',
+    closeId: closeId,
+    background: '#8e44ad',
+    maxWidth: '460px',
+    html: html
+  });
+};
+
 WorkspaceManager.showEstufaToggleReminder = function(blockType) {
   var closeId = 'closeEstufaToggleNotification';
   var nomeSensor;
@@ -597,6 +630,15 @@ WorkspaceManager.bindWorkspaceHints = function() {
       }
       if (blockType === 'robo_aceleracao_x') {
         Code.showRobotAccelerationReminder(blockType);
+      }
+      if (blockType === 'display_mostrar_valor') {
+        var valorBlock = block.getInputTargetBlock && block.getInputTargetBlock('VALOR');
+        if (valorBlock && valorBlock.type === 'robo_giro_valor') {
+          Code.showRobotInstrumentDisplayReminder();
+        }
+        if (valorBlock && valorBlock.type === 'robo_aceleracao_x') {
+          Code.showRobotInstrumentDisplayReminder();
+        }
       }
       if (blockType === 'estufa_toggle_sensor1' || blockType === 'estufa_toggle_sensor2') {
         Code.showEstufaToggleReminder(blockType);
@@ -741,6 +783,7 @@ Code.showPalmasGetterReminder = WorkspaceManager.showPalmasGetterReminder;
 Code.showSensorReminder = WorkspaceManager.showSensorReminder;
 Code.showRobotRotationReminder = WorkspaceManager.showRobotRotationReminder;
 Code.showRobotAccelerationReminder = WorkspaceManager.showRobotAccelerationReminder;
+Code.showRobotInstrumentDisplayReminder = WorkspaceManager.showRobotInstrumentDisplayReminder;
 Code.showEstufaToggleReminder = WorkspaceManager.showEstufaToggleReminder;
 Code.showGraficoReminder = WorkspaceManager.showGraficoReminder;
 Code.initWorkspace = WorkspaceManager.initWorkspace;
