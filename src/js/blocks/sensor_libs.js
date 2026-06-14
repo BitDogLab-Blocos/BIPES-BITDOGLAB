@@ -230,7 +230,7 @@ class SSD1306_I2C(SSD1306):
     'SHUNT_VOLTAGE_REG = 0x01\n' +
     'BUS_VOLTAGE_REG = 0x02\n' +
     'class INA226:\n' +
-    '  def __init__(self, i2c, addr=INA226_ADDR, shunt_resistor=0.1):\n' +
+    '  def __init__(self, i2c, addr=0x40, shunt_resistor=0.1):\n' +
     '    self.i2c = i2c\n' +
     '    self.addr = addr\n' +
     '    self.shunt_resistor = shunt_resistor\n' +

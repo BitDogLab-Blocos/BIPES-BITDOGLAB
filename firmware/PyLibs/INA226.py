@@ -8,7 +8,7 @@ BUS_VOLTAGE_REG = 0x02
 class INA226:
     """Leitura simples de tensao e corrente pelo INA226 via I2C."""
 
-    def __init__(self, i2c, addr=INA226_ADDR, shunt_resistor=0.1):
+    def __init__(self, i2c, addr=0x40, shunt_resistor=0.1):
         self.i2c = i2c
         self.addr = addr
         self.shunt_resistor = shunt_resistor

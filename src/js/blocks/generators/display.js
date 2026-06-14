@@ -354,6 +354,14 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
       '_robo_display_acel_z_alinhamento = "' + alinhamento + '"\n' +
       BitdogLabConfig.MARKERS.SETUP_END;
   }
+  if (valueBlock && valueBlock.type === 'robo_tensao_bateria') {
+    Blockly.Python.definitions_['setup_robo_display_tensao_bateria_config'] =
+      BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+      '_robo_display_tensao_bateria_ativo = True\n' +
+      '_robo_display_tensao_bateria_linha_y = ' + y + '\n' +
+      '_robo_display_tensao_bateria_alinhamento = "' + alinhamento + '"\n' +
+      BitdogLabConfig.MARKERS.SETUP_END;
+  }
   var isRobotNumericValue = valueBlock && (
     valueBlock.type === 'robo_giro_valor' ||
     valueBlock.type === 'robo_aceleracao_x' ||
@@ -376,7 +384,9 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
   var code = '';
 
   // Criar variável temporária para armazenar o valor
-  if (isRobotNumericValue) {
+  if (valueBlock && valueBlock.type === 'robo_tensao_bateria') {
+    code += '_display_value = "{:.2f} V".format(' + valor + ')\n';
+  } else if (isRobotNumericValue) {
     code += '_display_value = str(round(' + valor + ', 4))' + sufixoUnidade + '\n';
   } else {
     code += '_display_value = str(' + valor + ')' + sufixoUnidade + '\n';

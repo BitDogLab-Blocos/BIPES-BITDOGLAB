@@ -174,7 +174,12 @@ const BitdogLabConfig_V6 = {
              line.startsWith('EMOJI_NAMES =') ||
              line.startsWith('AHT20_ADDR') ||
              line.startsWith('MPU6050_ADDR') ||
+             line.startsWith('INA226_ADDR') ||
+             line.startsWith('CONFIG_REG') ||
+             line.startsWith('SHUNT_VOLTAGE_REG') ||
+             line.startsWith('BUS_VOLTAGE_REG') ||
              line.startsWith('_aht20') ||
+             line.startsWith('_robo_ina226') ||
              line.startsWith('_ssd1306_') ||
              line.startsWith('_display_width') ||
              line.startsWith('_display_height') ||
