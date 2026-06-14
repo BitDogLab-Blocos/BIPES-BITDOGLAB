@@ -489,6 +489,7 @@ window.BITDOGLAB_CUSTOM_TRANSLATIONS['en'] = {
   "🧭 Giro do robô": "🧭 Robot rotation",
   "↔️ Aceleração X": "↔️ Acceleration X",
   "↕️ Aceleração Y": "↕️ Acceleration Y",
+  "⬆️ Aceleração Z": "⬆️ Acceleration Z",
   "graus para": "degrees to",
   "esquerda": "left",
   "direita": "right",
