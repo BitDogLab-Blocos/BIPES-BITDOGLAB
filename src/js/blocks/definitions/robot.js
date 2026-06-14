@@ -134,3 +134,16 @@ Blockly.Blocks['robo_aceleracao_z'] = {
     this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['robo_transferidor_360'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🧭 Transferidor 360° no display");
+    appendDisplayTypeInput(this);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8e44ad");
+    this.setTooltip("Mostra no display um transferidor de 360 graus com um ponteiro indicando o giro atual do robô. Use Inicializar robô antes deste bloco.");
+    this.setHelpUrl("");
+  }
+};

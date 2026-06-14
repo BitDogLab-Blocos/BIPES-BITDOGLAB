@@ -641,6 +641,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
       if (blockType === 'robo_aceleracao_z') {
         Code.showRobotAccelerationReminder(blockType);
       }
+      if (blockType === 'robo_transferidor_360') {
+        Code.showRobotInstrumentDisplayReminder();
+      }
       if (blockType === 'display_mostrar_valor') {
         var valorBlock = block.getInputTargetBlock && block.getInputTargetBlock('VALOR');
         if (valorBlock && valorBlock.type === 'robo_giro_valor') {

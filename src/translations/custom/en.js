@@ -490,6 +490,7 @@ window.BITDOGLAB_CUSTOM_TRANSLATIONS['en'] = {
   "↔️ Aceleração X": "↔️ Acceleration X",
   "↕️ Aceleração Y": "↕️ Acceleration Y",
   "⬆️ Aceleração Z": "⬆️ Acceleration Z",
+  "🧭 Transferidor 360° no display": "🧭 360° protractor on display",
   "graus para": "degrees to",
   "esquerda": "left",
   "direita": "right",

@@ -4,6 +4,7 @@ function _setupRoboMovelDefinitions() {
   var robot = BitdogLabConfig.ROBOT;
   Blockly.Python.definitions_['import_robo_machine'] = 'from machine import Pin, PWM, I2C, ADC';
   Blockly.Python.definitions_['import_robo_time'] = 'from time import sleep, sleep_ms, ticks_ms, ticks_diff';
+  Blockly.Python.definitions_['import_robo_math'] = 'import math';
   Blockly.Python.definitions_['lib_mpu6050'] = SensorLibs.MPU6050;
 
   var start = BitdogLabConfig.MARKERS.SETUP_START;
@@ -74,6 +75,10 @@ function _setupRoboMovelDefinitions() {
     '  _robo_display_acel_z_ativo = False\n' +
     '  _robo_display_acel_z_linha_y = 38\n' +
     '  _robo_display_acel_z_alinhamento = "CENTER"\n' +
+    'try:\n' +
+    '  _robo_display_transferidor_ativo\n' +
+    'except NameError:\n' +
+    '  _robo_display_transferidor_ativo = False\n' +
     end;
 
   Blockly.Python.definitions_['func_robo_movel'] =
@@ -238,13 +243,17 @@ function _setupRoboMovelDefinitions() {
     '\n' +
     'def _robo_atualizar_display_instrumentos(atualizar_giro=True):\n' +
     '  global _robo_display_giro_ultimo_ms\n' +
-    '  if not _robo_display_giro_ativo and not _robo_display_acel_x_ativo and not _robo_display_acel_y_ativo and not _robo_display_acel_z_ativo:\n' +
+    '  if not _robo_display_giro_ativo and not _robo_display_acel_x_ativo and not _robo_display_acel_y_ativo and not _robo_display_acel_z_ativo and not _robo_display_transferidor_ativo:\n' +
     '    return\n' +
     '  agora = ticks_ms()\n' +
     '  if ticks_diff(agora, _robo_display_giro_ultimo_ms) < 200:\n' +
     '    return\n' +
     '  _robo_display_giro_ultimo_ms = agora\n' +
     '  try:\n' +
+    '    if _robo_display_transferidor_ativo:\n' +
+    '      valor_giro = _robo_giro() if atualizar_giro else _robo_angulo\n' +
+    '      _robo_desenhar_transferidor_360(valor_giro)\n' +
+    '      return\n' +
     '    if _robo_display_giro_ativo:\n' +
     '      valor_giro = _robo_giro() if atualizar_giro else _robo_angulo\n' +
     '      _robo_escrever_valor_display(valor_giro, _robo_display_giro_linha_y, _robo_display_giro_alinhamento, "")\n' +
@@ -270,7 +279,39 @@ function _setupRoboMovelDefinitions() {
     '    x = max(3, (128 - len(texto) * 8) // 2)\n' +
     '    x_clear = max(3, x - 32)\n' +
     '  oled.fill_rect(x_clear, linha_y, 128 - x_clear, 8, 0)\n' +
-    '  oled.text(texto, x, linha_y, 1)\n';
+    '  oled.text(texto, x, linha_y, 1)\n' +
+    '\n' +
+    'def _robo_desenhar_transferidor_360(valor_giro):\n' +
+    '  angulo = valor_giro % 360\n' +
+    '  texto = "{:.1f} graus".format(angulo)\n' +
+    '  cx = _display_width // 2\n' +
+    '  cy = min(_display_height - 26, max(34, _display_height // 2 + 8))\n' +
+    '  raio = min(26, max(18, min(_display_width, _display_height) // 3))\n' +
+    '  oled.fill(0)\n' +
+    '  oled.text("Giro 360", max(0, (_display_width - 64) // 2), 0, 1)\n' +
+    '  oled.text(texto, max(0, (_display_width - len(texto) * 8) // 2), 10, 1)\n' +
+    '  for a in range(0, 360, 10):\n' +
+    '    rad = math.radians(a - 90)\n' +
+    '    x = int(cx + math.cos(rad) * raio)\n' +
+    '    y = int(cy + math.sin(rad) * raio)\n' +
+    '    oled.pixel(x, y, 1)\n' +
+    '  for a in (0, 90, 180, 270):\n' +
+    '    rad = math.radians(a - 90)\n' +
+    '    x1 = int(cx + math.cos(rad) * (raio - 4))\n' +
+    '    y1 = int(cy + math.sin(rad) * (raio - 4))\n' +
+    '    x2 = int(cx + math.cos(rad) * (raio + 2))\n' +
+    '    y2 = int(cy + math.sin(rad) * (raio + 2))\n' +
+    '    oled.line(x1, y1, x2, y2, 1)\n' +
+    '  rad = math.radians(angulo - 90)\n' +
+    '  px = int(cx + math.cos(rad) * (raio - 5))\n' +
+    '  py = int(cy + math.sin(rad) * (raio - 5))\n' +
+    '  oled.line(cx, cy, px, py, 1)\n' +
+    '  oled.pixel(cx, cy, 1)\n' +
+    '  oled.pixel(cx + 1, cy, 1)\n' +
+    '  oled.pixel(cx - 1, cy, 1)\n' +
+    '  oled.pixel(cx, cy + 1, 1)\n' +
+    '  oled.pixel(cx, cy - 1, 1)\n' +
+    '  oled.show()\n';
 }
 
 function _setupRoboJoystickDefinitions() {
@@ -395,4 +436,14 @@ Blockly.Python['robo_aceleracao_y'] = function(_block) {
 Blockly.Python['robo_aceleracao_z'] = function(_block) {
   _setupRoboMovelDefinitions();
   return ['_robo_aceleracao_z()', Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+Blockly.Python['robo_transferidor_360'] = function(block) {
+  _setupDisplayForBlock(block);
+  _setupRoboMovelDefinitions();
+  Blockly.Python.definitions_['setup_robo_display_transferidor_config'] =
+    BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+    '_robo_display_transferidor_ativo = True\n' +
+    BitdogLabConfig.MARKERS.SETUP_END;
+  return '_robo_desenhar_transferidor_360(_robo_giro())\n';
 };

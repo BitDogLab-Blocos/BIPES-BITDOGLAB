@@ -17,7 +17,8 @@
     'robo_giro_valor',
     'robo_aceleracao_x',
     'robo_aceleracao_y',
-    'robo_aceleracao_z'
+    'robo_aceleracao_z',
+    'robo_transferidor_360'
   ];
   var missing = requiredBlocks.filter(function(type) {
     return !global.Blockly || !global.Blockly.Blocks || !global.Blockly.Blocks[type];
