@@ -346,6 +346,11 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
       '_robo_display_acel_y_alinhamento = "' + alinhamento + '"\n' +
       BitdogLabConfig.MARKERS.SETUP_END;
   }
+  var isRobotNumericValue = valueBlock && (
+    valueBlock.type === 'robo_giro_valor' ||
+    valueBlock.type === 'robo_aceleracao_x' ||
+    valueBlock.type === 'robo_aceleracao_y'
+  );
   var sufixoUnidade = valueBlock && (
     valueBlock.type === 'robo_aceleracao_x' ||
     valueBlock.type === 'robo_aceleracao_y'
@@ -355,7 +360,11 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
   var code = '';
 
   // Criar variável temporária para armazenar o valor
-  code += '_display_value = str(' + valor + ')' + sufixoUnidade + '\n';
+  if (isRobotNumericValue) {
+    code += '_display_value = str(round(' + valor + ', 4))' + sufixoUnidade + '\n';
+  } else {
+    code += '_display_value = str(' + valor + ')' + sufixoUnidade + '\n';
+  }
 
   // Calcular posição X baseado no alinhamento e tamanho do texto
   if (alinhamento === 'LEFT') {

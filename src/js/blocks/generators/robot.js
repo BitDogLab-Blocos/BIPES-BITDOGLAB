@@ -246,7 +246,7 @@ function _setupRoboMovelDefinitions() {
     '    pass\n' +
     '\n' +
     'def _robo_escrever_valor_display(valor, linha_y, alinhamento, sufixo=""):\n' +
-    '  texto = str(round(valor, 1)) + sufixo\n' +
+    '  texto = str(round(valor, 4)) + sufixo\n' +
     '  if alinhamento == "LEFT":\n' +
     '    x = 3\n' +
     '    x_clear = 3\n' +
