@@ -62,6 +62,12 @@ function _setupRoboMovelDefinitions() {
     '  _robo_display_acel_x_ativo = False\n' +
     '  _robo_display_acel_x_linha_y = 18\n' +
     '  _robo_display_acel_x_alinhamento = "CENTER"\n' +
+    'try:\n' +
+    '  _robo_display_acel_y_ativo\n' +
+    'except NameError:\n' +
+    '  _robo_display_acel_y_ativo = False\n' +
+    '  _robo_display_acel_y_linha_y = 28\n' +
+    '  _robo_display_acel_y_alinhamento = "CENTER"\n' +
     end;
 
   Blockly.Python.definitions_['func_robo_movel'] =
@@ -207,6 +213,11 @@ function _setupRoboMovelDefinitions() {
     '    return 0.0\n' +
     '  return _robo_mpu.ax() * 9.80665\n' +
     '\n' +
+    'def _robo_aceleracao_y():\n' +
+    '  if not _robo_pronto or not _robo_mpu.is_ready:\n' +
+    '    return 0.0\n' +
+    '  return _robo_mpu.ay() * 9.80665\n' +
+    '\n' +
     'def _robo_esperar_movimento(tempo):\n' +
     '  duracao_ms = int(max(0, float(tempo)) * 1000)\n' +
     '  inicio = ticks_ms()\n' +
@@ -216,7 +227,7 @@ function _setupRoboMovelDefinitions() {
     '\n' +
     'def _robo_atualizar_display_instrumentos(atualizar_giro=True):\n' +
     '  global _robo_display_giro_ultimo_ms\n' +
-    '  if not _robo_display_giro_ativo and not _robo_display_acel_x_ativo:\n' +
+    '  if not _robo_display_giro_ativo and not _robo_display_acel_x_ativo and not _robo_display_acel_y_ativo:\n' +
     '    return\n' +
     '  agora = ticks_ms()\n' +
     '  if ticks_diff(agora, _robo_display_giro_ultimo_ms) < 200:\n' +
@@ -228,6 +239,8 @@ function _setupRoboMovelDefinitions() {
     '      _robo_escrever_valor_display(valor_giro, _robo_display_giro_linha_y, _robo_display_giro_alinhamento, "")\n' +
     '    if _robo_display_acel_x_ativo:\n' +
     '      _robo_escrever_valor_display(_robo_aceleracao_x(), _robo_display_acel_x_linha_y, _robo_display_acel_x_alinhamento, " m/s2")\n' +
+    '    if _robo_display_acel_y_ativo:\n' +
+    '      _robo_escrever_valor_display(_robo_aceleracao_y(), _robo_display_acel_y_linha_y, _robo_display_acel_y_alinhamento, " m/s2")\n' +
     '    oled.show()\n' +
     '  except Exception:\n' +
     '    pass\n' +
@@ -359,4 +372,9 @@ Blockly.Python['robo_giro_valor'] = function(_block) {
 Blockly.Python['robo_aceleracao_x'] = function(_block) {
   _setupRoboMovelDefinitions();
   return ['_robo_aceleracao_x()', Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+Blockly.Python['robo_aceleracao_y'] = function(_block) {
+  _setupRoboMovelDefinitions();
+  return ['_robo_aceleracao_y()', Blockly.Python.ORDER_FUNCTION_CALL];
 };

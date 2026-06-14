@@ -448,7 +448,10 @@ WorkspaceManager.showRobotRotationReminder = function() {
 
 WorkspaceManager.showRobotAccelerationReminder = function(blockType) {
   var closeId = 'closeRobotAccelerationNotification';
-  var nomeBloco = Code.LANG === 'en' ? '↔️ Acceleration X' : '↔️ Aceleração X';
+  var isY = blockType === 'robo_aceleracao_y';
+  var nomeBloco = Code.LANG === 'en'
+    ? (isY ? '↕️ Acceleration Y' : '↔️ Acceleration X')
+    : (isY ? '↕️ Aceleração Y' : '↔️ Aceleração X');
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
@@ -631,12 +634,18 @@ WorkspaceManager.bindWorkspaceHints = function() {
       if (blockType === 'robo_aceleracao_x') {
         Code.showRobotAccelerationReminder(blockType);
       }
+      if (blockType === 'robo_aceleracao_y') {
+        Code.showRobotAccelerationReminder(blockType);
+      }
       if (blockType === 'display_mostrar_valor') {
         var valorBlock = block.getInputTargetBlock && block.getInputTargetBlock('VALOR');
         if (valorBlock && valorBlock.type === 'robo_giro_valor') {
           Code.showRobotInstrumentDisplayReminder();
         }
-        if (valorBlock && valorBlock.type === 'robo_aceleracao_x') {
+        if (valorBlock && (
+          valorBlock.type === 'robo_aceleracao_x' ||
+          valorBlock.type === 'robo_aceleracao_y'
+        )) {
           Code.showRobotInstrumentDisplayReminder();
         }
       }

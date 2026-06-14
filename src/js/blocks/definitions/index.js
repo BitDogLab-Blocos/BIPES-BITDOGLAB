@@ -15,7 +15,8 @@
     'robo_parar',
     'robo_joystick',
     'robo_giro_valor',
-    'robo_aceleracao_x'
+    'robo_aceleracao_x',
+    'robo_aceleracao_y'
   ];
   var missing = requiredBlocks.filter(function(type) {
     return !global.Blockly || !global.Blockly.Blocks || !global.Blockly.Blocks[type];
