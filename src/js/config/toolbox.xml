@@ -436,6 +436,15 @@
       <field name="ALINHAMENTO">CENTER</field>
       <field name="DISPLAY_TYPE">SMALL</field>
     </block>
+    <block type="robo_aceleracao_z"></block>
+    <block type="display_mostrar_valor">
+      <value name="VALOR">
+        <block type="robo_aceleracao_z"></block>
+      </value>
+      <field name="LINHA">3</field>
+      <field name="ALINHAMENTO">CENTER</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block>
   </category>
 
   <!-- Projeto: Piano Musical -->

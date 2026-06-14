@@ -123,3 +123,14 @@ Blockly.Blocks['robo_aceleracao_y'] = {
     this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['robo_aceleracao_z'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⬆️ Aceleração Z");
+    this.setOutput(true, "Number");
+    this.setColour("#8e44ad");
+    this.setTooltip("Retorna a aceleração do robô no eixo Z, em metros por segundo ao quadrado (m/s²), usando o MPU6050. Use em Display, Matemática, Condicionais e comparações.");
+    this.setHelpUrl("");
+  }
+};

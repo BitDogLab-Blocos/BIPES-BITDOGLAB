@@ -346,14 +346,24 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
       '_robo_display_acel_y_alinhamento = "' + alinhamento + '"\n' +
       BitdogLabConfig.MARKERS.SETUP_END;
   }
+  if (valueBlock && valueBlock.type === 'robo_aceleracao_z') {
+    Blockly.Python.definitions_['setup_robo_display_acel_z_config'] =
+      BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+      '_robo_display_acel_z_ativo = True\n' +
+      '_robo_display_acel_z_linha_y = ' + y + '\n' +
+      '_robo_display_acel_z_alinhamento = "' + alinhamento + '"\n' +
+      BitdogLabConfig.MARKERS.SETUP_END;
+  }
   var isRobotNumericValue = valueBlock && (
     valueBlock.type === 'robo_giro_valor' ||
     valueBlock.type === 'robo_aceleracao_x' ||
-    valueBlock.type === 'robo_aceleracao_y'
+    valueBlock.type === 'robo_aceleracao_y' ||
+    valueBlock.type === 'robo_aceleracao_z'
   );
   var sufixoUnidade = valueBlock && (
     valueBlock.type === 'robo_aceleracao_x' ||
-    valueBlock.type === 'robo_aceleracao_y'
+    valueBlock.type === 'robo_aceleracao_y' ||
+    valueBlock.type === 'robo_aceleracao_z'
   ) ? ' + " m/s2"' : '';
 
   // Gerar código que cria a variável temporária e calcula posição
