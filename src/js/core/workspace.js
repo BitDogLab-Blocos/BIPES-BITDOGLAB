@@ -526,25 +526,25 @@ WorkspaceManager.showRobotBatteryVoltageReminder = function() {
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
-      '🔋 This block reads the <strong>battery voltage</strong> in volts (V).<br><br>' +
-      'Think of voltage as the battery strength pushing energy to the robot.<br><br>' +
-      '📊 Place it inside <strong>Show Numeric Value</strong> to see it on the display.<br><br>' +
+      '🔋 This block <strong>does nothing on its own!</strong><br><br>' +
+      '🧮 Use it inside <strong>Mathematics</strong>, <strong>if</strong> blocks, and comparisons to make decisions from the robot battery voltage.<br><br>' +
+      '📊 To show it on the display, use the ready-made <strong>Show Numeric Value + Battery voltage</strong> example in this category.<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Examples:</strong><br>' +
-      '1️⃣ Show Numeric Value: <strong>[Battery voltage]</strong><br>' +
-      '2️⃣ If <strong>[Battery voltage] &lt; 6</strong>, show a warning<br>' +
-      '3️⃣ Compare the value before and after the robot moves<br>' +
+      '1️⃣ If <strong>[🔋 Battery voltage] &lt; 6</strong>, show a warning<br>' +
+      '2️⃣ Compare <strong>[🔋 Battery voltage]</strong> before and after the robot moves<br>' +
+      '3️⃣ Use <strong>[🔋 Battery voltage] + 1</strong> in a Mathematics block<br>' +
       '</div>'
     : WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
-      '🔋 Este bloco lê a <strong>tensão da bateria</strong> em volts (V).<br><br>' +
-      'Pense na tensão como a força da bateria empurrando energia para o robô.<br><br>' +
-      '📊 Encaixe no bloco <strong>Mostrar valor</strong> para ver no display.<br><br>' +
+      '🔋 Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
+      '🧮 Use dentro de blocos de <strong>Matemática</strong>, <strong>se</strong> e comparações para tomar decisões pela tensão da bateria do robô.<br><br>' +
+      '📊 Para mostrar no display, use o exemplo pronto <strong>Mostrar valor + Tensão da bateria (V)</strong> desta categoria.<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Exemplos:</strong><br>' +
-      '1️⃣ Mostrar valor: <strong>[Tensão da bateria]</strong><br>' +
-      '2️⃣ Se <strong>[Tensão da bateria] &lt; 6</strong>, mostrar um aviso<br>' +
-      '3️⃣ Comparar o valor antes e depois do robô andar<br>' +
+      '1️⃣ Se <strong>[🔋 Tensão da bateria (V)] &lt; 6</strong>, mostrar um aviso<br>' +
+      '2️⃣ Comparar <strong>[🔋 Tensão da bateria (V)]</strong> antes e depois do robô andar<br>' +
+      '3️⃣ Usar <strong>[🔋 Tensão da bateria (V)] + 1</strong> em um bloco de Matemática<br>' +
       '</div>';
 
   WorkspaceManager.createReminder({

@@ -79,6 +79,12 @@ function _setupRoboMovelDefinitions() {
     '  _robo_display_transferidor_ativo\n' +
     'except NameError:\n' +
     '  _robo_display_transferidor_ativo = False\n' +
+    'try:\n' +
+    '  _robo_display_tensao_bateria_ativo\n' +
+    'except NameError:\n' +
+    '  _robo_display_tensao_bateria_ativo = False\n' +
+    '  _robo_display_tensao_bateria_linha_y = 48\n' +
+    '  _robo_display_tensao_bateria_alinhamento = "CENTER"\n' +
     end;
 
   Blockly.Python.definitions_['func_robo_movel'] =
@@ -243,7 +249,7 @@ function _setupRoboMovelDefinitions() {
     '\n' +
     'def _robo_atualizar_display_instrumentos(atualizar_giro=True):\n' +
     '  global _robo_display_giro_ultimo_ms\n' +
-    '  if not _robo_display_giro_ativo and not _robo_display_acel_x_ativo and not _robo_display_acel_y_ativo and not _robo_display_acel_z_ativo and not _robo_display_transferidor_ativo:\n' +
+    '  if not _robo_display_giro_ativo and not _robo_display_acel_x_ativo and not _robo_display_acel_y_ativo and not _robo_display_acel_z_ativo and not _robo_display_transferidor_ativo and not _robo_display_tensao_bateria_ativo:\n' +
     '    return\n' +
     '  agora = ticks_ms()\n' +
     '  if ticks_diff(agora, _robo_display_giro_ultimo_ms) < 200:\n' +
@@ -263,12 +269,17 @@ function _setupRoboMovelDefinitions() {
     '      _robo_escrever_valor_display(_robo_aceleracao_y(), _robo_display_acel_y_linha_y, _robo_display_acel_y_alinhamento, " m/s2")\n' +
     '    if _robo_display_acel_z_ativo:\n' +
     '      _robo_escrever_valor_display(_robo_aceleracao_z(), _robo_display_acel_z_linha_y, _robo_display_acel_z_alinhamento, " m/s2")\n' +
+    '    if _robo_display_tensao_bateria_ativo:\n' +
+    '      _robo_escrever_valor_display(_robo_tensao_bateria(), _robo_display_tensao_bateria_linha_y, _robo_display_tensao_bateria_alinhamento, " V", 2)\n' +
     '    oled.show()\n' +
     '  except Exception:\n' +
     '    pass\n' +
     '\n' +
-    'def _robo_escrever_valor_display(valor, linha_y, alinhamento, sufixo=""):\n' +
-    '  texto = str(round(valor, 4)) + sufixo\n' +
+    'def _robo_escrever_valor_display(valor, linha_y, alinhamento, sufixo="", casas=None):\n' +
+    '  if casas is None:\n' +
+    '    texto = str(round(valor, 4)) + sufixo\n' +
+    '  else:\n' +
+    '    texto = ("{:." + str(casas) + "f}").format(valor) + sufixo\n' +
     '  if alinhamento == "LEFT":\n' +
     '    x = 3\n' +
     '    x_clear = 3\n' +
