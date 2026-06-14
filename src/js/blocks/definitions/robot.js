@@ -147,3 +147,14 @@ Blockly.Blocks['robo_transferidor_360'] = {
     this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['robo_tensao_bateria'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔋 Tensão da bateria");
+    this.setOutput(true, "Number");
+    this.setColour("#27ae60");
+    this.setTooltip("Retorna a tensão da bateria do robô em volts. Use em Mostrar valor, Matemática, Condicionais e comparações.");
+    this.setHelpUrl("");
+  }
+};

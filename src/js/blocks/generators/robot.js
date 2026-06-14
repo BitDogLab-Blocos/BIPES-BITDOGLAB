@@ -371,6 +371,24 @@ function _setupRoboJoystickDefinitions() {
     '  sleep_ms(40)\n';
 }
 
+function _setupRoboPowerDefinitions() {
+  var power = BitdogLabConfig.ROBOT_POWER;
+  Blockly.Python.definitions_['import_robo_power_machine'] = 'from machine import Pin, I2C';
+  Blockly.Python.definitions_['lib_ina226'] = SensorLibs.INA226;
+
+  Blockly.Python.definitions_['setup_robo_power'] =
+    BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+    '_robo_power_i2c = I2C(' + power.INA226_I2C_BUS + ', sda=Pin(' + power.INA226_I2C_SDA + '), scl=Pin(' + power.INA226_I2C_SCL + '), freq=' + power.I2C_FREQ + ')\n' +
+    '_robo_ina226 = INA226(_robo_power_i2c, addr=' + power.INA226_ADDR + ', shunt_resistor=' + power.SHUNT_RESISTOR_OHMS + ')\n' +
+    BitdogLabConfig.MARKERS.SETUP_END;
+
+  Blockly.Python.definitions_['func_robo_power'] =
+    'def _robo_tensao_bateria():\n' +
+    '  if not _robo_ina226.is_ready:\n' +
+    '    return 0.0\n' +
+    '  return _robo_ina226.voltage()\n';
+}
+
 function _roboSetupCode(code) {
   return BitdogLabConfig.MARKERS.SETUP_START + '\n' + code + BitdogLabConfig.MARKERS.SETUP_END + '\n';
 }
@@ -446,4 +464,9 @@ Blockly.Python['robo_transferidor_360'] = function(block) {
     '_robo_display_transferidor_ativo = True\n' +
     BitdogLabConfig.MARKERS.SETUP_END;
   return '_robo_desenhar_transferidor_360(_robo_giro())\n';
+};
+
+Blockly.Python['robo_tensao_bateria'] = function(_block) {
+  _setupRoboPowerDefinitions();
+  return ['_robo_tensao_bateria()', Blockly.Python.ORDER_FUNCTION_CALL];
 };
