@@ -479,6 +479,7 @@ window.BITDOGLAB_CUSTOM_TRANSLATIONS['en'] = {
   "Controle Robô": "Robot Control",
   "🕹️ Controle Robô": "🕹️ Robot Control",
   "📐 Movimento e Inclinação": "📐 Motion and Tilt",
+  "🔋 Bateria do Robô": "🔋 Robot Battery",
   "🤖 Inicializar robô": "🤖 Initialize robot",
   "esperar": "wait",
   "⬆️ Andar para frente": "⬆️ Move forward",
