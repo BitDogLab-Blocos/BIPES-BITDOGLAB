@@ -301,7 +301,7 @@
       try {
         if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace()) {
           var request = new XMLHttpRequest();
-          request.open('GET', '../js/config/toolbox.xml?ver=20260614a1', true);
+          request.open('GET', '../js/config/toolbox.xml?ver=20260614a2', true);
           request.onreadystatechange = function() {
             if (request.readyState === 4 && request.status === 200) {
               var toolboxXml = Blockly.Xml.textToDom(request.responseText);

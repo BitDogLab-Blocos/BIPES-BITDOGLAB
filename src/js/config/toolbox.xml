@@ -450,6 +450,8 @@
     </block>
   </category>
 
+  <category name="🔋 Bateria do Robô" colour="#27ae60" data-project="robo"></category>
+
   <!-- Projeto: Piano Musical -->
   <category name="🎹 Controle Piano" colour="#22c55e" data-project="piano">
     <block type="piano_interativo"></block>
