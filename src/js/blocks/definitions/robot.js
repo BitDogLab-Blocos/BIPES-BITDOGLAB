@@ -158,3 +158,14 @@ Blockly.Blocks['robo_tensao_bateria'] = {
     this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['robo_corrente_robo'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("⚡ Corrente do robô (A)");
+    this.setOutput(true, "Number");
+    this.setColour("#27ae60");
+    this.setTooltip("Retorna a corrente consumida pelo robô em amperes. Use em Mostrar valor, Matemática, Condicionais e comparações.");
+    this.setHelpUrl("");
+  }
+};

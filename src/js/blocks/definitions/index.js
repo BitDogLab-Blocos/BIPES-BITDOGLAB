@@ -19,7 +19,8 @@
     'robo_aceleracao_y',
     'robo_aceleracao_z',
     'robo_transferidor_360',
-    'robo_tensao_bateria'
+    'robo_tensao_bateria',
+    'robo_corrente_robo'
   ];
   var missing = requiredBlocks.filter(function(type) {
     return !global.Blockly || !global.Blockly.Blocks || !global.Blockly.Blocks[type];

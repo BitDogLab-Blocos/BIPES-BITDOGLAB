@@ -85,6 +85,12 @@ function _setupRoboMovelDefinitions() {
     '  _robo_display_tensao_bateria_ativo = False\n' +
     '  _robo_display_tensao_bateria_linha_y = 48\n' +
     '  _robo_display_tensao_bateria_alinhamento = "CENTER"\n' +
+    'try:\n' +
+    '  _robo_display_corrente_robo_ativo\n' +
+    'except NameError:\n' +
+    '  _robo_display_corrente_robo_ativo = False\n' +
+    '  _robo_display_corrente_robo_linha_y = 48\n' +
+    '  _robo_display_corrente_robo_alinhamento = "CENTER"\n' +
     end;
 
   Blockly.Python.definitions_['func_robo_movel'] =
@@ -249,7 +255,7 @@ function _setupRoboMovelDefinitions() {
     '\n' +
     'def _robo_atualizar_display_instrumentos(atualizar_giro=True):\n' +
     '  global _robo_display_giro_ultimo_ms\n' +
-    '  if not _robo_display_giro_ativo and not _robo_display_acel_x_ativo and not _robo_display_acel_y_ativo and not _robo_display_acel_z_ativo and not _robo_display_transferidor_ativo and not _robo_display_tensao_bateria_ativo:\n' +
+    '  if not _robo_display_giro_ativo and not _robo_display_acel_x_ativo and not _robo_display_acel_y_ativo and not _robo_display_acel_z_ativo and not _robo_display_transferidor_ativo and not _robo_display_tensao_bateria_ativo and not _robo_display_corrente_robo_ativo:\n' +
     '    return\n' +
     '  agora = ticks_ms()\n' +
     '  if ticks_diff(agora, _robo_display_giro_ultimo_ms) < 200:\n' +
@@ -271,6 +277,8 @@ function _setupRoboMovelDefinitions() {
     '      _robo_escrever_valor_display(_robo_aceleracao_z(), _robo_display_acel_z_linha_y, _robo_display_acel_z_alinhamento, " m/s2")\n' +
     '    if _robo_display_tensao_bateria_ativo:\n' +
     '      _robo_escrever_valor_display(_robo_tensao_bateria(), _robo_display_tensao_bateria_linha_y, _robo_display_tensao_bateria_alinhamento, " V", 2)\n' +
+    '    if _robo_display_corrente_robo_ativo:\n' +
+    '      _robo_escrever_valor_display(_robo_corrente_robo(), _robo_display_corrente_robo_linha_y, _robo_display_corrente_robo_alinhamento, " A", 2)\n' +
     '    oled.show()\n' +
     '  except Exception:\n' +
     '    pass\n' +
@@ -397,7 +405,12 @@ function _setupRoboPowerDefinitions() {
     'def _robo_tensao_bateria():\n' +
     '  if not _robo_ina226.is_ready:\n' +
     '    return 0.0\n' +
-    '  return _robo_ina226.voltage()\n';
+    '  return _robo_ina226.voltage()\n' +
+    '\n' +
+    'def _robo_corrente_robo():\n' +
+    '  if not _robo_ina226.is_ready:\n' +
+    '    return 0.0\n' +
+    '  return _robo_ina226.current()\n';
 }
 
 function _roboSetupCode(code) {
@@ -480,4 +493,9 @@ Blockly.Python['robo_transferidor_360'] = function(block) {
 Blockly.Python['robo_tensao_bateria'] = function(_block) {
   _setupRoboPowerDefinitions();
   return ['_robo_tensao_bateria()', Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+Blockly.Python['robo_corrente_robo'] = function(_block) {
+  _setupRoboPowerDefinitions();
+  return ['_robo_corrente_robo()', Blockly.Python.ORDER_FUNCTION_CALL];
 };

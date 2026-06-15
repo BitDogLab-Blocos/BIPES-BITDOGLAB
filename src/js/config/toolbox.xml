@@ -460,6 +460,15 @@
       <field name="ALINHAMENTO">CENTER</field>
       <field name="DISPLAY_TYPE">SMALL</field>
     </block>
+    <block type="robo_corrente_robo"></block>
+    <block type="display_mostrar_valor">
+      <value name="VALOR">
+        <block type="robo_corrente_robo"></block>
+      </value>
+      <field name="LINHA">2</field>
+      <field name="ALINHAMENTO">CENTER</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block>
   </category>
 
   <!-- Projeto: Piano Musical -->

@@ -362,12 +362,21 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
       '_robo_display_tensao_bateria_alinhamento = "' + alinhamento + '"\n' +
       BitdogLabConfig.MARKERS.SETUP_END;
   }
+  if (valueBlock && valueBlock.type === 'robo_corrente_robo') {
+    Blockly.Python.definitions_['setup_robo_display_corrente_robo_config'] =
+      BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+      '_robo_display_corrente_robo_ativo = True\n' +
+      '_robo_display_corrente_robo_linha_y = ' + y + '\n' +
+      '_robo_display_corrente_robo_alinhamento = "' + alinhamento + '"\n' +
+      BitdogLabConfig.MARKERS.SETUP_END;
+  }
   var isRobotNumericValue = valueBlock && (
     valueBlock.type === 'robo_giro_valor' ||
     valueBlock.type === 'robo_aceleracao_x' ||
     valueBlock.type === 'robo_aceleracao_y' ||
     valueBlock.type === 'robo_aceleracao_z' ||
-    valueBlock.type === 'robo_tensao_bateria'
+    valueBlock.type === 'robo_tensao_bateria' ||
+    valueBlock.type === 'robo_corrente_robo'
   );
   var sufixoUnidade = '';
   if (valueBlock && (
@@ -378,6 +387,8 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
     sufixoUnidade = ' + " m/s2"';
   } else if (valueBlock && valueBlock.type === 'robo_tensao_bateria') {
     sufixoUnidade = ' + " V"';
+  } else if (valueBlock && valueBlock.type === 'robo_corrente_robo') {
+    sufixoUnidade = ' + " A"';
   }
 
   // Gerar código que cria a variável temporária e calcula posição
@@ -386,6 +397,8 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
   // Criar variável temporária para armazenar o valor
   if (valueBlock && valueBlock.type === 'robo_tensao_bateria') {
     code += '_display_value = "{:.2f} V".format(' + valor + ')\n';
+  } else if (valueBlock && valueBlock.type === 'robo_corrente_robo') {
+    code += '_display_value = "{:.2f} A".format(' + valor + ')\n';
   } else if (isRobotNumericValue) {
     code += '_display_value = str(round(' + valor + ', 4))' + sufixoUnidade + '\n';
   } else {

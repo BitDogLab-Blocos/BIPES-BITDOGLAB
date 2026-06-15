@@ -493,6 +493,7 @@ window.BITDOGLAB_CUSTOM_TRANSLATIONS['en'] = {
   "⬆️ Aceleração Z": "⬆️ Acceleration Z",
   "🧭 Transferidor 360° no display": "🧭 360° protractor on display",
   "🔋 Tensão da bateria (V)": "🔋 Battery voltage (V)",
+  "⚡ Corrente do robô (A)": "⚡ Robot current (A)",
   "graus para": "degrees to",
   "esquerda": "left",
   "direita": "right",
