@@ -556,6 +556,41 @@ WorkspaceManager.showRobotBatteryVoltageReminder = function() {
   });
 };
 
+WorkspaceManager.showRobotCurrentReminder = function() {
+  var closeId = 'closeRobotCurrentNotification';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
+      '⚡ This block <strong>does nothing on its own!</strong><br><br>' +
+      '🧮 Use it inside <strong>Mathematics</strong>, <strong>if</strong> blocks, and comparisons to make decisions from the robot current use.<br><br>' +
+      '📊 To show it on the display, use the ready-made <strong>Show Numeric Value + Robot current</strong> example in this category.<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Examples:</strong><br>' +
+      '1️⃣ If <strong>[⚡ Robot current] &gt; 1</strong>, stop the robot<br>' +
+      '2️⃣ Compare <strong>[⚡ Robot current]</strong> while stopped and while moving<br>' +
+      '3️⃣ Use <strong>[⚡ Robot current] * 10</strong> in a Mathematics block<br>' +
+      '</div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
+      '⚡ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
+      '🧮 Use dentro de blocos de <strong>Matemática</strong>, <strong>se</strong> e comparações para tomar decisões pela corrente usada pelo robô.<br><br>' +
+      '📊 Para mostrar no display, use o exemplo pronto <strong>Mostrar valor + Corrente do robô (A)</strong> desta categoria.<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Exemplos:</strong><br>' +
+      '1️⃣ Se <strong>[⚡ Corrente do robô (A)] &gt; 1</strong>, parar o robô<br>' +
+      '2️⃣ Comparar <strong>[⚡ Corrente do robô (A)]</strong> parado e andando<br>' +
+      '3️⃣ Usar <strong>[⚡ Corrente do robô (A)] * 10</strong> em um bloco de Matemática<br>' +
+      '</div>';
+
+  WorkspaceManager.createReminder({
+    id: 'robotCurrentNotification',
+    closeId: closeId,
+    background: '#27ae60',
+    maxWidth: '460px',
+    html: html
+  });
+};
+
 WorkspaceManager.showEstufaToggleReminder = function(blockType) {
   var closeId = 'closeEstufaToggleNotification';
   var nomeSensor;
@@ -682,6 +717,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
       if (blockType === 'robo_tensao_bateria') {
         Code.showRobotBatteryVoltageReminder();
       }
+      if (blockType === 'robo_corrente_robo') {
+        Code.showRobotCurrentReminder();
+      }
       if (blockType === 'display_mostrar_valor') {
         var valorBlock = block.getInputTargetBlock && block.getInputTargetBlock('VALOR');
         if (valorBlock && valorBlock.type === 'robo_giro_valor') {
@@ -696,6 +734,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
         }
         if (valorBlock && valorBlock.type === 'robo_tensao_bateria') {
           Code.showRobotBatteryVoltageReminder();
+        }
+        if (valorBlock && valorBlock.type === 'robo_corrente_robo') {
+          Code.showRobotCurrentReminder();
         }
       }
       if (blockType === 'estufa_toggle_sensor1' || blockType === 'estufa_toggle_sensor2') {
@@ -843,6 +884,7 @@ Code.showRobotRotationReminder = WorkspaceManager.showRobotRotationReminder;
 Code.showRobotAccelerationReminder = WorkspaceManager.showRobotAccelerationReminder;
 Code.showRobotInstrumentDisplayReminder = WorkspaceManager.showRobotInstrumentDisplayReminder;
 Code.showRobotBatteryVoltageReminder = WorkspaceManager.showRobotBatteryVoltageReminder;
+Code.showRobotCurrentReminder = WorkspaceManager.showRobotCurrentReminder;
 Code.showEstufaToggleReminder = WorkspaceManager.showEstufaToggleReminder;
 Code.showGraficoReminder = WorkspaceManager.showGraficoReminder;
 Code.initWorkspace = WorkspaceManager.initWorkspace;
