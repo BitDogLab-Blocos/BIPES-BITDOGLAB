@@ -5,8 +5,8 @@
   var nav = document.getElementById('categoryNav');
   var article = document.getElementById('manualArticle');
   var state = {
-    categoryId: 'leds',
-    lesson: 'intro',
+    categoryId: null,
+    lesson: 'welcome',
     itemId: null
   };
 
@@ -20,9 +20,10 @@
   }
 
   function getCategory() {
+    if (!state.categoryId) return null;
     return data.categories.find(function(category) {
       return category.id === state.categoryId;
-    }) || data.categories[0];
+    }) || null;
   }
 
   function getBlock(category) {
@@ -32,7 +33,8 @@
   }
 
   function list(items) {
-    return '<ul>' + (items || []).map(function(item) {
+    if (!items || !items.length) return '';
+    return '<ul>' + items.map(function(item) {
       return '<li>' + escapeHtml(item) + '</li>';
     }).join('') + '</ul>';
   }
@@ -42,23 +44,36 @@
     return active ? ' active' : '';
   }
 
+  function fact(label, value) {
+    if (!value) return '';
+    return (
+      '<span class="fact-pill">' +
+        '<strong>' + escapeHtml(label) + '</strong>' +
+        '<em>' + escapeHtml(value) + '</em>' +
+      '</span>'
+    );
+  }
+
   function renderNav() {
     nav.innerHTML = data.categories.map(function(category) {
       var activeCategory = category.id === state.categoryId;
       var disabled = category.disabled || !category.blocks;
+      var status = disabled ? 'Em breve' : (activeCategory ? 'Fechar' : 'Abrir');
       var html = (
         '<button class="category-row' + (activeCategory ? ' active' : '') + '" data-category="' + escapeHtml(category.id) + '"' +
           (disabled ? ' disabled' : '') +
+          ' aria-expanded="' + (activeCategory && !disabled ? 'true' : 'false') + '"' +
           ' style="--category-color:' + escapeHtml(category.color || '#4b2e83') + '">' +
-          '<span>' + escapeHtml(category.number || '') + '</span>' +
+          '<span class="category-number">' + escapeHtml(category.number || '') + '</span>' +
           '<strong>' + escapeHtml(category.title) + '</strong>' +
+          '<small>' + escapeHtml(status) + '</small>' +
         '</button>'
       );
 
       if (!activeCategory || disabled) return html;
 
       html += '<div class="lesson-list">';
-      html += '<button class="lesson-row' + buttonClass('intro') + '" data-lesson="intro">Teoria do LED</button>';
+      html += '<button class="lesson-row' + buttonClass('intro') + '" data-lesson="intro">Comece aqui</button>';
       category.blocks.forEach(function(block, index) {
         html += (
           '<button class="lesson-row' + buttonClass('block', block.type) + '" data-lesson="block" data-item="' + escapeHtml(block.type) + '">' +
@@ -67,10 +82,37 @@
           '</button>'
         );
       });
-      html += '<button class="lesson-row' + buttonClass('projects') + '" data-lesson="projects">Exemplos prontos</button>';
+      html += '<button class="lesson-row' + buttonClass('projects') + '" data-lesson="projects">Projetos prontos</button>';
       html += '</div>';
       return html;
     }).join('');
+  }
+
+  function renderWelcome() {
+    return (
+      '<header class="lesson-header welcome-header">' +
+        '<span class="lesson-kicker">Manual BitDogLab</span>' +
+        '<h1>Escolha uma categoria</h1>' +
+        '<p>Clique em uma categoria do lado esquerdo para abrir os blocos. Clique nela de novo para fechar.</p>' +
+      '</header>' +
+      '<section class="welcome-steps" aria-label="Como usar o manual">' +
+        '<article>' +
+          '<strong>1</strong>' +
+          '<h2>Abra</h2>' +
+          '<p>Comece clicando em LEDs.</p>' +
+        '</article>' +
+        '<article>' +
+          '<strong>2</strong>' +
+          '<h2>Escolha</h2>' +
+          '<p>Toque no nome de um bloco para ver como ele funciona.</p>' +
+        '</article>' +
+        '<article>' +
+          '<strong>3</strong>' +
+          '<h2>Teste</h2>' +
+          '<p>Monte a missão na área de blocos e olhe o que acontece na placa.</p>' +
+        '</article>' +
+      '</section>'
+    );
   }
 
   function renderIntro(category) {
@@ -81,17 +123,29 @@
         '<h1>' + escapeHtml(intro.title) + '</h1>' +
         '<p>' + escapeHtml(intro.subtitle) + '</p>' +
       '</header>' +
-      '<figure class="main-figure">' +
-        '<img src="' + escapeHtml(intro.image) + '" alt="Imagem explicando LED RGB">' +
-      '</figure>' +
-      '<section class="lesson-text">' +
-        intro.text.map(function(paragraph) {
-          return '<p>' + escapeHtml(paragraph) + '</p>';
+      '<div class="intro-layout">' +
+        '<figure class="main-figure">' +
+          '<img src="' + escapeHtml(intro.image) + '" alt="Imagem explicando as partes de um LED RGB">' +
+        '</figure>' +
+        '<section class="lesson-text">' +
+          intro.text.map(function(paragraph) {
+            return '<p>' + escapeHtml(paragraph) + '</p>';
+          }).join('') +
+        '</section>' +
+      '</div>' +
+      '<section class="intro-cards">' +
+        (intro.cards || []).map(function(card) {
+          return (
+            '<article>' +
+              '<h2>' + escapeHtml(card.title) + '</h2>' +
+              '<p>' + escapeHtml(card.text) + '</p>' +
+            '</article>'
+          );
         }).join('') +
       '</section>' +
-      '<section class="teacher-note">' +
-        '<strong>Para o professor</strong>' +
-        '<p>' + escapeHtml(intro.teacher) + '</p>' +
+      '<section class="mission-box">' +
+        '<h2>Missão rápida</h2>' +
+        list(intro.mission) +
       '</section>'
     );
   }
@@ -103,29 +157,44 @@
         '<h1>' + escapeHtml(block.name) + '</h1>' +
         '<p>' + escapeHtml(block.child) + '</p>' +
       '</header>' +
+      '<div class="fact-row">' +
+        fact('Tipo', block.kind) +
+        fact('Usa', block.needs) +
+        fact('Lugar', block.place) +
+      '</div>' +
       '<div class="lesson-media">' +
         '<figure class="block-figure">' +
           '<img src="' + escapeHtml(block.screenshot) + '" alt="Print real do bloco ' + escapeHtml(block.name) + '">' +
-          '<figcaption>O bloco como aparece na interface.</figcaption>' +
+          '<figcaption>Assim ele aparece na área de blocos.</figcaption>' +
         '</figure>' +
         '<figure class="concept-figure">' +
-          '<img src="' + escapeHtml(block.conceptImage) + '" alt="Imagem teorica do conceito">' +
-          '<figcaption>Ideia por tras do bloco.</figcaption>' +
+          '<img src="' + escapeHtml(block.conceptImage) + '" alt="Imagem explicando a ideia do bloco">' +
+          '<figcaption>A ideia por trás do bloco.</figcaption>' +
         '</figure>' +
       '</div>' +
+      '<section class="lesson-text two-column-text">' +
+        '<article>' +
+          '<h2>O que ele pensa</h2>' +
+          '<p>' + escapeHtml(block.idea) + '</p>' +
+        '</article>' +
+        '<article>' +
+          '<h2>Onde encaixa</h2>' +
+          '<p>' + escapeHtml(block.fits) + '</p>' +
+        '</article>' +
+      '</section>' +
       '<section class="lesson-text">' +
-        '<h2>Como montar</h2>' +
-        list(block.how) +
-        '<h2>Experimente</h2>' +
-        '<p>' + escapeHtml(block.tryIt) + '</p>' +
+        '<h2>Passo a passo</h2>' +
+        list(block.steps) +
       '</section>' +
-      '<section class="question-note">' +
-        '<strong>Perguntas que podem aparecer</strong>' +
-        list(block.questions) +
-      '</section>' +
-      '<section class="teacher-note">' +
-        '<strong>Para o professor</strong>' +
-        '<p>' + escapeHtml(block.teacher) + '</p>' +
+      '<section class="try-box">' +
+        '<div>' +
+          '<h2>Olhe na placa</h2>' +
+          '<p>' + escapeHtml(block.watch) + '</p>' +
+        '</div>' +
+        '<div>' +
+          '<h2>Missão</h2>' +
+          '<p>' + escapeHtml(block.mission) + '</p>' +
+        '</div>' +
       '</section>'
     );
   }
@@ -134,8 +203,8 @@
     return (
       '<header class="lesson-header">' +
         '<span class="lesson-kicker">' + escapeHtml(category.title) + '</span>' +
-        '<h1>Exemplos prontos</h1>' +
-        '<p>Use depois que a turma ja conheceu alguns blocos.</p>' +
+        '<h1>Projetos prontos</h1>' +
+        '<p>Escolha um exemplo para treinar os blocos que você acabou de conhecer.</p>' +
       '</header>' +
       '<div class="project-list">' +
         (category.projects || []).map(function(project) {
@@ -155,8 +224,13 @@
 
   function renderArticle() {
     var category = getCategory();
-    if (!category || category.disabled) {
-      article.innerHTML = '<div class="empty-state">Esta categoria ainda vai ganhar tutorial.</div>';
+    if (!category) {
+      article.innerHTML = renderWelcome();
+      return;
+    }
+
+    if (category.disabled) {
+      article.innerHTML = '<div class="empty-state">Essa categoria ainda vai ganhar tutorial.</div>';
       return;
     }
 
@@ -186,9 +260,13 @@
     }
 
     if (categoryButton && !categoryButton.disabled) {
-      state.categoryId = categoryButton.getAttribute('data-category');
-      state.lesson = 'intro';
+      var nextCategoryId = categoryButton.getAttribute('data-category');
+      var closingCurrentCategory = state.categoryId === nextCategoryId;
+
+      state.categoryId = closingCurrentCategory ? null : nextCategoryId;
+      state.lesson = closingCurrentCategory ? 'welcome' : 'intro';
       state.itemId = null;
+
       renderNav();
       renderArticle();
     }

@@ -531,7 +531,7 @@ button:hover {
 }
 
 /* Space background */
-#content_console, #content_device {
+#content_console, #content_device, #content_manual {
   background-color: #1e2749;
   background-image:
     radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
