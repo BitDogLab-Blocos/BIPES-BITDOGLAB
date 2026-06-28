@@ -3,7 +3,7 @@
 var Code = window.Code || (window.Code = {});
 var TabsManager = {};
 
-Code.TABS_ = ['blocks', 'console', 'files', 'device', 'databoard'];
+Code.TABS_ = ['blocks', 'console', 'files', 'device', 'manual', 'databoard'];
 Code.current = ['blocks', '', ''];
 
 TabsManager.getDataboardWindow = function() {
@@ -149,6 +149,7 @@ TabsManager.renderContent = function(_navigation) {
       term.resize();
       break;
     case 'device':
+    case 'manual':
       break;
   }
 
@@ -169,6 +170,7 @@ TabsManager.resizeContent = function() {
         break;
       case 'databoard':
       case 'device':
+      case 'manual':
         break;
     }
   });

@@ -454,10 +454,10 @@ pre.content {
 .content-padding {
   padding: 0;
 }
-#content_blocks, #content_device, #content_code, #content_console, #content_files, #content_databoard {
+#content_blocks, #content_device, #content_code, #content_console, #content_files, #content_manual, #content_databoard {
   height: calc(100vh - 4rem);
 }
-#content_device, #content_code, #content_console {
+#content_device, #content_code, #content_console, #content_manual {
   overflow-y: auto;
   overflow-x: hidden;
 }
