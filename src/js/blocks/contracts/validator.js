@@ -53,6 +53,14 @@
     return children;
   }
 
+  function isStatementInput(input) {
+    if (!input) return false;
+    if (global.Blockly && typeof global.Blockly.STATEMENT_INPUT !== 'undefined') {
+      return input.type === global.Blockly.STATEMENT_INPUT;
+    }
+    return true;
+  }
+
   function addWarning(warnings, block, text) {
     if (!block || !text) return;
     if (!warnings[block.id]) warnings[block.id] = [];
@@ -175,6 +183,35 @@
               children[c],
               format(msg('wrongContainerChild'), rule.label)
             );
+          }
+        }
+      }
+
+      if (contract.dynamicStatementInputs && block.inputList) {
+        for (var r = 0; r < contract.dynamicStatementInputs.length; r++) {
+          var dynamicRule = contract.dynamicStatementInputs[r];
+
+          for (var inputIndex = 0; inputIndex < block.inputList.length; inputIndex++) {
+            var input = block.inputList[inputIndex];
+            if (!input.name || input.name.indexOf(dynamicRule.prefix) !== 0 || !isStatementInput(input)) {
+              continue;
+            }
+
+            var dynamicChildren = getStatementInputChildren(block, input.name);
+            if (dynamicChildren.length === 0) {
+              addWarning(warnings, block, msg('emptyStatementInput'));
+              continue;
+            }
+
+            for (var d = 0; d < dynamicChildren.length; d++) {
+              if (dynamicRule.allow && dynamicRule.allow.indexOf(dynamicChildren[d].type) === -1) {
+                addWarning(
+                  warnings,
+                  dynamicChildren[d],
+                  format(msg('wrongContainerChild'), dynamicRule.label)
+                );
+              }
+            }
           }
         }
       }

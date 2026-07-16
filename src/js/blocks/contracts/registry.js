@@ -57,6 +57,75 @@
     'mostrar_numero_matriz'
   ];
 
+  var MATRIX_COMMANDS = [
+    'preencher_matriz',
+    'desligar_matriz',
+    'acender_led_posicao',
+    'acender_linha',
+    'acender_coluna',
+    'mostrar_numero_matriz',
+    'mostrar_emoji',
+    'criar_desenho_na_matriz'
+  ];
+
+  var MATRIX_ANIMATION_BLOCKS = [
+    'matriz_piscar_rapido',
+    'matriz_piscar_lento',
+    'matriz_aparecer_sumir',
+    'matriz_pulsar_brilho',
+    'matriz_deslizar_cima',
+    'matriz_deslizar_esquerda',
+    'matriz_deslizar_baixo',
+    'matriz_deslizar_direita',
+    'matriz_balancar',
+    'matriz_contracao',
+    'matriz_dar_flash'
+  ];
+
+  var LED_COMMANDS = [
+    'bloco_ligar_led',
+    'bloco_desligar_led',
+    'bloco_desligar_todos_leds',
+    'bloco_acender_led_brilho',
+    'bloco_piscar_led',
+    'piscar_led_lento',
+    'bloco_animar_led_coracao',
+    'bloco_sinalizar_led_sos',
+    'piscar_led_aleatorio',
+    'bloco_alternar_led',
+    'bloco_transicao_led',
+    'bloco_batalhar_led',
+    'bloco_animar_led_brilhar'
+  ];
+
+  var SOUND_COMMANDS = [
+    'piano_nota',
+    'tocar_nota',
+    'tocar_som_agudo',
+    'parar_som',
+    'bipe_curto',
+    'bipe_duplo',
+    'alerta_intermitente',
+    'chamada',
+    'som_de_moeda',
+    'som_de_sucesso',
+    'som_de_falha',
+    'som_de_laser',
+    'sirene_policial',
+    'escala_musical_sobe',
+    'escala_musical_desce',
+    'brilha_brilha_estrelinha',
+    'natal_jingle_bells',
+    'natal_noite_feliz',
+    'natal_bate_sino',
+    'natal_noel',
+    'natal_o_vinde',
+    'criar_melodia',
+    'criar_trilha_sonora',
+    'rtttl_play',
+    'tone'
+  ];
+
   var CONTRACTS = {
     joystick_controlar_led: {
       kind: 'statement',
@@ -192,6 +261,45 @@
         VALOR: 'valor numerico para o grafico'
       }
     },
+    tocar_repetidamente: {
+      kind: 'container',
+      inputs: {
+        DO: {
+          allow: SOUND_COMMANDS,
+          label: 'comandos de som'
+        }
+      }
+    },
+    bloco_criar_animacao_led: {
+      kind: 'container',
+      dynamicStatementInputs: [
+        {
+          prefix: 'STEP',
+          allow: LED_COMMANDS,
+          label: 'comandos de LED'
+        }
+      ]
+    },
+    criar_trilha_sonora: {
+      kind: 'container',
+      dynamicStatementInputs: [
+        {
+          prefix: 'STEP',
+          allow: SOUND_COMMANDS,
+          label: 'comandos de som'
+        }
+      ]
+    },
+    criar_desenho_na_matriz: {
+      kind: 'container',
+      dynamicStatementInputs: [
+        {
+          prefix: 'DESENHO',
+          allow: MATRIX_COMMANDS,
+          label: 'comandos de matriz de LED'
+        }
+      ]
+    },
     display_mostrar: {
       kind: 'container',
       inputs: {
@@ -220,6 +328,21 @@
       }
     }
   };
+
+  for (var i = 0; i < MATRIX_ANIMATION_BLOCKS.length; i++) {
+    CONTRACTS[MATRIX_ANIMATION_BLOCKS[i]] = {
+      kind: 'container',
+      requiredValueInputs: MATRIX_ANIMATION_BLOCKS[i] === 'matriz_dar_flash' ? {
+        COR: 'cor do flash'
+      } : undefined,
+      inputs: {
+        DO: {
+          allow: MATRIX_COMMANDS,
+          label: 'comandos de matriz de LED'
+        }
+      }
+    };
+  }
 
   Code.BlockContracts = {
     VERSION: '2026-07-16-initial',
