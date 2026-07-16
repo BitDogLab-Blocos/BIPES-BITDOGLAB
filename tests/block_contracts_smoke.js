@@ -1,0 +1,106 @@
+// Smoke test for the BitDogLab block contract validator.
+'use strict';
+
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const { chromium } = require('playwright');
+
+const root = path.resolve(__dirname, '..');
+const LOCAL_BROWSER_PATHS = [
+  process.env.PLAYWRIGHT_BROWSER_PATH,
+  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+  'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+  'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+  'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
+].filter(Boolean);
+
+const MIME = {
+  '.css': 'text/css',
+  '.gif': 'image/gif',
+  '.html': 'text/html',
+  '.jpg': 'image/jpeg',
+  '.js': 'text/javascript',
+  '.json': 'application/json',
+  '.png': 'image/png',
+  '.svg': 'image/svg+xml',
+  '.xml': 'application/xml'
+};
+
+function serveFile(req, res) {
+  const url = new URL(req.url, 'http://127.0.0.1');
+  const safePath = path.normalize(decodeURIComponent(url.pathname)).replace(/^(\.\.[/\\])+/, '');
+  const filePath = path.join(root, safePath === path.sep ? 'index.html' : safePath);
+
+  if (!filePath.startsWith(root)) {
+    res.writeHead(403);
+    res.end('Forbidden');
+    return;
+  }
+
+  fs.readFile(filePath, (error, data) => {
+    if (error) {
+      res.writeHead(404);
+      res.end('Not found');
+      return;
+    }
+
+    res.writeHead(200, {
+      'Content-Type': MIME[path.extname(filePath)] || 'application/octet-stream'
+    });
+    res.end(data);
+  });
+}
+
+function listen(server) {
+  return new Promise((resolve) => {
+    server.listen(0, '127.0.0.1', () => resolve(server.address().port));
+  });
+}
+
+async function main() {
+  const server = http.createServer(serveFile);
+  const port = await listen(server);
+  const executablePath = LOCAL_BROWSER_PATHS.find((candidate) => fs.existsSync(candidate));
+  const browser = await chromium.launch(executablePath ? { executablePath } : {});
+  const page = await browser.newPage();
+
+  try {
+    await page.goto(`http://127.0.0.1:${port}/src/pages/index.html?lang=pt-br`);
+    await page.waitForFunction(() => (
+      window.Code &&
+      window.Code.workspace &&
+      window.Code.BlockContracts &&
+      window.Code.BlockContractValidator
+    ), null, { timeout: 15000 });
+
+    const result = await page.evaluate(() => {
+      const workspace = window.Code.workspace;
+      workspace.clear();
+
+      const block = workspace.newBlock('sensor_temperatura');
+      block.initSvg();
+      block.render();
+
+      const warnings = window.Code.BlockContractValidator.validateWorkspace(workspace);
+      return {
+        hasWarning: Boolean(warnings[block.id]),
+        warning: warnings[block.id] && warnings[block.id].join('\n')
+      };
+    });
+
+    if (!result.hasWarning || result.warning.indexOf('entrega um valor') === -1) {
+      throw new Error(`Expected loose value warning, got: ${result.warning || '<none>'}`);
+    }
+
+    console.log('block contract smoke ok');
+  } finally {
+    await browser.close();
+    server.close();
+  }
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
