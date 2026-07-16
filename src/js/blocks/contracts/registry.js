@@ -16,6 +16,8 @@
       needsAncestor: 'Este bloco deve ficar dentro de: %1.',
       displayTypeConflict: 'Ha blocos usando tipos de display diferentes. Use um unico tipo de display no mesmo programa.',
       emptyJoystickSelector: 'Coloque pelo menos uma opcao dentro do seletor do joystick.',
+      workspaceHasIssues: 'Corrija os avisos dos blocos antes de gerar, executar ou enviar o codigo.',
+      moreIssues: 'Ainda ha mais %1 bloco(s) com aviso.',
       generic: 'Revise a conexao deste bloco.'
     },
     en: {
@@ -29,6 +31,8 @@
       needsAncestor: 'This block should be inside: %1.',
       displayTypeConflict: 'Blocks are using different display types. Use one display type in the same program.',
       emptyJoystickSelector: 'Add at least one option inside the joystick selector.',
+      workspaceHasIssues: 'Fix the block warnings before generating, running, or sending code.',
+      moreIssues: 'There are %1 more block(s) with warnings.',
       generic: 'Review this block connection.'
     }
   };

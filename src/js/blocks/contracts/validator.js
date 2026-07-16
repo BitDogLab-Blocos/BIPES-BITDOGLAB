@@ -18,7 +18,12 @@
 
   function getAllBlocks(workspace) {
     if (!workspace || !workspace.getAllBlocks) return [];
-    return workspace.getAllBlocks(false);
+    return workspace.getAllBlocks(false).filter(function(block) {
+      if (!block) return false;
+      if (block.isInFlyout) return false;
+      if (block.disabled || (block.isEnabled && !block.isEnabled())) return false;
+      return true;
+    });
   }
 
   function hasBlockType(blocks, types) {
@@ -211,6 +216,66 @@
     return warnings;
   }
 
+  function getBlockLabel(block) {
+    if (!block) return '';
+    try {
+      if (block.toString) {
+        var label = block.toString(40);
+        if (label) return label;
+      }
+    } catch (e) {}
+    return block.type || '';
+  }
+
+  function getValidationReport(workspace) {
+    var warnings = validateWorkspace(workspace);
+    var blocks = getAllBlocks(workspace);
+    var blockById = {};
+    var issues = [];
+    var totalMessages = 0;
+
+    for (var i = 0; i < blocks.length; i++) {
+      blockById[blocks[i].id] = blocks[i];
+    }
+
+    for (var blockId in warnings) {
+      if (!warnings.hasOwnProperty(blockId) || !warnings[blockId].length) continue;
+      var block = blockById[blockId] || null;
+      totalMessages += warnings[blockId].length;
+      issues.push({
+        blockId: blockId,
+        blockType: block ? block.type : '',
+        blockLabel: getBlockLabel(block),
+        messages: warnings[blockId].slice()
+      });
+    }
+
+    return {
+      valid: issues.length === 0,
+      issueCount: issues.length,
+      messageCount: totalMessages,
+      issues: issues
+    };
+  }
+
+  function getSummaryText(report, limit) {
+    if (!report || report.valid) return '';
+    var maxItems = limit || 3;
+    var lines = [msg('workspaceHasIssues')];
+
+    for (var i = 0; i < report.issues.length && i < maxItems; i++) {
+      var issue = report.issues[i];
+      var label = issue.blockLabel || issue.blockType || issue.blockId;
+      lines.push('- ' + label + ': ' + issue.messages.join(' '));
+    }
+
+    if (report.issues.length > maxItems) {
+      lines.push(format(msg('moreIssues'), String(report.issues.length - maxItems)));
+    }
+
+    return lines.join('\n');
+  }
+
   function shouldValidateEvent(event) {
     if (!event || !global.Blockly || !global.Blockly.Events) return true;
     var events = global.Blockly.Events;
@@ -243,6 +308,8 @@
   Code.BlockContractValidator = {
     VALIDATION_ID: VALIDATION_ID,
     init: init,
+    getReport: getValidationReport,
+    getSummaryText: getSummaryText,
     validateWorkspace: validateWorkspace
   };
 
