@@ -86,6 +86,15 @@ async function main() {
       displayValue.initSvg();
       displayValue.render();
 
+      const matrixAnimation = workspace.newBlock('matriz_piscar_rapido');
+      matrixAnimation.initSvg();
+      matrixAnimation.render();
+
+      const soundCommand = workspace.newBlock('tocar_som_agudo');
+      soundCommand.initSvg();
+      soundCommand.render();
+      matrixAnimation.getInput('DO').connection.connect(soundCommand.previousConnection);
+
       const warnings = window.Code.BlockContractValidator.validateWorkspace(workspace);
       const report = window.Code.BlockContractValidator.getReport(workspace);
       const summary = window.Code.BlockContractValidator.getSummaryText(report, 2);
@@ -95,6 +104,7 @@ async function main() {
         hasWarning: Boolean(warnings[block.id]),
         warning: warnings[block.id] && warnings[block.id].join('\\n'),
         missingInputWarning: warnings[displayValue.id] && warnings[displayValue.id].join('\\n'),
+        wrongContainerWarning: warnings[soundCommand.id] && warnings[soundCommand.id].join('\\n'),
         reportValid: report.valid,
         summary,
         allowedToRun
@@ -107,6 +117,10 @@ async function main() {
 
     if (!result.missingInputWarning || result.missingInputWarning.indexOf('Falta encaixar') === -1) {
       throw new Error(`Expected missing input warning, got: ${result.missingInputWarning || '<none>'}`);
+    }
+
+    if (!result.wrongContainerWarning || result.wrongContainerWarning.indexOf('lugar errado') === -1) {
+      throw new Error(`Expected wrong container warning, got: ${result.wrongContainerWarning || '<none>'}`);
     }
 
     if (result.reportValid || result.allowedToRun) {
