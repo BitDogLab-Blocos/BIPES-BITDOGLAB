@@ -223,7 +223,7 @@ Blockly.Blocks['tocar_repetidamente'] = {
     this.appendDummyInput()
         .appendField("🔁 Tocar repetidamente");
     this.appendStatementInput("DO")
-        .setCheck(null);
+        .setCheck("SoundCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#9a5ba5");
@@ -769,7 +769,7 @@ Blockly.Blocks['criar_trilha_sonora'] = {
         }
         if (this.steps_[i] === 'action') {
           this.appendStatementInput('STEP' + i)
-              .setCheck(null)
+              .setCheck("SoundCommand")
               .appendField('🔊 Tocar:');
         } else {
           this.appendValueInput('STEP' + i)
@@ -780,3 +780,9 @@ Blockly.Blocks['criar_trilha_sonora'] = {
     }
   }
 };
+
+(function() {
+  if (Code.BlockTypeDomains) {
+    Code.BlockTypeDomains.applyPreviousCheck(Code.BlockTypeDomains.get('SOUND_COMMANDS'), 'SoundCommand');
+  }
+})();

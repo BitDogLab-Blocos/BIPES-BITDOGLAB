@@ -436,7 +436,7 @@ Blockly.Blocks['matriz_piscar_rapido'] = {
     this.appendDummyInput()
         .appendField("⚡ Fazer Piscar Rápido");
     this.appendStatementInput("DO")
-        .setCheck(null);
+        .setCheck("MatrixCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
@@ -456,7 +456,7 @@ Blockly.Blocks['matriz_piscar_lento'] = {
     this.appendDummyInput()
         .appendField("🐌 Fazer Piscar Devagar");
     this.appendStatementInput("DO")
-        .setCheck(null);
+        .setCheck("MatrixCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
@@ -476,7 +476,7 @@ Blockly.Blocks['matriz_aparecer_sumir'] = {
     this.appendDummyInput()
         .appendField("✨ Fazer Aparecer e Sumir");
     this.appendStatementInput("DO")
-        .setCheck(null);
+        .setCheck("MatrixCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
@@ -496,7 +496,7 @@ Blockly.Blocks['matriz_pulsar_brilho'] = {
     this.appendDummyInput()
         .appendField("💫 Fazer Pulsar Brilho");
     this.appendStatementInput("DO")
-        .setCheck(null);
+        .setCheck("MatrixCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
@@ -516,7 +516,7 @@ Blockly.Blocks['matriz_deslizar_cima'] = {
     this.appendDummyInput()
         .appendField("⬆️ Fazer Deslizar para Cima");
     this.appendStatementInput("DO")
-        .setCheck(null);
+        .setCheck("MatrixCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
@@ -536,7 +536,7 @@ Blockly.Blocks['matriz_deslizar_esquerda'] = {
     this.appendDummyInput()
         .appendField("⬅️ Fazer Deslizar para Esquerda");
     this.appendStatementInput("DO")
-        .setCheck(null);
+        .setCheck("MatrixCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
@@ -556,7 +556,7 @@ Blockly.Blocks['matriz_deslizar_baixo'] = {
     this.appendDummyInput()
         .appendField("⬇️ Fazer Deslizar para Baixo");
     this.appendStatementInput("DO")
-        .setCheck(null);
+        .setCheck("MatrixCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
@@ -576,7 +576,7 @@ Blockly.Blocks['matriz_deslizar_direita'] = {
     this.appendDummyInput()
         .appendField("➡️ Fazer Deslizar para Direita");
     this.appendStatementInput("DO")
-        .setCheck(null);
+        .setCheck("MatrixCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
@@ -596,7 +596,7 @@ Blockly.Blocks['matriz_balancar'] = {
     this.appendDummyInput()
         .appendField("🔄 Fazer Balançar");
     this.appendStatementInput("DO")
-        .setCheck(null);
+        .setCheck("MatrixCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
@@ -616,7 +616,7 @@ Blockly.Blocks['matriz_contracao'] = {
     this.appendDummyInput()
         .appendField("🔻 Fazer Contração");
     this.appendStatementInput("DO")
-        .setCheck(null);
+        .setCheck("MatrixCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
@@ -638,7 +638,7 @@ Blockly.Blocks['matriz_dar_flash'] = {
     this.appendValueInput("COR")
         .setCheck("Colour");
     this.appendStatementInput("DO")
-        .setCheck(null);
+        .setCheck("MatrixCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8e44ad");
@@ -767,12 +767,19 @@ Blockly.Blocks['criar_desenho_na_matriz'] = {
               .appendField("🎨 Criar Desenho na Matriz");
         }
         this.appendStatementInput('DESENHO' + i)
-            .setCheck(null)
+            .setCheck("MatrixCommand")
             .appendField('Desenho ' + (i + 1) + ':');
       }
     }
   }
 };
+
+(function() {
+  if (Code.BlockTypeDomains) {
+    Code.BlockTypeDomains.applyPreviousCheck(Code.BlockTypeDomains.get('MATRIX_COMMANDS'), 'MatrixCommand');
+    Code.BlockTypeDomains.applyPreviousCheck(Code.BlockTypeDomains.get('MATRIX_ANIMATION_BLOCKS'), 'MatrixAnimationCommand');
+  }
+})();
 
 // =============================================
 // BLOCOS DE MEDIÇÃO (Sensores - Projeto Estufa)

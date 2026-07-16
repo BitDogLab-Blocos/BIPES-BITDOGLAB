@@ -61,7 +61,7 @@ Blockly.Blocks['display_atualizar'] = {
         .appendField("Atualizar display");
     appendDisplayTypeInput(this);
     this.appendStatementInput("COMANDOS")
-        .setCheck(null);
+        .setCheck("DisplayCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#e74c3c");
@@ -118,7 +118,7 @@ Blockly.Blocks['display_mostrar'] = {
         .appendField("📺 Mostrar no display");
     appendDisplayTypeInput(this);
     this.appendStatementInput("COMANDOS")
-        .setCheck(null);
+        .setCheck("DisplayCommand");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#16a085");

@@ -93,23 +93,91 @@ async function main() {
       const soundCommand = workspace.newBlock('tocar_som_agudo');
       soundCommand.initSvg();
       soundCommand.render();
-      matrixAnimation.getInput('DO').connection.connect(soundCommand.previousConnection);
+
+      let matrixAnimationConnected = false;
+      let matrixAnimationConnectError = '';
+      try {
+        matrixAnimation.getInput('DO').connection.connect(soundCommand.previousConnection);
+        matrixAnimationConnected = matrixAnimation.getInputTargetBlock('DO') === soundCommand;
+      } catch (error) {
+        matrixAnimationConnectError = error.message;
+      }
+
+      const drawing = workspace.newBlock('criar_desenho_na_matriz');
+      drawing.initSvg();
+      drawing.render();
+
+      const shortBeep = workspace.newBlock('bipe_curto');
+      shortBeep.initSvg();
+      shortBeep.render();
+
+      let drawingConnected = false;
+      let drawingConnectError = '';
+      try {
+        drawing.getInput('DESENHO0').connection.connect(shortBeep.previousConnection);
+        drawingConnected = drawing.getInputTargetBlock('DESENHO0') === shortBeep;
+      } catch (error) {
+        drawingConnectError = error.message;
+      }
+
+      const matrixFill = workspace.newBlock('preencher_matriz');
+      matrixFill.initSvg();
+      matrixFill.render();
+      drawing.getInput('DESENHO0').connection.connect(matrixFill.previousConnection);
+      const validDrawingChild = drawing.getInputTargetBlock('DESENHO0') === matrixFill;
+
+      const robotStop = workspace.newBlock('robo_parar');
+      robotStop.initSvg();
+      robotStop.render();
+
+      let genericProgramConnected = false;
+      let genericProgramConnectError = '';
+      try {
+        drawing.getInput('DESENHO1').connection.connect(robotStop.previousConnection);
+        genericProgramConnected = drawing.getInputTargetBlock('DESENHO1') === robotStop;
+      } catch (error) {
+        genericProgramConnectError = error.message;
+      }
 
       const warnings = window.Code.BlockContractValidator.validateWorkspace(workspace);
       const report = window.Code.BlockContractValidator.getReport(workspace);
       const summary = window.Code.BlockContractValidator.getSummaryText(report, 2);
       const allowedToRun = window.eval('Tool.validateWorkspaceBeforeCodeAction("smoke")');
       const generatedPreview = window.Code.generateCode();
+      const untypedPreviousConnections = [];
+
+      Object.keys(window.Blockly.Blocks).forEach((blockType) => {
+        let candidate = null;
+        try {
+          candidate = workspace.newBlock(blockType);
+          if (candidate.previousConnection &&
+              candidate.previousConnection.getCheck &&
+              !candidate.previousConnection.getCheck()) {
+            untypedPreviousConnections.push(blockType);
+          }
+        } catch (error) {
+          // Some legacy blocks may require richer setup; they are covered by direct cases above.
+        } finally {
+          if (candidate) candidate.dispose(false);
+        }
+      });
 
       return {
         hasWarning: Boolean(warnings[block.id]),
         warning: warnings[block.id] && warnings[block.id].join('\\n'),
         missingInputWarning: warnings[displayValue.id] && warnings[displayValue.id].join('\\n'),
-        wrongContainerWarning: warnings[soundCommand.id] && warnings[soundCommand.id].join('\\n'),
+        matrixAnimationConnected,
+        matrixAnimationConnectError,
+        drawingConnected,
+        drawingConnectError,
+        validDrawingChild,
+        genericProgramConnected,
+        genericProgramConnectError,
         reportValid: report.valid,
         summary,
         allowedToRun,
-        generatedPreview
+        generatedPreview,
+        untypedPreviousConnections
       };
     });
 
@@ -121,8 +189,20 @@ async function main() {
       throw new Error(`Expected missing input warning, got: ${result.missingInputWarning || '<none>'}`);
     }
 
-    if (!result.wrongContainerWarning || result.wrongContainerWarning.indexOf('lugar errado') === -1) {
-      throw new Error(`Expected wrong container warning, got: ${result.wrongContainerWarning || '<none>'}`);
+    if (result.matrixAnimationConnected) {
+      throw new Error('Expected sound block to be rejected by matrix animation input');
+    }
+
+    if (result.drawingConnected) {
+      throw new Error('Expected sound block to be rejected by matrix drawing input');
+    }
+
+    if (!result.validDrawingChild) {
+      throw new Error(`Expected matrix command to connect inside drawing, sound error: ${result.drawingConnectError || '<none>'}`);
+    }
+
+    if (result.genericProgramConnected) {
+      throw new Error('Expected generic program command to be rejected by matrix drawing input');
     }
 
     if (result.reportValid || result.allowedToRun) {
@@ -135,6 +215,10 @@ async function main() {
 
     if (!result.generatedPreview || result.generatedPreview.indexOf('Codigo nao gerado') === -1) {
       throw new Error(`Expected generation to be blocked, got: ${result.generatedPreview || '<none>'}`);
+    }
+
+    if (result.untypedPreviousConnections.length) {
+      throw new Error(`Expected typed statement blocks, untyped: ${result.untypedPreviousConnections.join(', ')}`);
     }
 
     console.log('block contract smoke ok');
