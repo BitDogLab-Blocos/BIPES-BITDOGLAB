@@ -99,6 +99,7 @@ async function main() {
       const report = window.Code.BlockContractValidator.getReport(workspace);
       const summary = window.Code.BlockContractValidator.getSummaryText(report, 2);
       const allowedToRun = window.eval('Tool.validateWorkspaceBeforeCodeAction("smoke")');
+      const generatedPreview = window.Code.generateCode();
 
       return {
         hasWarning: Boolean(warnings[block.id]),
@@ -107,7 +108,8 @@ async function main() {
         wrongContainerWarning: warnings[soundCommand.id] && warnings[soundCommand.id].join('\\n'),
         reportValid: report.valid,
         summary,
-        allowedToRun
+        allowedToRun,
+        generatedPreview
       };
     });
 
@@ -129,6 +131,10 @@ async function main() {
 
     if (!result.summary || result.summary.indexOf('Corrija os avisos') === -1) {
       throw new Error(`Expected validation summary, got: ${result.summary || '<none>'}`);
+    }
+
+    if (!result.generatedPreview || result.generatedPreview.indexOf('Codigo nao gerado') === -1) {
+      throw new Error(`Expected generation to be blocked, got: ${result.generatedPreview || '<none>'}`);
     }
 
     console.log('block contract smoke ok');
