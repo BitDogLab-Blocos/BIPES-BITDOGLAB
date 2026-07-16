@@ -82,15 +82,24 @@ async function main() {
       block.initSvg();
       block.render();
 
+      const displayValue = workspace.newBlock('display_mostrar_valor');
+      displayValue.initSvg();
+      displayValue.render();
+
       const warnings = window.Code.BlockContractValidator.validateWorkspace(workspace);
       return {
         hasWarning: Boolean(warnings[block.id]),
-        warning: warnings[block.id] && warnings[block.id].join('\n')
+        warning: warnings[block.id] && warnings[block.id].join('\\n'),
+        missingInputWarning: warnings[displayValue.id] && warnings[displayValue.id].join('\\n')
       };
     });
 
     if (!result.hasWarning || result.warning.indexOf('entrega um valor') === -1) {
       throw new Error(`Expected loose value warning, got: ${result.warning || '<none>'}`);
+    }
+
+    if (!result.missingInputWarning || result.missingInputWarning.indexOf('Falta encaixar') === -1) {
+      throw new Error(`Expected missing input warning, got: ${result.missingInputWarning || '<none>'}`);
     }
 
     console.log('block contract smoke ok');

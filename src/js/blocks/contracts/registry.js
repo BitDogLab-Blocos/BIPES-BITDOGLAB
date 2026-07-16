@@ -11,6 +11,8 @@
       missingDriver: 'Este bloco mostra um valor guardado, mas falta o bloco que atualiza esse valor: %1.',
       missingSetup: 'Este bloco depende de %1 antes dele para funcionar de forma confiavel.',
       wrongContainerChild: 'Este bloco parece estar no lugar errado. Aqui era esperado: %1.',
+      missingValueInput: 'Falta encaixar um bloco aqui: %1.',
+      missingGenerator: 'Este bloco ainda nao tem gerador de codigo Python. Ele nao vai virar programa.',
       needsAncestor: 'Este bloco deve ficar dentro de: %1.',
       displayTypeConflict: 'Ha blocos usando tipos de display diferentes. Use um unico tipo de display no mesmo programa.',
       emptyJoystickSelector: 'Coloque pelo menos uma opcao dentro do seletor do joystick.',
@@ -22,6 +24,8 @@
       missingDriver: 'This block shows a stored value, but the block that updates it is missing: %1.',
       missingSetup: 'This block depends on %1 before it to work reliably.',
       wrongContainerChild: 'This block seems to be in the wrong place. Expected here: %1.',
+      missingValueInput: 'A block is missing here: %1.',
+      missingGenerator: 'This block does not have a Python code generator yet. It will not become a program.',
       needsAncestor: 'This block should be inside: %1.',
       displayTypeConflict: 'Blocks are using different display types. Use one display type in the same program.',
       emptyJoystickSelector: 'Add at least one option inside the joystick selector.',
@@ -50,6 +54,12 @@
   ];
 
   var CONTRACTS = {
+    joystick_controlar_led: {
+      kind: 'statement',
+      requiredValueInputs: {
+        COR: 'cor'
+      }
+    },
     joystick_intensidade_atual: {
       kind: 'value',
       requiresAnyBlock: ['joystick_controlar_led'],
@@ -59,6 +69,18 @@
       kind: 'value',
       requiresAnyBlock: ['joystick_controlar_buzzer'],
       requiresLabel: 'Joystick controla Buzzer'
+    },
+    microfone_vu_meter: {
+      kind: 'statement',
+      requiredValueInputs: {
+        COR: 'cor'
+      }
+    },
+    microfone_controlar_led: {
+      kind: 'statement',
+      requiredValueInputs: {
+        COR: 'cor'
+      }
     },
     microfone_nivel_atual: {
       kind: 'value',
@@ -105,6 +127,24 @@
       requiredAncestorAny: ['botao_se_apertado', 'botao_enquanto_apertado'],
       requiredAncestorLabel: 'um bloco de botao'
     },
+    robo_frente: {
+      kind: 'statement',
+      requiredValueInputs: {
+        TEMPO: 'tempo em segundos'
+      }
+    },
+    robo_tras: {
+      kind: 'statement',
+      requiredValueInputs: {
+        TEMPO: 'tempo em segundos'
+      }
+    },
+    robo_girar: {
+      kind: 'statement',
+      requiredValueInputs: {
+        GRAUS: 'graus do giro'
+      }
+    },
     robo_giro_valor: {
       kind: 'value',
       requiresAnyBlock: ['robo_inicializar'],
@@ -129,6 +169,24 @@
       kind: 'statement',
       requiresAnyBlock: ['robo_inicializar'],
       requiresLabel: 'Inicializar robo'
+    },
+    display_mostrar_valor: {
+      kind: 'statement',
+      requiredValueInputs: {
+        VALOR: 'valor numerico'
+      }
+    },
+    display_mostrar_calculo: {
+      kind: 'statement',
+      requiredValueInputs: {
+        VALOR: 'resultado numerico'
+      }
+    },
+    estufa_plotar: {
+      kind: 'statement',
+      requiredValueInputs: {
+        VALOR: 'valor numerico para o grafico'
+      }
     },
     display_mostrar: {
       kind: 'container',

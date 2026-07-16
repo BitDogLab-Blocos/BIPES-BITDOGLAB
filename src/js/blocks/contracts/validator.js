@@ -108,6 +108,39 @@
     }
   }
 
+  function validateMissingGenerators(blocks, warnings) {
+    var generator = global.Blockly && global.Blockly.Python;
+    if (!generator) return;
+
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (!generator[block.type]) {
+        addWarning(warnings, block, msg('missingGenerator'));
+      }
+    }
+  }
+
+  function validateRequiredValueInputs(blocks, warnings) {
+    if (!Code.BlockContracts) return;
+
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      var contract = Code.BlockContracts.get(block.type);
+      if (!contract || !contract.requiredValueInputs) continue;
+
+      for (var inputName in contract.requiredValueInputs) {
+        if (!contract.requiredValueInputs.hasOwnProperty(inputName)) continue;
+        var hasValue = block.getInputTargetBlock && block.getInputTargetBlock(inputName);
+        if (!hasValue) {
+          addWarning(
+            warnings,
+            block,
+            format(msg('missingValueInput'), contract.requiredValueInputs[inputName])
+          );
+        }
+      }
+    }
+  }
   function validateContainers(blocks, warnings) {
     if (!Code.BlockContracts) return;
 
@@ -167,8 +200,10 @@
     var blocks = getAllBlocks(workspace);
     var warnings = {};
 
+    validateMissingGenerators(blocks, warnings);
     validateValuePlacement(blocks, warnings);
     validateContractRequirements(blocks, warnings);
+    validateRequiredValueInputs(blocks, warnings);
     validateContainers(blocks, warnings);
     validateDisplayTypeConflicts(blocks, warnings);
 
