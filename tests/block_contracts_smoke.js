@@ -87,10 +87,17 @@ async function main() {
       displayValue.render();
 
       const warnings = window.Code.BlockContractValidator.validateWorkspace(workspace);
+      const report = window.Code.BlockContractValidator.getReport(workspace);
+      const summary = window.Code.BlockContractValidator.getSummaryText(report, 2);
+      const allowedToRun = window.eval('Tool.validateWorkspaceBeforeCodeAction("smoke")');
+
       return {
         hasWarning: Boolean(warnings[block.id]),
         warning: warnings[block.id] && warnings[block.id].join('\\n'),
-        missingInputWarning: warnings[displayValue.id] && warnings[displayValue.id].join('\\n')
+        missingInputWarning: warnings[displayValue.id] && warnings[displayValue.id].join('\\n'),
+        reportValid: report.valid,
+        summary,
+        allowedToRun
       };
     });
 
@@ -100,6 +107,14 @@ async function main() {
 
     if (!result.missingInputWarning || result.missingInputWarning.indexOf('Falta encaixar') === -1) {
       throw new Error(`Expected missing input warning, got: ${result.missingInputWarning || '<none>'}`);
+    }
+
+    if (result.reportValid || result.allowedToRun) {
+      throw new Error('Expected invalid workspace to block code execution');
+    }
+
+    if (!result.summary || result.summary.indexOf('Corrija os avisos') === -1) {
+      throw new Error(`Expected validation summary, got: ${result.summary || '<none>'}`);
     }
 
     console.log('block contract smoke ok');
