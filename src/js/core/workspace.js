@@ -856,6 +856,9 @@ WorkspaceManager.initWorkspace = function() {
   if (flyout) flyout.width_ = 300;
 
   WorkspaceManager.bindWorkspaceHints();
+  if (Code.initBlockValidation) {
+    Code.initBlockValidation(Code.workspace);
+  }
 };
 
 WorkspaceManager.discard = function() {
