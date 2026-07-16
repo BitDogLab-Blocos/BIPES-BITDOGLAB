@@ -4,8 +4,5 @@
 console.log('[BitdogLab] Generator modules loaded.');
 
 if (window.Code && window.Code.BlockTypeDomains) {
-  window.Code.BlockTypeDomains.applyDefaultPreviousCheck(
-    'ProgramCommand',
-    window.Code.BlockTypeDomains.allTypedBlocks()
-  );
+  window.Code.BlockTypeDomains.applySemanticConnectionModel();
 }

@@ -5,6 +5,15 @@
   var Code = global.Code || (global.Code = {});
 
   var DOMAINS = {
+    GENERIC_PROGRAM_CONTAINERS: [
+      'controls_repeat_simple',
+      'controls_repeat_forever',
+      'controls_if',
+      'controls_ifelse',
+      'botao_enquanto_apertado',
+      'botao_se_apertado'
+    ],
+
     DISPLAY_COMMANDS: [
       'display_criar_borda',
       'display_limpar_borda',
@@ -96,8 +105,117 @@
     ]
   };
 
+  var INPUT_RULES = [
+    {
+      blockTypes: DOMAINS.GENERIC_PROGRAM_CONTAINERS,
+      exact: {
+        DO: 'ProgramCommand',
+        ELSE: 'ProgramCommand',
+        DO0: 'ProgramCommand'
+      }
+    },
+    {
+      blockTypes: ['display_mostrar', 'display_atualizar'],
+      exact: {
+        COMANDOS: 'DisplayCommand'
+      }
+    },
+    {
+      blockTypes: ['joystick_seletor'],
+      exact: {
+        OPCOES: 'MatrixOptionCommand'
+      }
+    },
+    {
+      blockTypes: DOMAINS.MATRIX_ANIMATION_BLOCKS,
+      exact: {
+        DO: 'MatrixCommand'
+      }
+    },
+    {
+      blockTypes: ['criar_desenho_na_matriz'],
+      prefix: {
+        DESENHO: 'MatrixCommand'
+      }
+    },
+    {
+      blockTypes: ['tocar_repetidamente'],
+      exact: {
+        DO: 'SoundCommand'
+      }
+    },
+    {
+      blockTypes: ['criar_trilha_sonora'],
+      prefix: {
+        STEP: 'SoundCommand'
+      }
+    },
+    {
+      blockTypes: ['bloco_criar_animacao_led'],
+      prefix: {
+        STEP: 'LedCommand'
+      }
+    }
+  ];
+
+  function asArray(value) {
+    return Array.isArray(value) ? value.slice() : [value];
+  }
+
+  function mergeUnique(existing, values) {
+    var result = existing ? existing.slice() : [];
+    values = asArray(values);
+    for (var i = 0; i < values.length; i++) {
+      if (result.indexOf(values[i]) === -1) result.push(values[i]);
+    }
+    return result;
+  }
+
+  function isStatementInput(input) {
+    if (!input) return false;
+    if (global.Blockly && typeof global.Blockly.STATEMENT_INPUT !== 'undefined') {
+      return input.type === global.Blockly.STATEMENT_INPUT;
+    }
+    return true;
+  }
+
+  function applyInputRulesToBlock(block) {
+    if (!block || !block.inputList || !global.Blockly || !global.Blockly.Blocks) return;
+    var definition = global.Blockly.Blocks[block.type];
+    var rules = definition && definition.__bitdoglabInputRules;
+    if (!rules || !rules.length) return;
+
+    for (var i = 0; i < block.inputList.length; i++) {
+      var input = block.inputList[i];
+      if (!isStatementInput(input)) continue;
+
+      for (var r = 0; r < rules.length; r++) {
+        var rule = rules[r];
+        var check = null;
+
+        if (rule.exact && rule.exact[input.name]) {
+          check = rule.exact[input.name];
+        }
+
+        if (!check && rule.prefix) {
+          for (var prefix in rule.prefix) {
+            if (rule.prefix.hasOwnProperty(prefix) && input.name.indexOf(prefix) === 0) {
+              check = rule.prefix[prefix];
+              break;
+            }
+          }
+        }
+
+        if (check) {
+          input.setCheck(asArray(check));
+        }
+      }
+    }
+  }
+
   Code.BlockTypeDomains = {
     domains: DOMAINS,
+    inputRules: INPUT_RULES,
     get: function(name) {
       return DOMAINS[name] ? DOMAINS[name].slice() : [];
     },
@@ -124,14 +242,10 @@
         var definition = global.Blockly.Blocks[blockType];
         if (!definition || !definition.init) continue;
 
-        var newChecks = Array.isArray(checkName) ? checkName : [checkName];
-        var currentChecks = definition.__bitdoglabPreviousChecks || [];
-        for (var c = 0; c < newChecks.length; c++) {
-          if (currentChecks.indexOf(newChecks[c]) === -1) {
-            currentChecks.push(newChecks[c]);
-          }
-        }
-        definition.__bitdoglabPreviousChecks = currentChecks;
+        definition.__bitdoglabPreviousChecks = mergeUnique(
+          definition.__bitdoglabPreviousChecks,
+          checkName
+        );
 
         if (definition.__bitdoglabTyped) continue;
 
@@ -142,6 +256,7 @@
               var currentDefinition = global.Blockly.Blocks[this.type];
               this.previousConnection.setCheck(currentDefinition.__bitdoglabPreviousChecks);
             }
+            applyInputRulesToBlock(this);
           };
         })(definition, definition.init);
         definition.__bitdoglabTyped = true;
@@ -160,6 +275,55 @@
         return !excluded[blockType];
       });
       this.applyPreviousCheck(blockTypes, checkName);
+    },
+    applyStatementInputChecks: function(rules) {
+      if (!global.Blockly || !global.Blockly.Blocks) return;
+      rules = rules || INPUT_RULES;
+
+      for (var r = 0; r < rules.length; r++) {
+        var rule = rules[r];
+        for (var b = 0; b < rule.blockTypes.length; b++) {
+          var blockType = rule.blockTypes[b];
+          var definition = global.Blockly.Blocks[blockType];
+          if (!definition || !definition.init) continue;
+
+          definition.__bitdoglabInputRules = definition.__bitdoglabInputRules || [];
+          if (definition.__bitdoglabInputRules.indexOf(rule) === -1) {
+            definition.__bitdoglabInputRules.push(rule);
+          }
+
+          if (!definition.__bitdoglabInputTyped) {
+            (function(definitionToWrap, originalInit) {
+              definitionToWrap.init = function() {
+                originalInit.call(this);
+                applyInputRulesToBlock(this);
+              };
+            })(definition, definition.init);
+            definition.__bitdoglabInputTyped = true;
+          }
+
+          if (definition.updateShape_ && !definition.__bitdoglabShapeTyped) {
+            (function(definitionToWrap, originalUpdateShape) {
+              definitionToWrap.updateShape_ = function() {
+                var result = originalUpdateShape.apply(this, arguments);
+                applyInputRulesToBlock(this);
+                return result;
+              };
+            })(definition, definition.updateShape_);
+            definition.__bitdoglabShapeTyped = true;
+          }
+        }
+      }
+    },
+    applySemanticConnectionModel: function() {
+      this.applyPreviousCheck(this.get('DISPLAY_COMMANDS'), ['ProgramCommand', 'DisplayCommand']);
+      this.applyPreviousCheck(this.get('MATRIX_COMMANDS'), ['ProgramCommand', 'MatrixCommand']);
+      this.applyPreviousCheck(this.get('MATRIX_ANIMATION_BLOCKS'), ['ProgramCommand', 'MatrixAnimationCommand']);
+      this.applyPreviousCheck(this.get('MATRIX_OPTION_COMMANDS'), ['ProgramCommand', 'MatrixCommand', 'MatrixOptionCommand']);
+      this.applyPreviousCheck(this.get('LED_COMMANDS'), ['ProgramCommand', 'LedCommand']);
+      this.applyPreviousCheck(this.get('SOUND_COMMANDS'), ['ProgramCommand', 'SoundCommand']);
+      this.applyDefaultPreviousCheck('ProgramCommand', []);
+      this.applyStatementInputChecks(INPUT_RULES);
     }
   };
 })(window);
