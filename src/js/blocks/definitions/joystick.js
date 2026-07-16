@@ -176,7 +176,7 @@ Blockly.Blocks['joystick_seletor'] = {
         .appendField("  anterior:")
         .appendField(new Blockly.FieldDropdown(DIR_PREV), "DIR_ANTERIOR");
     this.appendStatementInput("OPCOES")
-        .setCheck(null)
+        .setCheck("MatrixOptionCommand")
         .appendField("opções:");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);

@@ -28,5 +28,11 @@
   if (missing.length) {
     console.warn('[BitDogLab] Missing split block definitions: '+ missing.join(', '));
   }
+  if (global.Code && global.Code.BlockTypeDomains) {
+    var domains = global.Code.BlockTypeDomains;
+    domains.applyPreviousCheck(domains.get('DISPLAY_COMMANDS'), 'DisplayCommand');
+    domains.applyPreviousCheck(domains.get('MATRIX_OPTION_COMMANDS'), 'MatrixOptionCommand');
+    domains.applyDefaultPreviousCheck('ProgramCommand', domains.allTypedBlocks());
+  }
   global.BitDogLabBlockDefinitionsLoaded = missing.length === 0;
 })(window);
