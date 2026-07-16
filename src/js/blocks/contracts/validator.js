@@ -70,17 +70,24 @@
   }
 
   function clearContractWarning(block) {
-    if (block && block.setWarningText) {
+    if (block && block.setWarningText && block.__bitdoglabContractWarningText) {
       block.setWarningText(null, VALIDATION_ID);
+      block.__bitdoglabContractWarningText = '';
     }
   }
 
   function applyWarnings(blocks, warnings) {
     for (var i = 0; i < blocks.length; i++) {
       var block = blocks[i];
-      clearContractWarning(block);
-      if (warnings[block.id] && warnings[block.id].length) {
-        block.setWarningText(warnings[block.id].join('\n'), VALIDATION_ID);
+      var warningText = warnings[block.id] && warnings[block.id].length
+        ? warnings[block.id].join('\n')
+        : '';
+
+      if (!warningText) {
+        clearContractWarning(block);
+      } else if (block.__bitdoglabContractWarningText !== warningText) {
+        block.setWarningText(warningText, VALIDATION_ID);
+        block.__bitdoglabContractWarningText = warningText;
       }
     }
   }

@@ -144,6 +144,12 @@ async function main() {
       const summary = window.Code.BlockContractValidator.getSummaryText(report, 2);
       const allowedToRun = window.eval('Tool.validateWorkspaceBeforeCodeAction("smoke")');
       const generatedPreview = window.Code.generateCode();
+      block.warning.setVisible(true);
+      const warningVisibleBeforeRefresh = block.warning.isVisible();
+      window.Code.BlockContractValidator.validateWorkspace(workspace);
+      window.Code.BlockContractValidator.getReport(workspace);
+      window.Code.generateCode();
+      const warningVisibleAfterRefresh = block.warning.isVisible();
       const untypedPreviousConnections = [];
       const semanticCompatibilityFailures = [];
 
@@ -252,6 +258,8 @@ async function main() {
         summary,
         allowedToRun,
         generatedPreview,
+        warningVisibleBeforeRefresh,
+        warningVisibleAfterRefresh,
         untypedPreviousConnections,
         semanticCompatibilityFailures
       };
@@ -291,6 +299,10 @@ async function main() {
 
     if (!result.generatedPreview || result.generatedPreview.indexOf('Codigo nao gerado') === -1) {
       throw new Error(`Expected generation to be blocked, got: ${result.generatedPreview || '<none>'}`);
+    }
+
+    if (!result.warningVisibleBeforeRefresh || !result.warningVisibleAfterRefresh) {
+      throw new Error('Expected warning bubble to stay open after validation refresh');
     }
 
     if (result.untypedPreviousConnections.length) {
