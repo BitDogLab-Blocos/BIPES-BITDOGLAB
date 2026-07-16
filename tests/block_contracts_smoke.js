@@ -86,6 +86,18 @@ async function main() {
       displayValue.initSvg();
       displayValue.render();
 
+      const colour = workspace.newBlock('colour_blue');
+      colour.initSvg();
+      colour.render();
+
+      const note = workspace.newBlock('nota_do');
+      note.initSvg();
+      note.render();
+
+      const matrixEmoji = workspace.newBlock('emoji_coracao');
+      matrixEmoji.initSvg();
+      matrixEmoji.render();
+
       const matrixAnimation = workspace.newBlock('matriz_piscar_rapido');
       matrixAnimation.initSvg();
       matrixAnimation.render();
@@ -125,6 +137,21 @@ async function main() {
       matrixFill.render();
       drawing.getInput('DESENHO0').connection.connect(matrixFill.previousConnection);
       const validDrawingChild = drawing.getInputTargetBlock('DESENHO0') === matrixFill;
+
+      const ledAnimation = workspace.newBlock('bloco_criar_animacao_led');
+      ledAnimation.initSvg();
+      ledAnimation.render();
+      const ledActionChecks = ledAnimation.getInput('STEP0').connection.getCheck();
+      const ledWaitChecks = ledAnimation.getInput('STEP1').connection.getCheck();
+
+      const soundNearTimeInput = workspace.newBlock('bipe_duplo');
+      soundNearTimeInput.initSvg();
+      soundNearTimeInput.render();
+      const timeConnection = ledAnimation.getInput('STEP1').connection;
+      timeConnection.x_ = 1200;
+      timeConnection.y_ = 600;
+      soundNearTimeInput.previousConnection.x_ = timeConnection.x_ + 12;
+      soundNearTimeInput.previousConnection.y_ = timeConnection.y_ + 8;
 
       const robotStop = workspace.newBlock('robo_parar');
       robotStop.initSvg();
@@ -247,6 +274,13 @@ async function main() {
         hasWarning: Boolean(warnings[block.id]),
         warning: warnings[block.id] && warnings[block.id].join('\\n'),
         missingInputWarning: warnings[displayValue.id] && warnings[displayValue.id].join('\\n'),
+        colourWarning: warnings[colour.id] && warnings[colour.id].join('\\n'),
+        noteWarning: warnings[note.id] && warnings[note.id].join('\\n'),
+        matrixEmojiWarning: warnings[matrixEmoji.id] && warnings[matrixEmoji.id].join('\\n'),
+        soundNearTimeWarning: warnings[ledAnimation.id] && warnings[ledAnimation.id].join('\\n'),
+        soundBlockNearMissWarning: warnings[soundNearTimeInput.id] && warnings[soundNearTimeInput.id].join('\\n'),
+        ledActionChecks,
+        ledWaitChecks,
         matrixAnimationConnected,
         matrixAnimationConnectError,
         drawingConnected,
@@ -265,8 +299,38 @@ async function main() {
       };
     });
 
-    if (!result.hasWarning || result.warning.indexOf('entrega um valor') === -1) {
+    if (!result.hasWarning || result.warning.indexOf('entrega um numero') === -1) {
       throw new Error(`Expected loose value warning, got: ${result.warning || '<none>'}`);
+    }
+
+    if (!result.colourWarning || result.colourWarning.indexOf('entrega uma cor') === -1 ||
+        result.colourWarning.indexOf('Mostrar valor') !== -1) {
+      throw new Error(`Expected typed colour warning, got: ${result.colourWarning || '<none>'}`);
+    }
+
+    if (!result.noteWarning || result.noteWarning.indexOf('nota musical') === -1) {
+      throw new Error(`Expected typed note warning, got: ${result.noteWarning || '<none>'}`);
+    }
+
+    if (!result.matrixEmojiWarning || result.matrixEmojiWarning.indexOf('emoji da matriz') === -1) {
+      throw new Error(`Expected typed matrix emoji warning, got: ${result.matrixEmojiWarning || '<none>'}`);
+    }
+
+    if (!result.soundNearTimeWarning || result.soundNearTimeWarning.indexOf('tempo ou duracao') === -1) {
+      throw new Error(`Expected near-miss time warning, got: ${result.soundNearTimeWarning || '<none>'}`);
+    }
+
+    if (result.soundBlockNearMissWarning && result.soundBlockNearMissWarning.indexOf('perto de um encaixe') !== -1) {
+      throw new Error(`Expected near-miss warning on target block, got source warning: ${result.soundBlockNearMissWarning}`);
+    }
+
+    if (!result.ledActionChecks || result.ledActionChecks.indexOf('LedCommand') === -1) {
+      throw new Error(`Expected LED action input to accept LedCommand, got: ${result.ledActionChecks}`);
+    }
+
+    if (!result.ledWaitChecks || result.ledWaitChecks.indexOf('Time') === -1 ||
+        result.ledWaitChecks.indexOf('LedCommand') !== -1) {
+      throw new Error(`Expected LED wait input to stay Time, got: ${result.ledWaitChecks}`);
     }
 
     if (!result.missingInputWarning || result.missingInputWarning.indexOf('Falta encaixar') === -1) {

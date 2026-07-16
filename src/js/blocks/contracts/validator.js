@@ -16,6 +16,12 @@
     return String(template).replace('%1', value || '');
   }
 
+  function format2(template, first, second) {
+    return String(template)
+      .replace('%1', first || '')
+      .replace('%2', second || '');
+  }
+
   function getAllBlocks(workspace) {
     if (!workspace || !workspace.getAllBlocks) return [];
     return workspace.getAllBlocks(false).filter(function(block) {
@@ -58,7 +64,7 @@
     if (global.Blockly && typeof global.Blockly.STATEMENT_INPUT !== 'undefined') {
       return input.type === global.Blockly.STATEMENT_INPUT;
     }
-    return true;
+    return input.type === 3;
   }
 
   function addWarning(warnings, block, text) {
@@ -67,6 +73,63 @@
     if (warnings[block.id].indexOf(text) === -1) {
       warnings[block.id].push(text);
     }
+  }
+
+  function getConnectionChecks(connection) {
+    if (!connection || !connection.getCheck) return [];
+    return connection.getCheck() || [];
+  }
+
+  function checksAreCompatible(a, b) {
+    if (!a || !a.length || !b || !b.length) return true;
+    for (var i = 0; i < a.length; i++) {
+      if (b.indexOf(a[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function getConnectionXY(connection) {
+    if (!connection) return null;
+    var x = typeof connection.x_ === 'number' ? connection.x_ : connection.x;
+    var y = typeof connection.y_ === 'number' ? connection.y_ : connection.y;
+    if (typeof x !== 'number' || typeof y !== 'number') return null;
+    return { x: x, y: y };
+  }
+
+  function getOpenSourceConnections(block) {
+    var connections = [];
+    if (block.previousConnection && !block.previousConnection.targetConnection) {
+      connections.push(block.previousConnection);
+    }
+    if (block.outputConnection && !block.outputConnection.targetConnection) {
+      connections.push(block.outputConnection);
+    }
+    return connections;
+  }
+
+  function getOpenInputConnections(blocks) {
+    var targets = [];
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (!block.inputList) continue;
+
+      for (var inputIndex = 0; inputIndex < block.inputList.length; inputIndex++) {
+        var input = block.inputList[inputIndex];
+        if (!input.connection || input.connection.targetConnection) continue;
+        targets.push({
+          block: block,
+          input: input,
+          connection: input.connection
+        });
+      }
+    }
+    return targets;
+  }
+
+  function distanceSquared(a, b) {
+    var dx = a.x - b.x;
+    var dy = a.y - b.y;
+    return dx * dx + dy * dy;
   }
 
   function clearContractWarning(block) {
@@ -97,7 +160,75 @@
       var block = blocks[i];
       if (!block.outputConnection) continue;
       if (!block.getParent || block.getParent()) continue;
-      addWarning(warnings, block, msg('valueNeedsParent'));
+      var warning = Code.BlockTypeDomains && Code.BlockTypeDomains.getOutputWarning
+        ? Code.BlockTypeDomains.getOutputWarning(block, Code.LANG || 'pt-br')
+        : msg('valueNeedsParent');
+      addWarning(warnings, block, warning);
+    }
+  }
+
+  function validateNearMissConnections(blocks, warnings) {
+    var targets = getOpenInputConnections(blocks);
+    if (!targets.length) return;
+
+    var maxDistance = 90;
+    var maxDistanceSq = maxDistance * maxDistance;
+
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (!block.getParent || block.getParent()) continue;
+
+      var sourceConnections = getOpenSourceConnections(block);
+      if (!sourceConnections.length) continue;
+
+      var nearest = null;
+      var nearestSourceChecks = null;
+
+      for (var s = 0; s < sourceConnections.length; s++) {
+        var sourceConnection = sourceConnections[s];
+        var sourceXY = getConnectionXY(sourceConnection);
+        if (!sourceXY) continue;
+        var sourceChecks = getConnectionChecks(sourceConnection);
+
+        for (var t = 0; t < targets.length; t++) {
+          if (targets[t].block === block) continue;
+
+          var targetConnection = targets[t].connection;
+          var targetXY = getConnectionXY(targetConnection);
+          if (!targetXY) continue;
+
+          var distSq = distanceSquared(sourceXY, targetXY);
+          if (distSq > maxDistanceSq) continue;
+
+          var targetChecks = getConnectionChecks(targetConnection);
+          if (checksAreCompatible(sourceChecks, targetChecks)) continue;
+
+          if (!nearest || distSq < nearest.distanceSq) {
+            nearest = {
+              distanceSq: distSq,
+              targetBlock: targets[t].block,
+              targetChecks: targetChecks
+            };
+            nearestSourceChecks = sourceChecks;
+          }
+        }
+      }
+
+      if (nearest) {
+        var expected = Code.BlockTypeDomains && Code.BlockTypeDomains.describeChecks
+          ? Code.BlockTypeDomains.describeChecks(nearest.targetChecks, Code.LANG || 'pt-br')
+          : nearest.targetChecks.join(', ');
+        var sourceChecks = nearestSourceChecks || [];
+        if (sourceChecks.length > 1 && sourceChecks.indexOf('ProgramCommand') !== -1) {
+          sourceChecks = sourceChecks.filter(function(check) {
+            return check !== 'ProgramCommand';
+          });
+        }
+        var received = Code.BlockTypeDomains && Code.BlockTypeDomains.describeChecks
+          ? Code.BlockTypeDomains.describeChecks(sourceChecks, Code.LANG || 'pt-br')
+          : sourceChecks.join(', ');
+        addWarning(warnings, nearest.targetBlock, format2(msg('nearIncompatibleConnection'), expected, received));
+      }
     }
   }
 
@@ -255,6 +386,7 @@
     validateRequiredValueInputs(blocks, warnings);
     validateContainers(blocks, warnings);
     validateDisplayTypeConflicts(blocks, warnings);
+    validateNearMissConnections(blocks, warnings);
 
     applyWarnings(blocks, warnings);
     return warnings;
