@@ -158,6 +158,116 @@
     }
   ];
 
+  var OUTPUT_USAGE = {
+    Number: {
+      'pt-br': 'Este bloco entrega um numero. Encaixe ele em um espaco numerico, como Mostrar valor, Matematica, Comparacao ou tempo.',
+      en: 'This block gives a number. Connect it to a numeric space, such as Show value, Math, Comparison, or time.'
+    },
+    String: {
+      'pt-br': 'Este bloco entrega um texto. Encaixe ele em um espaco de texto, como imprimir texto ou montar uma mensagem.',
+      en: 'This block gives text. Connect it to a text space, such as printing text or composing a message.'
+    },
+    Boolean: {
+      'pt-br': 'Este bloco entrega uma condicao. Encaixe ele em um bloco Se, Se/Senao ou comparacao logica.',
+      en: 'This block gives a condition. Connect it to an If, If/Else, or logical comparison block.'
+    },
+    Colour: {
+      'pt-br': 'Este bloco entrega uma cor. Encaixe ele em um espaco que pede cor, como LED, matriz de LED, microfone com cor ou flash.',
+      en: 'This block gives a colour. Connect it to a colour space, such as LED, LED matrix, microphone colour, or flash.'
+    },
+    Time: {
+      'pt-br': 'Este bloco entrega um tempo. Encaixe ele em um bloco que pede duracao, espera ou pausa.',
+      en: 'This block gives a time value. Connect it to a block that asks for duration, wait, or pause.'
+    },
+    Note: {
+      'pt-br': 'Este bloco entrega uma nota musical. Encaixe ele em um bloco que toca nota ou cria melodia.',
+      en: 'This block gives a musical note. Connect it to a play note or melody block.'
+    },
+    MatrixNumber: {
+      'pt-br': 'Este bloco entrega um numero para a matriz. Encaixe ele em Mostrar numero na matriz ou no seletor do joystick.',
+      en: 'This block gives a matrix number. Connect it to Show number on matrix or the joystick selector.'
+    },
+    MatrixEmoji: {
+      'pt-br': 'Este bloco entrega um emoji da matriz. Encaixe ele em Mostrar emoji na matriz ou no seletor do joystick.',
+      en: 'This block gives a matrix emoji. Connect it to Show emoji on matrix or the joystick selector.'
+    },
+    Array: {
+      'pt-br': 'Este bloco entrega uma lista. Encaixe ele em um bloco que trabalha com listas.',
+      en: 'This block gives a list. Connect it to a block that works with lists.'
+    },
+    default: {
+      'pt-br': 'Este bloco entrega uma informacao. Encaixe ele em outro bloco que peca exatamente este tipo de informacao.',
+      en: 'This block gives information. Connect it to another block that asks for exactly this kind of information.'
+    }
+  };
+
+  var CONNECTION_LABELS = {
+    ProgramCommand: {
+      'pt-br': 'um comando comum do programa',
+      en: 'a regular program command'
+    },
+    MatrixCommand: {
+      'pt-br': 'um comando da matriz de LED',
+      en: 'an LED matrix command'
+    },
+    MatrixAnimationCommand: {
+      'pt-br': 'uma animacao da matriz de LED',
+      en: 'an LED matrix animation'
+    },
+    MatrixOptionCommand: {
+      'pt-br': 'uma opcao da matriz para o joystick',
+      en: 'a joystick matrix option'
+    },
+    SoundCommand: {
+      'pt-br': 'um comando de som',
+      en: 'a sound command'
+    },
+    LedCommand: {
+      'pt-br': 'um comando de LED',
+      en: 'an LED command'
+    },
+    DisplayCommand: {
+      'pt-br': 'um comando de display',
+      en: 'a display command'
+    },
+    Number: {
+      'pt-br': 'um numero',
+      en: 'a number'
+    },
+    String: {
+      'pt-br': 'um texto',
+      en: 'text'
+    },
+    Boolean: {
+      'pt-br': 'uma condicao',
+      en: 'a condition'
+    },
+    Colour: {
+      'pt-br': 'uma cor',
+      en: 'a colour'
+    },
+    Time: {
+      'pt-br': 'um tempo ou duracao',
+      en: 'a time value or duration'
+    },
+    Note: {
+      'pt-br': 'uma nota musical',
+      en: 'a musical note'
+    },
+    MatrixNumber: {
+      'pt-br': 'um numero da matriz',
+      en: 'a matrix number'
+    },
+    MatrixEmoji: {
+      'pt-br': 'um emoji da matriz',
+      en: 'a matrix emoji'
+    },
+    Array: {
+      'pt-br': 'uma lista',
+      en: 'a list'
+    }
+  };
+
   function asArray(value) {
     return Array.isArray(value) ? value.slice() : [value];
   }
@@ -176,7 +286,7 @@
     if (global.Blockly && typeof global.Blockly.STATEMENT_INPUT !== 'undefined') {
       return input.type === global.Blockly.STATEMENT_INPUT;
     }
-    return true;
+    return input.type === 3;
   }
 
   function applyInputRulesToBlock(block) {
@@ -216,8 +326,35 @@
   Code.BlockTypeDomains = {
     domains: DOMAINS,
     inputRules: INPUT_RULES,
+    outputUsage: OUTPUT_USAGE,
+    connectionLabels: CONNECTION_LABELS,
     get: function(name) {
       return DOMAINS[name] ? DOMAINS[name].slice() : [];
+    },
+    getOutputChecks: function(block) {
+      if (!block || !block.outputConnection || !block.outputConnection.getCheck) return [];
+      return block.outputConnection.getCheck() || [];
+    },
+    getOutputWarning: function(block, lang) {
+      var checks = this.getOutputChecks(block);
+      var key = checks.length ? checks[0] : 'default';
+      var usage = OUTPUT_USAGE[key] || OUTPUT_USAGE.default;
+      return usage[lang] || usage['pt-br'];
+    },
+    describeChecks: function(checks, lang) {
+      checks = checks || [];
+      lang = lang || 'pt-br';
+      if (!checks.length) {
+        return lang === 'en' ? 'any compatible block' : 'qualquer bloco compativel';
+      }
+
+      var labels = checks.map(function(check) {
+        var label = CONNECTION_LABELS[check];
+        return label ? (label[lang] || label['pt-br']) : check;
+      });
+
+      if (labels.length === 1) return labels[0];
+      return labels.slice(0, -1).join(', ') + (lang === 'en' ? ' or ' : ' ou ') + labels[labels.length - 1];
     },
     allTypedBlocks: function() {
       var seen = {};

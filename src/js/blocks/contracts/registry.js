@@ -6,7 +6,7 @@
 
   var MESSAGES = {
     'pt-br': {
-      valueNeedsParent: 'Este bloco entrega um valor. Encaixe ele dentro de outro bloco, por exemplo em Mostrar valor, Matematica ou uma comparacao.',
+      valueNeedsParent: 'Este bloco entrega uma informacao. Encaixe ele em outro bloco que peca esse tipo de informacao.',
       emptyStatementInput: 'Este espaco esta vazio. Coloque pelo menos um bloco aqui ou remova este bloco se nao for usar.',
       missingDriver: 'Este bloco mostra um valor guardado, mas falta o bloco que atualiza esse valor: %1.',
       missingSetup: 'Este bloco depende de %1 antes dele para funcionar de forma confiavel.',
@@ -18,10 +18,11 @@
       emptyJoystickSelector: 'Coloque pelo menos uma opcao dentro do seletor do joystick.',
       workspaceHasIssues: 'Corrija os avisos dos blocos antes de gerar, executar ou enviar o codigo.',
       moreIssues: 'Ainda ha mais %1 bloco(s) com aviso.',
+      nearIncompatibleConnection: 'Este encaixe recebeu um bloco incompativel por perto. Aqui era esperado: %1. O bloco perto dele e: %2.',
       generic: 'Revise a conexao deste bloco.'
     },
     en: {
-      valueNeedsParent: 'This block gives a value. Connect it inside another block, for example Show value, Math, or a comparison.',
+      valueNeedsParent: 'This block gives information. Connect it inside another block that asks for this kind of information.',
       emptyStatementInput: 'This space is empty. Add at least one block here or remove this block if you will not use it.',
       missingDriver: 'This block shows a stored value, but the block that updates it is missing: %1.',
       missingSetup: 'This block depends on %1 before it to work reliably.',
@@ -33,6 +34,7 @@
       emptyJoystickSelector: 'Add at least one option inside the joystick selector.',
       workspaceHasIssues: 'Fix the block warnings before generating, running, or sending code.',
       moreIssues: 'There are %1 more block(s) with warnings.',
+      nearIncompatibleConnection: 'This socket has an incompatible block nearby. Expected here: %1. The nearby block is: %2.',
       generic: 'Review this block connection.'
     }
   };
