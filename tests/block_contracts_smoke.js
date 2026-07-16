@@ -145,6 +145,7 @@ async function main() {
       const allowedToRun = window.eval('Tool.validateWorkspaceBeforeCodeAction("smoke")');
       const generatedPreview = window.Code.generateCode();
       const untypedPreviousConnections = [];
+      const semanticCompatibilityFailures = [];
 
       Object.keys(window.Blockly.Blocks).forEach((blockType) => {
         let candidate = null;
@@ -162,6 +163,80 @@ async function main() {
         }
       });
 
+      const representativeBlocks = [
+        'preencher_matriz',
+        'bipe_curto',
+        'bloco_ligar_led',
+        'display_texto',
+        'mostrar_emoji',
+        'robo_parar'
+      ];
+
+      function intersects(a, b) {
+        if (!a || !b) return true;
+        return a.some((item) => b.indexOf(item) !== -1);
+      }
+
+      function findStatementInputsForRule(target, rule) {
+        return target.inputList.filter((input) => {
+          if (input.type !== window.Blockly.STATEMENT_INPUT) return false;
+          if (rule.exact && rule.exact[input.name]) return true;
+          if (rule.prefix) {
+            return Object.keys(rule.prefix).some((prefix) => input.name.indexOf(prefix) === 0);
+          }
+          return false;
+        });
+      }
+
+      window.Code.BlockTypeDomains.inputRules.forEach((rule) => {
+        rule.blockTypes.forEach((targetType) => {
+          if (!window.Blockly.Blocks[targetType]) return;
+
+          const target = workspace.newBlock(targetType);
+          target.initSvg();
+          target.render();
+
+          findStatementInputsForRule(target, rule).forEach((input) => {
+            representativeBlocks.forEach((sourceType) => {
+              if (!window.Blockly.Blocks[sourceType]) return;
+
+              const source = workspace.newBlock(sourceType);
+              source.initSvg();
+              source.render();
+
+              const inputChecks = input.connection.getCheck && input.connection.getCheck();
+              const sourceChecks = source.previousConnection && source.previousConnection.getCheck &&
+                source.previousConnection.getCheck();
+              const expected = Boolean(source.previousConnection) && intersects(inputChecks, sourceChecks);
+              let actual = false;
+
+              try {
+                input.connection.connect(source.previousConnection);
+                actual = input.connection.targetBlock() === source;
+              } catch (error) {
+                actual = false;
+              }
+
+              if (actual !== expected) {
+                semanticCompatibilityFailures.push({
+                  target: targetType,
+                  input: input.name,
+                  inputChecks,
+                  source: sourceType,
+                  sourceChecks,
+                  expected,
+                  actual
+                });
+              }
+
+              source.dispose(false);
+            });
+          });
+
+          target.dispose(false);
+        });
+      });
+
       return {
         hasWarning: Boolean(warnings[block.id]),
         warning: warnings[block.id] && warnings[block.id].join('\\n'),
@@ -177,7 +252,8 @@ async function main() {
         summary,
         allowedToRun,
         generatedPreview,
-        untypedPreviousConnections
+        untypedPreviousConnections,
+        semanticCompatibilityFailures
       };
     });
 
@@ -219,6 +295,10 @@ async function main() {
 
     if (result.untypedPreviousConnections.length) {
       throw new Error(`Expected typed statement blocks, untyped: ${result.untypedPreviousConnections.join(', ')}`);
+    }
+
+    if (result.semanticCompatibilityFailures.length) {
+      throw new Error(`Semantic compatibility failures: ${JSON.stringify(result.semanticCompatibilityFailures.slice(0, 5))}`);
     }
 
     console.log('block contract smoke ok');
