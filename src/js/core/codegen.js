@@ -328,6 +328,17 @@ CodeGeneratorManager.generateCode = function(generator) {
   generator = generator || Blockly.Python;
 
   if (Code.auto_mode || this.constructor.name !== 'Window') {
+    if (Code.BlockContractValidator && Code.workspace) {
+      var report = Code.BlockContractValidator.getReport(Code.workspace);
+      if (!report.valid) {
+        var summary = Code.BlockContractValidator.getSummaryText(report, 5);
+        return '# Codigo nao gerado: corrija os avisos dos blocos.\n' +
+          summary.split('\n').map(function(line) {
+            return '# ' + line;
+          }).join('\n') + '\n';
+      }
+    }
+
     if (CodeGeneratorManager.checkAllGeneratorFunctionsDefined(generator)) {
       if (generator.name_ === 'Python') {
         generator.buzzerDisplayConfig = null;
