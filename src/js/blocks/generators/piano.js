@@ -8,6 +8,75 @@ var PianoManager = {};
 // Shared sequence state for music sequencer (also used by timing.js)
 window.MusicSequence = window.MusicSequence || { lastBlock: null };
 
+window.MusicSequence._isUsableBlock = function(block) {
+  if (!block || block.workspace !== Code.workspace) return false;
+  if (typeof block.isDisposed === 'function') return !block.isDisposed();
+  return !block.isDisposed;
+};
+
+window.MusicSequence._isSequenceBlock = function(block) {
+  return Boolean(block && (
+    block.type === 'piano_nota' ||
+    block.type === 'parar_piano' ||
+    block.type === 'esperar_milisegundos'
+  ));
+};
+
+window.MusicSequence._findTail = function(block) {
+  while (block && block.getNextBlock && block.getNextBlock()) {
+    block = block.getNextBlock();
+  }
+  return block;
+};
+
+window.MusicSequence._findWorkspaceTail = function() {
+  if (!Code.workspace || !Code.workspace.getTopBlocks) return null;
+
+  var topBlocks = Code.workspace.getTopBlocks(true);
+  var bestTail = null;
+  var bestY = -Infinity;
+
+  for (var i = 0; i < topBlocks.length; i++) {
+    var tail = window.MusicSequence._findTail(topBlocks[i]);
+    if (!tail || !window.MusicSequence._isSequenceBlock(tail) || !tail.nextConnection || !tail.previousConnection) continue;
+
+    var xy = tail.getRelativeToSurfaceXY ? tail.getRelativeToSurfaceXY() : { x: 0, y: 0 };
+    if (xy.y >= bestY) {
+      bestY = xy.y;
+      bestTail = tail;
+    }
+  }
+
+  return bestTail;
+};
+
+window.MusicSequence._placeFirstBlock = function(block) {
+  var m = Code.workspace.getMetrics ? Code.workspace.getMetrics() : null;
+  var x = m ? m.viewLeft + 60 : 60;
+  var y = m ? m.viewTop + 60 : 60;
+  block.moveBy(x, y);
+};
+
+window.MusicSequence.chainBlock = function(block) {
+  if (!block) return;
+
+  var tail = window.MusicSequence._isUsableBlock(window.MusicSequence.lastBlock)
+    ? window.MusicSequence._findTail(window.MusicSequence.lastBlock)
+    : window.MusicSequence._findWorkspaceTail();
+
+  if (tail && tail !== block && tail.nextConnection && !tail.nextConnection.targetConnection && block.previousConnection) {
+    try {
+      tail.nextConnection.connect(block.previousConnection);
+    } catch (e) {
+      window.MusicSequence._placeFirstBlock(block);
+    }
+  } else {
+    window.MusicSequence._placeFirstBlock(block);
+  }
+
+  window.MusicSequence.lastBlock = window.MusicSequence._findTail(block);
+};
+
 // ── White keys ──
 PianoManager.NOTES = [
   { label: 'C', name: 'Dó', freq: 262, value: 'C', color: '#EA2027' },
@@ -130,17 +199,7 @@ PianoManager._createPianoBlock = function(noteValue, index) {
   block.setFieldValue('50', 'VOLUME');
   block.render();
 
-  if (window.MusicSequence.lastBlock && window.MusicSequence.lastBlock.nextConnection && block.previousConnection) {
-    // Chain below the last block
-    window.MusicSequence.lastBlock.nextConnection.connect(block.previousConnection);
-  } else {
-    // First block: place at initial position
-    var m = Code.workspace.getMetrics ? Code.workspace.getMetrics() : null;
-    var x = m ? m.viewLeft + 60 : 60;
-    var y = m ? m.viewTop + 60 : 60;
-    block.moveBy(x, y);
-  }
-  window.MusicSequence.lastBlock = block;
+  window.MusicSequence.chainBlock(block);
   block.select();
 };
 

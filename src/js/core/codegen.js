@@ -90,10 +90,11 @@ CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode) {
   var hasButtonBlocks = rawCode.indexOf('flag_botao_') !== -1 ||
                         rawCode.indexOf('.irq(trigger=') !== -1 ||
                         rawCode.indexOf('.value()') !== -1;
+  var hasSoundStopBlock = rawCode.indexOf('_buzzer_mudo = True') !== -1;
   rawCode = rawCode.replace(
     /([ \t]*)# SOUND_BLOCK_START\n([\s\S]*?)[ \t]*# SOUND_BLOCK_END[ \t]*\n?/g,
     function(match, leadingIndent, content) {
-      if (!hasButtonBlocks) {
+      if (!hasButtonBlocks && !hasSoundStopBlock) {
         return content;
       }
       var indented = content.replace(/^(.+)$/gm, '  $1');

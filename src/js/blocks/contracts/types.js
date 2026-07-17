@@ -77,6 +77,7 @@
 
     SOUND_COMMANDS: [
       'piano_nota',
+      'parar_piano',
       'tocar_nota',
       'tocar_som_agudo',
       'parar_som',

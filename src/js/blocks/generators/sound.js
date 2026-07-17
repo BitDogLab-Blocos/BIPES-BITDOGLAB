@@ -56,12 +56,18 @@ Blockly.Python["piano_nota"] = function(block) {
   var frequency = NOTE_FREQUENCIES[noteKey];
   if (!frequency) return '';
   var duty = Math.round(65535 * volume * 0.7 / 100);
-  var code = 'buzzer.duty_u16(0)\n';
+  var code = '# SOUND_BLOCK_START\n';
+  code += 'buzzer.duty_u16(0)\n';
   code += 'buzzer.freq(' + frequency + ')\n';
   code += 'buzzer.duty_u16(' + duty + ')\n';
   code += 'time.sleep(0.5)\n';
   code += 'buzzer.duty_u16(0)\n';
+  code += '# SOUND_BLOCK_END\n';
   return code;
+};
+
+Blockly.Python["parar_piano"] = function(block) {
+  return Blockly.Python["parar_som"](block);
 };
 
 Blockly.Python["tocar_nota"] = function(block) {

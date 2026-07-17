@@ -5,6 +5,7 @@
     'mostrar_emoji',
     'display_texto',
     'tocar_nota',
+    'parar_piano',
     'joystick_controlar_led',
     'microfone_testar',
     'sensor_temperatura',

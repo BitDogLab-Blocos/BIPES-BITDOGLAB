@@ -475,6 +475,7 @@
   <category name="🎹 Controle Piano" colour="#22c55e" data-project="piano">
     <block type="piano_interativo"></block>
     <block type="piano_nota"></block>
+    <block type="parar_piano"></block>
     <block type="temporizacao"></block>
   </category>
 
