@@ -22,14 +22,34 @@
       .replace('%2', second || '');
   }
 
-  function getAllBlocks(workspace) {
+  function getWorkspaceBlocks(workspace) {
     if (!workspace || !workspace.getAllBlocks) return [];
     return workspace.getAllBlocks(false).filter(function(block) {
       if (!block) return false;
       if (block.isInFlyout) return false;
-      if (block.disabled || (block.isEnabled && !block.isEnabled())) return false;
       return true;
     });
+  }
+
+  function isBlockDisabled(block) {
+    if (!block) return true;
+    if (block.disabled) return true;
+    if (block.isEnabled && !block.isEnabled()) return true;
+    if (block.getInheritedDisabled && block.getInheritedDisabled()) return true;
+    return false;
+  }
+
+  function isBlockEffectivelyEnabled(block) {
+    var current = block;
+    while (current) {
+      if (isBlockDisabled(current)) return false;
+      current = current.getParent ? current.getParent() : null;
+    }
+    return true;
+  }
+
+  function getAllBlocks(workspace) {
+    return getWorkspaceBlocks(workspace).filter(isBlockEffectivelyEnabled);
   }
 
   function hasBlockType(blocks, types) {
@@ -450,7 +470,8 @@
   }
 
   function validateWorkspace(workspace) {
-    var blocks = getAllBlocks(workspace);
+    var allBlocks = getWorkspaceBlocks(workspace);
+    var blocks = allBlocks.filter(isBlockEffectivelyEnabled);
     var warnings = {};
 
     validateMissingGenerators(blocks, warnings);
@@ -462,7 +483,7 @@
     validateDisplayTypeConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 
-    applyWarnings(blocks, warnings);
+    applyWarnings(allBlocks, warnings);
     return warnings;
   }
 
