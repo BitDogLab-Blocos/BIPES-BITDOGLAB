@@ -156,6 +156,19 @@ Blockly.Blocks['piano_nota'] = {
   }
 };
 
+// Piano stop block
+Blockly.Blocks['parar_piano'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🔇 Parar piano");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#22c55e");
+    this.setTooltip("Para o som do piano/buzzer.");
+    this.setHelpUrl("");
+  }
+};
+
 // ==========================================
 // Category: Sound
 // ==========================================

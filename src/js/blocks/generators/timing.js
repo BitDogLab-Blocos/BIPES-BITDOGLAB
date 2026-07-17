@@ -80,15 +80,15 @@ TimingManager.show = function() {
 };
 
 TimingManager._chainBlock = function(block) {
-  if (window.MusicSequence.lastBlock && window.MusicSequence.lastBlock.nextConnection && block.previousConnection) {
-    window.MusicSequence.lastBlock.nextConnection.connect(block.previousConnection);
-  } else {
-    var m = Code.workspace.getMetrics ? Code.workspace.getMetrics() : null;
-    var x = m ? m.viewLeft + 60 : 60;
-    var y = m ? m.viewTop + 60 : 60;
-    block.moveBy(x, y);
+  if (window.MusicSequence && window.MusicSequence.chainBlock) {
+    window.MusicSequence.chainBlock(block);
+    return;
   }
-  window.MusicSequence.lastBlock = block;
+
+  var m = Code.workspace.getMetrics ? Code.workspace.getMetrics() : null;
+  var x = m ? m.viewLeft + 60 : 60;
+  var y = m ? m.viewTop + 60 : 60;
+  block.moveBy(x, y);
 };
 
 TimingManager._createTimingBlocks = function(fig) {
