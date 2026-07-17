@@ -309,6 +309,27 @@
     }
   });
 
+  [
+    'preencher_matriz',
+    'acender_led_posicao',
+    'acender_linha',
+    'acender_coluna'
+  ].forEach(function(blockType) {
+    requireValues(blockType, {
+      COLOUR: 'cor da matriz de LED'
+    });
+  });
+
+  requireValues('mostrar_numero_matriz', {
+    NUMERO: 'número da matriz',
+    COR: 'cor da matriz de LED'
+  });
+
+  requireValues('mostrar_emoji', {
+    EMOJI: 'emoji da matriz',
+    COR: 'cor da matriz de LED'
+  });
+
   for (var i = 0; i < MATRIX_ANIMATION_BLOCKS.length; i++) {
     CONTRACTS[MATRIX_ANIMATION_BLOCKS[i]] = {
       kind: 'container',
