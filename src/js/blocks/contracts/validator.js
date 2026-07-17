@@ -67,6 +67,14 @@
     return input.type === 3;
   }
 
+  function isValueInput(input) {
+    if (!input) return false;
+    if (global.Blockly && typeof global.Blockly.VALUE_INPUT !== 'undefined') {
+      return input.type === global.Blockly.VALUE_INPUT;
+    }
+    return input.type === 1;
+  }
+
   function addWarning(warnings, block, text) {
     if (!block || !text) return;
     if (!warnings[block.id]) warnings[block.id] = [];
@@ -277,7 +285,7 @@
     for (var i = 0; i < blocks.length; i++) {
       var block = blocks[i];
       var contract = Code.BlockContracts.get(block.type);
-      if (!contract || !contract.requiredValueInputs) continue;
+      if (!contract || (!contract.requiredValueInputs && !contract.requiredValueInputPrefixes)) continue;
 
       for (var inputName in contract.requiredValueInputs) {
         if (!contract.requiredValueInputs.hasOwnProperty(inputName)) continue;
@@ -297,7 +305,7 @@
 
           for (var inputIndex = 0; inputIndex < block.inputList.length; inputIndex++) {
             var input = block.inputList[inputIndex];
-            if (!input.name || input.name.indexOf(prefix) !== 0 || !input.connection) continue;
+            if (!input.name || input.name.indexOf(prefix) !== 0 || !isValueInput(input) || !input.connection) continue;
 
             var hasPrefixedValue = block.getInputTargetBlock && block.getInputTargetBlock(input.name);
             if (!hasPrefixedValue) {
@@ -312,6 +320,51 @@
       }
     }
   }
+
+  function hasExplicitRequiredValueRule(contract, inputName) {
+    if (!contract || !inputName) return false;
+
+    if (contract.requiredValueInputs &&
+        contract.requiredValueInputs.hasOwnProperty(inputName)) {
+      return true;
+    }
+
+    if (contract.requiredValueInputPrefixes) {
+      for (var prefix in contract.requiredValueInputPrefixes) {
+        if (contract.requiredValueInputPrefixes.hasOwnProperty(prefix) &&
+            inputName.indexOf(prefix) === 0) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  function validateTypedEmptyValueInputs(blocks, warnings) {
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      var contract = Code.BlockContracts && Code.BlockContracts.get
+        ? Code.BlockContracts.get(block.type)
+        : null;
+      if (!block.inputList) continue;
+
+      for (var inputIndex = 0; inputIndex < block.inputList.length; inputIndex++) {
+        var input = block.inputList[inputIndex];
+        if (!isValueInput(input) || !input.connection || input.connection.targetConnection) continue;
+        if (hasExplicitRequiredValueRule(contract, input.name)) continue;
+
+        var checks = getConnectionChecks(input.connection);
+        if (!checks.length) continue;
+
+        var label = Code.BlockTypeDomains && Code.BlockTypeDomains.describeChecks
+          ? Code.BlockTypeDomains.describeChecks(checks, Code.LANG || 'pt-br')
+          : checks.join(', ');
+        addWarning(warnings, block, format(msg('missingValueInput'), label));
+      }
+    }
+  }
+
   function validateContainers(blocks, warnings) {
     if (!Code.BlockContracts) return;
 
@@ -404,6 +457,7 @@
     validateValuePlacement(blocks, warnings);
     validateContractRequirements(blocks, warnings);
     validateRequiredValueInputs(blocks, warnings);
+    validateTypedEmptyValueInputs(blocks, warnings);
     validateContainers(blocks, warnings);
     validateDisplayTypeConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
