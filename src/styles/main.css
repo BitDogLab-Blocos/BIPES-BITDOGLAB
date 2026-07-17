@@ -1439,7 +1439,7 @@ button.icon.medium:before  {
 .bitdoglab-contract-warning-bubble .bitdoglab-warning-text {
   fill: var(--bitdoglab-warning-text) !important;
   font-family: var(--font-secondary) !important;
-  font-size: 13px !important;
+  font-size: 15px !important;
   font-weight: 600 !important;
   letter-spacing: 0;
 }
