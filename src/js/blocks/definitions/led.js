@@ -421,7 +421,7 @@ Blockly.Blocks['bloco_criar_animacao_led'] = {
         }
         if (this.steps_[i] === 'action') {
           this.appendStatementInput('STEP' + i)
-              .setCheck(null)
+              .setCheck("LedCommand")
               .appendField('O que fazer:');
         } else {
           this.appendValueInput('STEP' + i)
@@ -432,3 +432,9 @@ Blockly.Blocks['bloco_criar_animacao_led'] = {
     }
   }
 };
+
+(function() {
+  if (Code.BlockTypeDomains) {
+    Code.BlockTypeDomains.applyPreviousCheck(Code.BlockTypeDomains.get('LED_COMMANDS'), 'LedCommand');
+  }
+})();

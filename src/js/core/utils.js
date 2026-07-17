@@ -4,7 +4,30 @@
 class Tool {
   constructor () {}
 
+  static validateWorkspaceBeforeCodeAction (actionLabel) {
+    if (!Code || !Code.workspace || !Code.BlockContractValidator) return true;
+
+    const report = Code.BlockContractValidator.getReport(Code.workspace);
+    if (report.valid) return true;
+
+    const summary = Code.BlockContractValidator.getSummaryText(report, 3);
+    const message = summary || 'Corrija os avisos dos blocos antes de continuar.';
+
+    if (typeof UI !== 'undefined' && UI['notify'] && UI['notify'].send) {
+      UI['notify'].send(message);
+    }
+
+    if (typeof files !== 'undefined' && files.update_file_status) {
+      files.update_file_status(message.split('\n')[0]);
+    }
+
+    console.warn('[BitDogLab] Block contract validation blocked ' + (actionLabel || 'code action'), report);
+    return false;
+  }
+
   static runPython (code_) {
+    if (code_ == undefined && !Tool.validateWorkspaceBeforeCodeAction('executar codigo')) return;
+
     // Parar scanner I2C ANTES de enviar código (evita CTRL_C durante paste mode)
     i2cScanner.stop();
 
@@ -50,6 +73,8 @@ static saveAsMainPy () {
     files.update_file_status('Conecte a placa para salvar main.py.');
     return;
   }
+
+  if (!Tool.validateWorkspaceBeforeCodeAction('salvar main.py')) return;
 
   const saveButton = UI['workspace']?.saveMainButton;
   if (saveButton) saveButton.disabled = true;
