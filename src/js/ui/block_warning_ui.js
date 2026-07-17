@@ -15,7 +15,7 @@
       if (metrics && typeof metrics.width === 'number') viewWidth = metrics.width;
     } catch (e) {}
 
-    return Math.max(30, Math.min(62, Math.floor((viewWidth - 56) / 7.2)));
+    return Math.max(32, Math.min(54, Math.floor((viewWidth - 72) / 8.5)));
   }
 
   function splitLongWord(word, limit) {
@@ -88,12 +88,26 @@
     if (warning.paragraphElement_) {
       warning.paragraphElement_.classList.add('bitdoglab-warning-text');
       var lines = warning.paragraphElement_.querySelectorAll('tspan');
-      for (var i = 0; i < lines.length; i++) lines[i].setAttribute('x', '12');
+      for (var i = 0; i < lines.length; i++) lines[i].setAttribute('x', '14');
     }
 
     if (warning.bubble_.getBubbleSize && warning.bubble_.setBubbleSize) {
       var size = warning.bubble_.getBubbleSize();
-      warning.bubble_.setBubbleSize(size.width + 12, size.height + 10);
+      warning.bubble_.setBubbleSize(size.width + 30, size.height + 12);
+    }
+  }
+
+  function prepareTextElement(textElement) {
+    if (!textElement) return;
+    textElement.setAttribute('font-size', '15px');
+    textElement.setAttribute('font-weight', '600');
+    textElement.setAttribute('font-family', 'Segoe UI, Arial, sans-serif');
+
+    var lines = textElement.querySelectorAll('tspan');
+    for (var i = 0; i < lines.length; i++) {
+      lines[i].setAttribute('font-size', '15px');
+      lines[i].setAttribute('font-weight', '600');
+      lines[i].setAttribute('font-family', 'Segoe UI, Arial, sans-serif');
     }
   }
 
@@ -110,6 +124,7 @@
 
       var wrappedText = wrapWarningText(this.getText(), getWrapLimit(this));
       this.paragraphElement_ = global.Blockly.Bubble.textToDom(wrappedText);
+      prepareTextElement(this.paragraphElement_);
       this.bubble_ = global.Blockly.Bubble.createNonEditableBubble(
         this.paragraphElement_,
         this.block_,
