@@ -80,6 +80,10 @@ escrita/
 # Skills locais (nao versionados)
 skill_*/
 
+# Validacoes e ferramentas locais
+tests/
+tools/
+
 # Arquivos de Documentação Temporária (ignora todos .md exceto README.md)
 *.md
 !README.md
