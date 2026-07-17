@@ -160,23 +160,23 @@
 
   var OUTPUT_USAGE = {
     Number: {
-      'pt-br': 'Este bloco entrega um numero. Encaixe ele em um espaco numerico, como Mostrar valor, Matematica, Comparacao ou tempo.',
+      'pt-br': 'Este bloco entrega um número. Encaixe ele em um espaço numérico, como Mostrar valor, Matemática, Comparação ou tempo.',
       en: 'This block gives a number. Connect it to a numeric space, such as Show value, Math, Comparison, or time.'
     },
     String: {
-      'pt-br': 'Este bloco entrega um texto. Encaixe ele em um espaco de texto, como imprimir texto ou montar uma mensagem.',
+      'pt-br': 'Este bloco entrega um texto. Encaixe ele em um espaço de texto, como imprimir texto ou montar uma mensagem.',
       en: 'This block gives text. Connect it to a text space, such as printing text or composing a message.'
     },
     Boolean: {
-      'pt-br': 'Este bloco entrega uma condicao. Encaixe ele em um bloco Se, Se/Senao ou comparacao logica.',
+      'pt-br': 'Este bloco entrega uma condição. Encaixe ele em um bloco Se, Se/Senão ou comparação lógica.',
       en: 'This block gives a condition. Connect it to an If, If/Else, or logical comparison block.'
     },
     Colour: {
-      'pt-br': 'Este bloco entrega uma cor. Encaixe ele em um espaco que pede cor, como LED, matriz de LED, microfone com cor ou flash.',
+      'pt-br': 'Este bloco entrega uma cor. Encaixe ele em um espaço que pede cor, como LED, matriz de LED, microfone com cor ou flash.',
       en: 'This block gives a colour. Connect it to a colour space, such as LED, LED matrix, microphone colour, or flash.'
     },
     Time: {
-      'pt-br': 'Este bloco entrega um tempo. Encaixe ele em um bloco que pede duracao, espera ou pausa.',
+      'pt-br': 'Este bloco entrega um tempo. Encaixe ele em um bloco que pede duração, espera ou pausa.',
       en: 'This block gives a time value. Connect it to a block that asks for duration, wait, or pause.'
     },
     Note: {
@@ -184,7 +184,7 @@
       en: 'This block gives a musical note. Connect it to a play note or melody block.'
     },
     MatrixNumber: {
-      'pt-br': 'Este bloco entrega um numero para a matriz. Encaixe ele em Mostrar numero na matriz ou no seletor do joystick.',
+      'pt-br': 'Este bloco entrega um número para a matriz. Encaixe ele em Mostrar número na matriz ou no seletor do joystick.',
       en: 'This block gives a matrix number. Connect it to Show number on matrix or the joystick selector.'
     },
     MatrixEmoji: {
@@ -196,7 +196,7 @@
       en: 'This block gives a list. Connect it to a block that works with lists.'
     },
     default: {
-      'pt-br': 'Este bloco entrega uma informacao. Encaixe ele em outro bloco que peca exatamente este tipo de informacao.',
+      'pt-br': 'Este bloco entrega uma informação. Encaixe ele em outro bloco que peça exatamente este tipo de informação.',
       en: 'This block gives information. Connect it to another block that asks for exactly this kind of information.'
     }
   };
@@ -211,11 +211,11 @@
       en: 'an LED matrix command'
     },
     MatrixAnimationCommand: {
-      'pt-br': 'uma animacao da matriz de LED',
+      'pt-br': 'uma animação da matriz de LED',
       en: 'an LED matrix animation'
     },
     MatrixOptionCommand: {
-      'pt-br': 'uma opcao da matriz para o joystick',
+      'pt-br': 'uma opção da matriz para o joystick',
       en: 'a joystick matrix option'
     },
     SoundCommand: {
@@ -231,7 +231,7 @@
       en: 'a display command'
     },
     Number: {
-      'pt-br': 'um numero',
+      'pt-br': 'um número',
       en: 'a number'
     },
     String: {
@@ -247,7 +247,7 @@
       en: 'a colour'
     },
     Time: {
-      'pt-br': 'um tempo ou duracao',
+      'pt-br': 'um tempo ou duração',
       en: 'a time value or duration'
     },
     Note: {
@@ -255,7 +255,7 @@
       en: 'a musical note'
     },
     MatrixNumber: {
-      'pt-br': 'um numero da matriz',
+      'pt-br': 'um número da matriz',
       en: 'a matrix number'
     },
     MatrixEmoji: {

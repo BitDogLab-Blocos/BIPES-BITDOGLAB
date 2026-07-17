@@ -6,20 +6,20 @@
 
   var MESSAGES = {
     'pt-br': {
-      valueNeedsParent: 'Este bloco entrega uma informacao. Encaixe ele em outro bloco que peca esse tipo de informacao.',
-      emptyStatementInput: 'Este espaco esta vazio. Coloque pelo menos um bloco aqui ou remova este bloco se nao for usar.',
+      valueNeedsParent: 'Este bloco entrega uma informação. Encaixe ele em outro bloco que peça esse tipo de informação.',
+      emptyStatementInput: 'Este espaço está vazio. Coloque pelo menos um bloco aqui ou remova este bloco se não for usar.',
       missingDriver: 'Este bloco mostra um valor guardado, mas falta o bloco que atualiza esse valor: %1.',
-      missingSetup: 'Este bloco depende de %1 antes dele para funcionar de forma confiavel.',
+      missingSetup: 'Este bloco depende de %1 antes dele para funcionar de forma confiável.',
       wrongContainerChild: 'Este bloco parece estar no lugar errado. Aqui era esperado: %1.',
       missingValueInput: 'Falta encaixar um bloco aqui: %1.',
-      missingGenerator: 'Este bloco ainda nao tem gerador de codigo Python. Ele nao vai virar programa.',
+      missingGenerator: 'Este bloco ainda não tem gerador de código Python. Ele não vai virar programa.',
       needsAncestor: 'Este bloco deve ficar dentro de: %1.',
-      displayTypeConflict: 'Ha blocos usando tipos de display diferentes. Use um unico tipo de display no mesmo programa.',
-      emptyJoystickSelector: 'Coloque pelo menos uma opcao dentro do seletor do joystick.',
-      workspaceHasIssues: 'Corrija os avisos dos blocos antes de gerar, executar ou enviar o codigo.',
-      moreIssues: 'Ainda ha mais %1 bloco(s) com aviso.',
-      nearIncompatibleConnection: 'Este encaixe recebeu um bloco incompativel por perto. Aqui era esperado: %1. O bloco perto dele e: %2.',
-      generic: 'Revise a conexao deste bloco.'
+      displayTypeConflict: 'Há blocos usando tipos de display diferentes. Use um único tipo de display no mesmo programa.',
+      emptyJoystickSelector: 'Coloque pelo menos uma opção dentro do seletor do joystick.',
+      workspaceHasIssues: 'Corrija os avisos dos blocos antes de gerar, executar ou enviar o código.',
+      moreIssues: 'Ainda há mais %1 bloco(s) com aviso.',
+      nearIncompatibleConnection: 'Este encaixe recebeu um bloco incompatível por perto. Aqui era esperado: %1. O bloco perto dele é: %2.',
+      generic: 'Revise a conexão deste bloco.'
     },
     en: {
       valueNeedsParent: 'This block gives information. Connect it inside another block that asks for this kind of information.',
@@ -114,12 +114,12 @@
     estufa_toggle_sensor1: {
       kind: 'statement',
       requiredAncestorAny: ['botao_se_apertado', 'botao_enquanto_apertado'],
-      requiredAncestorLabel: 'um bloco de botao'
+      requiredAncestorLabel: 'um bloco de botão'
     },
     estufa_toggle_sensor2: {
       kind: 'statement',
       requiredAncestorAny: ['botao_se_apertado', 'botao_enquanto_apertado'],
-      requiredAncestorLabel: 'um bloco de botao'
+      requiredAncestorLabel: 'um bloco de botão'
     },
     robo_frente: {
       kind: 'statement',
@@ -142,27 +142,27 @@
     robo_giro_valor: {
       kind: 'value',
       requiresAnyBlock: ['robo_inicializar'],
-      requiresLabel: 'Inicializar robo'
+      requiresLabel: 'Inicializar robô'
     },
     robo_aceleracao_x: {
       kind: 'value',
       requiresAnyBlock: ['robo_inicializar'],
-      requiresLabel: 'Inicializar robo'
+      requiresLabel: 'Inicializar robô'
     },
     robo_aceleracao_y: {
       kind: 'value',
       requiresAnyBlock: ['robo_inicializar'],
-      requiresLabel: 'Inicializar robo'
+      requiresLabel: 'Inicializar robô'
     },
     robo_aceleracao_z: {
       kind: 'value',
       requiresAnyBlock: ['robo_inicializar'],
-      requiresLabel: 'Inicializar robo'
+      requiresLabel: 'Inicializar robô'
     },
     robo_transferidor_360: {
       kind: 'statement',
       requiresAnyBlock: ['robo_inicializar'],
-      requiresLabel: 'Inicializar robo'
+      requiresLabel: 'Inicializar robô'
     },
     display_mostrar_valor: {
       kind: 'statement',
@@ -179,7 +179,7 @@
     estufa_plotar: {
       kind: 'statement',
       requiredValueInputs: {
-        VALOR: 'valor numerico para o grafico'
+        VALOR: 'valor numérico para o gráfico'
       }
     },
     tocar_repetidamente: {
