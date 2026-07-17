@@ -250,6 +250,65 @@
     }
   };
 
+  function extendContract(blockType, extension) {
+    var contract = CONTRACTS[blockType] || {};
+    for (var key in extension) {
+      if (!extension.hasOwnProperty(key)) continue;
+
+      if (key === 'requiredValueInputs' || key === 'requiredValueInputPrefixes') {
+        contract[key] = contract[key] || {};
+        for (var inputName in extension[key]) {
+          if (extension[key].hasOwnProperty(inputName)) {
+            contract[key][inputName] = extension[key][inputName];
+          }
+        }
+      } else {
+        contract[key] = extension[key];
+      }
+    }
+    CONTRACTS[blockType] = contract;
+  }
+
+  function requireValues(blockType, requiredValueInputs) {
+    extendContract(blockType, {
+      kind: CONTRACTS[blockType] && CONTRACTS[blockType].kind || 'statement',
+      requiredValueInputs: requiredValueInputs
+    });
+  }
+
+  [
+    'bloco_ligar_led',
+    'bloco_desligar_led',
+    'bloco_acender_led_brilho',
+    'bloco_piscar_led',
+    'piscar_led_lento',
+    'bloco_animar_led_coracao',
+    'bloco_sinalizar_led_sos',
+    'piscar_led_aleatorio',
+    'bloco_animar_led_brilhar'
+  ].forEach(function(blockType) {
+    requireValues(blockType, {
+      COLOUR: 'cor do LED'
+    });
+  });
+
+  requireValues('bloco_transicao_led', {
+    COLOUR1: 'cor inicial do LED',
+    COLOUR2: 'cor final do LED'
+  });
+
+  requireValues('bloco_batalhar_led', {
+    COLOUR1: 'primeira cor do LED',
+    COLOUR2: 'segunda cor do LED'
+  });
+
+  extendContract('bloco_alternar_led', {
+    kind: 'statement',
+    requiredValueInputPrefixes: {
+      COLOUR: 'cor do LED'
+    }
+  });
+
   for (var i = 0; i < MATRIX_ANIMATION_BLOCKS.length; i++) {
     CONTRACTS[MATRIX_ANIMATION_BLOCKS[i]] = {
       kind: 'container',

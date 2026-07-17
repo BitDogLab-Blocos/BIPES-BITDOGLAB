@@ -290,6 +290,26 @@
           );
         }
       }
+
+      if (contract.requiredValueInputPrefixes && block.inputList) {
+        for (var prefix in contract.requiredValueInputPrefixes) {
+          if (!contract.requiredValueInputPrefixes.hasOwnProperty(prefix)) continue;
+
+          for (var inputIndex = 0; inputIndex < block.inputList.length; inputIndex++) {
+            var input = block.inputList[inputIndex];
+            if (!input.name || input.name.indexOf(prefix) !== 0 || !input.connection) continue;
+
+            var hasPrefixedValue = block.getInputTargetBlock && block.getInputTargetBlock(input.name);
+            if (!hasPrefixedValue) {
+              addWarning(
+                warnings,
+                block,
+                format(msg('missingValueInput'), contract.requiredValueInputPrefixes[prefix])
+              );
+            }
+          }
+        }
+      }
     }
   }
   function validateContainers(blocks, warnings) {
