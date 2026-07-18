@@ -31,14 +31,44 @@
     init: function() {
       this.appendValueInput('VALUE')
           .setCheck('Number')
-          .appendField(isEnglish() ? '📦 Set' : '📦 Definir')
+          .appendField(isEnglish() ? '🏁 Set initial value of' : '🏁 Definir valor inicial de')
           .appendField(variableField(), 'VAR')
           .appendField(isEnglish() ? 'to' : 'como');
       this.setInputsInline(true);
       setProgramConnections(this);
       this.setTooltip(isEnglish()
-        ? 'Sets the number stored in the program memory. At the top level it runs once at startup; inside a button or condition it runs when that action happens.'
-        : 'Define o número guardado na memória do programa. No nível principal, executa uma vez no início; dentro de botão ou condição, executa quando aquela ação acontece.');
+        ? 'Chooses the number this variable starts with. At the top level, it runs once before the main loop.'
+        : 'Escolhe o número com que esta variável começa. No nível principal, executa uma vez antes do loop.');
+    }
+  };
+
+  Blockly.Blocks['variables_alterar'] = {
+    init: function() {
+      this.appendValueInput('TARGET')
+          .setCheck('Number')
+          .appendField(isEnglish() ? '🔄 Change' : '🔄 Alterar');
+      this.appendValueInput('VALUE')
+          .setCheck('Number')
+          .appendField(isEnglish() ? 'to' : 'para');
+      var legacyInput = this.appendDummyInput('LEGACY_VAR')
+          .appendField(variableField(), 'VAR');
+      legacyInput.setVisible(false);
+      this.setInputsInline(true);
+      setProgramConnections(this);
+      this.setTooltip(isEnglish()
+        ? 'Replaces the value in the variable block when this action runs. The expression can add, subtract, multiply, or divide.'
+        : 'Substitui o valor do bloco de variável quando esta ação acontecer. A conta pode somar, subtrair, multiplicar ou dividir.');
+    },
+    onchange: function() {
+      var targetBlock = this.getInputTargetBlock && this.getInputTargetBlock('TARGET');
+      if (!targetBlock || targetBlock.type !== 'variables_valor_guardado') {
+        return;
+      }
+
+      var variableId = targetBlock.getFieldValue('VAR');
+      if (variableId && this.getFieldValue('VAR') !== variableId) {
+        this.setFieldValue(variableId, 'VAR');
+      }
     }
   };
 
@@ -104,6 +134,42 @@
     return value;
   }
 
+  function createVariableValueBlock(variable) {
+    var block = Blockly.utils.xml.createElement('block');
+    block.setAttribute('type', 'variables_valor_guardado');
+    block.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
+    return block;
+  }
+
+  function createVariableValueInput(inputName, variable) {
+    var value = Blockly.utils.xml.createElement('value');
+    value.setAttribute('name', inputName);
+    value.appendChild(createVariableValueBlock(variable));
+    return value;
+  }
+
+  function createVariableArithmeticInput(inputName, variable, defaultValue) {
+    var value = Blockly.utils.xml.createElement('value');
+    value.setAttribute('name', inputName);
+
+    var arithmetic = Blockly.utils.xml.createElement('block');
+    arithmetic.setAttribute('type', 'math_arithmetic');
+
+    var operator = Blockly.utils.xml.createElement('field');
+    operator.setAttribute('name', 'OP');
+    operator.appendChild(Blockly.utils.xml.createTextNode('ADD'));
+    arithmetic.appendChild(operator);
+
+    var left = Blockly.utils.xml.createElement('value');
+    left.setAttribute('name', 'A');
+    left.appendChild(createVariableValueBlock(variable));
+    arithmetic.appendChild(left);
+
+    arithmetic.appendChild(createNumberShadow('B', defaultValue));
+    value.appendChild(arithmetic);
+    return value;
+  }
+
   function createVariableBlock(type, variable, inputName, defaultValue, gap) {
     var block = Blockly.utils.xml.createElement('block');
     block.setAttribute('type', type);
@@ -112,6 +178,16 @@
     if (inputName) {
       block.appendChild(createNumberShadow(inputName, defaultValue));
     }
+    return block;
+  }
+
+  function createAlterVariableBlock(variable, gap) {
+    var block = Blockly.utils.xml.createElement('block');
+    block.setAttribute('type', 'variables_alterar');
+    block.setAttribute('gap', String(gap));
+    block.appendChild(Blockly.Variables.generateVariableFieldDom(variable));
+    block.appendChild(createVariableValueInput('TARGET', variable));
+    block.appendChild(createVariableArithmeticInput('VALUE', variable, 1));
     return block;
   }
 
@@ -135,6 +211,7 @@
     var selectedVariable = variables[variables.length - 1];
 
     items.push(createVariableBlock('variables_guardar', selectedVariable, 'VALUE', 0, 12));
+    items.push(createAlterVariableBlock(selectedVariable, 12));
     items.push(createVariableBlock('variables_adicionar', selectedVariable, 'AMOUNT', 1, 12));
     items.push(createVariableBlock('variables_tirar', selectedVariable, 'AMOUNT', 1, 12));
     items.push(createVariableBlock('variables_valor_guardado', selectedVariable, null, null, 8));

@@ -2,6 +2,7 @@
   var requiredBlocks = [
     'controls_repeat_simple',
     'variables_guardar',
+    'variables_alterar',
     'variables_adicionar',
     'variables_tirar',
     'variables_valor_guardado',
