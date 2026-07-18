@@ -27,6 +27,7 @@ class DeviceFilesManager {
     this.panel = get('#content_files');
     this.dialog = get('#deviceFilesDialog');
     this.preview = this.panel ? this.panel.querySelector('.device-files-preview') : null;
+    this.previewIcon = get('#deviceFilesPreviewIcon');
     this.editorPanel = get('#deviceFilesEditor');
     this.emptyPanel = get('#deviceFilesEmpty');
     this.status = get('#file-status');
@@ -322,6 +323,10 @@ class DeviceFilesManager {
     this.selectedFile = null;
     this.currentFileBytes = null;
     if (this.fileName) this.fileName.value = 'Nenhum arquivo selecionado';
+    if (this.previewIcon) {
+      this.previewIcon.className = 'device-files-preview-icon';
+      this.previewIcon.textContent = '◇';
+    }
     if (this.editor) this.editor.setValue('');
     this._showPreviewMessage('Selecione um arquivo', 'O código salvo na placa aparecerá aqui.');
     this._syncActionState();
@@ -527,9 +532,8 @@ class DeviceFilesManager {
       item.title = entry.isDirectory ? 'Pasta ' + entry.name : 'Abrir ' + entry.name;
 
       var icon = document.createElement('span');
-      icon.className = 'device-file-item-icon';
       icon.setAttribute('aria-hidden', 'true');
-      icon.textContent = entry.isDirectory ? '▸' : this._fileIcon(entry.name);
+      this._applyFileIcon(icon, entry, 'device-file-item-icon');
 
       var name = document.createElement('span');
       name.className = 'device-file-item-name';
@@ -553,10 +557,32 @@ class DeviceFilesManager {
 
   _fileIcon(name) {
     var extension = name.includes('.') ? name.split('.').pop().toLowerCase() : '';
-    if (extension === 'py') return '◆';
-    if (extension === 'json' || extension === 'csv') return '◇';
-    if (extension === 'txt' || extension === 'md') return '▤';
-    return '·';
+    var types = {
+      py: {label: 'PY', className: 'is-python'},
+      csv: {label: 'CSV', className: 'is-csv'},
+      txt: {label: 'TXT', className: 'is-text'},
+      json: {label: '{}', className: 'is-json'},
+      md: {label: 'MD', className: 'is-markdown'},
+      xml: {label: '<>', className: 'is-xml'},
+      js: {label: 'JS', className: 'is-javascript'},
+      bipes: {label: 'B', className: 'is-bipes'}
+    };
+    if (types[extension]) return types[extension];
+    return {
+      label: extension ? extension.slice(0, 3).toUpperCase() : '•',
+      className: 'is-generic'
+    };
+  }
+
+  _applyFileIcon(element, entry, baseClass) {
+    if (entry.isDirectory) {
+      element.className = baseClass + ' is-folder';
+      element.textContent = '';
+      return;
+    }
+    var icon = this._fileIcon(entry.name);
+    element.className = baseClass + ' device-file-icon ' + icon.className;
+    element.textContent = icon.label;
   }
 
   _formatSize(size) {
@@ -572,6 +598,7 @@ class DeviceFilesManager {
     this.selectedFile = entry;
     this.currentFileBytes = null;
     this.fileName.value = entry.name;
+    this._applyFileIcon(this.previewIcon, entry, 'device-files-preview-icon');
     this.fileList.querySelectorAll('.device-file-item').forEach((item) => {
       var itemName = item.querySelector('.device-file-item-name');
       item.setAttribute('aria-selected', String(Boolean(itemName && itemName.textContent === entry.name)));

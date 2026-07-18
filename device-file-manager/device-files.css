@@ -324,9 +324,104 @@
 }
 
 .device-file-item-icon {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  justify-self: center;
   color: var(--bitdoglab-accent);
   text-align: center;
-  text-shadow: 0 0 7px rgba(255, 140, 0, 0.45);
+}
+
+.device-file-icon {
+  width: 1.18rem;
+  height: 1.4rem;
+  box-sizing: border-box;
+  color: #a99fb8;
+  background: rgba(169, 159, 184, 0.08);
+  border: 1px solid currentColor;
+  border-radius: 0.16rem;
+  box-shadow: 0 0 6px rgba(169, 159, 184, 0.16);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.4rem;
+  font-weight: 850;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  text-shadow: none;
+  clip-path: polygon(0 0, 68% 0, 100% 24%, 100% 100%, 0 100%);
+}
+
+.device-file-icon::after {
+  content: "";
+  position: absolute;
+  top: 0.03rem;
+  right: 0.02rem;
+  width: 0.31rem;
+  height: 0.31rem;
+  border-left: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+}
+
+.device-file-icon.is-python {
+  color: #55b6ff;
+  background: rgba(85, 182, 255, 0.1);
+  box-shadow: inset 0 -0.19rem 0 #ffd34e, 0 0 7px rgba(85, 182, 255, 0.32);
+}
+
+.device-file-icon.is-csv {
+  color: #52d39b;
+  background: rgba(82, 211, 155, 0.1);
+  box-shadow: 0 0 7px rgba(82, 211, 155, 0.28);
+}
+
+.device-file-icon.is-text {
+  color: #c9c4d1;
+  background: rgba(201, 196, 209, 0.08);
+}
+
+.device-file-icon.is-json {
+  color: #e9c55f;
+  background: rgba(233, 197, 95, 0.1);
+  box-shadow: 0 0 7px rgba(233, 197, 95, 0.24);
+}
+
+.device-file-icon.is-markdown {
+  color: #8bbcff;
+  background: rgba(139, 188, 255, 0.1);
+}
+
+.device-file-icon.is-xml {
+  color: var(--bitdoglab-accent);
+  background: rgba(255, 140, 0, 0.1);
+}
+
+.device-file-icon.is-javascript {
+  color: #f5df4d;
+  background: rgba(245, 223, 77, 0.1);
+}
+
+.device-file-icon.is-bipes {
+  color: #be8cff;
+  background: rgba(190, 140, 255, 0.11);
+}
+
+.device-file-item-icon.is-folder {
+  width: 1.22rem;
+  height: 0.82rem;
+  margin-top: 0.18rem;
+  background: #dca83e;
+  border-radius: 0.13rem;
+  box-shadow: 0 0 7px rgba(220, 168, 62, 0.3);
+}
+
+.device-file-item-icon.is-folder::before {
+  content: "";
+  position: absolute;
+  top: -0.24rem;
+  left: 0.08rem;
+  width: 0.55rem;
+  height: 0.3rem;
+  background: #dca83e;
+  border-radius: 0.13rem 0.13rem 0 0;
 }
 
 .device-file-item-name {
@@ -363,6 +458,11 @@
 .device-files-preview-icon {
   color: var(--bitdoglab-accent);
   text-shadow: 0 0 7px rgba(255, 140, 0, 0.45);
+}
+
+.device-files-preview-icon.device-file-icon {
+  flex: 0 0 auto;
+  text-shadow: none;
 }
 
 #content_file_name {
@@ -623,4 +723,3 @@
     display: none;
   }
 }
-
