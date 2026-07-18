@@ -27,6 +27,62 @@
     block.setHelpUrl('');
   }
 
+  function createdVariableIds(workspace) {
+    if (!workspace.bitdogLabCreatedVariableIds_) {
+      workspace.bitdogLabCreatedVariableIds_ = {};
+    }
+    return workspace.bitdogLabCreatedVariableIds_;
+  }
+
+  function markCreatedVariableModel(workspace, variable) {
+    if (variable) {
+      createdVariableIds(workspace)[variable.getId()] = true;
+    }
+  }
+
+  function refreshVariableFlyout(workspace) {
+    if (workspace.refreshToolboxSelection) {
+      workspace.refreshToolboxSelection();
+    }
+  }
+
+  function flyoutVariables(workspace) {
+    var variables = workspace.getVariablesOfType('');
+    var createdIds = createdVariableIds(workspace);
+    return variables.filter(function(variable) {
+      return !!createdIds[variable.getId()];
+    });
+  }
+
+  function createVariableFromFlyout(buttonInstance) {
+    var targetWorkspace = buttonInstance.getTargetWorkspace();
+    var promptText = (Blockly.Msg && Blockly.Msg.NEW_VARIABLE_TITLE) || 'Nome da nova variável:';
+
+    Blockly.Variables.promptName(promptText, '', function(variableName) {
+      if (!variableName) {
+        return;
+      }
+
+      var existingVariable = Blockly.Variables.nameUsedWithAnyType(variableName, targetWorkspace);
+      if (existingVariable) {
+        if (existingVariable.type === '') {
+          markCreatedVariableModel(targetWorkspace, existingVariable);
+          refreshVariableFlyout(targetWorkspace);
+          return;
+        }
+
+        var message = Blockly.Msg.VARIABLE_ALREADY_EXISTS_FOR_ANOTHER_TYPE ||
+          'A variable named "%1" already exists for another type "%2".';
+        Blockly.alert(message.replace('%1', existingVariable.name).replace('%2', existingVariable.type));
+        return;
+      }
+
+      var variable = targetWorkspace.createVariable(variableName, '');
+      markCreatedVariableModel(targetWorkspace, variable);
+      refreshVariableFlyout(targetWorkspace);
+    });
+  }
+
   Blockly.Blocks['variables_guardar'] = {
     init: function() {
       this.appendValueInput('VALUE')
@@ -197,24 +253,26 @@
     button.setAttribute('text', isEnglish() ? '+ Create variable' : '+ Criar variável');
     button.setAttribute('callbackKey', 'CREATE_BITDOGLAB_VARIABLE');
 
-    workspace.registerButtonCallback('CREATE_BITDOGLAB_VARIABLE', function(buttonInstance) {
-      Blockly.Variables.createVariableButtonHandler(buttonInstance.getTargetWorkspace());
-    });
+    workspace.registerButtonCallback('CREATE_BITDOGLAB_VARIABLE', createVariableFromFlyout);
     items.push(button);
 
-    var variables = workspace.getVariablesOfType('');
+    var variables = flyoutVariables(workspace);
     if (!variables.length) {
       return items;
     }
 
     variables.sort(Blockly.VariableModel.compareByName);
-    var selectedVariable = variables[variables.length - 1];
 
-    items.push(createVariableBlock('variables_guardar', selectedVariable, 'VALUE', 0, 12));
-    items.push(createAlterVariableBlock(selectedVariable, 12));
-    items.push(createVariableBlock('variables_adicionar', selectedVariable, 'AMOUNT', 1, 12));
-    items.push(createVariableBlock('variables_tirar', selectedVariable, 'AMOUNT', 1, 12));
-    items.push(createVariableBlock('variables_valor_guardado', selectedVariable, null, null, 8));
+    for (var i = 0; i < variables.length; i++) {
+      var variable = variables[i];
+      var finalBlockGap = i === variables.length - 1 ? 8 : 56;
+
+      items.push(createVariableBlock('variables_guardar', variable, 'VALUE', 0, 12));
+      items.push(createAlterVariableBlock(variable, 12));
+      items.push(createVariableBlock('variables_adicionar', variable, 'AMOUNT', 1, 12));
+      items.push(createVariableBlock('variables_tirar', variable, 'AMOUNT', 1, 12));
+      items.push(createVariableBlock('variables_valor_guardado', variable, null, null, finalBlockGap));
+    }
     return items;
   }
 
