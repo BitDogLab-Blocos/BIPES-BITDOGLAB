@@ -1,0 +1,75 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Alternador: o mesmo botao troca estado entre zero e um para ligar ou desligar o LED. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">estado</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">A</field>
+        <statement name="DO">
+          <block type="controls_ifelse">
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">EQ</field>
+                <value name="A">
+                  <block type="variables_valor_guardado">
+                    <field name="VAR">estado</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">0</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="variables_alterar">
+                <field name="VAR">estado</field>
+                <value name="TARGET">
+                  <block type="variables_valor_guardado">
+                    <field name="VAR">estado</field>
+                  </block>
+                </value>
+                <value name="VALUE">
+                  <block type="math_number">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="bloco_ligar_led">
+                    <value name="COLOUR">
+                      <block type="colour_green"></block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="variables_alterar">
+                <field name="VAR">estado</field>
+                <value name="TARGET">
+                  <block type="variables_valor_guardado">
+                    <field name="VAR">estado</field>
+                  </block>
+                </value>
+                <value name="VALUE">
+                  <block type="math_number">
+                    <field name="NUM">0</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="bloco_desligar_todos_leds"></block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

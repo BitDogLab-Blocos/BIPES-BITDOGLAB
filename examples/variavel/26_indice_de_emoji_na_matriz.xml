@@ -1,0 +1,131 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Emojis: A e B mudam o indice; cada numero escolhe um rosto diferente. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">emoji</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">A</field>
+        <statement name="DO">
+          <block type="variables_adicionar">
+            <field name="VAR">emoji</field>
+            <value name="AMOUNT">
+              <block type="math_number">
+                <field name="NUM">1</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">B</field>
+            <statement name="DO">
+              <block type="variables_tirar">
+                <field name="VAR">emoji</field>
+                <value name="AMOUNT">
+                  <block type="math_number">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <next>
+              <block type="controls_if">
+                <value name="IF0">
+                  <block type="logic_compare">
+                    <field name="OP">EQ</field>
+                    <value name="A">
+                      <block type="variables_valor_guardado">
+                        <field name="VAR">emoji</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="mostrar_emoji">
+                    <field name="BRILHO">30</field>
+                    <value name="EMOJI">
+                      <block type="emoji_rosto_feliz"></block>
+                    </value>
+                    <value name="COR">
+                      <block type="colour_green"></block>
+                    </value>
+                  </block>
+                </statement>
+                <next>
+                  <block type="controls_if">
+                    <value name="IF0">
+                      <block type="logic_compare">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <block type="variables_valor_guardado">
+                            <field name="VAR">emoji</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">1</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="mostrar_emoji">
+                        <field name="BRILHO">30</field>
+                        <value name="EMOJI">
+                          <block type="emoji_rosto_surpreso"></block>
+                        </value>
+                        <value name="COR">
+                          <block type="colour_yellow"></block>
+                        </value>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="controls_if">
+                        <value name="IF0">
+                          <block type="logic_compare">
+                            <field name="OP">EQ</field>
+                            <value name="A">
+                              <block type="variables_valor_guardado">
+                                <field name="VAR">emoji</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number">
+                                <field name="NUM">2</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="mostrar_emoji">
+                            <field name="BRILHO">30</field>
+                            <value name="EMOJI">
+                              <block type="emoji_rosto_triste"></block>
+                            </value>
+                            <value name="COR">
+                              <block type="colour_blue"></block>
+                            </value>
+                          </block>
+                        </statement>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

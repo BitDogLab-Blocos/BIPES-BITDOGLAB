@@ -1,0 +1,35 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Medidor do joystick: o loop guarda a posicao X e o OLED mostra a memoria. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">eixo_x</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="variables_alterar">
+        <field name="VAR">eixo_x</field>
+        <value name="TARGET">
+          <block type="variables_valor_guardado">
+            <field name="VAR">eixo_x</field>
+          </block>
+        </value>
+        <value name="VALUE">
+          <block type="joystick_posicao_x"></block>
+        </value>
+        <next>
+          <block type="display_mostrar_valor">
+            <field name="LINHA">1</field>
+            <field name="ALINHAMENTO">CENTER</field>
+            <value name="VALOR">
+              <block type="variables_valor_guardado">
+                <field name="VAR">eixo_x</field>
+              </block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

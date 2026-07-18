@@ -1,0 +1,73 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Duas memorias: A soma acertos, B soma erros e o OLED mostra cada uma em sua linha. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">acertos</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="variables_guardar">
+        <field name="VAR">erros</field>
+        <value name="VALUE">
+          <block type="math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">A</field>
+            <statement name="DO">
+              <block type="variables_adicionar">
+                <field name="VAR">acertos</field>
+                <value name="AMOUNT">
+                  <block type="math_number">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <next>
+              <block type="botao_se_apertado">
+                <field name="BOTAO">B</field>
+                <statement name="DO">
+                  <block type="variables_adicionar">
+                    <field name="VAR">erros</field>
+                    <value name="AMOUNT">
+                      <block type="math_number">
+                        <field name="NUM">1</field>
+                      </block>
+                    </value>
+                  </block>
+                </statement>
+                <next>
+                  <block type="display_mostrar_valor">
+                    <field name="LINHA">1</field>
+                    <field name="ALINHAMENTO">LEFT</field>
+                    <value name="VALOR">
+                      <block type="variables_valor_guardado">
+                        <field name="VAR">acertos</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="display_mostrar_valor">
+                        <field name="LINHA">2</field>
+                        <field name="ALINHAMENTO">LEFT</field>
+                        <value name="VALOR">
+                          <block type="variables_valor_guardado">
+                            <field name="VAR">erros</field>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

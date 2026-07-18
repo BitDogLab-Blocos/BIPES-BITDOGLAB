@@ -1,0 +1,144 @@
+<xml xmlns="https://bipes.net.br">
+  <workspace>
+    <field name="DEVICE">v7</field>
+    <field name="TIMESTAMP">1784412490878</field>
+  </workspace>
+  <variables>
+    <variable id="TTt:~+|5Wp~c1=L,YkR,">etapa</variable>
+  </variables>
+  <block type="variables_guardar" id="5M@qbQ{,%1_}W9ya7:a?" x="20" y="20">
+    <field name="VAR" id="TTt:~+|5Wp~c1=L,YkR,">etapa</field>
+    <value name="VALUE">
+      <block type="math_number" id="qYODnz@=2)Fyf,x:)+e/">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="bloco_ligar_led" id="0lsANsITQI,pKrrD|gmb">
+        <value name="COLOUR">
+          <block type="colour_green" id="k]i,2f!JB)*xB7S*+?gO"></block>
+        </value>
+        <next>
+          <block type="esperar_segundos" id="CsvPq_238dm-Syijda1e">
+            <value name="TIME">
+              <block type="math_number" id="w.l@kTUH}gW$~d#4]`]C">
+                <field name="NUM">1</field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_adicionar" id="i%1`gwvG?/O^Ry0/rB[O">
+                <field name="VAR" id="TTt:~+|5Wp~c1=L,YkR,">etapa</field>
+                <value name="AMOUNT">
+                  <block type="math_number" id="gN)D=-9,gD`{N|Y34f(@">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="controls_ifelse" id="jF(rcwsy(}:K};z48WPx">
+                    <value name="IF0">
+                      <block type="logic_compare" id="1yt#ADCp)9Rj`Cky@n?g">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <block type="variables_valor_guardado" id="083_tWzA#:zOq-nAB`sx">
+                            <field name="VAR" id="TTt:~+|5Wp~c1=L,YkR,">etapa</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number" id="a|VvdGb}S{}W6#~yh7jG">
+                            <field name="NUM">1</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="bloco_ligar_led" id="!?qJag~Mm(q#hu-dK)|Y">
+                        <value name="COLOUR">
+                          <block type="colour_yellow" id="19_B3%u1|,W~S^,AWwA*"></block>
+                        </value>
+                        <next>
+                          <block type="esperar_segundos" id="HT`S?6Dv)r4;F5P|GsOG">
+                            <value name="TIME">
+                              <shadow type="math_number" id="ioWMJuv.DY/4},??.aLg">
+                                <field name="NUM">1</field>
+                              </shadow>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <statement name="ELSE">
+                      <block type="controls_ifelse" id="1OcDs+UbNdh}n?:dbZc6">
+                        <value name="IF0">
+                          <block type="logic_compare" id="wTonD{m-imV,ShIO+4P;">
+                            <field name="OP">EQ</field>
+                            <value name="A">
+                              <block type="variables_valor_guardado" id="sY-p!:?mBng7Ots;zG*z">
+                                <field name="VAR" id="TTt:~+|5Wp~c1=L,YkR,">etapa</field>
+                              </block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number" id="!*x3-V5Wh3gPc5B85R/T">
+                                <field name="NUM">2</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="bloco_ligar_led" id="C-vm.CfYCLAs8Y{3A9_!">
+                            <value name="COLOUR">
+                              <block type="colour_red" id="zMq~yn*3E?Oq()mp;y`3"></block>
+                            </value>
+                            <next>
+                              <block type="esperar_segundos" id="IC%0z,N$DkTJ;,k}.e!S">
+                                <value name="TIME">
+                                  <shadow type="math_number" id="g;PG=0!)#Z?46_tt}a,J">
+                                    <field name="NUM">1</field>
+                                  </shadow>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </statement>
+                        <statement name="ELSE">
+                          <block type="variables_alterar" id="skUfFLb6I?[uPL6sR*.c">
+                            <field name="VAR" id="TTt:~+|5Wp~c1=L,YkR,">etapa</field>
+                            <value name="TARGET">
+                              <block type="variables_valor_guardado" id="pE0H!~~{ui?ux6u@9x_a">
+                                <field name="VAR" id="TTt:~+|5Wp~c1=L,YkR,">etapa</field>
+                              </block>
+                            </value>
+                            <value name="VALUE">
+                              <block type="math_number" id="Ya@?Ajy0AM*/p12i/[^C">
+                                <field name="NUM">0</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="bloco_ligar_led" id="3Z]=dGF)Gt-j#K)*jg[(">
+                                <value name="COLOUR">
+                                  <block type="colour_green" id="X!DR(zd~svL,Ho[57~Nf"></block>
+                                </value>
+                                <next>
+                                  <block type="esperar_segundos" id="{81p3]~]MO5NPqv$%/!e">
+                                    <value name="TIME">
+                                      <shadow type="math_number" id="!|/jrDoCgoPq.+}8nTpa">
+                                        <field name="NUM">1</field>
+                                      </shadow>
+                                    </value>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </statement>
+                      </block>
+                    </statement>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
