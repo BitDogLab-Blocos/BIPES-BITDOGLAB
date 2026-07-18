@@ -1,0 +1,626 @@
+/* BitDogLab device files: compact Linux-inspired window, without animations. */
+.device-files-trigger {
+  display: inline-grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+  border: 0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: none;
+}
+
+.device-files-trigger:hover,
+.device-files-trigger:focus-visible,
+.device-files-trigger[aria-expanded="true"] {
+  color: var(--bitdoglab-accent);
+  background: rgba(255, 140, 0, 0.1);
+  box-shadow: inset 0 -2px 0 var(--bitdoglab-accent), 0 0 12px rgba(255, 140, 0, 0.28);
+  outline: none;
+  transform: none;
+}
+
+#content_files.device-files-overlay {
+  display: none;
+  position: fixed;
+  inset: 4rem 0 0;
+  z-index: 3200;
+  width: auto;
+  height: auto;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  grid-template-columns: minmax(0, 1fr);
+  place-items: center;
+  background: rgba(12, 8, 28, 0.54);
+  opacity: 1;
+  overflow: auto;
+  transition: none;
+}
+
+#content_files.device-files-overlay.is-open {
+  display: grid;
+}
+
+.device-files-window {
+  position: relative;
+  display: grid;
+  grid-template-rows: 2.8rem 2.9rem minmax(0, 1fr);
+  width: min(58rem, 92vw);
+  height: min(35rem, calc(100vh - 6.5rem));
+  min-height: 28rem;
+  color: #f8f5ff;
+  background: #151124;
+  border: 1px solid rgba(183, 165, 122, 0.22);
+  border-radius: 0.65rem;
+  box-shadow: 0 22px 55px rgba(8, 4, 20, 0.58), 0 0 18px rgba(75, 46, 131, 0.32);
+  overflow: hidden;
+  outline: none;
+  font-family: var(--font-secondary);
+  transition: none;
+}
+
+.device-files-window button,
+.device-files-window input {
+  font: inherit;
+  transition: none;
+}
+
+.device-files-window button:hover,
+.device-files-window button:active {
+  transform: none;
+}
+
+.device-files-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  padding: 0 0.65rem 0 0.85rem;
+  background: var(--bitdoglab-dark);
+  box-shadow: inset 0 -1px 0 rgba(183, 165, 122, 0.12);
+}
+
+.device-files-title,
+.device-files-title-actions {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 0.55rem;
+}
+
+.device-files-title {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.device-files-title-icon {
+  font-size: 1.1rem;
+  filter: drop-shadow(0 0 5px rgba(255, 140, 0, 0.5));
+}
+
+.device-files-window-button {
+  display: grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  padding: 0;
+  color: #ded5ec;
+  background: transparent;
+  border: 0;
+  border-radius: 0.38rem;
+  cursor: pointer;
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.device-files-window-button:hover,
+.device-files-window-button:focus-visible {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+.device-files-connection {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #d6cde4;
+  font-size: 0.73rem;
+}
+
+.device-files-connection::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--bitdoglab-error);
+  box-shadow: 0 0 7px rgba(244, 67, 54, 0.7);
+}
+
+.device-files-connection.is-online::before {
+  background: var(--bitdoglab-success);
+  box-shadow: 0 0 7px rgba(76, 175, 80, 0.75);
+}
+
+.device-files-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0 0.8rem;
+  color: #cdc5d9;
+  background: #1b162d;
+  box-shadow: inset 0 -1px 0 rgba(183, 165, 122, 0.1);
+}
+
+.device-files-tool,
+.device-files-connect,
+.device-files-action,
+.device-files-prompt-actions button {
+  min-height: 2rem;
+  padding: 0.35rem 0.7rem;
+  color: #eee9f5;
+  background: transparent;
+  border: 0;
+  border-radius: 0.38rem;
+  cursor: pointer;
+}
+
+.device-files-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.device-files-tool:hover,
+.device-files-tool:focus-visible,
+.device-files-action:hover,
+.device-files-action:focus-visible,
+.device-files-prompt-actions button:hover,
+.device-files-prompt-actions button:focus-visible {
+  color: #fff;
+  background: rgba(75, 46, 131, 0.55);
+  box-shadow: 0 0 9px rgba(75, 46, 131, 0.45);
+  outline: none;
+}
+
+.device-files-status {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: #a9a0b8;
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.device-files-status.is-success {
+  color: #8fd695;
+}
+
+.device-files-status.is-error {
+  color: #ff9b95;
+}
+
+.device-files-connect {
+  color: var(--bitdoglab-accent);
+  background: rgba(255, 140, 0, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 140, 0, 0.35);
+}
+
+.device-files-connect:hover,
+.device-files-connect:focus-visible {
+  background: rgba(255, 140, 0, 0.15);
+  box-shadow: inset 0 0 0 1px var(--bitdoglab-accent), 0 0 10px rgba(255, 140, 0, 0.25);
+  outline: none;
+}
+
+.device-files-connect[hidden] {
+  display: none;
+}
+
+.device-files-body {
+  display: grid;
+  grid-template-columns: 15.5rem minmax(0, 1fr);
+  min-height: 0;
+}
+
+.device-files-sidebar {
+  min-width: 0;
+  min-height: 0;
+  padding: 0.8rem 0.55rem;
+  background: #1d1830;
+  box-shadow: inset -1px 0 0 rgba(183, 165, 122, 0.1);
+  overflow: hidden;
+}
+
+.device-files-sidebar-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 1.8rem;
+  padding: 0 0.55rem;
+  color: #948aa4;
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+}
+
+.device-files-count {
+  display: grid;
+  place-items: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.2rem;
+  box-sizing: border-box;
+  color: #dcd3e8;
+  background: rgba(75, 46, 131, 0.62);
+  border-radius: 0.7rem;
+  letter-spacing: 0;
+}
+
+.device-files-list {
+  height: calc(100% - 1.8rem);
+  padding: 0.2rem;
+  box-sizing: border-box;
+  overflow: auto;
+  scrollbar-color: var(--bitdoglab-primary) transparent;
+  scrollbar-width: thin;
+}
+
+#content_files .device-files-list-message {
+  display: block;
+  min-height: 0;
+  margin: 0;
+  padding: 1.25rem 0.65rem;
+  color: #80768f;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.device-file-item {
+  display: grid;
+  grid-template-columns: 1.45rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  min-height: 2.35rem;
+  margin: 0.12rem 0;
+  padding: 0.35rem 0.55rem;
+  box-sizing: border-box;
+  color: #ddd6e7;
+  background: transparent;
+  border: 0;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.device-file-item:hover,
+.device-file-item:focus-visible {
+  color: #fff;
+  background: rgba(75, 46, 131, 0.36);
+  outline: none;
+}
+
+.device-file-item[aria-selected="true"] {
+  color: #fff;
+  background: linear-gradient(90deg, rgba(75, 46, 131, 0.9), rgba(75, 46, 131, 0.42));
+  box-shadow: inset 2px 0 0 var(--bitdoglab-accent), 0 0 10px rgba(75, 46, 131, 0.32);
+}
+
+.device-file-item.is-directory {
+  color: #b7adc5;
+}
+
+.device-file-item-icon {
+  color: var(--bitdoglab-accent);
+  text-align: center;
+  text-shadow: 0 0 7px rgba(255, 140, 0, 0.45);
+}
+
+.device-file-item-name {
+  overflow: hidden;
+  font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.device-file-item-size {
+  color: #81778e;
+  font-size: 0.65rem;
+}
+
+.device-files-preview {
+  position: relative;
+  display: grid;
+  grid-template-rows: 2.8rem minmax(0, 1fr) 3.25rem;
+  min-width: 0;
+  min-height: 0;
+  background: #12101d;
+}
+
+.device-files-preview-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0 0.9rem;
+  background: #171323;
+  box-shadow: inset 0 -1px 0 rgba(183, 165, 122, 0.08);
+}
+
+.device-files-preview-icon {
+  color: var(--bitdoglab-accent);
+  text-shadow: 0 0 7px rgba(255, 140, 0, 0.45);
+}
+
+#content_file_name {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  color: #eee9f5;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.79rem;
+  font-weight: 650;
+}
+
+.device-files-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  color: #7e748d;
+  text-align: center;
+}
+
+.device-files-empty > span {
+  color: var(--bitdoglab-primary);
+  font-size: 3rem;
+  line-height: 1;
+  text-shadow: 0 0 14px rgba(75, 46, 131, 0.65);
+}
+
+.device-files-empty strong {
+  color: #bdb4c9;
+  font-size: 0.9rem;
+}
+
+.device-files-empty small {
+  font-size: 0.74rem;
+}
+
+.device-files-editor {
+  display: none;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.device-files-preview.has-file .device-files-empty {
+  display: none;
+}
+
+.device-files-preview.has-file .device-files-editor {
+  display: block;
+}
+
+.device-files-editor .CodeMirror {
+  width: 100%;
+  height: 100%;
+  color: #e8e2f0;
+  background: #12101d;
+  font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.device-files-editor .CodeMirror-gutters {
+  background: #171323;
+  border: 0;
+}
+
+.device-files-editor .CodeMirror-linenumber {
+  color: #665d73;
+}
+
+.device-files-editor .CodeMirror-cursor {
+  border-left-color: var(--bitdoglab-accent);
+}
+
+.device-files-editor .cm-keyword,
+.device-files-editor .cm-builtin {
+  color: #b995ff;
+}
+
+.device-files-editor .cm-string,
+.device-files-editor .cm-number {
+  color: #ffb454;
+}
+
+.device-files-editor .cm-comment {
+  color: #746b81;
+}
+
+.device-files-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  padding: 0 0.75rem;
+  background: #171323;
+  box-shadow: inset 0 1px 0 rgba(183, 165, 122, 0.08);
+}
+
+.device-files-action:disabled {
+  color: #615968;
+  cursor: default;
+  opacity: 0.65;
+}
+
+.device-files-action:disabled:hover {
+  background: transparent;
+  box-shadow: none;
+}
+
+.device-files-action.is-danger:not(:disabled),
+.device-files-prompt-actions .is-danger {
+  color: #ff8b85;
+}
+
+.device-files-action.is-danger:not(:disabled):hover,
+.device-files-prompt-actions .is-danger:hover {
+  background: rgba(244, 67, 54, 0.13);
+  box-shadow: 0 0 9px rgba(244, 67, 54, 0.2);
+}
+
+.device-files-prompt[hidden] {
+  display: none;
+}
+
+.device-files-prompt {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  background: rgba(9, 6, 18, 0.72);
+}
+
+.device-files-prompt-card {
+  width: min(22rem, 88%);
+  padding: 1.25rem;
+  box-sizing: border-box;
+  color: #eee9f5;
+  background: #211a35;
+  border: 0;
+  border-radius: 0.6rem;
+  box-shadow: 0 16px 35px rgba(5, 2, 12, 0.55), 0 0 14px rgba(75, 46, 131, 0.35);
+}
+
+.device-files-prompt-card h2 {
+  margin: 0.55rem 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.device-files-prompt-card p {
+  margin: 0 0 1rem;
+  color: #aaa0b8;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.device-files-prompt-card label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #aaa0b8;
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.device-files-prompt-card input {
+  width: 100%;
+  height: 2.35rem;
+  padding: 0 0.7rem;
+  box-sizing: border-box;
+  color: #fff;
+  background: #151124;
+  border: 0;
+  border-radius: 0.4rem;
+  box-shadow: inset 0 0 0 1px rgba(183, 165, 122, 0.25);
+  outline: none;
+  font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+}
+
+.device-files-prompt-card input:focus {
+  box-shadow: inset 0 0 0 1px var(--bitdoglab-accent), 0 0 9px rgba(255, 140, 0, 0.22);
+}
+
+.device-files-prompt-icon {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--bitdoglab-accent);
+  background: rgba(255, 140, 0, 0.09);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 140, 0, 0.18);
+}
+
+.device-files-prompt-icon.is-danger {
+  color: #ff8b85;
+  background: rgba(244, 67, 54, 0.1);
+  box-shadow: 0 0 10px rgba(244, 67, 54, 0.2);
+}
+
+.device-files-prompt-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  margin-top: 1rem;
+}
+
+.device-files-prompt-actions .is-primary {
+  color: var(--bitdoglab-accent);
+  background: rgba(255, 140, 0, 0.1);
+}
+
+.device-files-window.is-busy .device-files-tool,
+.device-files-window.is-busy .device-files-action,
+.device-files-window.is-busy .device-file-item {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+@media (max-width: 760px) {
+  #content_files.device-files-overlay {
+    padding: 0.55rem;
+  }
+
+  .device-files-window {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .device-files-body {
+    grid-template-columns: 11.5rem minmax(0, 1fr);
+  }
+
+  .device-files-status {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .device-files-body {
+    grid-template-columns: 8.75rem minmax(0, 1fr);
+  }
+
+  .device-file-item-size,
+  .device-files-connection {
+    display: none;
+  }
+
+  .device-files-tool > span:last-child {
+    display: none;
+  }
+}
+
