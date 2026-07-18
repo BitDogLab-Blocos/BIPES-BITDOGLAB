@@ -1,0 +1,59 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Joystick e brilho: a posicao vira memoria e faixas selecionam LED fraco ou forte. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">brilho</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="variables_alterar">
+        <field name="VAR">brilho</field>
+        <value name="TARGET">
+          <block type="variables_valor_guardado">
+            <field name="VAR">brilho</field>
+          </block>
+        </value>
+        <value name="VALUE">
+          <block type="joystick_posicao_x"></block>
+        </value>
+        <next>
+          <block type="controls_ifelse">
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">GTE</field>
+                <value name="A">
+                  <block type="variables_valor_guardado">
+                    <field name="VAR">brilho</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">64</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="bloco_acender_led_brilho">
+                <field name="INTENSITY">100</field>
+                <value name="COLOUR">
+                  <block type="colour_blue"></block>
+                </value>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="bloco_acender_led_brilho">
+                <field name="INTENSITY">20</field>
+                <value name="COLOUR">
+                  <block type="colour_blue"></block>
+                </value>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

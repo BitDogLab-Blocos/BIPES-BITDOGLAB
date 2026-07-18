@@ -1,0 +1,37 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Medidor de apertos: cada clique no botao A soma uma unidade e aparece no OLED. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">cliques</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">A</field>
+        <statement name="DO">
+          <block type="variables_adicionar">
+            <field name="VAR">cliques</field>
+            <value name="AMOUNT">
+              <block type="math_number">
+                <field name="NUM">1</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <next>
+          <block type="display_mostrar_valor">
+            <field name="LINHA">1</field>
+            <field name="ALINHAMENTO">CENTER</field>
+            <value name="VALOR">
+              <block type="variables_valor_guardado">
+                <field name="VAR">cliques</field>
+              </block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

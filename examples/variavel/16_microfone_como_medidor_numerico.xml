@@ -1,0 +1,43 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Microfone: o loop guarda o nivel do som e mostra a memoria no OLED. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">som</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="microfone_vu_meter">
+        <field name="BRILHO">30</field>
+        <value name="COR">
+          <block type="colour_blue" />
+        </value>
+        <next>
+          <block type="variables_alterar">
+            <field name="VAR">som</field>
+            <value name="TARGET">
+              <block type="variables_valor_guardado">
+                <field name="VAR">som</field>
+              </block>
+            </value>
+            <value name="VALUE">
+              <block type="microfone_nivel_atual"></block>
+            </value>
+            <next>
+              <block type="display_mostrar_valor">
+                <field name="LINHA">1</field>
+                <field name="ALINHAMENTO">CENTER</field>
+                <value name="VALOR">
+                  <block type="variables_valor_guardado">
+                    <field name="VAR">som</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

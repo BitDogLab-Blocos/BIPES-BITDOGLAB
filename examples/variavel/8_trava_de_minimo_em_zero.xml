@@ -1,0 +1,71 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Trava em zero: B so tira um ponto quando a memoria ainda e maior que zero. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">pontos</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">A</field>
+        <statement name="DO">
+          <block type="variables_adicionar">
+            <field name="VAR">pontos</field>
+            <value name="AMOUNT">
+              <block type="math_number">
+                <field name="NUM">1</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">B</field>
+            <statement name="DO">
+              <block type="controls_if">
+                <value name="IF0">
+                  <block type="logic_compare">
+                    <field name="OP">GT</field>
+                    <value name="A">
+                      <block type="variables_valor_guardado">
+                        <field name="VAR">pontos</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="variables_tirar">
+                    <field name="VAR">pontos</field>
+                    <value name="AMOUNT">
+                      <block type="math_number">
+                        <field name="NUM">1</field>
+                      </block>
+                    </value>
+                  </block>
+                </statement>
+              </block>
+            </statement>
+            <next>
+              <block type="display_mostrar_valor">
+                <field name="LINHA">1</field>
+                <field name="ALINHAMENTO">CENTER</field>
+                <value name="VALOR">
+                  <block type="variables_valor_guardado">
+                    <field name="VAR">pontos</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
