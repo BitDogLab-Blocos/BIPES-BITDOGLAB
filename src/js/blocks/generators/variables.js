@@ -17,6 +17,19 @@
     );
   }
 
+  function variableNameFromAlterTarget(block) {
+    var targetBlock = block.getInputTargetBlock && block.getInputTargetBlock('TARGET');
+    if (targetBlock && targetBlock.type === 'variables_valor_guardado') {
+      return variableName(targetBlock);
+    }
+
+    if (block.getFieldValue && block.getFieldValue('VAR')) {
+      return variableName(block);
+    }
+
+    return null;
+  }
+
   function isTopLevelStatement(block) {
     return !block.getSurroundParent || block.getSurroundParent() === null;
   }
@@ -36,6 +49,15 @@
     // apenas uma vez. Dentro de botão, condição ou repetição, continua sendo
     // uma ação normal daquele contexto.
     return isTopLevelStatement(block) ? setupCode(code) : code;
+  };
+
+  Blockly.Python['variables_alterar'] = function(block) {
+    var name = variableNameFromAlterTarget(block);
+    if (!name) {
+      return '# Alterar precisa de um bloco de variavel encaixado.\n';
+    }
+    var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || '0';
+    return name + ' = ' + value + '\n';
   };
 
   Blockly.Python['variables_adicionar'] = function(block) {
