@@ -17,10 +17,25 @@
     );
   }
 
+  function isTopLevelStatement(block) {
+    return !block.getSurroundParent || block.getSurroundParent() === null;
+  }
+
+  function setupCode(code) {
+    return BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+      code +
+      BitdogLabConfig.MARKERS.SETUP_END + '\n';
+  }
+
   Blockly.Python['variables_guardar'] = function(block) {
     var name = variableName(block);
     var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || '0';
-    return name + ' = ' + value + '\n';
+    var code = name + ' = ' + value + '\n';
+
+    // A definição solta na sequência principal é inicialização e deve rodar
+    // apenas uma vez. Dentro de botão, condição ou repetição, continua sendo
+    // uma ação normal daquele contexto.
+    return isTopLevelStatement(block) ? setupCode(code) : code;
   };
 
   Blockly.Python['variables_adicionar'] = function(block) {

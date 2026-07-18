@@ -161,8 +161,15 @@ CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode) {
       inFunctionDef = false;
     }
 
+    var isTopLevelVariableDeclaration = line === trimmedLine &&
+      /^[A-Za-z_][A-Za-z0-9_]*\s*=\s*None$/.test(trimmedLine);
+
     if (trimmedLine.startsWith('import ') || trimmedLine.startsWith('from ')) {
       imports.push(line);
+    } else if (isTopLevelVariableDeclaration) {
+      // Blockly declara variáveis usadas como `nome = None`. Essa declaração
+      // pertence ao setup; se entrar no loop, apaga o valor em toda iteração.
+      setup.push(line);
     } else if (BitdogLabConfig.SETUP_PATTERNS.isSetupLine(line)) {
       setup.push(line);
     } else if (trimmedLine.startsWith('#')) {
