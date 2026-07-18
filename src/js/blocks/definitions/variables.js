@@ -31,14 +31,14 @@
     init: function() {
       this.appendValueInput('VALUE')
           .setCheck('Number')
-          .appendField(isEnglish() ? '📦 Store' : '📦 Guardar')
+          .appendField(isEnglish() ? '📦 Set' : '📦 Definir')
           .appendField(variableField(), 'VAR')
-          .appendField(isEnglish() ? 'as' : 'como');
+          .appendField(isEnglish() ? 'to' : 'como');
       this.setInputsInline(true);
       setProgramConnections(this);
       this.setTooltip(isEnglish()
-        ? 'Puts a new number in the program memory. Use it at the beginning, for example: store points as 0.'
-        : 'Coloca um número novo na memória do programa. Use no começo, por exemplo: guardar pontos como 0.');
+        ? 'Sets the number stored in the program memory. At the top level it runs once at startup; inside a button or condition it runs when that action happens.'
+        : 'Define o número guardado na memória do programa. No nível principal, executa uma vez no início; dentro de botão ou condição, executa quando aquela ação acontece.');
     }
   };
 
