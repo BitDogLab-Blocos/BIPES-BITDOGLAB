@@ -124,6 +124,9 @@
     </block>
   </category>
 
+  <!-- VARIÁVEIS — memória numérica do programa -->
+  <category name="📦 Variáveis" colour="330" custom="VARIABLE"></category>
+
   <!-- 3. CONDICIONAIS -->
   <category name="🔀 Condicionais" colour="270">
     <block type="controls_if"></block>

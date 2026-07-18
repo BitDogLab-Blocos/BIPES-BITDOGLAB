@@ -1,6 +1,10 @@
 (function(global) {
   var requiredBlocks = [
     'controls_repeat_simple',
+    'variables_guardar',
+    'variables_adicionar',
+    'variables_tirar',
+    'variables_valor_guardado',
     'bloco_ligar_led',
     'mostrar_emoji',
     'display_texto',

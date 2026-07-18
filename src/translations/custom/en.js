@@ -462,6 +462,7 @@ window.BITDOGLAB_CUSTOM_TRANSLATIONS['en'] = {
   "Olá!": "Hello!",
   "🔁 Repetição": "🔁 Repeat",
   "🧮 Matemática": "🧮 Mathematics",
+  "📦 Variáveis": "📦 Variables",
   "🔀 Condicionais": "🔀 Conditionals",
   "⏱️ Tempo e Relógio": "⏱️ Weather and Clock",
   "🎨 Cores": "🎨 Colors",
