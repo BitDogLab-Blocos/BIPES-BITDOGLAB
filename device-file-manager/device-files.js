@@ -5,6 +5,7 @@ class DeviceFilesManager {
   constructor(fileList) {
     this._mount();
     this.received_string = '';
+    this.currentPath = '';
     this.currentFiles = [];
     this.selectedFile = null;
     this.currentFileBytes = null;
@@ -42,7 +43,11 @@ class DeviceFilesManager {
     this.closeButton = get('#deviceFilesCloseButton');
     this.resizeHandle = get('#deviceFilesResizeHandle');
     this.refreshButton = get('#refreshFilesList');
+    this.backButton = get('#deviceFilesBackButton');
+    this.pathButton = get('#deviceFilesPath');
+    this.createFolderButton = get('#deviceFilesCreateFolderButton');
     this.downloadButton = get('#deviceFilesDownloadButton');
+    this.moveButton = get('#deviceFilesMoveButton');
     this.renameButton = get('#deviceFilesRenameButton');
     this.deleteButton = get('#deviceFilesDeleteButton');
     this.renameDialog = get('#deviceFilesRenameDialog');
@@ -53,8 +58,17 @@ class DeviceFilesManager {
     this.deleteMessage = get('#deviceFilesDeleteMessage');
     this.deleteCancel = get('#deviceFilesDeleteCancel');
     this.deleteConfirm = get('#deviceFilesDeleteConfirm');
+    this.createFolderDialog = get('#deviceFilesCreateFolderDialog');
+    this.createFolderForm = get('#deviceFilesCreateFolderForm');
+    this.createFolderInput = get('#deviceFilesCreateFolderInput');
+    this.createFolderCancel = get('#deviceFilesCreateFolderCancel');
+    this.moveDialog = get('#deviceFilesMoveDialog');
+    this.moveTarget = get('#deviceFilesMoveTarget');
+    this.moveCancel = get('#deviceFilesMoveCancel');
+    this.moveConfirm = get('#deviceFilesMoveConfirm');
 
     this._bindPanel();
+    this._updatePathUI();
     this._showPreviewMessage('Selecione um arquivo', 'O código salvo na placa aparecerá aqui.');
     this._syncActionState();
     this._connectedSnapshot = this.isConnected();
@@ -109,9 +123,17 @@ class DeviceFilesManager {
           </header>
 
           <div class="device-files-toolbar">
+            <button id="deviceFilesBackButton" class="device-files-tool is-compact" type="button" title="Voltar uma pasta" aria-label="Voltar uma pasta" disabled>
+              <span aria-hidden="true">←</span>
+            </button>
+            <button id="deviceFilesPath" class="device-files-path" type="button" title="Voltar à raiz da placa">/</button>
             <button id="refreshFilesList" class="device-files-tool" type="button" title="Atualizar arquivos da placa">
               <span aria-hidden="true">↻</span>
               <span>Atualizar</span>
+            </button>
+            <button id="deviceFilesCreateFolderButton" class="device-files-tool" type="button" title="Criar uma pasta" disabled>
+              <span aria-hidden="true">＋</span>
+              <span>Nova pasta</span>
             </button>
             <span id="file-status" class="device-files-status" role="status" aria-live="polite">Conecte a placa para ver seus arquivos.</span>
             <button id="deviceFilesConnectButton" class="device-files-connect" type="button">Conectar</button>
@@ -143,6 +165,7 @@ class DeviceFilesManager {
               </div>
               <footer class="device-files-footer">
                 <button id="deviceFilesDownloadButton" class="device-files-action" type="button" disabled>Baixar</button>
+                <button id="deviceFilesMoveButton" class="device-files-action" type="button" disabled>Mover</button>
                 <button id="deviceFilesRenameButton" class="device-files-action" type="button" disabled>Renomear</button>
                 <button id="deviceFilesDeleteButton" class="device-files-action is-danger" type="button" disabled>Apagar</button>
               </footer>
@@ -174,6 +197,36 @@ class DeviceFilesManager {
               </div>
             </div>
           </div>
+
+          <div id="deviceFilesCreateFolderDialog" class="device-files-prompt" hidden>
+            <form id="deviceFilesCreateFolderForm" class="device-files-prompt-card">
+              <span class="device-files-prompt-icon is-folder" aria-hidden="true">＋</span>
+              <h2>Criar nova pasta</h2>
+              <p>A pasta será criada dentro do caminho que está aberto.</p>
+              <label for="deviceFilesCreateFolderInput">Nome da pasta</label>
+              <input id="deviceFilesCreateFolderInput" type="text" maxlength="120" autocomplete="off">
+              <div class="device-files-prompt-actions">
+                <button id="deviceFilesCreateFolderCancel" type="button">Cancelar</button>
+                <button class="is-primary" type="submit">Criar pasta</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="deviceFilesMoveDialog" class="device-files-prompt" hidden>
+            <div class="device-files-prompt-card">
+              <span class="device-files-prompt-icon is-folder" aria-hidden="true">→</span>
+              <h2>Mover arquivo</h2>
+              <p id="deviceFilesMoveMessage">Escolha a pasta de destino.</p>
+              <label for="deviceFilesMoveTarget">Destino</label>
+              <select id="deviceFilesMoveTarget" disabled>
+                <option>Lendo pastas…</option>
+              </select>
+              <div class="device-files-prompt-actions">
+                <button id="deviceFilesMoveCancel" type="button">Cancelar</button>
+                <button id="deviceFilesMoveConfirm" class="is-primary" type="button" disabled>Mover para cá</button>
+              </div>
+            </div>
+          </div>
           <div id="deviceFilesResizeHandle" class="device-files-resize-handle" role="separator" aria-label="Redimensionar janela" title="Arraste para redimensionar"></div>
         </section>
       </div>`;
@@ -186,17 +239,28 @@ class DeviceFilesManager {
     this.openButton.addEventListener('click', () => this.openPanel());
     this.maximizeButton.addEventListener('click', () => this.toggleMaximize());
     this.closeButton.addEventListener('click', () => this.closePanel());
+    this.backButton.addEventListener('click', () => this.goBack());
+    this.pathButton.addEventListener('click', () => this.goRoot());
     this.refreshButton.addEventListener('click', () => this.listFiles());
+    this.createFolderButton.addEventListener('click', () => this.openCreateFolderDialog());
     this.connectButton.addEventListener('click', () => this.connect());
     this.downloadButton.addEventListener('click', () => this.downloadSelected());
+    this.moveButton.addEventListener('click', () => this.openMoveDialog());
     this.renameButton.addEventListener('click', () => this.openRenameDialog());
     this.deleteButton.addEventListener('click', () => this.openDeleteDialog());
     this.renameCancel.addEventListener('click', () => this.closeRenameDialog());
     this.deleteCancel.addEventListener('click', () => this.closeDeleteDialog());
     this.deleteConfirm.addEventListener('click', () => this.confirmDelete());
+    this.createFolderCancel.addEventListener('click', () => this.closeCreateFolderDialog());
+    this.moveCancel.addEventListener('click', () => this.closeMoveDialog());
+    this.moveConfirm.addEventListener('click', () => this.confirmMove());
     this.renameForm.addEventListener('submit', (event) => {
       event.preventDefault();
       this.confirmRename();
+    });
+    this.createFolderForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      this.confirmCreateFolder();
     });
 
     this.titlebar.addEventListener('pointerdown', (event) => this._startWindowDrag(event));
@@ -216,6 +280,10 @@ class DeviceFilesManager {
         this.closeRenameDialog();
       } else if (!this.deleteDialog.hidden) {
         this.closeDeleteDialog();
+      } else if (!this.createFolderDialog.hidden) {
+        this.closeCreateFolderDialog();
+      } else if (!this.moveDialog.hidden) {
+        this.closeMoveDialog();
       } else {
         this.closePanel();
       }
@@ -228,6 +296,48 @@ class DeviceFilesManager {
 
   isConnected() {
     return typeof mux !== 'undefined' && typeof mux.connected === 'function' && mux.connected();
+  }
+
+  _joinPath(base, name) {
+    return base ? base + '/' + name : name;
+  }
+
+  _parentPath(path) {
+    var parts = String(path || '').split('/').filter(Boolean);
+    parts.pop();
+    return parts.join('/');
+  }
+
+  _updatePathUI() {
+    if (this.pathButton) {
+      this.pathButton.textContent = this.currentPath ? '/' + this.currentPath : '/';
+      this.pathButton.title = this.currentPath ? 'Voltar à raiz da placa' : 'Raiz da placa';
+    }
+    if (this.backButton) this.backButton.disabled = this.busy || !this.currentPath;
+  }
+
+  enterDirectory(name) {
+    if (this.busy) return;
+    this.currentPath = this._joinPath(this.currentPath, name);
+    this._updatePathUI();
+    this.clearSelection();
+    this.listFiles();
+  }
+
+  goBack() {
+    if (this.busy || !this.currentPath) return;
+    this.currentPath = this._parentPath(this.currentPath);
+    this._updatePathUI();
+    this.clearSelection();
+    this.listFiles();
+  }
+
+  goRoot() {
+    if (this.busy || !this.currentPath) return;
+    this.currentPath = '';
+    this._updatePathUI();
+    this.clearSelection();
+    this.listFiles();
   }
 
   openPanel() {
@@ -252,6 +362,8 @@ class DeviceFilesManager {
     if (!this.panel) return;
     this.closeRenameDialog();
     this.closeDeleteDialog();
+    this.closeCreateFolderDialog();
+    this.closeMoveDialog();
     this.panel.classList.remove('is-open');
     this.panel.setAttribute('aria-hidden', 'true');
     this.openButton.setAttribute('aria-expanded', 'false');
@@ -419,6 +531,8 @@ class DeviceFilesManager {
 
     if (!connected) {
       this._cancelOperation();
+      this.currentPath = '';
+      this._updatePathUI();
       this.currentFiles = [];
       this.clearSelection();
       this._renderListMessage('A placa foi desconectada. Conecte novamente para atualizar os arquivos.');
@@ -439,12 +553,15 @@ class DeviceFilesManager {
     this.busy = busy;
     if (this.dialog) this.dialog.classList.toggle('is-busy', busy);
     if (this.refreshButton) this.refreshButton.disabled = busy || !this.isConnected();
+    if (this.createFolderButton) this.createFolderButton.disabled = busy || !this.isConnected();
+    this._updatePathUI();
     this._syncActionState();
   }
 
   _syncActionState() {
     var hasFile = Boolean(this.selectedFile && !this.selectedFile.isDirectory);
     if (this.downloadButton) this.downloadButton.disabled = this.busy || !hasFile || !this.currentFileBytes;
+    if (this.moveButton) this.moveButton.disabled = this.busy || !hasFile;
     if (this.renameButton) this.renameButton.disabled = this.busy || !hasFile;
     if (this.deleteButton) this.deleteButton.disabled = this.busy || !hasFile;
   }
@@ -605,14 +722,15 @@ class DeviceFilesManager {
       return;
     }
 
+    var target = this.currentPath ? this._pythonText(this.currentPath) : "'.'";
     var body = [
       'try:',
       ' entries=[]',
       " if hasattr(os,'ilistdir'):",
-      "  for item in os.ilistdir('.'):",
+      '  for item in os.ilistdir(' + target + '):',
       '   entries.append([item[0],item[1],item[3] if len(item)>3 else -1])',
       ' else:',
-      "  for name in os.listdir('.'):",
+      '  for name in os.listdir(' + target + '):',
       '   entries.append([name,0,-1])',
       ' import ujson',
       " print(start+'OK:'+ujson.dumps(entries)+end)",
@@ -620,8 +738,9 @@ class DeviceFilesManager {
       " print(start+'ERR:'+repr(e)+end)"
     ].join('\n');
 
-    this._renderListMessage('Lendo arquivos da placa…');
-    this._executeFsScript('Lendo arquivos da placa…', body, 8000, (payload) => {
+    this._updatePathUI();
+    this._renderListMessage('Lendo esta pasta…');
+    this._executeFsScript('Lendo ' + (this.currentPath ? '/' + this.currentPath : 'a raiz da placa') + '…', body, 8000, (payload) => {
       var entries;
       try {
         entries = JSON.parse(payload);
@@ -635,14 +754,15 @@ class DeviceFilesManager {
         name: entry[0],
         type: Number(entry[1]) || 0,
         size: Number(entry[2]),
-        isDirectory: (Number(entry[1]) & 0x4000) === 0x4000
+        isDirectory: (Number(entry[1]) & 0x4000) === 0x4000,
+        path: this._joinPath(this.currentPath, entry[0])
       })).sort((left, right) => {
         if (left.isDirectory !== right.isDirectory) return left.isDirectory ? -1 : 1;
         return left.name.localeCompare(right.name, 'pt-BR', {sensitivity: 'base'});
       });
 
       this.renderFileList();
-      this.setStatus(this.currentFiles.length === 1 ? '1 item encontrado na placa.' : this.currentFiles.length + ' itens encontrados na placa.', 'success');
+      this.setStatus(this.currentFiles.length === 1 ? '1 item nesta pasta.' : this.currentFiles.length + ' itens nesta pasta.', 'success');
 
       var selection = this._selectAfterRefresh;
       this._selectAfterRefresh = null;
@@ -686,7 +806,7 @@ class DeviceFilesManager {
       item.append(icon, name, size);
       item.addEventListener('click', () => {
         if (entry.isDirectory) {
-          this.setStatus('A navegação em pastas ainda não está disponível nesta versão.');
+          this.enterDirectory(entry.name);
           return;
         }
         this.selectFile(entry.name);
@@ -745,11 +865,12 @@ class DeviceFilesManager {
     });
     this._showPreviewMessage('Lendo ' + entry.name + '…', 'Aguarde a resposta da placa.');
     this._syncActionState();
-    this.get_file(entry.name);
+    this.get_file(entry.path, entry.name);
   }
 
-  get_file(fileName) {
-    var path = this._pythonText(fileName);
+  get_file(filePath, displayName) {
+    var path = this._pythonText(filePath);
+    var fileName = displayName || filePath;
     var body = [
       'try:',
       ' f=open(' + path + ",'rb')",
@@ -765,7 +886,7 @@ class DeviceFilesManager {
     ].join('\n');
 
     this._executeFsScript('Abrindo ' + fileName + '…', body, 12000, (payload) => {
-      if (!this.selectedFile || this.selectedFile.name !== fileName) return;
+      if (!this.selectedFile || this.selectedFile.path !== filePath) return;
       try {
         var compact = payload.replace(/\s+/g, '');
         var binary = atob(compact);
@@ -815,6 +936,151 @@ class DeviceFilesManager {
     }
   }
 
+  openCreateFolderDialog() {
+    if (this.busy || !this.isConnected()) return;
+    this.createFolderInput.value = '';
+    this.createFolderDialog.hidden = false;
+    this.createFolderInput.focus();
+  }
+
+  closeCreateFolderDialog() {
+    if (this.createFolderDialog) this.createFolderDialog.hidden = true;
+  }
+
+  confirmCreateFolder() {
+    if (this.busy || !this.isConnected()) return;
+    var folderName = this.createFolderInput.value.trim();
+    var error = this._validateEntryName(folderName, '');
+    if (error) {
+      this.setStatus(error, 'error');
+      this.createFolderInput.focus();
+      return;
+    }
+
+    var folderPath = this._joinPath(this.currentPath, folderName);
+    var body = [
+      'try:',
+      ' os.mkdir(' + this._pythonText(folderPath) + ')',
+      " print(start+'OK'+end)",
+      'except Exception as e:',
+      " print(start+'ERR:'+repr(e)+end)"
+    ].join('\n');
+
+    this.closeCreateFolderDialog();
+    this._executeFsScript('Criando a pasta ' + folderName + '…', body, 7000, () => {
+      this.setStatus('Pasta ' + folderName + ' criada.', 'success');
+      this.listFiles();
+    });
+  }
+
+  openMoveDialog() {
+    if (!this.selectedFile || this.selectedFile.isDirectory || this.busy) return;
+    this.moveDialog.hidden = false;
+    this.moveTarget.replaceChildren();
+    var loading = document.createElement('option');
+    loading.textContent = 'Lendo pastas…';
+    this.moveTarget.appendChild(loading);
+    this.moveTarget.disabled = true;
+    this.moveConfirm.disabled = true;
+    var startupFile = !this.currentPath && /^(main|boot)\.py$/i.test(this.selectedFile.name);
+    get('#deviceFilesMoveMessage').textContent = startupFile
+      ? this.selectedFile.name + ' só participa da inicialização quando está na raiz. Escolha o destino sabendo que ele deixará de iniciar automaticamente.'
+      : 'Escolha onde salvar ' + this.selectedFile.name + '.';
+    this._loadMoveTargets();
+  }
+
+  closeMoveDialog() {
+    if (this.moveDialog) this.moveDialog.hidden = true;
+  }
+
+  _loadMoveTargets() {
+    var body = [
+      'try:',
+      ' directories=[]',
+      ' def scan(path,depth):',
+      '  if depth>8: return',
+      "  source=path if path else '.'",
+      '  for item in os.ilistdir(source):',
+      '   if item[1]&16384:',
+      "    child=(path+'/' if path else '')+item[0]",
+      '    directories.append(child)',
+      '    scan(child,depth+1)',
+      " scan('',0)",
+      ' import ujson',
+      " print(start+'OK:'+ujson.dumps(directories)+end)",
+      'except Exception as e:',
+      " print(start+'ERR:'+repr(e)+end)"
+    ].join('\n');
+
+    this._executeFsScript('Lendo pastas da placa…', body, 10000, (payload) => {
+      var directories;
+      try {
+        directories = JSON.parse(payload).filter((path) => typeof path === 'string');
+      } catch (error) {
+        this.closeMoveDialog();
+        this.setStatus('Não foi possível carregar as pastas de destino.', 'error');
+        return;
+      }
+
+      var targets = [''].concat(directories).filter((path, index, list) => path !== this.currentPath && list.indexOf(path) === index);
+      targets.sort((left, right) => {
+        if (!left) return -1;
+        if (!right) return 1;
+        return left.localeCompare(right, 'pt-BR', {sensitivity: 'base'});
+      });
+      this.moveTarget.replaceChildren();
+
+      if (targets.length === 0) {
+        var empty = document.createElement('option');
+        empty.textContent = 'Nenhuma outra pasta disponível';
+        this.moveTarget.appendChild(empty);
+        this.moveTarget.disabled = true;
+        this.moveConfirm.disabled = true;
+        return;
+      }
+
+      targets.forEach((path) => {
+        var option = document.createElement('option');
+        option.value = path;
+        option.textContent = path ? '/' + path : '/ (raiz da placa)';
+        this.moveTarget.appendChild(option);
+      });
+      this.moveTarget.disabled = false;
+      this.moveConfirm.disabled = false;
+      this.moveTarget.focus();
+    });
+  }
+
+  confirmMove() {
+    if (!this.selectedFile || this.busy || this.moveTarget.disabled) return;
+    var fileName = this.selectedFile.name;
+    var sourcePath = this.selectedFile.path;
+    var destinationPath = this._joinPath(this.moveTarget.value, fileName);
+    var body = [
+      'try:',
+      ' destination=' + this._pythonText(destinationPath),
+      ' exists=True',
+      ' try:',
+      '  os.stat(destination)',
+      ' except OSError:',
+      '  exists=False',
+      ' if exists:',
+      '  raise OSError(17)',
+      ' os.rename(' + this._pythonText(sourcePath) + ',destination)',
+      " print(start+'OK'+end)",
+      'except Exception as e:',
+      " print(start+'ERR:'+repr(e)+end)"
+    ].join('\n');
+
+    var destinationLabel = this.moveTarget.value ? '/' + this.moveTarget.value : '/';
+    this.closeMoveDialog();
+    this._executeFsScript('Movendo ' + fileName + '…', body, 8000, () => {
+      this.clearSelection();
+      this.setStatus(fileName + ' movido para ' + destinationLabel + '.', 'success');
+      this.listFiles();
+    });
+  }
+
   openRenameDialog() {
     if (!this.selectedFile || this.busy) return;
     this.renameInput.value = this.selectedFile.name;
@@ -828,18 +1094,23 @@ class DeviceFilesManager {
     if (this.renameDialog) this.renameDialog.hidden = true;
   }
 
-  _validateFileName(name) {
-    if (!name) return 'Digite um nome para o arquivo.';
+  _validateEntryName(name, ignoredName) {
+    if (!name) return 'Digite um nome.';
     if (name === '.' || name === '..') return 'Escolha outro nome.';
     if (/[\\/]/.test(name) || /[\x00-\x1f\x7f]/.test(name)) return 'Use apenas um nome, sem caminhos ou caracteres de controle.';
     if (name.length > 120) return 'O nome é muito longo.';
-    if (this.currentFiles.some((entry) => entry.name === name && entry.name !== this.selectedFile.name)) return 'Já existe um arquivo com esse nome.';
+    if (this.currentFiles.some((entry) => entry.name === name && entry.name !== ignoredName)) return 'Já existe um arquivo ou pasta com esse nome.';
     return '';
+  }
+
+  _validateFileName(name) {
+    return this._validateEntryName(name, this.selectedFile ? this.selectedFile.name : '');
   }
 
   confirmRename() {
     if (!this.selectedFile || this.busy) return;
     var oldName = this.selectedFile.name;
+    var oldPath = this.selectedFile.path;
     var newName = this.renameInput.value.trim();
     var error = this._validateFileName(newName);
     if (error) {
@@ -854,7 +1125,7 @@ class DeviceFilesManager {
 
     var body = [
       'try:',
-      ' os.rename(' + this._pythonText(oldName) + ',' + this._pythonText(newName) + ')',
+      ' os.rename(' + this._pythonText(oldPath) + ',' + this._pythonText(this._joinPath(this.currentPath, newName)) + ')',
       " print(start+'OK'+end)",
       'except Exception as e:',
       " print(start+'ERR:'+repr(e)+end)"
@@ -887,7 +1158,7 @@ class DeviceFilesManager {
     var fileName = this.selectedFile.name;
     var body = [
       'try:',
-      ' os.remove(' + this._pythonText(fileName) + ')',
+      ' os.remove(' + this._pythonText(this.selectedFile.path) + ')',
       " print(start+'OK'+end)",
       'except Exception as e:',
       " print(start+'ERR:'+repr(e)+end)"
@@ -910,8 +1181,10 @@ class DeviceFilesManager {
 
   run(file) {
     if (!this.isConnected()) return;
+    var entry = this.currentFiles.find((item) => item.name === file);
+    var path = entry ? entry.path : this._joinPath(this.currentPath, file);
     DeviceFilesManager.update_file_status('Executando ' + file + '…');
-    mux.bufferPush('exec(open(' + this._pythonText(file) + ').read(),globals())\r');
+    mux.bufferPush('exec(open(' + this._pythonText(path) + ').read(),globals())\r');
   }
 
   // Compatibility with the existing save/upload hooks.
