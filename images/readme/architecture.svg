@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="600" viewBox="0 0 1500 600" role="img" aria-labelledby="title description">
+  <title id="title">BIPES BitDogLab general architecture</title>
+  <desc id="description">Visual blocks pass through contracts and MicroPython generation, then WebSerial sends the program to the BitDogLab. Projects, examples, translations and the file manager support the main flow.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#211735"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="main" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#593884"/>
+      <stop offset="1" stop-color="#33234e"/>
+    </linearGradient>
+    <marker id="violet-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#9b6cff"/>
+    </marker>
+    <marker id="cyan-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#45dff5"/>
+    </marker>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .heading { fill: #f7f3fb; font: 800 24px system-ui, sans-serif; }
+      .label { fill: #f4eff9; font: 750 17px system-ui, sans-serif; text-anchor: middle; }
+      .type { fill: #aca2bd; font: 600 11px system-ui, sans-serif; letter-spacing: 1.4px; text-anchor: middle; }
+      .main-box { fill: url(#main); stroke: #8b61c2; stroke-width: 1.5; }
+      .data-box { fill: #183945; stroke: #45dff5; stroke-width: 1.5; }
+      .board-box { fill: #412b1b; stroke: #ff9d2e; stroke-width: 1.5; }
+      .support-box { fill: #252035; stroke: #695480; stroke-width: 1.2; }
+      .flow { fill: none; stroke: #9b6cff; stroke-width: 2.4; marker-end: url(#violet-arrow); }
+      .data { fill: none; stroke: #45dff5; stroke-width: 2.4; marker-end: url(#cyan-arrow); }
+      .support { fill: none; stroke: #7a698f; stroke-width: 1.6; stroke-dasharray: 6 6; marker-end: url(#violet-arrow); }
+    </style>
+  </defs>
+
+  <rect width="1500" height="600" rx="24" fill="url(#bg)"/>
+  <rect x="1" y="1" width="1498" height="598" rx="23" fill="none" stroke="#6d4aa1" stroke-opacity=".5"/>
+  <path d="M24 2 H1476" stroke="#ff9d2e" stroke-width="2.5"/>
+  <text class="heading" x="52" y="62">From an idea to real hardware</text>
+
+  <path class="flow" d="M220 215 H270"/>
+  <path class="flow" d="M440 215 H490"/>
+  <path class="flow" d="M660 215 H710"/>
+  <path class="data" d="M880 215 H930"/>
+  <path class="data" d="M1100 215 H1150"/>
+
+  <g>
+    <rect class="main-box" x="50" y="155" width="170" height="120" rx="15"/>
+    <text class="label" x="135" y="207">Interface</text>
+    <text class="type" x="135" y="235">HTML · CSS · JS</text>
+  </g>
+  <g>
+    <rect class="main-box" x="270" y="155" width="170" height="120" rx="15"/>
+    <text class="label" x="355" y="207">Blockly</text>
+    <text class="type" x="355" y="235">WORKSPACE</text>
+  </g>
+  <g>
+    <rect class="main-box" x="490" y="155" width="170" height="120" rx="15"/>
+    <text class="label" x="575" y="207">Contracts</text>
+    <text class="type" x="575" y="235">VALIDATION</text>
+  </g>
+  <g filter="url(#glow)">
+    <rect x="710" y="155" width="170" height="120" rx="15" fill="#443067" stroke="#b58aff" stroke-width="1.5"/>
+    <text class="label" x="795" y="207">MicroPython</text>
+    <text class="type" x="795" y="235">CODE GENERATOR</text>
+  </g>
+  <g>
+    <rect class="data-box" x="930" y="155" width="170" height="120" rx="15"/>
+    <text class="label" x="1015" y="207">WebSerial</text>
+    <text class="type" x="1015" y="235">USB · REPL</text>
+  </g>
+  <g filter="url(#glow)">
+    <rect class="board-box" x="1150" y="155" width="210" height="120" rx="15"/>
+    <text class="label" x="1255" y="207">BitDogLab</text>
+    <text class="type" x="1255" y="235">PICO W · HARDWARE</text>
+  </g>
+
+  <text class="heading" x="52" y="360">Supporting modules</text>
+  <path class="support" d="M190 466 C190 392 330 402 340 276"/>
+  <path class="support" d="M465 430 C465 370 405 350 375 276"/>
+  <path class="support" d="M740 430 C740 350 170 360 150 276"/>
+  <path class="support" d="M1015 430 C1015 360 1015 340 1015 276"/>
+
+  <g>
+    <rect class="support-box" x="80" y="430" width="220" height="92" rx="13"/>
+    <text class="label" x="190" y="470">Project modes</text>
+    <text class="type" x="190" y="495">BASIC · ROBOT · GREENHOUSE · PIANO</text>
+  </g>
+  <g>
+    <rect class="support-box" x="355" y="430" width="220" height="92" rx="13"/>
+    <text class="label" x="465" y="470">Examples</text>
+    <text class="type" x="465" y="495">CONNECTED XML</text>
+  </g>
+  <g>
+    <rect class="support-box" x="630" y="430" width="220" height="92" rx="13"/>
+    <text class="label" x="740" y="470">i18n</text>
+    <text class="type" x="740" y="495">PT-BR · EN</text>
+  </g>
+  <g>
+    <rect class="support-box" x="905" y="430" width="220" height="92" rx="13"/>
+    <text class="label" x="1015" y="470">Device files</text>
+    <text class="type" x="1015" y="495">FILES · FOLDERS · CSV</text>
+  </g>
+</svg>

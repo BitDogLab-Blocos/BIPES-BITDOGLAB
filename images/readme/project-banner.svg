@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="360" viewBox="0 0 1400 360" role="img" aria-labelledby="title description">
+  <title id="title">BIPES BitDogLab Blocos</title>
+  <desc id="description">Minimal open source project banner with the BitDogLab dog mascot holding colorful programming blocks.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#251642"/>
+      <stop offset="0.55" stop-color="#17142e"/>
+      <stop offset="1" stop-color="#101827"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9b6cff"/>
+      <stop offset="0.55" stop-color="#45dff5"/>
+      <stop offset="1" stop-color="#ff9d2e"/>
+    </linearGradient>
+    <linearGradient id="word" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.68" stop-color="#d7ccff"/>
+      <stop offset="1" stop-color="#7cecff"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { fill: url(#word); font: 800 66px system-ui, sans-serif; letter-spacing: -2px; }
+      .subtitle { fill: #aea4c5; font: 600 17px system-ui, sans-serif; letter-spacing: 4px; }
+      .pill { fill: #e9e3f2; font: 700 13px system-ui, sans-serif; letter-spacing: 1.5px; }
+      .circuit { fill: none; stroke: #45dff5; stroke-width: 2; stroke-linecap: round; opacity: .48; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="360" rx="28" fill="url(#bg)"/>
+  <rect x="1" y="1" width="1398" height="358" rx="27" fill="none" stroke="#744ca7" stroke-opacity=".55"/>
+  <path d="M28 2 H1372" stroke="#ff9d2e" stroke-width="3" stroke-opacity=".9"/>
+
+  <g class="circuit">
+    <path d="M1090 66 H1210 L1242 98 H1360"/>
+    <path d="M1045 296 H1175 L1210 261 H1360"/>
+    <path d="M1170 176 H1360"/>
+    <circle cx="1090" cy="66" r="5" fill="#45dff5"/>
+    <circle cx="1045" cy="296" r="5" fill="#9b6cff"/>
+    <circle cx="1170" cy="176" r="5" fill="#ff9d2e"/>
+    <circle cx="1360" cy="98" r="5" fill="#45dff5"/>
+    <circle cx="1360" cy="176" r="5" fill="#ff9d2e"/>
+    <circle cx="1360" cy="261" r="5" fill="#9b6cff"/>
+  </g>
+
+  <ellipse cx="190" cy="184" rx="152" ry="140" fill="#7546a8" opacity=".2" filter="url(#glow)"/>
+  <image href="bitdoglab-blocks.png" x="31" y="28" width="318" height="304" preserveAspectRatio="xMidYMid meet"/>
+
+  <g transform="translate(378 0)">
+    <text class="title" x="0" y="154">BIPES · BitDogLab</text>
+    <text class="title" x="0" y="223" fill="#7cecff">Blocos</text>
+    <text class="subtitle" x="2" y="266">VISUAL BLOCKS · MICROPYTHON · REAL HARDWARE</text>
+    <g transform="translate(2 291)">
+      <rect width="176" height="34" rx="17" fill="#3a2758" stroke="#9b6cff" stroke-opacity=".65"/>
+      <circle cx="20" cy="17" r="5" fill="#55d46a" filter="url(#glow)"/>
+      <text class="pill" x="35" y="22">OPEN SOURCE</text>
+    </g>
+  </g>
+</svg>
