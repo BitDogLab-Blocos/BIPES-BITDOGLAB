@@ -606,8 +606,129 @@
   display: none;
 }
 
-.device-files-preview.has-file .device-files-editor {
+.device-files-preview.has-file:not(.has-csv) .device-files-editor {
   display: block;
+}
+
+.device-files-csv {
+  display: none;
+  min-width: 0;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+  background: #251e3b;
+}
+
+.device-files-preview.has-csv .device-files-csv {
+  display: grid;
+}
+
+.device-files-csv-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 2.2rem;
+  padding: 0.4rem 0.8rem;
+  box-sizing: border-box;
+  color: #aaa0ba;
+  background: #292140;
+  box-shadow: inset 0 -1px 0 rgba(69, 223, 245, 0.12);
+  font-size: 0.68rem;
+}
+
+.device-files-csv-summary strong {
+  color: #dcd4e8;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.device-files-csv-summary span {
+  overflow: hidden;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.device-files-csv-scroll {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  outline: none;
+  scrollbar-color: rgba(155, 108, 255, 0.72) rgba(31, 25, 50, 0.72);
+  scrollbar-width: thin;
+}
+
+.device-files-csv-scroll:focus-visible {
+  box-shadow: inset 0 0 0 1px rgba(69, 223, 245, 0.4);
+}
+
+.device-files-csv-table {
+  width: 100%;
+  min-width: max-content;
+  color: #e7e0ee;
+  background: #251e3b;
+  border-spacing: 0;
+  font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.74rem;
+  line-height: 1.35;
+}
+
+.device-files-csv-table th,
+.device-files-csv-table td {
+  min-width: 7rem;
+  max-width: 24rem;
+  padding: 0.52rem 0.7rem;
+  overflow: hidden;
+  border-right: 1px solid rgba(155, 108, 255, 0.12);
+  border-bottom: 1px solid rgba(155, 108, 255, 0.11);
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.device-files-csv-table thead th {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  color: #d8f8fc;
+  background: #49316f;
+  box-shadow: inset 0 -2px 0 rgba(69, 223, 245, 0.52), 0 2px 8px rgba(8, 4, 20, 0.24);
+  font-weight: 700;
+}
+
+.device-files-csv-table tbody tr:nth-child(even) td {
+  background: rgba(155, 108, 255, 0.045);
+}
+
+.device-files-csv-table tbody tr:hover td {
+  background: rgba(69, 223, 245, 0.07);
+}
+
+.device-files-csv-table .device-files-csv-index {
+  position: sticky;
+  z-index: 1;
+  left: 0;
+  min-width: 3.2rem;
+  width: 3.2rem;
+  color: #ffc16f;
+  background: #352651;
+  box-shadow: inset -2px 0 0 rgba(255, 157, 46, 0.42);
+  text-align: center;
+  font-weight: 700;
+}
+
+.device-files-csv-table thead .device-files-csv-index {
+  z-index: 3;
+  color: #fff2dd;
+  background: #5b337f;
+  box-shadow: inset -2px -2px 0 rgba(255, 157, 46, 0.68);
+}
+
+.device-files-csv-empty {
+  height: 8rem;
+  color: #aaa0ba;
+  text-align: center !important;
 }
 
 .device-files-editor .CodeMirror {
