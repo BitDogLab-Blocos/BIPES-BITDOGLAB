@@ -9,6 +9,7 @@ class DeviceFilesManager {
     this.currentFiles = [];
     this.selectedFile = null;
     this.currentFileBytes = null;
+    this.currentFileText = null;
     this.busy = false;
     this._lastFocus = null;
     this._operationPoll = null;
@@ -34,6 +35,8 @@ class DeviceFilesManager {
     this.csvPanel = get('#deviceFilesCsv');
     this.csvMeta = get('#deviceFilesCsvMeta');
     this.csvTable = get('#deviceFilesCsvTable');
+    this.csvViewControl = get('#deviceFilesCsvViewControl');
+    this.csvViewToggle = get('#deviceFilesCsvViewToggle');
     this.emptyPanel = get('#deviceFilesEmpty');
     this.status = get('#file-status');
     this.fileName = get('#content_file_name');
@@ -157,6 +160,10 @@ class DeviceFilesManager {
               <div class="device-files-preview-heading">
                 <span id="deviceFilesPreviewIcon" class="device-files-preview-icon" aria-hidden="true">◇</span>
                 <input id="content_file_name" type="text" value="Nenhum arquivo selecionado" readonly aria-label="Arquivo selecionado">
+                <label id="deviceFilesCsvViewControl" class="device-files-csv-toggle" title="Marcado: organiza o CSV em colunas. Desmarcado: mostra o texto original." hidden>
+                  <input id="deviceFilesCsvViewToggle" type="checkbox" checked>
+                  <span>Exibir como tabela</span>
+                </label>
               </div>
               <div id="deviceFilesEmpty" class="device-files-empty">
                 <span aria-hidden="true">⌁</span>
@@ -266,6 +273,7 @@ class DeviceFilesManager {
     this.createFolderCancel.addEventListener('click', () => this.closeCreateFolderDialog());
     this.moveCancel.addEventListener('click', () => this.closeMoveDialog());
     this.moveConfirm.addEventListener('click', () => this.confirmMove());
+    this.csvViewToggle.addEventListener('change', () => this.toggleCsvView());
     this.renameForm.addEventListener('submit', (event) => {
       event.preventDefault();
       this.confirmRename();
@@ -588,11 +596,13 @@ class DeviceFilesManager {
     this.preview.classList.remove('has-csv');
     this.editorPanel.setAttribute('aria-hidden', 'true');
     if (this.csvPanel) this.csvPanel.setAttribute('aria-hidden', 'true');
+    if (this.csvViewControl) this.csvViewControl.hidden = true;
   }
 
   clearSelection() {
     this.selectedFile = null;
     this.currentFileBytes = null;
+    this.currentFileText = null;
     if (this.fileName) this.fileName.value = 'Nenhum arquivo selecionado';
     if (this.previewIcon) {
       this.previewIcon.className = 'device-files-preview-icon';
@@ -601,6 +611,7 @@ class DeviceFilesManager {
     if (this.editor) this.editor.setValue('');
     if (this.csvTable) this.csvTable.replaceChildren();
     if (this.csvMeta) this.csvMeta.textContent = '';
+    if (this.csvViewToggle) this.csvViewToggle.checked = true;
     this._showPreviewMessage('Selecione um arquivo', 'O conteúdo salvo na placa aparecerá aqui.');
     this._syncActionState();
     if (this.fileList) {
@@ -1028,12 +1039,34 @@ class DeviceFilesManager {
     this.preview.classList.add('has-file', 'has-csv');
   }
 
+  _renderRawCsvPreview(text) {
+    this.preview.classList.remove('has-csv');
+    this.preview.classList.add('has-file');
+    this.csvPanel.setAttribute('aria-hidden', 'true');
+    this.editor.setOption('mode', null);
+    this.editor.setValue(text);
+    this.editorPanel.setAttribute('aria-hidden', 'false');
+  }
+
+  toggleCsvView() {
+    if (!this.selectedFile || !/\.csv$/i.test(this.selectedFile.name) || this.currentFileText === null) return;
+    if (this.csvViewToggle.checked) {
+      this._renderCsvPreview(this.currentFileText);
+      this.setStatus(this.selectedFile.name + ' organizado em tabela.', 'success');
+    } else {
+      this._renderRawCsvPreview(this.currentFileText);
+      this.setStatus(this.selectedFile.name + ' exibido como texto CSV.');
+    }
+    this.resize();
+  }
+
   selectFile(name) {
     var entry = this.currentFiles.find((item) => item.name === name);
     if (!entry || entry.isDirectory || this.busy) return;
 
     this.selectedFile = entry;
     this.currentFileBytes = null;
+    this.currentFileText = null;
     this.fileName.value = entry.name;
     this._applyFileIcon(this.previewIcon, entry, 'device-files-preview-icon');
     this.fileList.querySelectorAll('.device-file-item').forEach((item) => {
@@ -1079,10 +1112,14 @@ class DeviceFilesManager {
           isText = false;
           text = '# Este arquivo é binário e não pode ser exibido como código.\n# Você ainda pode baixá-lo para o computador.';
         }
+        this.currentFileText = isText ? text : null;
 
         if (isText && /\.csv$/i.test(fileName)) {
+          this.csvViewToggle.checked = true;
+          this.csvViewControl.hidden = false;
           this._renderCsvPreview(text);
         } else {
+          this.csvViewControl.hidden = true;
           this.preview.classList.remove('has-csv');
           this.csvPanel.setAttribute('aria-hidden', 'true');
           this.editor.setOption('mode', /\.py$/i.test(fileName) ? 'python' : null);
@@ -1095,6 +1132,7 @@ class DeviceFilesManager {
         this.setStatus(fileName + ' aberto (' + bytes.length + ' bytes).', 'success');
       } catch (error) {
         this.currentFileBytes = null;
+        this.currentFileText = null;
         this._showPreviewMessage('Não foi possível abrir o arquivo', 'A resposta recebida não contém um arquivo válido.');
         this._syncActionState();
         this.setStatus('Não foi possível decodificar o conteúdo do arquivo.', 'error');
