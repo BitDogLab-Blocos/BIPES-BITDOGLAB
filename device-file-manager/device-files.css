@@ -805,6 +805,146 @@
   opacity: 0.6;
 }
 
+/* Subtle neon accents: modern contrast without adding visual noise. */
+.device-files-trigger,
+#content_files {
+  --device-neon-violet: #9b6cff;
+  --device-neon-cyan: #45dff5;
+  --device-neon-orange: #ff9d2e;
+}
+
+.device-files-trigger:hover,
+.device-files-trigger:focus-visible,
+.device-files-trigger[aria-expanded="true"] {
+  box-shadow:
+    inset 0 -2px 0 var(--device-neon-orange),
+    0 0 10px rgba(255, 157, 46, 0.24),
+    0 0 16px rgba(155, 108, 255, 0.16);
+}
+
+#content_files.device-files-overlay {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(155, 108, 255, 0.08), transparent 34%),
+    radial-gradient(circle at 84% 82%, rgba(69, 223, 245, 0.045), transparent 32%),
+    rgba(12, 8, 28, 0.57);
+}
+
+.device-files-window {
+  background:
+    linear-gradient(145deg, rgba(155, 108, 255, 0.055), transparent 38%),
+    #241c39;
+  border-color: rgba(155, 108, 255, 0.25);
+  box-shadow:
+    0 22px 55px rgba(8, 4, 20, 0.6),
+    0 0 22px rgba(155, 108, 255, 0.15),
+    0 0 1px rgba(69, 223, 245, 0.34);
+}
+
+.device-files-titlebar {
+  position: relative;
+  background: linear-gradient(90deg, #29184a 0%, #321b58 46%, #24163f 100%);
+  box-shadow: inset 0 -1px 0 rgba(69, 223, 245, 0.14);
+}
+
+.device-files-titlebar::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(69, 223, 245, 0.48), rgba(155, 108, 255, 0.18) 52%, rgba(255, 157, 46, 0.4));
+}
+
+.device-files-title-icon {
+  filter: drop-shadow(0 0 6px rgba(255, 157, 46, 0.62));
+}
+
+.device-files-toolbar {
+  background: linear-gradient(90deg, #30264b, #2b2244 60%, #271f3e);
+  box-shadow: inset 0 -1px 0 rgba(155, 108, 255, 0.15);
+}
+
+.device-files-path {
+  color: #bceef6;
+  background: rgba(69, 223, 245, 0.055);
+  box-shadow: inset 0 0 0 1px rgba(69, 223, 245, 0.13);
+}
+
+.device-files-path:hover,
+.device-files-path:focus-visible {
+  background: rgba(69, 223, 245, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(69, 223, 245, 0.32), 0 0 9px rgba(69, 223, 245, 0.12);
+}
+
+.device-files-sidebar {
+  background: linear-gradient(180deg, #342951, #2d2448 72%);
+  box-shadow: inset -1px 0 0 rgba(69, 223, 245, 0.1);
+}
+
+.device-file-item:hover,
+.device-file-item:focus-visible {
+  background: rgba(155, 108, 255, 0.16);
+  box-shadow: inset 2px 0 0 rgba(69, 223, 245, 0.35);
+}
+
+.device-file-item[aria-selected="true"] {
+  background: linear-gradient(90deg, rgba(91, 49, 158, 0.9), rgba(49, 31, 81, 0.72));
+  box-shadow:
+    inset 2px 0 0 var(--device-neon-orange),
+    0 0 11px rgba(155, 108, 255, 0.24);
+}
+
+.device-files-preview {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(69, 223, 245, 0.045), transparent 34%),
+    #251e3b;
+}
+
+.device-files-preview-heading,
+.device-files-footer {
+  background: linear-gradient(90deg, #2d2446, #292140);
+  box-shadow: inset 0 -1px 0 rgba(155, 108, 255, 0.11);
+}
+
+.device-files-footer {
+  box-shadow: inset 0 1px 0 rgba(69, 223, 245, 0.09);
+}
+
+.device-files-empty > span {
+  color: var(--device-neon-violet);
+  text-shadow: 0 0 13px rgba(155, 108, 255, 0.42), 0 0 22px rgba(69, 223, 245, 0.1);
+}
+
+.device-files-editor .CodeMirror-cursor {
+  border-left-color: var(--device-neon-cyan);
+  box-shadow: 0 0 5px rgba(69, 223, 245, 0.32);
+}
+
+.device-files-editor .CodeMirror {
+  background: #251e3b;
+}
+
+.device-files-editor .CodeMirror-gutters {
+  background: #2d2446;
+}
+
+.device-files-prompt-card {
+  border: 1px solid rgba(155, 108, 255, 0.2);
+  box-shadow: 0 16px 35px rgba(5, 2, 12, 0.58), 0 0 18px rgba(155, 108, 255, 0.18);
+}
+
+.device-files-prompt-card input:focus,
+.device-files-prompt-card select:focus {
+  box-shadow: inset 0 0 0 1px var(--device-neon-cyan), 0 0 9px rgba(69, 223, 245, 0.16);
+}
+
+.device-files-resize-handle::after {
+  border-color: rgba(255, 157, 46, 0.86);
+  box-shadow: 2px 2px 6px rgba(255, 157, 46, 0.24), 0 0 8px rgba(155, 108, 255, 0.12);
+}
+
 @media (max-width: 760px) {
   #content_files.device-files-overlay {
     padding: 0.55rem;
