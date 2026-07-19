@@ -193,7 +193,7 @@
 .device-files-toolbar {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.4rem;
   min-width: 0;
   padding: 0 0.8rem;
   color: #cdc5d9;
@@ -218,6 +218,54 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+}
+
+.device-files-tool.is-compact {
+  justify-content: center;
+  width: 2rem;
+  padding: 0.35rem;
+  font-size: 1rem;
+}
+
+.device-files-tool:disabled,
+.device-files-path:disabled {
+  color: #615968;
+  cursor: default;
+  opacity: 0.62;
+}
+
+.device-files-tool:disabled:hover,
+.device-files-path:disabled:hover {
+  background: transparent;
+  box-shadow: none;
+}
+
+.device-files-path {
+  flex: 0 1 8rem;
+  min-width: 2.5rem;
+  max-width: 10rem;
+  height: 2rem;
+  padding: 0 0.55rem;
+  overflow: hidden;
+  color: #d7cee3;
+  background: rgba(75, 46, 131, 0.25);
+  border: 0;
+  border-radius: 0.38rem;
+  cursor: pointer;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.7rem;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.device-files-path:hover,
+.device-files-path:focus-visible {
+  color: #fff;
+  background: rgba(75, 46, 131, 0.5);
+  box-shadow: 0 0 8px rgba(75, 46, 131, 0.35);
+  outline: none;
+  transform: none;
 }
 
 .device-files-tool:hover,
@@ -678,7 +726,8 @@
   font-weight: 650;
 }
 
-.device-files-prompt-card input {
+.device-files-prompt-card input,
+.device-files-prompt-card select {
   width: 100%;
   height: 2.35rem;
   padding: 0 0.7rem;
@@ -692,8 +741,26 @@
   font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
 }
 
-.device-files-prompt-card input:focus {
+.device-files-prompt-card input:focus,
+.device-files-prompt-card select:focus {
   box-shadow: inset 0 0 0 1px var(--bitdoglab-accent), 0 0 9px rgba(255, 140, 0, 0.22);
+}
+
+.device-files-prompt-card select:disabled {
+  color: #736a7f;
+  cursor: wait;
+}
+
+.device-files-prompt-card select option {
+  color: #eee9f5;
+  background: #211a35;
+}
+
+.device-files-prompt-actions button:disabled {
+  color: #665e70;
+  background: transparent;
+  box-shadow: none;
+  cursor: default;
 }
 
 .device-files-prompt-icon {
@@ -711,6 +778,12 @@
   color: #ff8b85;
   background: rgba(244, 67, 54, 0.1);
   box-shadow: 0 0 10px rgba(244, 67, 54, 0.2);
+}
+
+.device-files-prompt-icon.is-folder {
+  color: #e5b44e;
+  background: rgba(229, 180, 78, 0.1);
+  box-shadow: 0 0 10px rgba(229, 180, 78, 0.2);
 }
 
 .device-files-prompt-actions {
@@ -762,7 +835,11 @@
     display: none;
   }
 
-  .device-files-tool > span:last-child {
+  .device-files-tool:not(.is-compact) > span:last-child {
     display: none;
+  }
+
+  .device-files-path {
+    max-width: 4.5rem;
   }
 }
