@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="440" viewBox="0 0 1200 440" role="img" aria-labelledby="title description">
+  <title id="title">Device file manager architecture</title>
+  <desc id="description">The interface enters the core module, which coordinates window, browser, preview and operations. Data modules use the connection module to communicate with the BitDogLab.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#211735"/>
+      <stop offset="1" stop-color="#151122"/>
+    </linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#623e91"/>
+      <stop offset="1" stop-color="#3d285f"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow-cyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#45dff5"/>
+    </marker>
+    <marker id="arrow-violet" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#9b6cff"/>
+    </marker>
+    <style>
+      .label { fill: #f5f1fa; font: 700 16px system-ui, sans-serif; text-anchor: middle; }
+      .type { fill: #aaa0ba; font: 500 11px system-ui, sans-serif; letter-spacing: 1px; text-anchor: middle; text-transform: uppercase; }
+      .module { fill: #29203f; stroke: #7451a8; stroke-width: 1.5; }
+      .wire { fill: none; stroke: #9b6cff; stroke-width: 2; marker-end: url(#arrow-violet); }
+      .data { fill: none; stroke: #45dff5; stroke-width: 2; marker-end: url(#arrow-cyan); }
+    </style>
+  </defs>
+
+  <rect width="1200" height="440" rx="22" fill="url(#background)"/>
+  <rect x="1" y="1" width="1198" height="438" rx="21" fill="none" stroke="#6d4aa1" stroke-opacity=".45"/>
+  <path d="M22 2 H1178" stroke="#ff9d2e" stroke-width="2" stroke-opacity=".75"/>
+
+  <path class="wire" d="M178 220 H238"/>
+  <path class="wire" d="M418 220 C450 220 440 72 482 72"/>
+  <path class="wire" d="M418 220 C450 220 440 166 482 166"/>
+  <path class="wire" d="M418 220 C450 220 440 260 482 260"/>
+  <path class="wire" d="M418 220 C450 220 440 354 482 354"/>
+  <path class="data" d="M668 166 C720 166 704 220 758 220"/>
+  <path class="data" d="M668 260 H758"/>
+  <path class="data" d="M668 354 C720 354 704 270 758 270"/>
+  <path class="data" d="M938 245 H1000"/>
+
+  <g>
+    <rect class="module" x="38" y="178" width="140" height="84" rx="12"/>
+    <text class="label" x="108" y="216">Interface</text>
+    <text class="type" x="108" y="239">UI</text>
+  </g>
+
+  <g filter="url(#glow)">
+    <rect x="238" y="168" width="180" height="104" rx="14" fill="url(#core)" stroke="#b58aff" stroke-width="1.5"/>
+    <text class="label" x="328" y="215">device-files.js</text>
+    <text class="type" x="328" y="241">CORE</text>
+  </g>
+
+  <g>
+    <rect class="module" x="482" y="36" width="186" height="72" rx="11"/>
+    <text class="label" x="575" y="68">window.js</text>
+    <text class="type" x="575" y="88">WINDOW</text>
+  </g>
+  <g>
+    <rect class="module" x="482" y="130" width="186" height="72" rx="11"/>
+    <text class="label" x="575" y="162">browser.js</text>
+    <text class="type" x="575" y="182">FILES</text>
+  </g>
+  <g>
+    <rect class="module" x="482" y="224" width="186" height="72" rx="11"/>
+    <text class="label" x="575" y="256">preview.js</text>
+    <text class="type" x="575" y="276">CODE + CSV</text>
+  </g>
+  <g>
+    <rect class="module" x="482" y="318" width="186" height="72" rx="11"/>
+    <text class="label" x="575" y="350">operations.js</text>
+    <text class="type" x="575" y="370">ACTIONS</text>
+  </g>
+
+  <g>
+    <rect x="758" y="193" width="180" height="104" rx="14" fill="#183640" stroke="#45dff5" stroke-width="1.5"/>
+    <text class="label" x="848" y="239">connection.js</text>
+    <text class="type" x="848" y="265">WEBSERIAL</text>
+  </g>
+
+  <g filter="url(#glow)">
+    <rect x="1000" y="193" width="162" height="104" rx="14" fill="#3d2c1e" stroke="#ff9d2e" stroke-width="1.5"/>
+    <text class="label" x="1081" y="239">BitDogLab</text>
+    <text class="type" x="1081" y="265">BOARD</text>
+  </g>
+</svg>

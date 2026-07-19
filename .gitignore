@@ -87,6 +87,7 @@ tools/
 # Arquivos de Documentação Temporária (ignora todos .md exceto README.md)
 *.md
 !README.md
+!device-file-manager/README.en.md
 
 # GitHub metadata local
 #/.github/
