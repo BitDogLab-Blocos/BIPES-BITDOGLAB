@@ -129,6 +129,21 @@ button, table { font: inherit; }
 .project-panel { min-width: 0; animation: content-in .24s ease both; }
 .project-panel[hidden] { display: none; }
 
+.guide-loading,
+.guide-error {
+  margin: 0;
+  padding: 22px 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.guide-error {
+  border-color: rgba(216, 162, 74, 0.48);
+  color: var(--text);
+}
+
 @keyframes content-in {
   from { opacity: 0; transform: translateY(6px); }
 }
@@ -399,7 +414,7 @@ code {
     border-right: 0;
     border-bottom: 1px solid var(--border);
   }
-  .project-menu { grid-template-columns: repeat(3, 1fr); margin-top: 20px; }
+  .project-menu { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin-top: 20px; }
   .project-menu-item { grid-template-columns: 1fr; gap: 3px; }
   .sidebar-note { display: none; }
   .device-main { width: min(100% - 36px, 960px); padding-top: 34px; }
