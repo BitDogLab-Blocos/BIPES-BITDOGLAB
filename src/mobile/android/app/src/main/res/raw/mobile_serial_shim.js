@@ -144,7 +144,17 @@
     }
 
     if ((message.type === 'disconnect' || message.type === 'error') && activePort) {
-      activePort._disconnect(message.error || 'A conexão USB foi encerrada.');
+      const currentPort = activePort;
+      const protocol = global.Channel && global.Channel.webserial;
+      if (protocol && protocol.connected && protocol.port === currentPort) {
+        try {
+          protocol.disconnect();
+          return;
+        } catch (ignored) {
+          // Continua com o encerramento local se a interface ainda estiver iniciando.
+        }
+      }
+      currentPort._disconnect(message.error || 'A conexão USB foi encerrada.');
       activePort = null;
     }
   };
