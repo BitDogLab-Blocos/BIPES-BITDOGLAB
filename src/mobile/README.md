@@ -25,7 +25,7 @@ App:  compatibilidade serial -> plugin Android -> USB Host -> USB CDC
 | --- | --- |
 | `web-boundary.json` | Hashes dos arquivos do navegador protegidos durante o trabalho. |
 | `scripts/` | Validação da fronteira entre aplicativo e site. |
-| `android/` | WebView, layout mobile e plugin Kotlin USB CDC. |
+| `android/` | Aplicativo Android nativo, WebView e ponte USB CDC. |
 | `android/app/build/` | Ativos temporários gerados pelo Gradle e APKs locais. |
 
 ## Proteção do navegador
@@ -39,8 +39,20 @@ node src/mobile/scripts/check-web-boundary.mjs
 O comando falha se a implementação móvel alterar acidentalmente os arquivos
 estáveis de comunicação, execução ou inicialização do site.
 
-## Estado atual
+## Compilar o aplicativo
 
-Esta primeira etapa cria apenas a fronteira do aplicativo. O projeto Android,
-a ponte USB e a interface mobile serão acrescentados em commits posteriores e
-independentes.
+Com JDK 17 e o Android SDK configurados, execute:
+
+```powershell
+cd src/mobile/android
+.\gradlew.bat assembleDebug
+```
+
+O APK de desenvolvimento será criado em
+`android/app/build/outputs/apk/debug/app-debug.apk`. O Gradle também gera, sob
+`android/app/build/generated/webAssets/`, a cópia temporária da interface que
+entra no APK. As duas saídas são ignoradas pelo Git.
+
+O projeto Android inicial abre a plataforma a partir de uma origem HTTPS local
+segura, sem servidor e sem internet. A ponte USB e o tratamento visual para
+telas pequenas são componentes móveis isolados acrescentados nesta pasta.
