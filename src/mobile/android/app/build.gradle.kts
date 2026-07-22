@@ -51,4 +51,5 @@ tasks.named("preBuild").configure {
 
 dependencies {
     implementation("androidx.webkit:webkit:1.16.0")
+    implementation("com.github.mik3y:usb-serial-for-android:3.11.0")
 }
