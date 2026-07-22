@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="neonBg" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#09051e"/><stop offset=".56" stop-color="#16062c"/><stop offset="1" stop-color="#050518"/></linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ff6edb"/><stop offset="1" stop-color="#ff984d"/></linearGradient>
+    <filter id="pinkGlow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="cyanGlow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <clipPath id="halfSun"><rect x="0" y="0" width="1600" height="470"/></clipPath>
+  </defs>
+  <rect width="1600" height="900" fill="url(#neonBg)"/>
+  <g opacity=".24" stroke="#4f39a3" stroke-width="2"><path d="M0 140 H1600"/><path d="M0 260 H1600"/><path d="M0 380 H1600"/></g>
+  <g filter="url(#pinkGlow)" clip-path="url(#halfSun)"><circle cx="800" cy="450" r="165" fill="url(#sun)"/><g stroke="#18092b" stroke-width="12"><path d="M625 370 H975"/><path d="M610 410 H990"/><path d="M603 450 H997"/></g></g>
+  <path d="M0 520 L1600 520" stroke="#ff51cf" stroke-width="4" filter="url(#pinkGlow)"/>
+  <g fill="none" stroke="#2cecff" stroke-width="2" opacity=".65" filter="url(#cyanGlow)">
+    <path d="M800 520 L800 900"/><path d="M710 520 L560 900"/><path d="M890 520 L1040 900"/><path d="M620 520 L300 900"/><path d="M980 520 L1300 900"/><path d="M530 520 L40 900"/><path d="M1070 520 L1560 900"/>
+    <path d="M0 580 H1600"/><path d="M0 650 H1600"/><path d="M0 735 H1600"/><path d="M0 835 H1600"/>
+  </g>
+  <g fill="#100527" stroke="#ff5bd5" stroke-width="3" opacity=".88"><path d="M0 520 V340 H80 V405 H145 V290 H225 V520Z"/><path d="M1370 520 V315 H1440 V390 H1510 V250 H1600 V520Z"/></g>
+  <g fill="none" stroke="#2cecff" stroke-width="5" filter="url(#cyanGlow)"><circle cx="175" cy="175" r="62"/><path d="M120 175 H230 M175 120 V230"/><path d="M1390 120 l78 135 h-156z"/></g>
+  <g fill="#ff62d7" filter="url(#pinkGlow)"><circle cx="1180" cy="250" r="5"/><circle cx="1220" cy="210" r="4"/><circle cx="420" cy="230" r="5"/><path d="M320 100 l8 22 22 8-22 8-8 22-8-22-22-8 22-8z"/></g>
+</svg>

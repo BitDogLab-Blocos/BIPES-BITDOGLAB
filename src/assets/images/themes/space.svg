@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="spaceBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#070b28"/><stop offset=".55" stop-color="#17104b"/><stop offset="1" stop-color="#071b39"/>
+    </linearGradient>
+    <radialGradient id="nebula"><stop offset="0" stop-color="#a755ff" stop-opacity=".34"/><stop offset="1" stop-color="#a755ff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="moon"><stop offset="0" stop-color="#fff8d4"/><stop offset=".7" stop-color="#d9dbed"/><stop offset="1" stop-color="#9ba6cc"/></radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <pattern id="stars" width="150" height="110" patternUnits="userSpaceOnUse">
+      <circle cx="18" cy="22" r="2" fill="#fff" opacity=".8"/><circle cx="95" cy="18" r="1.4" fill="#8fe9ff"/><circle cx="132" cy="77" r="2.3" fill="#fff3ae"/><circle cx="52" cy="91" r="1" fill="#fff"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#spaceBg)"/>
+  <rect width="1600" height="900" fill="url(#stars)" opacity=".78"/>
+  <ellipse cx="720" cy="430" rx="610" ry="380" fill="url(#nebula)"/>
+  <g filter="url(#glow)"><circle cx="1370" cy="190" r="122" fill="url(#moon)"/></g>
+  <g fill="#8995bd" opacity=".38"><circle cx="1328" cy="155" r="23"/><circle cx="1415" cy="218" r="31"/><circle cx="1362" cy="256" r="16"/><circle cx="1440" cy="135" r="12"/></g>
+  <g transform="translate(385 480) rotate(-8)">
+    <path d="M160 70 C215 20 285 3 362 20" fill="none" stroke="#b9dfff" stroke-width="5" stroke-dasharray="11 12" opacity=".72"/>
+    <rect x="65" y="98" width="118" height="145" rx="45" fill="#e9f2ff" stroke="#8cdcff" stroke-width="6"/>
+    <rect x="82" y="48" width="84" height="87" rx="39" fill="#e9f2ff" stroke="#8cdcff" stroke-width="6"/>
+    <ellipse cx="124" cy="88" rx="31" ry="25" fill="#173c68"/><path d="M99 82 Q124 63 149 82" fill="none" stroke="#65e5ff" stroke-width="5"/>
+    <rect x="92" y="151" width="64" height="47" rx="10" fill="#9ca7d9"/><circle cx="108" cy="166" r="5" fill="#ff6ec7"/><circle cx="126" cy="166" r="5" fill="#65e5ff"/><path d="M142 164 h8 M142 177 h8" stroke="#fff" stroke-width="3"/>
+    <path d="M73 133 L24 180" stroke="#e9f2ff" stroke-width="24" stroke-linecap="round"/><circle cx="19" cy="184" r="16" fill="#c6ddf7"/>
+    <path d="M177 133 L218 87" stroke="#e9f2ff" stroke-width="24" stroke-linecap="round"/><circle cx="222" cy="82" r="16" fill="#c6ddf7"/>
+    <path d="M96 232 L78 292" stroke="#e9f2ff" stroke-width="29" stroke-linecap="round"/><path d="M154 232 L178 286" stroke="#e9f2ff" stroke-width="29" stroke-linecap="round"/>
+    <path d="M54 298 h45" stroke="#78baff" stroke-width="20" stroke-linecap="round"/><path d="M163 293 h45" stroke="#78baff" stroke-width="20" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#glow)" fill="#fff"><circle cx="1080" cy="112" r="4"/><circle cx="1220" cy="390" r="3"/><circle cx="825" cy="190" r="3"/><path d="M980 680 l5 14 14 5-14 5-5 14-5-14-14-5 14-5z"/></g>
+  <ellipse cx="1460" cy="760" rx="340" ry="115" fill="#5c5a85" opacity=".34"/><ellipse cx="1460" cy="780" rx="310" ry="88" fill="#a78fbb" opacity=".2"/>
+</svg>

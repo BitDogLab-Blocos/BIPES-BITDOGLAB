@@ -13,9 +13,11 @@
   <meta name="theme-color" content="#2980b9">
 
   <link rel="stylesheet" href="../styles/main.css?ver=20260722a1">
+  <link rel="stylesheet" href="../styles/visual-themes.css?ver=20260722b2">
   <link rel="stylesheet" href="../../device-file-manager/device-files.css?ver=20260718a8">
   <link rel="stylesheet" href="../styles/libs.css">
   <link rel="stylesheet" href="../js/lib/codemirror/codemirror.css">
+  <script src="../js/ui/visual-themes.js?ver=20260722b2"></script>
   <!-- Blockly core -->
   <script src="../js/lib/blockly/blockly_compressed.js?ver=0.2.1.8260042"></script>
   <script src="../js/lib/blockly/python_compressed.js?ver=0.2.3.9292231"></script>
@@ -408,6 +410,10 @@
         <button id="saveMainButton" class="icon text" title="Salvar código como main.py na placa">
           <span id="saveMainLabel">Salvar na placa</span>
         </button>
+        <button id="visualThemeButton" type="button" title="Alterar visual" aria-controls="visualThemePanel" aria-expanded="false">
+          <span class="visual-theme-button-icon" aria-hidden="true"></span>
+          <span id="visualThemeButtonLabel">Visual</span>
+        </button>
         <button id="languageButton" class="icon text" title="Mudar idioma">
           <span id="languageButtonLabel">PT</span>
         </button>
@@ -419,6 +425,16 @@
       <button class='icon' id="serialButton">Serial</button>
     </div>
   </div>
+  <section id="visualThemePanel" class="visual-theme-panel" aria-hidden="true" aria-labelledby="visualThemePanelTitle">
+    <header class="visual-theme-panel-header">
+      <div>
+        <strong id="visualThemePanelTitle">Escolha o visual</strong>
+        <p id="visualThemePanelIntro">Mude o ambiente dos Blocos e das Mensagens.</p>
+      </div>
+      <button id="closeVisualThemePanel" type="button" aria-label="Fechar">×</button>
+    </header>
+    <div id="visualThemeOptions" class="visual-theme-options"></div>
+  </section>
   <!-- resetBoard hidden: mantido para compatibilidade com webserial.js -->
   <input type="checkbox" id="resetBoard" style="display:none" value="off">
 
