@@ -1050,6 +1050,109 @@ button.icon.medium:before  {
   margin: 0;
 }
 
+/* Hardware guide notice shown after selecting a project. */
+.project-hardware-notice {
+  position: fixed;
+  top: 74px;
+  left: 50%;
+  z-index: 9997;
+  display: flex;
+  width: min(760px, calc(100% - 32px));
+  box-sizing: border-box;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 54px 16px 20px;
+  border: 1px solid #b9c8dc;
+  border-left: 5px solid var(--bitdoglab-primary);
+  border-radius: 12px;
+  background: #fff;
+  color: #253247;
+  box-shadow: 0 12px 32px rgba(24, 38, 61, 0.24);
+  transform: translateX(-50%);
+  animation: projectNoticeIn 0.22s ease-out;
+}
+
+.project-hardware-notice[hidden] {
+  display: none;
+}
+
+.project-hardware-notice-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.project-hardware-notice-copy strong {
+  color: var(--bitdoglab-dark);
+  font-size: 1rem;
+}
+
+.project-hardware-notice-copy span {
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.project-hardware-notice-link {
+  flex: 0 0 auto;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--bitdoglab-primary);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.project-hardware-notice-link:hover,
+.project-hardware-notice-link:focus-visible {
+  background: var(--bitdoglab-dark);
+  outline: 3px solid rgba(75, 46, 131, 0.22);
+  outline-offset: 2px;
+}
+
+.project-hardware-notice-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  border: 0;
+  background: transparent;
+  color: #526077;
+  cursor: pointer;
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.project-hardware-notice-close:hover,
+.project-hardware-notice-close:focus-visible {
+  color: var(--bitdoglab-dark);
+  outline: 2px solid rgba(75, 46, 131, 0.25);
+  outline-offset: 2px;
+}
+
+@keyframes projectNoticeIn {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@media (max-width: 680px) {
+  .project-hardware-notice {
+    top: 70px;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 46px 16px 16px;
+  }
+
+  .project-hardware-notice-link {
+    align-self: flex-start;
+    white-space: normal;
+  }
+}
+
 /* Device selector */
 #deviceSelect {
   display: inline-flex;

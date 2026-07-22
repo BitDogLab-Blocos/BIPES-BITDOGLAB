@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicons/bitdog-logo.jpg">
   <meta name="theme-color" content="#2980b9">
 
-  <link rel="stylesheet" href="../styles/main.css?ver=20260605a1">
+  <link rel="stylesheet" href="../styles/main.css?ver=20260722a1">
   <link rel="stylesheet" href="../../device-file-manager/device-files.css?ver=20260718a8">
   <link rel="stylesheet" href="../styles/libs.css">
   <link rel="stylesheet" href="../js/lib/codemirror/codemirror.css">
@@ -35,7 +35,7 @@
   <script src="../js/core/tabs.js?ver=20260403a7"></script>
   <script src="../js/core/codegen.js?ver=20260718a1"></script>
   <script src="../js/core/filemanager.js?ver=20260402a3"></script>
-  <script src="../js/core/workspace.js?ver=20260614a4"></script>
+  <script src="../js/core/workspace.js?ver=20260722a1"></script>
   <script src="../js/core/app.js?ver=20260402a3"></script>
   <script src="../js/communication/i2c_scanner.js?ver=20260612a1"></script>
   <script src="../js/communication/webserial.js?ver=20260604a1"></script>
@@ -126,6 +126,15 @@
       </div>
     </div>
   </div>
+
+  <aside id="project-hardware-notice" class="project-hardware-notice" role="region" aria-live="polite" aria-labelledby="projectHardwareNoticeTitle" hidden>
+    <div class="project-hardware-notice-copy">
+      <strong id="projectHardwareNoticeTitle"></strong>
+      <span id="projectHardwareNoticeText"></span>
+    </div>
+    <a id="projectHardwareNoticeLink" class="project-hardware-notice-link" href="device-reference.html"></a>
+    <button id="closeProjectHardwareNotice" class="project-hardware-notice-close" type="button" aria-label="Fechar aviso">&times;</button>
+  </aside>
 
   <!-- Welcome splash modal -->
   <div id="welcome-message" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(75,46,131,0.95); z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; transition:opacity 1s ease;">
