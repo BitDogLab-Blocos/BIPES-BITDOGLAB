@@ -11,7 +11,6 @@ import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.os.Build;
 import android.util.Base64;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
@@ -32,6 +31,10 @@ import java.util.concurrent.Executors;
 public final class NativeSerialBridge implements SerialInputOutputManager.Listener {
     private static final String ACTION_USB_PERMISSION =
             "org.bitdoglab.bipes.USB_PERMISSION";
+    private static final int BITDOGLAB_VENDOR_ID = 0x2E8A;
+    private static final int BITDOGLAB_BAUD_RATE = 115200;
+    private static final int MAX_MESSAGE_CHARS = 1_500_000;
+    private static final int MAX_ENCODED_WRITE_CHARS = 1_400_000;
     private static final int WRITE_TIMEOUT_MS = 4000;
 
     private final Activity activity;
@@ -88,8 +91,11 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
         registerReceiver();
     }
 
-    @JavascriptInterface
     public void postMessage(String rawMessage) {
+        if (rawMessage == null || rawMessage.length() > MAX_MESSAGE_CHARS) {
+            emitError("Mensagem USB ausente ou maior que o limite permitido.");
+            return;
+        }
         final JSONObject message;
         try {
             message = new JSONObject(rawMessage);
@@ -100,14 +106,23 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
 
         String id = message.optString("id", "");
         String action = message.optString("action", "");
+        if (!id.matches("[0-9]{1,20}")) {
+            emitError("Identificador de operação USB inválido.");
+            return;
+        }
         switch (action) {
             case "requestPort":
                 requestPort(id);
                 break;
             case "open":
                 int baudRate = message.optJSONObject("payload") == null
-                        ? 115200
-                        : message.optJSONObject("payload").optInt("baudRate", 115200);
+                        ? BITDOGLAB_BAUD_RATE
+                        : message.optJSONObject("payload")
+                                .optInt("baudRate", BITDOGLAB_BAUD_RATE);
+                if (baudRate != BITDOGLAB_BAUD_RATE) {
+                    reject(id, "A BitDogLab utiliza exclusivamente 115200 baud.");
+                    return;
+                }
                 serialExecutor.execute(() -> open(id, baudRate));
                 break;
             case "write":
@@ -142,6 +157,11 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
             }
 
             selectedDriver = selectPreferredDriver(drivers);
+            if (selectedDriver == null) {
+                reject(requestId,
+                        "O dispositivo conectado não é uma BitDogLab/RP2040 compatível.");
+                return;
+            }
             UsbDevice device = selectedDriver.getDevice();
             if (usbManager.hasPermission(device)) {
                 resolvePort(requestId, device);
@@ -163,17 +183,19 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
 
     private UsbSerialDriver selectPreferredDriver(List<UsbSerialDriver> drivers) {
         for (UsbSerialDriver driver : drivers) {
-            if (driver.getDevice().getVendorId() == 0x2E8A) {
+            if (driver.getDevice().getVendorId() == BITDOGLAB_VENDOR_ID) {
                 return driver;
             }
         }
-        return drivers.get(0);
+        return null;
     }
 
     private UsbSerialDriver findDriver(UsbDevice device) {
         for (UsbSerialDriver driver : UsbSerialProber.getDefaultProber().findAllDrivers(usbManager)) {
             if (driver.getDevice().getDeviceId() == device.getDeviceId()) {
-                return driver;
+                return driver.getDevice().getVendorId() == BITDOGLAB_VENDOR_ID
+                        ? driver
+                        : null;
             }
         }
         return null;
@@ -220,8 +242,12 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
             reject(requestId, "A BitDogLab não está conectada.");
             return;
         }
+        if (encoded == null || encoded.length() > MAX_ENCODED_WRITE_CHARS) {
+            reject(requestId, "O bloco de dados excede o limite de envio USB.");
+            return;
+        }
         try {
-            byte[] bytes = Base64.decode(encoded, Base64.DEFAULT);
+            byte[] bytes = Base64.decode(encoded, Base64.NO_WRAP);
             port.write(bytes, WRITE_TIMEOUT_MS);
             resolve(requestId, new JSONObject());
         } catch (Exception exception) {
