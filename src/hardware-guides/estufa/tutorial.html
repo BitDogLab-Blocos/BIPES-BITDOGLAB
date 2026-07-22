@@ -1,0 +1,59 @@
+<section class="project-panel is-active" id="estufa" data-panel="estufa">
+  <header class="article-header">
+    <p class="article-index" data-copy="greenhouseEyebrow">PROJETO ESTUFA</p>
+    <h2 data-copy="greenhouseTitle">Medindo temperatura e umidade com o AHT20</h2>
+    <p data-copy="greenhouseArticleIntro">Neste projeto usamos o sensor AHT20 para medir a temperatura e a umidade do ar. Ele se comunica com a BitDogLab pelo barramento I²C e precisa de apenas quatro conexões: alimentação, terra, dados e clock.</p>
+  </header>
+
+  <div class="intro-media">
+    <div class="intro-copy">
+      <h3 data-copy="whatIsAhtTitle">O que é o AHT20</h3>
+      <p data-copy="whatIsAhtText">O AHT20 é um sensor digital que reúne temperatura e umidade no mesmo módulo. Na plataforma, seus valores podem ser lidos pelos blocos da categoria de sensores e apresentados no display ou usados em comparações.</p>
+      <p data-copy="ahtPinsText">O módulo utilizado possui quatro pinos identificados como VCC, GND, SDA e SCL. A posição desses pinos pode mudar conforme o fabricante; por isso, siga os nomes impressos no módulo, e não apenas a ordem ou a cor dos fios de uma fotografia.</p>
+    </div>
+    <figure class="component-figure">
+      <img src="../assets/images/devices/aht20-real.png" alt="Sensor AHT20 de temperatura e umidade" data-copy-alt="ahtPhotoAlt">
+      <figcaption data-copy="ahtPhotoCaption">Sensor AHT20 usado no projeto da estufa.</figcaption>
+    </figure>
+  </div>
+
+  <div class="recommendation-block">
+    <h3 data-copy="pcbRecommendationTitle">Montagem recomendada: PCB e cabo polarizado</h3>
+    <p data-copy="pcbRecommendationText">A montagem usada e recomendada pelo projeto emprega uma PCB adaptadora e cabos polarizados. A PCB organiza os quatro sinais e o conector polarizado só encaixa na posição correta. Isso reduz a chance de inverter 3V3 e GND, ligar um sinal no lugar errado ou provocar um curto-circuito.</p>
+  </div>
+
+  <div class="prose-block">
+    <h3 data-copy="withoutPcbTitle">Se você não tiver a PCB</h3>
+    <p data-copy="withoutPcbAhtText">É possível fazer a mesma ligação com quatro jumpers Dupont fêmea–fêmea. Faça a montagem com a BitDogLab desligada e conecte cada pino do AHT20 ao pino de mesmo nome em um dos conectores I²C da parte superior da placa.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th data-copy="ahtPin">Pino do AHT20</th><th data-copy="boardPin">Pino na BitDogLab</th><th data-copy="purpose">Função</th></tr></thead>
+        <tbody>
+          <tr><td><code>VCC</code></td><td><code>3V3</code></td><td data-copy="logicPower">Alimentação do sensor</td></tr>
+          <tr><td><code>GND</code></td><td><code>GND</code></td><td data-copy="ground">Terra</td></tr>
+          <tr><td><code>SDA</code></td><td><code>SDA</code></td><td data-copy="i2cData">Dados I²C</td></tr>
+          <tr><td><code>SCL</code></td><td><code>SCL</code></td><td data-copy="i2cClock">Clock I²C</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="bus-choice" data-copy="ahtBusChoice"><strong>Você pode conectar o AHT20 em qualquer um dos dois conectores I²C.</strong> O sistema procura o sensor nos dois barramentos e o reconhece automaticamente. Se o projeto usar dois AHT20, os blocos identificam o I²C1 — SDA GP2 e SCL GP3 — como <strong>Sensor 1</strong> e o I²C0 — SDA GP0 e SCL GP1 — como <strong>Sensor 2</strong>. Em cada sensor, mantenha SDA e SCL no mesmo barramento.</p>
+  </div>
+
+  <figure class="tutorial-figure">
+    <img src="../assets/images/devices/aht20-ligacao.svg" alt="Ligação do AHT20: SCL em SCL, SDA em SDA, VCC em 3V3 e GND em GND" data-copy-alt="ahtDiagramAlt">
+    <figcaption data-copy="diagramCaption">A imagem mostra a alternativa com jumpers. A tabela acima deve ser usada como referência principal para conferir cada pino.</figcaption>
+  </figure>
+
+  <div class="prose-block procedure-block">
+    <h3 data-copy="assemblyOrderTitle">Ordem de montagem</h3>
+    <ol>
+      <li data-copy="ahtProcedure1">Desligue a BitDogLab e retire o cabo USB.</li>
+      <li data-copy="ahtProcedure2">Localize VCC, GND, SDA e SCL no AHT20.</li>
+      <li data-copy="ahtProcedure3">Escolha um dos conectores I²C superiores e ligue os quatro jumpers conforme a tabela.</li>
+      <li data-copy="ahtProcedure4">Confira principalmente 3V3 e GND antes de ligar a placa.</li>
+      <li data-copy="ahtProcedure5">Conecte a placa e use os blocos de temperatura e umidade para testar a leitura.</li>
+    </ol>
+  </div>
+</section>

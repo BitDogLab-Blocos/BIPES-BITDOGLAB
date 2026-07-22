@@ -20,6 +20,7 @@ Esta pasta conecta eventos do navegador aos serviços do BIPES e mantém o estad
 | `progress` | Mostra progresso de transmissão e operações de arquivo. |
 | `workspace` | Liga botões a execução, conexão, dispositivo e arquivos XML. |
 | `block_warning_ui.js` | Quebra textos longos e estiliza bolhas de avisos de contratos. |
+| `device-reference.js` | Carrega e navega pelos módulos independentes documentados em `src/hardware-guides/README.md`. |
 
 ## Como é iniciado
 

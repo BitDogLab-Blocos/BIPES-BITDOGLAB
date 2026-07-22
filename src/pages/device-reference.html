@@ -4,239 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dispositivos e montagens — BitDogLab</title>
-  <link rel="stylesheet" href="../styles/device-reference.css?ver=20260722a2">
+  <link rel="stylesheet" href="../styles/device-reference.css?ver=20260722b1">
 </head>
 <body>
   <div class="device-layout">
     <aside class="device-sidebar">
       <div class="sidebar-heading">
-        <span class="sidebar-kicker" data-copy="eyebrow">GUIA DE HARDWARE</span>
-        <h1 data-copy="sidebarTitle">Dispositivos</h1>
-        <p data-copy="sidebarIntro">Escolha abaixo o projeto que deseja conhecer ou montar.</p>
+        <span class="sidebar-kicker" data-shell-copy="eyebrow">GUIA DE HARDWARE</span>
+        <h1 data-shell-copy="sidebarTitle">Dispositivos</h1>
+        <p data-shell-copy="sidebarIntro">Escolha abaixo o projeto que deseja conhecer ou montar.</p>
       </div>
 
-      <nav class="project-menu" aria-label="Escolha um projeto">
-        <button class="project-menu-item is-active" type="button" data-project="bitdoglab" aria-pressed="true">
-          <span class="menu-number">01</span>
-          <span><strong data-copy="cardBoardTitle">BitDogLab padrão</strong><small data-copy="menuBoardText">Placa e componentes integrados</small></span>
-        </button>
-        <button class="project-menu-item" type="button" data-project="estufa" aria-pressed="false">
-          <span class="menu-number">02</span>
-          <span><strong data-copy="cardGreenhouseTitle">Estufa com AHT20</strong><small data-copy="menuGreenhouseText">Temperatura e umidade</small></span>
-        </button>
-        <button class="project-menu-item" type="button" data-project="robo" aria-pressed="false">
-          <span class="menu-number">03</span>
-          <span><strong data-copy="cardRobotTitle">Robô móvel</strong><small data-copy="menuRobotText">Ponte H, motores e MPU6050</small></span>
-        </button>
-      </nav>
+      <nav id="hardwareGuideMenu" class="project-menu" aria-label="Escolha um projeto"></nav>
 
-      <p class="sidebar-note" data-copy="sidebarNote">Faça qualquer montagem com a placa desligada. Confira os nomes impressos nos módulos antes de conectar a alimentação.</p>
+      <p class="sidebar-note" data-shell-copy="sidebarNote">Faça qualquer montagem com a placa desligada. Confira os nomes impressos nos módulos antes de conectar a alimentação.</p>
     </aside>
 
-    <main class="device-main">
-      <section class="project-panel is-active" id="bitdoglab" data-panel="bitdoglab">
-        <header class="article-header">
-          <p class="article-index" data-copy="boardEyebrow">BITDOGLAB PADRÃO</p>
-          <h2 data-copy="boardTitle">Conheça a placa BitDogLab V7</h2>
-          <p data-copy="boardArticleIntro">Antes de montar um projeto externo, é importante reconhecer o que já existe na placa. A BitDogLab reúne o microcontrolador RP2040, display, botões, joystick, matriz de LEDs, microfone, buzzer e circuito de alimentação em uma única placa.</p>
-        </header>
-
-        <figure class="board-figure">
-          <div class="board-interactive-stage">
-            <img src="../assets/images/logos/bitlab.png" alt="BitDogLab V7 com seus componentes identificados" data-copy-alt="boardImageAlt">
-            <div id="boardHotspots" class="board-hotspots" aria-label="Componentes interativos da BitDogLab"></div>
-          </div>
-          <div id="boardInfoPanel" class="board-info-panel" hidden>
-            <div><strong id="boardInfoTitle"></strong><p id="boardInfoText"></p></div>
-            <button id="boardInfoClose" type="button" aria-label="Fechar explicação">Fechar</button>
-          </div>
-          <figcaption data-copy="boardCaption">Clique sobre um componente ou sobre seu nome na imagem para abrir uma explicação.</figcaption>
-        </figure>
-
-        <div class="prose-block">
-          <h3 data-copy="externalConnectionsTitle">Onde conectar componentes externos</h3>
-          <p data-copy="externalConnectionsText">Na parte superior da placa existem dois conectores I²C brancos. Eles são indicados para sensores como o AHT20 e o MPU6050. Na parte inferior existe um barramento maior, com 14 pinos, usado para sinais de controle, alimentação e módulos como a ponte H do robô.</p>
-
-          <div class="simple-columns">
-            <div>
-              <h4 data-copy="i2cTitle">Conectores I²C superiores</h4>
-              <p data-copy="i2cProse">Cada conector possui SCL, SDA, 3V3 e GND. O I²C0 usa SDA no GP0 e SCL no GP1. O I²C1 usa SDA no GP2 e SCL no GP3. O sistema verifica os dois barramentos e reconhece automaticamente em qual deles o sensor foi conectado. Use apenas SDA e SCL do mesmo par.</p>
-            </div>
-            <div>
-              <h4 data-copy="busTitle">Barramento inferior</h4>
-              <p data-copy="busProse">O conector inferior expõe GPIOs e pinos de alimentação. A ponte H utiliza essa região. Como existem pinos com funções e tensões diferentes lado a lado, confira sempre a serigrafia da placa antes de colocar um jumper.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="prose-block">
-          <h3 data-copy="integratedTitle">Componentes que já estão na placa</h3>
-          <dl class="component-list">
-            <div><dt data-copy="displayTerm">Display OLED</dt><dd data-copy="displayDefinition">Apresenta textos, valores de sensores e mensagens durante a execução.</dd></div>
-            <div><dt data-copy="controlsTerm">Joystick e botões</dt><dd data-copy="controlsDefinition">Permitem interação com jogos, menus e projetos.</dd></div>
-            <div><dt data-copy="lightTerm">Matriz de LEDs e LED RGB</dt><dd data-copy="lightDefinition">Produzem desenhos, animações, cores e sinais visuais.</dd></div>
-            <div><dt data-copy="soundTerm">Microfone e buzzer</dt><dd data-copy="soundDefinition">Permitem detectar sons e produzir alertas ou melodias.</dd></div>
-            <div><dt data-copy="powerTerm">Alimentação e monitoramento</dt><dd data-copy="powerDefinition">A bateria e o monitor de tensão e corrente já estão integrados à BitDogLab; não é necessário montar outro sensor para essa função.</dd></div>
-          </dl>
-        </div>
-      </section>
-
-      <section class="project-panel" id="estufa" data-panel="estufa" hidden>
-        <header class="article-header">
-          <p class="article-index" data-copy="greenhouseEyebrow">PROJETO ESTUFA</p>
-          <h2 data-copy="greenhouseTitle">Medindo temperatura e umidade com o AHT20</h2>
-          <p data-copy="greenhouseArticleIntro">Neste projeto usamos o sensor AHT20 para medir a temperatura e a umidade do ar. Ele se comunica com a BitDogLab pelo barramento I²C e precisa de apenas quatro conexões: alimentação, terra, dados e clock.</p>
-        </header>
-
-        <div class="intro-media">
-          <div class="intro-copy">
-            <h3 data-copy="whatIsAhtTitle">O que é o AHT20</h3>
-            <p data-copy="whatIsAhtText">O AHT20 é um sensor digital que reúne temperatura e umidade no mesmo módulo. Na plataforma, seus valores podem ser lidos pelos blocos da categoria de sensores e apresentados no display ou usados em comparações.</p>
-            <p data-copy="ahtPinsText">O módulo utilizado possui quatro pinos identificados como VCC, GND, SDA e SCL. A posição desses pinos pode mudar conforme o fabricante; por isso, siga os nomes impressos no módulo, e não apenas a ordem ou a cor dos fios de uma fotografia.</p>
-          </div>
-          <figure class="component-figure">
-            <img src="../assets/images/devices/aht20-real.png" alt="Sensor AHT20 de temperatura e umidade" data-copy-alt="ahtPhotoAlt">
-            <figcaption data-copy="ahtPhotoCaption">Sensor AHT20 usado no projeto da estufa.</figcaption>
-          </figure>
-        </div>
-
-        <div class="recommendation-block">
-          <h3 data-copy="pcbRecommendationTitle">Montagem recomendada: PCB e cabo polarizado</h3>
-          <p data-copy="pcbRecommendationText">A montagem usada e recomendada pelo projeto emprega uma PCB adaptadora e cabos polarizados. A PCB organiza os quatro sinais e o conector polarizado só encaixa na posição correta. Isso reduz a chance de inverter 3V3 e GND, ligar um sinal no lugar errado ou provocar um curto-circuito.</p>
-        </div>
-
-        <div class="prose-block">
-          <h3 data-copy="withoutPcbTitle">Se você não tiver a PCB</h3>
-          <p data-copy="withoutPcbAhtText">É possível fazer a mesma ligação com quatro jumpers Dupont fêmea–fêmea. Faça a montagem com a BitDogLab desligada e conecte cada pino do AHT20 ao pino de mesmo nome em um dos conectores I²C da parte superior da placa.</p>
-
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th data-copy="ahtPin">Pino do AHT20</th><th data-copy="boardPin">Pino na BitDogLab</th><th data-copy="purpose">Função</th></tr></thead>
-              <tbody>
-                <tr><td><code>VCC</code></td><td><code>3V3</code></td><td data-copy="logicPower">Alimentação do sensor</td></tr>
-                <tr><td><code>GND</code></td><td><code>GND</code></td><td data-copy="ground">Terra</td></tr>
-                <tr><td><code>SDA</code></td><td><code>SDA</code></td><td data-copy="i2cData">Dados I²C</td></tr>
-                <tr><td><code>SCL</code></td><td><code>SCL</code></td><td data-copy="i2cClock">Clock I²C</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <p class="bus-choice" data-copy="ahtBusChoice"><strong>Você pode conectar o AHT20 em qualquer um dos dois conectores I²C.</strong> O sistema procura o sensor nos dois barramentos e o reconhece automaticamente. Se o projeto usar dois AHT20, os blocos identificam o I²C1 — SDA GP2 e SCL GP3 — como <strong>Sensor 1</strong> e o I²C0 — SDA GP0 e SCL GP1 — como <strong>Sensor 2</strong>. Em cada sensor, mantenha SDA e SCL no mesmo barramento.</p>
-        </div>
-
-        <figure class="tutorial-figure">
-          <img src="../assets/images/devices/aht20-ligacao.svg" alt="Ligação do AHT20: SCL em SCL, SDA em SDA, VCC em 3V3 e GND em GND" data-copy-alt="ahtDiagramAlt">
-          <figcaption data-copy="diagramCaption">A imagem mostra a alternativa com jumpers. A tabela acima deve ser usada como referência principal para conferir cada pino.</figcaption>
-        </figure>
-
-        <div class="prose-block procedure-block">
-          <h3 data-copy="assemblyOrderTitle">Ordem de montagem</h3>
-          <ol>
-            <li data-copy="ahtProcedure1">Desligue a BitDogLab e retire o cabo USB.</li>
-            <li data-copy="ahtProcedure2">Localize VCC, GND, SDA e SCL no AHT20.</li>
-            <li data-copy="ahtProcedure3">Escolha um dos conectores I²C superiores e ligue os quatro jumpers conforme a tabela.</li>
-            <li data-copy="ahtProcedure4">Confira principalmente 3V3 e GND antes de ligar a placa.</li>
-            <li data-copy="ahtProcedure5">Conecte a placa e use os blocos de temperatura e umidade para testar a leitura.</li>
-          </ol>
-        </div>
-      </section>
-
-      <section class="project-panel" id="robo" data-panel="robo" hidden>
-        <header class="article-header">
-          <p class="article-index" data-copy="robotEyebrow">PROJETO ROBÔ MÓVEL</p>
-          <h2 data-copy="robotTitle">Montando o robô móvel</h2>
-          <p data-copy="robotArticleIntro">O robô utiliza quatro motores DC, uma ponte H TB6612FNG para controlar os motores e um MPU6050 para medir aceleração e giro. A BitDogLab funciona como placa principal e já contém a bateria e o monitoramento elétrico necessários ao projeto.</p>
-        </header>
-
-        <figure class="wide-photo">
-          <img src="../assets/images/devices/robo-montado.png" alt="Robô móvel completo com a BitDogLab sobre o chassi" data-copy-alt="robotMountedAlt">
-          <figcaption data-copy="robotMountedCaption">Robô completo com a BitDogLab instalada sobre o chassi de quatro rodas.</figcaption>
-        </figure>
-
-        <div class="prose-block">
-          <h3 data-copy="robotPartsTitle">Como o conjunto é organizado</h3>
-          <p data-copy="robotPartsText">Os quatro motores são separados em dois grupos: dois motores do lado esquerdo e dois do lado direito. A ponte H recebe os comandos da BitDogLab e controla o sentido e a velocidade de cada lado. O MPU6050 fica em um dos conectores I²C superiores e fornece as medidas usadas no controle angular.</p>
-          <p data-copy="robotPowerIntegrated">A bateria e o sensor de tensão e corrente já estão na própria BitDogLab. Eles não precisam ser comprados ou conectados como módulos separados.</p>
-        </div>
-
-        <div class="photo-pair">
-          <figure><img src="../assets/images/devices/robo-ponte-mpu.png" alt="Ponte H e MPU6050 instalados no chassi" data-copy-alt="robotElectronicsAlt"><figcaption data-copy="robotElectronicsCaption">Ponte H e MPU6050 usando as PCBs adaptadoras do laboratório.</figcaption></figure>
-          <figure><img src="../assets/images/devices/robo-chassi.jpeg" alt="Chassi com quatro motores e módulos eletrônicos" data-copy-alt="robotChassisAlt"><figcaption data-copy="robotChassisCaption">Vista do chassi com os quatro motores separados em dois lados.</figcaption></figure>
-        </div>
-
-        <div class="recommendation-block">
-          <h3 data-copy="robotPcbRecommendationTitle">Montagem recomendada: PCBs e cabo flat polarizado</h3>
-          <p data-copy="robotPcbRecommendationText">No conjunto do laboratório, as PCBs adaptadoras e o cabo flat IDC de 14 pinos agrupam as conexões e evitam que o cabo seja encaixado na orientação errada. Recomendamos essa montagem porque ela é mais segura, organizada e resistente ao uso frequente em sala de aula.</p>
-        </div>
-
-        <div class="prose-block">
-          <h3 data-copy="manualRobotTitle">Montagem manual sem as PCBs</h3>
-          <p data-copy="manualRobotText">Se as PCBs não estiverem disponíveis, use jumpers individuais entre a ponte H e o barramento inferior da BitDogLab. Não use uma imagem de fios como única referência: leia o nome de cada pino no módulo e siga a tabela abaixo, uma linha de cada vez.</p>
-
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th data-copy="driverPin">Pino da TB6612FNG</th><th data-copy="boardPin">BitDogLab</th><th data-copy="purpose">Função</th></tr></thead>
-              <tbody>
-                <tr><td><code>VM</code></td><td><code>5V</code></td><td data-copy="motorPower">Alimentação dos motores fornecida pela placa</td></tr>
-                <tr><td><code>VCC</code></td><td><code>3V3</code></td><td data-copy="logicPower">Alimentação lógica</td></tr>
-                <tr><td><code>GND</code></td><td><code>GND</code></td><td data-copy="ground">Terra comum</td></tr>
-                <tr><td><code>AIN1</code></td><td><code>GP4</code></td><td data-copy="leftDirection1">Direção do canal A</td></tr>
-                <tr><td><code>AIN2</code></td><td><code>GP9</code></td><td data-copy="leftDirection2">Direção do canal A</td></tr>
-                <tr><td><code>PWMA</code></td><td><code>GP8</code></td><td data-copy="leftSpeed">Velocidade do canal A</td></tr>
-                <tr><td><code>BIN1</code></td><td><code>GP18</code></td><td data-copy="rightDirection1">Direção do canal B</td></tr>
-                <tr><td><code>BIN2</code></td><td><code>GP19</code></td><td data-copy="rightDirection2">Direção do canal B</td></tr>
-                <tr><td><code>PWMB</code></td><td><code>GP16</code></td><td data-copy="rightSpeed">Velocidade do canal B</td></tr>
-                <tr><td><code>STBY</code></td><td><code>GP20</code></td><td data-copy="standby">Habilitação da ponte H</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="prose-block">
-          <h3 data-copy="motorsTitle">Ligação dos quatro motores</h3>
-          <p data-copy="motorIndependenceText">Um motor DC não possui uma polaridade fixa para funcionar: trocar seus dois fios apenas inverte o sentido de rotação. Ligue os dois motores do lado esquerdo em paralelo nas saídas AO1 e AO2. Ligue os dois motores do lado direito em paralelo nas saídas BO1 e BO2. Mantenha os dois motores de cada lado com a mesma orientação. Se somente um motor girar ao contrário, inverta os dois fios desse motor.</p>
-          <div class="table-wrap compact-table">
-            <table>
-              <thead><tr><th data-copy="driverOutput">Saída da ponte H</th><th data-copy="motorGroup">Motores</th><th data-copy="howConnect">Ligação</th></tr></thead>
-              <tbody>
-                <tr><td><code>AO1 / AO2</code></td><td data-copy="leftMotors">Dois motores do lado esquerdo</td><td data-copy="parallel">Em paralelo</td></tr>
-                <tr><td><code>BO1 / BO2</code></td><td data-copy="rightMotors">Dois motores do lado direito</td><td data-copy="parallel">Em paralelo</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="caution-text" data-copy="motorWireWarning">Use jumpers Dupont nos sinais de controle. Para os motores e a alimentação de potência, use fios mais robustos, com terminais firmes e isolados.</p>
-        </div>
-
-        <div class="prose-block">
-          <h3 data-copy="mpuTitle">Ligação do MPU6050</h3>
-          <p data-copy="mpuIntro">O MPU6050 utiliza quatro jumpers e pode ser conectado em qualquer um dos dois conectores I²C da parte superior da placa. O sistema verifica os dois barramentos, reconhece automaticamente onde o módulo está e funciona da mesma forma em qualquer um deles. Use somente um par completo conforme a tabela.</p>
-          <div class="table-wrap compact-table">
-            <table>
-              <thead><tr><th data-copy="mpuPin">Pino do MPU6050</th><th data-copy="boardPin">BitDogLab</th></tr></thead>
-              <tbody>
-                <tr><td><code>VCC</code></td><td><code>3V3</code></td></tr>
-                <tr><td><code>GND</code></td><td><code>GND</code></td></tr>
-                <tr><td><code>SDA</code></td><td><code>GP0</code> (I²C0) <span data-copy="or">ou</span> <code>GP2</code> (I²C1)</td></tr>
-                <tr><td><code>SCL</code></td><td><code>GP1</code> (I²C0) <span data-copy="or">ou</span> <code>GP3</code> (I²C1)</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="prose-block procedure-block">
-          <h3 data-copy="robotProcedureTitle">Antes do primeiro teste</h3>
-          <ol>
-            <li data-copy="robotProcedure1">Monte todos os fios com a BitDogLab desligada.</li>
-            <li data-copy="robotProcedure2">Confirme que VM está em 5V, VCC em 3V3 e todos os GNDs estão em comum.</li>
-            <li data-copy="robotProcedure3">Confira os sete sinais de controle da ponte H usando a tabela.</li>
-            <li data-copy="robotProcedure4">Verifique se não existem fios soltos ou terminais encostando em pinos vizinhos.</li>
-            <li data-copy="robotProcedure5">No primeiro teste, mantenha as rodas suspensas e use baixa velocidade.</li>
-          </ol>
-        </div>
-      </section>
+    <main id="hardwareGuideContent" class="device-main" aria-live="polite">
+      <p class="guide-loading" data-shell-copy="loading">Carregando tutorial…</p>
     </main>
   </div>
 
-  <script src="../js/ui/device-reference.js?ver=20260722a2"></script>
+  <script src="../hardware-guides/registry.js?ver=20260722b1"></script>
+  <script src="../hardware-guides/manifest.js?ver=20260722b1"></script>
+  <script src="../js/ui/device-reference.js?ver=20260722b1"></script>
 </body>
 </html>

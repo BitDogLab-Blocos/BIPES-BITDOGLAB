@@ -20,6 +20,7 @@ This folder connects browser events to BIPES services and maintains the applicat
 | `progress` | Displays transmission and file operation progress. |
 | `workspace` | Connects buttons to execution, connection, device, and XML file actions. |
 | `block_warning_ui.js` | Wraps long text and styles contract warning bubbles. |
+| `device-reference.js` | Loads and navigates the independent modules documented in `src/hardware-guides/README.md`. |
 
 ## Initialization
 
