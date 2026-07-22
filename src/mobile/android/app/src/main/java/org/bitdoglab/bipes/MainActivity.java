@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -12,12 +13,21 @@ import android.webkit.WebViewClient;
 
 import androidx.annotation.Nullable;
 import androidx.webkit.WebViewAssetLoader;
+import androidx.webkit.WebViewCompat;
+import androidx.webkit.WebViewFeature;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 
 public final class MainActivity extends Activity {
     private static final String APP_ORIGIN = "https://appassets.androidplatform.net";
     private static final String START_URL = APP_ORIGIN + "/assets/src/pages/index.html?mobile=1";
 
     private WebView webView;
+    private NativeSerialBridge serialBridge;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,6 +35,9 @@ public final class MainActivity extends Activity {
 
         WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
         webView = new WebView(this);
+        serialBridge = new NativeSerialBridge(this, webView);
+        webView.addJavascriptInterface(serialBridge, "BitDogLabUsbNative");
+        installSerialCompatibility(webView);
         configureWebView(webView);
         setContentView(webView);
 
@@ -33,6 +46,37 @@ public final class MainActivity extends Activity {
         } else {
             webView.restoreState(savedInstanceState);
         }
+    }
+
+    private void installSerialCompatibility(WebView view) {
+        String script = readRawResource(R.raw.mobile_serial_shim);
+        if (!WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
+            throw new IllegalStateException(
+                    "Atualize o Android System WebView para usar a conexão USB."
+            );
+        }
+        WebViewCompat.addDocumentStartJavaScript(
+                view,
+                script,
+                Collections.singleton(APP_ORIGIN)
+        );
+    }
+
+    private String readRawResource(int resourceId) {
+        StringBuilder result = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                getResources().openRawResource(resourceId),
+                StandardCharsets.UTF_8
+        ))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result.append(line).append('\n');
+            }
+        } catch (IOException exception) {
+            Log.e("BipesMobile", "Não foi possível carregar o suporte serial.", exception);
+            throw new IllegalStateException("Falha ao iniciar o suporte USB.", exception);
+        }
+        return result.toString();
     }
 
     private void configureWebView(WebView view) {
@@ -90,6 +134,10 @@ public final class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        if (serialBridge != null) {
+            serialBridge.destroy();
+            serialBridge = null;
+        }
         if (webView != null) {
             webView.stopLoading();
             webView.destroy();
