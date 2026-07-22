@@ -406,7 +406,6 @@
         <label id="loadButton" for="loadXML"  class="notext button icon" title="..."></label>
         <button id="trashButton" class="notext icon" title="Apagar todos os blocos" onclick="Code.discard(); return false;"></button>
         <input name="XML" id="loadXML" type="file" accept=".xml" required="">
-        <button id="notificationButton" class="notext icon" title="..."></button>
         <button id="saveMainButton" class="icon text" title="Salvar código como main.py na placa">
           <span id="saveMainLabel">Salvar na placa</span>
         </button>
@@ -476,7 +475,6 @@
 </div>
 <div class='progress-bar'></div>
 <div class="notify"></div>
-<div class="notify-panel"></div>
 <div class="language-panel">
   <div class="language-panel-header" id="languagePanelTitle">Idioma da interface</div>
   <button class="language-option active" data-lang="pt-br">
@@ -511,7 +509,6 @@ UI ['responsive'] = new responsive ();
 UI ['notify'] = new notify ();
 UI ['progress'] = new progress ();
 UI ['account'] = new account ('#accountButton','.account-panel');
-UI ['notify-panel'] = new panel ('#notificationButton','.notify-panel');
 UI ['language-panel'] = new panel ('#languageButton','.language-panel');
 UI ['channel-panel'] = new channelPanel ('#channelButton','.channel-panel');
 UI ['toolbar'] = new panel ('#toolbarButton','.toolbar');

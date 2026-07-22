@@ -847,9 +847,6 @@ button.icon.medium:before  {
 #trashButton:before, #trashIcon:before {
   background-position: left calc(-1.5rem*3) top;
 }
-#notificationButton:before {
-  background-position: left calc(-1.5rem*4) top;
-}
 #deviceSelect:before {
   background-position: left calc(-1.5rem*7) top;
 }
@@ -877,7 +874,6 @@ button.icon.medium:before  {
 }
 
 /* White icons */
-#notificationButton,
 #accountButton,
 #newProjectButton,
 #saveButton,
@@ -1211,7 +1207,7 @@ button.icon.medium:before  {
   background: #fff;
   padding: .25em;
 }
-.account-panel, .notify-panel, .language-panel, .notify {
+.account-panel, .language-panel, .notify {
   user-select: none;
 	transition: top ease .5s, right ease .5s, opacity ease .125s, background linear .5s, margin-right ease .125s;
   transition-delay: 0s, 0s, .1s, 0s, 0s;
@@ -1220,7 +1216,7 @@ button.icon.medium:before  {
   background: #fff;
 }
 @media (min-width: 60em) {
-  .account-panel, .notify-panel, .language-panel {
+  .account-panel, .language-panel {
     border-radius: 1rem;
     margin: 0.5em;
     border: 1px solid #aaa !important;
@@ -1247,33 +1243,10 @@ button.icon.medium:before  {
   height: 1px;
   background-color: #fff;
 }
-.notify-panel > span, .notify {
+.notify {
 	border-radius: .25rem;
 }
-.notify-panel > span {
-  background: #fff;
-	padding: 1em;
-	display: flex;
-	align-items:center;
-	justify-content: space-between;
-	margin: .25rem 0;
-	transition: box-shadow ease .125s;
-	box-sizing: border-box;
-	border: solid 1px #ccc;
-}
-.notify-panel > span:hover {
-  border-color: #aaa;
-	box-shadow: 0 1px 2px rgba(0,0,0,.4);
-}
-.notify-panel > span > span {
-  cursor: pointer;
-  opacity: .6;
-  transition: opacity linear .125s;
-}
-.notify-panel > span > span:hover  {
-  opacity: 1;
-}
-.notify-panel, .account-panel{
+.account-panel{
   position: fixed;
   overflow-y: auto;
   z-index: 998;
@@ -1290,10 +1263,6 @@ button.icon.medium:before  {
 .account-panel {
   flex-direction: column;
   justify-content: space-between;
-}
-.notify-panel {
-  flex-direction: column-reverse;
-  justify-content: end;
 }
 .language-panel {
   position: fixed;
@@ -1366,7 +1335,7 @@ button.icon.medium:before  {
   font-weight: 700;
 }
 @media (max-width: 59.99em) {
-  .notify-panel, .account-panel{
+  .account-panel{
     padding-top: 4.5rem;
   }
   .language-panel {
@@ -1375,7 +1344,7 @@ button.icon.medium:before  {
     width: min(15.5rem, calc(100vw - 0.7rem));
   }
 }
-.notify-panel#show, .account-panel#show {
+.account-panel#show {
 	opacity: 1;
 	right: 0;
 }
