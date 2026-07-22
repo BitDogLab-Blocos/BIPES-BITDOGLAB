@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dispositivos e montagens — BitDogLab</title>
-  <link rel="stylesheet" href="../styles/device-reference.css?ver=20260722a1">
+  <link rel="stylesheet" href="../styles/device-reference.css?ver=20260722a2">
 </head>
 <body>
   <div class="device-layout">
@@ -42,8 +42,15 @@
         </header>
 
         <figure class="board-figure">
-          <img src="../assets/images/logos/bitlab.png" alt="BitDogLab V7 com seus componentes identificados" data-copy-alt="boardImageAlt">
-          <figcaption data-copy="boardCaption">A imagem identifica os principais componentes e as duas áreas usadas para módulos externos.</figcaption>
+          <div class="board-interactive-stage">
+            <img src="../assets/images/logos/bitlab.png" alt="BitDogLab V7 com seus componentes identificados" data-copy-alt="boardImageAlt">
+            <div id="boardHotspots" class="board-hotspots" aria-label="Componentes interativos da BitDogLab"></div>
+          </div>
+          <div id="boardInfoPanel" class="board-info-panel" hidden>
+            <div><strong id="boardInfoTitle"></strong><p id="boardInfoText"></p></div>
+            <button id="boardInfoClose" type="button" aria-label="Fechar explicação">Fechar</button>
+          </div>
+          <figcaption data-copy="boardCaption">Clique sobre um componente ou sobre seu nome na imagem para abrir uma explicação.</figcaption>
         </figure>
 
         <div class="prose-block">
@@ -230,6 +237,6 @@
     </main>
   </div>
 
-  <script src="../js/ui/device-reference.js?ver=20260722a1"></script>
+  <script src="../js/ui/device-reference.js?ver=20260722a2"></script>
 </body>
 </html>
