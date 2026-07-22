@@ -1,10 +1,12 @@
 package org.bitdoglab.bipes;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.CookieManager;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -21,6 +23,7 @@ import androidx.webkit.WebViewFeature;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -40,7 +43,7 @@ public final class MainActivity extends ComponentActivity {
         WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
         webView = new WebView(this);
         serialBridge = new NativeSerialBridge(this, webView);
-        webView.addJavascriptInterface(serialBridge, "BitDogLabUsbNative");
+        installNativeSerialBridge(webView);
         installSerialCompatibility(webView);
         installMobileLayout(webView);
         configureWebView(webView);
@@ -52,6 +55,28 @@ public final class MainActivity extends ComponentActivity {
         } else {
             webView.restoreState(savedInstanceState);
         }
+    }
+
+    private void installNativeSerialBridge(WebView view) {
+        if (!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
+            throw new IllegalStateException(
+                    "Atualize o Android System WebView para usar a conexão USB."
+            );
+        }
+        WebViewCompat.addWebMessageListener(
+                view,
+                "BitDogLabUsbNative",
+                Collections.singleton(APP_ORIGIN),
+                (webView, message, sourceOrigin, isMainFrame, replyProxy) -> {
+                    if (!isMainFrame || !APP_ORIGIN.equals(sourceOrigin.toString())) {
+                        return;
+                    }
+                    String data = message.getData();
+                    if (data != null) {
+                        serialBridge.postMessage(data);
+                    }
+                }
+        );
     }
 
     private void installMobileLayout(WebView view) {
@@ -134,7 +159,14 @@ public final class MainActivity extends ComponentActivity {
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(false);
+        settings.setJavaScriptCanOpenWindowsAutomatically(false);
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
+        settings.setSafeBrowsingEnabled(true);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        settings.setSaveFormData(false);
         settings.setMediaPlaybackRequiresUserGesture(true);
+        CookieManager.getInstance().setAcceptCookie(false);
+        CookieManager.getInstance().setAcceptThirdPartyCookies(view, false);
 
         WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
                 .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
@@ -146,7 +178,15 @@ public final class MainActivity extends ComponentActivity {
                     WebView webView,
                     WebResourceRequest request
             ) {
-                return assetLoader.shouldInterceptRequest(request.getUrl());
+                Uri uri = request.getUrl();
+                if (isAppOrigin(uri)) {
+                    return assetLoader.shouldInterceptRequest(uri);
+                }
+                if ("http".equalsIgnoreCase(uri.getScheme())
+                        || "https".equalsIgnoreCase(uri.getScheme())) {
+                    return blockedNetworkResponse();
+                }
+                return null;
             }
 
             @Override
@@ -155,13 +195,40 @@ public final class MainActivity extends ComponentActivity {
                     WebResourceRequest request
             ) {
                 Uri uri = request.getUrl();
-                if (APP_ORIGIN.equals(uri.getScheme() + "://" + uri.getAuthority())) {
+                if (isAppOrigin(uri)) {
                     return false;
                 }
-                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                String scheme = uri.getScheme();
+                if (!"https".equalsIgnoreCase(scheme)
+                        && !"http".equalsIgnoreCase(scheme)
+                        && !"mailto".equalsIgnoreCase(scheme)) {
+                    Log.w("BipesMobile", "Link externo bloqueado: " + scheme);
+                    return true;
+                }
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                } catch (ActivityNotFoundException exception) {
+                    Log.w("BipesMobile", "Nenhum aplicativo disponível para abrir o link.");
+                }
                 return true;
             }
         });
+    }
+
+    private boolean isAppOrigin(Uri uri) {
+        return "https".equalsIgnoreCase(uri.getScheme())
+                && "appassets.androidplatform.net".equalsIgnoreCase(uri.getHost());
+    }
+
+    private WebResourceResponse blockedNetworkResponse() {
+        return new WebResourceResponse(
+                "text/plain",
+                StandardCharsets.UTF_8.name(),
+                403,
+                "Blocked by offline mobile policy",
+                Collections.emptyMap(),
+                new ByteArrayInputStream(new byte[0])
+        );
     }
 
     @Override
