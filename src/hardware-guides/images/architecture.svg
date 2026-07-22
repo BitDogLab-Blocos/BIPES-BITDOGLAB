@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="860" viewBox="0 0 1600 860" role="img" aria-labelledby="title description">
+  <title id="title">Modular hardware guide architecture</title>
+  <desc id="description">The manifest loads independent project modules into the registry. The device reference loader selects one module from the URL hash, loads its HTML template and optional styles, then renders the hardware guide menu and content.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#050b20"/>
+      <stop offset=".55" stop-color="#07132a"/>
+      <stop offset="1" stop-color="#03101c"/>
+    </linearGradient>
+    <linearGradient id="purpleBox" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2f1b61"/>
+      <stop offset="1" stop-color="#17123c"/>
+    </linearGradient>
+    <linearGradient id="cyanBox" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#083c52"/>
+      <stop offset="1" stop-color="#08243b"/>
+    </linearGradient>
+    <linearGradient id="orangeBox" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4a2914"/>
+      <stop offset="1" stop-color="#24170e"/>
+    </linearGradient>
+    <filter id="purpleGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-color="#9a5cff" flood-opacity=".5"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="cyanGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-color="#42e8ff" flood-opacity=".4"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="cyanArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0 0 L9 4.5 L0 9 Z" fill="#45e6ff"/>
+    </marker>
+    <marker id="purpleArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0 0 L9 4.5 L0 9 Z" fill="#a775ff"/>
+    </marker>
+    <style>
+      .heading { fill: #f8f6ff; font: 800 34px system-ui, sans-serif; }
+      .subtitle { fill: #9fb4ce; font: 500 17px system-ui, sans-serif; }
+      .box-title { fill: #ffffff; font: 750 23px system-ui, sans-serif; text-anchor: middle; }
+      .box-subtitle { fill: #b8a9dd; font: 600 14px system-ui, sans-serif; letter-spacing: .7px; text-anchor: middle; }
+      .small-title { fill: #ffffff; font: 750 19px system-ui, sans-serif; text-anchor: middle; }
+      .small-subtitle { fill: #9fb4ce; font: 550 13px system-ui, sans-serif; text-anchor: middle; }
+      .flow-label { fill: #7defff; font: 700 13px system-ui, sans-serif; letter-spacing: .8px; text-anchor: middle; }
+      .note-title { fill: #ffd28b; font: 750 18px system-ui, sans-serif; }
+      .note-text { fill: #d7c7ae; font: 520 14px system-ui, sans-serif; }
+      .purple { fill: url(#purpleBox); stroke: #9d63ff; stroke-width: 2; }
+      .cyan { fill: url(#cyanBox); stroke: #43dff4; stroke-width: 2; }
+      .orange { fill: url(#orangeBox); stroke: #ffae45; stroke-width: 2; }
+      .purple-flow { fill: none; stroke: #a775ff; stroke-width: 3; marker-end: url(#purpleArrow); }
+      .cyan-flow { fill: none; stroke: #45e6ff; stroke-width: 3; marker-end: url(#cyanArrow); }
+      .dashed-flow { fill: none; stroke: #45e6ff; stroke-width: 2.2; stroke-dasharray: 8 7; marker-end: url(#cyanArrow); }
+    </style>
+  </defs>
+
+  <rect width="1600" height="860" rx="28" fill="url(#background)"/>
+  <rect x="2" y="2" width="1596" height="856" rx="26" fill="none" stroke="#58348e" stroke-opacity=".55" stroke-width="2"/>
+  <path d="M2 3 H1598" stroke="#9e62ff" stroke-width="3"/>
+
+  <g opacity=".48" fill="none" stroke="#244779" stroke-width="3">
+    <path d="M0 120 H70 L105 155 H175"/><circle cx="178" cy="155" r="6"/>
+    <path d="M0 154 H45 L78 187 H145"/><circle cx="148" cy="187" r="5"/>
+    <path d="M1600 110 H1528 L1492 146 H1425"/><circle cx="1422" cy="146" r="6"/>
+    <path d="M1600 746 H1520 L1480 706 H1410"/><circle cx="1407" cy="706" r="6"/>
+  </g>
+  <g opacity=".62" fill="#7741cc">
+    <circle cx="1430" cy="58" r="3"/><circle cx="1450" cy="58" r="3"/><circle cx="1470" cy="58" r="3"/><circle cx="1490" cy="58" r="3"/>
+    <circle cx="1430" cy="78" r="3"/><circle cx="1450" cy="78" r="3"/><circle cx="1470" cy="78" r="3"/><circle cx="1490" cy="78" r="3"/>
+  </g>
+
+  <text class="heading" x="70" y="72">Modular hardware guides</text>
+  <text class="subtitle" x="70" y="104">One independent folder per project · one shared loader · no cross-project dependency</text>
+
+  <g filter="url(#purpleGlow)">
+    <rect class="purple" x="70" y="205" width="280" height="160" rx="20"/>
+    <text class="box-title" x="210" y="258">manifest.js</text>
+    <text class="box-subtitle" x="210" y="286">MODULE LIST</text>
+    <path d="M135 316 H285" stroke="#a775ff" stroke-width="2"/>
+    <text class="small-subtitle" x="210" y="342">One path per tutorial.js</text>
+  </g>
+
+  <g>
+    <rect class="purple" x="70" y="430" width="280" height="160" rx="20"/>
+    <text class="box-title" x="210" y="483">registry.js</text>
+    <text class="box-subtitle" x="210" y="511">MODULE CONTRACT</text>
+    <path d="M135 541 H285" stroke="#a775ff" stroke-width="2"/>
+    <text class="small-subtitle" x="210" y="568">register · get · list</text>
+  </g>
+
+  <path class="purple-flow" d="M350 285 H385 V230 H417"/>
+  <path class="purple-flow" d="M385 285 V395 H417"/>
+  <path class="purple-flow" d="M385 395 V560 H417"/>
+  <path class="purple-flow" d="M350 510 V665 H775 V480 H802"/>
+
+  <g>
+    <rect class="purple" x="420" y="165" width="300" height="130" rx="18"/>
+    <text class="small-title" x="570" y="215">bitdoglab/</text>
+    <text class="small-subtitle" x="570" y="246">tutorial.html + tutorial.js</text>
+    <text class="small-subtitle" x="570" y="269">content · translations · hotspots</text>
+  </g>
+  <g>
+    <rect class="purple" x="420" y="330" width="300" height="130" rx="18"/>
+    <text class="small-title" x="570" y="380">estufa/</text>
+    <text class="small-subtitle" x="570" y="411">tutorial.html + tutorial.js</text>
+    <text class="small-subtitle" x="570" y="434">content · translations</text>
+  </g>
+  <g>
+    <rect class="purple" x="420" y="495" width="300" height="130" rx="18"/>
+    <text class="small-title" x="570" y="545">robo/</text>
+    <text class="small-subtitle" x="570" y="576">tutorial.html + tutorial.js</text>
+    <text class="small-subtitle" x="570" y="599">content · translations</text>
+  </g>
+
+  <path class="cyan-flow" d="M720 230 H805"/>
+  <path class="cyan-flow" d="M720 395 H805"/>
+  <path class="cyan-flow" d="M720 560 H805"/>
+  <text class="flow-label" x="762" y="210">REGISTER + TEMPLATE</text>
+
+  <g filter="url(#purpleGlow)">
+    <rect class="purple" x="805" y="245" width="350" height="270" rx="28"/>
+    <text class="box-title" x="980" y="320">device-reference.js</text>
+    <text class="box-subtitle" x="980" y="350">SHARED LOADER + ROUTER</text>
+    <path d="M875 381 H1085" stroke="#a775ff" stroke-width="2"/>
+    <text class="small-subtitle" x="980" y="416">reads #project</text>
+    <text class="small-subtitle" x="980" y="445">builds the menu</text>
+    <text class="small-subtitle" x="980" y="474">fetches HTML · applies i18n · runs init</text>
+  </g>
+
+  <g filter="url(#cyanGlow)">
+    <rect class="cyan" x="845" y="100" width="270" height="100" rx="17"/>
+    <text class="small-title" x="980" y="140">URL hash</text>
+    <text class="small-subtitle" x="980" y="170">#bitdoglab · #estufa · #robo</text>
+  </g>
+  <path class="dashed-flow" d="M980 200 V242"/>
+
+  <path class="cyan-flow" d="M1155 380 H1240"/>
+  <text class="flow-label" x="1197" y="360">RENDER</text>
+
+  <g filter="url(#cyanGlow)">
+    <rect class="cyan" x="1240" y="275" width="290" height="210" rx="24"/>
+    <text class="box-title" x="1385" y="333">Hardware guide</text>
+    <text class="box-subtitle" x="1385" y="363">MENU + SELECTED CONTENT</text>
+    <path d="M1305 395 H1465" stroke="#43dff4" stroke-width="2"/>
+    <text class="small-subtitle" x="1385" y="428">device-reference.html</text>
+    <text class="small-subtitle" x="1385" y="455">Portuguese · English</text>
+  </g>
+
+  <g>
+    <rect class="cyan" x="845" y="570" width="270" height="110" rx="18"/>
+    <text class="small-title" x="980" y="615">Shared CSS</text>
+    <text class="small-subtitle" x="980" y="646">device-reference.css</text>
+  </g>
+  <path class="dashed-flow" d="M1115 625 C1210 625 1220 500 1300 482"/>
+
+  <g>
+    <rect class="orange" x="420" y="700" width="1110" height="105" rx="20"/>
+    <text class="note-title" x="455" y="744">Add a new guide</text>
+    <text class="note-text" x="455" y="775">Create novo-projeto/tutorial.html + tutorial.js, then add one script path to manifest.js. The menu and route are generated automatically.</text>
+  </g>
+</svg>

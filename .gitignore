@@ -90,6 +90,7 @@ tools/
 !/README.en.md
 !/README.es.md
 !device-file-manager/README.en.md
+!src/hardware-guides/README.en.md
 
 # GitHub metadata local
 #/.github/
