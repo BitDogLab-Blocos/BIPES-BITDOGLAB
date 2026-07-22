@@ -62,6 +62,7 @@ public final class MainActivity extends ComponentActivity {
         installLocalDocumentStartScript(view, R.raw.mobile_content_hardening);
     }
 
+    @SuppressLint("RequiresFeature")
     private void installNativeSerialBridge(WebView view) {
         if (!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
             throw new IllegalStateException(
@@ -84,6 +85,7 @@ public final class MainActivity extends ComponentActivity {
         );
     }
 
+    @SuppressLint("RequiresFeature")
     private void installMobileLayout(WebView view) {
         if (!WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
             throw new IllegalStateException(
@@ -111,6 +113,7 @@ public final class MainActivity extends ComponentActivity {
         );
     }
 
+    @SuppressLint("RequiresFeature")
     private void installLocalDocumentStartScript(WebView view, int resourceId) {
         if (!WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
             throw new IllegalStateException(
@@ -124,6 +127,7 @@ public final class MainActivity extends ComponentActivity {
         );
     }
 
+    @SuppressLint("RequiresFeature")
     private void installSerialCompatibility(WebView view) {
         if (!WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
             throw new IllegalStateException(
@@ -181,7 +185,6 @@ public final class MainActivity extends ComponentActivity {
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         settings.setSafeBrowsingEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        settings.setSaveFormData(false);
         settings.setMediaPlaybackRequiresUserGesture(true);
         CookieManager.getInstance().setAcceptCookie(false);
         CookieManager.getInstance().setAcceptThirdPartyCookies(view, false);
