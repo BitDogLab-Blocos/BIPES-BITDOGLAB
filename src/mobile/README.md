@@ -213,6 +213,31 @@ gerar uma versão release com uma chave definitiva e registrar/publicar o
 pacote `org.bitdoglab.bipes` pelo canal de distribuição escolhido. A chave de
 assinatura nunca deve ser salva no repositório.
 
+### APK release assinado
+
+O build de release exige uma chave particular fora do Git. Crie localmente
+`src/mobile/android/keystore.properties` com referências para a chave:
+
+```properties
+storeFile=C:/caminho/seguro/bitdoglab-release.jks
+storePassword=SENHA_LOCAL
+keyAlias=bitdoglab
+keyPassword=SENHA_LOCAL
+```
+
+O arquivo de propriedades, a chave e todos os APKs estão ignorados. Guarde uma
+cópia segura da chave e da senha: futuras atualizações precisam da mesma
+assinatura. Depois, gere o pacote final:
+
+```powershell
+cd src/mobile/android
+.\gradlew.bat clean lintRelease assembleRelease
+```
+
+O resultado instalável fica em
+`app/build/outputs/apk/release/app-release.apk`. A versão release desativa a
+depuração da WebView, reduz o código nativo e preserva os ativos locais.
+
 ## Compilar o aplicativo
 
 ### Requisitos de desenvolvimento
@@ -266,6 +291,7 @@ src/mobile/
 | [`MainActivity.java`](android/app/src/main/java/org/bitdoglab/bipes/MainActivity.java) | Configura a WebView, os ativos locais, o layout móvel e a ponte JavaScript. |
 | [`NativeSerialBridge.java`](android/app/src/main/java/org/bitdoglab/bipes/NativeSerialBridge.java) | Implementa a comunicação USB CDC nativa. |
 | [`mobile_serial_shim.js`](android/app/src/main/res/raw/mobile_serial_shim.js) | Converte eventos Android em `ReadableStream` e `WritableStream`. |
+| [`mobile_content_hardening.js`](android/app/src/main/res/raw/mobile_content_hardening.js) | Renderiza entradas variáveis como texto, impedindo injeção HTML no APK. |
 | [`mobile_layout.css`](android/app/src/main/res/raw/mobile_layout.css) | Adapta cabeçalho, ferramentas, Blockly, retrato, paisagem e áreas seguras. |
 | [`device_filter.xml`](android/app/src/main/res/xml/device_filter.xml) | Declara o Vendor ID do RP2040 para conexões USB. |
 | [`mobile-serial-shim.test.js`](tests/mobile-serial-shim.test.js) | Testa permissão, abertura, leitura, escrita, desconexão e WebSerial original. |
@@ -276,9 +302,14 @@ src/mobile/
 - A WebView carrega os arquivos por uma origem HTTPS local fornecida pelo
   `WebViewAssetLoader`, e não por `file://`.
 - Acesso direto a arquivos e conteúdos do Android permanece desativado.
-- Links externos são enviados ao navegador do sistema.
-- O aplicativo solicita acesso apenas ao dispositivo USB escolhido.
+- O APK não solicita permissão de internet e bloqueia recursos HTTP externos.
+- A ponte nativa aceita mensagens somente da origem local e do frame principal.
+- Links HTTP, HTTPS e e-mail são enviados ao aplicativo externo apropriado;
+  outros protocolos são rejeitados.
+- O aplicativo aceita somente dispositivos USB com o Vendor ID do RP2040.
+- Mensagens, blocos de escrita e velocidade serial são validados e limitados.
 - A permissão USB termina quando o dispositivo é retirado.
+- Backup automático, cookies, conteúdo misto e cache de rede estão desativados.
 - Não são necessários root, Bluetooth, Wi-Fi ou servidor intermediário.
 - O build Android não executa o deploy do site.
 
@@ -292,7 +323,7 @@ node --test src/mobile/tests/*.test.js
 npm test
 
 cd src/mobile/android
-.\gradlew.bat lintDebug assembleDebug
+.\gradlew.bat lintDebug assembleDebug lintRelease assembleRelease
 ```
 
 As validações móveis cobrem:
@@ -306,6 +337,11 @@ As validações móveis cobrem:
 - recebimento do prompt `>>>`;
 - fechamento ordenado da conexão;
 - preservação dos hashes da implementação web.
+- ausência de permissão de internet e backup Android;
+- isolamento da ponte na origem local e bloqueio de recursos externos;
+- restrição ao VID da BitDogLab e limites das mensagens USB;
+- proteção contra injeção HTML nas notificações móveis;
+- regras que impedem chaves e pacotes compilados de entrarem no Git.
 
 O teste automatizado não substitui a validação física. Antes de distribuir uma
 versão, use um aparelho Android real, um adaptador OTG, um cabo de dados e uma

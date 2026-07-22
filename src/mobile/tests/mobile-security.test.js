@@ -16,6 +16,7 @@ test('Android package is offline and opts out of application backup', () => {
 
   assert.doesNotMatch(manifest, /android\.permission\.INTERNET/);
   assert.match(manifest, /android:allowBackup="false"/);
+  assert.match(manifest, /android:dataExtractionRules="@xml\/data_extraction_rules"/);
   assert.match(manifest, /android:usesCleartextTraffic="false"/);
 });
 
