@@ -1,33 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
-    <path
-        android:fillColor="#19A9C5"
-        android:pathData="M54,18A36,36 0,1 0,54 90A36,36 0,1 0,54 18" />
-    <path
-        android:fillColor="#F20E91"
-        android:fillAlpha="0.72"
-        android:pathData="M54,18A36,36 0,0 1,90 54A36,36 0,0 1,54 90Z" />
-    <path
-        android:fillColor="#111111"
-        android:pathData="M34,42C24,39 20,46 22,59C24,69 31,69 36,60ZM74,42C84,39 88,46 86,59C84,69 77,69 72,60Z" />
-    <path
-        android:fillColor="#FFFFFF"
-        android:strokeColor="#111111"
-        android:strokeWidth="2.4"
-        android:pathData="M38,39C39,31 45,27 54,27C63,27 69,31 70,39L72,62C72,71 65,77 54,77C43,77 36,71 36,62Z" />
-    <path
-        android:fillColor="#111111"
-        android:pathData="M46,43A4,5 0,1 0,46 53A4,5 0,1 0,46 43M62,43A4,5 0,1 0,62 53A4,5 0,1 0,62 43M54,55C50,51 46,54 48,58L54,64L60,58C62,54 58,51 54,55Z" />
-    <path
-        android:fillColor="#FFFFFF"
-        android:strokeColor="#111111"
-        android:strokeWidth="2"
-        android:pathData="M37,59C31,59 28,64 30,71C32,78 40,81 48,77V61C44,60 41,59 37,59ZM71,59C77,59 80,64 78,71C76,78 68,81 60,77V61C64,60 67,59 71,59Z" />
-    <path
-        android:fillColor="#111111"
-        android:pathData="M37,68A2,2 0,1 0,37 72A2,2 0,1 0,37 68M43,73A2,2 0,1 0,43 77A2,2 0,1 0,43 73M71,68A2,2 0,1 0,71 72A2,2 0,1 0,71 68M65,73A2,2 0,1 0,65 77A2,2 0,1 0,65 73" />
-</vector>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:width="108dp"
+        android:height="72dp"
+        android:drawable="@drawable/bitdoglab_blocks"
+        android:gravity="center" />
+</layer-list>
