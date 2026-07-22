@@ -53,7 +53,7 @@
           <div class="simple-columns">
             <div>
               <h4 data-copy="i2cTitle">Conectores I²C superiores</h4>
-              <p data-copy="i2cProse">Cada conector possui SCL, SDA, 3V3 e GND. O I²C0 usa SDA no GP0 e SCL no GP1. O I²C1 usa SDA no GP2 e SCL no GP3. Um sensor pode ser ligado em qualquer um deles, mas SDA e SCL devem pertencer ao mesmo par.</p>
+              <p data-copy="i2cProse">Cada conector possui SCL, SDA, 3V3 e GND. O I²C0 usa SDA no GP0 e SCL no GP1. O I²C1 usa SDA no GP2 e SCL no GP3. O sistema verifica os dois barramentos e reconhece automaticamente em qual deles o sensor foi conectado. Use apenas SDA e SCL do mesmo par.</p>
             </div>
             <div>
               <h4 data-copy="busTitle">Barramento inferior</h4>
@@ -114,7 +114,7 @@
             </table>
           </div>
 
-          <p class="bus-choice" data-copy="ahtBusChoice"><strong>Escolha somente um conector:</strong> no I²C0 use SDA GP0 com SCL GP1; no I²C1 use SDA GP2 com SCL GP3. Não misture os dois pares.</p>
+          <p class="bus-choice" data-copy="ahtBusChoice"><strong>Você pode conectar o AHT20 em qualquer um dos dois conectores I²C.</strong> O sistema procura o sensor nos dois barramentos e o reconhece automaticamente. Se o projeto usar dois AHT20, os blocos identificam o I²C1 — SDA GP2 e SCL GP3 — como <strong>Sensor 1</strong> e o I²C0 — SDA GP0 e SCL GP1 — como <strong>Sensor 2</strong>. Em cada sensor, mantenha SDA e SCL no mesmo barramento.</p>
         </div>
 
         <figure class="tutorial-figure">
@@ -202,7 +202,7 @@
 
         <div class="prose-block">
           <h3 data-copy="mpuTitle">Ligação do MPU6050</h3>
-          <p data-copy="mpuIntro">O MPU6050 utiliza quatro jumpers e pode ser colocado em qualquer um dos dois conectores I²C da parte superior da placa. Escolha um par completo conforme a tabela.</p>
+          <p data-copy="mpuIntro">O MPU6050 utiliza quatro jumpers e pode ser conectado em qualquer um dos dois conectores I²C da parte superior da placa. O sistema verifica os dois barramentos, reconhece automaticamente onde o módulo está e funciona da mesma forma em qualquer um deles. Use somente um par completo conforme a tabela.</p>
           <div class="table-wrap compact-table">
             <table>
               <thead><tr><th data-copy="mpuPin">Pino do MPU6050</th><th data-copy="boardPin">BitDogLab</th></tr></thead>
