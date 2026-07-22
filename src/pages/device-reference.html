@@ -3,364 +3,220 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BitDogLab - Conheça sua Placa</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: transparent;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-
-    .image-container {
-      position: relative;
-      display: inline-block;
-      margin-top: 20px;
-      transform: scale(0.6);
-      transform-origin: top center;
-    }
-
-    .image-container img {
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      display: block;
-    }
-
-    .tooltip-rect {
-      position: absolute;
-      cursor: pointer;
-      background: transparent;
-      border: none;
-      box-shadow: none;
-    }
-
-    .tooltip-text {
-      visibility: hidden;
-      opacity: 0;
-      background: rgba(20, 20, 40, 0.95);
-      color: #ffffff;
-      border: 2px solid #00f0ff;
-      border-radius: 12px;
-      box-shadow: 0 0 10px #00f0ff, 0 0 20px rgba(0, 240, 255, 0.5);
-      position: absolute;
-      bottom: 110%;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 20px 25px;
-      width: max-content;
-      max-width: 650px;
-      font-size: 1.7em;
-      text-align: left;
-      transition: opacity 0.3s;
-      z-index: 10;
-    }
-
-    .tooltip-text strong {
-      display: block;
-      color: #00f0ff;
-      text-shadow: 0 0 4px #00f0ff;
-      font-size: 1.2em;
-      margin-bottom: 10px;
-    }
-
-    .tooltip-body {
-      line-height: 1.5;
-    }
-
-    .tooltip-rect:hover .tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    .category-container {
-      margin-top: 15px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(0, 240, 255, 0.3);
-    }
-
-    .category-title {
-      display: block;
-      font-size: 0.9em;
-      color: #00f0ff;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-
-    .category-tag {
-      display: inline-block;
-      color: #000000;
-      padding: 5px 10px;
-      border-radius: 5px;
-      margin-right: 6px;
-      margin-bottom: 6px;
-      font-size: 0.8em;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    h1 {
-      color: #00f0ff;
-      text-shadow: 0 0 10px #00f0ff;
-      font-size: 2.5em;
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-  </style>
+  <title>Dispositivos e montagens — BitDogLab</title>
+  <link rel="stylesheet" href="../styles/device-reference.css?ver=20260721a1">
 </head>
 <body>
-  <h1 id="pageTitle">BitDogLab - Conheça sua Placa</h1>
+  <header class="page-hero">
+    <p class="eyebrow" data-copy="eyebrow">GUIA DE HARDWARE</p>
+    <h1 data-copy="title">Escolha o que você vai montar</h1>
+    <p class="hero-copy" data-copy="intro">Conheça a BitDogLab ou siga um tutorial para montar a estufa e o robô móvel mesmo sem as PCBs adaptadoras do laboratório.</p>
+  </header>
 
-  <div class="image-container">
-    <img id="boardImage" src="../assets/images/logos/bitlab.png" alt="Placa BitDogLab">
-    <div id="hotspots"></div>
-  </div>
+  <nav class="project-picker" aria-label="Escolha um dispositivo">
+    <button class="project-card is-active" type="button" data-project="bitdoglab" aria-pressed="true">
+      <span class="project-icon" aria-hidden="true">🎛️</span>
+      <span><strong data-copy="cardBoardTitle">BitDogLab padrão</strong><small data-copy="cardBoardText">Conheça a placa, os conectores e os recursos integrados.</small></span>
+      <span class="card-action" data-copy="learnMore">Saiba mais →</span>
+    </button>
+    <button class="project-card" type="button" data-project="estufa" aria-pressed="false">
+      <span class="project-icon" aria-hidden="true">🌱</span>
+      <span><strong data-copy="cardGreenhouseTitle">Estufa com AHT20</strong><small data-copy="cardGreenhouseText">Ligue temperatura e umidade com apenas quatro jumpers.</small></span>
+      <span class="card-action" data-copy="openTutorial">Ver tutorial →</span>
+    </button>
+    <button class="project-card" type="button" data-project="robo" aria-pressed="false">
+      <span class="project-icon" aria-hidden="true">🤖</span>
+      <span><strong data-copy="cardRobotTitle">Robô móvel</strong><small data-copy="cardRobotText">Prepare ponte H, quatro motores e MPU6050 sem cabos polarizados.</small></span>
+      <span class="card-action" data-copy="openTutorial">Ver tutorial →</span>
+    </button>
+  </nav>
 
-  <script>
-    (function() {
-      var supportedLanguages = {'pt-br': true, 'en': true};
-      var urlLang = new URLSearchParams(window.location.search).get('lang');
-      var storedLang = null;
+  <main>
+    <section class="project-panel is-active" id="bitdoglab" data-panel="bitdoglab">
+      <div class="section-heading">
+        <div><span class="section-number">01</span><p class="eyebrow" data-copy="boardEyebrow">A PLACA</p></div>
+        <h2 data-copy="boardTitle">BitDogLab V7: o ponto de partida</h2>
+        <p data-copy="boardIntro">A placa reúne o RP2040, a interface de usuário, o display e o circuito de alimentação. Para projetos externos, observe duas regiões: os conectores I²C superiores e o barramento de expansão inferior.</p>
+      </div>
 
-      try {
-        storedLang = window.localStorage.getItem('bitdoglab_lang');
-      } catch (e) {}
+      <div class="board-overview">
+        <figure class="media-card board-image">
+          <img src="../assets/images/logos/bitlab.png" alt="BitDogLab V7 com seus periféricos identificados" data-copy-alt="boardImageAlt">
+        </figure>
+        <div class="connector-stack">
+          <article class="connector-card connector-i2c">
+            <span class="connector-badge" data-copy="topLabel">PARTE SUPERIOR</span>
+            <h3 data-copy="i2cTitle">Dois conectores I²C</h3>
+            <p data-copy="i2cText">Eles são usados por sensores como AHT20 e MPU6050. Cada conector já reúne alimentação e comunicação.</p>
+            <div class="pin-pair"><code>I²C0</code><span>SDA GP0 + SCL GP1</span></div>
+            <div class="pin-pair"><code>I²C1</code><span>SDA GP2 + SCL GP3</span></div>
+            <p class="micro-note" data-copy="pairNote">Use sempre um par completo. Não misture SDA de um barramento com SCL do outro.</p>
+          </article>
+          <article class="connector-card connector-bus">
+            <span class="connector-badge" data-copy="bottomLabel">PARTE INFERIOR</span>
+            <h3 data-copy="busTitle">Barramento de expansão de 14 pinos</h3>
+            <p data-copy="busText">É o conector maior usado pela ponte H e por outros circuitos externos. Ele expõe GPIOs, 3V3, 5V e GND.</p>
+            <p class="micro-note" data-copy="busWarning">Leia a serigrafia ao lado do conector antes de colocar qualquer jumper.</p>
+          </article>
+        </div>
+      </div>
 
-      var lang = supportedLanguages[urlLang] ? urlLang : (supportedLanguages[storedLang] ? storedLang : 'pt-br');
-      document.documentElement.lang = lang;
+      <div class="feature-grid" aria-label="Recursos integrados da BitDogLab">
+        <article><span>🖥️</span><h3 data-copy="featureDisplay">Display OLED</h3><p data-copy="featureDisplayText">Mostra textos, dados e feedback durante a execução.</p></article>
+        <article><span>🕹️</span><h3 data-copy="featureInput">Joystick e botões</h3><p data-copy="featureInputText">Entradas prontas para interação e controle.</p></article>
+        <article><span>💡</span><h3 data-copy="featureLight">Matriz e LEDs RGB</h3><p data-copy="featureLightText">Saídas visuais já integradas à placa.</p></article>
+        <article><span>🔋</span><h3 data-copy="featurePower">Bateria e INA226</h3><p data-copy="featurePowerText">A alimentação e o monitor de tensão/corrente já fazem parte do conjunto.</p></article>
+      </div>
+    </section>
 
-      var copy = {
-        'pt-br': {
-          pageTitle: 'BitDogLab - Conheça sua Placa',
-          imageAlt: 'Placa BitDogLab',
-          categoryTitle: 'Categorias que usam este periférico:',
-          items: {
-            sensorConnector: {
-              title: 'Conector de Sensores',
-              body: 'Permite ligar sensores de luz, som, temperatura e muito mais para descobrir o mundo ao redor!'
-            },
-            expansionPort: {
-              title: 'Porta de Expansão',
-              body: 'Um lugar mágico para conectar outros módulos e inventar coisas novas.'
-            },
-            microphone: {
-              title: 'Microfone',
-              body: 'É o "ouvido" da placa! Ele escuta o som do ambiente. Você pode programar algo para acender quando você bater palmas!'
-            },
-            display: {
-              title: 'Display (Tela)',
-              body: 'A "carinha" da placa! Aqui você pode mostrar mensagens, desenhos, animações ou criar seus próprios jogos.'
-            },
-            powerButtonMain: {
-              title: 'Botão Liga/Desliga',
-              body: 'O botão principal para dar energia e vida para sua placa. (Ou para fazê-la dormir!)'
-            },
-            powerButtonSmall: {
-              title: 'Botão On/Off',
-              body: 'Liga e desliga a placa.'
-            },
-            joystick: {
-              title: 'Joystick (Controle)',
-              body: 'Igual ao de videogame! Use para controlar jogos, mover um robô ou navegar por menus na telinha.'
-            },
-            motorConnector: {
-              title: 'Conector de Motores',
-              body: 'Use esta porta para conectar motores e rodinhas para construir seu próprio robô ou carrinho!'
-            },
-            ledMatrix: {
-              title: 'Matriz de LEDs',
-              body: 'Um show de luzes! É um painel com várias luzinhas que você pode acender para fazer desenhos e animações coloridas.'
-            },
-            buzzer: {
-              title: 'Buzzer (Bip!)',
-              body: 'Faz sons e músicas! Você pode programar ele para fazer "bip", tocar uma melodia ou ser um alarme.'
-            },
-            greenButton: {
-              title: 'Botão Verde',
-              body: 'Aperte para fazer algo acontecer! Pode ser o botão de "Confirmar", "Pular" ou "Ligar" um projeto.'
-            },
-            redButton: {
-              title: 'Botão Vermelho',
-              body: 'Aperte para "Parar", "Cancelar" ou "Voltar" em um menu. Você decide o que ele faz!'
-            },
-            blueButton: {
-              title: 'Botão Azul',
-              body: 'Um botão especial para qualquer função que você inventar. Pode ser um "Menu" ou um "Poder Especial"!'
-            },
-            interactionButton: {
-              title: 'Botão de Interação',
-              body: 'Um botão que você pode programar para fazer o que sua imaginação mandar.'
-            },
-            rgbLed: {
-              title: 'LED RGB',
-              body: 'Uma luz especial que brilha em qualquer cor! Misture vermelho, verde e azul para criar milhões de cores.'
-            }
-          },
-          categories: {
-            display: {label: '📺 Display', color: '#16a085'},
-            ledMatrix: {label: '🔲 Matriz de LEDs', color: '#4a69bd'},
-            matrixAnimations: {label: '✨ Animações da Matriz', color: '#8e44ad'},
-            matrixNumbers: {label: '🔢 Números na Matriz', color: '#55a855'},
-            matrixEmojis: {label: '😊 Emojis na Matriz', color: '#FF8C00'},
-            musicalNotes: {label: '🎼 Notas Musicais', color: '#833471'},
-            sound: {label: '🔊 Som', color: '#9a5ba5'},
-            buttons: {label: '🎮 Botões', color: '#ee5a24'},
-            leds: {label: '💡 LEDs', color: '#FFBF00'}
-          }
-        },
-        'en': {
-          pageTitle: 'BitDogLab - Board Reference',
-          imageAlt: 'BitDogLab board',
-          categoryTitle: 'Blockly categories that use this peripheral:',
-          items: {
-            sensorConnector: {
-              title: 'Sensor Connector',
-              body: 'Header interface for attaching external light, sound, temperature and other GPIO/I2C sensors to the board.'
-            },
-            expansionPort: {
-              title: 'Expansion Port',
-              body: 'General-purpose expansion interface for external modules, add-on circuits and custom hardware experiments.'
-            },
-            microphone: {
-              title: 'Microphone',
-              body: 'On-board microphone input used to sample ambient sound intensity and detect acoustic events such as claps or noise peaks.'
-            },
-            display: {
-              title: 'Display',
-              body: 'Integrated OLED display used to render text, numeric values, icons, menus, animations and runtime feedback from the program.'
-            },
-            powerButtonMain: {
-              title: 'Main Power Button',
-              body: 'Primary power control used to energize or shut down the board.'
-            },
-            powerButtonSmall: {
-              title: 'On/Off Button',
-              body: 'Auxiliary on/off control for enabling or disabling board power.'
-            },
-            joystick: {
-              title: 'Joystick',
-              body: 'Two-axis analog joystick with integrated push input for directional control, menu navigation and interactive applications.'
-            },
-            motorConnector: {
-              title: 'Motor Connector',
-              body: 'Output connector for driving DC motors and other mobile-robot actuators.'
-            },
-            ledMatrix: {
-              title: 'LED Matrix',
-              body: '5x5 addressable RGB LED matrix used for animations, icons, numeric output and visual status indication.'
-            },
-            buzzer: {
-              title: 'Buzzer',
-              body: 'Piezoelectric audio transducer used for tones, alerts, melodies and audible feedback.'
-            },
-            greenButton: {
-              title: 'Green Button',
-              body: 'Programmable user button typically assigned to confirm, start or trigger actions.'
-            },
-            redButton: {
-              title: 'Red Button',
-              body: 'Programmable user button commonly assigned to stop, cancel or back actions.'
-            },
-            blueButton: {
-              title: 'Blue Button',
-              body: 'Programmable user button available for custom interactions such as menu access or alternate actions.'
-            },
-            interactionButton: {
-              title: 'Interaction Button',
-              body: 'General-purpose interaction button for custom input events defined by the program.'
-            },
-            rgbLed: {
-              title: 'RGB LED',
-              body: 'On-board RGB indicator LED used for color feedback, event signaling and system status visualization.'
-            }
-          },
-          categories: {
-            display: {label: '📺 Display', color: '#16a085'},
-            ledMatrix: {label: '🔲 LED Matrix', color: '#4a69bd'},
-            matrixAnimations: {label: '✨ Matrix Animations', color: '#8e44ad'},
-            matrixNumbers: {label: '🔢 Matrix Numbers', color: '#55a855'},
-            matrixEmojis: {label: '😊 Matrix Emojis', color: '#FF8C00'},
-            musicalNotes: {label: '🎼 Musical Notes', color: '#833471'},
-            sound: {label: '🔊 Audio', color: '#9a5ba5'},
-            buttons: {label: '🎮 Buttons', color: '#ee5a24'},
-            leds: {label: '💡 LEDs', color: '#FFBF00'}
-          }
-        }
-      };
+    <section class="project-panel" id="estufa" data-panel="estufa" hidden>
+      <div class="section-heading">
+        <div><span class="section-number">02</span><p class="eyebrow" data-copy="greenhouseEyebrow">PROJETO ESTUFA</p></div>
+        <h2 data-copy="greenhouseTitle">AHT20 sem PCB adaptadora</h2>
+        <p data-copy="greenhouseIntro">O AHT20 mede temperatura e umidade. Sem a placa adaptadora, a mesma ligação é feita manualmente com quatro jumpers fêmea–fêmea.</p>
+      </div>
 
-      var hotspots = [
-        {style: 'top: 8px; left: 645px; width: 440px; height: 70px;', item: 'sensorConnector'},
-        {style: 'top: 157px; left: 666px; width: 130px; height: 60px;', item: 'expansionPort'},
-        {style: 'top: 152px; left: 975px; width: 116px; height: 76px;', item: 'expansionPort'},
-        {style: 'top: 248px; left: 133px; width: 314px; height: 47px;', item: 'microphone'},
-        {style: 'top: 239px; left: 579px; width: 94px; height: 82px;', item: 'microphone'},
-        {style: 'top: 325px; left: 933px; width: 267px; height: 363px;', item: 'display', categories: ['display']},
-        {style: 'top: 489px; left: 1336px; width: 249px; height: 42px;', item: 'display', categories: ['display']},
-        {style: 'top: 641px; left: 1341px; width: 245px; height: 100px;', item: 'powerButtonMain'},
-        {style: 'top: 647px; left: 1203px; width: 46px; height: 46px;', item: 'powerButtonSmall'},
-        {style: 'top: 669px; left: 77px; width: 269px; height: 53px;', item: 'joystick'},
-        {style: 'top: 599px; left: 498px; width: 251px; height: 199px;', item: 'joystick'},
-        {style: 'top: 787px; left: 68px; width: 330px; height: 135px;', item: 'motorConnector'},
-        {style: 'top: 817px; left: 585px; width: 244px; height: 70px;', item: 'motorConnector'},
-        {style: 'top: 408px; left: 147px; width: 307px; height: 139px;', item: 'ledMatrix', categories: ['ledMatrix', 'matrixAnimations', 'matrixNumbers', 'matrixEmojis']},
-        {style: 'top: 365px; left: 574px; width: 191px; height: 214px;', item: 'ledMatrix', categories: ['ledMatrix', 'matrixAnimations', 'matrixNumbers', 'matrixEmojis']},
-        {style: 'top: 255px; left: 1363px; width: 208px; height: 49px;', item: 'buzzer', categories: ['musicalNotes', 'sound']},
-        {style: 'top: 236px; left: 1089px; width: 69px; height: 62px;', item: 'buzzer', categories: ['musicalNotes', 'sound']},
-        {style: 'top: 710px; left: 1023px; width: 108px; height: 91px;', item: 'greenButton', categories: ['buttons']},
-        {style: 'top: 809px; left: 923px; width: 112px; height: 104px;', item: 'redButton', categories: ['buttons']},
-        {style: 'top: 814px; left: 1100px; width: 111px; height: 105px;', item: 'blueButton', categories: ['buttons']},
-        {style: 'top: 804px; left: 1325px; width: 348px; height: 97px;', item: 'interactionButton', categories: ['buttons']},
-        {style: 'top: 846px; left: 1050px; width: 47px; height: 51px;', item: 'rgbLed', categories: ['leds']},
-        {style: 'top: 959px; left: 1109px; width: 343px; height: 101px;', item: 'rgbLed', categories: ['leds']}
-      ];
+      <figure class="media-card tutorial-visual">
+        <img src="../assets/images/devices/aht20-sem-pcb.png" alt="Diagrama didático da ligação do AHT20 à BitDogLab" data-copy-alt="ahtDiagramAlt">
+        <figcaption data-copy="diagramCaption">Visão didática. Antes de energizar, confira os nomes impressos no seu módulo e a tabela abaixo.</figcaption>
+      </figure>
 
-      var locale = copy[lang];
+      <div class="two-column">
+        <article class="content-card">
+          <p class="eyebrow" data-copy="materialsLabel">VOCÊ VAI PRECISAR</p>
+          <h3 data-copy="greenhouseMaterials">Materiais</h3>
+          <ul class="check-list">
+            <li data-copy="ahtMaterial1">1 placa BitDogLab V7</li>
+            <li data-copy="ahtMaterial2">1 módulo AHT20 com pinos VCC, GND, SDA e SCL</li>
+            <li data-copy="ahtMaterial3">4 jumpers Dupont fêmea–fêmea</li>
+            <li data-copy="ahtMaterial4">Cabo USB para programar a placa</li>
+          </ul>
+          <img class="component-photo" src="../assets/images/devices/aht20-real.png" alt="Módulo AHT20 usado no projeto" data-copy-alt="ahtPhotoAlt">
+        </article>
 
-      function escapeHtml(text) {
-        return String(text)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#39;');
-      }
+        <article class="content-card table-card">
+          <p class="eyebrow" data-copy="connectionsLabel">LIGAÇÕES</p>
+          <h3 data-copy="ahtTableTitle">AHT20 → conector I²C superior</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th data-copy="ahtPin">Pino AHT20</th><th data-copy="boardPin">BitDogLab</th><th data-copy="purpose">Função</th></tr></thead>
+              <tbody>
+                <tr><td><code>VCC</code></td><td><code>3V3</code></td><td data-copy="logicPower">Alimentação lógica</td></tr>
+                <tr><td><code>GND</code></td><td><code>GND</code></td><td data-copy="ground">Terra comum</td></tr>
+                <tr><td><code>SDA</code></td><td><code>SDA</code></td><td data-copy="i2cData">Dados I²C</td></tr>
+                <tr><td><code>SCL</code></td><td><code>SCL</code></td><td data-copy="i2cClock">Clock I²C</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="choice-box">
+            <strong data-copy="chooseBus">Escolha um dos dois pares:</strong>
+            <span><code>I²C0</code> — SDA GP0 + SCL GP1</span>
+            <span><code>I²C1</code> — SDA GP2 + SCL GP3</span>
+          </div>
+        </article>
+      </div>
 
-      function renderCategories(categoryKeys) {
-        if (!categoryKeys || !categoryKeys.length) {
-          return '';
-        }
+      <article class="pcb-note">
+        <span class="note-icon">🛡️</span>
+        <div><h3 data-copy="pcbTitle">Para que serve a PCB adaptadora?</h3><p data-copy="pcbText">A PCB organiza os sinais em um conector polarizado, que só encaixa na orientação correta e reduz a chance de inverter alimentação ou causar curto. Sem ela, os jumpers fazem a mesma conexão elétrica, mas cada fio precisa ser conferido individualmente.</p></div>
+      </article>
 
-        var tags = categoryKeys.map(function(key) {
-          var category = locale.categories[key];
-          return '<span class="category-tag" style="background-color: ' + escapeHtml(category.color) + ';">' + escapeHtml(category.label) + '</span>';
-        }).join('');
+      <ol class="steps">
+        <li><span>1</span><div><h3 data-copy="ahtStep1Title">Desligue a placa</h3><p data-copy="ahtStep1Text">Retire o USB e desligue a alimentação antes de mexer nos fios.</p></div></li>
+        <li><span>2</span><div><h3 data-copy="ahtStep2Title">Leia os rótulos</h3><p data-copy="ahtStep2Text">Confirme VCC, GND, SDA e SCL no seu AHT20; a ordem física pode variar entre fabricantes.</p></div></li>
+        <li><span>3</span><div><h3 data-copy="ahtStep3Title">Conecte os quatro jumpers</h3><p data-copy="ahtStep3Text">Use somente um conector I²C superior e siga a tabela.</p></div></li>
+        <li><span>4</span><div><h3 data-copy="ahtStep4Title">Revise e ligue</h3><p data-copy="ahtStep4Text">Verifique principalmente 3V3 e GND. Depois, energize e use os blocos de temperatura e umidade.</p></div></li>
+      </ol>
+    </section>
 
-        return (
-          '<div class="category-container">' +
-            '<span class="category-title">' + escapeHtml(locale.categoryTitle) + '</span>' +
-            tags +
-          '</div>'
-        );
-      }
+    <section class="project-panel" id="robo" data-panel="robo" hidden>
+      <div class="section-heading">
+        <div><span class="section-number">03</span><p class="eyebrow" data-copy="robotEyebrow">PROJETO ROBÔ MÓVEL</p></div>
+        <h2 data-copy="robotTitle">Robô com ponte H e MPU6050</h2>
+        <p data-copy="robotIntro">Aqui não há desenho de fios: use as fotos para reconhecer os componentes e as tabelas como referência das conexões.</p>
+      </div>
 
-      function renderHotspot(hotspot) {
-        var item = locale.items[hotspot.item];
-        return (
-          '<div class="tooltip-rect" style="' + hotspot.style + '">' +
-            '<div class="tooltip-text">' +
-              '<strong>' + escapeHtml(item.title) + '</strong>' +
-              '<div class="tooltip-body">' + escapeHtml(item.body) + '</div>' +
-              renderCategories(hotspot.categories) +
-            '</div>' +
-          '</div>'
-        );
-      }
+      <div class="photo-story">
+        <figure class="media-card photo-main"><img src="../assets/images/devices/robo-montado.png" alt="Robô móvel completo com a BitDogLab instalada" data-copy-alt="robotMountedAlt"><figcaption data-copy="robotMountedCaption">Conjunto montado: placa principal sobre o chassi.</figcaption></figure>
+        <figure class="media-card"><img src="../assets/images/devices/robo-ponte-mpu.png" alt="Ponte H e MPU6050 instalados no chassi" data-copy-alt="robotElectronicsAlt"><figcaption data-copy="robotElectronicsCaption">Parte inferior: ponte H e MPU6050 com PCBs adaptadoras do laboratório.</figcaption></figure>
+        <figure class="media-card"><img src="../assets/images/devices/robo-chassi.jpeg" alt="Chassi com quatro motores, ponte H e MPU6050" data-copy-alt="robotChassisAlt"><figcaption data-copy="robotChassisCaption">As PCBs facilitam a montagem, mas não são obrigatórias.</figcaption></figure>
+      </div>
 
-      document.title = locale.pageTitle;
-      document.getElementById('pageTitle').textContent = locale.pageTitle;
-      document.getElementById('boardImage').alt = locale.imageAlt;
-      document.getElementById('hotspots').innerHTML = hotspots.map(renderHotspot).join('');
-    })();
-  </script>
+      <article class="pcb-note">
+        <span class="note-icon">🔌</span>
+        <div><h3 data-copy="robotPcbTitle">Sem PCB e sem cabo flat</h3><p data-copy="robotPcbText">No laboratório, as PCBs e o cabo IDC de 14 pinos agrupam e polarizam as conexões. Na montagem manual, substitua esse conjunto por jumpers individuais entre o barramento inferior e a ponte H, conferindo um pino de cada vez.</p></div>
+      </article>
+
+      <div class="robot-tables">
+        <article class="content-card table-card">
+          <p class="eyebrow" data-copy="driverLabel">PONTE H — CONTROLE E ALIMENTAÇÃO</p>
+          <h3>TB6612FNG → BitDogLab V7</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th data-copy="driverPin">Pino TB6612FNG</th><th data-copy="boardPin">BitDogLab</th><th data-copy="purpose">Função</th></tr></thead>
+              <tbody>
+                <tr><td><code>VM</code></td><td><code>5V</code></td><td data-copy="motorPower">Potência dos motores vinda da placa</td></tr>
+                <tr><td><code>VCC</code></td><td><code>3V3</code></td><td data-copy="logicPower">Alimentação lógica</td></tr>
+                <tr><td><code>GND</code></td><td><code>GND</code></td><td data-copy="ground">Terra comum</td></tr>
+                <tr><td><code>AIN1</code></td><td><code>GP4</code></td><td data-copy="leftDirection1">Direção A — entrada 1</td></tr>
+                <tr><td><code>AIN2</code></td><td><code>GP9</code></td><td data-copy="leftDirection2">Direção A — entrada 2</td></tr>
+                <tr><td><code>PWMA</code></td><td><code>GP8</code></td><td data-copy="leftSpeed">Velocidade do canal A</td></tr>
+                <tr><td><code>BIN1</code></td><td><code>GP18</code></td><td data-copy="rightDirection1">Direção B — entrada 1</td></tr>
+                <tr><td><code>BIN2</code></td><td><code>GP19</code></td><td data-copy="rightDirection2">Direção B — entrada 2</td></tr>
+                <tr><td><code>PWMB</code></td><td><code>GP16</code></td><td data-copy="rightSpeed">Velocidade do canal B</td></tr>
+                <tr><td><code>STBY</code></td><td><code>GP20</code></td><td data-copy="standby">Habilita a ponte H</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="micro-note warning-text" data-copy="powerNote">A bateria e o INA226 já estão integrados à BitDogLab. Não adicione outro INA226 e não conecte bateria externa diretamente aos GPIOs ou ao pino 3V3.</p>
+        </article>
+
+        <article class="content-card table-card">
+          <p class="eyebrow" data-copy="motorsLabel">MOTORES — SEM POLARIDADE FIXA</p>
+          <h3 data-copy="motorsTitle">Saídas da ponte H</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th data-copy="driverOutput">Saída</th><th data-copy="motorGroup">Grupo de motores</th><th data-copy="howConnect">Como ligar</th></tr></thead>
+              <tbody>
+                <tr><td><code>AO1 + AO2</code></td><td data-copy="leftMotors">2 motores do lado esquerdo</td><td data-copy="parallel">Em paralelo</td></tr>
+                <tr><td><code>BO1 + BO2</code></td><td data-copy="rightMotors">2 motores do lado direito</td><td data-copy="parallel">Em paralelo</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="choice-box motor-note">
+            <strong data-copy="motorIndependenceTitle">O motor DC independe da orientação dos dois fios.</strong>
+            <span data-copy="motorIndependenceText">Trocar os dois fios de um motor apenas inverte seu sentido de giro. Ligue os dois motores do mesmo lado com a mesma orientação. Se somente um deles girar ao contrário, inverta os dois fios desse motor. Se todo um lado girar ao contrário, inverta o par AO1/AO2 ou BO1/BO2 correspondente.</span>
+          </div>
+          <p class="micro-note warning-text" data-copy="motorWireWarning">Para os fios dos motores e da alimentação de potência, prefira cabos mais robustos e terminais isolados. Jumpers Dupont são indicados para os sinais de controle.</p>
+        </article>
+      </div>
+
+      <article class="content-card table-card mpu-card">
+        <div>
+          <p class="eyebrow">I²C — MPU6050</p>
+          <h3 data-copy="mpuTitle">Acelerômetro e giroscópio</h3>
+          <p data-copy="mpuIntro">O MPU6050 pode usar qualquer um dos dois conectores I²C superiores. Assim como no AHT20, escolha um par completo.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th data-copy="mpuPin">Pino MPU6050</th><th data-copy="boardPin">BitDogLab</th></tr></thead>
+            <tbody>
+              <tr><td><code>VCC</code></td><td><code>3V3</code></td></tr>
+              <tr><td><code>GND</code></td><td><code>GND</code></td></tr>
+              <tr><td><code>SDA</code></td><td><code>GP0</code> (I²C0) <span data-copy="or">ou</span> <code>GP2</code> (I²C1)</td></tr>
+              <tr><td><code>SCL</code></td><td><code>GP1</code> (I²C0) <span data-copy="or">ou</span> <code>GP3</code> (I²C1)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <div class="two-column compact-cards">
+        <article class="content-card"><p class="eyebrow" data-copy="materialsLabel">VOCÊ VAI PRECISAR</p><h3 data-copy="robotMaterials">Conexões manuais</h3><ul class="check-list"><li data-copy="robotMaterial1">10 jumpers para controle e alimentação da ponte H</li><li data-copy="robotMaterial2">4 jumpers para o MPU6050</li><li data-copy="robotMaterial3">Fios adequados à corrente para os quatro motores</li><li data-copy="robotMaterial4">Pinos soldados no módulo, se ele vier sem headers</li></ul></article>
+        <article class="content-card safety-card"><p class="eyebrow" data-copy="beforePower">ANTES DE LIGAR</p><h3 data-copy="safetyTitle">Revisão obrigatória</h3><ul class="check-list"><li data-copy="safety1">Placa desligada durante toda a montagem</li><li data-copy="safety2">5V somente no VM; 3V3 somente no VCC lógico</li><li data-copy="safety3">Todos os GNDs em comum</li><li data-copy="safety4">Nenhum fio solto encostando em pinos vizinhos</li></ul></article>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/ui/device-reference.js?ver=20260721a1"></script>
 </body>
 </html>
