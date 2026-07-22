@@ -93,7 +93,7 @@
     <text x="1009" y="480" fill="#ffd52e">SCL</text>
     <text x="1119" y="480" fill="#4aa3ff">SDA</text>
     <text x="1229" y="480" fill="#ff6963">3V3</text>
-    <text x="1339" y="480" fill="#f1f4f8">GND</text>
+    <text x="1339" y="480" fill="#26313a">GND</text>
   </g>
 
   <rect x="76" y="698" width="1449" height="128" rx="18" fill="#0d1a2a" stroke="#29445e" stroke-width="2"/>
