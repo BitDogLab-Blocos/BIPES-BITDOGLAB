@@ -45,6 +45,7 @@ public final class MainActivity extends ComponentActivity {
         serialBridge = new NativeSerialBridge(this, webView);
         installNativeSerialBridge(webView);
         installSerialCompatibility(webView);
+        installContentHardening(webView);
         installMobileLayout(webView);
         configureWebView(webView);
         configureBackNavigation();
@@ -55,6 +56,10 @@ public final class MainActivity extends ComponentActivity {
         } else {
             webView.restoreState(savedInstanceState);
         }
+    }
+
+    private void installContentHardening(WebView view) {
+        installLocalDocumentStartScript(view, R.raw.mobile_content_hardening);
     }
 
     private void installNativeSerialBridge(WebView view) {
@@ -102,6 +107,19 @@ public final class MainActivity extends ComponentActivity {
         WebViewCompat.addDocumentStartJavaScript(
                 view,
                 script,
+                Collections.singleton(APP_ORIGIN)
+        );
+    }
+
+    private void installLocalDocumentStartScript(WebView view, int resourceId) {
+        if (!WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
+            throw new IllegalStateException(
+                    "Atualize o Android System WebView para usar a conexão USB."
+            );
+        }
+        WebViewCompat.addDocumentStartJavaScript(
+                view,
+                readRawResource(resourceId),
                 Collections.singleton(APP_ORIGIN)
         );
     }
