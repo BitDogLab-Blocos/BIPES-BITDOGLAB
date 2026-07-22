@@ -55,7 +55,47 @@
     robotMaterials: 'Manual connections', robotMaterial1: '10 jumpers for H-bridge control and power', robotMaterial2: '4 jumpers for the MPU6050',
     robotMaterial3: 'Current-appropriate wire for all four motors', robotMaterial4: 'Soldered header pins if the module ships without them',
     beforePower: 'BEFORE POWER-UP', safetyTitle: 'Required review', safety1: 'Keep the board powered off throughout assembly',
-    safety2: '5V only to VM; 3V3 only to logic VCC', safety3: 'All grounds connected together', safety4: 'No loose wire touching neighboring pins'
+    safety2: '5V only to VM; 3V3 only to logic VCC', safety3: 'All grounds connected together', safety4: 'No loose wire touching neighboring pins',
+    sidebarTitle: 'Devices', sidebarIntro: 'Choose the project you want to explore or assemble.',
+    menuBoardText: 'Board and integrated components', menuGreenhouseText: 'Temperature and humidity', menuRobotText: 'H-bridge, motors and MPU6050',
+    sidebarNote: 'Always assemble circuits with the board powered off. Check the labels printed on each module before connecting power.',
+    boardArticleIntro: 'Before adding an external project, identify what is already on the board. BitDogLab combines the RP2040 microcontroller, display, buttons, joystick, LED matrix, microphone, buzzer and power circuit on one board.',
+    boardCaption: 'The image identifies the main components and the two areas used for external modules.',
+    externalConnectionsTitle: 'Where external components connect',
+    externalConnectionsText: 'Two white I2C connectors at the top are intended for sensors such as the AHT20 and MPU6050. The larger 14-pin bus at the bottom carries control, power and H-bridge signals.',
+    i2cProse: 'Each connector provides SCL, SDA, 3V3 and GND. I2C0 uses SDA on GP0 and SCL on GP1. I2C1 uses SDA on GP2 and SCL on GP3. A sensor may use either connector, but SDA and SCL must come from the same pair.',
+    busProse: 'The lower connector exposes GPIO and power pins. The H-bridge uses this area. Because different signals and voltages are adjacent, always check the board silkscreen before inserting a jumper.',
+    integratedTitle: 'Components already on the board', displayTerm: 'OLED display', displayDefinition: 'Displays text, sensor readings and runtime messages.',
+    controlsTerm: 'Joystick and buttons', controlsDefinition: 'Provide interaction for games, menus and projects.',
+    lightTerm: 'LED matrix and RGB LED', lightDefinition: 'Produce drawings, animations, colors and visual signals.',
+    soundTerm: 'Microphone and buzzer', soundDefinition: 'Detect sound and produce alerts or melodies.',
+    powerTerm: 'Power and monitoring', powerDefinition: 'The battery and voltage/current monitor are already integrated into BitDogLab; no extra sensor is needed for this function.',
+    greenhouseTitle: 'Measuring temperature and humidity with AHT20',
+    greenhouseArticleIntro: 'This project uses the AHT20 to measure air temperature and humidity. It communicates with BitDogLab over I2C and needs only four connections: power, ground, data and clock.',
+    whatIsAhtTitle: 'What is the AHT20?', whatIsAhtText: 'AHT20 is a digital sensor that measures temperature and humidity in one module. Its readings can be shown on the display or used by logic blocks.',
+    ahtPinsText: 'The module has VCC, GND, SDA and SCL pins. Pin order may vary by manufacturer, so follow the printed labels rather than relying only on wire order or color in a photo.',
+    ahtPhotoCaption: 'AHT20 sensor used in the greenhouse project.',
+    pcbRecommendationTitle: 'Recommended assembly: adapter PCB and polarized cable',
+    pcbRecommendationText: 'The project uses and recommends an adapter PCB with polarized cables. The PCB organizes all four signals, and the polarized connector only fits in the correct orientation. This reduces the chance of reversing 3V3 and GND, misplacing a signal or causing a short circuit.',
+    withoutPcbTitle: 'If you do not have the PCB',
+    withoutPcbAhtText: 'The same connection can be made with four female-to-female Dupont jumpers. Keep BitDogLab powered off and connect each AHT20 pin to the matching signal on either upper I2C connector.',
+    ahtBusChoice: 'Choose only one connector: on I2C0 use SDA GP0 with SCL GP1; on I2C1 use SDA GP2 with SCL GP3. Do not mix the pairs.',
+    assemblyOrderTitle: 'Assembly order', ahtProcedure1: 'Power BitDogLab off and disconnect the USB cable.',
+    ahtProcedure2: 'Locate VCC, GND, SDA and SCL on the AHT20.', ahtProcedure3: 'Choose one upper I2C connector and attach the four jumpers according to the table.',
+    ahtProcedure4: 'Double-check 3V3 and GND before powering the board.', ahtProcedure5: 'Connect the board and test it with the temperature and humidity blocks.',
+    robotTitle: 'Assembling the mobile robot',
+    robotArticleIntro: 'The robot uses four DC motors, a TB6612FNG H-bridge to control them, and an MPU6050 to measure acceleration and rotation. BitDogLab is the main board and already includes the battery and electrical monitoring required by the project.',
+    robotPartsTitle: 'How the assembly is organized',
+    robotPartsText: 'The four motors form two groups: two on the left and two on the right. The H-bridge receives commands from BitDogLab and controls each side’s direction and speed. MPU6050 connects to an upper I2C port and provides angular-control measurements.',
+    robotPowerIntegrated: 'The battery and voltage/current sensor are already on BitDogLab. They do not need to be purchased or connected as separate modules.',
+    robotPcbRecommendationTitle: 'Recommended assembly: PCBs and polarized ribbon cable',
+    robotPcbRecommendationText: 'In the lab assembly, adapter PCBs and the polarized 14-pin IDC ribbon cable group the connections and prevent reversed insertion. We recommend this arrangement because it is safer, cleaner and more durable for classroom use.',
+    manualRobotTitle: 'Manual assembly without the PCBs',
+    manualRobotText: 'If the PCBs are unavailable, use individual jumpers between the H-bridge and BitDogLab lower bus. Do not use a wire illustration as your only reference: read every pin name on the module and follow the table one row at a time.',
+    motorIndependenceText: 'A DC motor has no fixed operating polarity: swapping both wires only reverses rotation. Connect the two left motors in parallel to AO1 and AO2, and the two right motors in parallel to BO1 and BO2. Keep both motors on each side oriented alike. If only one turns backward, swap that motor’s two wires.',
+    robotProcedureTitle: 'Before the first test', robotProcedure1: 'Install every wire with BitDogLab powered off.',
+    robotProcedure2: 'Confirm VM is on 5V, VCC is on 3V3 and all grounds are common.', robotProcedure3: 'Check all seven H-bridge control signals against the table.',
+    robotProcedure4: 'Check for loose wires or terminals touching neighboring pins.', robotProcedure5: 'For the first test, raise the wheels off the surface and use a low speed.'
   };
 
   function applyLanguage() {
@@ -93,7 +133,13 @@
     }
     if (shouldFocus) {
       var activePanel = document.querySelector('[data-panel="' + project + '"]');
-      if (activePanel) activePanel.scrollIntoView({behavior: 'smooth', block: 'start'});
+      if (activePanel) {
+        if (window.matchMedia('(max-width: 860px)').matches) {
+          activePanel.scrollIntoView({behavior: 'smooth', block: 'start'});
+        } else {
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+      }
     }
   }
 
