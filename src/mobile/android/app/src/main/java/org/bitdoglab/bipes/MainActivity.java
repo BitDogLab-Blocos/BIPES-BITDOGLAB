@@ -16,6 +16,8 @@ import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewCompat;
 import androidx.webkit.WebViewFeature;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -38,6 +40,7 @@ public final class MainActivity extends Activity {
         serialBridge = new NativeSerialBridge(this, webView);
         webView.addJavascriptInterface(serialBridge, "BitDogLabUsbNative");
         installSerialCompatibility(webView);
+        installMobileLayout(webView);
         configureWebView(webView);
         setContentView(webView);
 
@@ -46,6 +49,28 @@ public final class MainActivity extends Activity {
         } else {
             webView.restoreState(savedInstanceState);
         }
+    }
+
+    private void installMobileLayout(WebView view) {
+        String css = readRawResource(R.raw.mobile_layout);
+        String script = "(function(){"
+                + "function install(){"
+                + "document.documentElement.classList.add('bipes-mobile-app');"
+                + "var viewport=document.querySelector('meta[name=viewport]');"
+                + "if(viewport){viewport.content='width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no';}"
+                + "var style=document.createElement('style');"
+                + "style.id='bipes-mobile-layout';"
+                + "style.textContent=" + JSONObject.quote(css) + ";"
+                + "(document.head||document.documentElement).appendChild(style);"
+                + "}"
+                + "if(document.documentElement){install();}"
+                + "else{document.addEventListener('DOMContentLoaded',install,{once:true});}"
+                + "})();";
+        WebViewCompat.addDocumentStartJavaScript(
+                view,
+                script,
+                Collections.singleton(APP_ORIGIN)
+        );
     }
 
     private void installSerialCompatibility(WebView view) {
