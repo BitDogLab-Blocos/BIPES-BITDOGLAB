@@ -24,7 +24,7 @@ body {
   min-width: 280px;
   background: var(--background);
   color: var(--text);
-  font: 16px/1.7 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font: 17px/1.72 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 button, table { font: inherit; }
@@ -45,6 +45,7 @@ button, table { font: inherit; }
   padding: 34px 22px 26px;
   border-right: 1px solid var(--border);
   background: var(--sidebar);
+  font-size: 16px;
 }
 
 .sidebar-kicker,
@@ -149,7 +150,7 @@ button, table { font: inherit; }
 .article-header > p:last-child {
   margin: 0;
   color: var(--muted);
-  font-size: 1.05rem;
+  font-size: 1.12rem;
 }
 
 .board-figure,
@@ -173,7 +174,46 @@ button, table { font: inherit; }
   width: 100%;
 }
 
+.board-interactive-stage { position: relative; }
 .board-figure img { max-height: 690px; object-fit: contain; }
+.board-hotspots { position: absolute; inset: 0; }
+.board-hotspot {
+  position: absolute;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+.board-hotspot:hover,
+.board-hotspot:focus-visible {
+  border-color: var(--accent);
+  background: rgba(49, 198, 218, .1);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(49, 198, 218, .18);
+}
+.board-info-panel {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 19px 21px;
+  border-top: 1px solid var(--border);
+  background: #0d1928;
+}
+.board-info-panel[hidden] { display: none; }
+.board-info-panel strong { display: block; margin-bottom: 3px; color: var(--accent); font-size: 1.08rem; }
+.board-info-panel p { margin: 0; color: var(--muted); font-size: 1em; }
+.board-info-panel button {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.board-info-panel button:hover { border-color: var(--accent); color: var(--text); }
 .tutorial-figure img { aspect-ratio: 16 / 9; object-fit: cover; }
 .wide-photo img { max-height: 650px; object-fit: contain; background: #0b1522; }
 
@@ -181,7 +221,7 @@ figcaption {
   padding: 10px 14px;
   border-top: 1px solid var(--border-soft);
   color: var(--subtle);
-  font-size: 0.8rem;
+  font-size: 0.88rem;
 }
 
 .prose-block,
@@ -221,6 +261,7 @@ figcaption {
 .recommendation-block p {
   margin: 0 0 13px;
   color: var(--muted);
+  font-size: 1.04em;
 }
 
 .simple-columns {
@@ -246,6 +287,7 @@ figcaption {
 
 .component-list dt { font-weight: 700; }
 .component-list dd { margin: 0; color: var(--muted); }
+.component-list dd { font-size: 1.04em; }
 
 .intro-media {
   display: grid;
@@ -297,7 +339,7 @@ th {
   text-transform: uppercase;
 }
 
-td { color: var(--muted); }
+td { color: var(--muted); font-size: 1em; }
 tbody tr:last-child td { border-bottom: 0; }
 
 code {
@@ -315,7 +357,7 @@ code {
   padding: 14px 16px;
   border-left: 2px solid var(--accent);
   background: rgba(49, 198, 218, 0.055);
-  font-size: 0.9rem;
+  font-size: 1em;
 }
 
 .caution-text {
@@ -332,6 +374,7 @@ code {
   margin-bottom: 9px;
   padding-left: 5px;
   color: var(--muted);
+  font-size: 1.04em;
 }
 
 .photo-pair {
