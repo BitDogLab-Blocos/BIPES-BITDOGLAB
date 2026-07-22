@@ -30,6 +30,7 @@ test('WebView bridge is scoped to the local origin and main frame', () => {
   assert.match(activity, /!isMainFrame/);
   assert.match(activity, /blockedNetworkResponse/);
   assert.match(activity, /MIXED_CONTENT_NEVER_ALLOW/);
+  assert.match(activity, /setWebChromeClient\(new WebChromeClient\(\)\)/);
 });
 
 test('mobile notifications render untrusted values as text', () => {
