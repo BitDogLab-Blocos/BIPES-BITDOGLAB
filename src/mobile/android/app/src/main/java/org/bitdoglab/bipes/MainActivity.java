@@ -1,6 +1,6 @@
 package org.bitdoglab.bipes;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.Nullable;
+import androidx.activity.ComponentActivity;
+import androidx.activity.OnBackPressedCallback;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewCompat;
 import androidx.webkit.WebViewFeature;
@@ -24,7 +26,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
-public final class MainActivity extends Activity {
+public final class MainActivity extends ComponentActivity {
     private static final String APP_ORIGIN = "https://appassets.androidplatform.net";
     private static final String START_URL = APP_ORIGIN + "/assets/src/pages/index.html?mobile=1";
 
@@ -42,6 +44,7 @@ public final class MainActivity extends Activity {
         installSerialCompatibility(webView);
         installMobileLayout(webView);
         configureWebView(webView);
+        configureBackNavigation();
         setContentView(webView);
 
         if (savedInstanceState == null) {
@@ -52,6 +55,11 @@ public final class MainActivity extends Activity {
     }
 
     private void installMobileLayout(WebView view) {
+        if (!WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
+            throw new IllegalStateException(
+                    "Atualize o Android System WebView para usar a conexão USB."
+            );
+        }
         String css = readRawResource(R.raw.mobile_layout);
         String script = "(function(){"
                 + "function install(){"
@@ -74,17 +82,32 @@ public final class MainActivity extends Activity {
     }
 
     private void installSerialCompatibility(WebView view) {
-        String script = readRawResource(R.raw.mobile_serial_shim);
         if (!WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
             throw new IllegalStateException(
                     "Atualize o Android System WebView para usar a conexão USB."
             );
         }
+        String script = readRawResource(R.raw.mobile_serial_shim);
         WebViewCompat.addDocumentStartJavaScript(
                 view,
                 script,
                 Collections.singleton(APP_ORIGIN)
         );
+    }
+
+    private void configureBackNavigation() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (webView != null && webView.canGoBack()) {
+                    webView.goBack();
+                    return;
+                }
+                setEnabled(false);
+                getOnBackPressedDispatcher().onBackPressed();
+                setEnabled(true);
+            }
+        });
     }
 
     private String readRawResource(int resourceId) {
@@ -104,14 +127,13 @@ public final class MainActivity extends Activity {
         return result.toString();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void configureWebView(WebView view) {
         WebSettings settings = view.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(false);
-        settings.setAllowFileAccessFromFileURLs(false);
-        settings.setAllowUniversalAccessFromFileURLs(false);
         settings.setMediaPlaybackRequiresUserGesture(true);
 
         WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
@@ -146,15 +168,6 @@ public final class MainActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         webView.saveState(outState);
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (webView != null && webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override

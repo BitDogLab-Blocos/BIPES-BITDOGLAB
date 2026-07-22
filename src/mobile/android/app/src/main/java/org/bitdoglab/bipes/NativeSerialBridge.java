@@ -19,6 +19,8 @@ import com.hoho.android.usbserial.driver.UsbSerialPort;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
 import com.hoho.android.usbserial.util.SerialInputOutputManager;
 
+import androidx.core.content.ContextCompat;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -354,11 +356,12 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_USB_PERMISSION);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            activity.registerReceiver(usbReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            activity.registerReceiver(usbReceiver, filter);
-        }
+        ContextCompat.registerReceiver(
+                activity,
+                usbReceiver,
+                filter,
+                ContextCompat.RECEIVER_NOT_EXPORTED
+        );
         receiverRegistered = true;
     }
 

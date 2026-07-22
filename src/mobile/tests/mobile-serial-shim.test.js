@@ -126,3 +126,31 @@ test('propagates permission errors and physical disconnection', async () => {
   assert.equal(port.readable, null);
   assert.equal(port.writable, null);
 });
+
+test('physical removal asks the existing protocol to reset its interface', async () => {
+  const { window, sent } = createEnvironment();
+  const selecting = window.navigator.serial.requestPort();
+  answer(window, sent[0], { vendorId: 0x2e8a, productId: 10 });
+  const port = await selecting;
+  const opening = port.open({ baudRate: 115200 });
+  answer(window, sent[1]);
+  await opening;
+
+  let disconnects = 0;
+  window.Channel = {
+    webserial: {
+      connected: true,
+      port,
+      disconnect() {
+        disconnects += 1;
+      }
+    }
+  };
+
+  window.__bitdoglabNativeSerialReceive({
+    type: 'disconnect',
+    error: 'A BitDogLab foi desconectada do celular.'
+  });
+
+  assert.equal(disconnects, 1);
+});
