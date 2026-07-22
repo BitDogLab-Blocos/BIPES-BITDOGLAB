@@ -15,7 +15,7 @@ Esta pasta conecta eventos do navegador aos serviços do BIPES e mantém o estad
 | `panel` | Abre e fecha painéis laterais compartilhados. |
 | `account` | Cria, importa, lista, abre e remove projetos locais. |
 | `channelPanel` | Apresenta e seleciona o canal de comunicação serial. |
-| `notify` | Exibe mensagens traduzidas e mantém o histórico de logs. |
+| `notify` | Exibe mensagens temporárias traduzidas e registra logs de diagnóstico. |
 | `responsive` | Ajusta o layout e fecha painéis em áreas externas. |
 | `progress` | Mostra progresso de transmissão e operações de arquivo. |
 | `workspace` | Liga botões a execução, conexão, dispositivo e arquivos XML. |

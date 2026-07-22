@@ -95,7 +95,6 @@ LanguageManager.initLanguage = function() {
   if (document.getElementById('saveButton')) document.getElementById('saveButton').title = MSG['saveTooltip'];
   if (document.getElementById('loadButton')) document.getElementById('loadButton').title = MSG['loadTooltip'];
   if (document.getElementById('trashButton')) document.getElementById('trashButton').title = MSG['trashTooltip'];
-  if (document.getElementById('notificationButton')) document.getElementById('notificationButton').title = MSG['notificationTooltip'];
   if (document.getElementById('toolbarButton')) document.getElementById('toolbarButton').title = MSG['toolbarTooltip'];
 
   if (Code.translateDom) {
