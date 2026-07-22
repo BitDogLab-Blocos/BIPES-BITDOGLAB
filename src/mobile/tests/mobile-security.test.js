@@ -31,6 +31,16 @@ test('WebView bridge is scoped to the local origin and main frame', () => {
   assert.match(activity, /MIXED_CONTENT_NEVER_ALLOW/);
 });
 
+test('mobile notifications render untrusted values as text', () => {
+  const hardening = read(
+    'android/app/src/main/res/raw/mobile_content_hardening.js'
+  );
+
+  assert.match(hardening, /document\.createTextNode/);
+  assert.match(hardening, /replaceChildren/);
+  assert.doesNotMatch(hardening, /innerHTML/);
+});
+
 test('USB bridge accepts only BitDogLab RP2040 devices and bounded messages', () => {
   const bridge = read(
     'android/app/src/main/java/org/bitdoglab/bipes/NativeSerialBridge.java'
