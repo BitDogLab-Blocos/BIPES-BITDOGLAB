@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">Ligação correta do sensor AHT20 à BitDogLab</title>
+  <desc id="description">Quatro jumpers ligam SCL a SCL, SDA a SDA, VCC a 3V3 e GND a GND.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#0b1c2e"/>
+    </linearGradient>
+    <linearGradient id="sensor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#633c8c"/>
+      <stop offset="1" stop-color="#352155"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity=".3"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" rx="28" fill="url(#background)"/>
+  <path d="M0 710C260 650 450 790 720 720S1230 610 1600 710V900H0Z" fill="#0d2235" opacity=".48"/>
+
+  <text x="72" y="92" fill="#f5f7fb" font-family="Arial, sans-serif" font-size="50" font-weight="700">Estufa — <tspan fill="#28d7eb">AHT20 sem PCB</tspan></text>
+  <text x="74" y="137" fill="#aebed0" font-family="Arial, sans-serif" font-size="23">Ligação direta com quatro jumpers fêmea–fêmea</text>
+
+  <g filter="url(#shadow)">
+    <rect x="76" y="190" width="360" height="455" rx="28" fill="url(#sensor)" stroke="#9c78c6" stroke-width="3"/>
+    <circle cx="135" cy="250" r="28" fill="#111827" stroke="#e8e8e8" stroke-width="8"/>
+    <circle cx="135" cy="585" r="28" fill="#111827" stroke="#e8e8e8" stroke-width="8"/>
+    <rect x="135" y="330" width="62" height="62" rx="8" fill="#161b24" stroke="#d9d9df" stroke-width="4"/>
+    <rect x="151" y="346" width="30" height="30" rx="3" fill="#dde2e8"/>
+    <text x="116" y="455" fill="#d8c7ed" font-family="Arial, sans-serif" font-size="28" font-weight="700">AHT20</text>
+    <text x="116" y="491" fill="#bda5da" font-family="Arial, sans-serif" font-size="18">temperatura e umidade</text>
+
+    <rect x="349" y="203" width="86" height="387" rx="13" fill="#f4f5f5" stroke="#cfd5da" stroke-width="3"/>
+    <rect x="413" y="218" width="52" height="58" rx="8" fill="#20242c"/>
+    <rect x="413" y="318" width="52" height="58" rx="8" fill="#20242c"/>
+    <rect x="413" y="418" width="52" height="58" rx="8" fill="#20242c"/>
+    <rect x="413" y="518" width="52" height="58" rx="8" fill="#20242c"/>
+    <circle cx="416" cy="247" r="10" fill="#dce3e8" stroke="#6c7782" stroke-width="3"/>
+    <circle cx="416" cy="347" r="10" fill="#dce3e8" stroke="#6c7782" stroke-width="3"/>
+    <circle cx="416" cy="447" r="10" fill="#dce3e8" stroke="#6c7782" stroke-width="3"/>
+    <circle cx="416" cy="547" r="10" fill="#dce3e8" stroke="#6c7782" stroke-width="3"/>
+  </g>
+
+  <g font-family="Arial, sans-serif" font-size="25" font-weight="700" text-anchor="end">
+    <text x="330" y="255" fill="#f1f4f8">GND</text>
+    <text x="330" y="355" fill="#f1f4f8">VCC</text>
+    <text x="330" y="455" fill="#f1f4f8">SDA</text>
+    <text x="330" y="555" fill="#f1f4f8">SCL</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="900" y="208" width="625" height="437" rx="30" fill="#173d31" stroke="#3b765e" stroke-width="3"/>
+    <text x="1212" y="269" text-anchor="middle" fill="#f3f6fa" font-family="Arial, sans-serif" font-size="32" font-weight="700">BitDogLab V7</text>
+    <text x="1212" y="307" text-anchor="middle" fill="#9ec8b7" font-family="Arial, sans-serif" font-size="20">conector I²C superior</text>
+    <rect x="938" y="350" width="548" height="170" rx="18" fill="#edf1f3" stroke="#aeb8be" stroke-width="4"/>
+    <rect x="972" y="369" width="75" height="74" rx="8" fill="#d7dde1" stroke="#929da4" stroke-width="3"/>
+    <rect x="1082" y="369" width="75" height="74" rx="8" fill="#d7dde1" stroke="#929da4" stroke-width="3"/>
+    <rect x="1192" y="369" width="75" height="74" rx="8" fill="#d7dde1" stroke="#929da4" stroke-width="3"/>
+    <rect x="1302" y="369" width="75" height="74" rx="8" fill="#d7dde1" stroke="#929da4" stroke-width="3"/>
+    <circle cx="1009" cy="410" r="13" fill="#26313a"/>
+    <circle cx="1119" cy="410" r="13" fill="#26313a"/>
+    <circle cx="1229" cy="410" r="13" fill="#26313a"/>
+    <circle cx="1339" cy="410" r="13" fill="#26313a"/>
+  </g>
+
+  <!-- Each wire is a single continuous path from the named AHT20 pin to the matching board pin. -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M465 247 C700 247 1060 104 1339 410" stroke="#dbe3ea" stroke-width="18" opacity=".8"/>
+    <path d="M465 247 C700 247 1060 104 1339 410" stroke="#111317" stroke-width="12"/>
+
+    <path d="M465 347 C710 347 1000 180 1229 410" stroke="#18202a" stroke-width="18" opacity=".8"/>
+    <path d="M465 347 C710 347 1000 180 1229 410" stroke="#ef3f39" stroke-width="12"/>
+
+    <path d="M465 447 C710 447 930 270 1119 410" stroke="#15202d" stroke-width="18" opacity=".8"/>
+    <path d="M465 447 C710 447 930 270 1119 410" stroke="#2589f4" stroke-width="12"/>
+
+    <path d="M465 547 C710 547 850 510 1009 410" stroke="#4c3b0b" stroke-width="18" opacity=".85"/>
+    <path d="M465 547 C710 547 850 510 1009 410" stroke="#ffd52e" stroke-width="12"/>
+  </g>
+
+  <g>
+    <circle cx="465" cy="247" r="9" fill="#111317" stroke="#dbe3ea" stroke-width="3"/>
+    <circle cx="465" cy="347" r="9" fill="#ef3f39" stroke="#fff" stroke-width="2"/>
+    <circle cx="465" cy="447" r="9" fill="#2589f4" stroke="#fff" stroke-width="2"/>
+    <circle cx="465" cy="547" r="9" fill="#ffd52e" stroke="#fff" stroke-width="2"/>
+    <circle cx="1009" cy="410" r="9" fill="#ffd52e" stroke="#fff" stroke-width="2"/>
+    <circle cx="1119" cy="410" r="9" fill="#2589f4" stroke="#fff" stroke-width="2"/>
+    <circle cx="1229" cy="410" r="9" fill="#ef3f39" stroke="#fff" stroke-width="2"/>
+    <circle cx="1339" cy="410" r="9" fill="#111317" stroke="#dbe3ea" stroke-width="3"/>
+  </g>
+
+  <g font-family="Arial, sans-serif" font-size="25" font-weight="700" text-anchor="middle">
+    <text x="1009" y="480" fill="#ffd52e">SCL</text>
+    <text x="1119" y="480" fill="#4aa3ff">SDA</text>
+    <text x="1229" y="480" fill="#ff6963">3V3</text>
+    <text x="1339" y="480" fill="#f1f4f8">GND</text>
+  </g>
+
+  <rect x="76" y="698" width="1449" height="128" rx="18" fill="#0d1a2a" stroke="#29445e" stroke-width="2"/>
+  <text x="112" y="746" fill="#9fb1c4" font-family="Arial, sans-serif" font-size="22">Confira os quatro caminhos antes de energizar:</text>
+  <g font-family="Arial, sans-serif" font-size="24" font-weight="700">
+    <circle cx="121" cy="785" r="9" fill="#ffd52e"/><text x="143" y="793" fill="#f2f5f8">SCL → SCL</text>
+    <circle cx="410" cy="785" r="9" fill="#2589f4"/><text x="432" y="793" fill="#f2f5f8">SDA → SDA</text>
+    <circle cx="704" cy="785" r="9" fill="#ef3f39"/><text x="726" y="793" fill="#f2f5f8">VCC → 3V3</text>
+    <circle cx="1030" cy="785" r="9" fill="#111317" stroke="#dbe3ea" stroke-width="3"/><text x="1052" y="793" fill="#f2f5f8">GND → GND</text>
+  </g>
+</svg>
