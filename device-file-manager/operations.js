@@ -223,9 +223,9 @@ DeviceFilesManager.extend({
   openDeleteDialog() {
     if (!this.selectedFile || this.busy) return;
     var protectedFile = /^(main|boot)\.py$/i.test(this.selectedFile.name);
-    this.deleteMessage.textContent = protectedFile
+    this.deleteMessage.textContent = this._translate(protectedFile
       ? this.selectedFile.name + ' participa da inicialização da placa. Apagar esse arquivo pode impedir o projeto de iniciar automaticamente.'
-      : this.selectedFile.name + ' será removido definitivamente da placa.';
+      : this.selectedFile.name + ' será removido definitivamente da placa.');
     this.deleteDialog.hidden = false;
     this.deleteConfirm.focus();
   },

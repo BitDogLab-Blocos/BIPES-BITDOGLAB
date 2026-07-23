@@ -149,7 +149,9 @@ test('device file manager translates board file UI and dynamic messages', () => 
     ['Coluna 2', 'Column 2'],
     ['1 linha · 2 colunas · separado por vírgula', '1 row · 2 columns · separated by comma'],
     ['# Este arquivo é binário e não pode ser exibido como código.\n# Você ainda pode baixá-lo para o computador.', '# This file is binary and cannot be displayed as code.\n# You can still download it to your computer.'],
-    ['Arquivo renomeado para novo.py.', 'File renamed to novo.py.']
+    ['Arquivo renomeado para novo.py.', 'File renamed to novo.py.'],
+    ['dados.txt será removido definitivamente da placa.', 'dados.txt will be permanently removed from the board.'],
+    ['main.py participa da inicialização da placa. Apagar esse arquivo pode impedir o projeto de iniciar automaticamente.', 'main.py participates in board startup. Deleting this file may prevent the project from starting automatically.']
   ]);
 
   for (const [portuguese, english] of translations) {
