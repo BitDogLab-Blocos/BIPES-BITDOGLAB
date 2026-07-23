@@ -33,11 +33,11 @@
   <script src="../../device-file-manager/operations.js?ver=20260719a1"></script>
   <script src="../js/config/bitdoglab_v7.js?ver=20260612a4"></script>
   <script src="../js/config/bitdoglab_v6.js?ver=20260612a4"></script>
-  <script src="../js/core/language.js?ver=20260723i18n2"></script>
+  <script src="../js/core/language.js?ver=20260723piano1"></script>
   <script src="../js/core/tabs.js?ver=20260403a7"></script>
   <script src="../js/core/codegen.js?ver=20260718a1"></script>
   <script src="../js/core/filemanager.js?ver=20260402a3"></script>
-  <script src="../js/core/workspace.js?ver=20260722a1"></script>
+  <script src="../js/core/workspace.js?ver=20260723piano1"></script>
   <script src="../js/core/app.js?ver=20260402a3"></script>
   <script src="../js/communication/i2c_scanner.js?ver=20260612a1"></script>
   <script src="../js/communication/webserial.js?ver=20260604a1"></script>
@@ -75,8 +75,8 @@
   <script src="../js/blocks/generators/sensor.js?ver=20260612a1"></script>
   <script src="../js/blocks/generators/robot.js?ver=20260614a4"></script>
   <script src="../js/blocks/generators/index.js?ver=20260716c1"></script>
-  <script src="../js/blocks/generators/piano.js?ver=20260507v1"></script>
-  <script src="../js/blocks/generators/timing.js?ver=20260507v1"></script>
+  <script src="../js/blocks/generators/piano.js?ver=20260723piano1"></script>
+  <script src="../js/blocks/generators/timing.js?ver=20260723piano1"></script>
 
   <!-- Terminal (xterm.js) -->
   <script src="../js/lib/xterm/xterm.js?ver=4.13.0"></script>
@@ -122,8 +122,8 @@
         </div>
         <div class="project-card" data-project="piano" style="border-color:#22c55e;">
           <div class="project-card-icon">🎹</div>
-          <h2 class="project-title">Piano Musical</h2>
-          <p class="project-desc">Toque notas no piano, veja na pauta e gere código para o buzzer</p>
+          <h2 class="project-title" data-i18n="app.projectPianoTitle">Piano Musical</h2>
+          <p class="project-desc" data-i18n="app.projectPianoDescription">Toque notas no piano, veja na pauta e gere código para o buzzer</p>
         </div>
       </div>
     </div>
@@ -237,25 +237,6 @@
   </div>
 
   <script>
-    // Localize project card titles/descriptions (Piano -> Music) for English
-    window.addEventListener('DOMContentLoaded', function() {
-      try {
-        var lang = (typeof Code !== 'undefined' && Code.LANG) ? Code.LANG : document.documentElement.lang || 'pt-br';
-        var pianoTitle = document.querySelector('.project-card[data-project="piano"] .project-title');
-        var pianoDesc = document.querySelector('.project-card[data-project="piano"] .project-desc');
-        if (!pianoTitle || !pianoDesc) return;
-
-        if (lang === 'en') {
-          pianoTitle.textContent = 'Music';
-          pianoDesc.textContent = 'Make music! Create melodies.';
-        } else {
-          pianoTitle.textContent = 'Musical';
-          pianoDesc.textContent = 'Faça música! Crie melodias.';
-        }
-      } catch (e) {
-        console.warn('Project localization failed', e);
-      }
-    });
     // Bounce animation keyframes for buttons
     document.head.insertAdjacentHTML('beforeend', '<style>@keyframes bounce{0%,20%,50%,80%,100%{transform:translateY(0)}40%{transform:translateY(-20px)}60%{transform:translateY(-10px)}}</style>');
 

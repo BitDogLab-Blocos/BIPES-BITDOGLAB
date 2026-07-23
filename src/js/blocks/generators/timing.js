@@ -77,6 +77,7 @@ TimingManager.show = function() {
   panel.appendChild(hint);
 
   document.body.appendChild(panel);
+  if (Code.translateDom) Code.translateDom(panel);
 };
 
 TimingManager._chainBlock = function(block) {
