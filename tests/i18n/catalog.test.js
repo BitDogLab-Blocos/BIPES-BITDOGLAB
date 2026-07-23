@@ -93,3 +93,38 @@ test('key-based translation uses the central app catalog with fallback', () => {
   assert.equal(Code.t('app.toolboxLoadError', { 1: 'network' }), 'Failed to load the toolbox: network');
   assert.equal(Code.t('app.keyThatDoesNotExist'), 'keyThatDoesNotExist');
 });
+
+test('Piano category, blocks, and dynamic panels translate completely', () => {
+  const { Code } = loadRuntime('en');
+  const translations = new Map([
+    ['🎹 Controle Piano', '🎹 Piano Controls'],
+    ['🎹 Piano interativo', '🎹 Interactive Piano'],
+    ['♩ Temporização', '♩ Timing'],
+    ['🎹 Tocar', '🎹 Play'],
+    ['🔇 Parar piano', '🔇 Stop Piano'],
+    ['🎹 Piano Musical', '🎹 Musical Piano'],
+    ['Dó', 'C'],
+    ['Ré', 'D'],
+    ['Mi', 'E'],
+    ['Fá', 'F'],
+    ['Sol', 'G'],
+    ['Lá', 'A'],
+    ['Si', 'B'],
+    ['Semibreve', 'Whole note'],
+    ['Mínima', 'Half note'],
+    ['Semínima', 'Quarter note'],
+    ['Colcheia', 'Eighth note'],
+    ['Semicolcheia', 'Sixteenth note'],
+    ['arraste o canto', 'drag the corner']
+  ]);
+
+  for (const [portuguese, english] of translations) {
+    assert.equal(Code.translateText(portuguese), english, portuguese);
+  }
+
+  assert.equal(Code.t('app.projectPianoTitle'), 'Musical Piano');
+  assert.equal(
+    Code.t('app.projectPianoDescription'),
+    'Play notes on the piano, view the score, and generate buzzer code'
+  );
+});
