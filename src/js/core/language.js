@@ -5,13 +5,7 @@ var LanguageManager = {};
 
 LanguageManager.LANGUAGE_NAME = {
   'en': 'English',
-  'pt-br': 'Português Brasileiro',
-  'es': 'Español',
-  'it': 'Italiano',
-  'fr': 'Français',
-  'de': 'Deutsch',
-  'zh-hans': 'Chinese (simplified)',
-  'zh-hant': 'Chinese (traditional)'
+  'pt-br': 'Português Brasileiro'
 };
 
 LanguageManager.LANGUAGE_RTL = ['ar', 'fa', 'he', 'lki'];
@@ -127,7 +121,5 @@ Code.LANG = LanguageManager.getLang();
 
 if (!Code._translationScriptsInjected) {
   Code._translationScriptsInjected = true;
-  document.write('<script src="../translations/app/' + Code.LANG + '.js"></script>\n');
-  document.write('<script src="../translations/blockly/languages/' + Code.LANG + '.js"></script>\n');
-  document.write('<script src="../translations/custom/' + Code.LANG + '.js"></script>\n');
+  document.write('<script src="../translations/catalog.js"></script>\n');
 }
