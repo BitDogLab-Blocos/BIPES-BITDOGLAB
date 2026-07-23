@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "node --test tests/**/*.test.js",
-    "audit:i18n-generated": "node scripts/audit-generated-english.js"
+    "audit:i18n-generated": "node tools/audit-generated-english.js"
   },
   "repository": {
     "type": "git",
