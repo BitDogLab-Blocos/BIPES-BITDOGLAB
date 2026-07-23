@@ -15,7 +15,7 @@ This folder connects browser events to BIPES services and maintains the applicat
 | `panel` | Opens and closes shared side panels. |
 | `account` | Creates, imports, lists, opens, and removes local projects. |
 | `channelPanel` | Displays and selects the serial communication channel. |
-| `notify` | Displays translated messages and keeps a log history. |
+| `notify` | Displays translated temporary messages and records diagnostic logs. |
 | `responsive` | Adjusts the layout and closes panels from outside areas. |
 | `progress` | Displays transmission and file operation progress. |
 | `workspace` | Connects buttons to execution, connection, device, and XML file actions. |

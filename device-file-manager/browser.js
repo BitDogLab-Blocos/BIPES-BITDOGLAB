@@ -15,7 +15,7 @@ DeviceFilesManager.extend({
   _updatePathUI() {
     if (this.pathButton) {
       this.pathButton.textContent = this.currentPath ? '/' + this.currentPath : '/';
-      this.pathButton.title = this.currentPath ? 'Voltar à raiz da placa' : 'Raiz da placa';
+      this.pathButton.title = this._translate(this.currentPath ? 'Voltar à raiz da placa' : 'Raiz da placa');
     }
     if (this.backButton) this.backButton.disabled = this.busy || !this.currentPath;
   },
@@ -127,7 +127,7 @@ DeviceFilesManager.extend({
       item.className = 'device-file-item' + (entry.isDirectory ? ' is-directory' : '');
       item.setAttribute('role', 'option');
       item.setAttribute('aria-selected', 'false');
-      item.title = entry.isDirectory ? 'Pasta ' + entry.name : 'Abrir ' + entry.name;
+      item.title = this._translate(entry.isDirectory ? 'Pasta ' + entry.name : 'Abrir ' + entry.name);
 
       var icon = document.createElement('span');
       icon.setAttribute('aria-hidden', 'true');
@@ -139,7 +139,7 @@ DeviceFilesManager.extend({
 
       var size = document.createElement('span');
       size.className = 'device-file-item-size';
-      size.textContent = entry.isDirectory ? 'pasta' : this._formatSize(entry.size);
+      size.textContent = entry.isDirectory ? this._translate('pasta') : this._formatSize(entry.size);
 
       item.append(icon, name, size);
       item.addEventListener('click', () => {

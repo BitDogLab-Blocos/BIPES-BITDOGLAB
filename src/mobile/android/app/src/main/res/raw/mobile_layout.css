@@ -1,0 +1,262 @@
+html.bipes-mobile-app {
+  --mobile-header-height: 4rem;
+  height: 100%;
+  background: var(--bitdoglab-light);
+  -webkit-text-size-adjust: 100%;
+}
+
+html.bipes-mobile-app body {
+  width: 100%;
+  height: 100%;
+  min-height: 100dvh;
+  touch-action: manipulation;
+}
+
+html.bipes-mobile-app .top-menu {
+  height: calc(var(--mobile-header-height) + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
+  padding-right: max(.45rem, env(safe-area-inset-right));
+  padding-left: max(.45rem, env(safe-area-inset-left));
+  gap: .25rem;
+}
+
+html.bipes-mobile-app .top-menu > .logo {
+  flex: 0 0 auto;
+  padding: 0;
+}
+
+html.bipes-mobile-app .top-menu > .tabs {
+  min-width: 0;
+  margin: 0;
+  padding: .35rem 0;
+  scrollbar-width: none;
+}
+
+html.bipes-mobile-app .top-menu > .tabs::-webkit-scrollbar {
+  display: none;
+}
+
+html.bipes-mobile-app .tabs > div {
+  min-height: 2.75rem;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  padding: .45rem .55rem;
+  font-size: .92rem;
+}
+
+html.bipes-mobile-app #toolbarButton {
+  flex: 0 0 2.75rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: .1rem;
+}
+
+html.bipes-mobile-app .top-menu > .toolbar {
+  width: min(28rem, calc(100vw - 1rem));
+  height: auto;
+  max-height: calc(100dvh - var(--mobile-header-height) - 1rem);
+  padding: .75rem;
+  gap: .45rem;
+  overflow-y: auto;
+  pointer-events: none;
+}
+
+html.bipes-mobile-app .top-menu > .toolbar#show {
+  top: calc(env(safe-area-inset-top) + var(--mobile-header-height) + .25rem);
+  right: max(.5rem, env(safe-area-inset-right));
+  pointer-events: auto;
+}
+
+html.bipes-mobile-app .toolbar button,
+html.bipes-mobile-app .toolbar label,
+html.bipes-mobile-app .toolbar select,
+html.bipes-mobile-app .channel-panel button {
+  min-height: 2.75rem;
+}
+
+html.bipes-mobile-app #projectButton {
+  min-width: 6.5rem;
+  min-height: 2.75rem;
+}
+
+html.bipes-mobile-app #device_selector {
+  width: auto;
+  max-width: 10.5rem;
+  min-height: 2.75rem;
+}
+
+html.bipes-mobile-app .channel-panel {
+  width: min(22rem, calc(100vw - 1rem));
+  pointer-events: none;
+}
+
+html.bipes-mobile-app .channel-panel#show {
+  top: calc(env(safe-area-inset-top) + var(--mobile-header-height) + .25rem);
+  right: max(.5rem, env(safe-area-inset-right));
+  pointer-events: auto;
+}
+
+html.bipes-mobile-app .content {
+  top: calc(var(--mobile-header-height) + env(safe-area-inset-top));
+}
+
+html.bipes-mobile-app #content_blocks,
+html.bipes-mobile-app #content_device,
+html.bipes-mobile-app #content_code,
+html.bipes-mobile-app #content_console,
+html.bipes-mobile-app #content_files,
+html.bipes-mobile-app #content_databoard {
+  height: calc(100dvh - var(--mobile-header-height) - env(safe-area-inset-top));
+}
+
+html.bipes-mobile-app .progress-bar {
+  top: calc(var(--mobile-header-height) + env(safe-area-inset-top));
+}
+
+html.bipes-mobile-app .blocklyToolboxDiv {
+  width: min(46vw, 14rem);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+html.bipes-mobile-app .blocklyTreeRow {
+  min-height: 2.5rem;
+  height: auto;
+  margin: .2rem .15rem;
+  display: flex;
+  align-items: center;
+}
+
+html.bipes-mobile-app .blocklyTreeLabel {
+  font-size: .92rem;
+  line-height: 1.15;
+  white-space: normal;
+}
+
+html.bipes-mobile-app .blocklyFlyout,
+html.bipes-mobile-app .blocklyToolboxDiv {
+  overscroll-behavior: contain;
+}
+
+html.bipes-mobile-app #content_console {
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
+}
+
+html.bipes-mobile-app #content_console #file-boxes button {
+  min-height: 2.75rem;
+}
+
+html.bipes-mobile-app #welcome-message > div,
+html.bipes-mobile-app #partnership-notice > div {
+  width: min(40rem, calc(100vw - 2rem));
+  max-width: none !important;
+  max-height: calc(100dvh - 2rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  padding: clamp(1.25rem, 5vw, 2.5rem) !important;
+  overflow-y: auto;
+}
+
+html.bipes-mobile-app #tutorial-steps {
+  right: max(.75rem, env(safe-area-inset-right)) !important;
+  bottom: max(.75rem, env(safe-area-inset-bottom)) !important;
+  width: min(22rem, calc(100vw - 1.5rem)) !important;
+  max-height: calc(100dvh - 1.5rem - env(safe-area-inset-top));
+  overflow-y: auto !important;
+}
+
+html.bipes-mobile-app #project-modal > div {
+  max-height: calc(100dvh - 5rem);
+  overflow-y: auto;
+  padding: 1rem .25rem;
+}
+
+html.bipes-mobile-app .project-card {
+  width: min(15rem, calc(100vw - 3rem));
+  padding: 1.25rem 1rem;
+}
+
+html.bipes-mobile-app .project-card-icon {
+  font-size: 3.5rem;
+}
+
+html.bipes-mobile-app .project-hardware-notice {
+  top: calc(var(--mobile-header-height) + env(safe-area-inset-top) + .5rem);
+}
+
+@media (max-width: 37.5rem) {
+  html.bipes-mobile-app {
+    --mobile-header-height: 3.75rem;
+  }
+
+  html.bipes-mobile-app .top-menu > .logo img {
+    display: none;
+  }
+
+  html.bipes-mobile-app .top-menu > .logo::before {
+    width: 2.4rem;
+    height: 2.4rem;
+    margin-right: 0;
+  }
+
+  html.bipes-mobile-app .tabs > div {
+    min-height: 2.5rem;
+    padding: .35rem .42rem;
+    font-size: .82rem;
+  }
+
+  html.bipes-mobile-app .blocklyToolboxDiv {
+    width: min(44vw, 11.5rem);
+  }
+
+  html.bipes-mobile-app .blocklyTreeRow {
+    min-height: 2.35rem;
+    margin-bottom: .12rem;
+  }
+
+  html.bipes-mobile-app .blocklyTreeLabel {
+    font-size: .84rem;
+  }
+
+  html.bipes-mobile-app .project-hardware-notice {
+    width: calc(100% - 1rem);
+  }
+}
+
+@media (orientation: landscape) and (max-height: 31rem) {
+  html.bipes-mobile-app {
+    --mobile-header-height: 3.5rem;
+  }
+
+  html.bipes-mobile-app .top-menu > .logo img {
+    display: none;
+  }
+
+  html.bipes-mobile-app .top-menu > .logo::before {
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-right: 0;
+  }
+
+  html.bipes-mobile-app .blocklyToolboxDiv {
+    width: min(34vw, 13.5rem);
+  }
+
+  html.bipes-mobile-app .blocklyTreeRow {
+    min-height: 2.2rem;
+    margin-bottom: .08rem;
+  }
+
+  html.bipes-mobile-app .top-menu > .toolbar {
+    max-height: calc(100dvh - var(--mobile-header-height) - .5rem);
+  }
+}
+
+@media (hover: none) {
+  html.bipes-mobile-app .project-card:hover,
+  html.bipes-mobile-app .taboff:hover,
+  html.bipes-mobile-app .blocklyTreeRow:hover,
+  html.bipes-mobile-app #runButton:hover {
+    transform: none;
+  }
+}

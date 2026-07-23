@@ -17,8 +17,8 @@ Cada arquivo concentra uma responsabilidade e publica apenas os pontos necessár
 | `codegen.js` | Valida geradores, organiza o Python produzido e mantém a geração automática. |
 | `tabs.js` | Alterna, divide, renderiza e redimensiona os painéis da aplicação. |
 | `filemanager.js` | Prepara o painel de arquivos e serializa o workspace como XML. |
-| `language.js` | Escolhe o idioma, carrega traduções e configura a direção da página. |
-| `i18n.js` | Traduz a interface, a toolbox e identificadores do código gerado, além de auditar o resultado. |
+| `language.js` | Escolhe o idioma, carrega o catálogo e configura a direção da página. |
+| `i18n.js` | Usa o catálogo para traduzir a interface, a toolbox e os identificadores do código gerado, além de auditar o resultado. |
 | `storage.js` | Salva projetos e backups do workspace no navegador e restaura a última sessão. |
 | `utils.js` | Fornece operações de execução, arquivos da placa, terminal, DOM e animações. |
 
@@ -46,5 +46,11 @@ Code.init();
 4. `codegen.js` transforma os blocos em Python e aplica os ajustes de execução.
 5. `tabs.js` apresenta Blockly, console, arquivos, referência da placa ou painel de dados.
 6. `language.js` e `i18n.js` mantêm interface, toolbox e código gerado no idioma selecionado.
+
+## Catálogo de traduções
+
+`src/translations/catalog.js` é a fonte única das traduções próprias da BitDogLab. Ele reúne mensagens da interface, textos dos blocos, labels legados do Blockly, nomes e comentários gerados no MicroPython e as regras que impedem identificadores traduzidos de quebrar o código.
+
+Para novos textos de interface, prefira uma chave estável com `Code.t('app.nomeDaMensagem')` ou `data-i18n="app.nomeDaMensagem"`. O tradutor antigo por texto continua disponível para preservar os blocos existentes durante a migração.
 
 > Este código usa scripts clássicos e globais compartilhados. Ao adicionar um módulo, preserve o namespace `Code` e confira sua posição em `src/pages/index.html`.

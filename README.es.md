@@ -129,7 +129,7 @@ BIPES-BITDOGLAB/
 │   │   ├── config/            # toolbox y versiones de la placa
 │   │   ├── core/              # workspace, generación e inicio
 │   │   └── ui/                # componentes de la interfaz
-│   └── translations/          # interfaz PT-BR e inglés
+│   └── translations/          # catálogo único PT/EN del proyecto y Blockly
 ├── device-file-manager/       # archivos y carpetas de la placa
 ├── Examples/                  # proyectos XML conectados
 ├── images/                    # ejemplos e imágenes del README

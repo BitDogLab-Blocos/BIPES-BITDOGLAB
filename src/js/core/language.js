@@ -5,13 +5,7 @@ var LanguageManager = {};
 
 LanguageManager.LANGUAGE_NAME = {
   'en': 'English',
-  'pt-br': 'Português Brasileiro',
-  'es': 'Español',
-  'it': 'Italiano',
-  'fr': 'Français',
-  'de': 'Deutsch',
-  'zh-hans': 'Chinese (simplified)',
-  'zh-hant': 'Chinese (traditional)'
+  'pt-br': 'Português Brasileiro'
 };
 
 LanguageManager.LANGUAGE_RTL = ['ar', 'fa', 'he', 'lki'];
@@ -95,7 +89,6 @@ LanguageManager.initLanguage = function() {
   if (document.getElementById('saveButton')) document.getElementById('saveButton').title = MSG['saveTooltip'];
   if (document.getElementById('loadButton')) document.getElementById('loadButton').title = MSG['loadTooltip'];
   if (document.getElementById('trashButton')) document.getElementById('trashButton').title = MSG['trashTooltip'];
-  if (document.getElementById('notificationButton')) document.getElementById('notificationButton').title = MSG['notificationTooltip'];
   if (document.getElementById('toolbarButton')) document.getElementById('toolbarButton').title = MSG['toolbarTooltip'];
 
   if (Code.translateDom) {
@@ -128,7 +121,5 @@ Code.LANG = LanguageManager.getLang();
 
 if (!Code._translationScriptsInjected) {
   Code._translationScriptsInjected = true;
-  document.write('<script src="../translations/app/' + Code.LANG + '.js"></script>\n');
-  document.write('<script src="../translations/blockly/languages/' + Code.LANG + '.js"></script>\n');
-  document.write('<script src="../translations/custom/' + Code.LANG + '.js"></script>\n');
+  document.write('<script src="../translations/catalog.js?ver=20260723files1"></script>\n');
 }

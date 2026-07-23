@@ -137,8 +137,8 @@ DeviceFilesManager.extend({
       this.dialog.style.width = '100%';
       this.dialog.style.height = '100%';
       this.maximizeButton.textContent = '❐';
-      this.maximizeButton.title = 'Restaurar';
-      this.maximizeButton.setAttribute('aria-label', 'Restaurar tamanho da janela');
+      this.maximizeButton.title = this._translate('Restaurar');
+      this.maximizeButton.setAttribute('aria-label', this._translate('Restaurar tamanho da janela'));
     } else {
       var geometry = this._restoreGeometry;
       this.dialog.classList.remove('is-maximized');
@@ -149,8 +149,8 @@ DeviceFilesManager.extend({
         this.dialog.style.height = geometry.height + 'px';
       }
       this.maximizeButton.textContent = '□';
-      this.maximizeButton.title = 'Maximizar';
-      this.maximizeButton.setAttribute('aria-label', 'Maximizar janela');
+      this.maximizeButton.title = this._translate('Maximizar');
+      this.maximizeButton.setAttribute('aria-label', this._translate('Maximizar janela'));
       this._clampWindowToOverlay();
     }
     this.resize();

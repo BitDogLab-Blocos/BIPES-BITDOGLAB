@@ -48,6 +48,9 @@ WorkspaceManager.reloadToolbox = function(XML_) {
         XML_ = Code.translateToolboxXml(XML_);
       }
       Code.workspace.updateToolbox(XML_);
+      if (Code.translateDom) {
+        setTimeout(function() { Code.translateDom(document.body); }, 0);
+      }
       UI['notify'].send(MSG['toolboxReloaded'] || 'Toolbox recarregada com sucesso!');
     } else {
       var request = new XMLHttpRequest();
@@ -60,6 +63,9 @@ WorkspaceManager.reloadToolbox = function(XML_) {
           toolboxXml = Code.translateToolboxXml(toolboxXml);
         }
         Code.workspace.updateToolbox(toolboxXml);
+        if (Code.translateDom) {
+          setTimeout(function() { Code.translateDom(document.body); }, 0);
+        }
         UI['notify'].send(MSG['toolboxDefaultLoaded'] || 'Toolbox padrão carregada!');
       }
     }
@@ -92,6 +98,9 @@ WorkspaceManager.filterToolboxByProject = function(project) {
       filtered = Code.translateToolboxXml(filtered);
     }
     Code.workspace.updateToolbox(filtered);
+    if (Code.translateDom) {
+      setTimeout(function() { Code.translateDom(document.body); }, 0);
+    }
   } catch (e) {
     console.error('[BitdogLab] Erro ao filtrar toolbox:', e);
   }
