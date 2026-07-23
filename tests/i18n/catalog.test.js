@@ -128,3 +128,31 @@ test('Piano category, blocks, and dynamic panels translate completely', () => {
     'Play notes on the piano, view the score, and generate buzzer code'
   );
 });
+
+test('device file manager translates board file UI and dynamic messages', () => {
+  const { Code } = loadRuntime('en');
+  const translations = new Map([
+    ['Arquivos da placa', 'Board Files'],
+    ['Atualizar arquivos da placa', 'Refresh board files'],
+    ['Aguardando conexão…', 'Waiting for connection…'],
+    ['Selecione um arquivo', 'Select a file'],
+    ['Visualização em tabela', 'Table preview'],
+    ['Renomear arquivo', 'Rename file'],
+    ['Criar nova pasta', 'Create new folder'],
+    ['Mover para cá', 'Move here'],
+    ['Conecte a BitDogLab para acessar os arquivos gravados na placa.', 'Connect BitDogLab to access files stored on the board.'],
+    ['Pasta main.py', 'Folder main.py'],
+    ['Abrir programa.py…', 'Open programa.py…'],
+    ['Lendo a raiz da placa…', 'Reading the board root…'],
+    ['1 item nesta pasta.', '1 item in this folder.'],
+    ['3 itens nesta pasta.', '3 items in this folder.'],
+    ['Coluna 2', 'Column 2'],
+    ['1 linha · 2 colunas · separado por vírgula', '1 row · 2 columns · separated by comma'],
+    ['# Este arquivo é binário e não pode ser exibido como código.\n# Você ainda pode baixá-lo para o computador.', '# This file is binary and cannot be displayed as code.\n# You can still download it to your computer.'],
+    ['Arquivo renomeado para novo.py.', 'File renamed to novo.py.']
+  ]);
+
+  for (const [portuguese, english] of translations) {
+    assert.equal(Code.translateText(portuguese), english, portuguese);
+  }
+});

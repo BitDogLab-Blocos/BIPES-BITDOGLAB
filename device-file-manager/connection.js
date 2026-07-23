@@ -17,7 +17,7 @@ DeviceFilesManager.extend({
 
   updateConnectionState(connected, refresh) {
     if (!this.connection || !this.connectButton) return;
-    this.connection.textContent = connected ? 'Conectada' : 'Desconectada';
+    this.connection.textContent = this._translate(connected ? 'Conectada' : 'Desconectada');
     this.connection.classList.toggle('is-online', connected);
     this.connection.classList.toggle('is-offline', !connected);
     this.connectButton.hidden = connected;

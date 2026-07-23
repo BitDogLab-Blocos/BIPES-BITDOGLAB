@@ -88,10 +88,10 @@ DeviceFilesManager.extend({
   },
 
   _csvDelimiterLabel(delimiter) {
-    if (delimiter === '\t') return 'tabulação';
-    if (delimiter === ';') return 'ponto e vírgula';
-    if (delimiter === '|') return 'barra vertical';
-    return 'vírgula';
+    if (delimiter === '\t') return this._translate('tabulação');
+    if (delimiter === ';') return this._translate('ponto e vírgula');
+    if (delimiter === '|') return this._translate('barra vertical');
+    return this._translate('vírgula');
   },
 
   _renderCsvPreview(text) {
@@ -109,14 +109,14 @@ DeviceFilesManager.extend({
     indexHeading.className = 'device-files-csv-index';
     indexHeading.scope = 'col';
     indexHeading.textContent = '#';
-    indexHeading.title = 'Índice da linha';
+    indexHeading.title = this._translate('Índice da linha');
     headingRow.appendChild(indexHeading);
 
     for (var column = 0; column < columnCount; column++) {
       var heading = document.createElement('th');
       heading.scope = 'col';
       heading.textContent = headings[column] === undefined || headings[column] === ''
-        ? 'Coluna ' + (column + 1)
+        ? this._translate('Coluna ' + (column + 1))
         : headings[column];
       heading.title = heading.textContent;
       headingRow.appendChild(heading);
@@ -147,7 +147,7 @@ DeviceFilesManager.extend({
       var emptyCell = document.createElement('td');
       emptyCell.className = 'device-files-csv-empty';
       emptyCell.colSpan = Math.max(columnCount + 1, 1);
-      emptyCell.textContent = rows.length ? 'O CSV contém apenas o cabeçalho.' : 'Este arquivo CSV está vazio.';
+      emptyCell.textContent = this._translate(rows.length ? 'O CSV contém apenas o cabeçalho.' : 'Este arquivo CSV está vazio.');
       emptyRow.appendChild(emptyCell);
       tableBody.appendChild(emptyRow);
     }
@@ -156,7 +156,7 @@ DeviceFilesManager.extend({
     var rowLabel = dataRows.length === 1 ? '1 linha' : dataRows.length + ' linhas';
     var columnLabel = columnCount === 1 ? '1 coluna' : columnCount + ' colunas';
     var limitLabel = dataRows.length > visibleRows.length ? ' · exibindo as primeiras 1000' : '';
-    this.csvMeta.textContent = rowLabel + ' · ' + columnLabel + ' · separado por ' + this._csvDelimiterLabel(delimiter) + limitLabel;
+    this.csvMeta.textContent = this._translate(rowLabel) + ' · ' + this._translate(columnLabel) + ' · ' + this._translate('separado por') + ' ' + this._csvDelimiterLabel(delimiter) + this._translate(limitLabel);
     this.editor.setValue('');
     this.editorPanel.setAttribute('aria-hidden', 'true');
     this.csvPanel.setAttribute('aria-hidden', 'false');
@@ -234,7 +234,7 @@ DeviceFilesManager.extend({
           text = new TextDecoder('utf-8', {fatal: true}).decode(bytes);
         } catch (error) {
           isText = false;
-          text = '# Este arquivo é binário e não pode ser exibido como código.\n# Você ainda pode baixá-lo para o computador.';
+          text = this._translate('# Este arquivo é binário e não pode ser exibido como código.\n# Você ainda pode baixá-lo para o computador.');
         }
         this.currentFileText = isText ? text : null;
 

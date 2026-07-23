@@ -59,14 +59,14 @@ DeviceFilesManager.extend({
     this.moveDialog.hidden = false;
     this.moveTarget.replaceChildren();
     var loading = document.createElement('option');
-    loading.textContent = 'Lendo pastas…';
+    loading.textContent = this._translate('Lendo pastas…');
     this.moveTarget.appendChild(loading);
     this.moveTarget.disabled = true;
     this.moveConfirm.disabled = true;
     var startupFile = !this.currentPath && /^(main|boot)\.py$/i.test(this.selectedFile.name);
-    get('#deviceFilesMoveMessage').textContent = startupFile
+    get('#deviceFilesMoveMessage').textContent = this._translate(startupFile
       ? this.selectedFile.name + ' só participa da inicialização quando está na raiz. Escolha o destino sabendo que ele deixará de iniciar automaticamente.'
-      : 'Escolha onde salvar ' + this.selectedFile.name + '.';
+      : 'Escolha onde salvar ' + this.selectedFile.name + '.');
     this._loadMoveTargets();
   },
 
@@ -113,7 +113,7 @@ DeviceFilesManager.extend({
 
       if (targets.length === 0) {
         var empty = document.createElement('option');
-        empty.textContent = 'Nenhuma outra pasta disponível';
+        empty.textContent = this._translate('Nenhuma outra pasta disponível');
         this.moveTarget.appendChild(empty);
         this.moveTarget.disabled = true;
         this.moveConfirm.disabled = true;
@@ -123,7 +123,7 @@ DeviceFilesManager.extend({
       targets.forEach((path) => {
         var option = document.createElement('option');
         option.value = path;
-        option.textContent = path ? '/' + path : '/ (raiz da placa)';
+        option.textContent = this._translate(path ? '/' + path : '/ (raiz da placa)');
         this.moveTarget.appendChild(option);
       });
       this.moveTarget.disabled = false;
