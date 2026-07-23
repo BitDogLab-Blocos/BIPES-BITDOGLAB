@@ -380,7 +380,7 @@ Blockly.Blocks['text_getSubstring'] = {
         ["Última letra", "LAST"],
         ["Letra nº", "FROM_START"]
     ];
-    this.setHelpUrl("%{BKY_TEXT_GET_SUBSTRING_HELPURL}");
+    this.setHelpUrl("");
     this.setStyle("text_blocks");
     this.setColour("%{BKY_TEXTS_HUE}");
     // Main text input
@@ -392,9 +392,10 @@ Blockly.Blocks['text_getSubstring'] = {
     // "TO" section will be added by updateAt_
     this.appendDummyInput("AT2");
     // Optional tail
-    if ("%{BKY_TEXT_GET_SUBSTRING_TAIL}") {
+    var tailText = Blockly.Msg.TEXT_GET_SUBSTRING_TAIL || "";
+    if (tailText) {
       this.appendDummyInput("TAIL")
-          .appendField("%{BKY_TEXT_GET_SUBSTRING_TAIL}");
+          .appendField(tailText);
     }
 
     this.setInputsInline(true);
@@ -467,7 +468,7 @@ Blockly.Blocks['text_changeCase'] = {
         ["MAIÚSCULAS", "UPPERCASE"],
         ["minúsculas", "LOWERCASE"]
     ];
-    this.setHelpUrl("%{BKY_TEXT_CHANGECASE_HELPURL}");
+    this.setHelpUrl("");
     this.setStyle("text_blocks");
     this.setColour("%{BKY_TEXTS_HUE}");
     this.appendValueInput("TEXT")
@@ -493,7 +494,7 @@ Blockly.Blocks['text_print'] = {
     this.setNextStatement(true, null);
     this.setColour("%{BKY_TEXTS_HUE}");
     this.setTooltip("Envía qualquer texto, número ou valor de variável para a aba 'Mensagens'. É a melhor maneira de ver o que seu programa está fazendo!");
-    this.setHelpUrl("%{BKY_TEXT_PRINT_HELPURL}");
+    this.setHelpUrl("");
   }
 };
 // Multiple text print block for joining and sending multiple values

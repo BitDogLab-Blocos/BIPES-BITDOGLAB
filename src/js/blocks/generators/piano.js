@@ -182,6 +182,7 @@ PianoManager.show = function() {
   panel.appendChild(hint);
 
   document.body.appendChild(panel);
+  if (Code.translateDom) Code.translateDom(panel);
 };
 
 PianoManager._lastNoteValue = null;

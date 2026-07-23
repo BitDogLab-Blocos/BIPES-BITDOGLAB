@@ -1,0 +1,28 @@
+{
+  "name": "bipes-bitdoglab",
+  "version": "1.0.0",
+  "description": "[Portugues](#portugues) | [English](#english)",
+  "main": "screenshot.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "node --test tests/**/*.test.js",
+    "audit:i18n-generated": "node tools/audit-generated-english.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BitDogLab-Blocos/BIPES-BITDOGLAB.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BitDogLab-Blocos/BIPES-BITDOGLAB/issues"
+  },
+  "homepage": "https://github.com/BitDogLab-Blocos/BIPES-BITDOGLAB#readme",
+  "dependencies": {
+    "playwright": "^1.58.2"
+  }
+}

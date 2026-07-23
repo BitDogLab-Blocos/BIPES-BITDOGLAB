@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="520" viewBox="0 0 1440 520" role="img" aria-labelledby="title desc">
+  <title id="title">Fluxo de comunicação do aplicativo Android com a BitDogLab</title>
+  <desc id="desc">A interface envia operações pela compatibilidade serial, pela ponte Android USB Host, pela porta CDC do RP2040 e finalmente ao MicroPython.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#17142f"/>
+      <stop offset="1" stop-color="#242b55"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#25b9df"/>
+      <stop offset="1" stop-color="#a85ee6"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#050714" flood-opacity=".45"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#59d5ef"/>
+    </marker>
+  </defs>
+
+  <rect width="1440" height="520" rx="28" fill="url(#background)"/>
+  <rect x="1" y="1" width="1438" height="518" rx="27" fill="none" stroke="#7253ae" stroke-width="2"/>
+  <text x="720" y="58" fill="#ffffff" font-family="Arial, sans-serif" font-size="30" font-weight="700" text-anchor="middle">Como o aplicativo conversa com a BitDogLab</text>
+  <text x="720" y="91" fill="#b9c4e6" font-family="Arial, sans-serif" font-size="17" text-anchor="middle">O navegador do celular não acessa a USB diretamente; o Android abre a porta CDC nativa.</text>
+
+  <g filter="url(#shadow)">
+    <g transform="translate(55 145)">
+      <rect width="230" height="205" rx="22" fill="#30265c" stroke="#6c5caf" stroke-width="2"/>
+      <rect x="83" y="25" width="64" height="94" rx="10" fill="none" stroke="#59d5ef" stroke-width="5"/>
+      <circle cx="115" cy="105" r="4" fill="#59d5ef"/>
+      <text x="115" y="151" fill="#ffffff" font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle">Interface móvel</text>
+      <text x="115" y="179" fill="#cbd4ee" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">Blocos, mensagens e ações</text>
+    </g>
+
+    <g transform="translate(330 145)">
+      <rect width="230" height="205" rx="22" fill="#25345d" stroke="#397ea9" stroke-width="2"/>
+      <text x="115" y="76" fill="#59d5ef" font-family="Consolas, monospace" font-size="39" font-weight="700" text-anchor="middle">{ JS }</text>
+      <text x="115" y="126" fill="#ffffff" font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle">Compatibilidade serial</text>
+      <text x="115" y="155" fill="#cbd4ee" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">mobile_serial_shim.js</text>
+      <text x="115" y="179" fill="#cbd4ee" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Mantém o WebSerial original</text>
+    </g>
+
+    <g transform="translate(605 145)">
+      <rect width="230" height="205" rx="22" fill="#23445a" stroke="#34a6b8" stroke-width="2"/>
+      <path d="M91 39v30m0 0l-14-14m14 14l14-14m35-16v30m0 0l-14-14m14 14l14-14M76 86h78" fill="none" stroke="#65e1da" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="115" y="126" fill="#ffffff" font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle">Android USB Host</text>
+      <text x="115" y="155" fill="#cbd4ee" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">Permissão, leitura e escrita</text>
+      <text x="115" y="179" fill="#cbd4ee" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">NativeSerialBridge.java</text>
+    </g>
+
+    <g transform="translate(880 145)">
+      <rect width="230" height="205" rx="22" fill="#3b3152" stroke="#a06ac4" stroke-width="2"/>
+      <rect x="61" y="34" width="108" height="62" rx="8" fill="none" stroke="#d69aef" stroke-width="4"/>
+      <circle cx="79" cy="51" r="5" fill="#d69aef"/><circle cx="96" cy="51" r="5" fill="#d69aef"/><circle cx="113" cy="51" r="5" fill="#d69aef"/>
+      <path d="M73 112h84" stroke="#d69aef" stroke-width="5" stroke-linecap="round"/>
+      <text x="115" y="143" fill="#ffffff" font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle">USB CDC/ACM</text>
+      <text x="115" y="171" fill="#cbd4ee" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">Porta serial do RP2040</text>
+    </g>
+
+    <g transform="translate(1155 145)">
+      <rect width="230" height="205" rx="22" fill="#493147" stroke="#e28b9b" stroke-width="2"/>
+      <path d="M76 46h78v56H76zM90 34v12m25-12v12m25-12v12M90 102v12m25-12v12m25-12v12" fill="none" stroke="#ffadad" stroke-width="5" stroke-linecap="round"/>
+      <text x="115" y="143" fill="#ffffff" font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle">MicroPython</text>
+      <text x="115" y="171" fill="#cbd4ee" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">REPL e main.py da placa</text>
+    </g>
+  </g>
+
+  <g fill="none" stroke="#59d5ef" stroke-width="4" marker-end="url(#arrow)">
+    <path d="M286 248h32"/><path d="M561 248h32"/><path d="M836 248h32"/><path d="M1111 248h32"/>
+  </g>
+
+  <rect x="405" y="397" width="630" height="76" rx="18" fill="#151b36" stroke="url(#accent)" stroke-width="2"/>
+  <text x="720" y="428" fill="#ffffff" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle">Reconhecimento automático</text>
+  <text x="720" y="455" fill="#cbd4ee" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">Procura CDC/ACM e prioriza o Vendor ID 0x2E8A do RP2040; depois solicita a permissão do Android.</text>
+</svg>

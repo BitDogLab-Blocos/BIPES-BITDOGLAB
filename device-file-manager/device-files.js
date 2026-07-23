@@ -92,7 +92,18 @@ class DeviceFilesManager {
       return;
     }
     var status = document.getElementById('file-status');
-    if (status) status.textContent = message;
+    if (status) {
+      status.textContent = typeof Code !== 'undefined' && Code.translateText
+        ? Code.translateText(String(message || ''))
+        : message;
+    }
+  }
+
+  _translate(message) {
+    if (typeof Code !== 'undefined' && Code.translateText) {
+      return Code.translateText(String(message || ''));
+    }
+    return message;
   }
 
   _mount() {
@@ -102,8 +113,8 @@ class DeviceFilesManager {
       trigger.id = 'filesButton';
       trigger.className = 'device-files-trigger';
       trigger.type = 'button';
-      trigger.title = 'Abrir arquivos da placa';
-      trigger.setAttribute('aria-label', 'Abrir arquivos da placa');
+      trigger.title = this._translate('Abrir arquivos da placa');
+      trigger.setAttribute('aria-label', this._translate('Abrir arquivos da placa'));
       trigger.setAttribute('aria-controls', 'content_files');
       trigger.setAttribute('aria-expanded', 'false');
       trigger.innerHTML = '<span aria-hidden="true">📁</span>';
@@ -249,7 +260,13 @@ class DeviceFilesManager {
           <div id="deviceFilesResizeHandle" class="device-files-resize-handle" role="separator" aria-label="Redimensionar janela" title="Arraste para redimensionar"></div>
         </section>
       </div>`;
-    document.body.appendChild(host.firstElementChild);
+    var panel = host.firstElementChild;
+    document.body.appendChild(panel);
+    if (typeof Code !== 'undefined' && Code.translateDom) {
+      Code.translateDom(panel);
+    }
+    var fileNameInput = panel.querySelector('#content_file_name');
+    if (fileNameInput) fileNameInput.value = this._translate(fileNameInput.value);
   }
 
   _bindPanel() {
@@ -320,7 +337,7 @@ class DeviceFilesManager {
 
   setStatus(message, state) {
     if (!this.status) return;
-    this.status.textContent = String(message || '');
+    this.status.textContent = this._translate(message);
     this.status.classList.toggle('is-error', state === 'error');
     this.status.classList.toggle('is-success', state === 'success');
   }
@@ -346,8 +363,8 @@ class DeviceFilesManager {
     if (!this.emptyPanel || !this.preview) return;
     var strong = this.emptyPanel.querySelector('strong');
     var small = this.emptyPanel.querySelector('small');
-    if (strong) strong.textContent = title;
-    if (small) small.textContent = description;
+    if (strong) strong.textContent = this._translate(title);
+    if (small) small.textContent = this._translate(description);
     this.preview.classList.remove('has-file');
     this.preview.classList.remove('has-csv');
     this.editorPanel.setAttribute('aria-hidden', 'true');
@@ -359,7 +376,7 @@ class DeviceFilesManager {
     this.selectedFile = null;
     this.currentFileBytes = null;
     this.currentFileText = null;
-    if (this.fileName) this.fileName.value = 'Nenhum arquivo selecionado';
+    if (this.fileName) this.fileName.value = this._translate('Nenhum arquivo selecionado');
     if (this.previewIcon) {
       this.previewIcon.className = 'device-files-preview-icon';
       this.previewIcon.textContent = '◇';

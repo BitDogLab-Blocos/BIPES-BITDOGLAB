@@ -1,0 +1,14 @@
+android/.gradle/
+android/.idea/
+android/local.properties
+android/app/build/
+android/build/
+*.apk
+*.aab
+*.jks
+*.keystore
+*.pem
+*.p12
+*.pfx
+android/keystore.properties
+android/key.properties

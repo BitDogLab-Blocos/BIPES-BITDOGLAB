@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="410" viewBox="0 0 1280 410" role="img" aria-labelledby="title desc">
+  <title id="title">Diferença entre conectar e rodar no aplicativo Android</title>
+  <desc id="desc">Conectar prepara a porta USB e pede permissão. Rodar gera o MicroPython e envia o programa por uma conexão que já precisa estar aberta.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1b1735"/><stop offset="1" stop-color="#25305a"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-opacity=".35"/></filter>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#4ed4f2"/></marker>
+    <marker id="arrowOrange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#ff9d2e"/></marker>
+  </defs>
+  <rect width="1280" height="410" rx="28" fill="url(#bg)"/>
+  <text x="640" y="53" fill="#fff" font-family="Arial, sans-serif" font-size="29" font-weight="700" text-anchor="middle">Conectar e Rodar são ações diferentes</text>
+
+  <g filter="url(#shadow)">
+    <rect x="45" y="90" width="570" height="270" rx="24" fill="#202c50" stroke="#4ed4f2" stroke-width="2"/>
+    <circle cx="103" cy="144" r="30" fill="#173b58" stroke="#4ed4f2" stroke-width="3"/>
+    <path d="M93 127v24m0 0l-10-10m10 10l10-10m17-14v24m0 0l-10-10m10 10l10-10M82 162h49" fill="none" stroke="#6de6ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="151" y="139" fill="#fff" font-family="Arial, sans-serif" font-size="25" font-weight="700">CONECTAR</text>
+    <text x="151" y="164" fill="#bcd0e9" font-family="Arial, sans-serif" font-size="15">Ícone de plugue — feito antes de executar</text>
+
+    <g fill="#eef8ff" font-family="Arial, sans-serif" font-size="17" text-anchor="middle">
+      <rect x="75" y="210" width="135" height="75" rx="15" fill="#294569"/><text x="142" y="241">Procura a</text><text x="142" y="264">BitDogLab</text>
+      <rect x="260" y="210" width="135" height="75" rx="15" fill="#294569"/><text x="327" y="241">Pede acesso</text><text x="327" y="264">ao Android</text>
+      <rect x="445" y="210" width="135" height="75" rx="15" fill="#294569"/><text x="512" y="241">Abre CDC</text><text x="512" y="264">115200 8N1</text>
+    </g>
+    <g fill="none" stroke="#4ed4f2" stroke-width="3" marker-end="url(#arrowBlue)"><path d="M212 248h34"/><path d="M397 248h34"/></g>
+    <text x="330" y="327" fill="#74e4fa" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Sem cabo: deve informar que nenhuma placa foi encontrada.</text>
+
+    <rect x="665" y="90" width="570" height="270" rx="24" fill="#49344b" stroke="#ff9d2e" stroke-width="2"/>
+    <circle cx="723" cy="144" r="30" fill="#6a4328" stroke="#ff9d2e" stroke-width="3"/>
+    <path d="M715 126L738 144L715 162Z" fill="#ffc173"/>
+    <text x="771" y="139" fill="#fff" font-family="Arial, sans-serif" font-size="25" font-weight="700">RODAR</text>
+    <text x="771" y="164" fill="#ead0c1" font-family="Arial, sans-serif" font-size="15">Botão laranja ▶ — conecta automaticamente se necessário</text>
+
+    <g fill="#fff8ed" font-family="Arial, sans-serif" font-size="17" text-anchor="middle">
+      <rect x="695" y="210" width="135" height="75" rx="15" fill="#664653"/><text x="762" y="241">Verifica a</text><text x="762" y="264">conexão</text>
+      <rect x="880" y="210" width="135" height="75" rx="15" fill="#664653"/><text x="947" y="241">Se preciso,</text><text x="947" y="264">conecta</text>
+      <rect x="1065" y="210" width="135" height="75" rx="15" fill="#664653"/><text x="1132" y="241">Gera e envia</text><text x="1132" y="264">MicroPython</text>
+    </g>
+    <g fill="none" stroke="#ff9d2e" stroke-width="3" marker-end="url(#arrowOrange)"><path d="M832 248h34"/><path d="M1017 248h34"/></g>
+    <text x="950" y="327" fill="#ffc173" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Sem cabo: a conexão falha e o programa não é enviado.</text>
+  </g>
+</svg>

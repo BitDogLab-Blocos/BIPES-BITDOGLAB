@@ -20,8 +20,6 @@ panel.prototype.showPanel = function () {
 
   if(!panel_.show) {
     this.panel.id = "show";
-    if(panel_.from == 'notify-panel')
-      UI ['notify'].container.id = ''; // Hide temp notification when opening panel
  } else {
     this.panel.id = '';
   }
@@ -288,14 +286,12 @@ function channelPanel (button_, panel_) {
 }
 
 
-// Notification system: shows temporary alerts and keeps history
+// Notification system: shows temporary alerts and records diagnostic logs
 class notify {
   constructor () {
-    this.panel_ = '.notify-panel'
 	  this.container = get ('.notify');
-	  this.container.innerHTML = '';
-	  this.panel = get (this.panel_);
-    this.messages = [];
+    if (this.container) this.container.innerHTML = '';
+    this.lastMessage = '';
     this.logs = [];
     this.buffer_count = 0;
     this.timeOut;
@@ -308,45 +304,34 @@ notify.prototype.send = function (message) {
     message = Code.translateText(message);
   }
   console.log (`Notification: ${message}`);
-  this.messages.push ({timestamp: +new Date, message: message});
-  let last_message;
-  let this_message = this.messages [this.messages.length - 1];
-  if(!!this.messages [this.messages.length - 2]) last_message = this.messages [this.messages.length - 2].message;
-  let closeButton_ = document.createElement ('span');
-  closeButton_.classList.add("icon");
-  closeButton_.id="trashIcon";
-  this_message.div = document.createElement ('span');
-  let time_ =  Tool.unix2date(this_message.timestamp);
+  if (!this.container) return;
+
+  let time_ = Tool.unix2date(+new Date);
   let message_ = `[${time_}] ${message}`;
-  this_message.div.title = message_;
-  this_message.div.appendChild(document.createTextNode(message_));
-  this_message.div.appendChild(closeButton_);
-  this_message.div.onclick = (ev) => {try {this.panel.removeChild(ev.target.parentNode)}catch(e){};};
-  this.panel.appendChild(this_message.div);
 
-  let panel_ = UI ['responsive'].panels [this.panel_];
-  if (!panel_.show) { // Only show temp notification if panel is closed
-    if(last_message == message && this.container.id == 'show') { // Group duplicate messages
-        this.buffer_count = this.buffer_count + 1;
-        this.container.innerHTML = `(${this.buffer_count}x) ${message_}`; // Show counter
-    } else {
-        if (this.container.innerHTML == '')
-          this.container.innerHTML = message_;
-        else
-          this.container.innerHTML = `${message_}<hr>${this.container.innerHTML}`;
-        this.buffer_count = 0;
-    }
-
-    this.container.id = 'show';
-
-    window.clearTimeout(this.timeOut);
-    this.timeOut = setTimeout( () => { // Hide after 3s
-      this.container.id = '';
-      this.buffer_count = 0;
-      this.timeOut2 = setTimeout( () => {
-      this.container.innerHTML = '';}, 150); // Clear content after fade
-    }, 3000);
+  if(this.lastMessage == message && this.container.id == 'show') { // Group duplicate messages
+    this.buffer_count = this.buffer_count + 1;
+    this.container.innerHTML = `(${this.buffer_count}x) ${message_}`; // Show counter
+  } else {
+    if (this.container.innerHTML == '')
+      this.container.innerHTML = message_;
+    else
+      this.container.innerHTML = `${message_}<hr>${this.container.innerHTML}`;
+    this.buffer_count = 0;
   }
+  this.lastMessage = message;
+  this.container.id = 'show';
+
+  window.clearTimeout(this.timeOut);
+  window.clearTimeout(this.timeOut2);
+  this.timeOut = setTimeout( () => { // Hide after 3s
+    this.container.id = '';
+    this.buffer_count = 0;
+    this.timeOut2 = setTimeout( () => {
+      this.container.innerHTML = '';
+      this.lastMessage = '';
+    }, 150); // Clear content after fade
+  }, 3000);
 }
 // Log message silently (no UI notification)
 notify.prototype.log = function (message) {
@@ -406,7 +391,6 @@ class responsive {
 
     // Dead zones for each panel (tap outside to close)
 	  this.panels = {'.toolbar':{from:'toolbar',x:$em*22, x2:0, y:$em*7.5, show:false},
-	                 '.notify-panel':{from:'notify-panel',x:$em*22, x2:0, y:0, show:false},
 	                 '.language-panel':{from:'language-panel',x:$em*22, x2:0, y:$em*6.5, show:false},
 	                 '.account-panel':{from:'account',x:$em*22, x2:0, y:$em*0, show:false},
 	                 '.channel-panel':{from:'channel-panel',x:$em*42.5, x2:$em*22, y:$em*24.5, show:false}};
@@ -732,7 +716,6 @@ workspace.prototype.loadXML = function () {
     }
   }
 }
-
 
 
 

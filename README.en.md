@@ -129,7 +129,7 @@ BIPES-BITDOGLAB/
 │   │   ├── config/            # toolbox and board versions
 │   │   ├── core/              # workspace, generation, bootstrap
 │   │   └── ui/                # interface components
-│   └── translations/          # PT-BR and English interface
+│   └── translations/          # single PT/EN catalog for the project and Blockly
 ├── device-file-manager/       # board files and folders
 ├── Examples/                  # connected XML projects
 ├── images/                    # examples and README images

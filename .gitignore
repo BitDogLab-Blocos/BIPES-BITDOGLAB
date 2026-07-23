@@ -40,7 +40,6 @@ yarn-error.log*
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
-package.json
 
 ## Python
 __pycache__/
@@ -80,8 +79,7 @@ escrita/
 # Skills locais (nao versionados)
 skill_*/
 
-# Validacoes e ferramentas locais
-tests/
+# Ferramentas locais
 tools/
 
 # Arquivos de Documentação Temporária (ignora todos .md exceto README.md)

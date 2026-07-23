@@ -244,8 +244,7 @@ static _doSaveAsMainPy (onDone) {
   }
 
   static emptyXML () {
-    let account_user = localStorage ['account_user']; // Get username from localStorage
-    return `<xml xmlns="https://bipes.net.br"><workspace><databoard><![CDATA[{"currentWorkspace":"kvflqzky5js84d7x5pe","workspace:kvflqzky5js84d7x5pe":[]}]]></databoard></workspace><block type="project_metadata" id="" x="-212" y="-612"><value name="project_author"><shadow type="text" id=""><field name="TEXT">${account_user}</field></shadow></value><value name="project_iot_id"><shadow type="math_number" id=""><field name="NUM">0</field></shadow></value><value name="project_description"><shadow type="text" id=""><field name="TEXT">My project</field></shadow></value></block></xml>` // XML template with project_metadata block
+    return '<xml><workspace></workspace></xml>';
   }
 }
 
@@ -258,7 +257,6 @@ class files {
     this.put_file_data = null; // Upload file data
     this.get_file_name = null; // Download filename
     this.get_file_data = null; // Download file data
-    this.binary_state = 0; // Protocol state machine
     this.received_string = ""; // Buffer for incoming data
     this.viewOnly = false; // Flag for view-only mode
     // Initialize CodeMirror editor with Python mode and line numbers
@@ -304,15 +302,6 @@ class files {
         files.update_file_status(`File ${this.put_file_name} sent.`);
       break;
     }
-  }
-
-  get_ver () {
-    var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64); // WEBREPL_REQ_S = "<2sBBQLH64s" struct format
-    rec[0] = 'W'.charCodeAt(0); // Magic byte 1: 'W'
-    rec[1] = 'A'.charCodeAt(0); // Magic byte 2: 'A'
-    rec[2] = 3; // GET_VER opcode
-    this.binary_state = 31; // Set state for binary response handler
-    mux.bufferPush(rec);
   }
 
   handle_put_file_select() {
@@ -378,7 +367,6 @@ class files {
     this.file_save_as.className = 'py';
     switch (Channel ['mux'].currentChannel) {
       case 'webserial':
-        this.binary_state = 91;
         files.update_file_status(`Getting ${src_fname}...`);
 
         mux.clearBuffer ();
