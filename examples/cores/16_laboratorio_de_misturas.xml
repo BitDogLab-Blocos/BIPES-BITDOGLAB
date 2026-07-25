@@ -1,0 +1,60 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Laboratório interativo: cada botão mostra a média de um par de cores primárias. -->
+  <block type="botao_se_apertado" x="20" y="20">
+    <field name="BOTAO">A</field>
+    <statement name="DO">
+      <block type="preencher_matriz">
+        <field name="INTENSITY">70</field>
+        <value name="COLOUR">
+          <block type="mix_colours">
+            <mutation items="2"></mutation>
+            <value name="ADD0"><block type="colour_red"></block></value>
+            <value name="ADD1"><block type="colour_green"></block></value>
+          </block>
+        </value>
+      </block>
+    </statement>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">B</field>
+        <statement name="DO">
+          <block type="preencher_matriz">
+            <field name="INTENSITY">70</field>
+            <value name="COLOUR">
+              <block type="mix_colours">
+                <mutation items="2"></mutation>
+                <value name="ADD0"><block type="colour_green"></block></value>
+                <value name="ADD1"><block type="colour_blue"></block></value>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">C</field>
+            <statement name="DO">
+              <block type="preencher_matriz">
+                <field name="INTENSITY">70</field>
+                <value name="COLOUR">
+                  <block type="mix_colours">
+                    <mutation items="2"></mutation>
+                    <value name="ADD0"><block type="colour_red"></block></value>
+                    <value name="ADD1"><block type="colour_blue"></block></value>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <next>
+              <block type="botao_se_apertado">
+                <field name="BOTAO">JOYSTICK</field>
+                <statement name="DO">
+                  <block type="desligar_matriz"></block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

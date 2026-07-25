@@ -92,7 +92,7 @@ El repositorio contiene **56 proyectos XML conectados**, acompañados por imáge
   <tr>
     <td><img src="images/leds/led_14_semaforo.png" alt="Ejemplo de semáforo con LEDs"></td>
     <td><img src="images/variavel/1_contador_de_pontos_no_display_oled.png" alt="Contador de puntos con variable y OLED"></td>
-    <td><img src="images/colours/colour_10_arcoiris.png" alt="Ejemplo de transiciones de colores del arcoíris"></td>
+    <td><img src="images/cores/13_circulo_de_cores.png" alt="Ejemplo del círculo de colores"></td>
   </tr>
 </table>
 

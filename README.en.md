@@ -92,7 +92,7 @@ The repository contains **56 connected XML projects** with matching validation i
   <tr>
     <td><img src="images/leds/led_14_semaforo.png" alt="LED traffic light example"></td>
     <td><img src="images/variavel/1_contador_de_pontos_no_display_oled.png" alt="Score counter using a variable and OLED"></td>
-    <td><img src="images/colours/colour_10_arcoiris.png" alt="Rainbow color transition example"></td>
+    <td><img src="images/cores/13_circulo_de_cores.png" alt="Colour wheel example"></td>
   </tr>
 </table>
 

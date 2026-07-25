@@ -1,0 +1,29 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Compara a média de vermelho e azul com o magenta pronto para observar a diferença de intensidade. -->
+  <block type="preencher_matriz" x="20" y="20">
+    <field name="INTENSITY">65</field>
+    <value name="COLOUR">
+      <block type="mix_colours">
+        <mutation items="2"></mutation>
+        <value name="ADD0"><block type="colour_red"></block></value>
+        <value name="ADD1"><block type="colour_blue"></block></value>
+      </block>
+    </value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+        <next>
+          <block type="preencher_matriz">
+            <field name="INTENSITY">65</field>
+            <value name="COLOUR"><block type="colour_magenta"></block></value>
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

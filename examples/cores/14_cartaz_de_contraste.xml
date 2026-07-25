@@ -1,0 +1,36 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Cria faixas de cores contrastantes para observar como uma cor muda a percepção da cor vizinha. -->
+  <block type="criar_desenho_na_matriz" x="20" y="20">
+    <mutation items="5"></mutation>
+    <statement name="DESENHO0">
+      <block type="acender_linha">
+        <field name="LINHA">0</field><field name="INTENSITY">55</field>
+        <value name="COLOUR"><block type="colour_red"></block></value>
+      </block>
+    </statement>
+    <statement name="DESENHO1">
+      <block type="acender_linha">
+        <field name="LINHA">1</field><field name="INTENSITY">55</field>
+        <value name="COLOUR"><block type="colour_cyan"></block></value>
+      </block>
+    </statement>
+    <statement name="DESENHO2">
+      <block type="acender_linha">
+        <field name="LINHA">2</field><field name="INTENSITY">40</field>
+        <value name="COLOUR"><block type="colour_white"></block></value>
+      </block>
+    </statement>
+    <statement name="DESENHO3">
+      <block type="acender_linha">
+        <field name="LINHA">3</field><field name="INTENSITY">55</field>
+        <value name="COLOUR"><block type="colour_green"></block></value>
+      </block>
+    </statement>
+    <statement name="DESENHO4">
+      <block type="acender_linha">
+        <field name="LINHA">4</field><field name="INTENSITY">55</field>
+        <value name="COLOUR"><block type="colour_magenta"></block></value>
+      </block>
+    </statement>
+  </block>
+</xml>

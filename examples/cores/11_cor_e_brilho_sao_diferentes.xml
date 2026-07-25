@@ -1,0 +1,34 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Mantém a mesma cor azul-celeste e altera apenas o brilho para separar os dois conceitos. -->
+  <block type="bloco_acender_led_brilho" x="20" y="20">
+    <field name="INTENSITY">20</field>
+    <value name="COLOUR"><block type="colour_skyblue"></block></value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+        <next>
+          <block type="bloco_acender_led_brilho">
+            <field name="INTENSITY">60</field>
+            <value name="COLOUR"><block type="colour_skyblue"></block></value>
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+                <next>
+                  <block type="bloco_acender_led_brilho">
+                    <field name="INTENSITY">100</field>
+                    <value name="COLOUR"><block type="colour_skyblue"></block></value>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
