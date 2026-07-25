@@ -74,6 +74,11 @@
     var close = root.querySelector('#boardInfoClose');
     if (!container || !panel || !title || !text || !close) return;
 
+    container.setAttribute(
+      'aria-label',
+      context.lang === 'en' ? 'Interactive BitDogLab components' : 'Componentes interativos da BitDogLab'
+    );
+
     function hideInfo() {
       panel.hidden = true;
       container.querySelectorAll('.board-hotspot').forEach(function (button) {

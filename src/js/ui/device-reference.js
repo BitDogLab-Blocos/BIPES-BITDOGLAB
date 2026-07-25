@@ -6,6 +6,7 @@
   var storedLanguage = null;
   var templateCache = Object.create(null);
   var selectionVersion = 0;
+  var assetVersion = '20260725b2';
 
   try { storedLanguage = window.localStorage.getItem('bitdoglab_lang'); } catch (error) {}
 
@@ -29,10 +30,14 @@
   var menu = document.getElementById('hardwareGuideMenu');
   var content = document.getElementById('hardwareGuideContent');
 
+  function withVersion(source) {
+    return source + (source.indexOf('?') === -1 ? '?ver=' : '&ver=') + assetVersion;
+  }
+
   function loadScript(source) {
     return new Promise(function (resolve, reject) {
       var script = document.createElement('script');
-      script.src = source + (source.indexOf('?') === -1 ? '?ver=20260725b1' : '&ver=20260725b1');
+      script.src = withVersion(source);
       script.onload = resolve;
       script.onerror = function () { reject(new Error('Could not load guide module: ' + source)); };
       document.head.appendChild(script);
@@ -134,7 +139,7 @@
 
   function fetchTemplate(guide) {
     if (templateCache[guide.id]) return Promise.resolve(templateCache[guide.id]);
-    return fetch(guide.template).then(function (response) {
+    return fetch(withVersion(guide.template)).then(function (response) {
       if (!response.ok) throw new Error('Could not load template for "' + guide.id + '": HTTP ' + response.status);
       return response.text();
     }).then(function (html) {
