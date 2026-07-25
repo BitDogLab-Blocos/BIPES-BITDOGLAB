@@ -392,6 +392,18 @@ code {
   font-size: 1.04em;
 }
 
+.guide-checklist {
+  margin: 10px 0 0;
+  padding-left: 1.3rem;
+}
+
+.guide-checklist li {
+  margin-bottom: 8px;
+  padding-left: 4px;
+  color: var(--muted);
+  font-size: 1.04em;
+}
+
 .photo-pair {
   display: grid;
   grid-template-columns: 1fr 1fr;

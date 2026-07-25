@@ -17,9 +17,9 @@
   var shellTranslations = {
     en: {
       eyebrow: 'HARDWARE GUIDE',
-      sidebarTitle: 'Devices',
-      sidebarIntro: 'Choose the project you want to explore or assemble.',
-      sidebarNote: 'Always assemble circuits with the board powered off. Check the labels printed on each module before connecting power.',
+      sidebarTitle: 'Hardware manual',
+      sidebarIntro: 'Choose an option and follow the instructions in order. The manual shows what to prepare, how to connect it and what to check.',
+      sidebarNote: 'Safety rule: make all connections with the board powered off and the USB cable disconnected. Check the labels printed on each module before powering it.',
       loading: 'Loading tutorial…',
       loadError: 'The tutorial could not be loaded. Check its files and try again.',
       menuLabel: 'Choose a project'
@@ -32,7 +32,7 @@
   function loadScript(source) {
     return new Promise(function (resolve, reject) {
       var script = document.createElement('script');
-      script.src = source + (source.indexOf('?') === -1 ? '?ver=20260722b1' : '&ver=20260722b1');
+      script.src = source + (source.indexOf('?') === -1 ? '?ver=20260725b1' : '&ver=20260725b1');
       script.onload = resolve;
       script.onerror = function () { reject(new Error('Could not load guide module: ' + source)); };
       document.head.appendChild(script);
