@@ -1,0 +1,128 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="variables_guardar" x="30" y="30">
+    <!-- Placar de 0 a 3: A soma um ponto, B retira um ponto e a matriz mostra o resultado. Os limites impedem valores inválidos. -->
+    <field name="VAR">pontos</field>
+    <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">A</field>
+        <statement name="DO">
+          <block type="controls_if">
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">LT</field>
+                <value name="A"><block type="variables_valor_guardado"><field name="VAR">pontos</field></block></value>
+                <value name="B"><block type="math_number"><field name="NUM">3</field></block></value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="variables_adicionar">
+                <field name="VAR">pontos</field>
+                <value name="AMOUNT"><block type="math_number"><field name="NUM">1</field></block></value>
+              </block>
+            </statement>
+          </block>
+        </statement>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">B</field>
+            <statement name="DO">
+              <block type="controls_if">
+                <value name="IF0">
+                  <block type="logic_compare">
+                    <field name="OP">GT</field>
+                    <value name="A"><block type="variables_valor_guardado"><field name="VAR">pontos</field></block></value>
+                    <value name="B"><block type="math_number"><field name="NUM">0</field></block></value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="variables_tirar">
+                    <field name="VAR">pontos</field>
+                    <value name="AMOUNT"><block type="math_number"><field name="NUM">1</field></block></value>
+                  </block>
+                </statement>
+              </block>
+            </statement>
+            <next>
+              <block type="controls_if">
+                <value name="IF0">
+                  <block type="logic_compare">
+                    <field name="OP">EQ</field>
+                    <value name="A"><block type="variables_valor_guardado"><field name="VAR">pontos</field></block></value>
+                    <value name="B"><block type="math_number"><field name="NUM">0</field></block></value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="mostrar_numero_matriz">
+                    <value name="NUMERO"><block type="numero_matriz_0"></block></value>
+                    <value name="COR"><block type="colour_skyblue"></block></value>
+                    <field name="BRILHO">70</field>
+                  </block>
+                </statement>
+                <next>
+                  <block type="controls_if">
+                    <value name="IF0">
+                      <block type="logic_compare">
+                        <field name="OP">EQ</field>
+                        <value name="A"><block type="variables_valor_guardado"><field name="VAR">pontos</field></block></value>
+                        <value name="B"><block type="math_number"><field name="NUM">1</field></block></value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="mostrar_numero_matriz">
+                        <value name="NUMERO"><block type="numero_matriz_1"></block></value>
+                        <value name="COR"><block type="colour_green"></block></value>
+                        <field name="BRILHO">70</field>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="controls_if">
+                        <value name="IF0">
+                          <block type="logic_compare">
+                            <field name="OP">EQ</field>
+                            <value name="A"><block type="variables_valor_guardado"><field name="VAR">pontos</field></block></value>
+                            <value name="B"><block type="math_number"><field name="NUM">2</field></block></value>
+                          </block>
+                        </value>
+                        <statement name="DO0">
+                          <block type="mostrar_numero_matriz">
+                            <value name="NUMERO"><block type="numero_matriz_2"></block></value>
+                            <value name="COR"><block type="colour_yellow"></block></value>
+                            <field name="BRILHO">70</field>
+                          </block>
+                        </statement>
+                        <next>
+                          <block type="controls_if">
+                            <value name="IF0">
+                              <block type="logic_compare">
+                                <field name="OP">EQ</field>
+                                <value name="A"><block type="variables_valor_guardado"><field name="VAR">pontos</field></block></value>
+                                <value name="B"><block type="math_number"><field name="NUM">3</field></block></value>
+                              </block>
+                            </value>
+                            <statement name="DO0">
+                              <block type="matriz_pulsar_brilho">
+                                <statement name="DO">
+                                  <block type="mostrar_numero_matriz">
+                                    <value name="NUMERO"><block type="numero_matriz_3"></block></value>
+                                    <value name="COR"><block type="colour_red"></block></value>
+                                    <field name="BRILHO">80</field>
+                                  </block>
+                                </statement>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
+

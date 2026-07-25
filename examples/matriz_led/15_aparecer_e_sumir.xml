@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="matriz_aparecer_sumir" x="30" y="30">
+    <!-- Faz uma flor aparecer e desaparecer de forma gradual. -->
+    <statement name="DO">
+      <block type="mostrar_emoji">
+        <value name="EMOJI"><block type="emoji_flor"></block></value>
+        <value name="COR"><block type="colour_magenta"></block></value>
+        <field name="BRILHO">70</field>
+      </block>
+    </statement>
+  </block>
+</xml>
+

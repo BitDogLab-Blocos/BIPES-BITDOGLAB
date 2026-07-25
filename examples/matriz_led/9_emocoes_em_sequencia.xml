@@ -1,0 +1,49 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="mostrar_emoji" x="30" y="30">
+    <!-- Mostra quatro emoções em sequência para criar uma pequena animação de sentimentos. -->
+    <value name="EMOJI">
+      <block type="emoji_rosto_feliz"></block>
+    </value>
+    <value name="COR">
+      <block type="colour_green"></block>
+    </value>
+    <field name="BRILHO">60</field>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+        <next>
+          <block type="mostrar_emoji">
+            <value name="EMOJI"><block type="emoji_rosto_triste"></block></value>
+            <value name="COR"><block type="colour_blue"></block></value>
+            <field name="BRILHO">60</field>
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                <next>
+                  <block type="mostrar_emoji">
+                    <value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value>
+                    <value name="COR"><block type="colour_yellow"></block></value>
+                    <field name="BRILHO">60</field>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                        <next>
+                          <block type="mostrar_emoji">
+                            <value name="EMOJI"><block type="emoji_coracao"></block></value>
+                            <value name="COR"><block type="colour_red"></block></value>
+                            <field name="BRILHO">60</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
+

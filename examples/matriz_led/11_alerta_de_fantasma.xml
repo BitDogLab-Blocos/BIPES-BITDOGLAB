@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="mostrar_emoji" x="30" y="30">
+    <!-- Exibe um fantasma vermelho como sinal visual de alerta. -->
+    <value name="EMOJI"><block type="emoji_fantasma"></block></value>
+    <value name="COR"><block type="colour_red"></block></value>
+    <field name="BRILHO">80</field>
+  </block>
+</xml>
+

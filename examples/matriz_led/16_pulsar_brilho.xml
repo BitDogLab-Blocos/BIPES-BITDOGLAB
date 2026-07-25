@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="matriz_pulsar_brilho" x="30" y="30">
+    <!-- Faz o brilho do coração aumentar e diminuir, imitando uma pulsação. -->
+    <statement name="DO">
+      <block type="mostrar_emoji">
+        <value name="EMOJI"><block type="emoji_coracao"></block></value>
+        <value name="COR"><block type="colour_red"></block></value>
+        <field name="BRILHO">80</field>
+      </block>
+    </statement>
+  </block>
+</xml>
+

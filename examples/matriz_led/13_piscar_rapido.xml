@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="matriz_piscar_rapido" x="30" y="30">
+    <!-- Faz um coração piscar rapidamente para chamar atenção. -->
+    <statement name="DO">
+      <block type="mostrar_emoji">
+        <value name="EMOJI"><block type="emoji_coracao"></block></value>
+        <value name="COR"><block type="colour_red"></block></value>
+        <field name="BRILHO">75</field>
+      </block>
+    </statement>
+  </block>
+</xml>
+

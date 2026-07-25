@@ -1,0 +1,16 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="microfone_vu_meter" x="30" y="30">
+    <!-- A matriz cresce conforme o barulho. O display mostra o nível medido, de 0 a 5. -->
+    <field name="BRILHO">70</field>
+    <value name="COR"><block type="colour_green"></block></value>
+    <next>
+      <block type="display_mostrar_valor">
+        <field name="LINHA">1</field>
+        <field name="ALINHAMENTO">CENTER</field>
+        <field name="DISPLAY_TYPE">SMALL</field>
+        <value name="VALOR"><block type="microfone_nivel_atual"></block></value>
+      </block>
+    </next>
+  </block>
+</xml>
+

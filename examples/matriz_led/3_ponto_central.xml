@@ -1,0 +1,11 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Ponto de referência: acende somente o LED central da grade 5x5. -->
+  <block type="acender_led_posicao" x="20" y="20">
+    <field name="LINHA">2</field>
+    <field name="COLUNA">2</field>
+    <field name="INTENSITY">35</field>
+    <value name="COLOUR">
+      <block type="colour_red"></block>
+    </value>
+  </block>
+</xml>

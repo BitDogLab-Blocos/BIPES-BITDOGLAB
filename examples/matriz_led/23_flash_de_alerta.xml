@@ -1,0 +1,14 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="matriz_dar_flash" x="30" y="30">
+    <!-- Produz um clarão branco atrás de um rosto surpreso para reforçar o alerta. -->
+    <value name="COR"><block type="colour_white"></block></value>
+    <statement name="DO">
+      <block type="mostrar_emoji">
+        <value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value>
+        <value name="COR"><block type="colour_red"></block></value>
+        <field name="BRILHO">85</field>
+      </block>
+    </statement>
+  </block>
+</xml>
+

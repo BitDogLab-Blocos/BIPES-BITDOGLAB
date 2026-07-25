@@ -1,0 +1,17 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Luz de pressão: a matriz fica verde enquanto o botão A estiver apertado e apaga ao soltar. -->
+  <block type="botao_enquanto_apertado" x="20" y="20">
+    <field name="BOTAO">A</field>
+    <statement name="DO">
+      <block type="preencher_matriz">
+        <field name="INTENSITY">25</field>
+        <value name="COLOUR">
+          <block type="colour_green"></block>
+        </value>
+      </block>
+    </statement>
+    <statement name="ELSE">
+      <block type="desligar_matriz"></block>
+    </statement>
+  </block>
+</xml>

@@ -1,0 +1,63 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="microfone_vu_meter" x="30" y="30">
+    <!-- Semáforo de ruído: mede o som e mostra uma expressão verde, amarela ou vermelha conforme o ambiente fica mais barulhento. -->
+    <field name="BRILHO">65</field>
+    <value name="COR"><block type="colour_green"></block></value>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">LT</field>
+            <value name="A"><block type="microfone_nivel_atual"></block></value>
+            <value name="B"><block type="math_number"><field name="NUM">2</field></block></value>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="mostrar_emoji">
+            <value name="EMOJI"><block type="emoji_rosto_feliz"></block></value>
+            <value name="COR"><block type="colour_green"></block></value>
+            <field name="BRILHO">70</field>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="controls_ifelse">
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">LT</field>
+                <value name="A"><block type="microfone_nivel_atual"></block></value>
+                <value name="B"><block type="math_number"><field name="NUM">4</field></block></value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="mostrar_emoji">
+                <value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value>
+                <value name="COR"><block type="colour_yellow"></block></value>
+                <field name="BRILHO">70</field>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="matriz_piscar_rapido">
+                <statement name="DO">
+                  <block type="mostrar_emoji">
+                    <value name="EMOJI"><block type="emoji_fantasma"></block></value>
+                    <value name="COR"><block type="colour_red"></block></value>
+                    <field name="BRILHO">80</field>
+                  </block>
+                </statement>
+              </block>
+            </statement>
+          </block>
+        </statement>
+        <next>
+          <block type="display_mostrar_valor">
+            <field name="LINHA">1</field>
+            <field name="ALINHAMENTO">CENTER</field>
+            <field name="DISPLAY_TYPE">SMALL</field>
+            <value name="VALOR"><block type="microfone_nivel_atual"></block></value>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
+

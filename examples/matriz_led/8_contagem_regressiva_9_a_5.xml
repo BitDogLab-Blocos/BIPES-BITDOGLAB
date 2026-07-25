@@ -1,0 +1,62 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Contagem regressiva: mostra de 9 até 5 e encerra com a matriz apagada. -->
+  <block type="mostrar_numero_matriz" x="20" y="20">
+    <field name="BRILHO">30</field>
+    <value name="NUMERO"><block type="numero_matriz_9"></block></value>
+    <value name="COR"><block type="colour_red"></block></value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+        <next>
+          <block type="mostrar_numero_matriz">
+            <field name="BRILHO">30</field>
+            <value name="NUMERO"><block type="numero_matriz_8"></block></value>
+            <value name="COR"><block type="colour_orange"></block></value>
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                <next>
+                  <block type="mostrar_numero_matriz">
+                    <field name="BRILHO">30</field>
+                    <value name="NUMERO"><block type="numero_matriz_7"></block></value>
+                    <value name="COR"><block type="colour_yellow"></block></value>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                        <next>
+                          <block type="mostrar_numero_matriz">
+                            <field name="BRILHO">30</field>
+                            <value name="NUMERO"><block type="numero_matriz_6"></block></value>
+                            <value name="COR"><block type="colour_green"></block></value>
+                            <next>
+                              <block type="esperar_segundos">
+                                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                <next>
+                                  <block type="mostrar_numero_matriz">
+                                    <field name="BRILHO">30</field>
+                                    <value name="NUMERO"><block type="numero_matriz_5"></block></value>
+                                    <value name="COR"><block type="colour_blue"></block></value>
+                                    <next>
+                                      <block type="esperar_segundos">
+                                        <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                        <next><block type="desligar_matriz"></block></next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

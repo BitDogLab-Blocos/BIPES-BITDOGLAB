@@ -1,0 +1,36 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="joystick_seletor" x="30" y="30">
+    <!-- Use o joystick para escolher entre alegria, tristeza, surpresa e coração. -->
+    <field name="DIR_PROXIMO">RIGHT</field>
+    <field name="DIR_ANTERIOR">LEFT</field>
+    <statement name="OPCOES">
+      <block type="mostrar_emoji">
+        <value name="EMOJI"><block type="emoji_rosto_feliz"></block></value>
+        <value name="COR"><block type="colour_green"></block></value>
+        <field name="BRILHO">70</field>
+        <next>
+          <block type="mostrar_emoji">
+            <value name="EMOJI"><block type="emoji_rosto_triste"></block></value>
+            <value name="COR"><block type="colour_skyblue"></block></value>
+            <field name="BRILHO">70</field>
+            <next>
+              <block type="mostrar_emoji">
+                <value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value>
+                <value name="COR"><block type="colour_yellow"></block></value>
+                <field name="BRILHO">70</field>
+                <next>
+                  <block type="mostrar_emoji">
+                    <value name="EMOJI"><block type="emoji_coracao"></block></value>
+                    <value name="COR"><block type="colour_red"></block></value>
+                    <field name="BRILHO">70</field>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>
+

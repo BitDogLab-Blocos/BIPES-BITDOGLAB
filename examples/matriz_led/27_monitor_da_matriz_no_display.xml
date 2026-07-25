@@ -1,0 +1,24 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="mostrar_emoji" x="30" y="30">
+    <!-- Mostra um coração na matriz e apresenta seu estado, desenho, cor, brilho e quantidade de LEDs no display. -->
+    <value name="EMOJI"><block type="emoji_coracao"></block></value>
+    <value name="COR"><block type="colour_red"></block></value>
+    <field name="BRILHO">65</field>
+    <next>
+      <block type="display_dashboard_matriz">
+        <field name="INFO_LINHA1">STATUS</field>
+        <field name="ALIGN_1">LEFT</field>
+        <field name="INFO_LINHA2">DESENHO</field>
+        <field name="ALIGN_2">LEFT</field>
+        <field name="INFO_LINHA3">COR_NOME</field>
+        <field name="ALIGN_3">LEFT</field>
+        <field name="INFO_LINHA4">BRILHO</field>
+        <field name="ALIGN_4">LEFT</field>
+        <field name="INFO_LINHA5">LEDS_ACESOS</field>
+        <field name="ALIGN_5">LEFT</field>
+        <field name="DISPLAY_TYPE">SMALL</field>
+      </block>
+    </next>
+  </block>
+</xml>
+
