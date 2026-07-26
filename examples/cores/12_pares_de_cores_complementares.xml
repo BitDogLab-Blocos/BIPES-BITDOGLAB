@@ -1,14 +1,14 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Percorre três pares de alto contraste: vermelho e ciano, verde e magenta, azul e amarelo. -->
-  <block type="bloco_transicao_led" x="20" y="20">
+  <!-- Cria três duelos de alto contraste entre pares complementares: vermelho-ciano, verde-magenta e azul-amarelo. -->
+  <block type="bloco_batalhar_led" x="20" y="20">
     <value name="COLOUR1"><block type="colour_red"></block></value>
     <value name="COLOUR2"><block type="colour_cyan"></block></value>
     <next>
-      <block type="bloco_transicao_led">
+      <block type="bloco_batalhar_led">
         <value name="COLOUR1"><block type="colour_green"></block></value>
         <value name="COLOUR2"><block type="colour_magenta"></block></value>
         <next>
-          <block type="bloco_transicao_led">
+          <block type="bloco_batalhar_led">
             <value name="COLOUR1"><block type="colour_blue"></block></value>
             <value name="COLOUR2"><block type="colour_yellow"></block></value>
           </block>

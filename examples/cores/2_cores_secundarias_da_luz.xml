@@ -1,21 +1,18 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <!-- Mostra amarelo, ciano e magenta: cores formadas pela combinação de dois canais RGB. -->
-  <block type="preencher_matriz" x="20" y="20">
-    <field name="INTENSITY">55</field>
+  <block type="bloco_ligar_led" x="20" y="20">
     <value name="COLOUR"><block type="colour_yellow"></block></value>
     <next>
       <block type="esperar_segundos">
         <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
         <next>
-          <block type="preencher_matriz">
-            <field name="INTENSITY">55</field>
+          <block type="bloco_ligar_led">
             <value name="COLOUR"><block type="colour_cyan"></block></value>
             <next>
               <block type="esperar_segundos">
                 <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
                 <next>
-                  <block type="preencher_matriz">
-                    <field name="INTENSITY">55</field>
+                  <block type="bloco_ligar_led">
                     <value name="COLOUR"><block type="colour_magenta"></block></value>
                     <next>
                       <block type="esperar_segundos">

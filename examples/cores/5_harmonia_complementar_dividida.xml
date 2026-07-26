@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Cria uma harmonia complementar dividida: o ciano é combinado com amarelo e magenta, vizinhos do vermelho, sua cor complementar. -->
+  <block type="bloco_alternar_led" x="20" y="20">
+    <mutation items="3"></mutation>
+    <value name="COLOUR0"><block type="colour_cyan"></block></value>
+    <value name="COLOUR1"><block type="colour_yellow"></block></value>
+    <value name="COLOUR2"><block type="colour_magenta"></block></value>
+  </block>
+</xml>

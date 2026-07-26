@@ -1,7 +1,6 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <!-- Repete o vermelho na mistura para mostrar como a proporção desloca o resultado em direção ao vermelho. -->
-  <block type="preencher_matriz" x="20" y="20">
-    <field name="INTENSITY">70</field>
+  <block type="bloco_ligar_led" x="20" y="20">
     <value name="COLOUR">
       <block type="mix_colours">
         <mutation items="2"></mutation>
@@ -13,8 +12,7 @@
       <block type="esperar_segundos">
         <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
         <next>
-          <block type="preencher_matriz">
-            <field name="INTENSITY">70</field>
+          <block type="bloco_ligar_led">
             <value name="COLOUR">
               <block type="mix_colours">
                 <mutation items="3"></mutation>
@@ -27,8 +25,7 @@
               <block type="esperar_segundos">
                 <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
                 <next>
-                  <block type="preencher_matriz">
-                    <field name="INTENSITY">70</field>
+                  <block type="bloco_ligar_led">
                     <value name="COLOUR">
                       <block type="mix_colours">
                         <mutation items="4"></mutation>

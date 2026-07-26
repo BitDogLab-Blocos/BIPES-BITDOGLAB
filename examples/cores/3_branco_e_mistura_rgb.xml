@@ -1,14 +1,12 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <!-- Compara o branco pronto com a média de vermelho, verde e azul, que produz um branco mais fraco. -->
-  <block type="preencher_matriz" x="20" y="20">
-    <field name="INTENSITY">60</field>
+  <block type="bloco_ligar_led" x="20" y="20">
     <value name="COLOUR"><block type="colour_white"></block></value>
     <next>
       <block type="esperar_segundos">
         <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
         <next>
-          <block type="preencher_matriz">
-            <field name="INTENSITY">60</field>
+          <block type="bloco_ligar_led">
             <value name="COLOUR">
               <block type="mix_colours">
                 <mutation items="3"></mutation>

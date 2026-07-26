@@ -1,10 +1,9 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Laboratório interativo: A mostra vermelho, B mostra verde, C mostra azul e o joystick mostra branco. -->
+  <!-- Explorador triádico: os botões A, B e C selecionam vermelho, verde e azul; o joystick apaga o LED. -->
   <block type="botao_se_apertado" x="20" y="20">
     <field name="BOTAO">A</field>
     <statement name="DO">
-      <block type="preencher_matriz">
-        <field name="INTENSITY">60</field>
+      <block type="bloco_ligar_led">
         <value name="COLOUR"><block type="colour_red"></block></value>
       </block>
     </statement>
@@ -12,8 +11,7 @@
       <block type="botao_se_apertado">
         <field name="BOTAO">B</field>
         <statement name="DO">
-          <block type="preencher_matriz">
-            <field name="INTENSITY">60</field>
+          <block type="bloco_ligar_led">
             <value name="COLOUR"><block type="colour_green"></block></value>
           </block>
         </statement>
@@ -21,8 +19,7 @@
           <block type="botao_se_apertado">
             <field name="BOTAO">C</field>
             <statement name="DO">
-              <block type="preencher_matriz">
-                <field name="INTENSITY">60</field>
+              <block type="bloco_ligar_led">
                 <value name="COLOUR"><block type="colour_blue"></block></value>
               </block>
             </statement>
@@ -30,10 +27,7 @@
               <block type="botao_se_apertado">
                 <field name="BOTAO">JOYSTICK</field>
                 <statement name="DO">
-                  <block type="preencher_matriz">
-                    <field name="INTENSITY">45</field>
-                    <value name="COLOUR"><block type="colour_white"></block></value>
-                  </block>
+                  <block type="bloco_desligar_todos_leds"></block>
                 </statement>
               </block>
             </next>
