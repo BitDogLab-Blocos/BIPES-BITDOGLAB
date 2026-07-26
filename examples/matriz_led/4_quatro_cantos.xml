@@ -6,7 +6,7 @@
       <block type="acender_led_posicao">
         <field name="LINHA">0</field>
         <field name="COLUNA">0</field>
-        <field name="INTENSITY">35</field>
+        <field name="INTENSITY">30</field>
         <value name="COLOUR">
           <block type="colour_red"></block>
         </value>
@@ -16,7 +16,7 @@
       <block type="acender_led_posicao">
         <field name="LINHA">0</field>
         <field name="COLUNA">4</field>
-        <field name="INTENSITY">35</field>
+        <field name="INTENSITY">30</field>
         <value name="COLOUR">
           <block type="colour_green"></block>
         </value>
@@ -26,7 +26,7 @@
       <block type="acender_led_posicao">
         <field name="LINHA">4</field>
         <field name="COLUNA">0</field>
-        <field name="INTENSITY">35</field>
+        <field name="INTENSITY">30</field>
         <value name="COLOUR">
           <block type="colour_blue"></block>
         </value>
@@ -36,7 +36,7 @@
       <block type="acender_led_posicao">
         <field name="LINHA">4</field>
         <field name="COLUNA">4</field>
-        <field name="INTENSITY">35</field>
+        <field name="INTENSITY">30</field>
         <value name="COLOUR">
           <block type="colour_yellow"></block>
         </value>

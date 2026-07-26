@@ -3,7 +3,7 @@
     <!-- Cria uma sequência natalina com árvore, floco de neve, presente e sino. -->
     <value name="EMOJI"><block type="emoji_arvore_natal"></block></value>
     <value name="COR"><block type="colour_green"></block></value>
-    <field name="BRILHO">65</field>
+    <field name="BRILHO">30</field>
     <next>
       <block type="esperar_segundos">
         <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
@@ -11,7 +11,7 @@
           <block type="mostrar_emoji">
             <value name="EMOJI"><block type="emoji_floco_neve"></block></value>
             <value name="COR"><block type="colour_cyan"></block></value>
-            <field name="BRILHO">65</field>
+            <field name="BRILHO">30</field>
             <next>
               <block type="esperar_segundos">
                 <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
@@ -19,7 +19,7 @@
                   <block type="mostrar_emoji">
                     <value name="EMOJI"><block type="emoji_presente"></block></value>
                     <value name="COR"><block type="colour_red"></block></value>
-                    <field name="BRILHO">65</field>
+                    <field name="BRILHO">30</field>
                     <next>
                       <block type="esperar_segundos">
                         <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
@@ -27,7 +27,7 @@
                           <block type="mostrar_emoji">
                             <value name="EMOJI"><block type="emoji_sino_natal"></block></value>
                             <value name="COR"><block type="colour_yellow"></block></value>
-                            <field name="BRILHO">65</field>
+                            <field name="BRILHO">30</field>
                           </block>
                         </next>
                       </block>

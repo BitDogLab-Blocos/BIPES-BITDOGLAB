@@ -1,7 +1,7 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <block type="joystick_cursor_matriz" x="30" y="30">
     <!-- Move um ponto azul pela matriz com o joystick. O ponto começa no centro. -->
-    <field name="BRILHO">70</field>
+    <field name="BRILHO">30</field>
     <field name="LINHA_INICIAL">2</field>
     <field name="COLUNA_INICIAL">2</field>
     <value name="COR"><block type="colour_skyblue"></block></value>

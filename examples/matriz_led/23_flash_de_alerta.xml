@@ -6,7 +6,7 @@
       <block type="mostrar_emoji">
         <value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value>
         <value name="COR"><block type="colour_red"></block></value>
-        <field name="BRILHO">85</field>
+        <field name="BRILHO">30</field>
       </block>
     </statement>
   </block>

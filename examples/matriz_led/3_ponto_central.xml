@@ -3,7 +3,7 @@
   <block type="acender_led_posicao" x="20" y="20">
     <field name="LINHA">2</field>
     <field name="COLUNA">2</field>
-    <field name="INTENSITY">35</field>
+    <field name="INTENSITY">30</field>
     <value name="COLOUR">
       <block type="colour_red"></block>
     </value>

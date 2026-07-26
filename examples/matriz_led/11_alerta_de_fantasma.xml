@@ -3,7 +3,7 @@
     <!-- Exibe um fantasma vermelho como sinal visual de alerta. -->
     <value name="EMOJI"><block type="emoji_fantasma"></block></value>
     <value name="COR"><block type="colour_red"></block></value>
-    <field name="BRILHO">80</field>
+    <field name="BRILHO">30</field>
   </block>
 </xml>
 

@@ -1,7 +1,7 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <block type="preencher_matriz" x="30" y="30">
     <!-- Semáforo de pedestres: começa fechado. Ao pressionar A, libera a travessia, avisa que o tempo está terminando e volta a fechar. -->
-    <field name="INTENSITY">65</field>
+    <field name="INTENSITY">30</field>
     <value name="COLOUR"><block type="colour_red"></block></value>
     <next>
       <block type="botao_se_apertado">
@@ -10,7 +10,7 @@
           <block type="mostrar_emoji">
             <value name="EMOJI"><block type="emoji_seta_cima"></block></value>
             <value name="COR"><block type="colour_green"></block></value>
-            <field name="BRILHO">70</field>
+            <field name="BRILHO">30</field>
             <next>
               <block type="esperar_segundos">
                 <value name="TIME"><block type="math_number"><field name="NUM">5</field></block></value>
@@ -20,12 +20,12 @@
                       <block type="mostrar_emoji">
                         <value name="EMOJI"><block type="emoji_seta_cima"></block></value>
                         <value name="COR"><block type="colour_yellow"></block></value>
-                        <field name="BRILHO">70</field>
+                        <field name="BRILHO">30</field>
                       </block>
                     </statement>
                     <next>
                       <block type="preencher_matriz">
-                        <field name="INTENSITY">65</field>
+                        <field name="INTENSITY">30</field>
                         <value name="COLOUR"><block type="colour_red"></block></value>
                       </block>
                     </next>

@@ -1,7 +1,7 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <block type="microfone_vu_meter" x="30" y="30">
     <!-- Semáforo de ruído: mede o som e mostra uma expressão verde, amarela ou vermelha conforme o ambiente fica mais barulhento. -->
-    <field name="BRILHO">65</field>
+    <field name="BRILHO">30</field>
     <value name="COR"><block type="colour_green"></block></value>
     <next>
       <block type="controls_ifelse">
@@ -16,7 +16,7 @@
           <block type="mostrar_emoji">
             <value name="EMOJI"><block type="emoji_rosto_feliz"></block></value>
             <value name="COR"><block type="colour_green"></block></value>
-            <field name="BRILHO">70</field>
+            <field name="BRILHO">30</field>
           </block>
         </statement>
         <statement name="ELSE">
@@ -32,7 +32,7 @@
               <block type="mostrar_emoji">
                 <value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value>
                 <value name="COR"><block type="colour_yellow"></block></value>
-                <field name="BRILHO">70</field>
+                <field name="BRILHO">30</field>
               </block>
             </statement>
             <statement name="ELSE">
@@ -41,7 +41,7 @@
                   <block type="mostrar_emoji">
                     <value name="EMOJI"><block type="emoji_fantasma"></block></value>
                     <value name="COR"><block type="colour_red"></block></value>
-                    <field name="BRILHO">80</field>
+                    <field name="BRILHO">30</field>
                   </block>
                 </statement>
               </block>

@@ -3,7 +3,7 @@
     <!-- Painel de emoções: A mostra alegria, B mostra tristeza e C mostra surpresa. Cada escolha usa um efeito visual diferente. -->
     <value name="EMOJI"><block type="emoji_coracao"></block></value>
     <value name="COR"><block type="colour_pink"></block></value>
-    <field name="BRILHO">55</field>
+    <field name="BRILHO">30</field>
     <next>
       <block type="botao_se_apertado">
         <field name="BOTAO">A</field>
@@ -13,7 +13,7 @@
               <block type="mostrar_emoji">
                 <value name="EMOJI"><block type="emoji_rosto_feliz"></block></value>
                 <value name="COR"><block type="colour_green"></block></value>
-                <field name="BRILHO">75</field>
+                <field name="BRILHO">30</field>
               </block>
             </statement>
           </block>
@@ -27,7 +27,7 @@
                   <block type="mostrar_emoji">
                     <value name="EMOJI"><block type="emoji_rosto_triste"></block></value>
                     <value name="COR"><block type="colour_skyblue"></block></value>
-                    <field name="BRILHO">70</field>
+                    <field name="BRILHO">30</field>
                   </block>
                 </statement>
               </block>
@@ -42,7 +42,7 @@
                       <block type="mostrar_emoji">
                         <value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value>
                         <value name="COR"><block type="colour_yellow"></block></value>
-                        <field name="BRILHO">80</field>
+                        <field name="BRILHO">30</field>
                       </block>
                     </statement>
                   </block>

@@ -5,7 +5,7 @@
       <block type="mostrar_emoji">
         <value name="EMOJI"><block type="emoji_coracao"></block></value>
         <value name="COR"><block type="colour_red"></block></value>
-        <field name="BRILHO">80</field>
+        <field name="BRILHO">30</field>
       </block>
     </statement>
   </block>

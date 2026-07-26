@@ -5,35 +5,35 @@
     <statement name="DESENHO0">
       <block type="acender_linha">
         <field name="LINHA">0</field>
-        <field name="INTENSITY">25</field>
+        <field name="INTENSITY">30</field>
         <value name="COLOUR"><block type="colour_green"></block></value>
       </block>
     </statement>
     <statement name="DESENHO1">
       <block type="acender_linha">
         <field name="LINHA">1</field>
-        <field name="INTENSITY">25</field>
+        <field name="INTENSITY">30</field>
         <value name="COLOUR"><block type="colour_yellow"></block></value>
       </block>
     </statement>
     <statement name="DESENHO2">
       <block type="acender_linha">
         <field name="LINHA">2</field>
-        <field name="INTENSITY">25</field>
+        <field name="INTENSITY">30</field>
         <value name="COLOUR"><block type="colour_blue"></block></value>
       </block>
     </statement>
     <statement name="DESENHO3">
       <block type="acender_linha">
         <field name="LINHA">3</field>
-        <field name="INTENSITY">25</field>
+        <field name="INTENSITY">30</field>
         <value name="COLOUR"><block type="colour_yellow"></block></value>
       </block>
     </statement>
     <statement name="DESENHO4">
       <block type="acender_linha">
         <field name="LINHA">4</field>
-        <field name="INTENSITY">25</field>
+        <field name="INTENSITY">30</field>
         <value name="COLOUR"><block type="colour_green"></block></value>
       </block>
     </statement>

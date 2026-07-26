@@ -3,7 +3,7 @@
     <!-- Apresenta símbolos de sol, chuva e flor como uma previsão visual simples. -->
     <value name="EMOJI"><block type="emoji_sol"></block></value>
     <value name="COR"><block type="colour_yellow"></block></value>
-    <field name="BRILHO">70</field>
+    <field name="BRILHO">30</field>
     <next>
       <block type="esperar_segundos">
         <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
@@ -11,7 +11,7 @@
           <block type="mostrar_emoji">
             <value name="EMOJI"><block type="emoji_chuva"></block></value>
             <value name="COR"><block type="colour_skyblue"></block></value>
-            <field name="BRILHO">70</field>
+            <field name="BRILHO">30</field>
             <next>
               <block type="esperar_segundos">
                 <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
@@ -19,7 +19,7 @@
                   <block type="mostrar_emoji">
                     <value name="EMOJI"><block type="emoji_flor"></block></value>
                     <value name="COR"><block type="colour_magenta"></block></value>
-                    <field name="BRILHO">70</field>
+                    <field name="BRILHO">30</field>
                   </block>
                 </next>
               </block>
