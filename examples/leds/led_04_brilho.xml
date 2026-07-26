@@ -1,5 +1,5 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Amanhecer: brilho do azul vai aumentando aos poucos como o sol nascendo -->
+  <!-- Amanhecer: o brilho azul cresce em etapas, como o sol nascendo. -->
   <block type="bloco_acender_led_brilho" x="20" y="20">
     <field name="INTENSITY">10</field>
     <value name="COLOUR">
@@ -52,7 +52,13 @@
                                   </block>
                                 </value>
                                 <next>
-                                  <block type="bloco_desligar_todos_leds"></block>
+                                  <block type="bloco_desligar_todos_leds">
+                                    <next>
+                                      <block type="esperar_segundos">
+                                        <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                      </block>
+                                    </next>
+                                  </block>
                                 </next>
                               </block>
                             </next>

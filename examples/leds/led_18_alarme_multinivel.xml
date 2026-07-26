@@ -1,0 +1,77 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Alarme em níveis: alerta rápido, espera, coração e SOS, sempre com pausa apagada. -->
+  <block type="bloco_piscar_led" x="20" y="20">
+    <value name="COLOUR"><block type="colour_red"></block></value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+        <next>
+          <block type="bloco_desligar_todos_leds">
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                <next>
+                  <block type="piscar_led_lento">
+                    <value name="COLOUR"><block type="colour_yellow"></block></value>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME"><block type="math_number"><field name="NUM">3</field></block></value>
+                        <next>
+                          <block type="bloco_desligar_todos_leds">
+                            <next>
+                              <block type="esperar_segundos">
+                                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                <next>
+                                  <block type="bloco_animar_led_coracao">
+                                    <value name="COLOUR"><block type="colour_magenta"></block></value>
+                                    <next>
+                                      <block type="esperar_segundos">
+                                        <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+                                        <next>
+                                          <block type="bloco_desligar_todos_leds">
+                                            <next>
+                                              <block type="esperar_segundos">
+                                                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                                <next>
+                                                  <block type="bloco_sinalizar_led_sos">
+                                                    <value name="COLOUR"><block type="colour_red"></block></value>
+                                                    <next>
+                                                      <block type="esperar_segundos">
+                                                        <value name="TIME"><block type="math_number"><field name="NUM">3</field></block></value>
+                                                        <next>
+                                                          <block type="bloco_desligar_todos_leds">
+                                                            <next>
+                                                              <block type="esperar_segundos">
+                                                                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

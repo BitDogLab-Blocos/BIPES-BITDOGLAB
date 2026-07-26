@@ -1,6 +1,5 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Apagando uma cor de cada vez: comeca com branco (R+G+B juntos), vai tirando uma por uma -->
-  <!-- Branco = todas ligadas. Tira vermelho = fica ciano. Tira verde = fica azul. Tira azul = apagou -->
+  <!-- Desligando componentes: começa em branco e apaga vermelho, verde e azul um por vez. -->
   <block type="bloco_ligar_led" x="20" y="20">
     <value name="COLOUR">
       <block type="colour_white"></block>

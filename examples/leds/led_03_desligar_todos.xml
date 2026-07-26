@@ -1,5 +1,5 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Mistura de cores: acende uma por uma, ve o resultado, desliga tudo de uma vez -->
+  <!-- Mistura de cores: acende vermelho, verde e azul e usa um reset no final. -->
   <block type="bloco_ligar_led" x="20" y="20">
     <value name="COLOUR">
       <block type="colour_red"></block>

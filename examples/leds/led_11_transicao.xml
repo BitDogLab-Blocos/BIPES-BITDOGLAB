@@ -1,5 +1,5 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Por do sol: transicao suave amarelo>vermelho, pausa, vermelho>azul, pausa, azul>desliga -->
+  <!-- Pôr do sol: transições suaves entre amarelo, vermelho, azul e magenta. -->
   <block type="bloco_transicao_led" x="20" y="20">
     <value name="COLOUR1">
       <block type="colour_yellow"></block>
@@ -45,7 +45,13 @@
                           </block>
                         </value>
                         <next>
-                          <block type="bloco_desligar_todos_leds"></block>
+                          <block type="bloco_desligar_todos_leds">
+                            <next>
+                              <block type="esperar_segundos">
+                                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                              </block>
+                            </next>
+                          </block>
                         </next>
                       </block>
                     </next>

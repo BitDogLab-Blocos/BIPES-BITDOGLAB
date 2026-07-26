@@ -1,0 +1,81 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Painel de status: azul aguardando, verde pronto, amarelo atenção e vermelho erro. -->
+  <block type="bloco_acender_led_brilho" x="20" y="20">
+    <field name="INTENSITY">30</field>
+    <value name="COLOUR"><block type="colour_blue"></block></value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+        <next>
+          <block type="bloco_desligar_todos_leds">
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                <next>
+                  <block type="bloco_acender_led_brilho">
+                    <field name="INTENSITY">70</field>
+                    <value name="COLOUR"><block type="colour_green"></block></value>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+                        <next>
+                          <block type="bloco_desligar_todos_leds">
+                            <next>
+                              <block type="esperar_segundos">
+                                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                <next>
+                                  <block type="bloco_acender_led_brilho">
+                                    <field name="INTENSITY">50</field>
+                                    <value name="COLOUR"><block type="colour_yellow"></block></value>
+                                    <next>
+                                      <block type="esperar_segundos">
+                                        <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+                                        <next>
+                                          <block type="bloco_desligar_todos_leds">
+                                            <next>
+                                              <block type="esperar_segundos">
+                                                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                                <next>
+                                                  <block type="bloco_acender_led_brilho">
+                                                    <field name="INTENSITY">100</field>
+                                                    <value name="COLOUR"><block type="colour_red"></block></value>
+                                                    <next>
+                                                      <block type="esperar_segundos">
+                                                        <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+                                                        <next>
+                                                          <block type="bloco_desligar_todos_leds">
+                                                            <next>
+                                                              <block type="esperar_segundos">
+                                                                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

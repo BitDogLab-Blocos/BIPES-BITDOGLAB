@@ -1,28 +1,21 @@
-<xml xmlns="https://bipes.net.br">
-  <workspace>
-    <field name="DEVICE">v7</field>
-    <field name="TIMESTAMP">1772149545234</field>
-  </workspace>
-  <block type="piscar_led_lento" id="oQ_G:K:BFg~.pEvsp/AY" x="113" y="87">
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Luz de espera: o LED verde pisca devagar e depois é desligado. -->
+  <block type="piscar_led_lento" x="20" y="20">
     <value name="COLOUR">
-      <block type="colour_green" id="]|JPDQutH!_Sa(L9bT7D"></block>
+      <block type="colour_green"></block>
     </value>
     <next>
-      <block type="esperar_segundos" id="%o7fKWOAqWF#/I?+tX(F">
+      <block type="esperar_segundos">
         <value name="TIME">
-          <block type="math_number" id="luDxEJk{lg:@|F1;]::0">
-            <field name="NUM">3</field>
+          <block type="math_number">
+            <field name="NUM">4</field>
           </block>
         </value>
         <next>
-          <block type="bloco_desligar_todos_leds" id="Jck`_Mo,Fd9JQtFKXE;{">
+          <block type="bloco_desligar_todos_leds">
             <next>
-              <block type="esperar_segundos" id="fv_GWvr435SF`[K}8Ad_">
-                <value name="TIME">
-                  <block type="math_number" id="YYCImw#^mB]]o1D|88zk">
-                    <field name="NUM">3</field>
-                  </block>
-                </value>
+              <block type="esperar_segundos">
+                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
               </block>
             </next>
           </block>
