@@ -101,14 +101,10 @@
                               </block>
                             </value>
                             <statement name="DO0">
-                              <block type="matriz_pulsar_brilho">
-                                <statement name="DO">
-                                  <block type="mostrar_numero_matriz">
-                                    <value name="NUMERO"><block type="numero_matriz_3"></block></value>
-                                    <value name="COR"><block type="colour_red"></block></value>
-                                    <field name="BRILHO">80</field>
-                                  </block>
-                                </statement>
+                              <block type="mostrar_numero_matriz">
+                                <value name="NUMERO"><block type="numero_matriz_3"></block></value>
+                                <value name="COR"><block type="colour_red"></block></value>
+                                <field name="BRILHO">30</field>
                               </block>
                             </statement>
                           </block>
