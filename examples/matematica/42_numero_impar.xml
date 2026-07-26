@@ -1,0 +1,4 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Propriedade ímpar: o mesmo bloco de propriedades pode responder a perguntas diferentes. -->
+  <block type="controls_ifelse" x="20" y="20"><value name="IF0"><block type="math_number_property"><field name="PROPERTY">ODD</field><value name="NUMBER_TO_CHECK"><block type="math_number"><field name="NUM">15</field></block></value></block></value><statement name="DO0"><block type="display_texto"><field name="TEXTO">15 e impar</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field></block></statement><statement name="ELSE"><block type="display_texto"><field name="TEXTO">15 e par</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field></block></statement></block>
+</xml>

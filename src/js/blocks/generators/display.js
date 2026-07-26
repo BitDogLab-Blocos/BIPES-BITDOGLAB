@@ -296,6 +296,10 @@ Blockly.Python["display_mostrar_calculo"] = function(block) {
     code += '_calc_x = max(3, 125 - len(_calc_result) * 8)\n';
   }
 
+  // Limpar a linha inteira antes de escrever: resultados que mudam de tamanho
+  // (por exemplo, 9 -> 10 ou 100 -> 5) não deixam pixels antigos no OLED.
+  code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
+
   // Mostrar o resultado no display
   code += 'oled.text(_calc_result, _calc_x, ' + y + ', 1)\n';
   // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"

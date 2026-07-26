@@ -1,0 +1,17 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Propriedade numérica: uma decisão transforma o resultado booleano em texto didático. -->
+  <block type="controls_ifelse" x="20" y="20">
+    <value name="IF0">
+      <block type="math_number_property">
+        <field name="PROPERTY">EVEN</field>
+        <value name="NUMBER_TO_CHECK"><block type="math_number"><field name="NUM">24</field></block></value>
+      </block>
+    </value>
+    <statement name="DO0">
+      <block type="display_texto"><field name="TEXTO">24 e par</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field></block>
+    </statement>
+    <statement name="ELSE">
+      <block type="display_texto"><field name="TEXTO">24 e impar</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field></block>
+    </statement>
+  </block>
+</xml>

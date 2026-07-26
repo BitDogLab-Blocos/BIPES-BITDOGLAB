@@ -1,0 +1,19 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Potência e raiz: primeiro calculamos 3² e depois extraímos a raiz quadrada. -->
+  <block type="display_mostrar_calculo" x="20" y="20">
+    <field name="LINHA">1</field>
+    <field name="ALINHAMENTO">CENTER</field>
+    <value name="VALOR">
+      <block type="math_single">
+        <field name="OP">ROOT</field>
+        <value name="NUM">
+          <block type="math_arithmetic">
+            <field name="OP">POWER</field>
+            <value name="A"><block type="math_number"><field name="NUM">3</field></block></value>
+            <value name="B"><block type="math_number"><field name="NUM">2</field></block></value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+</xml>

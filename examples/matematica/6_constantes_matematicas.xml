@@ -1,0 +1,14 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Constantes: pi e e são úteis em fórmulas científicas e em temporizadores. -->
+  <block type="display_mostrar_calculo" x="20" y="20">
+    <field name="LINHA">1</field>
+    <field name="ALINHAMENTO">CENTER</field>
+    <value name="VALOR">
+      <block type="math_arithmetic">
+        <field name="OP">ADD</field>
+        <value name="A"><block type="math_constant"><field name="CONSTANT">PI</field></block></value>
+        <value name="B"><block type="math_constant"><field name="CONSTANT">E</field></block></value>
+      </block>
+    </value>
+  </block>
+</xml>

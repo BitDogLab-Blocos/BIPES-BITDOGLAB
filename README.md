@@ -81,7 +81,7 @@ O gerenciador permite navegar por pastas, abrir, baixar, mover, renomear e apaga
 
 ## Exemplos prontos para aprender e remixar
 
-O repositório contém **56 projetos XML conectados**, acompanhados por imagens de validação. Eles podem servir como aula, ponto de partida ou teste de regressão.
+O repositório contém **137 projetos XML conectados**, acompanhados por imagens de validação. Eles podem servir como aula, ponto de partida ou teste de regressão. A coleção de Matemática percorre operações, funções, propriedades, aleatoriedade e fórmulas no OLED, e termina com projetos que combinam variáveis com botões, microfone, joystick, buzzer, LED RGB e matriz de LEDs.
 
 <table>
   <tr>

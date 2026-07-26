@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Arredondamento: arredondar para cima e para baixo ajuda a tomar decisões inteiras. -->
+  <block type="display_mostrar_calculo" x="20" y="20">
+    <field name="LINHA">1</field>
+    <field name="ALINHAMENTO">CENTER</field>
+    <value name="VALOR">
+      <block type="math_round">
+        <field name="OP">ROUNDUP</field>
+        <value name="NUM"><block type="math_number"><field name="NUM">7.14</field></block></value>
+      </block>
+    </value>
+  </block>
+</xml>

@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Precisão: escolha quantas casas decimais serão preservadas no resultado. -->
+  <block type="display_mostrar_calculo" x="20" y="20">
+    <field name="LINHA">1</field>
+    <field name="ALINHAMENTO">CENTER</field>
+    <value name="VALOR">
+      <block type="math_round_to_decimal">
+        <field name="DECIMAL_PLACES">3</field>
+        <value name="NUMBER_TO_ROUND"><block type="math_number"><field name="NUM">3.1415926</field></block></value>
+      </block>
+    </value>
+  </block>
+</xml>

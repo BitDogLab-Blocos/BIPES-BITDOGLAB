@@ -1,0 +1,4 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Propriedade negativa: compare o sinal para criar uma decisão de segurança. -->
+  <block type="controls_ifelse" x="20" y="20"><value name="IF0"><block type="math_number_property"><field name="PROPERTY">NEGATIVE</field><value name="NUMBER_TO_CHECK"><block type="math_number"><field name="NUM">-4</field></block></value></block></value><statement name="DO0"><block type="display_texto"><field name="TEXTO">Numero negativo</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field></block></statement><statement name="ELSE"><block type="display_texto"><field name="TEXTO">Nao negativo</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field></block></statement></block>
+</xml>

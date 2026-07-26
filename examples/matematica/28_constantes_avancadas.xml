@@ -1,0 +1,4 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Constantes avançadas: razão áurea, raiz de dois e raiz de meio na mesma expressão. -->
+  <block type="display_mostrar_calculo" x="20" y="20"><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><value name="VALOR"><block type="math_arithmetic"><field name="OP">ADD</field><value name="A"><block type="math_constant"><field name="CONSTANT">GOLDEN_RATIO</field></block></value><value name="B"><block type="math_arithmetic"><field name="OP">ADD</field><value name="A"><block type="math_constant"><field name="CONSTANT">SQRT2</field></block></value><value name="B"><block type="math_constant"><field name="CONSTANT">SQRT1_2</field></block></value></block></value></block></value></block>
+</xml>

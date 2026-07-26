@@ -1,0 +1,30 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Trigonometria: seno e cosseno usam radianos; pi/2 equivale a 90 graus. -->
+  <block type="display_mostrar_calculo" x="20" y="20">
+    <field name="LINHA">1</field>
+    <field name="ALINHAMENTO">CENTER</field>
+    <value name="VALOR">
+      <block type="math_arithmetic">
+        <field name="OP">ADD</field>
+        <value name="A">
+          <block type="math_trig">
+            <field name="OP">SIN</field>
+            <value name="NUM">
+              <block type="math_arithmetic">
+                <field name="OP">DIVIDE</field>
+                <value name="A"><block type="math_constant"><field name="CONSTANT">PI</field></block></value>
+                <value name="B"><block type="math_number"><field name="NUM">2</field></block></value>
+              </block>
+            </value>
+          </block>
+        </value>
+        <value name="B">
+          <block type="math_trig">
+            <field name="OP">COS</field>
+            <value name="NUM"><block type="math_number"><field name="NUM">0</field></block></value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+</xml>

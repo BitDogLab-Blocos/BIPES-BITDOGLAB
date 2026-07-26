@@ -1,0 +1,26 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto 12: preço com desconto = preço vezes (100 - percentual) dividido por 100. -->
+  <block type="display_mostrar_calculo" x="20" y="20">
+    <field name="LINHA">1</field>
+    <field name="ALINHAMENTO">CENTER</field>
+    <value name="VALOR">
+      <block type="math_arithmetic">
+        <field name="OP">DIVIDE</field>
+        <value name="A">
+          <block type="math_arithmetic">
+            <field name="OP">MULTIPLY</field>
+            <value name="A"><block type="math_number"><field name="NUM">120</field></block></value>
+            <value name="B">
+              <block type="math_arithmetic">
+                <field name="OP">MINUS</field>
+                <value name="A"><block type="math_number"><field name="NUM">100</field></block></value>
+                <value name="B"><block type="math_number"><field name="NUM">15</field></block></value>
+              </block>
+            </value>
+          </block>
+        </value>
+        <value name="B"><block type="math_number"><field name="NUM">100</field></block></value>
+      </block>
+    </value>
+  </block>
+</xml>

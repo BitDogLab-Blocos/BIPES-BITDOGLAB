@@ -1,0 +1,20 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Aleatoriedade decimal: limpa a tela, mostra uma fração de 0 a 1 e espera para acompanhar. -->
+  <block type="display_limpar" x="20" y="20">
+    <next>
+      <block type="display_mostrar_calculo">
+        <field name="LINHA">1</field>
+        <field name="ALINHAMENTO">CENTER</field>
+        <value name="VALOR">
+          <block type="math_random_float">
+            <value name="FROM"><block type="math_number"><field name="NUM">0</field></block></value>
+            <value name="TO"><block type="math_number"><field name="NUM">1</field></block></value>
+          </block>
+        </value>
+        <next>
+          <block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

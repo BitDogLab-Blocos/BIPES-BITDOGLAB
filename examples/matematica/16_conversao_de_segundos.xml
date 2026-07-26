@@ -1,0 +1,17 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto básico: um botão acrescenta dez segundos e a divisão converte o total para minutos. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">segundos</field>
+    <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+    <next>
+      <block type="botao_se_apertado"><field name="BOTAO">A</field>
+        <statement name="DO"><block type="variables_adicionar"><field name="VAR">segundos</field><value name="AMOUNT"><block type="math_number"><field name="NUM">10</field></block></value></block></statement>
+        <next>
+          <block type="display_mostrar_calculo"><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field>
+            <value name="VALOR"><block type="math_arithmetic"><field name="OP">DIVIDE</field><value name="A"><block type="variables_valor_guardado"><field name="VAR">segundos</field></block></value><value name="B"><block type="math_number"><field name="NUM">60</field></block></value></block></value>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

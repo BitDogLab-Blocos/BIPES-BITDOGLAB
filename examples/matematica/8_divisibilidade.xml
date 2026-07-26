@@ -1,0 +1,17 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Divisibilidade: teste se 42 pode ser dividido por 7 sem resto. -->
+  <block type="controls_ifelse" x="20" y="20">
+    <value name="IF0">
+      <block type="math_is_divisible_by">
+        <value name="DIVIDEND"><block type="math_number"><field name="NUM">42</field></block></value>
+        <value name="DIVISOR"><block type="math_number"><field name="NUM">7</field></block></value>
+      </block>
+    </value>
+    <statement name="DO0">
+      <block type="display_texto"><field name="TEXTO">Divisao exata</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field></block>
+    </statement>
+    <statement name="ELSE">
+      <block type="display_texto"><field name="TEXTO">Tem resto</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field></block>
+    </statement>
+  </block>
+</xml>

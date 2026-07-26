@@ -1,0 +1,24 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto de fórmula: média ponderada de duas notas, usando várias operações aninhadas. -->
+  <block type="display_mostrar_calculo" x="20" y="20">
+    <field name="LINHA">1</field>
+    <field name="ALINHAMENTO">CENTER</field>
+    <value name="VALOR">
+      <block type="math_arithmetic">
+        <field name="OP">DIVIDE</field>
+        <value name="A">
+          <block type="math_arithmetic">
+            <field name="OP">ADD</field>
+            <value name="A">
+              <block type="math_arithmetic"><field name="OP">MULTIPLY</field><value name="A"><block type="math_number"><field name="NUM">8</field></block></value><value name="B"><block type="math_number"><field name="NUM">2</field></block></value></block>
+            </value>
+            <value name="B">
+              <block type="math_arithmetic"><field name="OP">MULTIPLY</field><value name="A"><block type="math_number"><field name="NUM">7</field></block></value><value name="B"><block type="math_number"><field name="NUM">3</field></block></value></block>
+            </value>
+          </block>
+        </value>
+        <value name="B"><block type="math_number"><field name="NUM">5</field></block></value>
+      </block>
+    </value>
+  </block>
+</xml>

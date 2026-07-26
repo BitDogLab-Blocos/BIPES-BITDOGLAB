@@ -1,0 +1,4 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Exponencial: e elevado a um valor aparece no OLED como resultado numérico. -->
+  <block type="display_mostrar_calculo" x="20" y="20"><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><value name="VALOR"><block type="math_single"><field name="OP">EXP</field><value name="NUM"><block type="math_number"><field name="NUM">1</field></block></value></block></value></block>
+</xml>

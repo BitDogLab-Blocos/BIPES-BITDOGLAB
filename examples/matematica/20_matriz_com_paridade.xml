@@ -1,0 +1,20 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto 6: contador no botão; a paridade escolhe a cor da matriz e o OLED mostra o número. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">contador</field>
+    <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+    <next>
+      <block type="botao_se_apertado"><field name="BOTAO">A</field>
+        <statement name="DO"><block type="variables_adicionar"><field name="VAR">contador</field><value name="AMOUNT"><block type="math_number"><field name="NUM">1</field></block></value></block></statement>
+        <next>
+          <block type="controls_ifelse">
+            <value name="IF0"><block type="math_number_property"><field name="PROPERTY">EVEN</field><value name="NUMBER_TO_CHECK"><block type="variables_valor_guardado"><field name="VAR">contador</field></block></value></block></value>
+            <statement name="DO0"><block type="preencher_matriz"><field name="INTENSITY">30</field><value name="COLOUR"><block type="colour_green"></block></value></block></statement>
+            <statement name="ELSE"><block type="preencher_matriz"><field name="INTENSITY">30</field><value name="COLOUR"><block type="colour_orange"></block></value></block></statement>
+            <next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><value name="VALOR"><block type="variables_valor_guardado"><field name="VAR">contador</field></block></value></block></next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

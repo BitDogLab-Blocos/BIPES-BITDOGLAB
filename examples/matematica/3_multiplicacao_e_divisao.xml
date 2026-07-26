@@ -1,0 +1,20 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Multiplicação e divisão: a divisão interna transforma uma medida antes da multiplicação. -->
+  <block type="display_mostrar_calculo" x="20" y="20">
+    <field name="LINHA">1</field>
+    <field name="ALINHAMENTO">CENTER</field>
+    <value name="VALOR">
+      <block type="math_arithmetic">
+        <field name="OP">MULTIPLY</field>
+        <value name="A"><block type="math_number"><field name="NUM">6</field></block></value>
+        <value name="B">
+          <block type="math_arithmetic">
+            <field name="OP">DIVIDE</field>
+            <value name="A"><block type="math_number"><field name="NUM">24</field></block></value>
+            <value name="B"><block type="math_number"><field name="NUM">4</field></block></value>
+          </block>
+        </value>
+      </block>
+    </value>
+  </block>
+</xml>

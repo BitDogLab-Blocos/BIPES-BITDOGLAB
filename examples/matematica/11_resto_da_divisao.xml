@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Módulo: o resto é perfeito para alternar estados e criar ciclos repetitivos. -->
+  <block type="display_mostrar_calculo" x="20" y="20">
+    <field name="LINHA">1</field>
+    <field name="ALINHAMENTO">CENTER</field>
+    <value name="VALOR">
+      <block type="math_modulo">
+        <value name="DIVIDEND"><block type="math_number"><field name="NUM">17</field></block></value>
+        <value name="DIVISOR"><block type="math_number"><field name="NUM">5</field></block></value>
+      </block>
+    </value>
+  </block>
+</xml>
