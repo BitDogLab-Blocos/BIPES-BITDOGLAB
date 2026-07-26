@@ -32,6 +32,11 @@
                             <value name="EMOJI"><block type="emoji_coracao"></block></value>
                             <value name="COR"><block type="colour_red"></block></value>
                             <field name="BRILHO">30</field>
+                            <next>
+                              <block type="esperar_segundos">
+                                <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                              </block>
+                            </next>
                           </block>
                         </next>
                       </block>
