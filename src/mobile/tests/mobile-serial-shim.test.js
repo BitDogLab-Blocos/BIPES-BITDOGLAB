@@ -114,6 +114,53 @@ test('installs a navigator.serial port backed by native USB messages', async () 
   assert.equal(port.writable, null);
 });
 
+test('stops and runs again through the same open native connection', async () => {
+  const { window, sent } = createEnvironment();
+  let idleUpdates = 0;
+  window.Channel = {
+    webserial: {
+      buffer: ['old-packet'],
+      completeBufferCallback: [() => {}]
+    }
+  };
+  window.UI = {
+    workspace: {
+      runAbort() {
+        idleUpdates += 1;
+      }
+    }
+  };
+
+  const selecting = window.navigator.serial.requestPort();
+  answer(window, sent[0], { vendorId: 0x2e8a, productId: 10 });
+  const port = await selecting;
+  const opening = port.open({ baudRate: 115200 });
+  answer(window, sent[1]);
+  await opening;
+
+  const writer = port.writable.getWriter();
+  const stopping = writer.write(new Uint8Array([3, 3]));
+  assert.equal(sent[2].action, 'interrupt');
+  answer(window, sent[2]);
+  await stopping;
+
+  assert.equal(window.Channel.webserial.buffer.length, 0);
+  assert.equal(window.Channel.webserial.completeBufferCallback.length, 0);
+  assert.equal(idleUpdates, 1);
+
+  const runningAgain = writer.write(new Uint8Array([5, 112, 114, 105, 110, 116, 40, 49, 41, 4]));
+  assert.equal(sent[3].action, 'write');
+  answer(window, sent[3]);
+  await runningAgain;
+  writer.releaseLock();
+
+  assert.equal(
+    sent.filter((message) => message.action === 'requestPort').length,
+    1,
+    'a segunda execução não deve solicitar nem desconectar a porta novamente'
+  );
+});
+
 test('propagates permission errors and physical disconnection', async () => {
   const { window, sent } = createEnvironment();
 

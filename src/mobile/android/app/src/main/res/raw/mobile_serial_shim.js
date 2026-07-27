@@ -27,6 +27,22 @@
     return bytes;
   }
 
+  function isStopCommand(bytes) {
+    return bytes.length >= 2 && bytes.every((value) => value === 0x03);
+  }
+
+  function finishStopCommand() {
+    const protocol = global.Channel && global.Channel.webserial;
+    if (protocol) {
+      protocol.buffer = [];
+      protocol.completeBufferCallback = [];
+    }
+    const workspace = global.UI && global.UI.workspace;
+    if (workspace && typeof workspace.runAbort === 'function') {
+      workspace.runAbort();
+    }
+  }
+
   function nativeRequest(action, payload) {
     const id = String(nextRequestId++);
     return new Promise((resolve, reject) => {
@@ -76,6 +92,12 @@
       this.writable = new WritableStream({
         write: (chunk) => {
           const bytes = chunk instanceof Uint8Array ? chunk : new Uint8Array(chunk);
+          if (isStopCommand(bytes)) {
+            return nativeRequest('interrupt', {}).then((value) => {
+              finishStopCommand();
+              return value;
+            });
+          }
           return nativeRequest('write', { data: toBase64(bytes) });
         }
       });

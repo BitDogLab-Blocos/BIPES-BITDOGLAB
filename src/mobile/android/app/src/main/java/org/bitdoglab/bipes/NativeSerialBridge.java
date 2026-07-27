@@ -36,6 +36,7 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
     private static final int MAX_MESSAGE_CHARS = 1_500_000;
     private static final int MAX_ENCODED_WRITE_CHARS = 1_400_000;
     private static final int WRITE_TIMEOUT_MS = 4000;
+    private static final int INTERRUPT_SETTLE_MS = 150;
 
     private final Activity activity;
     private final WebView webView;
@@ -129,6 +130,9 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
                 JSONObject payload = message.optJSONObject("payload");
                 String encoded = payload == null ? "" : payload.optString("data", "");
                 serialExecutor.execute(() -> write(id, encoded));
+                break;
+            case "interrupt":
+                serialExecutor.execute(() -> interrupt(id));
                 break;
             case "close":
                 serialExecutor.execute(() -> {
@@ -252,6 +256,24 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
             resolve(requestId, new JSONObject());
         } catch (Exception exception) {
             reject(requestId, friendlyError("Falha ao enviar dados para a placa", exception));
+        }
+    }
+
+    private void interrupt(String requestId) {
+        if (port == null || !port.isOpen()) {
+            reject(requestId, "A BitDogLab não está conectada.");
+            return;
+        }
+        try {
+            // Dois Ctrl+C interrompem tanto um programa comum quanto o modo raw REPL.
+            port.write(new byte[] {0x03, 0x03, 0x0D}, WRITE_TIMEOUT_MS);
+            Thread.sleep(INTERRUPT_SETTLE_MS);
+            resolve(requestId, new JSONObject());
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            reject(requestId, "A interrupção do programa foi cancelada.");
+        } catch (Exception exception) {
+            reject(requestId, friendlyError("Falha ao interromper o programa", exception));
         }
     }
 

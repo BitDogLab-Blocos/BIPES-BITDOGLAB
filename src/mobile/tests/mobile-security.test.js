@@ -52,6 +52,8 @@ test('USB bridge accepts only BitDogLab RP2040 devices and bounded messages', ()
   assert.match(bridge, /return null;/);
   assert.match(bridge, /MAX_MESSAGE_CHARS/);
   assert.match(bridge, /MAX_ENCODED_WRITE_CHARS/);
+  assert.match(bridge, /case "interrupt"/);
+  assert.match(bridge, /new byte\[\] \{0x03, 0x03, 0x0D\}/);
   assert.doesNotMatch(bridge, /@JavascriptInterface/);
 });
 
