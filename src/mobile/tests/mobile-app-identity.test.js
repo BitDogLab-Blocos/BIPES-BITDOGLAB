@@ -11,13 +11,13 @@ function read(relativePath) {
   return fs.readFileSync(path.join(mobileRoot, relativePath), 'utf8');
 }
 
-test('Android package exposes the BitDogLab-Blocos 0.3.1 identity', () => {
+test('Android package exposes the BitDogLab-Blocos 0.3.2 identity', () => {
   const build = read('android/app/build.gradle.kts');
   const manifest = read('android/app/src/main/AndroidManifest.xml');
   const strings = read('android/app/src/main/res/values/strings.xml');
 
-  assert.match(build, /versionCode = 14/);
-  assert.match(build, /versionName = "0\.3\.1"/);
+  assert.match(build, /versionCode = 15/);
+  assert.match(build, /versionName = "0\.3\.2"/);
   assert.match(manifest, /android:label="@string\/app_name"/);
   assert.match(strings, /<string name="app_name">BitDogLab-Blocos<\/string>/);
 });

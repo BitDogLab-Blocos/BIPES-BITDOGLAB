@@ -184,6 +184,52 @@ html.bipes-mobile-app #content_console #file-boxes button {
   min-height: 2.75rem;
 }
 
+html.bipes-mobile-app #content_files.device-files-overlay {
+  top: calc(var(--mobile-header-height) + env(safe-area-inset-top));
+  bottom: 0;
+  height: auto;
+  padding-right: max(.45rem, env(safe-area-inset-right));
+  padding-bottom: max(.45rem, env(safe-area-inset-bottom));
+  padding-left: max(.45rem, env(safe-area-inset-left));
+}
+
+html.bipes-mobile-app #content_files .device-files-window {
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 0;
+}
+
+html.bipes-mobile-app #content_files .device-files-preview {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+html.bipes-mobile-app #content_files .device-files-preview-heading {
+  min-width: 0;
+  min-height: 2.8rem;
+}
+
+html.bipes-mobile-app #content_files .device-files-footer {
+  min-width: 0;
+  min-height: 3.25rem;
+  box-sizing: border-box;
+}
+
+html.bipes-mobile-app #content_files .device-files-action {
+  min-width: 0;
+  min-height: 2.5rem;
+}
+
+html.bipes-mobile-app #content_files .device-files-csv-scroll {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+html.bipes-mobile-app #content_files .device-files-csv-table th,
+html.bipes-mobile-app #content_files .device-files-csv-table td {
+  min-width: 5.75rem;
+  max-width: 16rem;
+}
+
 html.bipes-mobile-app #welcome-message > div,
 html.bipes-mobile-app #partnership-notice > div {
   width: min(40rem, calc(100vw - 2rem));
@@ -257,6 +303,127 @@ html.bipes-mobile-app .project-hardware-notice {
 
   html.bipes-mobile-app .project-hardware-notice {
     width: calc(100% - 1rem);
+  }
+
+  html.bipes-mobile-app #content_files.device-files-overlay {
+    padding-top: .45rem;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-window {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: .5rem;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-titlebar {
+    cursor: default;
+    touch-action: manipulation;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-window-button.is-maximize,
+  html.bipes-mobile-app #content_files .device-files-resize-handle {
+    display: none;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-toolbar {
+    padding: 0 .45rem;
+    gap: .25rem;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-tool,
+  html.bipes-mobile-app #content_files .device-files-connect {
+    min-height: 2.35rem;
+    padding-right: .55rem;
+    padding-left: .55rem;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(7.5rem, 32%) minmax(0, 1fr);
+  }
+
+  html.bipes-mobile-app #content_files .device-files-sidebar {
+    padding: .3rem .4rem;
+    box-shadow: inset 0 -1px 0 rgba(183, 165, 122, .14);
+  }
+
+  html.bipes-mobile-app #content_files .device-files-sidebar-heading {
+    height: 1.55rem;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-list {
+    height: calc(100% - 1.55rem);
+  }
+
+  html.bipes-mobile-app #content_files .device-file-item {
+    min-height: 2.2rem;
+    margin: .05rem 0;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-preview {
+    box-shadow: inset 0 1px 0 rgba(183, 165, 122, .08);
+  }
+
+  html.bipes-mobile-app #content_files .device-files-preview-heading {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: .45rem;
+    padding: .4rem .55rem;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-csv-toggle {
+    min-height: 2rem;
+    box-sizing: border-box;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-csv-summary {
+    align-items: flex-start;
+    gap: .2rem;
+    padding: .4rem .55rem;
+    flex-direction: column;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-csv-summary span {
+    width: 100%;
+    text-align: left;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-csv-table {
+    font-size: .69rem;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-csv-table th,
+  html.bipes-mobile-app #content_files .device-files-csv-table td {
+    min-width: 5.25rem;
+    padding: .45rem .5rem;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-footer {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .2rem;
+    padding: .3rem .4rem max(.3rem, env(safe-area-inset-bottom));
+  }
+
+  html.bipes-mobile-app #content_files .device-files-action {
+    width: 100%;
+    padding-right: .2rem;
+    padding-left: .2rem;
+    font-size: .72rem;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-prompt {
+    padding: .65rem;
+  }
+
+  html.bipes-mobile-app #content_files .device-files-prompt-card {
+    width: 100%;
+    max-height: 100%;
+    padding: 1rem;
+    overflow-y: auto;
   }
 }
 
