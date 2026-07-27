@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="760" viewBox="0 0 1440 760" role="img" aria-labelledby="title desc">
+  <title id="title">Sequência completa ao tocar em Rodar no aplicativo Android</title>
+  <desc id="desc">O toque em Rodar gera MicroPython, verifica a conexão, pede permissão, abre a porta USB, envia o programa, executa na placa e devolve mensagens ao aplicativo.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#17132f"/><stop offset="1" stop-color="#26335b"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#050714" flood-opacity=".4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#64dff4"/></marker>
+  </defs>
+  <rect width="1440" height="760" rx="30" fill="url(#bg)"/>
+  <rect x="1.5" y="1.5" width="1437" height="757" rx="28.5" fill="none" stroke="#6759aa" stroke-width="3"/>
+  <text x="720" y="65" fill="#fff" font-family="Arial, sans-serif" font-size="34" font-weight="700" text-anchor="middle">O que acontece quando você toca em ▶ Rodar</text>
+  <text x="720" y="99" fill="#bec9e5" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">A mesma ação atravessa software web, Android, cabo USB e MicroPython — depois faz o caminho de volta.</text>
+
+  <g filter="url(#shadow)" font-family="Arial, sans-serif">
+    <g transform="translate(65 150)">
+      <rect width="285" height="145" rx="21" fill="#3d2d63" stroke="#9678e4" stroke-width="2"/>
+      <circle cx="39" cy="38" r="22" fill="#7357b7"/><text x="39" y="45" fill="#fff" font-size="20" font-weight="700" text-anchor="middle">1</text>
+      <text x="72" y="43" fill="#fff" font-size="21" font-weight="700">Toque em Rodar</text>
+      <text x="25" y="82" fill="#d5d4ec" font-size="15">A interface recolhe os blocos</text>
+      <text x="25" y="106" fill="#d5d4ec" font-size="15">montados no workspace.</text>
+    </g>
+    <g transform="translate(395 150)">
+      <rect width="285" height="145" rx="21" fill="#2d3d66" stroke="#4c9ccd" stroke-width="2"/>
+      <circle cx="39" cy="38" r="22" fill="#2f7197"/><text x="39" y="45" fill="#fff" font-size="20" font-weight="700" text-anchor="middle">2</text>
+      <text x="72" y="43" fill="#fff" font-size="21" font-weight="700">Gerar código</text>
+      <text x="25" y="82" fill="#d2ddef" font-size="15">Os geradores transformam</text>
+      <text x="25" y="106" fill="#d2ddef" font-size="15">os blocos em MicroPython.</text>
+    </g>
+    <g transform="translate(725 150)">
+      <rect width="285" height="145" rx="21" fill="#285064" stroke="#44b8c9" stroke-width="2"/>
+      <circle cx="39" cy="38" r="22" fill="#297f8b"/><text x="39" y="45" fill="#fff" font-size="20" font-weight="700" text-anchor="middle">3</text>
+      <text x="72" y="43" fill="#fff" font-size="21" font-weight="700">Verificar conexão</text>
+      <text x="25" y="82" fill="#d1e8ec" font-size="15">O shim verifica se existe</text>
+      <text x="25" y="106" fill="#d1e8ec" font-size="15">uma porta serial aberta.</text>
+    </g>
+    <g transform="translate(1055 150)">
+      <rect width="320" height="145" rx="21" fill="#4b4050" stroke="#d48b9c" stroke-width="2"/>
+      <circle cx="39" cy="38" r="22" fill="#9b5f70"/><text x="39" y="45" fill="#fff" font-size="20" font-weight="700" text-anchor="middle">4</text>
+      <text x="72" y="43" fill="#fff" font-size="21" font-weight="700">Pedir permissão</text>
+      <text x="25" y="82" fill="#eadce2" font-size="15">Se necessário, o Android mostra</text>
+      <text x="25" y="106" fill="#eadce2" font-size="15">a janela de autorização USB.</text>
+    </g>
+
+    <g transform="translate(65 405)">
+      <rect width="285" height="145" rx="21" fill="#4b4050" stroke="#d48b9c" stroke-width="2"/>
+      <circle cx="39" cy="38" r="22" fill="#9b5f70"/><text x="39" y="45" fill="#fff" font-size="20" font-weight="700" text-anchor="middle">5</text>
+      <text x="72" y="43" fill="#fff" font-size="21" font-weight="700">Abrir USB CDC</text>
+      <text x="25" y="82" fill="#eadce2" font-size="15">A ponte Java abre a primeira</text>
+      <text x="25" y="106" fill="#eadce2" font-size="15">porta em 115200 baud, 8N1.</text>
+    </g>
+    <g transform="translate(395 405)">
+      <rect width="285" height="145" rx="21" fill="#4c422d" stroke="#e7ad50" stroke-width="2"/>
+      <circle cx="39" cy="38" r="22" fill="#9b762f"/><text x="39" y="45" fill="#fff" font-size="20" font-weight="700" text-anchor="middle">6</text>
+      <text x="72" y="43" fill="#fff" font-size="21" font-weight="700">Enviar bytes</text>
+      <text x="25" y="82" fill="#eee4c8" font-size="15">O protocolo envia o programa</text>
+      <text x="25" y="106" fill="#eee4c8" font-size="15">em ordem pelo cabo de dados.</text>
+    </g>
+    <g transform="translate(725 405)">
+      <rect width="285" height="145" rx="21" fill="#4e3445" stroke="#e38297" stroke-width="2"/>
+      <circle cx="39" cy="38" r="22" fill="#a34d66"/><text x="39" y="45" fill="#fff" font-size="20" font-weight="700" text-anchor="middle">7</text>
+      <text x="72" y="43" fill="#fff" font-size="21" font-weight="700">Executar na placa</text>
+      <text x="25" y="82" fill="#eed9df" font-size="15">O REPL recebe e o MicroPython</text>
+      <text x="25" y="106" fill="#eed9df" font-size="15">controla os periféricos.</text>
+    </g>
+    <g transform="translate(1055 405)">
+      <rect width="320" height="145" rx="21" fill="#2f3b66" stroke="#6b93df" stroke-width="2"/>
+      <circle cx="39" cy="38" r="22" fill="#4e70b1"/><text x="39" y="45" fill="#fff" font-size="20" font-weight="700" text-anchor="middle">8</text>
+      <text x="72" y="43" fill="#fff" font-size="21" font-weight="700">Mostrar resposta</text>
+      <text x="25" y="82" fill="#d6def0" font-size="15">Os bytes retornam pelo mesmo</text>
+      <text x="25" y="106" fill="#d6def0" font-size="15">caminho e aparecem em Mensagens.</text>
+    </g>
+  </g>
+
+  <g fill="none" stroke="#64dff4" stroke-width="4" marker-end="url(#arrow)">
+    <path d="M352 222h30"/><path d="M682 222h30"/><path d="M1012 222h30"/>
+    <path d="M1215 301v75H207v17"/>
+    <path d="M352 477h30"/><path d="M682 477h30"/><path d="M1012 477h30"/>
+  </g>
+
+  <rect x="310" y="620" width="820" height="80" rx="19" fill="#151b37" stroke="#6b5cac" stroke-width="2"/>
+  <text x="720" y="651" fill="#fff" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle">O retorno usa o mesmo caminho em sentido inverso</text>
+  <text x="720" y="679" fill="#bfc9e6" font-family="Arial, sans-serif" font-size="15" text-anchor="middle">BitDogLab → USB → ponte Java → shim JavaScript → terminal Mensagens</text>
+</svg>

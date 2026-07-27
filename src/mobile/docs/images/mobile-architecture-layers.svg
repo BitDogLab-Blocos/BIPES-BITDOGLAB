@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="880" viewBox="0 0 1440 880" role="img" aria-labelledby="title desc">
+  <title id="title">Arquitetura em camadas do aplicativo BIPES BitDogLab para Android</title>
+  <desc id="desc">Quatro camadas explicam a interface compartilhada, a WebView com adaptações móveis, a ponte USB nativa do Android e a placa BitDogLab executando MicroPython.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#141128"/>
+      <stop offset=".52" stop-color="#202a50"/>
+      <stop offset="1" stop-color="#171c38"/>
+    </linearGradient>
+    <linearGradient id="topAccent" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#43d7f4"/>
+      <stop offset=".52" stop-color="#8f77ff"/>
+      <stop offset="1" stop-color="#ff9d2e"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#050713" flood-opacity=".42"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#77def2"/>
+    </marker>
+  </defs>
+
+  <rect width="1440" height="880" rx="30" fill="url(#bg)"/>
+  <rect x="1.5" y="1.5" width="1437" height="877" rx="28.5" fill="none" stroke="#6556a6" stroke-width="3"/>
+  <rect x="80" y="36" width="1280" height="5" rx="2.5" fill="url(#topAccent)"/>
+  <text x="720" y="86" fill="#fff" font-family="Arial, sans-serif" font-size="34" font-weight="700" text-anchor="middle">O aplicativo Android em quatro camadas</text>
+  <text x="720" y="119" fill="#bec8e5" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">A interface continua sendo a plataforma web; o Android acrescenta tela móvel, segurança e acesso USB.</text>
+
+  <g filter="url(#shadow)">
+    <g transform="translate(110 155)">
+      <rect width="1220" height="130" rx="23" fill="#30265d" stroke="#8d72e3" stroke-width="2"/>
+      <circle cx="67" cy="65" r="38" fill="#46367f" stroke="#b49cf8" stroke-width="3"/>
+      <path d="M48 51h38v29H48zM54 44h26M57 87h20" fill="none" stroke="#d5c8ff" stroke-width="5" stroke-linecap="round"/>
+      <text x="125" y="41" fill="#bdaaff" font-family="Arial, sans-serif" font-size="15" font-weight="700">CAMADA 1 · O QUE A PESSOA VÊ</text>
+      <text x="125" y="73" fill="#fff" font-family="Arial, sans-serif" font-size="25" font-weight="700">Interface web compartilhada</text>
+      <text x="125" y="103" fill="#d3daf0" font-family="Arial, sans-serif" font-size="17">Blockly, geradores MicroPython, projetos, terminal, arquivos, scanner I2C e tutoriais.</text>
+      <rect x="930" y="31" width="245" height="68" rx="16" fill="#201a42" stroke="#6f5db7"/>
+      <text x="1052" y="59" fill="#fff" font-family="Arial, sans-serif" font-size="17" font-weight="700" text-anchor="middle">Vem de src/</text>
+      <text x="1052" y="83" fill="#bfc7e6" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">A mesma base do computador</text>
+    </g>
+
+    <g transform="translate(110 320)">
+      <rect width="1220" height="155" rx="23" fill="#26375f" stroke="#418ebf" stroke-width="2"/>
+      <circle cx="67" cy="77" r="38" fill="#235172" stroke="#5fdcf4" stroke-width="3"/>
+      <rect x="48" y="47" width="38" height="59" rx="7" fill="none" stroke="#b8f2ff" stroke-width="5"/>
+      <circle cx="67" cy="97" r="3.5" fill="#b8f2ff"/>
+      <text x="125" y="39" fill="#67dbf2" font-family="Arial, sans-serif" font-size="15" font-weight="700">CAMADA 2 · O NAVEGADOR EMBUTIDO</text>
+      <text x="125" y="72" fill="#fff" font-family="Arial, sans-serif" font-size="25" font-weight="700">WebView + adaptações móveis</text>
+      <text x="125" y="102" fill="#d3daf0" font-family="Arial, sans-serif" font-size="16">MainActivity carrega os arquivos locais e instala o layout móvel.</text>
+      <text x="125" y="127" fill="#d3daf0" font-family="Arial, sans-serif" font-size="16">O shim serial e a proteção entram antes de a interface abrir.</text>
+      <g font-family="Arial, sans-serif" text-anchor="middle">
+        <rect x="800" y="27" width="118" height="92" rx="14" fill="#1c294b" stroke="#4da2c9"/>
+        <text x="859" y="62" fill="#fff" font-size="15" font-weight="700">Layout</text><text x="859" y="85" fill="#bcd5e8" font-size="13">mobile CSS</text>
+        <rect x="935" y="27" width="118" height="92" rx="14" fill="#1c294b" stroke="#4da2c9"/>
+        <text x="994" y="62" fill="#fff" font-size="15" font-weight="700">Shim</text><text x="994" y="85" fill="#bcd5e8" font-size="13">navigator.serial</text>
+        <rect x="1070" y="27" width="118" height="92" rx="14" fill="#1c294b" stroke="#4da2c9"/>
+        <text x="1129" y="62" fill="#fff" font-size="15" font-weight="700">Proteção</text><text x="1129" y="85" fill="#bcd5e8" font-size="13">conteúdo local</text>
+      </g>
+    </g>
+
+    <g transform="translate(110 510)">
+      <rect width="1220" height="145" rx="23" fill="#214b58" stroke="#3fbdc2" stroke-width="2"/>
+      <circle cx="67" cy="72" r="38" fill="#23646c" stroke="#6cf0de" stroke-width="3"/>
+      <path d="M49 51v29m0 0L38 69m11 11l11-11m25-18v29m0 0L74 69m11 11l11-11M38 94h58" fill="none" stroke="#bdfff4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="125" y="39" fill="#6ee8df" font-family="Arial, sans-serif" font-size="15" font-weight="700">CAMADA 3 · RECURSOS NATIVOS DO ANDROID</text>
+      <text x="125" y="72" fill="#fff" font-family="Arial, sans-serif" font-size="25" font-weight="700">Ponte Java + Android USB Host</text>
+      <text x="125" y="102" fill="#d3eceb" font-family="Arial, sans-serif" font-size="17">NativeSerialBridge procura o RP2040, pede permissão, abre 115200 8N1 e transporta bytes.</text>
+      <rect x="900" y="31" width="275" height="82" rx="16" fill="#17363f" stroke="#4eb3b8"/>
+      <text x="1037" y="60" fill="#fff" font-family="Arial, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Sem root e sem internet</text>
+      <text x="1037" y="85" fill="#bde4e3" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">Permissão pertence ao dispositivo USB</text>
+    </g>
+
+    <g transform="translate(110 690)">
+      <rect width="1220" height="125" rx="23" fill="#49354a" stroke="#dc8796" stroke-width="2"/>
+      <circle cx="67" cy="62" r="38" fill="#68404b" stroke="#ffabb5" stroke-width="3"/>
+      <path d="M47 43h40v37H47zM54 36v7m13-7v7m13-7v7M54 80v7m13-7v7m13-7v7" fill="none" stroke="#ffd0d5" stroke-width="4" stroke-linecap="round"/>
+      <text x="125" y="37" fill="#ffacb8" font-family="Arial, sans-serif" font-size="15" font-weight="700">CAMADA 4 · EQUIPAMENTO FÍSICO</text>
+      <text x="125" y="68" fill="#fff" font-family="Arial, sans-serif" font-size="25" font-weight="700">OTG → USB CDC/ACM → BitDogLab</text>
+      <text x="125" y="97" fill="#ecd8df" font-family="Arial, sans-serif" font-size="17">O RP2040 recebe o programa pelo REPL, executa MicroPython e devolve mensagens pela mesma conexão.</text>
+    </g>
+  </g>
+
+  <g fill="none" stroke="#77def2" stroke-width="4" marker-end="url(#arrow)">
+    <path d="M720 289v24"/>
+    <path d="M720 479v24"/>
+    <path d="M720 659v24"/>
+  </g>
+</svg>

@@ -11,22 +11,81 @@
   ![MicroPython](https://img.shields.io/badge/firmware-MicroPython-ff9d2e)
 </div>
 
-## Visão geral
+## O que foi criado
 
-O aplicativo permite montar programas com blocos no celular e comunicá-los com
-a BitDogLab por um cabo USB de dados e um adaptador OTG. Ele reaproveita os
-mesmos blocos, geradores MicroPython, projetos, temas, mensagens, tutoriais de
-hardware, terminal, arquivos e scanner I2C da plataforma usada no computador.
+Este diretório transforma a plataforma web BIPES BitDogLab em um aplicativo
+Android instalável. Em termos simples, o projeto coloca o site dentro de uma
+janela segura do Android, adapta a interface para telas pequenas e acrescenta
+uma ligação nativa com a porta USB do celular.
+
+Isso evita manter duas plataformas educacionais diferentes. Os blocos,
+geradores MicroPython, projetos, mensagens, terminal, arquivos, scanner I2C e
+tutoriais continuam vindo da aplicação web. O código Android cuida apenas do
+que um navegador comum no celular não consegue fazer sozinho:
+
+- mostrar a interface como um aplicativo;
+- adaptar os controles para toque, retrato e paisagem;
+- localizar a BitDogLab conectada por OTG;
+- solicitar a autorização USB do Android;
+- transportar os dados entre JavaScript e a porta serial da placa;
+- empacotar tudo em um arquivo `.apk`.
+
+![Arquitetura em camadas do aplicativo Android](docs/images/mobile-architecture-layers.svg)
+
+### Uma comparação simples
+
+Pense na plataforma web como o **conteúdo de um livro**. O aplicativo Android é
+uma **capa com recursos extras**: ele organiza esse mesmo conteúdo para o
+celular e adiciona o conector USB. Quando um bloco ou gerador é corrigido no
+site, a mudança entra no próximo APK ao recompilar o projeto.
+
+Não existe uma cópia manual da interface dentro do código Java. Durante a
+compilação, o Gradle copia os arquivos web atuais para uma pasta temporária e
+os coloca dentro do APK.
+
+## Dicionário rápido para quem nunca criou um aplicativo
+
+| Termo | Significado neste projeto |
+| --- | --- |
+| **APK** | Arquivo instalável do Android, semelhante a um pacote que reúne programa, imagens e configurações. |
+| **Android SDK** | Conjunto de ferramentas usado para compilar e verificar aplicativos Android. |
+| **Gradle** | Programa que automatiza a cópia dos arquivos, a compilação, os testes e a criação do APK. |
+| **WebView** | Componente Android que mostra HTML, CSS e JavaScript dentro do aplicativo. |
+| **Ponte nativa** | Código Java que recebe pedidos do JavaScript e acessa recursos do Android, neste caso a USB. |
+| **Shim** | Pequena camada de compatibilidade que apresenta a ponte Android no formato de `navigator.serial`. |
+| **USB Host / OTG** | Modo no qual o celular controla um equipamento USB conectado por adaptador. |
+| **CDC/ACM** | Padrão USB que faz a BitDogLab aparecer como uma porta serial. |
+| **REPL** | Terminal interativo do MicroPython usado para receber, executar e interromper código. |
+| **Debug** | Versão para desenvolvimento e testes, assinada automaticamente pelo computador. |
+| **Release** | Versão final de distribuição, que precisa de uma chave de assinatura permanente. |
+
+## Site e aplicativo: o que muda
 
 O site continua usando **Web Serial**. O aplicativo não usa WebUSB: ele acessa
-a porta serial CDC/ACM do RP2040 pela API **USB Host nativa do Android**. Por
-isso não é necessário instalar `webusb.py`, modificar `boot.py` ou preparar um
-firmware especial na placa.
+a porta CDC/ACM do RP2040 pela API **USB Host nativa do Android**. Por isso não
+é necessário instalar `webusb.py`, modificar `boot.py` ou preparar um firmware
+especial na placa.
 
 ```text
 Computador: navegador -> Web Serial -> USB CDC -> MicroPython
-Android:    WebView -> ponte Android USB Host -> USB CDC -> MicroPython
+Android:    WebView -> shim serial -> ponte Android USB Host -> USB CDC -> MicroPython
 ```
+
+O resultado visual e o MicroPython gerado são os mesmos. A principal diferença
+está somente no caminho usado para chegar à porta USB.
+
+### O que este projeto não usa
+
+- Não foi criada uma segunda interface em Flutter ou React Native.
+- Não há servidor intermediário, login ou armazenamento em nuvem.
+- Não há comunicação por Bluetooth ou Wi-Fi.
+- Não há WebUSB nem alteração especial no firmware MicroPython.
+- Não há dependência de `file://`; a WebView usa uma origem HTTPS local e
+  controlada pelo Android.
+
+Essa escolha reduz duplicação: a equipe mantém os blocos e geradores em um só
+lugar, enquanto o módulo Android permanece pequeno e concentrado em
+empacotamento, interface móvel e USB.
 
 ## Interface no celular
 
@@ -61,6 +120,22 @@ pixels. O layout móvel é acrescentado somente no APK e não altera o site.
 | **Mensagens → Parar programa** | Envia a interrupção para o MicroPython. |
 | **Visual e PT/EN** | Alteram o tema e o idioma da interface. |
 
+## Primeiro uso em seis passos
+
+Para usar o aplicativo não é necessário conhecer Java, Android Studio ou
+MicroPython internamente:
+
+1. Instale o APK no celular.
+2. Ligue o adaptador OTG ao celular.
+3. Ligue a BitDogLab ao adaptador usando um cabo USB de dados.
+4. Abra o aplicativo e aceite a janela de permissão USB do Android.
+5. Monte um programa simples, como acender o LED RGB.
+6. Toque em **▶ Rodar** e acompanhe o retorno na aba **Mensagens**.
+
+Se o Android não mostrar a janela de permissão, confira primeiro o cabo e o
+suporte OTG. Um cabo que apenas carrega energia acende a placa, mas não permite
+que o aplicativo envie programas.
+
 ## Hardware necessário
 
 - Celular ou tablet com Android 8.0 ou mais recente.
@@ -82,6 +157,12 @@ informações.
 ## Conectar e Rodar
 
 ![Diferença entre conectar e rodar](docs/images/connect-vs-run.svg)
+
+**Conectar** prepara o caminho USB. **Rodar** produz o programa e o envia por
+esse caminho. O botão Rodar também tenta conectar automaticamente quando a
+porta ainda não está aberta.
+
+![Sequência completa ao tocar em Rodar](docs/images/run-program-sequence.svg)
 
 ### Conexão manual
 
@@ -117,23 +198,33 @@ descritores do dispositivo USB:
 
 1. O Android detecta o equipamento conectado ao adaptador OTG.
 2. O aplicativo enumera os dispositivos com porta serial **CDC/ACM**.
-3. Entre os dispositivos compatíveis, dá preferência ao **Vendor ID `0x2E8A`**
-   (`11914` em decimal), utilizado pelo RP2040/Raspberry Pi.
+3. Aceita o dispositivo com **Vendor ID `0x2E8A`** (`11914` em decimal),
+   utilizado pelo RP2040/Raspberry Pi.
 4. O sistema Android pede ao usuário a permissão de acesso ao dispositivo.
 5. A primeira porta serial do dispositivo é aberta em **115200 baud, 8 bits,
    sem paridade e 1 stop bit — 8N1**.
 
-Se não houver um dispositivo com o Vendor ID do RP2040, a implementação aceita
-a primeira porta CDC compatível encontrada. Portanto, durante a aula é melhor
-deixar conectado somente o adaptador da BitDogLab, sem outros conversores USB
-serial no mesmo hub.
+Dispositivos CDC com outro Vendor ID são rejeitados. Essa restrição evita que o
+aplicativo abra por engano um conversor serial ou outro equipamento conectado
+ao mesmo hub.
 
 O filtro Android que permite reconhecer a conexão física está em
 [`device_filter.xml`](android/app/src/main/res/xml/device_filter.xml), e a
 seleção completa ocorre em
 [`NativeSerialBridge.java`](android/app/src/main/java/org/bitdoglab/bipes/NativeSerialBridge.java).
 
-## Arquitetura da comunicação
+## Arquitetura da comunicação USB
+
+A WebView não recebe acesso irrestrito ao Android. Ela conversa somente com
+uma ponte chamada `BitDogLabUsbNative`, disponível na origem local segura do
+aplicativo e apenas no frame principal. Essa ponte entende quatro operações:
+procurar a porta, abrir, escrever e fechar.
+
+Os dados de escrita são codificados em Base64 para atravessar a fronteira entre
+JavaScript e Java sem perder bytes. Na volta, a ponte recebe os bytes da placa,
+codifica-os novamente e avisa o shim. O shim transforma esses eventos em
+`ReadableStream` e `WritableStream`, exatamente o formato que o código Web
+Serial existente já sabe usar.
 
 ![Fluxo USB entre o aplicativo e a BitDogLab](docs/images/android-usb-flow.svg)
 
@@ -190,6 +281,10 @@ conexões USB separadas para cada ferramenta.
 
 ## Instalação do APK de desenvolvimento
 
+Se alguém já forneceu o APK pronto, não é necessário instalar ferramentas de
+desenvolvimento no celular. Basta transferir o arquivo e abri-lo. Se o arquivo
+ainda não existir, siga primeiro a seção **Compilar o aplicativo**.
+
 O APK local fica em:
 
 ```text
@@ -240,6 +335,12 @@ depuração da WebView, reduz o código nativo e preserva os ativos locais.
 
 ## Compilar o aplicativo
 
+Compilar significa transformar os arquivos do repositório em um APK. O processo
+não altera a plataforma web: ele cria cópias e resultados dentro das pastas de
+build, que são ignoradas pelo Git.
+
+![Etapas que transformam o projeto em um APK](docs/images/apk-build-pipeline.svg)
+
 ### Requisitos de desenvolvimento
 
 - JDK 17.
@@ -247,14 +348,43 @@ depuração da WebView, reduz o código nativo e preserva os ativos locais.
 - Variável `ANDROID_HOME` configurada ou `android/local.properties` local.
 - Node.js para executar os testes JavaScript.
 
-### Build de desenvolvimento
+### Primeira compilação, passo a passo
 
-Na raiz do repositório:
+1. Abra o PowerShell na raiz do repositório.
+2. Entre no projeto Android:
 
-```powershell
-cd src/mobile/android
-.\gradlew.bat clean lintDebug assembleDebug
-```
+   ```powershell
+   cd src/mobile/android
+   ```
+
+3. Execute a compilação de desenvolvimento:
+
+   ```powershell
+   .\gradlew.bat clean lintDebug assembleDebug
+   ```
+
+4. Aguarde a mensagem `BUILD SUCCESSFUL`.
+5. Encontre o APK em:
+
+   ```text
+   app/build/outputs/apk/debug/app-debug.apk
+   ```
+
+Na primeira execução, o Gradle pode baixar ferramentas e dependências, por isso
+o processo pode demorar mais. A internet é necessária no computador apenas
+para esses downloads de desenvolvimento; o APK final não solicita permissão de
+internet.
+
+### O que cada parte do comando faz
+
+| Parte | Resultado |
+| --- | --- |
+| `gradlew.bat` | Usa a versão de Gradle definida pelo próprio projeto. |
+| `clean` | Remove resultados antigos para evitar que arquivos obsoletos entrem no APK. |
+| `lintDebug` | Analisa manifest, recursos e código Android em busca de problemas. |
+| `assembleDebug` | Compila, empacota e assina automaticamente o APK de teste. |
+
+### Como a interface entra no APK
 
 Durante o build, a tarefa `prepareWebAssets` lê `src/` e
 `device-file-manager/` e cria uma cópia temporária em
@@ -264,6 +394,27 @@ removida por `gradlew clean`.
 Não existe uma segunda interface mantida dentro do aplicativo: alterações
 futuras nos blocos ou geradores entram no próximo APK quando ele for
 recompilado.
+
+O `MainActivity.java` abre a página local
+`/assets/src/pages/index.html?mobile=1` usando
+`WebViewAssetLoader`. Antes de a página iniciar, o Android instala três
+adaptações:
+
+1. `mobile_layout.css`, para tamanho, toque e áreas seguras;
+2. `mobile_serial_shim.js`, para oferecer `navigator.serial`;
+3. `mobile_content_hardening.js`, para tratar conteúdo variável como texto.
+
+## Problemas comuns
+
+| Sintoma | Causa provável | O que conferir |
+| --- | --- | --- |
+| A placa acende, mas não é encontrada | Cabo fornece energia, porém não transporta dados | Teste outro cabo USB de dados e outro adaptador OTG. |
+| A janela de permissão não aparece | O Android não reconheceu o dispositivo USB | Retire e recoloque o cabo, desbloqueie a tela e abra novamente o aplicativo. |
+| Aparece “Permissão USB negada” | A autorização foi recusada | Desconecte a placa, conecte novamente e aceite a solicitação. |
+| Rodar parece não fazer nada | A porta não abriu ou a placa não respondeu | Abra **Mensagens**, toque no plugue e observe o erro apresentado. |
+| O aplicativo pede atualização da WebView | Faltam recursos de segurança usados pela ponte | Atualize **Android System WebView** ou o navegador do sistema. |
+| O Gradle não encontra o SDK | `ANDROID_HOME` ou `local.properties` não aponta para o SDK | Configure o caminho do Android SDK no computador. |
+| `assembleRelease` pede uma chave | A versão final não pode usar a assinatura de desenvolvimento | Crie `keystore.properties` e mantenha a chave fora do Git. |
 
 ## Estrutura do código móvel
 
@@ -325,6 +476,12 @@ npm test
 cd src/mobile/android
 .\gradlew.bat lintDebug assembleDebug lintRelease assembleRelease
 ```
+
+O verificador de fronteira compara hashes de arquivos web sensíveis com
+`web-boundary.json`. Se ele relatar uma alteração, isso não significa
+automaticamente que o aplicativo está quebrado: significa que a mudança na
+plataforma web precisa ser revisada antes de atualizar a linha de base. Não
+substitua os hashes sem conferir o diff dos arquivos indicados.
 
 As validações móveis cobrem:
 

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="650" viewBox="0 0 1440 650" role="img" aria-labelledby="title desc">
+  <title id="title">Como o código do projeto se transforma em um APK Android</title>
+  <desc id="desc">Os arquivos web e o código Android entram no Gradle, que copia a interface, compila Java, verifica o projeto, empacota e assina o APK para instalação.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#17132e"/><stop offset="1" stop-color="#25325a"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="9" stdDeviation="11" flood-color="#060716" flood-opacity=".4"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#55d8ef"/></marker>
+  </defs>
+  <rect width="1440" height="650" rx="30" fill="url(#bg)"/>
+  <rect x="1.5" y="1.5" width="1437" height="647" rx="28.5" fill="none" stroke="#6657a7" stroke-width="3"/>
+  <text x="720" y="64" fill="#fff" font-family="Arial, sans-serif" font-size="34" font-weight="700" text-anchor="middle">Como o projeto vira um APK instalável</text>
+  <text x="720" y="98" fill="#bec9e6" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">O APK é um pacote: ele reúne interface, código Android, recursos e assinatura em um único arquivo.</text>
+
+  <g filter="url(#shadow)" font-family="Arial, sans-serif">
+    <g transform="translate(52 150)">
+      <rect width="250" height="285" rx="23" fill="#30265c" stroke="#8e73df" stroke-width="2"/>
+      <text x="125" y="42" fill="#bfaaff" font-size="16" font-weight="700" text-anchor="middle">1 · FONTES DO PROJETO</text>
+      <rect x="25" y="67" width="200" height="70" rx="14" fill="#211a43"/>
+      <text x="125" y="95" fill="#fff" font-size="17" font-weight="700" text-anchor="middle">src/</text>
+      <text x="125" y="119" fill="#c8cfe9" font-size="14" text-anchor="middle">HTML, CSS, Blockly e JS</text>
+      <rect x="25" y="151" width="200" height="70" rx="14" fill="#211a43"/>
+      <text x="125" y="179" fill="#fff" font-size="17" font-weight="700" text-anchor="middle">device-file-manager/</text>
+      <text x="125" y="203" fill="#c8cfe9" font-size="14" text-anchor="middle">arquivos da placa</text>
+      <text x="125" y="253" fill="#aaaed2" font-size="13" text-anchor="middle">Base compartilhada com o site</text>
+    </g>
+
+    <g transform="translate(347 150)">
+      <rect width="250" height="285" rx="23" fill="#26375f" stroke="#4aa5d0" stroke-width="2"/>
+      <text x="125" y="42" fill="#65dcf3" font-size="16" font-weight="700" text-anchor="middle">2 · PREPARAR ATIVOS</text>
+      <circle cx="125" cy="112" r="47" fill="#1d4c68" stroke="#66daf1" stroke-width="3"/>
+      <path d="M91 112h68M125 78v68M105 92l40 40M145 92l-40 40" stroke="#bff4ff" stroke-width="4" stroke-linecap="round"/>
+      <text x="125" y="184" fill="#fff" font-size="18" font-weight="700" text-anchor="middle">prepareWebAssets</text>
+      <text x="125" y="213" fill="#c8d9eb" font-size="14" text-anchor="middle">copia a interface para</text>
+      <text x="125" y="235" fill="#c8d9eb" font-size="14" text-anchor="middle">build/generated/webAssets</text>
+      <text x="125" y="263" fill="#8fcde2" font-size="13" text-anchor="middle">Cópia temporária, não editada</text>
+    </g>
+
+    <g transform="translate(642 150)">
+      <rect width="250" height="285" rx="23" fill="#204c58" stroke="#45bfc3" stroke-width="2"/>
+      <text x="125" y="42" fill="#6be6dd" font-size="16" font-weight="700" text-anchor="middle">3 · COMPILAR E TESTAR</text>
+      <rect x="39" y="70" width="172" height="80" rx="15" fill="#173740"/>
+      <text x="125" y="101" fill="#fff" font-size="18" font-weight="700" text-anchor="middle">Gradle + JDK 17</text>
+      <text x="125" y="126" fill="#c4e5e5" font-size="14" text-anchor="middle">Java, recursos e dependências</text>
+      <rect x="39" y="169" width="172" height="63" rx="15" fill="#173740"/>
+      <text x="125" y="195" fill="#fff" font-size="17" font-weight="700" text-anchor="middle">lint</text>
+      <text x="125" y="216" fill="#c4e5e5" font-size="13" text-anchor="middle">procura problemas Android</text>
+      <text x="125" y="263" fill="#8ed4d4" font-size="13" text-anchor="middle">compileSdk 36 · minSdk 26</text>
+    </g>
+
+    <g transform="translate(937 150)">
+      <rect width="250" height="285" rx="23" fill="#50384f" stroke="#df8899" stroke-width="2"/>
+      <text x="125" y="42" fill="#ffb0ba" font-size="16" font-weight="700" text-anchor="middle">4 · EMPACOTAR</text>
+      <path d="M69 74h112v114H69zM69 106h112M99 74v32" fill="none" stroke="#ffd0d6" stroke-width="4" stroke-linejoin="round"/>
+      <text x="125" y="216" fill="#fff" font-size="18" font-weight="700" text-anchor="middle">assembleDebug</text>
+      <text x="125" y="240" fill="#ead8df" font-size="14" text-anchor="middle">assinatura de desenvolvimento</text>
+      <text x="125" y="263" fill="#d6a9b4" font-size="13" text-anchor="middle">release usa sua chave privada</text>
+    </g>
+
+    <g transform="translate(1232 150)">
+      <rect width="156" height="285" rx="23" fill="#4d422c" stroke="#f0b04d" stroke-width="2"/>
+      <text x="78" y="42" fill="#ffd17d" font-size="16" font-weight="700" text-anchor="middle">5 · RESULTADO</text>
+      <path d="M46 70h64l20 20v84H46zM110 70v20h20" fill="none" stroke="#ffe0a1" stroke-width="4" stroke-linejoin="round"/>
+      <text x="78" y="199" fill="#fff" font-size="24" font-weight="700" text-anchor="middle">APK</text>
+      <text x="78" y="225" fill="#f0dfbd" font-size="13" text-anchor="middle">instalar no</text>
+      <text x="78" y="245" fill="#f0dfbd" font-size="13" text-anchor="middle">Android</text>
+    </g>
+  </g>
+
+  <g fill="none" stroke="#55d8ef" stroke-width="4" marker-end="url(#arrow)">
+    <path d="M304 292h30"/><path d="M599 292h30"/><path d="M894 292h30"/><path d="M1189 292h30"/>
+  </g>
+
+  <rect x="120" y="494" width="1200" height="100" rx="20" fill="#151b37" stroke="#6557a7" stroke-width="2"/>
+  <text x="720" y="527" fill="#fff" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle">Comando de desenvolvimento</text>
+  <text x="720" y="558" fill="#80e5f7" font-family="Consolas, monospace" font-size="20" text-anchor="middle">.\gradlew.bat clean lintDebug assembleDebug</text>
+  <text x="720" y="582" fill="#bfc8e4" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">clean apaga resultados antigos · lint verifica · assembleDebug cria app-debug.apk</text>
+</svg>
