@@ -14,7 +14,7 @@
 ## O que foi criado
 
 Este diretório transforma a plataforma web BIPES BitDogLab no aplicativo
-**BitDogLab-Blocos**, atualmente na versão **0.2.2**, para instalação no
+**BitDogLab-Blocos**, atualmente na versão **0.3.1**, para instalação no
 Android. Em termos simples, o projeto coloca o site dentro de uma
 janela segura do Android, adapta a interface para telas pequenas e acrescenta
 uma ligação nativa com a porta USB do celular.
@@ -219,8 +219,9 @@ seleção completa ocorre em
 
 A WebView não recebe acesso irrestrito ao Android. Ela conversa somente com
 uma ponte chamada `BitDogLabUsbNative`, disponível na origem local segura do
-aplicativo e apenas no frame principal. Essa ponte entende quatro operações:
-procurar a porta, abrir, escrever e fechar.
+aplicativo e apenas no frame principal. Essa ponte entende operações limitadas:
+procurar a porta, abrir, escrever, interromper, executar uma transação de
+arquivos e fechar.
 
 Os dados de escrita são codificados em Base64 para atravessar a fronteira entre
 JavaScript e Java sem perder bytes. Na volta, a ponte recebe os bytes da placa,
@@ -316,6 +317,30 @@ Na próxima inicialização, o MicroPython poderá executar esse arquivo.
 
 Todas essas funções usam a mesma porta CDC já autorizada. Não são abertas
 conexões USB separadas para cada ferramenta.
+
+#### Por que o gerenciador de arquivos precisou de uma transação própria
+
+No navegador do computador, a leitura assíncrona do Web Serial consegue
+acompanhar normalmente os marcadores e o conteúdo enviados pelo MicroPython.
+No Android, porém, a leitura assíncrona disputava os mesmos bytes com a rotina
+que aguardava a listagem. Respostas maiores, como uma pasta com muitos CSVs,
+podiam ser divididas ou consumidas parcialmente antes de chegar ao gerenciador.
+
+A solução final ficou restrita ao aplicativo:
+
+1. o shim solicita uma única transação nativa para a operação de arquivos;
+2. a ponte pausa temporariamente o leitor serial assíncrono;
+3. envia `Ctrl+B` e `Ctrl+C`, confirma o prompt normal `>>>` e só então envia o
+   comando;
+4. lê diretamente até o marcador final exclusivo daquela operação;
+5. restaura o leitor assíncrono usado pelo terminal e pelas demais funções.
+
+O MicroPython também recebe um intervalo inicial curto e transmite listas e
+arquivos em blocos pequenos no Android. Isso evita que o buffer USB perca
+partes de respostas extensas. Esses atrasos não são usados no navegador, que
+continua no fluxo Web Serial anterior. Assim, listar pastas, abrir códigos e
+visualizar CSVs funciona no aplicativo sem substituir a implementação já
+funcional do computador.
 
 ## Instalação do APK de desenvolvimento
 

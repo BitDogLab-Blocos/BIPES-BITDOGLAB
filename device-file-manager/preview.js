@@ -205,6 +205,9 @@ DeviceFilesManager.extend({
   get_file(filePath, displayName) {
     var path = this._pythonText(filePath);
     var fileName = displayName || filePath;
+    var usesNativeTransaction = window.BitDogLabMobileSerial &&
+      typeof window.BitDogLabMobileSerial.executeTransaction === 'function';
+    var readPacing = usesNativeTransaction ? ['  time.sleep_ms(3)'] : [];
     var body = [
       'try:',
       ' f=open(' + path + ",'rb')",
@@ -212,12 +215,13 @@ DeviceFilesManager.extend({
       ' while True:',
       '  chunk=f.read(48)',
       '  if not chunk: break',
-      '  print(ubinascii.b2a_base64(chunk).decode().strip())',
+      '  print(ubinascii.b2a_base64(chunk).decode().strip())'
+    ].concat(readPacing, [
       ' f.close()',
       ' print(end)',
       'except Exception as e:',
       " print(start+'ERR:'+repr(e)+end)"
-    ].join('\n');
+    ]).join('\n');
 
     this._executeFsScript('Abrindo ' + fileName + '…', body, 12000, (payload) => {
       if (!this.selectedFile || this.selectedFile.path !== filePath) return;

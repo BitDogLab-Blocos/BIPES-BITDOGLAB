@@ -111,14 +111,18 @@ DeviceFilesManager.extend({
       return;
     }
 
+    var nativeSerial = window.BitDogLabMobileSerial;
+    var usesNativeTransaction = nativeSerial &&
+      typeof nativeSerial.executeTransaction === 'function';
     var token = Tool.uid().replace(/[^a-z0-9]/gi, '').slice(-12);
     var begin = '__BIPES_FS_BEGIN_' + token + '__';
     var end = '__BIPES_FS_END_' + token + '__';
     var prelude = [
-      "import os,ubinascii",
+      usesNativeTransaction ? "import os,ubinascii,time" : "import os,ubinascii",
       "start='__BIPES_'+'FS_BEGIN_" + token + "__'",
       "end='__BIPES_'+'FS_END_" + token + "__'"
     ].join('\n');
+    if (usesNativeTransaction) prelude += '\ntime.sleep_ms(80)';
     var command = 'exec(' + JSON.stringify(prelude + '\n' + body) + ')\r';
 
     this._pauseScanner();
@@ -126,7 +130,6 @@ DeviceFilesManager.extend({
     this.setStatus(label);
     this.received_string = '';
     mux.clearBuffer();
-    mux.bufferPush('\x03\x03');
 
     var fail = (message) => {
       this._cancelOperation();
@@ -134,34 +137,54 @@ DeviceFilesManager.extend({
       if (typeof onFailure === 'function') onFailure(message);
     };
 
+    var handleResponse = (received) => {
+      var beginIndex = received.lastIndexOf(begin);
+      if (beginIndex === -1) return false;
+      var payloadStart = beginIndex + begin.length;
+      var endIndex = received.indexOf(end, payloadStart);
+      if (endIndex === -1) return false;
+
+      var payload = received.slice(payloadStart, endIndex).trim();
+      this._cancelOperation();
+
+      if (payload.indexOf('ERR:') === 0) {
+        this.setStatus(this._friendlyError(payload.slice(4)), 'error');
+        if (typeof onFailure === 'function') onFailure(payload.slice(4));
+        return true;
+      }
+
+      if (payload.indexOf('OK') !== 0) {
+        this.setStatus('A resposta da placa não pôde ser interpretada.', 'error');
+        if (typeof onFailure === 'function') onFailure(payload);
+        return true;
+      }
+
+      payload = payload.slice(2).replace(/^\s*:\s*/, '').trim();
+      onSuccess(payload);
+      return true;
+    };
+
+    if (usesNativeTransaction) {
+      nativeSerial.executeTransaction(command, end, timeoutMs || 7000).then((received) => {
+        this.received_string = received;
+        if (!handleResponse(received)) {
+          fail('A resposta da placa não pôde ser interpretada.');
+        }
+      }).catch((error) => {
+        fail(error && error.message
+          ? error.message
+          : 'A placa não conseguiu concluir a operação.');
+      });
+      return;
+    }
+
+    mux.bufferPush('\x03\x03');
     this._waitForRepl(() => {
       this.received_string = '';
       mux.bufferPush(command);
 
       this._operationPoll = window.setInterval(() => {
-        var beginIndex = this.received_string.lastIndexOf(begin);
-        if (beginIndex === -1) return;
-        var payloadStart = beginIndex + begin.length;
-        var endIndex = this.received_string.indexOf(end, payloadStart);
-        if (endIndex === -1) return;
-
-        var payload = this.received_string.slice(payloadStart, endIndex).trim();
-        this._cancelOperation();
-
-        if (payload.indexOf('ERR:') === 0) {
-          this.setStatus(this._friendlyError(payload.slice(4)), 'error');
-          if (typeof onFailure === 'function') onFailure(payload.slice(4));
-          return;
-        }
-
-        if (payload.indexOf('OK') !== 0) {
-          this.setStatus('A resposta da placa não pôde ser interpretada.', 'error');
-          if (typeof onFailure === 'function') onFailure(payload);
-          return;
-        }
-
-        payload = payload.slice(2).replace(/^\s*:\s*/, '').trim();
-        onSuccess(payload);
+        handleResponse(this.received_string);
       }, 80);
 
       this._operationTimeout = window.setTimeout(() => {

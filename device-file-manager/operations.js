@@ -75,6 +75,18 @@ DeviceFilesManager.extend({
   },
 
   _loadMoveTargets() {
+    var usesNativeTransaction = window.BitDogLabMobileSerial &&
+      typeof window.BitDogLabMobileSerial.executeTransaction === 'function';
+    var output = usesNativeTransaction ? [
+      ' data=ujson.dumps(directories)',
+      " print(start+'OK:',end='')",
+      ' for offset in range(0,len(data),64):',
+      "  print(data[offset:offset+64],end='')",
+      '  time.sleep_ms(3)',
+      ' print(end)'
+    ] : [
+      " print(start+'OK:'+ujson.dumps(directories)+end)"
+    ];
     var body = [
       'try:',
       ' directories=[]',
@@ -87,11 +99,11 @@ DeviceFilesManager.extend({
       '    directories.append(child)',
       '    scan(child,depth+1)',
       " scan('',0)",
-      ' import ujson',
-      " print(start+'OK:'+ujson.dumps(directories)+end)",
+      ' import ujson'
+    ].concat(output, [
       'except Exception as e:',
       " print(start+'ERR:'+repr(e)+end)"
-    ].join('\n');
+    ]).join('\n');
 
     this._executeFsScript('Lendo pastas da placa…', body, 10000, (payload) => {
       var directories;

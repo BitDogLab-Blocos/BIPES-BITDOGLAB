@@ -179,6 +179,25 @@
     }
   };
 
+  Object.defineProperty(global, 'BitDogLabMobileSerial', {
+    configurable: false,
+    enumerable: false,
+    writable: false,
+    value: Object.freeze({
+      executeTransaction(command, endMarker, timeoutMs) {
+        const bytes = new TextEncoder().encode(String(command || ''));
+        return nativeRequest('executeTransaction', {
+          data: toBase64(bytes),
+          endMarker: String(endMarker || ''),
+          timeoutMs: Number(timeoutMs) || 8000
+        }).then((response) => {
+          const encoded = response && response.data ? response.data : '';
+          return new TextDecoder().decode(fromBase64(encoded));
+        });
+      }
+    })
+  });
+
   const mobileSerial = {
     async requestPort() {
       const info = await nativeRequest('requestPort', {});

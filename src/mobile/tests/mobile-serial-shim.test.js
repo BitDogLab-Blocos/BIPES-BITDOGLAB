@@ -51,6 +51,8 @@ function createEnvironment() {
     Uint8Array,
     Promise,
     Map,
+    TextDecoder,
+    TextEncoder,
     btoa,
     atob
   };
@@ -61,7 +63,9 @@ function createEnvironment() {
     WritableStream,
     Uint8Array,
     Promise,
-    Map
+    Map,
+    TextDecoder,
+    TextEncoder
   });
   vm.runInContext(fs.readFileSync(shimPath, 'utf8'), context, { filename: shimPath });
   return { window, sent };
@@ -75,6 +79,26 @@ function answer(window, request, value = {}) {
     value
   });
 }
+
+test('exposes a native transaction for device file commands', async () => {
+  const { window, sent } = createEnvironment();
+  const endMarker = '__BIPES_FS_END_test123__';
+  const executing = window.BitDogLabMobileSerial.executeTransaction(
+    'print("files")\r',
+    endMarker,
+    9000
+  );
+
+  assert.equal(sent[0].action, 'executeTransaction');
+  assert.equal(sent[0].payload.data, 'cHJpbnQoImZpbGVzIikN');
+  assert.equal(sent[0].payload.endMarker, endMarker);
+  assert.equal(sent[0].payload.timeoutMs, 9000);
+
+  answer(window, sent[0], {
+    data: Buffer.from('OK:["main.py"]' + endMarker).toString('base64')
+  });
+  assert.equal(await executing, 'OK:["main.py"]' + endMarker);
+});
 
 test('installs a navigator.serial port backed by native USB messages', async () => {
   const { window, sent } = createEnvironment();

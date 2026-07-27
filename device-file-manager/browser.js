@@ -61,6 +61,18 @@ DeviceFilesManager.extend({
     }
 
     var target = this.currentPath ? this._pythonText(this.currentPath) : "'.'";
+    var usesNativeTransaction = window.BitDogLabMobileSerial &&
+      typeof window.BitDogLabMobileSerial.executeTransaction === 'function';
+    var output = usesNativeTransaction ? [
+      ' data=ujson.dumps(entries)',
+      " print(start+'OK:',end='')",
+      ' for offset in range(0,len(data),64):',
+      "  print(data[offset:offset+64],end='')",
+      '  time.sleep_ms(3)',
+      ' print(end)'
+    ] : [
+      " print(start+'OK:'+ujson.dumps(entries)+end)"
+    ];
     var body = [
       'try:',
       ' entries=[]',
@@ -70,11 +82,11 @@ DeviceFilesManager.extend({
       ' else:',
       '  for name in os.listdir(' + target + '):',
       '   entries.append([name,0,-1])',
-      ' import ujson',
-      " print(start+'OK:'+ujson.dumps(entries)+end)",
+      ' import ujson'
+    ].concat(output, [
       'except Exception as e:',
       " print(start+'ERR:'+repr(e)+end)"
-    ].join('\n');
+    ]).join('\n');
 
     this._updatePathUI();
     this._renderListMessage('Lendo esta pasta…');

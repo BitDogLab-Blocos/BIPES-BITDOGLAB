@@ -14,7 +14,7 @@ const connectionPath = path.resolve(
   'connection.js'
 );
 
-function createEnvironment() {
+function createEnvironment(options = {}) {
   const writes = [];
   const statuses = [];
   const context = vm.createContext({
@@ -38,6 +38,7 @@ function createEnvironment() {
       }
     },
     window: {
+      BitDogLabMobileSerial: options.nativeSerial,
       clearInterval,
       clearTimeout,
       setInterval,
@@ -84,6 +85,41 @@ async function waitFor(predicate, message, timeoutMs = 1000) {
   }
 }
 
+test('mobile filesystem command uses one native transaction', async () => {
+  let sentCommand = '';
+  let sentEndMarker = '';
+  let payload = null;
+  const nativeSerial = {
+    executeTransaction(command, endMarker) {
+      sentCommand = command;
+      sentEndMarker = endMarker;
+      return Promise.resolve(
+        '__BIPES_FS_BEGIN_testtoken123__OK:["main.py"]' +
+        '__BIPES_FS_END_testtoken123__\r\n>>> '
+      );
+    }
+  };
+  const { manager, writes } = createEnvironment({ nativeSerial });
+
+  manager._executeFsScript(
+    'Lendo a raiz da placa…',
+    "print(start+'OK:[\"main.py\"]'+end)",
+    500,
+    (value) => {
+      payload = value;
+    }
+  );
+
+  await waitFor(() => payload !== null, 'a transação nativa não foi concluída');
+
+  assert.match(sentCommand, /^exec\(/);
+  assert.match(sentCommand, /time\.sleep_ms\\n?\(80\)|time\.sleep_ms\(80\)/);
+  assert.equal(sentEndMarker, '__BIPES_FS_END_testtoken123__');
+  assert.deepEqual(writes, [], 'o aplicativo não deve usar a fila WebSerial nesta operação');
+  assert.equal(payload, '["main.py"]');
+  assert.equal(manager.busy, false);
+});
+
 test('filesystem command waits for the MicroPython prompt before sending', async () => {
   const { manager, writes } = createEnvironment();
   let payload = null;
@@ -103,6 +139,11 @@ test('filesystem command waits for the MicroPython prompt before sending', async
 
   manager.received_string = '\r\n>>> ';
   await waitFor(() => writes.length === 2, 'o comando não foi enviado após o prompt');
+  assert.doesNotMatch(
+    writes[1],
+    /time\.sleep_ms/,
+    'o navegador deve continuar usando o comando original, sem atrasos do Android'
+  );
 
   manager.received_string =
     '__BIPES_FS_BEGIN_testtoken123__OK:[]__BIPES_FS_END_testtoken123__\r\n>>> ';

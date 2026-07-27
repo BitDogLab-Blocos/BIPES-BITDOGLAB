@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -37,6 +38,9 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
     private static final int MAX_ENCODED_WRITE_CHARS = 1_400_000;
     private static final int WRITE_TIMEOUT_MS = 4000;
     private static final int INTERRUPT_SETTLE_MS = 150;
+    private static final int TRANSACTION_READER_SETTLE_MS = 150;
+    private static final int TRANSACTION_READ_SLICE_MS = 200;
+    private static final int MAX_TRANSACTION_OUTPUT_BYTES = 2_000_000;
 
     private final Activity activity;
     private final WebView webView;
@@ -133,6 +137,21 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
                 break;
             case "interrupt":
                 serialExecutor.execute(() -> interrupt(id));
+                break;
+            case "executeTransaction":
+                JSONObject transactionPayload = message.optJSONObject("payload");
+                String command = transactionPayload == null
+                        ? ""
+                        : transactionPayload.optString("data", "");
+                String endMarker = transactionPayload == null
+                        ? ""
+                        : transactionPayload.optString("endMarker", "");
+                int timeoutMs = transactionPayload == null
+                        ? 0
+                        : transactionPayload.optInt("timeoutMs", 0);
+                serialExecutor.execute(
+                        () -> executeTransaction(id, command, endMarker, timeoutMs)
+                );
                 break;
             case "close":
                 serialExecutor.execute(() -> {
@@ -275,6 +294,124 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
         } catch (Exception exception) {
             reject(requestId, friendlyError("Falha ao interromper o programa", exception));
         }
+    }
+
+    private void executeTransaction(
+            String requestId,
+            String encodedCommand,
+            String endMarker,
+            int timeoutMs
+    ) {
+        if (port == null || !port.isOpen()) {
+            reject(requestId, "A BitDogLab não está conectada.");
+            return;
+        }
+        if (encodedCommand == null
+                || encodedCommand.isEmpty()
+                || encodedCommand.length() > MAX_ENCODED_WRITE_CHARS) {
+            reject(requestId, "O comando enviado à placa é inválido ou excede o limite.");
+            return;
+        }
+        if (endMarker == null
+                || !endMarker.matches("__BIPES_FS_END_[A-Za-z0-9]{1,32}__")) {
+            reject(requestId, "O marcador final da operação é inválido.");
+            return;
+        }
+        int boundedTimeoutMs = Math.max(1000, Math.min(timeoutMs, 20000));
+        byte[] commandBytes;
+        try {
+            commandBytes = Base64.decode(encodedCommand, Base64.NO_WRAP);
+        } catch (IllegalArgumentException exception) {
+            reject(requestId, "O comando enviado à placa não está em Base64 válido.");
+            return;
+        }
+
+        try {
+            pauseAsyncReader();
+            // Ctrl+B garante a saída de um possível Raw REPL deixado por uma
+            // operação anterior. Dois Ctrl+C interrompem o programa em curso.
+            port.write(new byte[] {0x02, 0x03, 0x03, 0x0D}, WRITE_TIMEOUT_MS);
+            byte[] promptResponse = readDirectlyUntil(">>>", 4000);
+            if (promptResponse == null) {
+                reject(
+                        requestId,
+                        "A placa não apresentou o prompt normal para ler os arquivos."
+                );
+                return;
+            }
+
+            port.write(commandBytes, WRITE_TIMEOUT_MS);
+            byte[] responseBytes = readDirectlyUntil(endMarker, boundedTimeoutMs);
+            if (responseBytes == null) {
+                reject(requestId, "A placa demorou para concluir a operação de arquivos.");
+                return;
+            }
+
+            JSONObject value = new JSONObject();
+            value.put("data", Base64.encodeToString(responseBytes, Base64.NO_WRAP));
+            resolve(requestId, value);
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            reject(requestId, "A operação de arquivos foi cancelada.");
+        } catch (Exception exception) {
+            reject(
+                    requestId,
+                    friendlyError("Falha na operação de arquivos da placa", exception)
+            );
+        } finally {
+            resumeAsyncReader();
+        }
+    }
+
+    private void pauseAsyncReader() throws InterruptedException {
+        if (inputOutputManager != null) {
+            inputOutputManager.setListener(null);
+            inputOutputManager.stop();
+            inputOutputManager = null;
+            Thread.sleep(TRANSACTION_READER_SETTLE_MS);
+        }
+    }
+
+    private void resumeAsyncReader() {
+        if (port == null || !port.isOpen() || inputOutputManager != null) {
+            return;
+        }
+        inputOutputManager = new SerialInputOutputManager(port, this);
+        inputOutputManager.start();
+    }
+
+    private byte[] readDirectlyUntil(String marker, int timeoutMs) throws Exception {
+        long deadline = System.nanoTime() + (long) timeoutMs * 1_000_000L;
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        byte[] chunk = new byte[4096];
+
+        while (System.nanoTime() < deadline) {
+            int remainingMs = (int) Math.max(
+                    1,
+                    Math.min(
+                            TRANSACTION_READ_SLICE_MS,
+                            (deadline - System.nanoTime()) / 1_000_000L
+                    )
+            );
+            int count = port.read(chunk, remainingMs);
+            if (count <= 0) {
+                continue;
+            }
+            if (output.size() + count > MAX_TRANSACTION_OUTPUT_BYTES) {
+                throw new IllegalStateException(
+                        "A resposta da placa excedeu o limite permitido."
+                );
+            }
+            output.write(chunk, 0, count);
+            String received = new String(
+                    output.toByteArray(),
+                    java.nio.charset.StandardCharsets.ISO_8859_1
+            );
+            if (received.contains(marker)) {
+                return output.toByteArray();
+            }
+        }
+        return null;
     }
 
     @Override
