@@ -1,11 +1,11 @@
 {
-  "baseCommit": "ecccac9",
+  "baseCommit": "9c17ce0",
   "description": "Arquivos estáveis do navegador que o aplicativo móvel não pode modificar.",
   "files": {
     "src/js/communication/webserial.js": "7b74ad3fa25bb7b0ab41ec5d90dedd33b4a067d441a3e08fbccb92417d2fff50",
     "src/js/communication/channel.js": "42255573ff639ca1e97bdee77db3547f3ce6b023bd029675f565ab8f9ff11b07",
     "src/js/communication/i2c_scanner.js": "7900c4261bc198b60c3ccc5e5f94b4622f5ab1c750895ff88e8312404c0f8aeb",
-    "src/js/core/utils.js": "8c95b80b87602d1b2072501f60b21cefef1cac63dd6b34b2235bee7fab0f505c",
-    "src/pages/index.html": "793c3dcbf103eb1216a199ee5cbcd7503b47fed3df31abbf52d7b67485cdefc6"
+    "src/js/core/utils.js": "e8e60cb5ded4d6435fbd64f2a333b1f025a627f1a79284b45e496a2e45058677",
+    "src/pages/index.html": "ec61fde8d8c3951d80c095eeb9f36e3bd709a29ce21b5dd7ec79b375bc92c971"
   }
 }

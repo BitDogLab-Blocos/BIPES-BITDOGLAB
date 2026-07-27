@@ -14,7 +14,7 @@
 ## O que foi criado
 
 Este diretório transforma a plataforma web BIPES BitDogLab no aplicativo
-**BitDogLab-Blocos**, atualmente na versão **0.3.2**, para instalação no
+**BitDogLab-Blocos**, atualmente na versão **0.3.6**, para instalação no
 Android. Em termos simples, o projeto coloca o site dentro de uma
 janela segura do Android, adapta a interface para telas pequenas e acrescenta
 uma ligação nativa com a porta USB do celular.
@@ -266,10 +266,29 @@ fila de transmissão.
 4. O aplicativo acompanha a resposta até o prompt `>>>` do REPL.
 5. A saída recebida aparece em **Mensagens**.
 
+No aplicativo, o JavaScript agrupa a transmissão para reduzir as viagens pela
+ponte Android. Antes de chegar ao MicroPython, o Java volta a dividir cada lote
+em blocos físicos de 100 bytes com um pequeno intervalo. Assim, o aplicativo
+ganha velocidade sem despejar 4096 bytes de uma vez no buffer da placa.
+
 ### Parar
 
 O fluxo serial envia `Ctrl+C` ao REPL para interromper o programa. O botão
 laranja volta ao estado de execução quando a placa responde novamente.
+
+No Android, o botão **Parar** descarta imediatamente a fila JavaScript e marca
+qualquer lote que ainda esteja sendo enviado para que ele pare entre os blocos
+físicos. Em seguida, a ponte reabre internamente a porta CDC (sem pedir nova
+permissão) e usa o mesmo leitor assíncrono da conexão normal. Ela envia dois
+`Ctrl+C` a cada 350 ms, por até dez tentativas, exatamente como a recuperação
+do navegador. Assim, o prompt `>>>` chega pelo caminho normal à interface e o
+usuário pode executar outro programa sem retirar o cabo. Se a placa estiver
+ocupada, essa repetição dá tempo para o MicroPython processar a interrupção.
+
+**Resumo para manutenção:** a parada acontece em dois níveis. Se o código
+ainda está sendo enviado, o aplicativo cancela o restante entre blocos de 100
+bytes. Se o código já está rodando na placa, ele envia `Ctrl+C` diretamente ao
+MicroPython. Portanto, o botão não espera mais o envio completo do programa.
 
 ### Como foi corrigido o ciclo Conectar → Rodar → Parar → Rodar
 

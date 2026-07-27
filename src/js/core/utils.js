@@ -46,6 +46,11 @@ class Tool {
     if (code) {
       code+='\r\r'; // Snek workaround - extra line breaks for compatibility
 
+      const mobileSerial = window.BitDogLabMobileSerial;
+      if (mobileSerial && typeof mobileSerial.stopProgram === 'function') {
+        UI['workspace'].receiving();
+      }
+
       // Calculate expected buffer size for progress bar
       const packetSize = Channel['webserial']?.packetSize || 100;
       const fullCode = `\x05${code}\x04`;
@@ -59,6 +64,21 @@ class Tool {
   }
 
   static stopPython () {
+    const mobileSerial = window.BitDogLabMobileSerial;
+    if (mobileSerial && typeof mobileSerial.stopProgram === 'function') {
+      i2cScanner.stop();
+      mux.clearBuffer();
+      mobileSerial.stopProgram().catch((error) => {
+        const message = error && error.message
+          ? error.message
+          : 'A placa não confirmou a parada do programa.';
+        if (UI['notify'] && typeof UI['notify'].send === 'function') {
+          UI['notify'].send(message);
+        }
+      });
+      return;
+    }
+
     mux.bufferPush ('\x03\x03'); // Ctrl+C twice - interrupt running code
     // Reiniciar scanner I2C após parar o código do usuário
     setTimeout(function() {

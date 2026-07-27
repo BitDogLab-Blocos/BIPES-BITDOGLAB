@@ -7,7 +7,9 @@
 
   let nextRequestId = 1;
   let activePort = null;
+  let stopRequest = null;
   const pendingRequests = new Map();
+  const MOBILE_PACKET_SIZE = 4096;
 
   function toBase64(bytes) {
     let binary = '';
@@ -31,13 +33,10 @@
     return bytes.length >= 2 && bytes.every((value) => value === 0x03);
   }
 
-  function finishInterruptWrite() {
+  function tuneMobileProtocol() {
     const protocol = global.Channel && global.Channel.webserial;
-    // Tool.stopPython coloca o Ctrl+C na fila. Já a recuperação automática da
-    // conexão escreve o mesmo comando diretamente e não deve alterar a UI.
-    if (protocol && protocol.buffer && protocol.buffer.length > 0) {
-      protocol.buffer = [];
-      protocol.completeBufferCallback = [];
+    if (protocol) {
+      protocol.packetSize = MOBILE_PACKET_SIZE;
     }
   }
 
@@ -77,6 +76,7 @@
       const baudRate = Number(options && options.baudRate) || 115200;
       await nativeRequest('open', { baudRate });
       this._opened = true;
+      tuneMobileProtocol();
 
       this.readable = new ReadableStream({
         start: (controller) => {
@@ -91,10 +91,7 @@
         write: (chunk) => {
           const bytes = chunk instanceof Uint8Array ? chunk : new Uint8Array(chunk);
           if (isStopCommand(bytes)) {
-            return nativeRequest('interrupt', {}).then((value) => {
-              finishInterruptWrite();
-              return value;
-            });
+            return nativeRequest('interrupt', {});
           }
           return nativeRequest('write', { data: toBase64(bytes) });
         }
@@ -184,6 +181,17 @@
     enumerable: false,
     writable: false,
     value: Object.freeze({
+      stopProgram() {
+        if (stopRequest) {
+          return stopRequest;
+        }
+        stopRequest = nativeRequest('stopProgram', {});
+        stopRequest.then(
+          () => { stopRequest = null; },
+          () => { stopRequest = null; }
+        );
+        return stopRequest;
+      },
       executeTransaction(command, endMarker, timeoutMs) {
         const bytes = new TextEncoder().encode(String(command || ''));
         return nativeRequest('executeTransaction', {

@@ -138,20 +138,11 @@ test('installs a navigator.serial port backed by native USB messages', async () 
   assert.equal(port.writable, null);
 });
 
-test('stops and runs again through the same open native connection', async () => {
+test('recovers the mobile connection and runs again without a user reconnect', async () => {
   const { window, sent } = createEnvironment();
-  let idleUpdates = 0;
   window.Channel = {
     webserial: {
-      buffer: ['\x03\x03', 'old-packet'],
-      completeBufferCallback: [() => {}]
-    }
-  };
-  window.UI = {
-    workspace: {
-      runAbort() {
-        idleUpdates += 1;
-      }
+      packetSize: 100
     }
   };
 
@@ -161,20 +152,24 @@ test('stops and runs again through the same open native connection', async () =>
   const opening = port.open({ baudRate: 115200 });
   answer(window, sent[1]);
   await opening;
+  assert.equal(window.Channel.webserial.packetSize, 4096);
 
+  const reader = port.readable.getReader();
   const writer = port.writable.getWriter();
-  const stopping = writer.write(new Uint8Array([3, 3]));
-  assert.equal(sent[2].action, 'interrupt');
+  const stopping = window.BitDogLabMobileSerial.stopProgram();
+  assert.equal(sent[2].action, 'stopProgram');
   answer(window, sent[2]);
   await stopping;
-
-  assert.equal(window.Channel.webserial.buffer.length, 0);
-  assert.equal(window.Channel.webserial.completeBufferCallback.length, 0);
+  window.__bitdoglabNativeSerialReceive({
+    type: 'data',
+    data: Buffer.from('KeyboardInterrupt\r\n>>> ').toString('base64')
+  });
+  const stoppedOutput = await reader.read();
   assert.equal(
-    idleUpdates,
-    0,
-    'o prompt real da placa, e não a confirmação de escrita, deve atualizar a interface'
+    new TextDecoder().decode(stoppedOutput.value),
+    'KeyboardInterrupt\r\n>>> '
   );
+  reader.releaseLock();
 
   const runningAgain = writer.write(new Uint8Array([5, 112, 114, 105, 110, 116, 40, 49, 41, 4]));
   assert.equal(sent[3].action, 'write');
@@ -195,7 +190,7 @@ test('automatic connection recovery does not imitate a disconnect in the interfa
   window.Channel = {
     webserial: {
       connected: true,
-      buffer: [],
+      buffer: ['\x05print(1)\x04'],
       completeBufferCallback: []
     }
   };
@@ -222,7 +217,11 @@ test('automatic connection recovery does not imitate a disconnect in the interfa
   writer.releaseLock();
 
   assert.equal(window.Channel.webserial.connected, true);
-  assert.equal(window.Channel.webserial.buffer.length, 0);
+  assert.deepEqual(
+    window.Channel.webserial.buffer,
+    ['\x05print(1)\x04'],
+    'a recuperação automática não pode apagar um programa aguardando na fila'
+  );
   assert.equal(idleUpdates, 0);
   assert.equal(
     sent.filter((message) => message.action === 'close').length,
@@ -373,6 +372,11 @@ test('the unchanged WebSerial protocol connects and reads through the mobile shi
   await waitFor(() => sent.length >= 2, 'A abertura nativa não foi solicitada.');
   answer(window, sent[1]);
   await waitFor(() => protocol.connected, 'O protocolo WebSerial não conectou.');
+  assert.equal(
+    protocol.packetSize,
+    4096,
+    'o aplicativo deve reduzir as viagens da ponte usando pacotes maiores'
+  );
 
   window.__bitdoglabNativeSerialReceive({ type: 'data', data: 'Pj4+IA==' });
   await waitFor(
@@ -383,8 +387,37 @@ test('the unchanged WebSerial protocol connects and reads through the mobile shi
   assert.deepEqual(events.scans, ['>>> ']);
   assert.match(events.terminal.join(''), /Connected using Web Serial API/);
 
-  protocol.disconnect();
-  await waitFor(() => sent.length >= 3, 'O fechamento nativo não foi solicitado.');
+  UI.workspace.runButton.status = false;
+  protocol.buffer = [];
+  const stopping = window.BitDogLabMobileSerial.stopProgram();
+  await waitFor(
+    () => sent.length >= 3,
+    'A parada manual não chegou à ponte nativa.'
+  );
+  assert.equal(sent[2].action, 'stopProgram');
   answer(window, sent[2]);
+  await stopping;
+  window.__bitdoglabNativeSerialReceive({
+    type: 'data',
+    data: Buffer.from('KeyboardInterrupt\r\n>>> ').toString('base64')
+  });
+  await waitFor(
+    () => protocol.buffer.length === 0 && UI.workspace.runButton.status === true,
+    'O prompt da parada não liberou a próxima execução.'
+  );
+
+  protocol.buffer = ['\x05print(1)\x04'];
+  protocol._pollSerialBuffer();
+  await waitFor(() => sent.length >= 4, 'A segunda execução não foi enviada.');
+  assert.equal(sent[3].action, 'write');
+  answer(window, sent[3]);
+  await waitFor(
+    () => protocol.buffer.length === 0,
+    'A fila não concluiu a segunda execução.'
+  );
+
+  protocol.disconnect();
+  await waitFor(() => sent.length >= 5, 'O fechamento nativo não foi solicitado.');
+  answer(window, sent[4]);
   await waitFor(() => !protocol.connected, 'O protocolo WebSerial não desconectou.');
 });

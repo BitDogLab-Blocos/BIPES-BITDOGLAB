@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -37,10 +38,17 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
     private static final int MAX_MESSAGE_CHARS = 1_500_000;
     private static final int MAX_ENCODED_WRITE_CHARS = 1_400_000;
     private static final int WRITE_TIMEOUT_MS = 4000;
+    private static final int MOBILE_WRITE_CHUNK_BYTES = 100;
+    private static final int MOBILE_WRITE_CHUNK_DELAY_MS = 10;
     private static final int INTERRUPT_SETTLE_MS = 150;
     private static final int TRANSACTION_READER_SETTLE_MS = 150;
     private static final int TRANSACTION_READ_SLICE_MS = 200;
     private static final int MAX_TRANSACTION_OUTPUT_BYTES = 2_000_000;
+    // Keep the mobile stop path in lockstep with WebSerialProtocol's proven
+    // recovery loop: reopen the CDC port and retry Ctrl+C while the normal
+    // asynchronous reader forwards the resulting >>> prompt to the WebView.
+    private static final int STOP_RECOVERY_INTERVAL_MS = 350;
+    private static final int STOP_RECOVERY_ATTEMPTS = 10;
 
     private final Activity activity;
     private final WebView webView;
@@ -53,6 +61,10 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
     private SerialInputOutputManager inputOutputManager;
     private String pendingPermissionRequestId;
     private boolean receiverRegistered;
+    private volatile boolean stopRequested;
+    private volatile boolean stopRecoveryActive;
+    private volatile boolean stopPromptSeen;
+    private volatile String stopPromptTail = "";
 
     private final BroadcastReceiver usbReceiver = new BroadcastReceiver() {
         @Override
@@ -137,6 +149,13 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
                 break;
             case "interrupt":
                 serialExecutor.execute(() -> interrupt(id));
+                break;
+            case "stopProgram":
+                // A large program can still be split into USB writes. Mark the
+                // pending write immediately so it yields before the recovery
+                // operation reaches the serial executor.
+                stopRequested = true;
+                serialExecutor.execute(() -> stopProgram(id));
                 break;
             case "executeTransaction":
                 JSONObject transactionPayload = message.optJSONObject("payload");
@@ -271,8 +290,20 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
         }
         try {
             byte[] bytes = Base64.decode(encoded, Base64.NO_WRAP);
-            port.write(bytes, WRITE_TIMEOUT_MS);
+            for (int offset = 0; offset < bytes.length; offset += MOBILE_WRITE_CHUNK_BYTES) {
+                if (stopRequested) {
+                    break;
+                }
+                int end = Math.min(offset + MOBILE_WRITE_CHUNK_BYTES, bytes.length);
+                port.write(Arrays.copyOfRange(bytes, offset, end), WRITE_TIMEOUT_MS);
+                if (end < bytes.length) {
+                    Thread.sleep(MOBILE_WRITE_CHUNK_DELAY_MS);
+                }
+            }
             resolve(requestId, new JSONObject());
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            reject(requestId, "O envio para a placa foi cancelado.");
         } catch (Exception exception) {
             reject(requestId, friendlyError("Falha ao enviar dados para a placa", exception));
         }
@@ -294,6 +325,82 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
         } catch (Exception exception) {
             reject(requestId, friendlyError("Falha ao interromper o programa", exception));
         }
+    }
+
+    private void stopProgram(String requestId) {
+        if (port == null || !port.isOpen()) {
+            stopRequested = false;
+            reject(requestId, "A BitDogLab não está conectada.");
+            return;
+        }
+
+        try {
+            stopRecoveryActive = true;
+            stopPromptSeen = false;
+            stopPromptTail = "";
+            pauseAsyncReader();
+            // Equivale ao desconectar/conectar manualmente, mas sem remover a
+            // autorização USB nem destruir a porta WebSerial da interface.
+            reopenPort();
+            resumeAsyncReader();
+            Thread.sleep(TRANSACTION_READER_SETTLE_MS);
+            for (int attempt = 0; attempt < STOP_RECOVERY_ATTEMPTS; attempt += 1) {
+                writeReplInterrupt();
+                if (stopPromptSeen) {
+                    break;
+                }
+                if (attempt + 1 < STOP_RECOVERY_ATTEMPTS) {
+                    Thread.sleep(STOP_RECOVERY_INTERVAL_MS);
+                }
+            }
+            resolve(requestId, new JSONObject());
+        } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
+            reject(requestId, "A parada do programa foi cancelada.");
+        } catch (Exception exception) {
+            reject(requestId, friendlyError("Falha ao parar o programa", exception));
+        } finally {
+            stopRecoveryActive = false;
+            stopRequested = false;
+            resumeAsyncReader();
+        }
+    }
+
+    private void writeReplInterrupt() throws Exception {
+        // A sequência exata usada pelo navegador para interromper o programa.
+        port.write(new byte[] {0x03, 0x03}, WRITE_TIMEOUT_MS);
+    }
+
+    private void reopenPort() throws Exception {
+        if (port != null) {
+            try {
+                port.close();
+            } catch (Exception ignored) {
+                // A recuperação deve continuar mesmo se o descritor antigo já fechou.
+            }
+            port = null;
+        }
+        if (connection != null) {
+            connection.close();
+            connection = null;
+        }
+        if (selectedDriver == null
+                || !usbManager.hasPermission(selectedDriver.getDevice())) {
+            throw new IllegalStateException("A autorização USB da BitDogLab foi perdida.");
+        }
+
+        connection = usbManager.openDevice(selectedDriver.getDevice());
+        if (connection == null) {
+            throw new IllegalStateException("O Android não conseguiu reabrir a porta USB.");
+        }
+        port = selectedDriver.getPorts().get(0);
+        port.open(connection);
+        port.setParameters(
+                BITDOGLAB_BAUD_RATE,
+                8,
+                UsbSerialPort.STOPBITS_1,
+                UsbSerialPort.PARITY_NONE
+        );
     }
 
     private void executeTransaction(
@@ -416,6 +523,19 @@ public final class NativeSerialBridge implements SerialInputOutputManager.Listen
 
     @Override
     public void onNewData(byte[] data) {
+        if (stopRecoveryActive) {
+            String received = new String(
+                    data,
+                    java.nio.charset.StandardCharsets.ISO_8859_1
+            );
+            String promptProbe = stopPromptTail + received;
+            if (promptProbe.contains(">>>")) {
+                stopPromptSeen = true;
+            }
+            stopPromptTail = promptProbe.length() > 3
+                    ? promptProbe.substring(promptProbe.length() - 3)
+                    : promptProbe;
+        }
         JSONObject event = new JSONObject();
         try {
             event.put("type", "data");
