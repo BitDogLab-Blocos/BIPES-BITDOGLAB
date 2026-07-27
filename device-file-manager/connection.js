@@ -76,7 +76,32 @@ DeviceFilesManager.extend({
     return 'A placa não conseguiu concluir a operação.';
   },
 
-  _executeFsScript(label, body, timeoutMs, onSuccess) {
+  _waitForRepl(onReady, onFailure) {
+    var startedAt = Date.now();
+    var timeoutMs = this._replPrepareTimeoutMs || 2500;
+    var pollMs = this._replPollMs || 50;
+
+    var checkPrompt = () => {
+      this._operationStart = null;
+      if (!this.isConnected()) {
+        onFailure('A placa foi desconectada antes de preparar o terminal.');
+        return;
+      }
+      if (this.received_string.indexOf('>>>') !== -1) {
+        onReady();
+        return;
+      }
+      if (Date.now() - startedAt >= timeoutMs) {
+        onFailure('O terminal MicroPython não respondeu ao comando de parada.');
+        return;
+      }
+      this._operationStart = window.setTimeout(checkPrompt, pollMs);
+    };
+
+    this._operationStart = window.setTimeout(checkPrompt, pollMs);
+  },
+
+  _executeFsScript(label, body, timeoutMs, onSuccess, onFailure) {
     if (!this.isConnected()) {
       this.updateConnectionState(false);
       return;
@@ -103,12 +128,13 @@ DeviceFilesManager.extend({
     mux.clearBuffer();
     mux.bufferPush('\x03\x03');
 
-    this._operationStart = window.setTimeout(() => {
-      if (!this.isConnected()) {
-        this.updateConnectionState(false);
-        return;
-      }
+    var fail = (message) => {
+      this._cancelOperation();
+      this.setStatus(message, 'error');
+      if (typeof onFailure === 'function') onFailure(message);
+    };
 
+    this._waitForRepl(() => {
       this.received_string = '';
       mux.bufferPush(command);
 
@@ -124,11 +150,13 @@ DeviceFilesManager.extend({
 
         if (payload.indexOf('ERR:') === 0) {
           this.setStatus(this._friendlyError(payload.slice(4)), 'error');
+          if (typeof onFailure === 'function') onFailure(payload.slice(4));
           return;
         }
 
         if (payload.indexOf('OK') !== 0) {
           this.setStatus('A resposta da placa não pôde ser interpretada.', 'error');
+          if (typeof onFailure === 'function') onFailure(payload);
           return;
         }
 
@@ -137,10 +165,9 @@ DeviceFilesManager.extend({
       }, 80);
 
       this._operationTimeout = window.setTimeout(() => {
-        this._cancelOperation();
-        this.setStatus('A placa demorou para responder. Tente atualizar novamente.', 'error');
+        fail('A placa demorou para responder. Tente atualizar novamente.');
       }, timeoutMs || 7000);
-    }, 320);
+    }, fail);
   },
 
   _pythonText(value) {

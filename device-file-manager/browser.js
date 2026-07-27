@@ -109,6 +109,8 @@ DeviceFilesManager.extend({
       } else {
         this.clearSelection();
       }
+    }, () => {
+      this._renderListMessage('A placa não respondeu. Toque em Atualizar para tentar novamente.');
     });
   },
 
