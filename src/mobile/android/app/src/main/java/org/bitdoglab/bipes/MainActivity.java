@@ -47,6 +47,7 @@ public final class MainActivity extends ComponentActivity {
         installNativeSerialBridge(webView);
         installSerialCompatibility(webView);
         installContentHardening(webView);
+        installMobileWorkspace(webView);
         installMobileLayout(webView);
         configureWebView(webView);
         configureBackNavigation();
@@ -61,6 +62,10 @@ public final class MainActivity extends ComponentActivity {
 
     private void installContentHardening(WebView view) {
         installLocalDocumentStartScript(view, R.raw.mobile_content_hardening);
+    }
+
+    private void installMobileWorkspace(WebView view) {
+        installLocalDocumentStartScript(view, R.raw.mobile_workspace);
     }
 
     @SuppressLint("RequiresFeature")

@@ -138,6 +138,43 @@ html.bipes-mobile-app .blocklyToolboxDiv {
   overscroll-behavior: contain;
 }
 
+html.bipes-mobile-app #bitdoglab-toolbox-toggle {
+  position: fixed;
+  z-index: 80;
+  top: calc(50% + var(--mobile-header-height) / 2);
+  left: .35rem;
+  width: 2.5rem;
+  min-width: 2.5rem;
+  height: 3.5rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, .72);
+  border-radius: 0 .8rem .8rem 0;
+  background: var(--bitdoglab-primary);
+  color: #fff;
+  box-shadow: 0 .2rem .75rem rgba(0, 0, 0, .28);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(-50%);
+  transition: left .18s ease, background-color .18s ease;
+  touch-action: manipulation;
+}
+
+html.bipes-mobile-app #bitdoglab-toolbox-toggle[hidden] {
+  display: none !important;
+}
+
+html.bipes-mobile-app.bipes-mobile-toolbox-collapsed .blocklyToolboxDiv,
+html.bipes-mobile-app.bipes-mobile-toolbox-collapsed .blocklyFlyout {
+  display: none !important;
+}
+
+html.bipes-mobile-app.bipes-mobile-toolbox-collapsed #bitdoglab-toolbox-toggle {
+  left: max(.35rem, env(safe-area-inset-left)) !important;
+  border-radius: .8rem;
+  background: var(--bitdoglab-accent);
+}
+
 html.bipes-mobile-app #content_console {
   padding-bottom: env(safe-area-inset-bottom);
   box-sizing: border-box;
