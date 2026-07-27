@@ -14,7 +14,7 @@
 ## O que foi criado
 
 Este diretório transforma a plataforma web BIPES BitDogLab no aplicativo
-**BitDogLab-Blocos**, atualmente na versão **0.2.0**, para instalação no
+**BitDogLab-Blocos**, atualmente na versão **0.2.1**, para instalação no
 Android. Em termos simples, o projeto coloca o site dentro de uma
 janela segura do Android, adapta a interface para telas pequenas e acrescenta
 uma ligação nativa com a porta USB do celular.

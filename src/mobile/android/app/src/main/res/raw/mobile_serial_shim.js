@@ -31,15 +31,13 @@
     return bytes.length >= 2 && bytes.every((value) => value === 0x03);
   }
 
-  function finishStopCommand() {
+  function finishInterruptWrite() {
     const protocol = global.Channel && global.Channel.webserial;
-    if (protocol) {
+    // Tool.stopPython coloca o Ctrl+C na fila. Já a recuperação automática da
+    // conexão escreve o mesmo comando diretamente e não deve alterar a UI.
+    if (protocol && protocol.buffer && protocol.buffer.length > 0) {
       protocol.buffer = [];
       protocol.completeBufferCallback = [];
-    }
-    const workspace = global.UI && global.UI.workspace;
-    if (workspace && typeof workspace.runAbort === 'function') {
-      workspace.runAbort();
     }
   }
 
@@ -94,7 +92,7 @@
           const bytes = chunk instanceof Uint8Array ? chunk : new Uint8Array(chunk);
           if (isStopCommand(bytes)) {
             return nativeRequest('interrupt', {}).then((value) => {
-              finishStopCommand();
+              finishInterruptWrite();
               return value;
             });
           }

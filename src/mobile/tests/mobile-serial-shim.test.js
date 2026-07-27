@@ -119,7 +119,7 @@ test('stops and runs again through the same open native connection', async () =>
   let idleUpdates = 0;
   window.Channel = {
     webserial: {
-      buffer: ['old-packet'],
+      buffer: ['\x03\x03', 'old-packet'],
       completeBufferCallback: [() => {}]
     }
   };
@@ -146,7 +146,11 @@ test('stops and runs again through the same open native connection', async () =>
 
   assert.equal(window.Channel.webserial.buffer.length, 0);
   assert.equal(window.Channel.webserial.completeBufferCallback.length, 0);
-  assert.equal(idleUpdates, 1);
+  assert.equal(
+    idleUpdates,
+    0,
+    'o prompt real da placa, e não a confirmação de escrita, deve atualizar a interface'
+  );
 
   const runningAgain = writer.write(new Uint8Array([5, 112, 114, 105, 110, 116, 40, 49, 41, 4]));
   assert.equal(sent[3].action, 'write');
@@ -158,6 +162,48 @@ test('stops and runs again through the same open native connection', async () =>
     sent.filter((message) => message.action === 'requestPort').length,
     1,
     'a segunda execução não deve solicitar nem desconectar a porta novamente'
+  );
+});
+
+test('automatic connection recovery does not imitate a disconnect in the interface', async () => {
+  const { window, sent } = createEnvironment();
+  let idleUpdates = 0;
+  window.Channel = {
+    webserial: {
+      connected: true,
+      buffer: [],
+      completeBufferCallback: []
+    }
+  };
+  window.UI = {
+    workspace: {
+      runAbort() {
+        idleUpdates += 1;
+      }
+    }
+  };
+
+  const selecting = window.navigator.serial.requestPort();
+  answer(window, sent[0], { vendorId: 0x2e8a, productId: 10 });
+  const port = await selecting;
+  const opening = port.open({ baudRate: 115200 });
+  answer(window, sent[1]);
+  await opening;
+
+  const writer = port.writable.getWriter();
+  const recovering = writer.write(new Uint8Array([3, 3]));
+  assert.equal(sent[2].action, 'interrupt');
+  answer(window, sent[2]);
+  await recovering;
+  writer.releaseLock();
+
+  assert.equal(window.Channel.webserial.connected, true);
+  assert.equal(window.Channel.webserial.buffer.length, 0);
+  assert.equal(idleUpdates, 0);
+  assert.equal(
+    sent.filter((message) => message.action === 'close').length,
+    0,
+    'a recuperação inicial não pode fechar a porta'
   );
 });
 
