@@ -6,16 +6,9 @@
   }
 
   const document = global.document;
-  const storageKey = 'bitdoglab.mobile.toolboxCollapsed';
   let toolbox = null;
   let toggleButton = null;
   let collapsed = false;
-
-  try {
-    collapsed = global.localStorage.getItem(storageKey) === 'true';
-  } catch (ignored) {
-    // O controle continua funcionando quando o armazenamento local está indisponível.
-  }
 
   function isEnglish() {
     const pageLanguage = document.documentElement.getAttribute('lang');
@@ -81,18 +74,13 @@
 
   function toggleToolbox() {
     collapsed = !collapsed;
-    try {
-      global.localStorage.setItem(storageKey, String(collapsed));
-    } catch (ignored) {
-      // A preferência deixa de ser persistente, mas o botão permanece funcional.
-    }
     applyState(true);
   }
 
   function attachControl() {
     const currentToolbox = document.querySelector('.blocklyToolboxDiv');
     if (!currentToolbox) {
-      return;
+      return false;
     }
     toolbox = currentToolbox;
 
@@ -105,28 +93,35 @@
     }
 
     applyState(false);
+    return true;
   }
 
-  const observer = new MutationObserver(function observeWorkspace(mutations) {
-    attachControl();
-    updateVisibility();
-    if (mutations.some(function languageChanged(mutation) {
-      return mutation.type === 'attributes'
-        && mutation.target === document.documentElement
-        && mutation.attributeName === 'lang';
-    })) {
-      updateLabel();
+  function waitForToolbox(attempt) {
+    if (attachControl() || attempt >= 100) {
+      return;
     }
-  });
+    global.setTimeout(function tryAgain() {
+      waitForToolbox(attempt + 1);
+    }, 100);
+  }
 
   function start() {
-    observer.observe(document.documentElement, {
+    const languageObserver = new MutationObserver(updateLabel);
+    languageObserver.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class', 'lang'],
-      childList: true,
-      subtree: true
+      attributeFilter: ['lang']
     });
-    attachControl();
+
+    const blocksContent = document.getElementById('content_blocks');
+    if (blocksContent) {
+      const tabObserver = new MutationObserver(updateVisibility);
+      tabObserver.observe(blocksContent, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+    }
+
+    waitForToolbox(0);
   }
 
   if (document.readyState === 'loading') {

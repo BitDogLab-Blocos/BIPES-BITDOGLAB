@@ -54,8 +54,8 @@ test('mobile category control collapses the toolbox and restores workspace width
   const blocksContent = createElement();
   blocksContent.classList.add('on');
   const bodyChildren = [];
-  const stored = new Map();
   let resizeCalls = 0;
+  const observers = [];
 
   const document = {
     body: { appendChild(element) { bodyChildren.push(element); } },
@@ -70,8 +70,14 @@ test('mobile category control collapses the toolbox and restores workspace width
     }
   };
   class MutationObserver {
-    constructor(callback) { this.callback = callback; }
-    observe() {}
+    constructor(callback) {
+      this.callback = callback;
+      observers.push(this);
+    }
+    observe(target, options) {
+      this.target = target;
+      this.options = options;
+    }
   }
   const window = {
     Blockly: { svgResize() { resizeCalls += 1; } },
@@ -80,12 +86,9 @@ test('mobile category control collapses the toolbox and restores workspace width
     addEventListener() {},
     document,
     innerWidth: 412,
-    localStorage: {
-      getItem(key) { return stored.get(key) || null; },
-      setItem(key, value) { stored.set(key, value); }
-    },
     navigator: { language: 'pt-br' },
-    requestAnimationFrame(callback) { callback(); }
+    requestAnimationFrame(callback) { callback(); },
+    setTimeout(callback) { callback(); }
   };
 
   vm.runInContext(
@@ -111,7 +114,6 @@ test('mobile category control collapses the toolbox and restores workspace width
   );
   assert.equal(toolbox.getAttribute('aria-hidden'), 'true');
   assert.equal(button.title, 'Mostrar categorias de blocos');
-  assert.equal(stored.get('bitdoglab.mobile.toolboxCollapsed'), 'true');
   assert.equal(resizeCalls, 1);
 
   button.click();
@@ -123,4 +125,12 @@ test('mobile category control collapses the toolbox and restores workspace width
   assert.equal(toolbox.getAttribute('aria-hidden'), 'false');
   assert.equal(button.title, 'Recolher categorias de blocos');
   assert.equal(resizeCalls, 2);
+
+  assert.equal(observers.length, 2);
+  assert.equal(observers[0].options.attributes, true);
+  assert.equal(observers[0].options.attributeFilter.join(','), 'lang');
+  assert.equal(observers[0].target, documentElement);
+  assert.equal(observers[1].options.attributes, true);
+  assert.equal(observers[1].options.attributeFilter.join(','), 'class');
+  assert.equal(observers[1].target, blocksContent);
 });

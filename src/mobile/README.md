@@ -453,7 +453,7 @@ src/mobile/
 | [`mobile_serial_shim.js`](android/app/src/main/res/raw/mobile_serial_shim.js) | Converte eventos Android em `ReadableStream` e `WritableStream`. |
 | [`mobile_content_hardening.js`](android/app/src/main/res/raw/mobile_content_hardening.js) | Renderiza entradas variáveis como texto, impedindo injeção HTML no APK. |
 | [`mobile_layout.css`](android/app/src/main/res/raw/mobile_layout.css) | Adapta cabeçalho, ferramentas, Blockly, retrato, paisagem e áreas seguras. |
-| [`mobile_workspace.js`](android/app/src/main/res/raw/mobile_workspace.js) | Recolhe e restaura as categorias, persiste a preferência e redimensiona o Blockly. |
+| [`mobile_workspace.js`](android/app/src/main/res/raw/mobile_workspace.js) | Recolhe e restaura as categorias sob demanda e redimensiona o Blockly. |
 | [`device_filter.xml`](android/app/src/main/res/xml/device_filter.xml) | Declara o Vendor ID do RP2040 para conexões USB. |
 | [`mobile-serial-shim.test.js`](tests/mobile-serial-shim.test.js) | Testa permissão, abertura, leitura, escrita, desconexão e WebSerial original. |
 
