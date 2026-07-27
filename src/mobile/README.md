@@ -1,7 +1,7 @@
 <div align="center">
   <img src="../../images/readme/bitdoglab-blocks.png" alt="Mascote da BitDogLab segurando blocos" width="260">
 
-  # BIPES BitDogLab para Android
+  # BitDogLab-Blocos para Android
 
   **A mesma plataforma visual do computador, empacotada como aplicativo Android com comunicação USB CDC nativa.**
 
@@ -13,8 +13,9 @@
 
 ## O que foi criado
 
-Este diretório transforma a plataforma web BIPES BitDogLab em um aplicativo
-Android instalável. Em termos simples, o projeto coloca o site dentro de uma
+Este diretório transforma a plataforma web BIPES BitDogLab no aplicativo
+**BitDogLab-Blocos**, atualmente na versão **0.2.0**, para instalação no
+Android. Em termos simples, o projeto coloca o site dentro de uma
 janela segura do Android, adapta a interface para telas pequenas e acrescenta
 uma ligação nativa com a porta USB do celular.
 
@@ -108,6 +109,7 @@ pixels. O layout móvel é acrescentado somente no APK e não altera o site.
 | Controle | Função |
 | --- | --- |
 | **Blocos** | Abre a paleta e a área onde o programa é montado. |
+| **‹ / › ao lado das categorias** | Recolhe ou mostra a paleta para liberar mais espaço para os blocos. |
 | **Mensagens** | Mostra o terminal e a resposta recebida do MicroPython. |
 | **Dispositivo** | Abre a referência da BitDogLab e os tutoriais de hardware. |
 | **Ferramentas**, no canto superior direito | Abre e fecha o painel mostrado na segunda imagem. |
@@ -397,12 +399,18 @@ recompilado.
 
 O `MainActivity.java` abre a página local
 `/assets/src/pages/index.html?mobile=1` usando
-`WebViewAssetLoader`. Antes de a página iniciar, o Android instala três
+`WebViewAssetLoader`. Antes de a página iniciar, o Android instala quatro
 adaptações:
 
 1. `mobile_layout.css`, para tamanho, toque e áreas seguras;
 2. `mobile_serial_shim.js`, para oferecer `navigator.serial`;
-3. `mobile_content_hardening.js`, para tratar conteúdo variável como texto.
+3. `mobile_content_hardening.js`, para tratar conteúdo variável como texto;
+4. `mobile_workspace.js`, para recolher as categorias e ampliar o espaço de
+   montagem.
+
+Como `prepareWebAssets` faz uma cópia nova a cada compilação limpa, o APK inclui
+o catálogo PT/EN e as traduções atuais da plataforma web. Não existe um catálogo
+de idioma separado e desatualizado dentro do Android.
 
 ## Problemas comuns
 
@@ -434,6 +442,7 @@ src/mobile/
         └── res/
             ├── raw/mobile_layout.css
             ├── raw/mobile_serial_shim.js
+            ├── raw/mobile_workspace.js
             └── xml/device_filter.xml
 ```
 
@@ -444,6 +453,7 @@ src/mobile/
 | [`mobile_serial_shim.js`](android/app/src/main/res/raw/mobile_serial_shim.js) | Converte eventos Android em `ReadableStream` e `WritableStream`. |
 | [`mobile_content_hardening.js`](android/app/src/main/res/raw/mobile_content_hardening.js) | Renderiza entradas variáveis como texto, impedindo injeção HTML no APK. |
 | [`mobile_layout.css`](android/app/src/main/res/raw/mobile_layout.css) | Adapta cabeçalho, ferramentas, Blockly, retrato, paisagem e áreas seguras. |
+| [`mobile_workspace.js`](android/app/src/main/res/raw/mobile_workspace.js) | Recolhe e restaura as categorias, persiste a preferência e redimensiona o Blockly. |
 | [`device_filter.xml`](android/app/src/main/res/xml/device_filter.xml) | Declara o Vendor ID do RP2040 para conexões USB. |
 | [`mobile-serial-shim.test.js`](tests/mobile-serial-shim.test.js) | Testa permissão, abertura, leitura, escrita, desconexão e WebSerial original. |
 
@@ -489,6 +499,8 @@ As validações móveis cobrem:
 - seleção e rejeição de permissão;
 - abertura em 115200 baud;
 - escrita e leitura binária;
+- parada prioritária e nova execução sem reconectar a porta;
+- recolhimento e restauração das categorias no celular;
 - retirada física e recuperação da interface;
 - execução do `webserial.js` original sobre a ponte móvel;
 - recebimento do prompt `>>>`;
