@@ -270,6 +270,42 @@ fila de transmissão.
 O fluxo serial envia `Ctrl+C` ao REPL para interromper o programa. O botão
 laranja volta ao estado de execução quando a placa responde novamente.
 
+### Como foi corrigido o ciclo Conectar → Rodar → Parar → Rodar
+
+Durante o desenvolvimento da versão móvel apareceu um erro que parecia ser uma
+desconexão física: o primeiro programa funcionava, mas, depois de tocar em
+**Parar**, era necessário retirar e recolocar o cabo para executar novamente.
+Em outra variação, o indicador conectava e desconectava rapidamente.
+
+A causa estava no significado do byte `Ctrl+C` (`0x03`). Ele é usado em dois
+momentos diferentes:
+
+1. **Recuperação automática:** logo após abrir a porta, o aplicativo envia
+   `Ctrl+C` para interromper um possível `main.py` e obter o prompt `>>>`.
+2. **Parada manual:** enquanto um programa está rodando, o mesmo `Ctrl+C`
+   interrompe o código a pedido do usuário.
+
+Uma implementação anterior da ponte móvel tratava qualquer `Ctrl+C` como
+parada manual. Por isso, o comando automático da própria conexão chamava
+`runAbort()`, apagava o estado visual de conectado e deixava a interface
+divergente da porta USB, que continuava fisicamente aberta. Ao tocar novamente
+no plugue, a lógica encontrava a porta aberta e a desconectava de verdade.
+
+Na versão **0.2.1**, `mobile_serial_shim.js` considera também o contexto:
+
+- se o comando veio diretamente da recuperação inicial, mantém
+  `connected = true`, não chama `runAbort()` e não fecha a porta;
+- se o comando veio da fila criada pelo botão **Parar**, limpa somente os
+  pacotes e callbacks da execução anterior;
+- a confirmação real de que o MicroPython está pronto continua sendo o prompt
+  `>>>` recebido da placa;
+- o próximo programa reutiliza a mesma porta USB já autorizada.
+
+Essa separação mantém três estados sincronizados: a porta nativa do Android, o
+protocolo Web Serial compatível e os indicadores da interface. O teste
+`automatic connection recovery does not imitate a disconnect in the interface`
+protege esse comportamento contra regressões.
+
 ### Salvar na placa
 
 O código é gravado como `main.py` usando o protocolo já existente. A rotina
@@ -419,6 +455,7 @@ de idioma separado e desatualizado dentro do Android.
 | A placa acende, mas não é encontrada | Cabo fornece energia, porém não transporta dados | Teste outro cabo USB de dados e outro adaptador OTG. |
 | A janela de permissão não aparece | O Android não reconheceu o dispositivo USB | Retire e recoloque o cabo, desbloqueie a tela e abra novamente o aplicativo. |
 | Aparece “Permissão USB negada” | A autorização foi recusada | Desconecte a placa, conecte novamente e aceite a solicitação. |
+| Conecta e parece desconectar imediatamente | APK anterior confundia a recuperação automática com uma parada manual | Instale a versão 0.2.1 ou mais recente; não toque novamente no plugue enquanto a conexão está sendo preparada. |
 | Rodar parece não fazer nada | A porta não abriu ou a placa não respondeu | Abra **Mensagens**, toque no plugue e observe o erro apresentado. |
 | O aplicativo pede atualização da WebView | Faltam recursos de segurança usados pela ponte | Atualize **Android System WebView** ou o navegador do sistema. |
 | O Gradle não encontra o SDK | `ANDROID_HOME` ou `local.properties` não aponta para o SDK | Configure o caminho do Android SDK no computador. |
