@@ -562,7 +562,7 @@ Na raiz do repositório:
 ```powershell
 node src/mobile/scripts/check-web-boundary.mjs
 node --test src/mobile/tests/*.test.js
-npm test
+node --test tests/**/*.test.js
 
 cd src/mobile/android
 .\gradlew.bat lintDebug assembleDebug lintRelease assembleRelease

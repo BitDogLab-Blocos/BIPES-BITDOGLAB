@@ -112,7 +112,6 @@ El flujo principal es simple: la interfaz entrega los bloques al workspace de Bl
 | Web Serial API | Comunicación USB con el REPL de la placa. |
 | CodeMirror | Visualización de Python, texto y CSV original. |
 | xterm.js | Consola serial dentro del navegador. |
-| Playwright | Validación automatizada y capturas de la interfaz. |
 
 La aplicación no necesita un backend. El navegador sirve la interfaz y se comunica directamente con el dispositivo autorizado por el usuario. La interfaz está disponible actualmente en portugués de Brasil e inglés; esta documentación también ofrece una versión en español.
 
@@ -149,7 +148,7 @@ cd BIPES-BITDOGLAB
 python -m http.server 5500
 ```
 
-Abre `http://127.0.0.1:5500`, elige el modo de proyecto, conecta el puerto serial y construye tu programa. La aplicación no requiere `npm install`; las dependencias Node solo se usan en herramientas de validación.
+Abre `http://127.0.0.1:5500`, elige el modo de proyecto, conecta el puerto serial y construye tu programa. La aplicación no requiere instalar dependencias.
 
 > Web Serial requiere una acción explícita del usuario para elegir el puerto. Utiliza `localhost`, `127.0.0.1` o un origen HTTPS.
 

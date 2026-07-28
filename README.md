@@ -112,7 +112,6 @@ O fluxo principal é simples: a interface entrega os blocos ao workspace Blockly
 | Web Serial API | Comunicação USB com o REPL da placa. |
 | CodeMirror | Visualização de Python, textos e CSV original. |
 | xterm.js | Console serial dentro do navegador. |
-| Playwright | Validação automatizada e capturas da interface. |
 
 A aplicação não depende de um backend para funcionar. O navegador serve a interface e conversa diretamente com o dispositivo autorizado pelo usuário.
 
@@ -149,7 +148,7 @@ cd BIPES-BITDOGLAB
 python -m http.server 5500
 ```
 
-Abra `http://127.0.0.1:5500`, escolha o modo do projeto, conecte a porta serial e monte seu programa. O aplicativo em si não exige `npm install`; as dependências Node são usadas apenas pelas ferramentas de validação.
+Abra `http://127.0.0.1:5500`, escolha o modo do projeto, conecte a porta serial e monte seu programa. O aplicativo não exige instalação de dependências.
 
 > Web Serial exige uma ação explícita do usuário para escolher a porta. Use `localhost`, `127.0.0.1` ou uma origem HTTPS.
 
