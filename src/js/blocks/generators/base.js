@@ -234,7 +234,19 @@ Blockly.Python["esperar_segundos"] = function(block) {
   }
   var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
   Blockly.Python.definitions_['import_time'] = 'import time';
-  var code = 'time.sleep(' + value_time + ')\n';
+  // Reporters de duração (segundos, minutos e horas) já entregam milissegundos.
+  // Aceitá-los aqui torna natural encaixar "5 segundos" em "Aguardar segundos"
+  // sem multiplicar a unidade duas vezes (5 s não pode virar 5000 s).
+  var timeBlock = block.getInputTargetBlock && block.getInputTargetBlock('TIME');
+  var durationReporter = timeBlock && [
+    'tempo_segundos',
+    'tempo_milisegundos',
+    'tempo_minutos',
+    'tempo_horas'
+  ].indexOf(timeBlock.type) !== -1;
+  var code = durationReporter
+    ? 'time.sleep_ms(' + value_time + ')\n'
+    : 'time.sleep(' + value_time + ')\n';
   if (_isWaitConnectedToRobotBlock(block)) {
     return BitdogLabConfig.MARKERS.SETUP_START + '\n' + code + BitdogLabConfig.MARKERS.SETUP_END + '\n';
   }
