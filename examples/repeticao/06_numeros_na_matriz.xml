@@ -1,0 +1,27 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A repetição mostra o número, apaga a matriz e deixa claro o efeito de cada comando. -->
+  <block type="controls_repeat_simple" x="30" y="30">
+    <field name="TIMES">6</field>
+    <statement name="DO">
+      <block type="mostrar_numero_matriz">
+        <value name="NUMERO"><block type="numero_matriz_7"></block></value>
+        <value name="COR"><block type="colour_yellow"></block></value>
+        <field name="BRILHO">30</field>
+        <next>
+          <block type="esperar_segundos">
+            <value name="TIME"><block type="math_number"><field name="NUM">0.6</field></block></value>
+            <next>
+              <block type="desligar_matriz">
+                <next>
+                  <block type="esperar_milisegundos">
+                    <value name="TIME"><block type="math_number"><field name="NUM">400</field></block></value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

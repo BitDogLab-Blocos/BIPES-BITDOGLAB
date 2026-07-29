@@ -1,0 +1,69 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Jogo de reação: B soma pontos durante 12 ciclos; depois, o contador de ciclos encerra a janela. -->
+  <block type="variables_guardar" x="30" y="30">
+    <field name="VAR">pontos</field>
+    <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+    <next>
+      <block type="variables_guardar">
+        <field name="VAR">ciclos</field>
+        <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+        <next>
+          <block type="controls_if">
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">LT</field>
+                <value name="A"><block type="variables_valor_guardado"><field name="VAR">ciclos</field></block></value>
+                <value name="B"><block type="math_number"><field name="NUM">12</field></block></value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="controls_repeat_simple">
+                <field name="TIMES">12</field>
+                <statement name="DO">
+                  <block type="botao_enquanto_apertado">
+                    <field name="BOTAO">B</field>
+                    <statement name="DO">
+                      <block type="variables_adicionar">
+                        <field name="VAR">pontos</field>
+                        <value name="AMOUNT"><block type="math_number"><field name="NUM">1</field></block></value>
+                        <next>
+                          <block type="bloco_ligar_led">
+                            <value name="COLOUR"><block type="colour_green"></block></value>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <statement name="ELSE">
+                      <block type="bloco_ligar_led">
+                        <value name="COLOUR"><block type="colour_red"></block></value>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="variables_adicionar">
+                        <field name="VAR">ciclos</field>
+                        <value name="AMOUNT"><block type="math_number"><field name="NUM">1</field></block></value>
+                        <next>
+                          <block type="display_mostrar_valor">
+                            <field name="LINHA">1</field>
+                            <field name="ALINHAMENTO">CENTER</field>
+                            <field name="DISPLAY_TYPE">SMALL</field>
+                            <value name="VALOR"><block type="variables_valor_guardado"><field name="VAR">pontos</field></block></value>
+                            <next>
+                              <block type="esperar_milisegundos">
+                                <value name="TIME"><block type="math_number"><field name="NUM">1000</field></block></value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

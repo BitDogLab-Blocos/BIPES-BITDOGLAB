@@ -1,0 +1,30 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Um ciclo de dois estados repete uma narrativa visual simples na matriz. -->
+  <block type="controls_repeat_simple" x="30" y="30">
+    <field name="TIMES">4</field>
+    <statement name="DO">
+      <block type="mostrar_emoji">
+        <value name="EMOJI"><block type="emoji_coracao"></block></value>
+        <value name="COR"><block type="colour_red"></block></value>
+        <field name="BRILHO">30</field>
+        <next>
+          <block type="esperar_segundos">
+            <value name="TIME"><block type="math_number"><field name="NUM">0.4</field></block></value>
+            <next>
+              <block type="mostrar_emoji">
+                <value name="EMOJI"><block type="emoji_rosto_feliz"></block></value>
+                <value name="COR"><block type="colour_green"></block></value>
+                <field name="BRILHO">30</field>
+                <next>
+                  <block type="esperar_segundos">
+                    <value name="TIME"><block type="math_number"><field name="NUM">0.4</field></block></value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

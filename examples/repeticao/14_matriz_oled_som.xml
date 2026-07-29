@@ -1,0 +1,45 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto multimodal: coração na matriz, mensagem no OLED, som e limpeza no fim de cada ciclo. -->
+  <block type="controls_repeat_simple" x="30" y="30">
+    <field name="TIMES">5</field>
+    <statement name="DO">
+      <block type="mostrar_emoji">
+        <value name="EMOJI"><block type="emoji_coracao"></block></value>
+        <value name="COR"><block type="colour_red"></block></value>
+        <field name="BRILHO">30</field>
+        <next>
+          <block type="display_texto">
+            <field name="TEXTO">SINAL</field>
+            <field name="LINHA">1</field>
+            <field name="ALINHAMENTO">CENTER</field>
+            <field name="DISPLAY_TYPE">SMALL</field>
+            <next>
+              <block type="bipe_duplo">
+                <field name="VOLUME">30</field>
+                <next>
+                  <block type="esperar_segundos">
+                    <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+                    <next>
+                      <block type="desligar_matriz">
+                        <next>
+                          <block type="display_limpar">
+                            <field name="DISPLAY_TYPE">SMALL</field>
+                            <next>
+                              <block type="esperar_milisegundos">
+                                <value name="TIME"><block type="math_number"><field name="NUM">250</field></block></value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

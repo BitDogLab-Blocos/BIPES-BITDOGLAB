@@ -1,0 +1,31 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Variável inicializada antes da pilha: a repetição incrementa e apresenta o contador. -->
+  <block type="variables_guardar" x="30" y="30">
+    <field name="VAR">contador</field>
+    <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+    <next>
+      <block type="controls_repeat_simple">
+        <field name="TIMES">8</field>
+        <statement name="DO">
+          <block type="variables_adicionar">
+            <field name="VAR">contador</field>
+            <value name="AMOUNT"><block type="math_number"><field name="NUM">1</field></block></value>
+            <next>
+              <block type="display_mostrar_valor">
+                <field name="LINHA">1</field>
+                <field name="ALINHAMENTO">CENTER</field>
+                <field name="DISPLAY_TYPE">SMALL</field>
+                <value name="VALOR"><block type="variables_valor_guardado"><field name="VAR">contador</field></block></value>
+                <next>
+                  <block type="esperar_segundos">
+                    <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

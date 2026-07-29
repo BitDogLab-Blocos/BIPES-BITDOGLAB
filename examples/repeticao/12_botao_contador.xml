@@ -1,0 +1,61 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Pressione A até chegar a 20 pontos. A condição externa impede que a repetição reinicie a contagem. -->
+  <block type="variables_guardar" x="30" y="30">
+    <field name="VAR">pontos</field>
+    <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+    <next>
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">LT</field>
+            <value name="A"><block type="variables_valor_guardado"><field name="VAR">pontos</field></block></value>
+            <value name="B"><block type="math_number"><field name="NUM">20</field></block></value>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="controls_repeat_simple">
+            <field name="TIMES">20</field>
+            <statement name="DO">
+              <block type="botao_se_apertado">
+                <field name="BOTAO">A</field>
+                <statement name="DO">
+                  <block type="controls_if">
+                    <value name="IF0">
+                      <block type="logic_compare">
+                        <field name="OP">LT</field>
+                        <value name="A"><block type="variables_valor_guardado"><field name="VAR">pontos</field></block></value>
+                        <value name="B"><block type="math_number"><field name="NUM">20</field></block></value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="variables_adicionar">
+                        <field name="VAR">pontos</field>
+                        <value name="AMOUNT"><block type="math_number"><field name="NUM">1</field></block></value>
+                        <next>
+                          <block type="bipe_curto"><field name="VOLUME">35</field></block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </statement>
+              </block>
+            </statement>
+          </block>
+        </statement>
+        <next>
+          <block type="display_mostrar_valor">
+            <field name="LINHA">1</field>
+            <field name="ALINHAMENTO">CENTER</field>
+            <field name="DISPLAY_TYPE">SMALL</field>
+            <value name="VALOR"><block type="variables_valor_guardado"><field name="VAR">pontos</field></block></value>
+            <next>
+              <block type="esperar_milisegundos">
+                <value name="TIME"><block type="math_number"><field name="NUM">100</field></block></value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

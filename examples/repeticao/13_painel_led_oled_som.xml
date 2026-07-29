@@ -1,0 +1,39 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto completo: cada ciclo acende LED, informa a etapa no OLED e toca um bipe. -->
+  <block type="controls_repeat_simple" x="30" y="30">
+    <field name="TIMES">6</field>
+    <statement name="DO">
+      <block type="bloco_ligar_led">
+        <value name="COLOUR"><block type="colour_green"></block></value>
+        <next>
+          <block type="display_texto">
+            <field name="TEXTO">ETAPA</field>
+            <field name="LINHA">1</field>
+            <field name="ALINHAMENTO">CENTER</field>
+            <field name="DISPLAY_TYPE">SMALL</field>
+            <next>
+              <block type="bipe_curto">
+                <field name="VOLUME">35</field>
+                <next>
+                  <block type="esperar_segundos">
+                    <value name="TIME"><block type="math_number"><field name="NUM">0.4</field></block></value>
+                    <next>
+                      <block type="bloco_desligar_led">
+                        <value name="COLOUR"><block type="colour_green"></block></value>
+                        <next>
+                          <block type="esperar_segundos">
+                            <value name="TIME"><block type="math_number"><field name="NUM">0.3</field></block></value>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

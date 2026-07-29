@@ -1,0 +1,26 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Repetição aninhada: três rodadas, cada uma com dois bipes e uma pausa. -->
+  <block type="controls_repeat_simple" x="30" y="30">
+    <field name="TIMES">3</field>
+    <statement name="DO">
+      <block type="controls_repeat_simple">
+        <field name="TIMES">2</field>
+        <statement name="DO">
+          <block type="bipe_curto">
+            <field name="VOLUME">35</field>
+            <next>
+              <block type="esperar_milisegundos">
+                <value name="TIME"><block type="math_number"><field name="NUM">180</field></block></value>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="esperar_segundos">
+            <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>
