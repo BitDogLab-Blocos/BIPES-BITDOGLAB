@@ -235,8 +235,8 @@ Blockly.Python["esperar_segundos"] = function(block) {
   var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
   Blockly.Python.definitions_['import_time'] = 'import time';
   // Reporters de duração (segundos, minutos e horas) já entregam milissegundos.
-  // Aceitá-los aqui torna natural encaixar "5 segundos" em "Aguardar segundos"
-  // sem multiplicar a unidade duas vezes (5 s não pode virar 5000 s).
+  // Convertemos explicitamente para segundos antes de chamar sleep(), evitando
+  // interpretar 5000 ms como 5000 s quando o bloco mostra "5 segundos".
   var timeBlock = block.getInputTargetBlock && block.getInputTargetBlock('TIME');
   var durationReporter = timeBlock && [
     'tempo_segundos',
@@ -245,7 +245,7 @@ Blockly.Python["esperar_segundos"] = function(block) {
     'tempo_horas'
   ].indexOf(timeBlock.type) !== -1;
   var code = durationReporter
-    ? 'time.sleep_ms(' + value_time + ')\n'
+    ? 'time.sleep(' + value_time + ' / 1000)\n'
     : 'time.sleep(' + value_time + ')\n';
   if (_isWaitConnectedToRobotBlock(block)) {
     return BitdogLabConfig.MARKERS.SETUP_START + '\n' + code + BitdogLabConfig.MARKERS.SETUP_END + '\n';
