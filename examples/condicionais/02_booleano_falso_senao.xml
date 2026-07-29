@@ -1,0 +1,14 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Verdadeiro ou falso: o bloco Se/Senão sempre escolhe exatamente um caminho. -->
+  <block type="display_limpar" x="30" y="30">
+    <field name="DISPLAY_TYPE">SMALL</field>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0"><block type="logic_boolean"><field name="BOOL">FALSE</field></block></value>
+        <statement name="DO0"><block type="display_texto"><field name="TEXTO">Verdadeiro</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></statement>
+        <statement name="ELSE"><block type="display_texto"><field name="TEXTO">Falso</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></statement>
+        <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block></next>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,26 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Primeiro contato: uma condição verdadeira permite que o LED vermelho acenda e depois se apague. -->
+  <block type="controls_if" x="30" y="30">
+    <value name="IF0">
+      <block type="logic_boolean"><field name="BOOL">TRUE</field></block>
+    </value>
+    <statement name="DO0">
+      <block type="bloco_ligar_led">
+        <value name="COLOUR"><block type="colour_red"></block></value>
+        <next>
+          <block type="esperar_segundos">
+            <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+            <next>
+              <block type="bloco_desligar_led">
+                <value name="COLOUR"><block type="colour_red"></block></value>
+                <next>
+                  <block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

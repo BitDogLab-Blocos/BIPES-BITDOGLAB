@@ -1,0 +1,14 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Maior que: identifique quando uma pontuação ultrapassa o valor de referência. -->
+  <block type="display_limpar" x="30" y="30">
+    <field name="DISPLAY_TYPE">SMALL</field>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="math_number"><field name="NUM">9</field></block></value><value name="B"><block type="math_number"><field name="NUM">6</field></block></value></block></value>
+        <statement name="DO0"><block type="display_texto"><field name="TEXTO">9 maior que 6</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></statement>
+        <statement name="ELSE"><block type="display_texto"><field name="TEXTO">Nao e maior</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></statement>
+        <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next>
+      </block>
+    </next>
+  </block>
+</xml>

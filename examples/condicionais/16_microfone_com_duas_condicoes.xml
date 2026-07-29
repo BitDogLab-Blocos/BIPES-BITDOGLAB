@@ -1,0 +1,15 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- E com dados reais: só há alerta quando o som está alto e o joystick está deslocado. -->
+  <block type="microfone_vu_meter" x="30" y="30">
+    <field name="BRILHO">30</field>
+    <value name="COR"><block type="colour_blue"></block></value>
+    <next>
+  <block type="controls_ifelse">
+    <value name="IF0"><block type="logic_operation"><field name="OP">AND</field><value name="A"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="microfone_nivel_atual"></block></value><value name="B"><block type="math_number"><field name="NUM">3</field></block></value></block></value><value name="B"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="joystick_posicao_x"></block></value><value name="B"><block type="math_number"><field name="NUM">64</field></block></value></block></value></block></value>
+    <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_red"></block></value><next><block type="tocar_som_agudo"><field name="VOLUME">35</field><field name="DURATION">180</field></block></next></block></statement>
+    <statement name="ELSE"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value></block></statement>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">500</field></block></value></block></next>
+  </block>
+    </next>
+  </block>
+</xml>

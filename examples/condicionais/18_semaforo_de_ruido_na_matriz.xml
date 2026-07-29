@@ -1,0 +1,14 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto semáforo: três faixas de ruído escolhem um emoji verde, amarelo ou vermelho na matriz. -->
+  <block type="microfone_vu_meter" x="30" y="30">
+    <field name="BRILHO">30</field><value name="COR"><block type="colour_green"></block></value>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="microfone_nivel_atual"></block></value><value name="B"><block type="math_number"><field name="NUM">2</field></block></value></block></value>
+        <statement name="DO0"><block type="mostrar_emoji"><value name="EMOJI"><block type="emoji_rosto_feliz"></block></value><value name="COR"><block type="colour_green"></block></value><field name="BRILHO">30</field></block></statement>
+        <statement name="ELSE"><block type="controls_ifelse"><value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="microfone_nivel_atual"></block></value><value name="B"><block type="math_number"><field name="NUM">4</field></block></value></block></value><statement name="DO0"><block type="mostrar_emoji"><value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value><value name="COR"><block type="colour_yellow"></block></value><field name="BRILHO">30</field></block></statement><statement name="ELSE"><block type="mostrar_emoji"><value name="EMOJI"><block type="emoji_fantasma"></block></value><value name="COR"><block type="colour_red"></block></value><field name="BRILHO">30</field></block></statement></block></statement>
+        <next><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto"><field name="TEXTO">Nivel:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="microfone_nivel_atual"></block></value><next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">250</field></block></value></block></next></block></next></block></next></block></next>
+      </block>
+    </next>
+  </block>
+</xml>
