@@ -1,0 +1,14 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Uma pausa longa separa duas mensagens; a mensagem final permanece dois segundos. -->
+  <block type="display_limpar" x="30" y="30"><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_texto"><field name="TEXTO">Comeco</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">4</field></block></value>
+        <next><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field>
+          <next><block type="display_texto"><field name="TEXTO">Fim da pausa</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+            <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

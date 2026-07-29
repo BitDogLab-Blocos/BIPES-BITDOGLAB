@@ -1,0 +1,10 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Milissegundos permitem controlar um pulso curto sem deixar o LED piscando rapido demais. -->
+  <block type="bloco_ligar_led" x="30" y="30"><value name="COLOUR"><block type="colour_blue"></block></value>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">700</field></block></value>
+      <next><block type="bloco_desligar_led"><value name="COLOUR"><block type="colour_blue"></block></value>
+        <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

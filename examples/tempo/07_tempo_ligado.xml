@@ -1,0 +1,10 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Tempo ligado atualiza o contador a cada quatro segundos, sem limpar a tela inteira. -->
+  <block type="display_texto" x="30" y="30"><field name="TEXTO">Ligada ha (s)</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next>
+      <block type="display_mostrar_valor"><field name="LINHA">2</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="tempo_ligado"></block></value>
+        <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">4</field></block></value></block></next>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,12 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A pausa, B retoma e C reinicia o mesmo cronometro. -->
+  <block type="cronometro_iniciar" x="30" y="30"><field name="NAME">corrida</field>
+    <next><block type="botao_se_apertado"><field name="BOTAO">A</field><statement name="DO"><block type="cronometro_parar"><field name="NAME">corrida</field></block></statement>
+      <next><block type="botao_se_apertado"><field name="BOTAO">B</field><statement name="DO"><block type="cronometro_iniciar"><field name="NAME">corrida</field></block></statement>
+        <next><block type="botao_se_apertado"><field name="BOTAO">C</field><statement name="DO"><block type="cronometro_reiniciar"><field name="NAME">corrida</field></block></statement>
+          <next><block type="cronometro_mostrar"><field name="NAME">corrida</field><field name="LINE">0</field><field name="ALIGN">CENTER</field><field name="FORMAT">HMS</field><field name="DISPLAY_TYPE">SMALL</field></block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

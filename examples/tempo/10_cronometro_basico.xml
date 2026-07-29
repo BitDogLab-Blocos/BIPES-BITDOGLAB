@@ -1,0 +1,35 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O cronometro inicia uma vez e atualiza o OLED a cada cinco segundos: 5, 10, 15... -->
+  <block type="cronometro_iniciar" x="30" y="30">
+    <field name="NAME">estudo</field>
+    <next>
+      <block type="esperar_segundos">
+            <value name="TIME"><block type="math_number"><field name="NUM">5</field></block></value>
+            <next>
+              <block type="display_texto">
+                <field name="TEXTO">Cronometro (s)</field>
+                <field name="LINHA">1</field>
+                <field name="ALINHAMENTO">CENTER</field>
+                <field name="DISPLAY_TYPE">SMALL</field>
+                <next>
+                  <block type="display_mostrar_valor">
+                    <field name="LINHA">2</field>
+                    <field name="ALINHAMENTO">CENTER</field>
+                    <field name="DISPLAY_TYPE">SMALL</field>
+                    <value name="VALOR"><block type="tempo_cronometro"><field name="NAME">estudo</field></block></value>
+                    <next>
+                      <block type="display_texto">
+                        <field name="TEXTO">Atualiza 5s</field>
+                        <field name="LINHA">4</field>
+                        <field name="ALINHAMENTO">CENTER</field>
+                        <field name="DISPLAY_TYPE">SMALL</field>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+      </block>
+    </next>
+  </block>
+</xml>

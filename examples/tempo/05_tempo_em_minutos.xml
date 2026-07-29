@@ -1,0 +1,10 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O valor em minutos alimenta uma espera curta de demonstracao; a explicacao fica na tela. -->
+  <block type="display_limpar" x="30" y="30"><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_texto"><field name="TEXTO">2 min=120000ms</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="esperar_milisegundos"><value name="TIME"><block type="tempo_minutos"><field name="NUM">0</field></block></value>
+        <next><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto"><field name="TEXTO">Unidade minutos</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block></next></block></next></block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

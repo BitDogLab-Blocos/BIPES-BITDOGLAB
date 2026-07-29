@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A matriz mostra um rosto feliz enquanto o cronometro e lido no OLED. -->
+  <block type="cronometro_iniciar" x="30" y="30">
+    <field name="NAME">matriz</field>
+    <next>
+      <block type="mostrar_emoji"><value name="EMOJI"><block type="emoji_rosto_feliz"></block></value><value name="COR"><block type="colour_blue"></block></value><field name="BRILHO">30</field>
+        <next>
+          <block type="cronometro_mostrar"><field name="NAME">matriz</field><field name="LINE">0</field><field name="ALIGN">CENTER</field><field name="FORMAT">MS_MILLI</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block></next></block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,107 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto de conversao: o tempo ligado nasce em segundos e vira minutos e horas. -->
+  <block type="variables_guardar" x="30" y="30">
+        <field name="VAR">segundos_ligado</field>
+        <value name="VALUE"><block type="tempo_ligado"></block></value>
+        <next>
+          <block type="variables_guardar">
+            <field name="VAR">minutos_ligado</field>
+            <value name="VALUE">
+              <block type="math_arithmetic">
+                <field name="OP">DIVIDE</field>
+                <value name="A"><block type="variables_valor_guardado"><field name="VAR">segundos_ligado</field></block></value>
+                <value name="B"><block type="math_number"><field name="NUM">60</field></block></value>
+              </block>
+            </value>
+            <next>
+              <block type="variables_guardar">
+                <field name="VAR">horas_ligado</field>
+                <value name="VALUE">
+                  <block type="math_arithmetic">
+                    <field name="OP">DIVIDE</field>
+                    <value name="A"><block type="variables_valor_guardado"><field name="VAR">segundos_ligado</field></block></value>
+                    <value name="B"><block type="math_number"><field name="NUM">3600</field></block></value>
+                  </block>
+                </value>
+                <next>
+                  <block type="display_limpar">
+                    <field name="DISPLAY_TYPE">SMALL</field>
+                    <next>
+                      <block type="display_texto">
+                        <field name="TEXTO">Tempo ligado</field>
+                        <field name="LINHA">1</field>
+                        <field name="ALINHAMENTO">CENTER</field>
+                        <field name="DISPLAY_TYPE">SMALL</field>
+                        <next>
+                          <block type="display_mostrar_valor">
+                            <field name="LINHA">2</field>
+                            <field name="ALINHAMENTO">CENTER</field>
+                            <field name="DISPLAY_TYPE">SMALL</field>
+                            <value name="VALOR"><block type="variables_valor_guardado"><field name="VAR">segundos_ligado</field></block></value>
+                            <next>
+                              <block type="display_texto">
+                                <field name="TEXTO">Minutos</field>
+                                <field name="LINHA">3</field>
+                                <field name="ALINHAMENTO">CENTER</field>
+                                <field name="DISPLAY_TYPE">SMALL</field>
+                                <next>
+                                  <block type="display_mostrar_valor">
+                                    <field name="LINHA">4</field>
+                                    <field name="ALINHAMENTO">CENTER</field>
+                                    <field name="DISPLAY_TYPE">SMALL</field>
+                                    <value name="VALOR"><block type="variables_valor_guardado"><field name="VAR">minutos_ligado</field></block></value>
+                                    <next>
+                                      <block type="esperar_segundos">
+                                        <value name="TIME"><block type="math_number"><field name="NUM">3</field></block></value>
+                                        <next>
+                                          <block type="display_limpar">
+                                            <field name="DISPLAY_TYPE">SMALL</field>
+                                            <next>
+                                              <block type="display_texto">
+                                                <field name="TEXTO">Horas ligadas</field>
+                                                <field name="LINHA">1</field>
+                                                <field name="ALINHAMENTO">CENTER</field>
+                                                <field name="DISPLAY_TYPE">SMALL</field>
+                                                <next>
+                                                  <block type="display_mostrar_valor">
+                                                    <field name="LINHA">2</field>
+                                                    <field name="ALINHAMENTO">CENTER</field>
+                                                    <field name="DISPLAY_TYPE">SMALL</field>
+                                                    <value name="VALOR"><block type="variables_valor_guardado"><field name="VAR">horas_ligado</field></block></value>
+                                                    <next>
+                                                      <block type="display_texto">
+                                                        <field name="TEXTO">1h = 3600s</field>
+                                                        <field name="LINHA">4</field>
+                                                        <field name="ALINHAMENTO">CENTER</field>
+                                                        <field name="DISPLAY_TYPE">SMALL</field>
+                                                        <next>
+                                                          <block type="esperar_segundos">
+                                                            <value name="TIME"><block type="math_number"><field name="NUM">3</field></block></value>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+  </block>
+</xml>

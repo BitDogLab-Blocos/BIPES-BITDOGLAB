@@ -1,0 +1,72 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Desafio dos 10 segundos: A para, B inicia uma nova tentativa; o LED indica se a meta foi alcancada. -->
+  <block type="variables_guardar" x="30" y="30">
+    <field name="VAR">meta_segundos</field>
+    <value name="VALUE"><block type="math_number"><field name="NUM">10</field></block></value>
+    <next>
+      <block type="cronometro_iniciar">
+        <field name="NAME">desafio</field>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">A</field>
+            <statement name="DO">
+              <block type="cronometro_parar">
+                <field name="NAME">desafio</field>
+                <next><block type="bipe_curto"><field name="VOLUME">60</field></block></next>
+              </block>
+            </statement>
+            <next>
+              <block type="botao_se_apertado">
+                <field name="BOTAO">B</field>
+                <statement name="DO">
+                  <block type="cronometro_reiniciar">
+                    <field name="NAME">desafio</field>
+                    <next><block type="cronometro_iniciar"><field name="NAME">desafio</field></block></next>
+                  </block>
+                </statement>
+                <next>
+                  <block type="display_texto">
+                    <field name="TEXTO">Meta: 10s</field>
+                    <field name="LINHA">1</field>
+                    <field name="ALINHAMENTO">LEFT</field>
+                    <field name="DISPLAY_TYPE">SMALL</field>
+                    <next>
+                      <block type="cronometro_mostrar">
+                        <field name="NAME">desafio</field>
+                        <field name="LINE">2</field>
+                        <field name="ALIGN">CENTER</field>
+                        <field name="FORMAT">SECONDS</field>
+                        <field name="DISPLAY_TYPE">SMALL</field>
+                        <next>
+                          <block type="controls_ifelse">
+                            <value name="IF0">
+                              <block type="logic_compare">
+                                <field name="OP">GTE</field>
+                                <value name="A"><block type="tempo_cronometro"><field name="NAME">desafio</field></block></value>
+                                <value name="B"><block type="variables_valor_guardado"><field name="VAR">meta_segundos</field></block></value>
+                              </block>
+                            </value>
+                            <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value></block></statement>
+                            <statement name="ELSE"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_red"></block></value></block></statement>
+                            <next>
+                              <block type="display_texto">
+                                <field name="TEXTO">A parar B novo</field>
+                                <field name="LINHA">4</field>
+                                <field name="ALINHAMENTO">LEFT</field>
+                                <field name="DISPLAY_TYPE">SMALL</field>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

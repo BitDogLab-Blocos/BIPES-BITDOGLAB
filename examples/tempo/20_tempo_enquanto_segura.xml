@@ -1,0 +1,51 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Enquanto A estiver pressionado, o cronometro roda; ao soltar A, ele para. C zera o resultado. -->
+  <block type="botao_enquanto_apertado" x="30" y="30">
+    <field name="BOTAO">A</field>
+    <statement name="DO">
+      <block type="cronometro_iniciar"><field name="NAME">segurando</field></block>
+    </statement>
+    <statement name="ELSE">
+      <block type="cronometro_parar"><field name="NAME">segurando</field></block>
+    </statement>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">C</field>
+        <statement name="DO"><block type="cronometro_reiniciar"><field name="NAME">segurando</field></block></statement>
+        <next>
+          <block type="display_texto">
+            <field name="TEXTO">Segure A</field>
+            <field name="LINHA">1</field>
+            <field name="ALINHAMENTO">LEFT</field>
+            <field name="DISPLAY_TYPE">SMALL</field>
+            <next>
+              <block type="cronometro_mostrar">
+                <field name="NAME">segurando</field>
+                <field name="LINE">1</field>
+                <field name="ALIGN">RIGHT</field>
+                <field name="FORMAT">SECONDS</field>
+                <field name="DISPLAY_TYPE">SMALL</field>
+                <next>
+                  <block type="display_texto">
+                    <field name="TEXTO">Solte A = parar</field>
+                    <field name="LINHA">3</field>
+                    <field name="ALINHAMENTO">LEFT</field>
+                    <field name="DISPLAY_TYPE">SMALL</field>
+                    <next>
+                      <block type="display_texto">
+                        <field name="TEXTO">C = zerar</field>
+                        <field name="LINHA">4</field>
+                        <field name="ALINHAMENTO">LEFT</field>
+                        <field name="DISPLAY_TYPE">SMALL</field>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

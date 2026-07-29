@@ -1,0 +1,86 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Revezamento: A encerra a etapa A e passa para B; B faz o contrario; C reinicia as duas etapas. -->
+  <block type="cronometro_iniciar" x="30" y="30">
+    <field name="NAME">etapa_a</field>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">A</field>
+        <statement name="DO">
+          <block type="cronometro_parar">
+            <field name="NAME">etapa_a</field>
+            <next><block type="cronometro_iniciar"><field name="NAME">etapa_b</field></block></next>
+          </block>
+        </statement>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">B</field>
+            <statement name="DO">
+              <block type="cronometro_parar">
+                <field name="NAME">etapa_b</field>
+                <next><block type="cronometro_iniciar"><field name="NAME">etapa_a</field></block></next>
+              </block>
+            </statement>
+            <next>
+              <block type="botao_se_apertado">
+                <field name="BOTAO">C</field>
+                <statement name="DO">
+                  <block type="cronometro_reiniciar">
+                    <field name="NAME">etapa_a</field>
+                    <next>
+                      <block type="cronometro_iniciar">
+                        <field name="NAME">etapa_a</field>
+                        <next><block type="cronometro_reiniciar"><field name="NAME">etapa_b</field></block></next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+                <next>
+                  <block type="display_texto">
+                    <field name="TEXTO">Etapa A (s)</field>
+                    <field name="LINHA">1</field>
+                    <field name="ALINHAMENTO">LEFT</field>
+                    <field name="DISPLAY_TYPE">SMALL</field>
+                    <next>
+                      <block type="cronometro_mostrar">
+                        <field name="NAME">etapa_a</field>
+                        <field name="LINE">1</field>
+                        <field name="ALIGN">RIGHT</field>
+                        <field name="FORMAT">SECONDS</field>
+                        <field name="DISPLAY_TYPE">SMALL</field>
+                        <next>
+                          <block type="display_texto">
+                            <field name="TEXTO">Etapa B (s)</field>
+                            <field name="LINHA">3</field>
+                            <field name="ALINHAMENTO">LEFT</field>
+                            <field name="DISPLAY_TYPE">SMALL</field>
+                            <next>
+                              <block type="cronometro_mostrar">
+                                <field name="NAME">etapa_b</field>
+                                <field name="LINE">3</field>
+                                <field name="ALIGN">RIGHT</field>
+                                <field name="FORMAT">SECONDS</field>
+                                <field name="DISPLAY_TYPE">SMALL</field>
+                                <next>
+                                  <block type="display_texto">
+                                    <field name="TEXTO">A troca B C=0</field>
+                                    <field name="LINHA">5</field>
+                                    <field name="ALINHAMENTO">CENTER</field>
+                                    <field name="DISPLAY_TYPE">SMALL</field>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

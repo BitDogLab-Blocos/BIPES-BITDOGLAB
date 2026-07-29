@@ -1,0 +1,19 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A pausa o cronometro e B retoma do ponto em que ele parou; a leitura fica sempre visivel, sem limpar a tela inteira. -->
+  <block type="cronometro_iniciar" x="30" y="30">
+    <field name="NAME">treino</field>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">A</field>
+        <statement name="DO"><block type="cronometro_parar"><field name="NAME">treino</field></block></statement>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">B</field>
+            <statement name="DO"><block type="cronometro_iniciar"><field name="NAME">treino</field></block></statement>
+            <next><block type="cronometro_mostrar"><field name="NAME">treino</field><field name="LINE">0</field><field name="ALIGN">CENTER</field><field name="FORMAT">MS_MILLI</field><field name="DISPLAY_TYPE">SMALL</field></block></next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

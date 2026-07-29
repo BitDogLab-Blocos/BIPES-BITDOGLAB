@@ -1,0 +1,43 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Duas esperas de dois segundos formam um ritmo total de quatro segundos. -->
+  <block type="cronometro_iniciar" x="30" y="30">
+    <field name="NAME">ritmo</field>
+    <next>
+      <block type="bloco_ligar_led">
+        <value name="COLOUR"><block type="colour_yellow"></block></value>
+        <next>
+          <block type="esperar_segundos">
+            <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+            <next>
+              <block type="display_texto">
+                <field name="TEXTO">Ritmo 4s</field>
+                <field name="LINHA">1</field>
+                <field name="ALINHAMENTO">CENTER</field>
+                <field name="DISPLAY_TYPE">SMALL</field>
+                <next>
+                  <block type="cronometro_mostrar">
+                    <field name="NAME">ritmo</field>
+                    <field name="LINE">1</field>
+                    <field name="ALIGN">RIGHT</field>
+                    <field name="FORMAT">SECONDS</field>
+                    <field name="DISPLAY_TYPE">SMALL</field>
+                    <next>
+                      <block type="bloco_desligar_led">
+                        <value name="COLOUR"><block type="colour_yellow"></block></value>
+                        <next>
+                          <block type="esperar_segundos">
+                            <value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
