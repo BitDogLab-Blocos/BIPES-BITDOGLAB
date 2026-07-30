@@ -1,0 +1,6 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A escala ascendente permite ouvir a passagem gradual de grave para agudo. -->
+  <block type="escala_musical_sobe" x="30" y="30"><field name="VOLUME">30</field>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block></next>
+  </block>
+</xml>

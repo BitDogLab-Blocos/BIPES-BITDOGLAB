@@ -1,0 +1,11 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto interativo: cada botão dispara um feedback sonoro e uma mensagem. -->
+  <block type="display_limpar" x="30" y="30"><field name="DISPLAY_TYPE">SMALL</field><next>
+    <block type="botao_se_apertado"><field name="BOTAO">A</field><statement name="DO"><block type="display_texto"><field name="TEXTO">A: acerto</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="som_de_sucesso"><field name="VOLUME">30</field><next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">400</field></block></value></block></next></block></next></block></statement><next>
+      <block type="botao_se_apertado"><field name="BOTAO">B</field><statement name="DO"><block type="display_texto"><field name="TEXTO">B: alerta</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="alerta_intermitente"><field name="VOLUME">30</field><next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">500</field></block></value></block></next></block></next></block></statement><next>
+        <block type="botao_se_apertado"><field name="BOTAO">C</field><statement name="DO"><block type="display_texto"><field name="TEXTO">C: moeda</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="som_de_moeda"><field name="VOLUME">30</field><next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">500</field></block></value></block></next></block></next></block></statement>
+        </block>
+      </next></block>
+    </next></block>
+  </next></block>
+</xml>

@@ -1,0 +1,8 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Tocar, aguardar e parar ensina que o silêncio também é um estado do projeto. -->
+  <block type="tocar_som_agudo" x="30" y="30"><field name="VOLUME">30</field><field name="DURATION">1200</field>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+      <next><block type="parar_som"><next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block></next></block></next>
+    </block></next>
+  </block>
+</xml>

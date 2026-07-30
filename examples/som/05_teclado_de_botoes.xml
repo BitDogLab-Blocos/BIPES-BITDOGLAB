@@ -1,0 +1,11 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Três botões viram um pequeno teclado: cada tecla toca uma nota e identifica sua função. -->
+  <block type="display_limpar" x="30" y="30"><field name="DISPLAY_TYPE">SMALL</field><next>
+    <block type="botao_se_apertado"><field name="BOTAO">A</field><statement name="DO"><block type="display_texto"><field name="TEXTO">A = Do</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="tocar_nota"><value name="NOTA"><block type="nota_do"></block></value><field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">350</field><next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">400</field></block></value></block></next></block></next></block></statement><next>
+      <block type="botao_se_apertado"><field name="BOTAO">B</field><statement name="DO"><block type="display_texto"><field name="TEXTO">B = Mi</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="tocar_nota"><value name="NOTA"><block type="nota_mi"></block></value><field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">350</field><next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">400</field></block></value></block></next></block></next></block></statement><next>
+        <block type="botao_se_apertado"><field name="BOTAO">C</field><statement name="DO"><block type="display_texto"><field name="TEXTO">C = Sol</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="tocar_nota"><value name="NOTA"><block type="nota_sol"></block></value><field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">350</field><next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">400</field></block></value></block></next></block></next></block></statement>
+        </block>
+      </next></block>
+    </next></block>
+  </next></block>
+</xml>

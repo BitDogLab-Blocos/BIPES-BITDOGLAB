@@ -1,0 +1,6 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Dois bipes criam um sinal diferente do bipe curto. -->
+  <block type="bipe_duplo" x="30" y="30"><field name="VOLUME">35</field>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">900</field></block></value></block></next>
+  </block>
+</xml>

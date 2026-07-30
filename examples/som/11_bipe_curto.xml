@@ -1,0 +1,6 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O bipe curto é o menor feedback sonoro para confirmar uma ação. -->
+  <block type="bipe_curto" x="30" y="30"><field name="VOLUME">35</field>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">700</field></block></value></block></next>
+  </block>
+</xml>

@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A mesma nota Do em três oitavas mostra que a frequencia sobe sem mudar o nome. -->
+  <block type="display_texto" x="30" y="30"><field name="TEXTO">Do 4 5 6</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="tocar_nota"><value name="NOTA"><block type="nota_do"></block></value><field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">300</field>
+      <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">500</field></block></value>
+        <next><block type="tocar_nota"><value name="NOTA"><block type="nota_do"></block></value><field name="OCTAVE">5</field><field name="VOLUME">30</field><field name="DURATION">300</field>
+          <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">500</field></block></value>
+            <next><block type="tocar_nota"><value name="NOTA"><block type="nota_do"></block></value><field name="OCTAVE">6</field><field name="VOLUME">30</field><field name="DURATION">300</field>
+              <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block></next>
+            </block>
+          </next>
+        </block>
+      </next>
+    </block>
+  </next></block>
+  </next></block>
+  </next></block>
+</xml>
