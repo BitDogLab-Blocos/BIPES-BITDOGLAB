@@ -79,6 +79,10 @@ escrita/
 
 # Skills locais (nao versionados)
 skill_*/
+skill-gerar-imagens-livro-bitdoglab/
+
+# Materiais locais usados para produzir as imagens do livro
+images/tutorial_livro_interface/
 
 # Ferramentas locais
 tools/
