@@ -1,0 +1,20 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Variação guiada: comece com pouca luz e use esquerda/direita para explorar o limite de 0 a 100%. -->
+  <block type="joystick_controlar_led" x="30" y="30">
+    <value name="COR"><block type="colour_green"></block></value>
+    <field name="INTENSIDADE_INICIAL">10</field>
+    <field name="DIR_AUMENTAR">RIGHT</field>
+    <field name="DIR_DIMINUIR">LEFT</field>
+    <next>
+      <block type="display_texto">
+        <field name="TEXTO">Esq 0 | Dir 100</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next>
+          <block type="display_mostrar_valor">
+            <value name="VALOR"><block type="joystick_intensidade_atual"></block></value>
+            <field name="LINHA">2</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

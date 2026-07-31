@@ -1,0 +1,17 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Composição com a matriz: mova um ponto azul pela grade 5x5 usando as quatro direções do joystick. -->
+  <block type="joystick_cursor_matriz" x="30" y="30">
+    <value name="COR"><block type="colour_blue"></block></value>
+    <field name="BRILHO">30</field>
+    <field name="LINHA_INICIAL">2</field>
+    <field name="COLUNA_INICIAL">2</field>
+    <next>
+      <block type="display_texto">
+        <field name="TEXTO">Cursor matriz</field>
+        <field name="LINHA">1</field>
+        <field name="ALINHAMENTO">CENTER</field>
+        <field name="DISPLAY_TYPE">SMALL</field>
+      </block>
+    </next>
+  </block>
+</xml>

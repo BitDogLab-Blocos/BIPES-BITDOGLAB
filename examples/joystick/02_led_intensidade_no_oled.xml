@@ -1,0 +1,20 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Variação guiada: o joystick regula o LED azul e o OLED mostra a intensidade atual. -->
+  <block type="joystick_controlar_led" x="30" y="30">
+    <value name="COR"><block type="colour_blue"></block></value>
+    <field name="INTENSIDADE_INICIAL">45</field>
+    <field name="DIR_AUMENTAR">RIGHT</field>
+    <field name="DIR_DIMINUIR">LEFT</field>
+    <next>
+      <block type="display_texto">
+        <field name="TEXTO">Brilho:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next>
+          <block type="display_mostrar_valor">
+            <value name="VALOR"><block type="joystick_intensidade_atual"></block></value>
+            <field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

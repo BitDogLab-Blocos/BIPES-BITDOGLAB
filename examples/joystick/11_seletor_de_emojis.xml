@@ -1,0 +1,36 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto-desafio: navegue entre três emojis na matriz e altere a opção com um movimento por vez. -->
+  <block type="joystick_seletor" x="30" y="30">
+    <field name="DIR_PROXIMO">RIGHT</field>
+    <field name="DIR_ANTERIOR">LEFT</field>
+    <statement name="OPCOES">
+      <block type="mostrar_emoji">
+        <value name="EMOJI"><block type="emoji_rosto_feliz"></block></value>
+        <value name="COR"><block type="colour_yellow"></block></value>
+        <field name="BRILHO">30</field>
+        <next>
+          <block type="mostrar_emoji">
+            <value name="EMOJI"><block type="emoji_coracao"></block></value>
+            <value name="COR"><block type="colour_red"></block></value>
+            <field name="BRILHO">30</field>
+            <next>
+              <block type="mostrar_emoji">
+                <value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value>
+                <value name="COR"><block type="colour_blue"></block></value>
+                <field name="BRILHO">30</field>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <next>
+      <block type="display_texto">
+        <field name="TEXTO">Escolha:</field>
+        <field name="LINHA">1</field>
+        <field name="ALINHAMENTO">CENTER</field>
+        <field name="DISPLAY_TYPE">SMALL</field>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,36 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto-desafio: use o joystick como seletor de uma sequência de números coloridos na matriz. -->
+  <block type="joystick_seletor" x="30" y="30">
+    <field name="DIR_PROXIMO">UP</field>
+    <field name="DIR_ANTERIOR">DOWN</field>
+    <statement name="OPCOES">
+      <block type="mostrar_numero_matriz">
+        <value name="NUMERO"><block type="numero_matriz_1"></block></value>
+        <value name="COR"><block type="colour_green"></block></value>
+        <field name="BRILHO">30</field>
+        <next>
+          <block type="mostrar_numero_matriz">
+            <value name="NUMERO"><block type="numero_matriz_2"></block></value>
+            <value name="COR"><block type="colour_yellow"></block></value>
+            <field name="BRILHO">30</field>
+            <next>
+              <block type="mostrar_numero_matriz">
+                <value name="NUMERO"><block type="numero_matriz_3"></block></value>
+                <value name="COR"><block type="colour_red"></block></value>
+                <field name="BRILHO">30</field>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <next>
+      <block type="display_texto">
+        <field name="TEXTO">Numero:</field>
+        <field name="LINHA">1</field>
+        <field name="ALINHAMENTO">CENTER</field>
+        <field name="DISPLAY_TYPE">SMALL</field>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,7 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto criativo: mova a caneta com o joystick e desenhe uma trilha persistente no OLED. -->
+  <block type="joystick_lousa_magica" x="30" y="30">
+    <field name="DISPLAY_TYPE">SMALL</field>
+    <field name="TAMANHO">2</field>
+  </block>
+</xml>

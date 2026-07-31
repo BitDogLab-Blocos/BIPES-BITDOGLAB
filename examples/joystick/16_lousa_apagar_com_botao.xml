@@ -1,0 +1,22 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Desenhe no pequeno OLED; ao pressionar A, apague a lousa e ouça um bip curto. -->
+  <block type="joystick_lousa_magica" x="30" y="30">
+    <field name="DISPLAY_TYPE">SMALL</field>
+    <field name="TAMANHO">2</field>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">A</field>
+        <statement name="DO">
+          <block type="display_limpar">
+            <field name="DISPLAY_TYPE">SMALL</field>
+            <next>
+              <block type="bipe_curto">
+                <field name="VOLUME">30</field>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

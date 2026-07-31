@@ -1,0 +1,20 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto-desafio: leve continuamente o player para a região superior esquerda e receba uma mensagem de acerto ou tentativa. -->
+  <block type="joystick_mover_player" x="30" y="30">
+    <field name="DISPLAY_TYPE">SMALL</field>
+    <field name="TAMANHO">7</field>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0">
+          <block type="logic_operation">
+            <field name="OP">AND</field>
+            <value name="A"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="joystick_posicao_x"></block></value><value name="B"><block type="math_number"><field name="NUM">45</field></block></value></block></value>
+            <value name="B"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="joystick_posicao_y"></block></value><value name="B"><block type="math_number"><field name="NUM">25</field></block></value></block></value>
+          </block>
+        </value>
+        <statement name="DO0"><block type="display_texto"><field name="TEXTO">Alvo!</field><field name="LINHA">5</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></statement>
+        <statement name="ELSE"><block type="display_texto"><field name="TEXTO">Mova o player</field><field name="LINHA">5</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></statement>
+      </block>
+    </next>
+  </block>
+</xml>

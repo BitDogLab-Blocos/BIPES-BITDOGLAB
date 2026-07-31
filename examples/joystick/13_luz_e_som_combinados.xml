@@ -1,0 +1,22 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto-desafio: um único joystick controla simultaneamente a intensidade da luz verde e a altura do som. -->
+  <block type="joystick_controlar_led" x="30" y="30">
+    <value name="COR"><block type="colour_green"></block></value>
+    <field name="INTENSIDADE_INICIAL">35</field>
+    <field name="DIR_AUMENTAR">UP</field>
+    <field name="DIR_DIMINUIR">DOWN</field>
+    <next>
+      <block type="joystick_controlar_buzzer">
+        <field name="FREQ_INICIAL">900</field>
+        <field name="VOLUME">15</field>
+        <field name="DIR_AUMENTAR">RIGHT</field>
+        <field name="DIR_DIMINUIR">LEFT</field>
+        <next>
+          <block type="display_texto">
+            <field name="TEXTO">Luz + Som</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
