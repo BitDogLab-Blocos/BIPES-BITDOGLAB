@@ -81,7 +81,9 @@ O gerenciador permite navegar por pastas, abrir, baixar, mover, renomear e apaga
 
 ## Exemplos prontos para aprender e remixar
 
-O repositório contém **140 projetos XML conectados**, acompanhados por imagens de validação. Eles podem servir como aula, ponto de partida ou teste de regressão. A coleção de Matemática percorre operações, funções, propriedades, aleatoriedade e fórmulas no OLED, e termina com projetos que combinam variáveis com botões, microfone, joystick, buzzer, LED RGB e matriz de LEDs.
+O repositório contém **245 projetos XML conectados**, acompanhados por imagens de validação. Eles podem servir como aula, ponto de partida ou teste de regressão. A coleção de Matemática percorre operações, funções, propriedades, aleatoriedade e fórmulas no OLED, e termina com projetos que combinam variáveis com botões, microfone, joystick, buzzer, LED RGB e matriz de LEDs.
+
+A coleção dedicada de [exemplos de joystick](examples/joystick/README.md) reúne 16 atividades visuais, com imagens e arquivos XML prontos para abrir no workspace. Há também uma [versão em inglês](examples/joystick/README.en.md).
 
 <table>
   <tr>
