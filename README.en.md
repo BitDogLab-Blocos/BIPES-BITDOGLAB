@@ -81,7 +81,9 @@ The file manager browses folders and opens, downloads, moves, renames, or delete
 
 ## Ready-to-learn, ready-to-remix examples
 
-The repository contains **56 connected XML projects** with matching validation images. They work as lessons, starting points, and regression checks.
+The repository contains **245 connected XML projects** with matching validation images. They work as lessons, starting points, and regression checks.
+
+The dedicated [joystick examples](examples/joystick/README.en.md) collection contains 16 visual activities, with images and XML files ready to open in the workspace. A [Portuguese version](examples/joystick/README.md) is also available.
 
 <table>
   <tr>
