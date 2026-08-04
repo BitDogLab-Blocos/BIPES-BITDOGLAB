@@ -116,7 +116,7 @@
       }
     },
     {
-      blockTypes: ['display_mostrar', 'display_atualizar'],
+      blockTypes: ['display_mostrar'],
       exact: {
         COMANDOS: 'DisplayCommand'
       }

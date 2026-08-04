@@ -54,22 +54,6 @@ Blockly.Blocks['display_limpar_borda'] = {
   }
 };
 
-// Display update container block
-Blockly.Blocks['display_atualizar'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Atualizar display");
-    appendDisplayTypeInput(this);
-    this.appendStatementInput("COMANDOS")
-        .setCheck("DisplayCommand");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#e74c3c");
-    this.setTooltip("Container para atualizar o display OLED. Coloque blocos de comandos (texto, formas, bordas, etc.) dentro deste bloco.");
-    this.setHelpUrl("");
-  }
-};
-
 // Display test connection block
 Blockly.Blocks['display_testar_conexao'] = {
   init: function() {
@@ -93,20 +77,6 @@ Blockly.Blocks['display_testar_sh1107'] = {
     this.setNextStatement(true, null);
     this.setColour("#16a085");
     this.setTooltip("Testa o display SH1107 usando a mesma pinagem I2C do OLED SSD1306 e envia a biblioteca junto no codigo.");
-    this.setHelpUrl("");
-  }
-};
-
-// Display show block (simple - just calls oled.show())
-Blockly.Blocks['display_show'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🎨 Atualizar Display");
-    appendDisplayTypeInput(this);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#16a085");
-    this.setTooltip("Atualiza o display OLED mostrando tudo que foi escrito no buffer (chama oled.show())");
     this.setHelpUrl("");
   }
 };

@@ -230,15 +230,6 @@
         }
       }
     },
-    display_atualizar: {
-      kind: 'container',
-      inputs: {
-        COMANDOS: {
-          allow: DISPLAY_COMMANDS,
-          label: 'comandos de display'
-        }
-      }
-    },
     joystick_seletor: {
       kind: 'container',
       inputs: {

@@ -74,23 +74,6 @@ Blockly.Python["display_limpar_borda"] = function(block) {
   return code;
 };
 
-Blockly.Python["display_atualizar"] = function(block) {
-  _setupDisplayForBlock(block);
-
-  var code = 'oled.fill(0)\n';
-
-  // Get the statements/commands inside the container
-  var statements = Blockly.Python.statementToCode(block, 'COMANDOS');
-  if (statements) {
-    // Remove the default 2-space indentation that Blockly adds
-    code += statements.replace(/^  /gm, '');
-  }
-
-  code += 'oled.show()\n';
-
-  return code;
-};
-
 Blockly.Python["display_testar_conexao"] = function(block) {
   var pins = BitdogLabConfig.PINS;
   _setupDisplayForBlock(block);
@@ -147,12 +130,6 @@ Blockly.Python["display_testar_sh1107"] = function(_block) {
   code += '# SETUP_BLOCK_END\n';
 
   return code;
-};
-
-Blockly.Python["display_show"] = function(block) {
-  _setupDisplayForBlock(block);
-
-  return 'oled.show()\n';
 };
 
 Blockly.Python["display_mostrar"] = function(block) {
