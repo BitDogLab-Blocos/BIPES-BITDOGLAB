@@ -1,0 +1,57 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Experiência musical infantil sem delay: esquerda/direita muda a luz, cima/baixo muda o som e o OLED mostra os valores. -->
+  <block type="joystick_controlar_led" x="30" y="30">
+    <value name="COR"><block type="colour_cyan"></block></value>
+    <field name="INTENSIDADE_INICIAL">30</field>
+    <field name="DIR_AUMENTAR">RIGHT</field>
+    <field name="DIR_DIMINUIR">LEFT</field>
+    <next>
+      <block type="joystick_controlar_buzzer">
+        <field name="FREQ_INICIAL">1200</field>
+        <field name="VOLUME">15</field>
+        <field name="DIR_AUMENTAR">UP</field>
+        <field name="DIR_DIMINUIR">DOWN</field>
+        <next>
+          <block type="display_texto">
+            <field name="TEXTO">Luz:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+            <next>
+              <block type="display_mostrar_valor">
+                <value name="VALOR"><block type="joystick_intensidade_atual"></block></value>
+                <field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+                <next>
+                  <block type="display_texto">
+                    <field name="TEXTO">Som Hz:</field><field name="LINHA">2</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+                    <next>
+                      <block type="display_mostrar_valor">
+                        <value name="VALOR"><block type="joystick_frequencia_atual"></block></value>
+                        <field name="LINHA">2</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+                        <next>
+                          <block type="display_texto">
+                            <field name="TEXTO">Mexa o joystick</field><field name="LINHA">4</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+                            <next>
+                              <block type="controls_ifelse">
+                                <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="joystick_frequencia_atual"></block></value><value name="B"><block type="math_number"><field name="NUM">1200</field></block></value></block></value>
+                                <statement name="DO0"><block type="mostrar_emoji"><value name="EMOJI"><block type="emoji_seta_baixo"></block></value><value name="COR"><block type="colour_blue"></block></value><field name="BRILHO">20</field></block></statement>
+                                <statement name="ELSE">
+                                  <block type="controls_ifelse">
+                                    <value name="IF0"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="joystick_frequencia_atual"></block></value><value name="B"><block type="math_number"><field name="NUM">2800</field></block></value></block></value>
+                                    <statement name="DO0"><block type="mostrar_emoji"><value name="EMOJI"><block type="emoji_seta_cima"></block></value><value name="COR"><block type="colour_red"></block></value><field name="BRILHO">20</field></block></statement>
+                                    <statement name="ELSE"><block type="mostrar_emoji"><value name="EMOJI"><block type="emoji_rosto_feliz"></block></value><value name="COR"><block type="colour_green"></block></value><field name="BRILHO">20</field></block></statement>
+                                  </block>
+                                </statement>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

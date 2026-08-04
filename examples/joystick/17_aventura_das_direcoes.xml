@@ -1,0 +1,59 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Mapa infantil sem delay: o player segue o joystick e cada região ensina uma direção com texto, cor e símbolo. -->
+  <block type="joystick_mover_player" x="30" y="30">
+    <field name="DISPLAY_TYPE">SMALL</field>
+    <field name="TAMANHO">6</field>
+    <next>
+      <block type="display_texto">
+        <field name="TEXTO">X:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next>
+          <block type="display_mostrar_valor">
+            <value name="VALOR"><block type="joystick_posicao_x"></block></value>
+            <field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+            <next>
+              <block type="display_texto">
+                <field name="TEXTO">Y:</field><field name="LINHA">2</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+                <next>
+                  <block type="display_mostrar_valor">
+                    <value name="VALOR"><block type="joystick_posicao_y"></block></value>
+                    <field name="LINHA">2</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+                    <next>
+                      <block type="display_texto">
+                        <field name="TEXTO">Mapa direcoes</field><field name="LINHA">3</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+                        <next>
+                          <block type="controls_ifelse">
+                            <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="joystick_posicao_x"></block></value><value name="B"><block type="math_number"><field name="NUM">35</field></block></value></block></value>
+                            <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_blue"></block></value><next><block type="acender_coluna"><field name="COLUNA">0</field><field name="INTENSITY">20</field><value name="COLOUR"><block type="colour_blue"></block></value><next><block type="display_texto"><field name="TEXTO">Esquerda</field><field name="LINHA">5</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></next></block></next></block></statement>
+                            <statement name="ELSE">
+                              <block type="controls_ifelse">
+                                <value name="IF0"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="joystick_posicao_x"></block></value><value name="B"><block type="math_number"><field name="NUM">90</field></block></value></block></value>
+                                <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_red"></block></value><next><block type="acender_coluna"><field name="COLUNA">4</field><field name="INTENSITY">20</field><value name="COLOUR"><block type="colour_red"></block></value><next><block type="display_texto"><field name="TEXTO">Direita</field><field name="LINHA">5</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></next></block></next></block></statement>
+                                <statement name="ELSE">
+                                  <block type="controls_ifelse">
+                                    <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="joystick_posicao_y"></block></value><value name="B"><block type="math_number"><field name="NUM">18</field></block></value></block></value>
+                                    <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value><next><block type="mostrar_emoji"><value name="EMOJI"><block type="emoji_seta_cima"></block></value><value name="COR"><block type="colour_green"></block></value><field name="BRILHO">20</field><next><block type="display_texto"><field name="TEXTO">Para cima</field><field name="LINHA">5</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></next></block></next></block></statement>
+                                    <statement name="ELSE">
+                                      <block type="controls_ifelse">
+                                        <value name="IF0"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="joystick_posicao_y"></block></value><value name="B"><block type="math_number"><field name="NUM">45</field></block></value></block></value>
+                                        <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_yellow"></block></value><next><block type="mostrar_emoji"><value name="EMOJI"><block type="emoji_seta_baixo"></block></value><value name="COR"><block type="colour_yellow"></block></value><field name="BRILHO">20</field><next><block type="display_texto"><field name="TEXTO">Para baixo</field><field name="LINHA">5</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></next></block></next></block></statement>
+                                        <statement name="ELSE"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_cyan"></block></value><next><block type="mostrar_emoji"><value name="EMOJI"><block type="emoji_rosto_feliz"></block></value><value name="COR"><block type="colour_cyan"></block></value><field name="BRILHO">20</field><next><block type="display_texto"><field name="TEXTO">No centro</field><field name="LINHA">5</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></next></block></next></block></statement>
+                                      </block>
+                                    </statement>
+                                  </block>
+                                </statement>
+                              </block>
+                            </statement>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
