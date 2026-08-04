@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Aplicação: a tela fica estável e o alerta pisca uma vez somente quando o botão A é pressionado. -->
+  <block type="display_texto" x="30" y="30">
+    <field name="TEXTO">A = aviso</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="botao_se_apertado">
+      <field name="BOTAO">A</field>
+      <statement name="DO"><block type="display_piscar_texto">
+        <field name="TEXTO">Aviso!</field><field name="LINHA">3</field><field name="ALINHAMENTO">CENTER</field>
+        <field name="TEMPO_LIGADO">0.5</field><field name="TEMPO_APAGADO">0.2</field><field name="DISPLAY_TYPE">SMALL</field>
+      </block></statement>
+    </block></next>
+  </block>
+</xml>

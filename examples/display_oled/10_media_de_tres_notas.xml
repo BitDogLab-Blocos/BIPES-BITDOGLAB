@@ -1,0 +1,19 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Matemática aplicada: calcula no OLED a média das notas 7, 8 e 9. -->
+  <block type="display_texto" x="30" y="30">
+    <field name="TEXTO">Media 7,8,9:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_mostrar_calculo">
+      <value name="VALOR"><block type="math_arithmetic"><field name="OP">DIVIDE</field>
+        <value name="A"><block type="math_arithmetic"><field name="OP">ADD</field>
+          <value name="A"><block type="math_arithmetic"><field name="OP">ADD</field>
+            <value name="A"><block type="math_number"><field name="NUM">7</field></block></value>
+            <value name="B"><block type="math_number"><field name="NUM">8</field></block></value>
+          </block></value>
+          <value name="B"><block type="math_number"><field name="NUM">9</field></block></value>
+        </block></value>
+        <value name="B"><block type="math_number"><field name="NUM">3</field></block></value>
+      </block></value>
+      <field name="LINHA">2</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+    </block></next>
+  </block>
+</xml>

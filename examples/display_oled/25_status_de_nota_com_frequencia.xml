@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Monitor musical: B toca Lá e o OLED mostra simultaneamente o status e a frequência do buzzer. -->
+  <block type="display_texto" x="30" y="30">
+    <field name="TEXTO">B toca nota</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_mostrar_status_buzzer">
+      <field name="LINHA">2</field><field name="ALINHAMENTO">LEFT</field>
+      <field name="MOSTRAR_FREQUENCIA">TRUE</field><field name="LINHA_FREQ">3</field><field name="ALINHAMENTO_FREQ">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="botao_se_apertado">
+        <field name="BOTAO">B</field>
+        <statement name="DO"><block type="tocar_nota">
+          <value name="NOTA"><block type="nota_la"></block></value>
+          <field name="OCTAVE">4</field><field name="VOLUME">25</field><field name="DURATION">400</field>
+          <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">500</field></block></value></block></next>
+        </block></statement>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

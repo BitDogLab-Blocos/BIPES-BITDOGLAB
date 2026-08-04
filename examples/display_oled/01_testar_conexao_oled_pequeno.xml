@@ -1,0 +1,6 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Diagnóstico inicial: confirma o OLED pequeno e mostra os pinos I2C usados pela placa. -->
+  <block type="display_testar_conexao" x="30" y="30">
+    <field name="DISPLAY_TYPE">SMALL</field>
+  </block>
+</xml>

@@ -1,0 +1,22 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto final: reúne tempo ligado, contador de A, comandos B/C e estado do LED verde. -->
+  <block type="display_mostrar_estado_botao" x="30" y="30">
+    <field name="BOTAO">A</field><field name="LINHA">2</field><field name="ALINHAMENTO">LEFT</field>
+    <field name="MOSTRAR_CONTAGEM">TRUE</field><field name="LINHA_CONTAGEM">3</field><field name="ALINHAMENTO_CONTAGEM">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="botao_se_apertado">
+      <field name="BOTAO">B</field><statement name="DO"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value></block></statement>
+      <next><block type="botao_se_apertado">
+        <field name="BOTAO">C</field><statement name="DO"><block type="bloco_desligar_todos_leds"></block></statement>
+        <next><block type="display_mostrar_tempo_ligado">
+          <field name="LINE">0</field><field name="ALIGN">CENTER</field><field name="FORMAT">HMS</field><field name="DISPLAY_TYPE">SMALL</field>
+          <next><block type="display_mostrar_estado_led">
+            <value name="COLOUR"><block type="colour_green"></block></value><field name="LINHA">4</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+            <next><block type="display_texto">
+              <field name="TEXTO">Painel placa</field><field name="LINHA">5</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+            </block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

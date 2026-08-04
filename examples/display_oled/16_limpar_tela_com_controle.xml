@@ -1,0 +1,33 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Limpeza sem piscar: A apaga e mantém a tela vazia; B permite desenhar o texto novamente. -->
+  <block type="variables_guardar" x="30" y="30">
+    <field name="VAR">tela_ativa</field>
+    <value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value>
+    <next><block type="botao_se_apertado">
+      <field name="BOTAO">A</field>
+      <statement name="DO"><block type="variables_alterar">
+        <field name="VAR">tela_ativa</field>
+        <value name="TARGET"><block type="variables_valor_guardado"><field name="VAR">tela_ativa</field></block></value>
+        <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+        <next><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field></block></next>
+      </block></statement>
+      <next><block type="botao_se_apertado">
+        <field name="BOTAO">B</field>
+        <statement name="DO"><block type="variables_alterar">
+          <field name="VAR">tela_ativa</field>
+          <value name="TARGET"><block type="variables_valor_guardado"><field name="VAR">tela_ativa</field></block></value>
+          <value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value>
+        </block></statement>
+        <next><block type="controls_if">
+          <value name="IF0"><block type="logic_compare"><field name="OP">EQ</field>
+            <value name="A"><block type="variables_valor_guardado"><field name="VAR">tela_ativa</field></block></value>
+            <value name="B"><block type="math_number"><field name="NUM">1</field></block></value>
+          </block></value>
+          <statement name="DO0"><block type="display_texto">
+            <field name="TEXTO">Tela ativa</field><field name="LINHA">3</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+          </block></statement>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

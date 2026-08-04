@@ -1,0 +1,19 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Entrada em tempo real: usa as quatro linhas para observar A, B, C e o botão do joystick. -->
+  <block type="display_mostrar_estado_botao" x="30" y="30">
+    <field name="BOTAO">A</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field>
+    <field name="MOSTRAR_CONTAGEM">FALSE</field><field name="LINHA_CONTAGEM">5</field><field name="ALINHAMENTO_CONTAGEM">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_mostrar_estado_botao">
+      <field name="BOTAO">B</field><field name="LINHA">2</field><field name="ALINHAMENTO">LEFT</field>
+      <field name="MOSTRAR_CONTAGEM">FALSE</field><field name="LINHA_CONTAGEM">5</field><field name="ALINHAMENTO_CONTAGEM">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="display_mostrar_estado_botao">
+        <field name="BOTAO">C</field><field name="LINHA">3</field><field name="ALINHAMENTO">CENTER</field>
+        <field name="MOSTRAR_CONTAGEM">FALSE</field><field name="LINHA_CONTAGEM">5</field><field name="ALINHAMENTO_CONTAGEM">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next><block type="display_mostrar_estado_botao">
+          <field name="BOTAO">JOYSTICK</field><field name="LINHA">4</field><field name="ALINHAMENTO">RIGHT</field>
+          <field name="MOSTRAR_CONTAGEM">FALSE</field><field name="LINHA_CONTAGEM">5</field><field name="ALINHAMENTO_CONTAGEM">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

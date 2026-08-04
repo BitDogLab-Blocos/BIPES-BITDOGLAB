@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Relógio da placa: compara horas, minutos, segundos e milissegundos no mesmo OLED. -->
+  <block type="display_mostrar_tempo_ligado" x="30" y="30">
+    <field name="LINE">0</field><field name="ALIGN">CENTER</field><field name="FORMAT">HMS</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_mostrar_tempo_ligado">
+      <field name="LINE">1</field><field name="ALIGN">CENTER</field><field name="FORMAT">MS</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="display_mostrar_tempo_ligado">
+        <field name="LINE">2</field><field name="ALIGN">LEFT</field><field name="FORMAT">SECONDS</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next><block type="display_mostrar_tempo_ligado">
+          <field name="LINE">3</field><field name="ALIGN">RIGHT</field><field name="FORMAT">MILLISECONDS</field><field name="DISPLAY_TYPE">SMALL</field>
+          <next><block type="display_texto">
+            <field name="TEXTO">Quatro formatos</field><field name="LINHA">5</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Composição básica: organiza cinco informações curtas como uma ficha no OLED pequeno. -->
+  <block type="display_texto" x="30" y="30">
+    <field name="TEXTO">Nome: BitDog</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_texto">
+      <field name="TEXTO">Placa: OK</field><field name="LINHA">2</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="display_texto">
+        <field name="TEXTO">Curso: BIPES</field><field name="LINHA">3</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next><block type="display_texto">
+          <field name="TEXTO">OLED: 128x64</field><field name="LINHA">4</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+          <next><block type="display_texto">
+            <field name="TEXTO">Pronto!</field><field name="LINHA">5</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

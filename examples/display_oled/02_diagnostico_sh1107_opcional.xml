@@ -1,0 +1,4 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Cobertura do diagnóstico público opcional para SH1107 externo; os demais exemplos usam o OLED pequeno da placa. -->
+  <block type="display_testar_sh1107" x="30" y="30"></block>
+</xml>

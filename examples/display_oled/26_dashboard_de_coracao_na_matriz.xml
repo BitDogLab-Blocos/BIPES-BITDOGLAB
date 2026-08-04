@@ -1,0 +1,16 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Dashboard completo: mostra coração, estado, nome, cor, brilho e LEDs acesos. -->
+  <block type="mostrar_emoji" x="30" y="30">
+    <value name="EMOJI"><block type="emoji_coracao"></block></value>
+    <value name="COR"><block type="colour_red"></block></value>
+    <field name="BRILHO">30</field>
+    <next><block type="display_dashboard_matriz">
+      <field name="INFO_LINHA1">STATUS</field><field name="ALIGN_1">LEFT</field>
+      <field name="INFO_LINHA2">DESENHO</field><field name="ALIGN_2">CENTER</field>
+      <field name="INFO_LINHA3">COR_NOME</field><field name="ALIGN_3">RIGHT</field>
+      <field name="INFO_LINHA4">BRILHO</field><field name="ALIGN_4">LEFT</field>
+      <field name="INFO_LINHA5">LEDS_ACESOS</field><field name="ALIGN_5">RIGHT</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block></next>
+  </block>
+</xml>

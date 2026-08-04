@@ -1,0 +1,34 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto de menu: A alterna entre luz azul e som; OLED apresenta modo, LED e buzzer. -->
+  <block type="variables_guardar" x="30" y="30">
+    <field name="VAR">modo</field><value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+    <next><block type="botao_se_apertado">
+      <field name="BOTAO">A</field>
+      <statement name="DO"><block type="variables_alterar">
+        <field name="VAR">modo</field>
+        <value name="TARGET"><block type="variables_valor_guardado"><field name="VAR">modo</field></block></value>
+        <value name="VALUE"><block type="math_modulo"><value name="DIVIDEND"><block type="math_arithmetic"><field name="OP">ADD</field><value name="A"><block type="variables_valor_guardado"><field name="VAR">modo</field></block></value><value name="B"><block type="math_number"><field name="NUM">1</field></block></value></block></value><value name="DIVISOR"><block type="math_number"><field name="NUM">2</field></block></value></block></value>
+        <next><block type="controls_ifelse">
+          <value name="IF0"><block type="logic_compare"><field name="OP">EQ</field><value name="A"><block type="variables_valor_guardado"><field name="VAR">modo</field></block></value><value name="B"><block type="math_number"><field name="NUM">0</field></block></value></block></value>
+          <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_blue"></block></value></block></statement>
+          <statement name="ELSE"><block type="bloco_desligar_todos_leds"><next><block type="bipe_curto"><field name="VOLUME">25</field><next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next></block></next></block></statement>
+        </block></next>
+      </block></statement>
+      <next><block type="display_texto">
+        <field name="TEXTO">A troca modo</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next><block type="display_texto">
+          <field name="TEXTO">Modo:</field><field name="LINHA">2</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+          <next><block type="display_mostrar_valor">
+            <value name="VALOR"><block type="variables_valor_guardado"><field name="VAR">modo</field></block></value><field name="LINHA">2</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+            <next><block type="display_mostrar_estado_led">
+              <value name="COLOUR"><block type="colour_blue"></block></value><field name="LINHA">3</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+              <next><block type="display_mostrar_status_buzzer">
+                <field name="LINHA">4</field><field name="ALINHAMENTO">CENTER</field><field name="MOSTRAR_FREQUENCIA">FALSE</field><field name="LINHA_FREQ">5</field><field name="ALINHAMENTO_FREQ">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+              </block></next>
+            </block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

@@ -1,0 +1,27 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto: A pausa, B retoma e C reinicia um cronômetro mostrado continuamente no OLED. -->
+  <block type="cronometro_iniciar" x="30" y="30">
+    <field name="NAME">aula</field>
+    <next><block type="botao_se_apertado">
+      <field name="BOTAO">A</field><statement name="DO"><block type="cronometro_parar"><field name="NAME">aula</field></block></statement>
+      <next><block type="botao_se_apertado">
+        <field name="BOTAO">B</field><statement name="DO"><block type="cronometro_iniciar"><field name="NAME">aula</field></block></statement>
+        <next><block type="botao_se_apertado">
+          <field name="BOTAO">C</field><statement name="DO"><block type="cronometro_reiniciar"><field name="NAME">aula</field><next><block type="cronometro_iniciar"><field name="NAME">aula</field></block></next></block></statement>
+          <next><block type="display_texto">
+            <field name="TEXTO">Cronometro</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+            <next><block type="cronometro_mostrar">
+              <field name="NAME">aula</field><field name="LINE">1</field><field name="ALIGN">CENTER</field><field name="FORMAT">MS_MILLI</field><field name="DISPLAY_TYPE">SMALL</field>
+              <next><block type="display_texto">
+                <field name="TEXTO">A pausa B segue</field><field name="LINHA">4</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+                <next><block type="display_texto">
+                  <field name="TEXTO">C reinicia</field><field name="LINHA">5</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+                </block></next>
+              </block></next>
+            </block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

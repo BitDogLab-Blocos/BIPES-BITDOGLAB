@@ -1,0 +1,14 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Variação: C acumula cliques e A zera somente o contador de C. -->
+  <block type="display_mostrar_estado_botao" x="30" y="30">
+    <field name="BOTAO">C</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field>
+    <field name="MOSTRAR_CONTAGEM">TRUE</field><field name="LINHA_CONTAGEM">2</field><field name="ALINHAMENTO_CONTAGEM">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="botao_se_apertado">
+      <field name="BOTAO">A</field>
+      <statement name="DO"><block type="display_resetar_contagem"><field name="BOTAO">C</field></block></statement>
+      <next><block type="display_texto">
+        <field name="TEXTO">A zera C</field><field name="LINHA">4</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

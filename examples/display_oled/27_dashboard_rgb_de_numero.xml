@@ -1,0 +1,16 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Variação do dashboard: mostra o número 7 e explora RGB, nome da cor e alinhamentos. -->
+  <block type="mostrar_numero_matriz" x="30" y="30">
+    <value name="NUMERO"><block type="numero_matriz_7"></block></value>
+    <value name="COR"><block type="colour_cyan"></block></value>
+    <field name="BRILHO">30</field>
+    <next><block type="display_dashboard_matriz">
+      <field name="INFO_LINHA1">COR_RGB</field><field name="ALIGN_1">LEFT</field>
+      <field name="INFO_LINHA2">COR_NOME</field><field name="ALIGN_2">CENTER</field>
+      <field name="INFO_LINHA3">LEDS_ACESOS</field><field name="ALIGN_3">RIGHT</field>
+      <field name="INFO_LINHA4">STATUS</field><field name="ALIGN_4">CENTER</field>
+      <field name="INFO_LINHA5">DESENHO</field><field name="ALIGN_5">RIGHT</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block></next>
+  </block>
+</xml>

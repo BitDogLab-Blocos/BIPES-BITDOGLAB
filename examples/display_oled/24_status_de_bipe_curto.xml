@@ -1,0 +1,17 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Monitor sonoro: A produz um bipe curto e o OLED informa quando o buzzer está tocando. -->
+  <block type="display_texto" x="30" y="30">
+    <field name="TEXTO">A toca bipe</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_mostrar_status_buzzer">
+      <field name="LINHA">2</field><field name="ALINHAMENTO">CENTER</field>
+      <field name="MOSTRAR_FREQUENCIA">FALSE</field><field name="LINHA_FREQ">3</field><field name="ALINHAMENTO_FREQ">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="botao_se_apertado">
+        <field name="BOTAO">A</field>
+        <statement name="DO"><block type="bipe_curto">
+          <field name="VOLUME">25</field>
+          <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next>
+        </block></statement>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

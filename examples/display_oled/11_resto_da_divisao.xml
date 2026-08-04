@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Matemática aplicada: mostra que o resto da divisão de 17 por 5 é 2. -->
+  <block type="display_texto" x="30" y="30">
+    <field name="TEXTO">Resto 17 / 5:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_mostrar_calculo">
+      <value name="VALOR"><block type="math_modulo">
+        <value name="DIVIDEND"><block type="math_number"><field name="NUM">17</field></block></value>
+        <value name="DIVISOR"><block type="math_number"><field name="NUM">5</field></block></value>
+      </block></value>
+      <field name="LINHA">2</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+    </block></next>
+  </block>
+</xml>

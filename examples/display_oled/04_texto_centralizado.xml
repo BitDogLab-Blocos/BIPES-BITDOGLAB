@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Variação guiada: centraliza uma mensagem na terceira linha do OLED pequeno. -->
+  <block type="display_texto" x="30" y="30">
+    <field name="TEXTO">Bem-vindos!</field>
+    <field name="LINHA">3</field>
+    <field name="ALINHAMENTO">CENTER</field>
+    <field name="DISPLAY_TYPE">SMALL</field>
+  </block>
+</xml>

@@ -1,0 +1,16 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Medidor audiovisual: a matriz cresce com o ruído e o OLED mostra o nível numérico de 0 a 5. -->
+  <block type="microfone_vu_meter" x="30" y="30">
+    <value name="COR"><block type="colour_cyan"></block></value><field name="BRILHO">30</field>
+    <next><block type="display_texto">
+      <field name="TEXTO">Nivel:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="display_mostrar_valor">
+        <value name="VALOR"><block type="microfone_nivel_atual"></block></value>
+        <field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next><block type="display_texto">
+          <field name="TEXTO">Matriz: 0 a 5</field><field name="LINHA">3</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

@@ -1,0 +1,16 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Instrumento de medição: o microfone desenha uma barra e mostra a intensidade percentual. -->
+  <block type="display_texto" x="30" y="30">
+    <field name="TEXTO">Nivel de ruido</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="microfone_barra_display">
+      <field name="LINHA">3</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="display_texto">
+        <field name="TEXTO">Forca:</field><field name="LINHA">5</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next><block type="display_mostrar_valor">
+          <value name="VALOR"><block type="microfone_barra_pct"></block></value>
+          <field name="LINHA">5</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Variação guiada: posiciona uma mensagem curta à direita da quinta linha. -->
+  <block type="display_texto" x="30" y="30">
+    <field name="TEXTO">Linha direita</field>
+    <field name="LINHA">5</field>
+    <field name="ALINHAMENTO">RIGHT</field>
+    <field name="DISPLAY_TYPE">SMALL</field>
+  </block>
+</xml>

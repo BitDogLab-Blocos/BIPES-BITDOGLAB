@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Descoberta básica: escreve uma mensagem curta à esquerda da primeira linha do OLED pequeno. -->
+  <block type="display_texto" x="30" y="30">
+    <field name="TEXTO">Ola, turma!</field>
+    <field name="LINHA">1</field>
+    <field name="ALINHAMENTO">LEFT</field>
+    <field name="DISPLAY_TYPE">SMALL</field>
+  </block>
+</xml>

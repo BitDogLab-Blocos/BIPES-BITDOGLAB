@@ -1,0 +1,12 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Organização visual: desenha uma moldura e posiciona título e conteúdo dentro dela. -->
+  <block type="display_criar_borda" x="30" y="30">
+    <field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_texto">
+      <field name="TEXTO">Quadro OLED</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="display_texto">
+        <field name="TEXTO">Conteudo</field><field name="LINHA">3</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

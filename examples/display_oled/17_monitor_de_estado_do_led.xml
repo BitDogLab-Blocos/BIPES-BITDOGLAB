@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Painel de LED: A liga o vermelho, B apaga e o OLED informa o estado atual. -->
+  <block type="botao_se_apertado" x="30" y="30">
+    <field name="BOTAO">A</field>
+    <statement name="DO"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_red"></block></value></block></statement>
+    <next><block type="botao_se_apertado">
+      <field name="BOTAO">B</field>
+      <statement name="DO"><block type="bloco_desligar_todos_leds"></block></statement>
+      <next><block type="display_texto">
+        <field name="TEXTO">A liga B apaga</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next><block type="display_mostrar_estado_led">
+          <value name="COLOUR"><block type="colour_red"></block></value>
+          <field name="LINHA">2</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

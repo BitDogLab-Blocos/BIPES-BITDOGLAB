@@ -1,0 +1,11 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Animação básica: faz a palavra ATENCAO aparecer e sumir em ritmos diferentes. -->
+  <block type="display_piscar_texto" x="30" y="30">
+    <field name="TEXTO">ATENCAO</field>
+    <field name="LINHA">3</field>
+    <field name="ALINHAMENTO">CENTER</field>
+    <field name="TEMPO_LIGADO">0.6</field>
+    <field name="TEMPO_APAGADO">0.4</field>
+    <field name="DISPLAY_TYPE">SMALL</field>
+  </block>
+</xml>
