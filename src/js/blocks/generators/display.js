@@ -52,7 +52,7 @@ Blockly.Python["display_natal"] = function(block) {
   code += 'oled.rect(0, 0, _display_width, _display_height, 1)\n';
   code += '# Texto centralizado - FELIZ NATAL\n';
   code += 'oled.text("FELIZ NATAL", 25, 28, 1)\n';
-  code += '# Atualizar display\n';
+  code += '# Exibir conteudo no OLED\n';
   code += 'oled.show()\n';
 
   return code;
@@ -62,7 +62,7 @@ Blockly.Python["display_criar_borda"] = function(block) {
   _setupDisplayForBlock(block);
 
   var code = 'oled.rect(0, 0, _display_width, _display_height, 1)\n';
-  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
+  // A sincronizacao com o OLED e adicionada pelo agrupamento de comandos do gerador.
   return code;
 };
 
@@ -70,7 +70,7 @@ Blockly.Python["display_limpar_borda"] = function(block) {
   _setupDisplayForBlock(block);
 
   var code = 'oled.rect(0, 0, _display_width, _display_height, 0)\n';
-  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
+  // A sincronizacao com o OLED e adicionada pelo agrupamento de comandos do gerador.
   return code;
 };
 
@@ -195,7 +195,7 @@ Blockly.Python["display_texto"] = function(block) {
   }
 
   var code = 'oled.text("' + texto + '", ' + x + ', ' + y + ', 1)\n';
-  // NÃO chama oled.show() - o usuário deve colocar um bloco "Atualizar Display" no final
+  // A sincronizacao com o OLED e adicionada pelo agrupamento de comandos do gerador.
   return code;
 };
 
@@ -279,7 +279,7 @@ Blockly.Python["display_mostrar_calculo"] = function(block) {
 
   // Mostrar o resultado no display
   code += 'oled.text(_calc_result, _calc_x, ' + y + ', 1)\n';
-  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
+  // A sincronizacao com o OLED e adicionada pelo agrupamento de comandos do gerador.
 
   return code;
 };
@@ -404,7 +404,7 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
 
   // Mostrar o valor no display
   code += 'oled.text(_display_value, _display_x, ' + y + ', 1)\n';
-  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
+  // A sincronizacao com o OLED e adicionada pelo agrupamento de comandos do gerador.
 
   return code;
 };
@@ -476,7 +476,7 @@ Blockly.Python["display_mostrar_estado_led"] = function(block) {
   }
 
   code += 'oled.text(_led_text, _led_x, ' + y + ', 1)\n';
-  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
+  // A sincronizacao com o OLED e adicionada pelo agrupamento de comandos do gerador.
 
   return code;
 };
@@ -636,7 +636,7 @@ Blockly.Python["display_mostrar_estado_botao"] = function(block) {
     code += 'oled.text(_btn_count_text, _btn_count_x, ' + yContagem + ', 1)\n';
   }
 
-  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
+  // A sincronizacao com o OLED e adicionada pelo agrupamento de comandos do gerador.
 
   return code;
 };
@@ -750,7 +750,7 @@ Blockly.Python["display_dashboard_matriz"] = function(block) {
     }
   }
 
-  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
+  // A sincronizacao com o OLED e adicionada pelo agrupamento de comandos do gerador.
 
   return code;
 };
@@ -811,7 +811,7 @@ Blockly.Python["display_mostrar_tempo_ligado"] = function(block) {
   // Limpa APENAS a área onde o número será escrito (não apaga texto fixo)
   code += 'oled.fill_rect(_x_uptime, ' + y + ', _uptime_width, 8, 0)\n';
   code += 'oled.text(_uptime_str, _x_uptime, ' + y + ', 1)\n';
-  // NÃO chama oled.show() - o usuário deve usar o bloco "Atualizar Display"
+  // A sincronizacao com o OLED e adicionada pelo agrupamento de comandos do gerador.
 
   return code;
 };

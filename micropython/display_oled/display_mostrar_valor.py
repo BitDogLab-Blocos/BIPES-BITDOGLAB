@@ -64,8 +64,8 @@ def limpar_display():
     if oled:
         oled.fill(0)
 
-def atualizar_display():
-    """Atualiza o display."""
+def exibir_no_oled():
+    """Mostra no OLED o conteúdo preparado no buffer."""
     if oled:
         oled.show()
 
@@ -79,5 +79,5 @@ if __name__ == "__main__":
  # Contador
         for i in range(100):
             mostrar_valor(f"Contagem: {i}", 3, 'CENTER')
-            atualizar_display()
+            exibir_no_oled()
             time.sleep_ms(100)

@@ -60,8 +60,8 @@ def limpar_display():
     if oled:
         oled.fill(0)
 
-def atualizar_display():
-    """Atualiza o display (mostra o buffer)."""
+def exibir_no_oled():
+    """Mostra no OLED o conteúdo preparado no buffer."""
     if oled:
         oled.show()
 
@@ -78,4 +78,4 @@ if __name__ == "__main__":
         escrever_texto("Ola, Mundo!", 1, 'CENTER')
         escrever_texto("BitDogLab", 3, 'CENTER')
         escrever_texto("Python", 5, 'CENTER')
-        atualizar_display()
+        exibir_no_oled()
