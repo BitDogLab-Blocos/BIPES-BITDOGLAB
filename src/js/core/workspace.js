@@ -109,6 +109,7 @@ WorkspaceManager.filterToolboxByProject = function(project) {
 WorkspaceManager.PROJECT_NAMES = {
   'basico': 'projectBasic',
   'robo': 'projectRobot',
+  'externos': 'projectExternalConnections',
   'estufa': 'projectGreenhouse',
   'piano': 'projectPiano'
 };

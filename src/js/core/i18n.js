@@ -11,6 +11,7 @@ Code.getProjectLabel = function(project) {
   var keys = {
     basico: 'projectBasic',
     robo: 'projectRobot',
+    externos: 'projectExternalConnections',
     estufa: 'projectGreenhouse',
     piano: 'projectPiano'
   };
