@@ -254,6 +254,11 @@ html.bipes-mobile-app #project-modal > div {
   padding: 1rem .25rem;
 }
 
+html.bipes-mobile-app .project-grid {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
 html.bipes-mobile-app .project-card {
   width: min(15rem, calc(100vw - 3rem));
   padding: 1.25rem 1rem;

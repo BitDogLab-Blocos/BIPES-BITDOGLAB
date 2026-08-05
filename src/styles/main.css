@@ -1010,11 +1010,28 @@ button.icon.medium:before  {
 }
 
 /* Project modal cards */
+.project-modal-content {
+  max-width: 960px;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 25px;
+}
+
 .project-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background: white;
   border-radius: 20px;
-  padding: 35px 25px;
-  width: 240px;
+  box-sizing: border-box;
+  padding: 25px 20px;
+  width: 100%;
+  min-height: 220px;
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -1035,6 +1052,13 @@ button.icon.medium:before  {
   line-height: 1;
   margin-bottom: 10px;
 }
+.project-card-image {
+  display: block;
+  width: 100%;
+  height: 92px;
+  margin: 0 auto 8px;
+  object-fit: contain;
+}
 .project-card h2 {
   color: var(--bitdoglab-primary);
   margin: 10px 0 5px;
@@ -1044,6 +1068,18 @@ button.icon.medium:before  {
   color: #666;
   font-size: 0.9rem;
   margin: 0;
+}
+
+@media (max-width: 720px) {
+  .project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Hardware guide notice shown after selecting a project. */
