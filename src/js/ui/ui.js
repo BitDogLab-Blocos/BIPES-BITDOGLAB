@@ -504,7 +504,6 @@ class workspace {
     this.resetBoard = get('#resetBoard');
 
     this.term = get('#term');
-    this.file_status = get('#file-status');
   }
 }
 
@@ -711,4 +710,3 @@ workspace.prototype.loadXML = function () {
     }
   }
 }
-

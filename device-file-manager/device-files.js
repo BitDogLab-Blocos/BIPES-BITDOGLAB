@@ -86,19 +86,6 @@ class DeviceFilesManager {
     }, 400);
   }
 
-  static update_file_status(message) {
-    if (typeof Files !== 'undefined' && Files && typeof Files.setStatus === 'function') {
-      Files.setStatus(message);
-      return;
-    }
-    var status = document.getElementById('file-status');
-    if (status) {
-      status.textContent = typeof Code !== 'undefined' && Code.translateText
-        ? Code.translateText(String(message || ''))
-        : message;
-    }
-  }
-
   _translate(message) {
     if (typeof Code !== 'undefined' && Code.translateText) {
       return Code.translateText(String(message || ''));

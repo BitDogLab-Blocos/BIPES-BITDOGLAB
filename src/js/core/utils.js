@@ -9,10 +9,6 @@ class Tool {
       Files.setStatus(message);
       return;
     }
-    if (typeof files !== 'undefined' && files && typeof files.update_file_status === 'function') {
-      files.update_file_status(message);
-      return;
-    }
     const status = typeof document !== 'undefined' ? document.getElementById('file-status') : null;
     if (status) status.textContent = message;
   }
