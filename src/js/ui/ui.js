@@ -337,48 +337,6 @@ notify.prototype.log = function (message) {
   this.logs.push ({timestamp: +new Date, message: message});
 }
 
-// XMLHttpRequest wrapper: supports online and offline modes
-async function xhrGET (filename, responsetype, onsuccess, onfail) {
-  let xmlHTTP = new XMLHttpRequest ();
-
-  if (!Channel ['mux'].isLocalFile) {
-    xmlHTTP.open ('GET', `${filename}`);
-    xmlHTTP.responseType = responsetype;
-    xmlHTTP.onload = function () {
-      if (this.status == 200) {
-        if (responsetype == 'text' || responsetype == '')
-          onsuccess (this.responseText);
-        else if (responsetype == 'document')
-          onsuccess (this.responseXML);
-        else
-          onsuccess (this.response);
-      } else if (onfail != undefined)
-        onfail ();
-      else
-        UI ['notify'].send(MSG['ErrorGET']);
-      }
-  xmlHTTP.send();
-	} else { // Offline mode: load embedded data
-      filename = filename.replace(/[\/\.]/g, '_') // Normalize filename for variable name
-	    let regex_xml = /_(.*)_xml/;
-	    let regex_json = /_(.*)_json/;
-      if (regex_json.test (filename)) {
-	        window.addEventListener('load', () => {
-            onsuccess(JSON.parse (eval(`OFFLINE_${filename}`))); // Execute embedded data
-        }, false);
-      } else if (regex_xml.test (filename)) {
-        var xml_ = get(`#OFFLINE_${filename}`);
-        if (xml_ == undefined) {
-          xml_ = get(`#OFFLINE_toolbox_default_xml`);
-          UI ['notify'].send(MSG['noToolbox']);
-        }
-        onsuccess(xml_);
-	    } else
-	      alert(`Could not find ${filename} locally, please run at a server or use the live version at bipes.net.br/beta2/ui.`);
-
-
-  }
-}
 
 // Responsive layout manager: handles panel positioning and dead zones
 class responsive {
@@ -472,21 +430,9 @@ class workspace {
       window.location.replace("index_offline.html");
     }
 
-    this.defaultToolbox = 'default.xml';
     this.selector = get('#device_selector');
-    this.content = get('#content_device');
     this.toolbarButton = get('#toolbarButton');
     this.channel_connect = get('#channel_connect');
-    this.device_title = getIn(this.content, '#device_title'),
-    this.device_img = getIn(this.content, '#device_img'),
-    this.device_desc = getIn(this.content, '#device_desc');
-    this.devices = [];
-    xhrGET("devinfo/devinfo.json", 'json', (response) => {
-      this.devices = response.devices;
-      if (!/#(.)/.test(window.location.href))
-        this.change ();
-    });
-    this.selector.onchange = () => {this.change ()};
     this.runButton = {
         dom:get('#runButton'),
         status:true
@@ -567,50 +513,6 @@ workspace.prototype.runAbort = function () {
   this.connectButton.value = "Connect";
 }
 
-// Switch device: updates toolbox, pinout blocks, and serial config
-workspace.prototype.change = function () {
-
-  if (this.selector.value in this.devices) {
-    let selected = this.devices [this.selector.value];
-    this.device_title.innerHTML = selected.title,
-    this.device_img.src = selected.img,
-    this.device_desc.innerHTML = selected.description;
-
-    if (!!selected.toolbox) {
-       xhrGET(`toolbox/${selected.toolbox}`, 'document', (XML_) => {
-        Code.reloadToolbox(XML_);
-      });
-    } else {
-        xhrGET(`toolbox/${this.defaultToolbox}`, 'document', (XML_) => {
-          Code.reloadToolbox(XML_);
-        });
-        UI ['notify'].send(MSG['noToolbox']);
-    }
-    if (this.devices.constructor.name == 'Object') {
-      // Refresh pinout blocks for new device
-      let blocks = Code.workspace.getBlocksByType('pinout');
-       Code.workspace.getBlocksByType('pinout').forEach ((block, id) => {
-         block.refresh ();
-       });
-       if (blocks.length != 0) UI ['notify'].send (MSG['wrongDevicePin']);
-    }
-
-    Channel ['webserial'].packetSize = parseInt(selected.serial_packet_size);
-    Channel ['webserial'].speed = parseInt(selected.speed);
-
-  } else
-    UI ['notify'].send(MSG['invalidDevice']);
-}
-
-// Change device by name
-workspace.prototype.changeTo = function (device) {
-    if (device in this.devices)
-      this.selector.value = device,
-      this.change ();
-    else if (device != '')
-      UI ['notify'].send (MSG['deviceUnavailable'].replace ('%1', device));
-}
-
 // Generate and download XML file
 workspace.prototype.saveXML = function (uid) {
   let xmlText = '';
@@ -648,20 +550,12 @@ workspace.prototype.readWorkspace = function (xml, prettyText) {
     } catch (e) {UI ['notify'].log(e)}
     try {
       let device = workspace_chunk.match(/<field name="DEVICE">(.+?)<\/field>/) [1];
-      if (this.devices.constructor.name == 'Object') {
-        this.changeTo (device);
-      } else {
-        // Wait for devices to load (poll every 500ms)
-        var interval_ = setInterval(() => {
-          if (this.devices.constructor.name == 'Object') {
-            this.changeTo (device);
-            clearInterval(interval_);
-          }
-        }, 500);
+      if (this.selector && (device === 'v6' || device === 'v7')) {
+        this.selector.value = device;
       }
     } catch(e) {UI ['notify'].log(e)}
   } else {
-    this.changeTo (Object.keys(this.devices) [0]); // Fallback to first device
+    if (this.selector && !this.selector.value) this.selector.value = 'v7';
   }
   return xml;
 }
@@ -682,11 +576,10 @@ workspace.prototype.writeWorkspace = function (xml, prettyText) {
 // Load XML from file input
 workspace.prototype.loadXML = function () {
   if  (this.loadButton.files [0] != undefined) {
-    let file = this.loadButton.files [0]
+      let file = this.loadButton.files [0]
     if(/.xml$/.test(file.name) && file.type == 'text/xml'){
       let reader = new FileReader ();
       reader.readAsText(file,'UTF-8');
-      let self = this;
       reader.onload = readerEvent => {
         let content = this.readWorkspace (readerEvent.target.result, true);
         try {
