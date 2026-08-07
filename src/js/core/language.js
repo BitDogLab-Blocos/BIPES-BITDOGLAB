@@ -84,7 +84,6 @@ LanguageManager.initLanguage = function() {
   if (document.getElementById('tab_device')) document.getElementById('tab_device').textContent = MSG['device'];
   if (document.getElementById('tab_databoard')) document.getElementById('tab_databoard').textContent = MSG['databoard'] || 'Dados';
 
-  if (document.getElementById('linkButton')) document.getElementById('linkButton').title = MSG['linkTooltip'];
   if (document.getElementById('runButton')) document.getElementById('runButton').title = MSG['runTooltip'];
   if (document.getElementById('saveButton')) document.getElementById('saveButton').title = MSG['saveTooltip'];
   if (document.getElementById('loadButton')) document.getElementById('loadButton').title = MSG['loadTooltip'];

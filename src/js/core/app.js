@@ -22,13 +22,6 @@ AppBootstrap.initVersionSelector = function() {
   });
 };
 
-AppBootstrap.initLinkButton = function() {
-  var linkButton = document.getElementById('linkButton');
-  if (linkButton) {
-    linkButton.className = 'disabled';
-  }
-};
-
 AppBootstrap.init = function() {
   if (Code.ensureMessages) {
     Code.ensureMessages();
@@ -43,7 +36,6 @@ AppBootstrap.init = function() {
     Code.initTabs();
   }
   AppBootstrap.initVersionSelector();
-  AppBootstrap.initLinkButton();
 };
 
 Code.init = AppBootstrap.init;
