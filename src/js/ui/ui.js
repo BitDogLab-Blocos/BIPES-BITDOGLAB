@@ -505,10 +505,6 @@ class workspace {
 
     this.term = get('#term');
     this.file_status = get('#file-status');
-    this.put_file_select = get('#put-file-select');
-    this.file = get('#content_file_name');
-    this.content_file_name = get('#content_file_name');
-    if (this.put_file_select) this.put_file_select.onchange = () => {Files.handle_put_file_select ()};
   }
 }
 
@@ -715,5 +711,4 @@ workspace.prototype.loadXML = function () {
     }
   }
 }
-
 

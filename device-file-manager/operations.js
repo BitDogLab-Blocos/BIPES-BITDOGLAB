@@ -256,48 +256,4 @@ DeviceFilesManager.extend({
     });
   },
 
-  // Compatibility with the existing save/upload hooks.
-
-  handle_put_file_select() {
-    var input = typeof UI !== 'undefined' && UI['workspace'] ? UI['workspace'].put_file_select : null;
-    if (!input || !input.files || !input.files[0]) return;
-    var selected = input.files[0];
-    var reader = new FileReader();
-    reader.onload = (event) => {
-      this.put_file_name = selected.name;
-      this.put_file_data = new Uint8Array(event.target.result);
-      this.put_file();
-    };
-    reader.readAsArrayBuffer(selected);
-  },
-
-  put_file() {
-    if (!this.put_file_name || !this.put_file_data || !this.isConnected()) return;
-    var text = new TextDecoder().decode(this.put_file_data);
-    var path = this._pythonText(this.put_file_name);
-    var data = this._pythonText(text);
-    var body = [
-      'try:',
-      " f=open(" + path + ",'w')",
-      ' f.write(' + data + ')',
-      ' f.close()',
-      " print(start+'OK'+end)",
-      'except Exception as e:',
-      " print(start+'ERR:'+repr(e)+end)"
-    ].join('\n');
-    this._executeFsScript('Salvando ' + this.put_file_name + '…', body, 12000, () => {
-      this.setStatus(this.put_file_name + ' salvo na placa.', 'success');
-      this.listFiles();
-    });
-  },
-
-  files_save_as() {
-    if (!this.fileName) return;
-    this.put_file_name = this.fileName.value;
-    this.put_file_data = new TextEncoder().encode(this.editor.getValue());
-    this.put_file();
-  }
-
-  // Legacy hooks remain during migration of the hidden BIPES tab.
-
 });
