@@ -3,7 +3,7 @@
 var Code = window.Code || (window.Code = {});
 var TabsManager = {};
 
-Code.TABS_ = ['blocks', 'console', 'files', 'device'];
+Code.TABS_ = ['blocks', 'console', 'device'];
 Code.current = ['blocks', '', ''];
 
 TabsManager.handleLink = function(_navigation, _pos) {
@@ -112,11 +112,6 @@ TabsManager.renderContent = function(_navigation) {
       Code.auto_mode = true;
       Blockly.svgResize(Code.workspace);
       break;
-    case 'files':
-      if (Code.prepareFilesPanel) {
-        Code.prepareFilesPanel();
-      }
-      break;
     case 'console':
       term.resize();
       break;
@@ -132,9 +127,6 @@ TabsManager.resizeContent = function() {
     switch (key) {
       case 'blocks':
         setTimeout(function() { Blockly.svgResize(Code.workspace); }, 250);
-        break;
-      case 'files':
-        Files.resize();
         break;
       case 'console':
         term.resize();
