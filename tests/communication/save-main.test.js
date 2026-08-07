@@ -67,7 +67,7 @@ test('saving main.py preserves the ordered base64 protocol and verifies byte cou
     },
     '{ Tool, files }'
   );
-  loaded.exports.files.update_file_status = (status) => {
+  loaded.exports.Tool.updateFileStatus = (status) => {
     events.statuses.push(status);
   };
   let completed;

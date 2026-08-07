@@ -4,6 +4,19 @@
 class Tool {
   constructor () {}
 
+  static updateFileStatus (message) {
+    if (typeof Files !== 'undefined' && Files && typeof Files.setStatus === 'function') {
+      Files.setStatus(message);
+      return;
+    }
+    if (typeof files !== 'undefined' && files && typeof files.update_file_status === 'function') {
+      files.update_file_status(message);
+      return;
+    }
+    const status = typeof document !== 'undefined' ? document.getElementById('file-status') : null;
+    if (status) status.textContent = message;
+  }
+
   static validateWorkspaceBeforeCodeAction (actionLabel) {
     if (!Code || !Code.workspace || !Code.BlockContractValidator) return true;
 
@@ -17,9 +30,7 @@ class Tool {
       UI['notify'].send(message);
     }
 
-    if (typeof files !== 'undefined' && files.update_file_status) {
-      files.update_file_status(message.split('\n')[0]);
-    }
+    Tool.updateFileStatus(message.split('\n')[0]);
 
     console.warn('[BitDogLab] Block contract validation blocked ' + (actionLabel || 'code action'), report);
     return false;
@@ -90,7 +101,7 @@ class Tool {
 
 static saveAsMainPy () {
   if (!mux.connected()) {
-    files.update_file_status('Conecte a placa para salvar main.py.');
+    Tool.updateFileStatus('Conecte a placa para salvar main.py.');
     return;
   }
 
@@ -126,7 +137,7 @@ static _doSaveAsMainPy (onDone) {
   let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
   let code = Code.wrapWithInfiniteLoop(rawCode);
   if (!code) {
-    files.update_file_status('Nenhum código para salvar.');
+    Tool.updateFileStatus('Nenhum código para salvar.');
     if (onDone) onDone(false);
     return;
   }
@@ -149,7 +160,7 @@ static _doSaveAsMainPy (onDone) {
   };
 
   UI['progress'].start(totalSteps, true);
-  files.update_file_status('Salvando main.py na placa...');
+  Tool.updateFileStatus('Salvando main.py na placa...');
 
   mux.clearBuffer();
   mux.bufferPush("import ubinascii; f=open('main.py','wb')\r", () => {
@@ -171,7 +182,7 @@ static _doSaveAsMainPy (onDone) {
               const savedBytes = match ? Number(match[1]) : -1;
               const verified = savedBytes === bytes.length;
 
-              files.update_file_status(verified
+              Tool.updateFileStatus(verified
                 ? `main.py salvo e verificado (${savedBytes} bytes)! Pode desconectar e reiniciar a placa.`
                 : 'Falha ao verificar main.py na placa.');
               advanceProgress();
