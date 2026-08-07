@@ -221,27 +221,6 @@ static _doSaveAsMainPy (onDone) {
     return hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2); // Zero-pad to 2 digits (e.g., 08:02:01)
   }
 
-  static bipesVerify () {
-    // Parse BIPES data format: $SENSOR_NAME:value1,value2
-    let re = /\r\n\$(.*):(.*)\r\n/; // Match $NAME:data1,data2 pattern (e.g., $SENSOR:25.5,100)
-    let match_;
-    if (re.test(Files.received_string)) { // Check if pattern exists in received data
-      match_ = Files.received_string.match(re);
-      if (match_.length == 3) { // match[0]=full, match[1]=name, match[2]=data
-        let coordinates = match_ [2].split(',').map((item)=>item = parseFloat(item)) // Convert "25.5,100" to [25.5, 100]
-        const databoardIframe = document.getElementById('databoard_iframe');
-        const databoardWindow = databoardIframe ? databoardIframe.contentWindow : null;
-        if (databoardWindow &&
-            databoardWindow.modules &&
-            databoardWindow.modules.DataStorage &&
-            typeof databoardWindow.modules.DataStorage.push === 'function') {
-          databoardWindow.modules.DataStorage.push(match_[1],coordinates); // Push to plot iframe
-        }
-      }
-    }
-    Files.received_string = Files.received_string.replace(re, '\r\n') // Remove matched pattern from buffer
-  }
-
   static makeAName (code, ext) {
     let desc = code.match(/#Description: '(.*)'/) // Extract description from Python comment
     let imp = [...code.matchAll(/import (.*)/g)] // Find all import statements

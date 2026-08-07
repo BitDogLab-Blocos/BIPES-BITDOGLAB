@@ -105,8 +105,7 @@ html.bipes-mobile-app #content_blocks,
 html.bipes-mobile-app #content_device,
 html.bipes-mobile-app #content_code,
 html.bipes-mobile-app #content_console,
-html.bipes-mobile-app #content_files,
-html.bipes-mobile-app #content_databoard {
+html.bipes-mobile-app #content_files {
   height: calc(100dvh - var(--mobile-header-height) - env(safe-area-inset-top));
 }
 

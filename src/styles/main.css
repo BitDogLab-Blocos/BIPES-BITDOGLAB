@@ -457,7 +457,7 @@ pre.content {
 .content-padding {
   padding: 0;
 }
-#content_blocks, #content_device, #content_code, #content_console, #content_files, #content_databoard {
+#content_blocks, #content_device, #content_code, #content_console, #content_files {
   height: calc(100vh - 4rem);
 }
 #content_device, #content_code, #content_console {

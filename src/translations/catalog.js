@@ -7,7 +7,6 @@ var Code = window.Code || (window.Code = {});
 var APP_MESSAGES = {
   'pt-br': {
     console: 'Mensagens',
-    databoard: 'Dados',
     title: 'BitDogLab - Aprenda Programação de Forma Divertida',
     notConnected: 'Sem conexão para enviar dados.',
     serialFroozen: 'A conexão serial não está respondendo.',
@@ -78,7 +77,6 @@ var APP_MESSAGES = {
     files: 'Files',
     device: 'Device',
     console: 'Messages',
-    databoard: 'Data',
     runTooltip: 'Execute the program generated from the workspace blocks.',
     badCode: 'Program error:\n%1',
     timeout: 'Maximum execution iterations exceeded.',

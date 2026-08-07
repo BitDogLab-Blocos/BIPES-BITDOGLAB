@@ -3,13 +3,8 @@
 var Code = window.Code || (window.Code = {});
 var TabsManager = {};
 
-Code.TABS_ = ['blocks', 'console', 'files', 'device', 'databoard'];
+Code.TABS_ = ['blocks', 'console', 'files', 'device'];
 Code.current = ['blocks', '', ''];
-
-TabsManager.getDataboardWindow = function() {
-  var iframe = document.getElementById('databoard_iframe');
-  return iframe ? iframe.contentWindow : null;
-};
 
 TabsManager.handleLink = function(_navigation, _pos) {
   var _pos0 = _pos === 2 ? 1 : 2;
@@ -112,29 +107,6 @@ TabsManager.renderContent = function(_navigation) {
 
   var content = get('#content_' + _navigation);
   switch (_navigation) {
-    case 'databoard':
-      setTimeout(function() {
-        var databoardWindow = TabsManager.getDataboardWindow();
-        if (!databoardWindow) return;
-
-        if (!databoardWindow.inited) {
-          if (typeof databoardWindow.modules === 'object' && typeof databoardWindow.modules.Workspaces === 'object') {
-            databoardWindow.initDataStorage();
-          } else {
-            var interval = setInterval(function() {
-              if (typeof databoardWindow.modules === 'object' && typeof databoardWindow.modules.Workspaces === 'object') {
-                databoardWindow.initDataStorage();
-                if (databoardWindow.inited) {
-                  clearInterval(interval);
-                }
-              }
-            }, 500);
-          }
-        } else {
-          databoardWindow.initGrid();
-        }
-      }, 10);
-      break;
     case 'blocks':
       Code.workspace.setVisible(true);
       Code.auto_mode = true;
@@ -167,7 +139,6 @@ TabsManager.resizeContent = function() {
       case 'console':
         term.resize();
         break;
-      case 'databoard':
       case 'device':
         break;
     }
@@ -176,12 +147,6 @@ TabsManager.resizeContent = function() {
 
 TabsManager.deinitContent = function(_navigation) {
   switch (_navigation) {
-    case 'databoard':
-      var databoardWindow = TabsManager.getDataboardWindow();
-      if (databoardWindow && databoardWindow.grid_inited) {
-        databoardWindow.deinitGrid();
-      }
-      break;
     case 'blocks':
       Code.workspace.setVisible(false);
       Code.auto_mode = false;

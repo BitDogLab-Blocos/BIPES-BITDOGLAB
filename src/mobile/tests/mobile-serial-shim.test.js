@@ -323,7 +323,6 @@ test('the unchanged WebSerial protocol connects and reads through the mobile shi
     UI,
     i2cScanner,
     term,
-    Tool: { bipesVerify() {} },
     Files: { received_string: '' },
     MSG: { notAvailableFlag: '$1 não está disponível.' },
     ERROR_CODES: { PORT_ALREADY_OPEN: 11 },

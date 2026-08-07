@@ -14,7 +14,6 @@ function createHarness(options = {}) {
     i2cStarts: 0,
     notifications: [],
     terminal: [],
-    toolVerifications: 0,
     writes: []
   };
   const UI = {
@@ -57,11 +56,6 @@ function createHarness(options = {}) {
       events.terminal.push(value);
     }
   };
-  const Tool = {
-    bipesVerify() {
-      events.toolVerifications += 1;
-    }
-  };
   const Files = { received_string: '' };
   const MSG = {
     notAvailableFlag: '$1 não está disponível.'
@@ -90,7 +84,6 @@ function createHarness(options = {}) {
         RESET_TIMEOUT_MS: 50
       },
       term,
-      Tool,
       UI
     },
     '{ WebSerialProtocol, webserial }'
@@ -173,7 +166,6 @@ test('incoming fragmented prompt completes the legacy callback and resumes I2C',
   assert.equal(protocol.lastChars, '>>> ');
   assert.equal(harness.events.i2cStarts, 1);
   assert.deepEqual(harness.events.i2cChunks, ['>', '>> ']);
-  assert.equal(harness.events.toolVerifications, 2);
   assert.equal(harness.Files.received_string, '>>> ');
   assert.equal(harness.UI.workspace.runButton.dom.className, 'icon');
   assert.equal(harness.UI.workspace.toolbarButton.className, 'icon medium');

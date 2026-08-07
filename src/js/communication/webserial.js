@@ -59,7 +59,6 @@ class WebSerialProtocol {
           write(chunk) {
             if (Channel['webserial'].shouldListen) {
               if (typeof chunk === 'string') {
-                Tool.bipesVerify();
                 // Delegate I2C scan processing to i2cScanner
                 i2cScanner.processData(chunk);
                 
