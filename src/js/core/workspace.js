@@ -13,7 +13,7 @@ WorkspaceManager.loadBlocks = function(defaultXml) {
   } catch (e) {}
 
   var interval_ = setInterval(function() {
-    if (typeof UI !== 'undefined' && UI['workspace'].devices.constructor.name === 'Object') {
+    if (typeof UI !== 'undefined' && UI['workspace']) {
       var restored = false;
       if (loadOnce) {
         delete window.sessionStorage.loadOnceBlocks;
@@ -35,46 +35,6 @@ WorkspaceManager.loadBlocks = function(defaultXml) {
       clearInterval(interval_);
     }
   }, 500);
-};
-
-WorkspaceManager.reloadToolbox = function(XML_) {
-  try {
-    if (typeof XML_ === 'string') {
-      XML_ = Blockly.Xml.textToDom(XML_);
-    }
-
-    if (XML_ && XML_.nodeName) {
-      if (Code.translateToolboxXml) {
-        XML_ = Code.translateToolboxXml(XML_);
-      }
-      Code.workspace.updateToolbox(XML_);
-      if (Code.translateDom) {
-        setTimeout(function() { Code.translateDom(document.body); }, 0);
-      }
-      UI['notify'].send(MSG['toolboxReloaded'] || 'Toolbox recarregada com sucesso!');
-    } else {
-      var request = new XMLHttpRequest();
-      request.open('GET', 'toolbox/default.xml', false);
-      request.send(null);
-
-      if (request.status === 200) {
-        var toolboxXml = Blockly.Xml.textToDom(request.responseText);
-        if (Code.translateToolboxXml) {
-          toolboxXml = Code.translateToolboxXml(toolboxXml);
-        }
-        Code.workspace.updateToolbox(toolboxXml);
-        if (Code.translateDom) {
-          setTimeout(function() { Code.translateDom(document.body); }, 0);
-        }
-        UI['notify'].send(MSG['toolboxDefaultLoaded'] || 'Toolbox padrão carregada!');
-      }
-    }
-
-    Code.workspace.scrollCenter();
-  } catch (e) {
-    console.error('Erro ao recarregar a toolbox:', e);
-    UI['notify'].send((MSG['toolboxLoadError'] || 'Erro ao carregar a toolbox: %1').replace('%1', e.message));
-  }
 };
 
 WorkspaceManager.filterToolboxByProject = function(project) {
@@ -967,7 +927,6 @@ WorkspaceManager.discard = function() {
 };
 
 Code.loadBlocks = WorkspaceManager.loadBlocks;
-Code.reloadToolbox = WorkspaceManager.reloadToolbox;
 Code.filterToolboxByProject = WorkspaceManager.filterToolboxByProject;
 Code.PROJECT_NAMES = WorkspaceManager.PROJECT_NAMES;
 Code.initProjectSelector = WorkspaceManager.initProjectSelector;
