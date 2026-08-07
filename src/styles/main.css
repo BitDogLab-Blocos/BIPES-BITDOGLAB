@@ -170,7 +170,7 @@ h1 {
 .top-menu #channel_connect:hover  > a.selected{
   box-shadow: -1px 0 3px  #aaa;
 }
-#loadXML, #put-file-select {
+#loadXML {
   display: none;
 }
 
@@ -211,7 +211,7 @@ h1 {
   text-align: left;
   padding: 0.5rem 0.5rem 0.125rem 0.5rem;
 }
-.channel-panel input, #file_save_as input {
+.channel-panel input {
   border: none;
   padding: 0;
   height: 2rem;
@@ -457,16 +457,12 @@ pre.content {
 .content-padding {
   padding: 0;
 }
-#content_blocks, #content_device, #content_code, #content_console, #content_files {
+#content_blocks, #content_device, #content_console, #content_files {
   height: calc(100vh - 4rem);
 }
-#content_device, #content_code, #content_console {
+#content_device, #content_console {
   overflow-y: auto;
   overflow-x: hidden;
-}
-#content_device #device_img {
-  max-width: 75rem;
-  width: 100%;
 }
 .blocklySvg {
   border-top: none !important;
@@ -587,14 +583,6 @@ button:hover {
   text-shadow: 0 0 10px #fff, 0 0 20px #ff5757, 0 0 30px #ff5757;
 }
 
-#languageIcon {
-  display: inline-flex;
-  align-items: center;
-  border: none;
-  opacity: 0.8;
-  margin: .5rem 0;
-}
-
 #content_console #term.on{
   box-shadow: 0 0 25px rgba(255, 105, 180, 0.9), 0 0 45px rgba(137, 207, 240, 0.9), 0 0 10px #fff inset;
 }
@@ -616,64 +604,7 @@ button:hover {
 #content_files {
   grid-template-columns: 18rem calc(100% - 18rem);
 }
-#file-boxes #file-header, #file-boxes #file-status  {
-  padding: 0 .25em 0 .5em;
-  text-align: center;
-}
-#file-boxes #file-header  {
-  display: flex;
-  height: 2.5rem;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: bold;
-  border-bottom: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-}
-#file-boxes #file-header > span {
-  flex-grow: 2;
-}
-#file_save_as {
-  height: 2.5rem;
-  border-bottom: 1px solid #ccc;
-  display: flex;
-  align-items: center;
-  padding: 0 .5rem 0 1.85rem
-}
-#file_save_as.py #updateXMLButton, #file_save_as.py #generated2DeviceButton {
-  display:none;
-}
-#file_save_as input {
-  font-weight: bold;
-  border-left: 1px solid #ccc;
-  padding-left: .5rem;
-}
-#file-boxes #file-status {
-  height: 1.5rem;
-  line-height: 1.5rem;
-  border-bottom: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  color:#666;
-  font-size: 0.85rem;
-  overflow: hidden;
-  font-weight: bold;
-  background: #f7f7f7;
-}
-
-#filesPanel {
-  display: block;
-  height: calc(100vh - 8rem);
-  overflow-y: auto;
-  padding: 0.25rem 0.5rem;
-  border-right: 1px solid #ccc;
-}
-#filesPanel h2, .account-panel h2 {
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  margin: 0;
-  height: 2.5rem;
-}
-#fileList > div, #fileTemplate > div, #blocks2Code > div, #ProjectList > div{
+#fileList > div {
   display: flex;
   align-items: stretch;
   justify-content: space-between;
@@ -685,24 +616,19 @@ button:hover {
   min-height: 2rem;
   font-size: 0.9rem;
 }
-#fileList > div > div:last-child, #ProjectList > div > div:last-child{
+#fileList > div > div:last-child{
   flex-shrink: 0;
 }
-#fileList .runText, #ProjectList .runText {
+#fileList .runText {
   width: 100%;
   font-family: monospace;
 }
-#fileTemplate > div, #blocks2Code > div  {
-  align-items: center;
-  word-break: break-word;
-  font-family: monospace;
-}
-#fileList > div > div, #ProjectList > div > div {
+#fileList > div > div {
   display: inline-flex;
   align-items: center;
   word-break: break-word;
 }
-#fileList .runText > span, #blocks2Code > div > span {
+#fileList .runText > span {
   font-size: 0.8rem;
   border: 1px solid #7b49ad;
   border-radius: .75rem;
@@ -713,46 +639,6 @@ button:hover {
   word-break: keep-all;
   font-family: sans-serif;
 }
-#fileList #runIcon {
-  filter: brightness(0)
-}
-#filesPanel details, .account-panel summary {
-  overflow: hidden;
-  transition: .125s ease border;
-}
-#filesPanel summary, .account-panel summary {
-  -webkit-tap-highlight-color: transparent;
-  white-space: normal;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-#filesPanel summary > h2:before, .account-panel summary > h2:before {
-  content: "\1433";
-  margin-right: .5rem;
-  transition: transform .25s ease;
-  display:inline-block;
-  font-weight: normal;
-  font-size: 0.8rem;
-  line-height: 1rem;
-}
-#filesPanel details[open] summary > h2:before, .account-panel details[open] summary > h2:before {
-  transform: rotateZ(90deg);
-}
-#ProjectList  > div {
-  transition: box-shadow ease .125s, background-color linear .125s, border-color linear .125s, color linear .125s;
-}
-#ProjectList > .current {
-    box-shadow: 0 0.125em 0.25em rgba(0,0,0,0.2);
-    background: #3298dc;
-    color: #fff;
-    border-color: #3298dc;
-}
-#ProjectList .current span {
-  filter: invert(1);
-}
-
 /* Toolbar */
 @media (min-width: 60em) {
   .top-menu > .toolbar {
@@ -850,15 +736,12 @@ button.icon.medium:before  {
 #deviceSelect:before {
   background-position: left calc(-1.5rem*7) top;
 }
-#runButton:before, #runIcon:before {
+#runButton:before {
   transition: background ease .125s;
   background-position: left calc(-1.5rem*5) top;
 }
 #runButton.on:before {
   background-position: left calc(-1.5rem*5) bottom;
-}
-#languageIcon:before {
-  background-position: left calc(-1.5rem*6) top;
 }
 #serialButton:before, #channelButton.webserial:before {
   background-position: left calc(-1.5rem*9) top;
@@ -869,17 +752,10 @@ button.icon.medium:before  {
 #toolbarButton.on:before {
   background-position: left calc(-2.5rem*11) bottom;
 }
-#forumButton:before {
-  background-position: left calc(-1.5rem*12) top;
-}
-
 /* White icons */
-#accountButton,
-#newProjectButton,
 #saveButton,
 #loadButton,
 #trashButton,
-#forumButton,
 #connectButton,
 #serialButton,
 #connectButton:before {
@@ -888,23 +764,6 @@ button.icon.medium:before  {
 #connectButton.on:before {
   background-position: left calc(-1.5rem*13) bottom;
 }
-#refreshFilesList:before {
-  background-position: left calc(-1.5rem*18) top;
-}
-#putFileButton:before, #editor2DeviceButton:before, #generated2DeviceButton:before{
-  background-position: left calc(-1.5rem*19) top;
-}
-#updateXMLButton:before {
-  background-position: left calc(-1.5rem*20) bottom;
-}
-#accountButton:before {
-  background-position: left calc(-1.5rem*22) top;
-}
-#newProjectButton:before {
-  background-position: left calc(-1.5rem*23) top;
-}
-
-
 @media (max-width: 710px) {
   .tab_collapse {
     display: none;
@@ -1243,7 +1102,7 @@ button.icon.medium:before  {
   background: #fff;
   padding: .25em;
 }
-.account-panel, .language-panel, .notify {
+.language-panel, .notify {
   user-select: none;
 	transition: top ease .5s, right ease .5s, opacity ease .125s, background linear .5s, margin-right ease .125s;
   transition-delay: 0s, 0s, .1s, 0s, 0s;
@@ -1252,7 +1111,7 @@ button.icon.medium:before  {
   background: #fff;
 }
 @media (min-width: 60em) {
-  .account-panel, .language-panel {
+  .language-panel {
     border-radius: 1rem;
     margin: 0.5em;
     border: 1px solid #aaa !important;
@@ -1281,24 +1140,6 @@ button.icon.medium:before  {
 }
 .notify {
 	border-radius: .25rem;
-}
-.account-panel{
-  position: fixed;
-  overflow-y: auto;
-  z-index: 998;
-  width: 18rem;
-  padding: 0 .5em;
-  top:3.5rem;
-  bottom:0;
-  right:-22em;
-  background: #fefefe;
-  border-left: solid 1px #ccc;
-	display: flex;
-  box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.5);
-}
-.account-panel {
-  flex-direction: column;
-  justify-content: space-between;
 }
 .language-panel {
   position: fixed;
@@ -1371,18 +1212,11 @@ button.icon.medium:before  {
   font-weight: 700;
 }
 @media (max-width: 59.99em) {
-  .account-panel{
-    padding-top: 4.5rem;
-  }
   .language-panel {
     top: 4.25rem;
     right: 0.35rem;
     width: min(15.5rem, calc(100vw - 0.7rem));
   }
-}
-.account-panel#show {
-	opacity: 1;
-	right: 0;
 }
 /* Progress Bar */
 .progress-bar {
@@ -1441,18 +1275,6 @@ button.icon.medium:before  {
 		left: 0;
 		transform: translateX(-100%);
 	}
-}
-
-#account_header {
-  font-size: 1.25rem;
-  margin: .5em 0;
-  display: block;
-}
-
-#account_user {
-    border-bottom: 1px dashed #666;
-    font-weight: bold;
-    padding-bottom: .125rem;
 }
 
 /* Blockly toolbox */

@@ -2,7 +2,7 @@
 
 [Leia em português](README.md) · **English**
 
-This folder connects browser events to BIPES services and maintains the application's visual state. It controls panels, projects, notifications, responsiveness, progress, workspace actions, and the presentation of Blockly contract warnings.
+This folder connects browser events to BIPES services and maintains the application's visual state. It controls panels, the project state used by storage, notifications, responsiveness, progress, workspace actions, and the presentation of Blockly contract warnings.
 
 ## Architecture
 
@@ -13,7 +13,7 @@ This folder connects browser events to BIPES services and maintains the applicat
 | Component | Responsibility |
 | --- | --- |
 | `panel` | Opens and closes shared side panels. |
-| `account` | Creates, imports, lists, opens, and removes local projects. |
+| `account` | Maintains the current project and local index used by storage/autosave. |
 | `channelPanel` | Displays and selects the serial communication channel. |
 | `notify` | Displays translated temporary messages and records diagnostic logs. |
 | `responsive` | Adjusts the layout and closes panels from outside areas. |
@@ -31,7 +31,7 @@ var UI = {};
 UI['responsive'] = new responsive();
 UI['notify'] = new notify();
 UI['progress'] = new progress();
-UI['account'] = new account('#accountButton', '.account-panel');
+UI['account'] = new account();
 UI['workspace'] = new workspace();
 ```
 

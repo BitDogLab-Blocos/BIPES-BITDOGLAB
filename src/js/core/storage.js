@@ -93,22 +93,6 @@
     UI['account'].currentProject.xml = xmlText || '';
   }
 
-  function markCurrentProjectInList(uid) {
-    if (!window.UI || !UI['account'] || !UI['account'].projectList) {
-      return;
-    }
-
-    var currentNode = UI['account'].projectList.querySelector('.current');
-    if (currentNode) {
-      currentNode.className = '';
-    }
-
-    var projectNode = UI['account'].projectList.querySelector('#' + uid);
-    if (projectNode) {
-      projectNode.className = 'current';
-    }
-  }
-
   function rememberCurrentProject(uid, timestamp) {
     if (!uid) {
       return;
@@ -126,16 +110,6 @@
       localStorage.setItem(LAST_PROJECT_KEY, uid);
     } catch (e) {
       console.error('[SimpleStorage] Failed to remember current project:', e);
-    }
-  }
-
-  function clearCurrentProjectMemory(uid) {
-    try {
-      if (localStorage.getItem(LAST_PROJECT_KEY) === uid) {
-        localStorage.removeItem(LAST_PROJECT_KEY);
-      }
-    } catch (e) {
-      console.error('[SimpleStorage] Failed to clear last project key:', e);
     }
   }
 
@@ -263,50 +237,7 @@
 
     rememberCurrentProject(uid, +new Date());
     setCurrentProject(uid, xmlText);
-    markCurrentProjectInList(uid);
     return true;
-  }
-
-  function createProject(uid, xmlText) {
-    if (!uid || !xmlText) {
-      return false;
-    }
-
-    try {
-      localStorage.setItem(uid, xmlText);
-    } catch (e) {
-      console.error('[SimpleStorage] Failed to create project:', e);
-      return false;
-    }
-
-    rememberCurrentProject(uid, +new Date());
-    setCurrentProject(uid, xmlText);
-    markCurrentProjectInList(uid);
-    return loadWorkspaceFromText(xmlText);
-  }
-
-  function deleteProject(uid) {
-    if (!uid) {
-      return;
-    }
-
-    try {
-      localStorage.removeItem(uid);
-    } catch (e) {
-      console.error('[SimpleStorage] Failed to delete project XML:', e);
-    }
-
-    var projects = readProjects();
-    delete projects[uid];
-    writeProjects(projects);
-    clearCurrentProjectMemory(uid);
-
-    if (window.UI && UI['account']) {
-      UI['account'].projects = projects;
-      if (UI['account'].currentProject.uid === uid) {
-        setCurrentProject('', '');
-      }
-    }
   }
 
   function restoreLastSession() {
@@ -377,8 +308,6 @@
   }
 
   window.SimpleStorage = {
-    createProject: createProject,
-    deleteProject: deleteProject,
     getLastProjectUid: getLastProjectUid,
     getStartupRestoreState: function() { return startupRestoreState; },
     loadWorkspaceFromText: loadWorkspaceFromText,

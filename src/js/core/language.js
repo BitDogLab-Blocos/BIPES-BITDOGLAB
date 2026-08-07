@@ -107,10 +107,6 @@ LanguageManager.initLanguage = function() {
   }
 };
 
-Code.LANGUAGE_NAME = LanguageManager.LANGUAGE_NAME;
-Code.LANGUAGE_RTL = LanguageManager.LANGUAGE_RTL;
-Code.getStringParamFromUrl = LanguageManager.getStringParamFromUrl;
-Code.getLang = LanguageManager.getLang;
 Code.isRtl = LanguageManager.isRtl;
 Code.changeLanguage = LanguageManager.changeLanguage;
 Code.initLanguage = LanguageManager.initLanguage;

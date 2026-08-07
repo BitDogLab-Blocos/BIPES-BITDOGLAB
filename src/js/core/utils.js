@@ -218,56 +218,19 @@ static _doSaveAsMainPy (onDone) {
     return hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2); // Zero-pad to 2 digits (e.g., 08:02:01)
   }
 
-  static makeAName (code, ext) {
-    let desc = code.match(/#Description: '(.*)'/) // Extract description from Python comment
-    let imp = [...code.matchAll(/import (.*)/g)] // Find all import statements
-
-    if (ext == '') { // No extension, just return project name
-      return desc ? `${desc [1].slice()}${ext}` : 'My BIPES Project';
-    } else {
-      if (desc == null) { // No description found, use default
-        desc = [];
-        desc [1] = 'code';
-      }
-      desc [1] = desc [1].toLowerCase() // Normalize to lowercase
-      return desc ? `${desc [1].replaceAll(' ', '_').replaceAll('.', '').slice().substring(0,30)}.bipes.${ext}` : imp.length ? `my_${imp.slice(-1)[0][1]}_project.bipes.${ext}` : `my_project.bipes.${ext}`; // Sanitize: spaces→_, remove dots, limit 30 chars
-    }
-  }
-
   static uid () {
     // Generate unique ID: timestamp in base36 + random string in base36
     return (+new Date).toString(36) + Math.random().toString(36).substr(2);
   }
 
-  static emptyXML () {
-    return '<xml><workspace></workspace></xml>';
-  }
 }
 
 class DOM {
   constructor (dom, tags){
-    this._dom ;
-    switch (dom) {
-	  case 'button':
-	  case 'h2':
-	  case 'h3':
-      case 'span':
-      case 'div':
-        this._dom = document.createElement (dom);
-        if (typeof tags == 'object') for (const tag in tags) {
-          // Apply standard HTML attributes
-          if (['innerText', 'className', 'id', 'title', 'innerText'].includes(tag))
-            this._dom [tag] = tags [tag]
-        }
-        break;
-	  case 'video':
-        this._dom = document.createElement (dom);
-        if (typeof tags == 'object') for (const tag in tags) {
-          // Apply video-specific attributes
-          if (['preload', 'controls', 'autoplay'].includes(tag))
-            this._dom [tag] = tags [tag]
-        }
-        break;
+    this._dom = document.createElement (dom);
+    if (typeof tags == 'object') for (const tag in tags) {
+      if (['innerText', 'className', 'id', 'title'].includes(tag))
+        this._dom [tag] = tags [tag]
     }
 	  return this;
   }
@@ -283,24 +246,6 @@ class DOM {
 	  return this
   }
 
-  append (DOMS){
-	  if (DOMS.constructor != Array)
-	    DOMS = [DOMS]
-
-	    DOMS.forEach ((item) => {
-	      // Handle both raw DOM elements and DOM wrapper objects
-	      if (/HTML(.*)Element/.test(item.constructor.name))
-		      this._dom.appendChild(item)
-	      else if (item.constructor.name == 'DOM' && (/HTML(.*)Element/.test(item._dom)))
-		      this._dom.appendChild(item._dom)
-	    })
-	    return this
-  }
-
-  flag (str) {
-    // Add visual flag/label to element
-    this._dom.innerHTML = `${this._dom.innerHTML} <span>${str}</span>`;
-  }
 }
 
 // Animation utilities for UI transitions

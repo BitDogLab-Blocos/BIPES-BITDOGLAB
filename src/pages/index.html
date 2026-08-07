@@ -425,7 +425,7 @@
   <div id="content_blocks" class="content"></div>
   <div id="content_console" class="content">
 
-    <tr height="25%" id="termTR">
+    <tr height="25%">
      <td>
         <div style="display:inline-block; vertical-align:top; ">
     <div id="term" class="xterm">
@@ -489,7 +489,7 @@ var UI = {};
 UI ['responsive'] = new responsive ();
 UI ['notify'] = new notify ();
 UI ['progress'] = new progress ();
-UI ['account'] = new account ('#accountButton','.account-panel');
+UI ['account'] = new account ();
 UI ['language-panel'] = new panel ('#languageButton','.language-panel');
 UI ['channel-panel'] = new channelPanel ('#channelButton','.channel-panel');
 UI ['toolbar'] = new panel ('#toolbarButton','.toolbar');
@@ -497,40 +497,6 @@ UI ['workspace'] = new workspace ();
 
 // Clear queue from previous session
 Tool.clearQueue ();
-
-window.onload = function() {
-	// i18n: Auto-detect browser language
-	var userLang = navigator.language || navigator.userLanguage + " ";
-	var addMsg = "";
-
-	// Check URL params for language override
-	const queryString = window.location.search;
-	const urlParams = new URLSearchParams(queryString);
-	pLang = urlParams.get('lang');
-
-	if (!userLang) userLang = 'en';
-	if (!pLang) pLang = 'en';
-
-	// Keyboard shortcuts (Ctrl+Shift+...)
-	if (typeof shortcut !== 'undefined' && shortcut && typeof shortcut.add === 'function') {
-		shortcut.add("Ctrl+Shift+L", function() {
-			Tool.exportScreenshot(); // Screenshot
-		});
-
-		shortcut.add("Ctrl+Shift+E", function() {
-			Code.handleLink('console', 1); // Run + switch to console
-			Tool.runPython();
-		});
-
-		shortcut.add("Ctrl+Shift+R", function() {
-			Tool.runPython(); // Run program
-		});
-
-		shortcut.add("Ctrl+Shift+S", function() {
-			Tool.stopPython(); // Stop program
-		});
-	}
-};
 
 </script>
 

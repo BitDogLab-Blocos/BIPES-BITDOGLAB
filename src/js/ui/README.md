@@ -2,7 +2,7 @@
 
 **Português** · [Read in English](README.en.md)
 
-Esta pasta conecta eventos do navegador aos serviços do BIPES e mantém o estado visual da aplicação. Ela controla painéis, projetos, notificações, responsividade, progresso, ações do workspace e a apresentação dos avisos de contratos Blockly.
+Esta pasta conecta eventos do navegador aos serviços do BIPES e mantém o estado visual da aplicação. Ela controla painéis, o estado de projetos usado pelo armazenamento, notificações, responsividade, progresso, ações do workspace e a apresentação dos avisos de contratos Blockly.
 
 ## Arquitetura
 
@@ -13,7 +13,7 @@ Esta pasta conecta eventos do navegador aos serviços do BIPES e mantém o estad
 | Componente | Responsabilidade |
 | --- | --- |
 | `panel` | Abre e fecha painéis laterais compartilhados. |
-| `account` | Cria, importa, lista, abre e remove projetos locais. |
+| `account` | Mantém o projeto atual e o índice local usados pelo armazenamento/autosave. |
 | `channelPanel` | Apresenta e seleciona o canal de comunicação serial. |
 | `notify` | Exibe mensagens temporárias traduzidas e registra logs de diagnóstico. |
 | `responsive` | Ajusta o layout e fecha painéis em áreas externas. |
@@ -31,7 +31,7 @@ var UI = {};
 UI['responsive'] = new responsive();
 UI['notify'] = new notify();
 UI['progress'] = new progress();
-UI['account'] = new account('#accountButton', '.account-panel');
+UI['account'] = new account();
 UI['workspace'] = new workspace();
 ```
 

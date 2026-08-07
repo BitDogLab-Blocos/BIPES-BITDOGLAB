@@ -10,24 +10,23 @@ Esta pasta reúne os arquivos estáticos usados pela interface web: imagens, íc
 src/assets/
 ├── cursors/            # cursores usados durante o arraste de blocos
 ├── favicons/           # favicon e ícones da aplicação
-├── icons/              # sprites SVG e controles visuais da interface
+├── icons/              # sprites usados pelos controles visuais da interface
 ├── images/
-│   ├── blockly/        # imagens auxiliares do editor Blockly
 │   ├── devices/        # fotos e diagramas dos dispositivos
 │   ├── logos/          # marcas BIPES e BitDogLab
 │   └── themes/         # previews dos temas visuais
-└── media/              # cópias no caminho legado esperado pelo Blockly
+└── media/              # recursos no caminho esperado pelo Blockly
 ```
 
 ## Regras por tipo
 
 - **`cursors/`** contém os cursores de mão usados ao mover blocos; preserve os nomes esperados pelo Blockly.
 - **`favicons/`** contém os ícones carregados por `src/pages/index.html`.
-- **`icons/`** contém sprites e símbolos SVG compartilhados pelo CSS e pelos componentes da interface.
+- **`icons/`** contém os sprites SVG usados pelo CSS e pelos componentes da interface.
 - **`images/devices/`** é o local para imagens de placas, sensores e montagens usadas nos guias de hardware.
 - **`images/logos/`** guarda as marcas exibidas na interface e nos guias.
 - **`images/themes/`** guarda os previews usados pelos temas visuais.
-- **`media/`** mantém cópias compatíveis com integrações antigas do Blockly. Ao alterar um recurso duplicado, verifique os dois caminhos antes de publicar.
+- **`media/`** contém os recursos compatíveis com o caminho de mídia esperado pelo Blockly.
 
 ## Como adicionar um recurso
 

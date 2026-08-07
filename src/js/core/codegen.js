@@ -390,8 +390,6 @@ CodeGeneratorManager.startAutoGeneration = function() {
   }, 500);
 };
 
-Code.getOledCompatSetupCode = CodeGeneratorManager.getOledCompatSetupCode;
-Code.checkAllGeneratorFunctionsDefined = CodeGeneratorManager.checkAllGeneratorFunctionsDefined;
 Code.wrapWithInfiniteLoop = CodeGeneratorManager.wrapWithInfiniteLoop;
 Code.generateCode = CodeGeneratorManager.generateCode;
 Code.startAutoGeneration = CodeGeneratorManager.startAutoGeneration;
