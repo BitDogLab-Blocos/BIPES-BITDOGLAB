@@ -56,6 +56,9 @@ build/
 # Scripts
 script/
 
+# Testes locais (não versionados)
+/tests/
+
 # Logs
 *.log
 logs/
