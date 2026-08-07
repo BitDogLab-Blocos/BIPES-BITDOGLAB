@@ -379,17 +379,5 @@ class DeviceFilesManager {
     }
   }
 
-  get_ver() {}
-
-  get_file_webserial_() { return false; }
-
-  static updateTable() {}
-
-  editedXML2Workspace() {}
-
-  internalPython() {}
-
-  internalXML() {}
-
   static extend(methods) { Object.assign(this.prototype, methods); }
 }
