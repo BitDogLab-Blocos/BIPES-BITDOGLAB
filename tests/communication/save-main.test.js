@@ -65,7 +65,7 @@ test('saving main.py preserves the ordered base64 protocol and verifies byte cou
       mux,
       UI
     },
-    '{ Tool, files }'
+    '{ Tool }'
   );
   loaded.exports.Tool.updateFileStatus = (status) => {
     events.statuses.push(status);
