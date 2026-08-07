@@ -206,16 +206,6 @@ static _doSaveAsMainPy (onDone) {
     mux.bufferPush ('\x04'); // Ctrl+D soft reboot - reset device
   }
 
-  static updateSourceCode (code, file_name) {
-    const reader = new FileReader();
-    reader.addEventListener('loadend', (e) => { // Fired when blob is fully loaded
-      let text = e.srcElement.result;
-      Files.editor.getDoc().setValue(text); // Update CodeMirror editor content
-      UI ['workspace'].content_file_name.value = file_name; // Update filename display
-    });
-    reader.readAsText(code); // Start async read of blob
-  }
-
   static unix2date (timestamp) {
     let date;
     if (timestamp == undefined)

@@ -16,7 +16,6 @@ Each file owns one responsibility and publishes only the required entry points t
 | `workspace.js` | Creates Blockly, loads the toolbox, filters projects, and displays usage reminders. |
 | `codegen.js` | Validates generators, organizes generated Python, and maintains automatic generation. |
 | `tabs.js` | Switches, splits, renders, and resizes the application panels. |
-| `filemanager.js` | Prepares the files panel and serializes the workspace as XML. |
 | `language.js` | Selects the language, loads translations, and configures page direction. |
 | `i18n.js` | Translates the interface, toolbox, and generated-code identifiers, then audits the result. |
 | `storage.js` | Saves browser projects and workspace backups, then restores the latest session. |
