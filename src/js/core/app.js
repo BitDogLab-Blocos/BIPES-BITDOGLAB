@@ -42,10 +42,6 @@ AppBootstrap.init = function() {
   if (Code.initTabs) {
     Code.initTabs();
   }
-  if (Code.initFileManager) {
-    Code.initFileManager();
-  }
-
   AppBootstrap.initVersionSelector();
   AppBootstrap.initLinkButton();
 };
