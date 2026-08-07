@@ -8,15 +8,6 @@ DeviceFilesManager.extend({
     this.setStatus(this.selectedFile.name + ' baixado para o computador.', 'success');
   },
 
-  files_download(file) {
-    if (this.selectedFile && this.selectedFile.name === file && this.currentFileBytes) {
-      this.downloadSelected();
-    } else {
-      this.selectFile(file);
-      this.setStatus('Abra o arquivo e use Baixar quando a leitura terminar.');
-    }
-  },
-
   openCreateFolderDialog() {
     if (this.busy || !this.isConnected()) return;
     this.createFolderInput.value = '';
@@ -263,21 +254,6 @@ DeviceFilesManager.extend({
       this.setStatus(fileName + ' foi apagado da placa.', 'success');
       this.listFiles();
     });
-  },
-
-  delete(file) {
-    var entry = this.currentFiles.find((item) => item.name === file);
-    if (!entry) return;
-    this.selectedFile = entry;
-    this.openDeleteDialog();
-  },
-
-  run(file) {
-    if (!this.isConnected()) return;
-    var entry = this.currentFiles.find((item) => item.name === file);
-    var path = entry ? entry.path : this._joinPath(this.currentPath, file);
-    DeviceFilesManager.update_file_status('Executando ' + file + '…');
-    mux.bufferPush('exec(open(' + this._pythonText(path) + ').read(),globals())\r');
   },
 
   // Compatibility with the existing save/upload hooks.
