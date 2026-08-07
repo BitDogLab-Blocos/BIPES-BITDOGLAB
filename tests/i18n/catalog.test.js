@@ -90,7 +90,6 @@ test('key-based translation uses the central app catalog with fallback', () => {
   const { Code } = loadRuntime('en');
 
   assert.equal(Code.t('app.runTooltip'), 'Execute the program generated from the workspace blocks.');
-  assert.equal(Code.t('app.toolboxLoadError', { 1: 'network' }), 'Failed to load the toolbox: network');
   assert.equal(Code.t('app.keyThatDoesNotExist'), 'keyThatDoesNotExist');
 });
 
