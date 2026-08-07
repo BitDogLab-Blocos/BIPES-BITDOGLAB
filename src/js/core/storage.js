@@ -317,18 +317,12 @@
     var projects = restoreProjectList();
     var backupXml = localStorage.getItem(WORKSPACE_BACKUP_KEY);
     if (backupXml && loadWorkspaceFromText(backupXml)) {
-      if (window.Files && typeof Files.handleCurrentProject === 'function') {
-        Files.handleCurrentProject();
-      }
       startupRestoreState = 'backup';
       return startupRestoreState;
     }
 
     var lastProjectUid = getLastProjectUid(projects);
     if (lastProjectUid && openProjectByUid(lastProjectUid)) {
-      if (window.Files && typeof Files.handleCurrentProject === 'function') {
-        Files.handleCurrentProject();
-      }
       startupRestoreState = 'project';
       return startupRestoreState;
     }

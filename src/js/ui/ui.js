@@ -160,7 +160,6 @@ account.prototype.openProject = function (uid) {
     Blockly.getMainWorkspace().clear();
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(UI ['workspace'].readWorkspace(xml, false)), Blockly.getMainWorkspace());
   }
-  Files.handleCurrentProject ();
 }
 // Delete project by UID
 account.prototype.deleteProject = function (uid) {
@@ -716,6 +715,5 @@ workspace.prototype.loadXML = function () {
     }
   }
 }
-
 
 

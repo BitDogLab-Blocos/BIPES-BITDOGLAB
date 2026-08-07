@@ -404,7 +404,5 @@ class DeviceFilesManager {
 
   internalXML() {}
 
-  handleCurrentProject() {}
-
   static extend(methods) { Object.assign(this.prototype, methods); }
 }
