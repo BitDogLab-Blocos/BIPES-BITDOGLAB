@@ -1,7 +1,7 @@
 // Shared generator helpers.
 'use strict';
 
-// Shared helpers extracted from the legacy monolith.
+// Shared helpers for the modular block generators.
 
 var DEFAULT_DISPLAY_TYPE = 'SMALL';
 

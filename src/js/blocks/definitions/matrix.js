@@ -13,7 +13,7 @@ function showMatrixAnimationTip() {
 
 
 // ==========================================
-// Blocos Básicos do Blockly (substituem blocks_compressed.js)
+// Basic Blockly blocks used by the matrix category.
 
 // ==========================================
 // Category: LED Matrix

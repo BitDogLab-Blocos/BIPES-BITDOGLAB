@@ -1,4 +1,4 @@
-     // Auto-extracted from legacy generators.js into sensor.js
+// Generators for sensor blocks.
 'use strict';
 
 function _setupAHT20Definitions() {
@@ -195,11 +195,6 @@ function _setupEstufaGraficos(displayType) {
     '    oled.show()\n' +
     '  except: pass';
 }
-
-Blockly.Python["chamar_formatar_dados_plotter"] = function(block) {
-  var code = 'formatar_dados_para_plotter()\n';
-  return code;
-};
 
 Blockly.Python["sensor_temperatura"] = function(_block) {
   _setupAHT20Definitions();

@@ -68,7 +68,6 @@
       'piscar_led_lento',
       'bloco_animar_led_coracao',
       'bloco_sinalizar_led_sos',
-      'piscar_led_aleatorio',
       'bloco_alternar_led',
       'bloco_transicao_led',
       'bloco_batalhar_led',
@@ -81,7 +80,6 @@
       'tocar_nota',
       'tocar_som_agudo',
       'parar_som',
-      'tocar_repetidamente',
       'bipe_curto',
       'bipe_duplo',
       'alerta_intermitente',
@@ -100,9 +98,7 @@
       'natal_noel',
       'natal_o_vinde',
       'criar_melodia',
-      'criar_trilha_sonora',
-      'rtttl_play',
-      'tone'
+      'criar_trilha_sonora'
     ]
   };
 
@@ -113,12 +109,6 @@
         DO: 'ProgramCommand',
         ELSE: 'ProgramCommand',
         DO0: 'ProgramCommand'
-      }
-    },
-    {
-      blockTypes: ['display_mostrar'],
-      exact: {
-        COMANDOS: 'DisplayCommand'
       }
     },
     {
@@ -137,12 +127,6 @@
       blockTypes: ['criar_desenho_na_matriz'],
       prefix: {
         DESENHO: 'MatrixCommand'
-      }
-    },
-    {
-      blockTypes: ['tocar_repetidamente'],
-      exact: {
-        DO: 'SoundCommand'
       }
     },
     {

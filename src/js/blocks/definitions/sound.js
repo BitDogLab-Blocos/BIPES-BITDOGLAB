@@ -230,20 +230,6 @@ Blockly.Blocks['parar_som'] = {
     this.setHelpUrl("");
   }
 };
-// Play repeatedly block
-Blockly.Blocks['tocar_repetidamente'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🔁 Tocar repetidamente");
-    this.appendStatementInput("DO")
-        .setCheck("SoundCommand");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#9a5ba5");
-    this.setTooltip("Toca os sons dentro deste bloco repetidamente em um loop infinito");
-    this.setHelpUrl("");
-  }
-};
 // Short beep block
 Blockly.Blocks['bipe_curto'] = {
   init: function() {

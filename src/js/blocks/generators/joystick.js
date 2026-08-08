@@ -1,4 +1,4 @@
-// Auto-extracted from legacy generators.js into joystick.js
+// Generators for joystick blocks.
 'use strict';
 
 function ensureJoystickDisplayPositionSupport() {

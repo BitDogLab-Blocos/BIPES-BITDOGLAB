@@ -1,4 +1,4 @@
-// Auto-extracted from legacy generators.js into led.js
+// Generators for LED blocks.
 'use strict';
 
 function _ledAnimContext(block) {
@@ -194,24 +194,6 @@ Blockly.Python["bloco_sinalizar_led_sos"] = function(block) {
   return code;
 };
 
-Blockly.Python["piscar_led_aleatorio"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['import_urandom'] = 'import urandom';
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
-  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-  var code = 'while True:\n';
-  code += '    intensidade = urandom.randint(0, 1)\n';
-  code += '    led_vermelho.duty_u16(' + colour + '[0] * 257 * intensidade)\n';
-  code += '    led_verde.duty_u16(' + colour + '[1] * 257 * intensidade)\n';
-  code += '    led_azul.duty_u16(' + colour + '[2] * 257 * intensidade)\n';
-  code += '    time.sleep_ms(urandom.randint(50, 500))\n';
-  return code;
-};
-
 Blockly.Python["bloco_alternar_led"] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
@@ -346,66 +328,5 @@ Blockly.Python["bloco_criar_animacao_led"] = function(block) {
       i += 1;
     }
   }
-  return code;
-};
-
-Blockly.Python["led_turn_on"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-
-  // Setup LED pins with PWM
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
-
-  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-
-  var code = 'led_vermelho.duty_u16(' + colour + '[0] * 257)\n';
-  code += 'led_verde.duty_u16(' + colour + '[1] * 257)\n';
-  code += 'led_azul.duty_u16(' + colour + '[2] * 257)\n';
-
-  return code;
-};
-
-Blockly.Python["led_turn_off"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-
-  // Setup LED pins with PWM
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
-
-  var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-
-  // Turn off only RGB components that are in selected color
-  var code = 'if ' + colour + '[0] > 0:\n';
-  code += '  led_vermelho.duty_u16(0)\n';
-  code += 'if ' + colour + '[1] > 0:\n';
-  code += '  led_verde.duty_u16(0)\n';
-  code += 'if ' + colour + '[2] > 0:\n';
-  code += '  led_azul.duty_u16(0)\n';
-
-  return code;
-};
-
-Blockly.Python["led_turn_off_all"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-
-  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
-  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
-  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
-
-  return 'led_vermelho.duty_u16(0)\nled_verde.duty_u16(0)\nled_azul.duty_u16(0)\n';
-};
-
-Blockly.Python["alternar_acao_entre_cores"] = function(block) {
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  var pin1 = Blockly.Python.valueToCode(block, 'COLOUR1', Blockly.Python.ORDER_ATOMIC) || '13';
-  var pin2 = Blockly.Python.valueToCode(block, 'COLOUR2', Blockly.Python.ORDER_ATOMIC) || '11';
-  var statements_do = Blockly.Python.statementToCode(block, 'DO');
-  var code = 'Pin(' + pin1 + ', Pin.OUT).on()\nPin(' + pin2 + ', Pin.OUT).off()\n' + statements_do;
-  code += 'Pin(' + pin1 + ', Pin.OUT).off()\nPin(' + pin2 + ', Pin.OUT).on()\n' + statements_do;
   return code;
 };

@@ -40,7 +40,6 @@
   };
 
   var Domains = Code.BlockTypeDomains;
-  var DISPLAY_COMMANDS = Domains ? Domains.get('DISPLAY_COMMANDS') : [];
   var MATRIX_OPTION_COMMANDS = Domains ? Domains.get('MATRIX_OPTION_COMMANDS') : [];
   var MATRIX_COMMANDS = Domains ? Domains.get('MATRIX_COMMANDS') : [];
   var MATRIX_ANIMATION_BLOCKS = Domains ? Domains.get('MATRIX_ANIMATION_BLOCKS') : [];
@@ -182,15 +181,6 @@
         VALOR: 'valor numérico para o gráfico'
       }
     },
-    tocar_repetidamente: {
-      kind: 'container',
-      inputs: {
-        DO: {
-          allow: SOUND_COMMANDS,
-          label: 'comandos de som'
-        }
-      }
-    },
     bloco_criar_animacao_led: {
       kind: 'container',
       dynamicStatementInputs: [
@@ -220,15 +210,6 @@
           label: 'comandos de matriz de LED'
         }
       ]
-    },
-    display_mostrar: {
-      kind: 'container',
-      inputs: {
-        COMANDOS: {
-          allow: DISPLAY_COMMANDS,
-          label: 'comandos de display'
-        }
-      }
     },
     joystick_seletor: {
       kind: 'container',
@@ -275,7 +256,6 @@
     'piscar_led_lento',
     'bloco_animar_led_coracao',
     'bloco_sinalizar_led_sos',
-    'piscar_led_aleatorio',
     'bloco_animar_led_brilhar'
   ].forEach(function(blockType) {
     requireValues(blockType, {

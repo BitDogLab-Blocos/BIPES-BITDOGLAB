@@ -1,4 +1,4 @@
-// Auto-extracted from legacy generators.js into display.js
+// Generators for display blocks.
 'use strict';
 
 function _setupDisplayDefinitions(displayType) {
@@ -40,23 +40,6 @@ function _setupDisplayDefinitions(displayType) {
       '_display_height = ' + display.HEIGHT;
   }
 }
-
-Blockly.Python["display_natal"] = function(block) {
-  _setupDisplayForBlock(block);
-  Blockly.Python.definitions_['import_time'] = 'import time';
-
-  var code = '';
-  code += '# Limpar display\n';
-  code += 'oled.fill(0)\n';
-  code += '# Desenhar borda simples\n';
-  code += 'oled.rect(0, 0, _display_width, _display_height, 1)\n';
-  code += '# Texto centralizado - FELIZ NATAL\n';
-  code += 'oled.text("FELIZ NATAL", 25, 28, 1)\n';
-  code += '# Exibir conteudo no OLED\n';
-  code += 'oled.show()\n';
-
-  return code;
-};
 
 Blockly.Python["display_criar_borda"] = function(block) {
   _setupDisplayForBlock(block);
@@ -132,33 +115,6 @@ Blockly.Python["display_testar_sh1107"] = function(_block) {
   return code;
 };
 
-Blockly.Python["display_mostrar"] = function(block) {
-  _setupDisplayForBlock(block);
-
-  var code = '';
-
-  // Get the statements/commands inside the container
-  var statements = Blockly.Python.statementToCode(block, 'COMANDOS');
-  if (statements) {
-    // Remove the default 2-space indentation that Blockly adds
-    var cleanStatements = statements.replace(/^  /gm, '');
-
-    // Split by lines and add oled.show() after each non-empty line
-    var lines = cleanStatements.split('\n');
-    for (var i = 0; i < lines.length; i++) {
-      if (lines[i].trim()) {
-        code += lines[i] + '\n';
-        // Add show() after each command (except time.sleep commands)
-        if (lines[i].indexOf('time.sleep') === -1 && lines[i].indexOf('#') !== 0) {
-          code += 'oled.show()\n';
-        }
-      }
-    }
-  }
-
-  return code;
-};
-
 Blockly.Python["display_texto"] = function(block) {
   _setupDisplayForBlock(block);
 
@@ -183,7 +139,6 @@ Blockly.Python["display_texto"] = function(block) {
   // Área útil para texto: de X=2 até X=125 (para evitar sobrepor a borda)
   var textLength = texto.length;
   var textWidth = textLength * 8;
-  var usableWidth = 124; // 126 - 2 pixels de margem interna
   var x;
 
   if (alinhamento === 'LEFT') {
@@ -650,7 +605,6 @@ Blockly.Python["display_mostrar_status_buzzer"] = function(block) {
   var alinhamento = block.getFieldValue('ALINHAMENTO');
   var mostrarFrequencia = block.getFieldValue('MOSTRAR_FREQUENCIA') === 'TRUE';
   var linhaFreq = block.getFieldValue('LINHA_FREQ');
-  var alinhamentoFreq = block.getFieldValue('ALINHAMENTO_FREQ');
 
   // Y positions for 5 lines
   var yPositions = {'1': 8, '2': 18, '3': 28, '4': 38, '5': 48};

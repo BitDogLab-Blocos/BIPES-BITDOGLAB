@@ -1,4 +1,4 @@
-// Auto-extracted from legacy generators.js into sound.js
+// Generators for sound blocks.
 'use strict';
 
 const NOTE_FREQUENCIES = {
@@ -209,27 +209,6 @@ Blockly.Python["parar_som"] = function(block) {
   return code;
 };
 
-Blockly.Python["tocar_repetidamente"] = function(block) {
-  var statements_do = Blockly.Python.statementToCode(block, 'DO');
-  if (!statements_do || statements_do.trim() === '') {
-    return '';
-  }
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
-  var code = '# LOOP_BLOCK_START\n';
-  code += 'try:\n';
-  code += '    while True:\n';
-  var indentedCode = statements_do.replace(/^/gm, '  ');
-  code += indentedCode;
-  if (!indentedCode.endsWith('\n')) {
-    code += '\n';
-  }
-  code += 'finally:\n';
-  code += '    buzzer.duty_u16(0)  # Turn off buzzer when stopping\n';
-  code += '# LOOP_BLOCK_END\n';
-  return code;
-};
 
 Blockly.Python["bipe_curto"] = function(block) {
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
@@ -1433,53 +1412,4 @@ Blockly.Python["criar_trilha_sonora"] = function(block) {
     }
   }
   return code;
-};
-
-Blockly.Python["rtttl_play"] = function(block) {
-  var pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var song = Blockly.Python.valueToCode(block, 'song', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_rtttl'] = 'import rtttl, songs';
-  var code = 'play = rtttl.play(Pin(' + pin + ', Pin.OUT), songs.find(' + song + ')) \n';
-  return code;
-};
-
-Blockly.Python["tone"] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var value_frequency = Blockly.Python.valueToCode(block, 'frequency', Blockly.Python.ORDER_ATOMIC);
-  var d = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var x = value_pin.replace('(', '').replace(')', '');
-  var code = 'pwm' + x + ' = PWM(Pin(' + x + '), freq=' + value_frequency + ', ' + ' duty=512)\n';
-  var d1 = parseFloat(d);
-  if (d1 == 0)
-    code += '';
-  else
-    code += 'time.sleep(' + d + ')\npwm' + x + '.deinit()\n';
-  return code;
-};
-
-Blockly.Python["note"] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  var value_frequency = Blockly.Python.valueToCode(block, 'note', Blockly.Python.ORDER_ATOMIC);
-  var d = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
-  Blockly.Python.definitions_['import_time'] = 'import time';
-  var x = value_pin.replace('(', '').replace(')', '');
-  var code = 'pwm' + x + ' = PWM(Pin(' + x + '), freq=' + value_frequency + ', ' + ' duty=512)\n';
-  var d1 = parseFloat(d);
-  if (d1 == 0)
-    code += '';
-  else
-    code += 'time.sleep(' + d + ')\npwm' + x + '.deinit()\n';
-  return code;
-};
-
-Blockly.Python["tone_type"] = function(block) {
-  var dropdown_tone = block.getFieldValue('tone');
-  var code = dropdown_tone;
-  return [code, Blockly.Python.ORDER_NONE]; // Fixed: was Blockly.JavaScript.ORDER_NONE
 };

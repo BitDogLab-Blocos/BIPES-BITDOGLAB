@@ -1,4 +1,4 @@
-// Auto-extracted from legacy generators.js into matrix.js
+// Generators for matrix blocks.
 'use strict';
 
 Blockly.Python["preencher_matriz"] = function(block) {

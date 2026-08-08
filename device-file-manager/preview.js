@@ -268,8 +268,4 @@ DeviceFilesManager.extend({
     });
   },
 
-  files_view(file) {
-    this.selectFile(file);
-  }
-
 });

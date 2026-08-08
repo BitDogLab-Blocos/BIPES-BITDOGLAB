@@ -813,13 +813,13 @@ WorkspaceManager.bindWorkspaceHints = function() {
 WorkspaceManager.loadToolboxXml = function() {
   var toolboxXml;
   var request = new XMLHttpRequest();
-  request.open('GET', 'toolbox/default.xml', false);
+  request.open('GET', '../js/config/toolbox.xml', false);
   request.send(null);
 
   if (request.status === 200) {
     toolboxXml = Blockly.Xml.textToDom(request.responseText);
   } else {
-    toolboxXml = Blockly.Xml.textToDom("<xml><category name='Básico' colour='%{BKY_LOGIC_HUE}'><block type='controls_if'></block><block type='logic_compare'></block><block type='controls_repeat_ext'></block><block type='math_number'></block><block type='math_arithmetic'></block><block type='text'></block><block type='text_print'></block></category></xml>");
+    toolboxXml = Blockly.Xml.textToDom("<xml><category name='Básico' colour='%{BKY_LOGIC_HUE}'><block type='controls_repeat_simple'></block><block type='controls_repeat_forever'></block><block type='controls_if'></block><block type='logic_compare'></block><block type='math_number'></block><block type='math_arithmetic'></block><block type='text'></block></category></xml>");
   }
 
   if (Code.translateToolboxXml) {

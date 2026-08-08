@@ -12,20 +12,6 @@ function appendDisplayTypeInput(block) {
       .appendField(new Blockly.FieldDropdown(DISPLAY_TYPE_OPTIONS), "DISPLAY_TYPE");
 }
 
-// Display Christmas message block
-Blockly.Blocks['display_natal'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("🎄 Natal");
-    appendDisplayTypeInput(this);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#16a085");
-    this.setTooltip("Exibe 'FELIZ NATAL!' com arte bonita no display SSD1306");
-    this.setHelpUrl("");
-  }
-};
-
 // Display border block
 Blockly.Blocks['display_criar_borda'] = {
   init: function() {
@@ -77,22 +63,6 @@ Blockly.Blocks['display_testar_sh1107'] = {
     this.setNextStatement(true, null);
     this.setColour("#16a085");
     this.setTooltip("Testa o display SH1107 usando a mesma pinagem I2C do OLED SSD1306 e envia a biblioteca junto no codigo.");
-    this.setHelpUrl("");
-  }
-};
-
-// Display show block (container)
-Blockly.Blocks['display_mostrar'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("📺 Mostrar no display");
-    appendDisplayTypeInput(this);
-    this.appendStatementInput("COMANDOS")
-        .setCheck("DisplayCommand");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour("#16a085");
-    this.setTooltip("Container para comandos do display. Executa os comandos dentro e depois mostra no display (oled.show()). NÃO limpa o display antes.");
     this.setHelpUrl("");
   }
 };

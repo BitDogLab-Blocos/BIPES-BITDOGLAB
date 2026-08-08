@@ -296,5 +296,5 @@ class WebSerialProtocol {
   }
 }
 
-// Backward compatibility
+// Compatibility alias for existing integrations.
 const webserial = WebSerialProtocol;

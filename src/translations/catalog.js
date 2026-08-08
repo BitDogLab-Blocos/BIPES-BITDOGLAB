@@ -966,7 +966,6 @@ var GENERATED_CODE_AUDIT_RULES = {
     ]
   }
 };
-var LEGACY_APP_MESSAGES_PT = {};
 var CUSTOM_TRANSLATIONS_EN = {
   "Repetir": "Repeat",
   "vezes": "times",
@@ -1345,7 +1344,6 @@ var CUSTOM_TRANSLATIONS_EN = {
   "Toca a melodia de Bate o Sino (Deck the Halls). Use com 'Repetir para sempre' para loop infinito": "Play the melody of Bate o Sino (Deck the Halls). Use with 'Repeat forever' for infinite loop",
   "Toca We Wish You a Merry Christmas. Use com 'Repetir para sempre' para loop infinito": "Play We Wish You a Merry Christmas. Use with 'Repeat forever' for infinite loop",
   "Toca a melodia de Ó Vinde (Adeste Fideles). Use com 'Repetir para sempre' para loop infinito": "Play the melody of Ó Vinde (Adeste Fideles). Use with 'Repeat forever' for infinite loop",
-  "Exibe 'FELIZ NATAL!' com arte bonita no display SSD1306": "Displays 'MERRY CHRISTMAS!' with beautiful art on the SSD1306 display",
   "Desenha uma moldura retangular ao redor do display": "Draws a rectangular frame around the display",
   "Apaga a moldura do display": "Erases the display frame",
   "Testa se o display OLED está conectado e funcionando": "Tests whether the OLED display is connected and working",
@@ -1601,7 +1599,6 @@ var CUSTOM_TRANSLATIONS_EN = {
   "LOOP_BLOCK_END\\n": "LOOP_BLOCK_END\\n",
   "Limpar display\\n": "Clear display\\n",
   "Desenhar borda simples\\n": "Draw simple border\\n",
-  "Texto centralizado - FELIZ NATAL\\n": "Centered text - MERRY CHRISTMAS\\n",
   "Exibir conteudo no OLED\\n": "Show content on OLED\\n",
   "Piscar texto\\n": "Flash text\\n",
   "Matrix tracking variables\\n_matriz_status = \"OFF\"\\n_matriz_desenho = \"\"\\n_matriz_cor = (0, 0, 0)\\n_matriz_brilho = 0\\n_matriz_leds_count = 0": "Matrix tracking variables\\n_matriz_status = \"OFF\"\\n_matriz_desenho = \"\"\\n_matriz_cor = (0, 0, 0)\\n_matriz_brightness = 0\\n_matriz_leds_count = 0",
@@ -1740,7 +1737,6 @@ Code.TRANSLATION_CATALOG = {
   'pt-br': {
     app: APP_MESSAGES['pt-br'],
     blockly: BLOCKLY_MESSAGES['pt-br'],
-    legacyApp: LEGACY_APP_MESSAGES_PT,
     text: CUSTOM_OVERRIDES['pt-br'] || {},
     generated: {
       identifierOverrides: GENERATED_IDENTIFIER_OVERRIDES['pt-br'] || {},
@@ -1753,7 +1749,6 @@ Code.TRANSLATION_CATALOG = {
   'en': {
     app: APP_MESSAGES.en,
     blockly: BLOCKLY_MESSAGES.en,
-    legacyApp: {},
     text: Object.assign({}, CUSTOM_TRANSLATIONS_EN, CUSTOM_OVERRIDES.en || {}),
     generated: {
       identifierOverrides: GENERATED_IDENTIFIER_OVERRIDES.en || {},
@@ -1797,22 +1792,9 @@ Code.GENERATED_TEXT_COMPONENTS = {
 var catalogLanguage = Code.LANG || 'pt-br';
 var catalogLocale = Code.TRANSLATION_CATALOG[catalogLanguage] ||
   Code.TRANSLATION_CATALOG['pt-br'];
-window.MSG = Object.assign({}, catalogLocale.legacyApp, catalogLocale.app);
+window.MSG = Object.assign({}, catalogLocale.app);
 var MSG = window.MSG;
 
 if (typeof Blockly !== 'undefined' && Blockly.Msg && catalogLocale.blockly) {
   Object.assign(Blockly.Msg, catalogLocale.blockly);
-}
-
-if (catalogLanguage === 'pt-br' && typeof Blockly !== 'undefined' && Blockly.Msg) {
-  // Categorias legadas que não existem no arquivo oficial do Blockly.
-  Blockly.Msg['CAT_TIMING'] = "Temporização";
-  Blockly.Msg['CAT_MACHINE'] = "Máquina";
-  Blockly.Msg['CAT_DISPLAYS'] = "Displays";
-  Blockly.Msg['CAT_SENSORS'] = "Sensores";
-  Blockly.Msg['CAT_OUTPUTS'] = "Saidas e atuadores";
-  Blockly.Msg['CAT_COMM'] = "Comunicação";
-  Blockly.Msg['CAT_FILES'] = "Arquivos";
-  Blockly.Msg['CAT_NET'] = "Rede e Internet";
-  Blockly.Msg['CAT_CONTROL'] = "Controle";
 }

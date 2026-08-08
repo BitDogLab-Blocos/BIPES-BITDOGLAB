@@ -1,4 +1,4 @@
-// Auto-extracted from legacy generators.js into input.js
+// Generators for input blocks.
 'use strict';
 
 Blockly.Python["botao_enquanto_apertado"] = function(block) {

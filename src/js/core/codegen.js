@@ -106,7 +106,6 @@ CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode) {
   var imports = [];
   var setup = [];
   var actionCode = [];
-  var soundCodeLines = [];
   var loopCodeLines = [];
   var setupCodeLines = [];
   var inLoopBlock = false;
@@ -289,15 +288,6 @@ CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode) {
   hasButtonBlocks = rawCode.indexOf('flag_botao_') !== -1 ||
                     rawCode.indexOf('.irq(trigger=') !== -1 ||
                     rawCode.indexOf('.value()') !== -1;
-  if (soundCodeLines.length > 0) {
-    if (hasButtonBlocks) {
-      actionCode = soundCodeLines.concat(actionCode);
-    } else {
-      finalCode += '# Sons (execução única)\n';
-      finalCode += soundCodeLines.join('\n') + '\n\n';
-    }
-  }
-
   if (loopCodeLines.length > 0) {
     finalCode += '# Loop de Sons\n';
     finalCode += loopCodeLines.join('\n') + '\n';

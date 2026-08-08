@@ -294,7 +294,6 @@
     <block type="tocar_nota"></block>
     <block type="tocar_som_agudo"></block>
     <block type="parar_som"></block>
-    <!-- <block type="tocar_repetidamente"></block> -->
     <block type="bipe_curto"></block>
     <block type="bipe_duplo"></block>
     <block type="alerta_intermitente"></block>
