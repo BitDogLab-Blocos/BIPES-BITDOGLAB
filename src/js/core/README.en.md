@@ -1,51 +1,103 @@
-# BIPES application core
+# BIPES–BitDogLab web core
 
 [Leia em português](README.md) · **English**
 
-This folder contains the main coordination layer for the browser application. Its modules share the global `Code` namespace to initialize the interface, manage the Blockly workspace, generate Python, navigate between panels, persist projects, and apply the selected language.
-
-## Architecture
+`src/js/core/` coordinates Blockly, Python generation, execution, navigation, language, and persistence. The core connects modules; it must not reimplement blocks, serial transport, or visual components.
 
 ![Core module architecture](images/architecture.png)
 
-Each file owns one responsibility and publishes only the required entry points through `Code` or, for storage and utilities, through dedicated global APIs.
+## Module map
 
-| File | Responsibility |
+| Path | Responsibility |
 | --- | --- |
-| `app.js` | Runs the bootstrap process and coordinates subsystem initialization. |
-| `workspace/` | Separates Blockly lifecycle, toolbox, projects, and hints while publishing the `Code` API. |
-| `codegen/` | Separates validation, Python organization, and automatic generation. |
-| `execution/` | Runs, stops, resets, and saves `main.py` through the `Tool` facade. |
-| `tabs.js` | Switches, splits, renders, and resizes the application panels. |
-| `language.js` | Selects the language, loads translations, and configures page direction. |
-| `i18n/` | Separates interface, Blockly, and generated-code translation. |
-| `storage.js` | Saves browser projects and workspace backups, then restores the latest session. |
-| `terminal.js` and `dom.js` | Integrate the terminal and contain small visual helpers. |
-| `utils.js` | Temporary compatibility path; its implementation has been extracted. |
+| `app.js` | Core initialization and V6/V7 selection. |
+| `workspace/` | Blockly lifecycle, toolbox, projects, and hints. |
+| `codegen/` | Validation, Python organization, and automatic generation. |
+| `execution/` | Run, stop, reset, and save `main.py`. |
+| `i18n/` | Interface, Blockly, and safe generated-code translation. |
+| `tabs.js` | Panel state, rendering, and resizing. |
+| `language.js` | Active language, page direction, and catalog. |
+| `storage.js` | Projects, backups, and latest-session restoration. |
+| `terminal.js` | Terminal instance and integration. |
+| `dom.js` | Small, domain-specific DOM and animation helpers. |
+| `utils.js` | Legacy entry point that keeps older consumers working. |
+
+## Submodules
+
+### `workspace/`
+
+- `lifecycle.js`: creates, loads, resizes, and clears the workspace;
+- `toolbox.js`: loads XML and filters categories by project;
+- `projects.js`: selector, persistence, and hardware notices;
+- `hints.js`: contextual reminders for special blocks;
+- `index.js`: publishes the compatible `Code` facade.
+
+### `codegen/`
+
+- `python-organizer.js`: separates setup, loop, imports, and definitions;
+- `generator.js`: validates the workspace and assembles final Python;
+- `auto-generation.js`: refreshes code after changes;
+- `index.js`: publishes `Code.generateCode` and automatic generation.
+
+### `execution/`
+
+- `runner.js`: run, stop, and reset operations;
+- `main-file.js`: ordered protocol for writing `main.py`;
+- `index.js`: preserves the global `Tool` facade.
+
+### `i18n/`
+
+- `interface.js`: DOM, toolbox, and language controls;
+- `generated-code.js`: MicroPython identifiers, comments, and strings;
+- `index.js`: public translation API.
 
 ## Initialization
 
-The modules use the same global object without replacing extensions that have already been registered:
+Classic scripts extend one shared namespace:
 
 ```js
 var Code = window.Code || (window.Code = {});
 ```
 
-After the scripts have loaded, `src/pages/index.html` starts the core with a single call:
+After scripts load, `bootstrap/page.js` calls `Code.init()`. `app.js` activates language, workspace, tabs, automatic generation, storage, and the file manager. Order in `src/pages/index.html` is contractual: every module must load before the bootstrap that consumes it.
 
-```js
-Code.init();
+## Public facades
+
+| Global | Consumers |
+| --- | --- |
+| `Code` | page, Blockly, projects, tabs, and language. |
+| `Tool` | run and save controls. |
+| `term` | communication and message panel. |
+| `DOM` / `Animate` | compatibility for existing components. |
+
+Do not rename or replace these facades without migration. New modules should publish only the smallest required API.
+
+## Where new code belongs
+
+- workspace behavior → `workspace/`;
+- Python transformation → `codegen/`;
+- command sent to the board → `execution/` or `communication/`;
+- translation → `i18n/` and `src/translations/catalog.js`;
+- visual behavior → `src/js/ui/`;
+- block-specific rule → `src/js/blocks/`.
+
+Avoid new generic `utils.js` files. Domain names make discovery, testing, and maintenance easier.
+
+## Invariants
+
+- `Code.generateCode()` remains the generation entry point.
+- Saved XML keeps its Blockly types and fields.
+- Final Python keeps setup before the loop.
+- Language switching never changes MicroPython APIs.
+- V6/V7 switching changes only the active `BitdogLabConfig`.
+- Run and save operations use the existing serial protocol.
+
+## Validation
+
+```powershell
+node tests/examples_generation_smoke.js
+node tests/block_contracts_smoke.js
+node --test tests/i18n/*.test.js tests/communication/*.test.js
 ```
 
-`app.js` then prepares messages, the workspace, language, tabs, and the file manager. The script order declared by the page matters because the bootstrap calls functions published by earlier modules.
-
-## Basic flow
-
-1. `app.js` starts the services available in the `Code` namespace.
-2. `workspace/` creates Blockly and loads the block categories.
-3. Workspace changes are persisted by `storage.js`.
-4. `codegen/` turns blocks into Python; `execution/` sends it to the board.
-5. `tabs.js` displays Blockly, the console, files, the board reference, or the data panel.
-6. `language.js` and `i18n/` keep the interface, toolbox, and generated code in the selected language.
-
-> This code uses classic scripts and shared globals. When adding a module, preserve the `Code` namespace and check its position in `src/pages/index.html`.
+For interface changes, open the application and validate onboarding, projects, tabs, languages, V6/V7, generation, and execution with no page errors.

@@ -1,26 +1,27 @@
-# Browser libraries
+# BIPES–BitDogLab browser libraries
 
 [Leia em português](README.md) · **English**
 
-This folder stores local copies of the third-party libraries required to run BIPES directly in the browser. They provide the visual editor, Python generation, text editing, downloads, and terminal without requiring a runtime package manager.
-
-## Architecture
+`src/js/lib/` stores third-party distributions loaded directly by the page. The application works offline because Blockly, CodeMirror, FileSaver, and xterm are kept in the repository.
 
 ![Browser library architecture](images/architecture.png)
 
-The libraries are independent of one another and expose global APIs consumed by the application. `src/pages/index.html` controls the order in which JavaScript and CSS files are loaded.
+## Dependencies
 
-| Path | Responsibility |
+| Path | API used by the application |
 | --- | --- |
-| `blockly/blockly_compressed.js` | Provides the workspace, blocks, connections, toolbox, and XML serialization. |
-| `blockly/python_compressed.js` | Adds the base Python generator used by BitDogLab modules. |
-| `codemirror/` | Provides the code editor, its CSS, and the Python syntax mode. |
-| `filesaver/FileSaver.js` | Enables downloads of files created in the browser. |
-| `xterm/xterm.js` | Renders the terminal used for serial connection input and output. |
+| `blockly/blockly_compressed.js` | Workspace, toolbox, connections, and XML serialization. |
+| `blockly/python_compressed.js` | Base Python-generation infrastructure. |
+| `blockly/msg/` | Original Blockly messages. |
+| `codemirror/` | Editor, CSS, and Python syntax mode. |
+| `filesaver/FileSaver.js` | Download of XML and other local content. |
+| `xterm/xterm.js` | Terminal for serial input and output. |
+
+BitDogLab-specific code does not belong here. Blockly extensions live in `src/js/blocks/`; terminal integration lives in `src/js/core/terminal.js`.
 
 ## Loading
 
-The libraries are included as classic scripts and expose global objects:
+Distributions expose globals through classic scripts:
 
 ```html
 <script src="../js/lib/blockly/blockly_compressed.js"></script>
@@ -30,14 +31,40 @@ The libraries are included as classic scripts and expose global objects:
 <script src="../js/lib/codemirror/codemirror.js"></script>
 ```
 
-CodeMirror's Python mode is loaded after the editor core, while `codemirror.css` is included in the page header.
+Order matters: each library core loads before plugins, modes, messages, and local extensions.
 
-## Basic flow
+## Change policy
 
-1. Blockly creates the visual environment and provides Python generation infrastructure.
-2. Modules in `src/js/blocks/` register project-specific blocks and generators.
-3. CodeMirror displays files and code in a syntax-highlighted editor.
-4. xterm.js displays the terminal connected to the Web Serial flow.
-5. FileSaver.js allows users to download content produced by the application.
+- Do not patch minified files to fix application behavior.
+- Do not run formatters over a vendored distribution.
+- Preserve license headers, names, paths, and supporting files.
+- Record source and version when updating a dependency.
+- Update the complete official distribution, not one isolated file.
+- Verify that the update still works without a CDN or network access.
 
-> These files are vendored builds, and many are minified. Prefer updating a library from its official distribution instead of manually editing generated files.
+An unavoidable adaptation should live in its own file outside `lib/`, load after the library, and be documented as compatibility code.
+
+## Updating a library
+
+1. Identify the current version and global APIs consumed by the application.
+2. Download the new distribution from its official source.
+3. Compare licenses, directory structure, and entry-point names.
+4. Replace only the matching library tree.
+5. Open the interface and validate old XML, toolbox, editor, and terminal behavior.
+6. Run the full example and contract suite.
+7. Check the Android package, which copies the same web assets.
+
+## Compatibility risks
+
+Blockly is the most sensitive dependency: types, XML fields, generator APIs, and connection behavior must remain compatible with saved projects. CodeMirror and xterm also expose styles and methods consumed by legacy code.
+
+## Validation
+
+```powershell
+node tests/examples_generation_smoke.js
+node tests/block_contracts_smoke.js
+node --test tests/**/*.test.js
+node --test src/mobile/tests/*.test.js
+```
+
+Before publishing, test in a compatible browser with an empty cache and confirm that no library is fetched from an external URL.
