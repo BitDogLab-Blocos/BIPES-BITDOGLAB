@@ -1,51 +1,82 @@
-# BitDogLab block system
+# BIPES–BitDogLab Blockly blocks
 
 [Leia em português](README.md) · **English**
 
-This folder implements the visual blocks used by BIPES and transforms each block into Python for MicroPython. It also defines semantic contracts that prevent incompatible combinations and display warnings before code generation or execution.
-
-## Architecture
+`src/js/blocks/` defines the BIPES–BitDogLab visual language. Every Blockly type has an appearance, connection rules, and a Python translation. The folder also protects users from semantically invalid combinations.
 
 ![Block system architecture](images/architecture.png)
 
-The toolbox selects the blocks available to users. Definitions control shape and connections, contracts validate the workspace, and generators produce the code executed by the BitDogLab.
+## Block flow
+
+```text
+toolbox.xml → definition → contract → generator → core/codegen → MicroPython
+```
 
 | Path | Responsibility |
 | --- | --- |
-| `definitions/` | Registers Blockly block appearance, fields, inputs, outputs, and connections. |
-| `generators/` | Converts each block type into Python imports, setup, and instructions. |
-| `contracts/types.js` | Declares semantic domains and connection compatibility. |
-| `contracts/registry.js` | Maps block types to requirements, dependencies, and bilingual messages. |
-| `contracts/validator.js` | Analyzes the workspace, applies warnings, and blocks invalid code. |
-| `registry.js` | Checks that toolbox block types have definitions and generators. |
-| `sensor_libs.js` | Stores embedded MicroPython drivers for displays and sensors. |
+| `definitions/` | Blockly shape, fields, inputs, outputs, and connections. |
+| `generators/` | Python imports, setup, and instructions for each type. |
+| `contracts/types.js` | Semantic domains accepted by connections. |
+| `contracts/registry.js` | Requirements, dependencies, and bilingual messages. |
+| `contracts/validator.js` | Workspace warnings and invalid-code blocking. |
+| `registry.js` | Checks that every toolbox type has a definition and generator. |
+| `sensor_libs.js` | MicroPython drivers embedded by selected generators. |
 
-## Registering a block
+Definition and generator `index.js` files are entry points; domain implementations should not accumulate in them.
 
-A definition and its generator share the same identifier:
+## Type identity
+
+The same identifier must appear in three places:
 
 ```js
 Blockly.Blocks['my_block'] = {
   init: function() {
-    // Block shape and connections.
+    this.appendDummyInput().appendField('My block');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
   }
 };
 
-Blockly.Python['my_block'] = function(block) {
+Blockly.Python['my_block'] = function() {
   return 'print("BitDogLab")\n';
 };
 ```
 
-To make it available in the interface, include the identifier in `src/js/config/toolbox.xml`. If it has usage restrictions, add its domain to `contracts/types.js` and its contract to `contracts/registry.js`.
+```xml
+<block type="my_block"></block>
+```
 
-## Basic flow
+Renaming a type breaks saved XML projects. If a change is unavoidable, implement migration support before removing the old identifier.
 
-1. `toolbox.xml` provides the available categories and blocks.
-2. `registry.js` checks definitions and generators for loaded types.
-3. `definitions/` creates the blocks inside the Blockly workspace.
-4. `contracts/` checks types, required inputs, ancestors, and dependencies.
-5. `generators/` transforms valid blocks into Python.
-6. `sensor_libs.js` provides embedded drivers when a generator needs them.
-7. The core organizes the final Python and sends it to the board.
+## Adding a block
 
-> Script order in `src/pages/index.html` matters: types come before definitions, contracts before validation, and definitions before their matching generators.
+1. Choose the matching domain file under `definitions/`.
+2. Register the definition with a unique, stable type.
+3. Create its matching generator under `generators/`.
+4. Add the type to `src/js/config/toolbox.xml`.
+5. Register a domain or contract when connection or context restrictions exist.
+6. Add Portuguese and English messages.
+7. Create at least one XML example that exercises the generator.
+
+## Generator rules
+
+- Read pins and peripherals from `BitdogLabConfig`; never scatter GPIO numbers.
+- Store imports and initializations in `Blockly.Python.definitions_`.
+- Use `BitdogLabConfig.MARKERS` for setup and loop boundaries.
+- Preserve Blockly return formats: a string for statements and `[code, order]` for values.
+- Do not translate MicroPython identifiers directly; `core/i18n/` handles final code.
+- Reuse existing helpers and drivers before duplicating generated Python.
+
+## Load order
+
+`src/pages/index.html` must load contracts and definitions before their consumers. The browser runs `BlockRegistry.validateToolbox()` to detect missing types early.
+
+## Required validation
+
+```powershell
+node tests/block_contracts_smoke.js
+node tests/examples_generation_smoke.js
+node --test tests/i18n/*.test.js
+```
+
+A block change is ready only when every example imports into real Blockly, no type lacks a generator, and generated Python remains valid for V6 and V7.

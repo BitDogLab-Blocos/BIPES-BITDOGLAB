@@ -1,25 +1,53 @@
-# Configuração da BitDogLab
+# Perfis e toolbox do BIPES–BitDogLab
 
 **Português** · [Read in English](README.en.md)
 
-Esta pasta centraliza as diferenças de hardware entre revisões da BitDogLab e define a toolbox principal do Blockly. Os geradores consultam o perfil ativo em vez de espalhar números de GPIO e regras de montagem de código pelo projeto.
-
-## Arquitetura
+`src/js/config/` responde a duas perguntas: quais recursos físicos existem em cada revisão da BitDogLab e quais blocos aparecem no editor. Os geradores nunca devem carregar números GPIO próprios.
 
 ![Arquitetura da configuração da BitDogLab](images/architecture.png)
 
-A revisão V7 é carregada como configuração padrão. O seletor da interface pode trocar o objeto ativo por V6, mantendo a mesma estrutura esperada pelos geradores, pelo scanner I²C e pelo núcleo.
+## Organização
 
 | Arquivo | Responsabilidade |
 | --- | --- |
-| `profiles/base.js` | Contém somente regras compartilhadas de geração, cópia e validação. Não declara GPIOs. |
-| `profiles/v7.js` | Declara por completo os pinos e periféricos da V7 e cria `BitdogLabConfig`. |
-| `profiles/v6.js` | Declara por completo os pinos e periféricos da V6 e cria `BitdogLabConfig_V6`. |
-| `toolbox.xml` | Organiza categorias, blocos, sombras e valores iniciais exibidos no Blockly. |
+| `profiles/base.js` | Cópia, merge, validação e regras de geração compartilhadas; não contém pinos. |
+| `profiles/v7.js` | Ficha completa de GPIOs e periféricos da V7; cria `BitdogLabConfig`. |
+| `profiles/v6.js` | Ficha completa de GPIOs e periféricos da V6; cria `BitdogLabConfig_V6`. |
+| `toolbox.xml` | Categorias, blocos, valores iniciais e filtros por projeto. |
 
-## Perfil ativo
+## Por que os perfis repetem valores
 
-O bootstrap preserva o perfil V7 e troca a referência global quando o usuário muda a revisão:
+Cada arquivo de versão é autocontido. Mesmo um pino igual entre V6 e V7 aparece nos dois arquivos. A repetição é intencional: o desenvolvedor pode conferir uma placa inteira sem seguir herança implícita nem comparar vários arquivos.
+
+`base.js` compartilha apenas comportamento que não representa a montagem física:
+
+- nomes usados pelo Python gerado;
+- inicialização de LEDs;
+- atraso de cortesia do loop;
+- marcadores de setup e loop;
+- reconhecimento de linhas de configuração;
+- cópia profunda, merge e validação estrutural.
+
+## Contrato do perfil
+
+Todo perfil final deve expor:
+
+| Seção | Conteúdo |
+| --- | --- |
+| `PINS` | GPIOs de LEDs, botões, joystick, matriz, I²C e microfone. |
+| `NEOPIXEL` | Quantidade, brilho e mapeamento físico da matriz. |
+| `JOYSTICK` | Centro, zona morta e inversão dos eixos. |
+| `DISPLAY` | Barramento, frequência e resolução. |
+| `ROBOT` | MPU6050, ponte H, PWM e parâmetros de movimento. |
+| `ROBOT_POWER` | Barramento e calibração do INA226. |
+| `SENSOR` | Barramentos e endereços I²C conhecidos. |
+| `LED`, `LED_INIT`, `LOOP`, `MARKERS`, `SETUP_PATTERNS` | Regras compartilhadas de geração. |
+
+`createProfile` valida esse contrato durante o carregamento. Um perfil incompleto deve falhar cedo, antes de o usuário montar blocos.
+
+## Seleção da revisão
+
+A página carrega V7 como padrão e preserva sua referência:
 
 ```js
 var BitdogLabConfig_V7 = BitdogLabConfig;
@@ -29,15 +57,27 @@ BitdogLabConfig = (version === 'v6')
   : BitdogLabConfig_V7;
 ```
 
-Os dois perfis expõem seções equivalentes, como `PINS`, `NEOPIXEL`, `JOYSTICK`, `DISPLAY`, `ROBOT`, `SENSOR`, `MARKERS` e `SETUP_PATTERNS`. Cada arquivo de versão repete intencionalmente todos os valores de hardware, mesmo quando são iguais, para funcionar como uma ficha completa e fácil de consultar da placa.
+Geradores, scanner I²C e execução consultam apenas `BitdogLabConfig`, sem condicionais de versão.
 
-## Fluxo básico
+## Adicionar uma revisão
 
-1. `src/pages/index.html` carrega a base, o perfil V7 e o perfil V6.
-2. `app.js` mantém `BitdogLabConfig` apontando para a revisão escolhida.
-3. Geradores de blocos consultam pinos, periféricos e regras do perfil ativo.
-4. `core/codegen/` usa marcadores e padrões para organizar configuração e loop.
-5. O scanner I²C usa os barramentos e dispositivos conhecidos do mesmo perfil.
-6. Em paralelo, `toolbox.xml` é carregado, filtrado pelo projeto e aplicado ao workspace.
+1. Copie o perfil mais próximo e renomeie a variável global.
+2. Revise todos os GPIOs e todas as seções de periféricos, inclusive valores iguais.
+3. Preserve o contrato estrutural validado por `base.js`.
+4. Carregue o novo script em `src/pages/index.html`.
+5. Adicione a opção ao seletor e ao mecanismo de troca em `core/app.js`.
+6. Gere exemplos para a nova revisão e compare o Python produzido.
 
-> Uma nova revisão deve declarar seu hardware por completo e preservar o mesmo contrato estrutural; assim, a leitura não depende de herança implícita e os consumidores não precisam de condicionais específicas para cada placa.
+## Toolbox é uma responsabilidade separada
+
+`toolbox.xml` decide disponibilidade e valores iniciais, não pinagem. Categorias podem usar `data-project` para serem filtradas por `core/workspace/toolbox.js`. Um tipo só pode entrar na toolbox depois de possuir definição e gerador registrados.
+
+## Validação
+
+```powershell
+node tests/block_contracts_smoke.js
+node tests/examples_generation_smoke.js
+node src/mobile/scripts/check-web-boundary.mjs
+```
+
+Ao alterar hardware, teste explicitamente V6 e V7 no seletor e confira o Python de LEDs, botões, display, sensores e robô.

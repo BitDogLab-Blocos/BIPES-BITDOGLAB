@@ -1,43 +1,74 @@
-# BitDogLab communication layer
+# BIPES–BitDogLab communication
 
 [Leia em português](README.md) · **English**
 
-This folder connects the BIPES interface to the board through the browser. It organizes the command queue, controls the Web Serial session, tracks the MicroPython prompt, and detects I²C sensors without mixing these responsibilities with the interface.
-
-## Architecture
+`src/js/communication/` maintains a reliable session between the interface and the MicroPython REPL. Queuing, serial transport, and I²C discovery belong here; buttons, notifications, and code generation belong to other layers.
 
 ![Communication layer architecture](images/architecture.png)
 
-`ProtocolManager` is the entry point used by the rest of the application. It forwards operations to the Web Serial implementation, while the I²C scanner reuses the same connection whenever the board is idle.
+## Components
 
-| File | Responsibility |
+| File | Role |
 | --- | --- |
-| `channel.js` | Defines protocol constants, controls the transmission queue, and provides the `ProtocolManager` (`mux`) facade. |
-| `webserial.js` | Opens the port, reads and writes streams, consumes the queue, and recovers the REPL prompt. |
-| `i2c_scanner.js` | Scans the I²C buses, compares detected devices, and reports connections or removals of known sensors. |
+| `channel.js` | Constants, transmission queue, callbacks, and `ProtocolManager` facade. |
+| `webserial.js` | Port, streams, reads, writes, and `>>>` prompt recognition. |
+| `i2c_scanner.js` | Bus scanning and events for known sensors. |
 
-## Initialization
+Modern classes retain legacy global aliases because other modules and published projects still use `mux` and `webserial`.
 
-The scripts are loaded by `src/pages/index.html`. After `Code.init()`, the page creates the Web Serial channel and the multiplexer kept for compatibility with the rest of the project:
+## Runtime objects
 
 ```js
 var Channel = {};
-Channel['webserial'] = new webserial();
-Channel['mux'] = new mux();
+Channel.webserial = new webserial();
+Channel.mux = new mux();
 ```
 
-The names `webserial` and `mux` are compatibility aliases for `WebSerialProtocol` and `ProtocolManager`. The I²C scanner keeps its own global instance:
+`Channel.mux` is the entry point used by the rest of the application. It does not access the port directly: it organizes commands and delegates transmission to `Channel.webserial`.
 
-```js
-const i2cScanner = new I2CScanner();
+## Connection flow
+
+```text
+UI → ProtocolManager → WebSerialProtocol → navigator.serial → BitDogLab
+                              ↑                         ↓
+                       queue/callbacks ← bytes and prompt
 ```
 
-## Basic flow
+1. The interface requests a connection.
+2. Web Serial asks for authorization and opens the port.
+3. A continuous reader converts incoming bytes into text.
+4. The protocol recognizes prompts and completes pending callbacks.
+5. Commands are split into packets and sent in queue order.
+6. On disconnect, state, queue, and interface return to a known condition.
 
-1. The interface requests a connection through `ProtocolManager`.
-2. `webserial.js` asks the Web Serial API for a port and opens the streams.
-3. `channel.js` splits code into packets and adds it to the queue.
-4. `webserial.js` sends the packets and recognizes the MicroPython `>>>` prompt.
-5. When user code is not running, `i2c_scanner.js` checks the configured buses.
+On Android, a native shim implements `navigator.serial`. The web protocol remains unchanged; avoid Android conditionals in the queue when the bridge can reproduce the browser contract.
 
-> The Web Serial API requires a compatible browser and a secure context. The I²C scanner is paused while user code runs so it does not interrupt the REPL.
+## Queue rules
+
+- `bufferPush` appends normal commands and preserves callback order.
+- `bufferUnshift` prepends an urgent operation.
+- `clearBuffer` cancels packets and callbacks not yet sent.
+- Line endings and packet size are normalized before transmission.
+- Disconnected operations must notify the user without silently mutating the queue.
+
+UI components must not write bytes directly. New operations should go through the facade or through an execution service that uses it.
+
+## I²C scanner
+
+The scanner reads buses and addresses from `BitdogLabConfig`. It pauses while user code runs or while another transaction owns the REPL, preventing probes from interrupting file writes, listings, or program execution.
+
+Known devices live in `BitdogLabConfig.SENSOR.I2C_KNOWN_DEVICES`. Add an address to the board profile, not to the scanner.
+
+## Browser constraints
+
+Web Serial requires a compatible browser, secure context, and explicit user permission. Automated tests simulate the port; hardware validation should cover connection, reconnection, physical removal, and prompt recovery.
+
+## Validation
+
+```powershell
+node --test tests/communication/*.test.js
+node --test tests/device-files/*.test.js
+node --test src/mobile/tests/mobile-serial-shim.test.js
+```
+
+A change is ready when queue order remains stable, no callback is orphaned, and browser and Android-shim behavior remain equivalent.
