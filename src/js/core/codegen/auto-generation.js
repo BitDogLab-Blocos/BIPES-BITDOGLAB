@@ -9,4 +9,3 @@ CodeGeneratorManager.startAutoGeneration = function() {
     Code.auto_mode = true;
   }, 500);
 };
-

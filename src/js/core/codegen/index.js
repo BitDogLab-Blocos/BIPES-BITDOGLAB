@@ -8,4 +8,3 @@ Code.auto_mode = false;
 Code.wrapWithInfiniteLoop = CodeGeneratorManager.wrapWithInfiniteLoop;
 Code.generateCode = CodeGeneratorManager.generateCode;
 Code.startAutoGeneration = CodeGeneratorManager.startAutoGeneration;
-

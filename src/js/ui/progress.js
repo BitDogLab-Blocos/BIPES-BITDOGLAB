@@ -46,4 +46,3 @@ class progress {
     this.manual = false;
 	}
 }
-

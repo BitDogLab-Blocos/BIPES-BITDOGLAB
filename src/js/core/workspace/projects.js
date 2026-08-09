@@ -10,7 +10,6 @@ WorkspaceManager.PROJECT_NAMES = {
   'estufa': 'projectGreenhouse',
   'piano': 'projectPiano'
 };
-
 WorkspaceManager.PROJECT_HARDWARE_GUIDES = {
   'estufa': {
     href: 'device-reference.html#estufa',
@@ -138,4 +137,3 @@ WorkspaceManager.initProjectSelector = function() {
     }
   });
 };
-

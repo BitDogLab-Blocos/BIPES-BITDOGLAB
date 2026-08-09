@@ -71,4 +71,3 @@ class term {
 }
 
 globalThis.term = term;
-

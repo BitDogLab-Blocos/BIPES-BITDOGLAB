@@ -8,7 +8,6 @@ Code.ensureMessages = function() {
   }
   Object.assign(MSG, Code.APP_MESSAGES[Code.LANG] || Code.APP_MESSAGES['pt-br']);
 };
-
 Code.getProjectLabel = function(project) {
   var keys = {
     basico: 'projectBasic',
@@ -107,4 +106,3 @@ Code.translateText = function(text) {
   }
   return prefix + replaced + suffix;
 };
-

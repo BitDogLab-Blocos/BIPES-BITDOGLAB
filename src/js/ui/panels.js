@@ -23,7 +23,6 @@ panel.prototype.showPanel = function () {
   if (this.onOpenPanel_ != undefined)
     this.onOpenPanel_ ();
 }
-
 channelPanel.prototype = Object.create (panel.prototype);
 // Channel panel: switches communication protocols
 function channelPanel (button_, panel_) {
@@ -73,4 +72,3 @@ responsive.prototype.hidePanels = function (ev) {
   }
   this.closeZone._dom.classList.remove('on')
 }
-

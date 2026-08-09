@@ -88,4 +88,3 @@
     init: initializeOnboarding
   };
 })(window);
-

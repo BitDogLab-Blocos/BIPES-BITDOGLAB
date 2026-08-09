@@ -31,7 +31,6 @@ WorkspaceManager.filterToolboxByProject = function(project) {
     console.error('[BitdogLab] Erro ao filtrar toolbox:', e);
   }
 };
-
 WorkspaceManager.loadToolboxXml = function() {
   var toolboxXml;
   var request = new XMLHttpRequest();
@@ -57,4 +56,3 @@ WorkspaceManager.importCategoryMessages = function() {
     }
   }
 };
-

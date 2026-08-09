@@ -48,7 +48,6 @@ CodeGeneratorManager.getOledCompatSetupCode = function() {
     '  oled.line = _oled_line'
   ].join('\n') + '\n';
 };
-
 CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode) {
   if (!rawCode || rawCode.trim() === '') {
     return '';
@@ -288,4 +287,3 @@ CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode) {
   }
   return finalCode;
 };
-

@@ -1,100 +1,15 @@
 'use strict';
 
-// Shared BitDogLab profile defaults.
-// V7 uses these defaults directly; older revisions override only their differences.
+// Regras compartilhadas por todas as revisões da BitDogLab.
+// Pinos e periféricos físicos pertencem aos arquivos v6.js e v7.js.
 
 var BitdogLabProfileBase = {
-
-  // Pinos GPIO -> MUDE AQUI PARA OUTRO HARDWARE
-  PINS: {
-    LED_RED: 13, LED_GREEN: 11, LED_BLUE: 12,
-    BUZZER: 21,
-    BUTTON_A: 5, BUTTON_B: 6, BUTTON_C: 10,
-    JOYSTICK_X: 27, JOYSTICK_Y: 26, JOYSTICK_SW: 22,
-    NEOPIXEL: 7,
-    I2C_SCL: 3, I2C_SDA: 2,
-    I2C0_SCL: 1, I2C0_SDA: 0,
-    MIC: 28
-  },
-
-  // Periféricos
-  NEOPIXEL: {
-    COUNT: 25,
-    BRIGHTNESS: 0.7,
-    MATRIX: [
-      [24, 23, 22, 21, 20],
-      [15, 16, 17, 18, 19],
-      [14, 13, 12, 11, 10],
-      [5,  6,  7,  8,  9],
-      [4,  3,  2,  1,  0]
-    ]
-  },
-
-  JOYSTICK: { CENTER_VALUE: 32768, DEADZONE: 5000, INVERT_X: false, INVERT_Y: false },
-
-  DISPLAY: { I2C_BUS: 1, I2C_FREQ: 400000, WIDTH: 128, HEIGHT: 64 },
-
-  ROBOT: {
-    MPU_I2C_BUS: 0,
-    MPU_I2C_SDA: 0,
-    MPU_I2C_SCL: 1,
-    MPU_I2C_BUS_ALT: 1,
-    MPU_I2C_SDA_ALT: 2,
-    MPU_I2C_SCL_ALT: 3,
-    I2C_FREQ: 400000,
-    LEFT_FWD: 4,
-    LEFT_BWD: 9,
-    LEFT_PWM: 8,
-    RIGHT_FWD: 18,
-    RIGHT_BWD: 19,
-    RIGHT_PWM: 16,
-    STBY: 20,
-    PWM_FREQ: 1000,
-    MOVE_SPEED: 35000,
-    TURN_SPEED: 35000,
-    TURN_DEADZONE_DPS: 0.8,
-    TURN_TIMEOUT_MIN_MS: 1500,
-    TURN_TIMEOUT_MS_PER_DEGREE: 120
-  },
-
-  ROBOT_POWER: {
-    INA226_I2C_BUS: 1,
-    INA226_I2C_SDA: 2,
-    INA226_I2C_SCL: 3,
-    INA226_ADDR: 0x40,
-    SHUNT_RESISTOR_OHMS: 0.1,
-    I2C_FREQ: 400000
-  },
-
-  SENSOR: {
-    I2C_BUS: 0, I2C_FREQ: 400000,
-    I2C_BUS_ALT: 1,  // Barramento alternativo onde o AHT20 está sendo detectado
-    AHT20_ADDR: '0x38',
-    // Mapa de endereços I2C conhecidos -> nome do sensor
-    I2C_KNOWN_DEVICES: {
-      0x38: 'AHT20',
-      0x68: 'MPU6050'
-    }
-  },
 
   // Variáveis Python geradas para os LEDs RGB
   LED: { PWM_FREQ: 1000, VAR_RED: 'led_vermelho', VAR_GREEN: 'led_verde', VAR_BLUE: 'led_azul' },
 
-  // Engine — usada por app.js para montar o código final
-  LED_INIT: {
-    generateInitCode: function(rawCode) {
-      var led = BitdogLabConfig.LED;
-      var r = rawCode.indexOf(led.VAR_RED) !== -1;
-      var g = rawCode.indexOf(led.VAR_GREEN) !== -1;
-      var b = rawCode.indexOf(led.VAR_BLUE) !== -1;
-      if (!r && !g && !b) return '';
-      var code = '\n# Inicializar LEDs (desligar todos)\n';
-      if (r) code += led.VAR_RED + '.duty_u16(0)\n';
-      if (g) code += led.VAR_GREEN + '.duty_u16(0)\n';
-      if (b) code += led.VAR_BLUE + '.duty_u16(0)\n';
-      return code;
-    }
-  },
+  // Preenchido por createProfile para usar o perfil selecionado.
+  LED_INIT: {},
 
   LOOP: {
     DELAY_MS: 50,

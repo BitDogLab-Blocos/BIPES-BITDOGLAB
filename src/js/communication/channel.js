@@ -70,6 +70,14 @@ class ProtocolManager {
       UI['notify'].send(MSG['notConnected']);
     }
   }
+  // LIFO: prepend an urgent command without disturbing queued callbacks.
+  static bufferUnshift(code) {
+    if (Channel['webserial'].connected) {
+      Channel['webserial'].buffer.unshift(code);
+    } else {
+      UI['notify'].send(MSG['notConnected']);
+    }
+  }
   //Clear transmission queue + callbacks
   static clearBuffer() {
     if (Channel['webserial'].connected) {

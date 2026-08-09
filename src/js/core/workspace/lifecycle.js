@@ -36,7 +36,6 @@ WorkspaceManager.loadBlocks = function(defaultXml) {
     }
   }, 500);
 };
-
 WorkspaceManager.tuneBlocklyControls = function() {
   if (Blockly.ZoomControls) {
     Blockly.ZoomControls.prototype.WIDTH_ = 38;
@@ -126,4 +125,3 @@ WorkspaceManager.discard = function() {
     }
   }
 };
-

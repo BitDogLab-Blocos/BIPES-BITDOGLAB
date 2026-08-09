@@ -125,7 +125,7 @@ Para adicionar um bloco:
 
 ## Perfis de hardware
 
-`config/profiles/base.js` contém os padrões da V7, a cópia profunda, o merge e a validação. `v7.js` usa esses padrões diretamente. `v6.js` declara somente pinos, brilho, inversões e barramentos diferentes.
+`config/profiles/base.js` contém somente regras compartilhadas de geração, cópia profunda, merge e validação; ele não declara GPIOs. `v7.js` e `v6.js` funcionam como fichas completas de suas placas e repetem intencionalmente todos os pinos e periféricos, inclusive os valores iguais. Isso aumenta um pouco a repetição, mas permite entender uma revisão abrindo apenas um arquivo.
 
 O restante da aplicação continua lendo `BitdogLabConfig`, independentemente da versão selecionada.
 

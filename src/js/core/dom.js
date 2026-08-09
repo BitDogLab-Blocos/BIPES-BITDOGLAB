@@ -44,4 +44,3 @@ class Animate {
 
 globalThis.DOM = DOM;
 globalThis.Animate = Animate;
-

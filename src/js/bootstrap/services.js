@@ -25,4 +25,3 @@
 
   global.AppServices = AppServices;
 })(window);
-

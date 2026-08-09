@@ -23,4 +23,3 @@ Code.showEstufaToggleReminder = WorkspaceManager.showEstufaToggleReminder;
 Code.showGraficoReminder = WorkspaceManager.showGraficoReminder;
 Code.initWorkspace = WorkspaceManager.initWorkspace;
 Code.discard = WorkspaceManager.discard;
-

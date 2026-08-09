@@ -12,9 +12,9 @@ A revisão V7 é carregada como configuração padrão. O seletor da interface p
 
 | Arquivo | Responsabilidade |
 | --- | --- |
-| `profiles/base.js` | Declara os padrões compartilhados, merge seguro e validação estrutural. |
-| `profiles/v7.js` | Cria `BitdogLabConfig` usando os padrões da V7. |
-| `profiles/v6.js` | Cria `BitdogLabConfig_V6` declarando somente as diferenças da V6. |
+| `profiles/base.js` | Contém somente regras compartilhadas de geração, cópia e validação. Não declara GPIOs. |
+| `profiles/v7.js` | Declara por completo os pinos e periféricos da V7 e cria `BitdogLabConfig`. |
+| `profiles/v6.js` | Declara por completo os pinos e periféricos da V6 e cria `BitdogLabConfig_V6`. |
 | `toolbox.xml` | Organiza categorias, blocos, sombras e valores iniciais exibidos no Blockly. |
 
 ## Perfil ativo
@@ -29,7 +29,7 @@ BitdogLabConfig = (version === 'v6')
   : BitdogLabConfig_V7;
 ```
 
-Os dois perfis expõem seções equivalentes, como `PINS`, `NEOPIXEL`, `JOYSTICK`, `DISPLAY`, `ROBOT`, `SENSOR`, `MARKERS` e `SETUP_PATTERNS`.
+Os dois perfis expõem seções equivalentes, como `PINS`, `NEOPIXEL`, `JOYSTICK`, `DISPLAY`, `ROBOT`, `SENSOR`, `MARKERS` e `SETUP_PATTERNS`. Cada arquivo de versão repete intencionalmente todos os valores de hardware, mesmo quando são iguais, para funcionar como uma ficha completa e fácil de consultar da placa.
 
 ## Fluxo básico
 
@@ -40,4 +40,4 @@ Os dois perfis expõem seções equivalentes, como `PINS`, `NEOPIXEL`, `JOYSTICK
 5. O scanner I²C usa os barramentos e dispositivos conhecidos do mesmo perfil.
 6. Em paralelo, `toolbox.xml` é carregado, filtrado pelo projeto e aplicado ao workspace.
 
-> Uma nova revisão deve preservar o mesmo contrato estrutural das configurações existentes; assim, consumidores não precisam de condicionais específicas para cada placa.
+> Uma nova revisão deve declarar seu hardware por completo e preservar o mesmo contrato estrutural; assim, a leitura não depende de herança implícita e os consumidores não precisam de condicionais específicas para cada placa.

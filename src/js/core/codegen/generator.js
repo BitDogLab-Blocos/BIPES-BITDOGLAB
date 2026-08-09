@@ -33,7 +33,6 @@ CodeGeneratorManager.checkAllGeneratorFunctionsDefined = function(generator) {
 
   return valid;
 };
-
 CodeGeneratorManager.generateCode = function(generator) {
   generator = generator || Blockly.Python;
 
@@ -84,4 +83,3 @@ CodeGeneratorManager.generateCode = function(generator) {
     }
   }
 };
-

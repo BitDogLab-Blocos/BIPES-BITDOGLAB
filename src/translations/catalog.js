@@ -114,6 +114,7 @@ var APP_MESSAGES = {
 // and attribution strings from Blockly's complete demo toolbox.
 var BLOCKLY_MESSAGES = {
   'pt-br': {
+    CAT_TIMING: 'Temporização',
     ADD_COMMENT: 'Adicionar comentário',
     CANNOT_DELETE_VARIABLE_PROCEDURE: "Não se pode deletar a variável '%1' porque é parte da definição da função '%2'",
     CHANGE_VALUE_TITLE: 'Mudar valor:',
@@ -1736,6 +1737,7 @@ var GENERATED_TEXT_COMPONENTS_EN = {
 Code.TRANSLATION_CATALOG = {
   'pt-br': {
     app: APP_MESSAGES['pt-br'],
+    legacyApp: {},
     blockly: BLOCKLY_MESSAGES['pt-br'],
     text: CUSTOM_OVERRIDES['pt-br'] || {},
     generated: {
@@ -1748,6 +1750,7 @@ Code.TRANSLATION_CATALOG = {
   },
   'en': {
     app: APP_MESSAGES.en,
+    legacyApp: {},
     blockly: BLOCKLY_MESSAGES.en,
     text: Object.assign({}, CUSTOM_TRANSLATIONS_EN, CUSTOM_OVERRIDES.en || {}),
     generated: {

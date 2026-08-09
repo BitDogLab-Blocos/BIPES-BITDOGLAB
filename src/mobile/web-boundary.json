@@ -1,11 +1,16 @@
 {
-  "baseCommit": "9c17ce0",
-  "description": "Arquivos estáveis do navegador que o aplicativo móvel não pode modificar.",
+  "baseCommit": "63fe05c",
+  "description": "Entrypoints e módulos web sensíveis compartilhados com o aplicativo móvel após a arquitetura modular.",
   "files": {
-    "src/js/communication/webserial.js": "7b74ad3fa25bb7b0ab41ec5d90dedd33b4a067d441a3e08fbccb92417d2fff50",
-    "src/js/communication/channel.js": "42255573ff639ca1e97bdee77db3547f3ce6b023bd029675f565ab8f9ff11b07",
+    "src/js/bootstrap/page.js": "4b986350c7bd480144a9db2b8243ddca5c72ed443b96fcb5e5bb7ebc00b51687",
+    "src/js/bootstrap/services.js": "38e35a3d886c385a44b7a9395d43e3904511e46a702293e88146530fc66ba95d",
+    "src/js/communication/webserial.js": "63f99d597e532b2bcfbe1992e556ebd983e8fe4504214892de6260601c47c2c0",
+    "src/js/communication/channel.js": "a3c1e5aeee2c93aaa9ddcc6011351d40bab0789e7bc60ebdf539ca7f821110bf",
     "src/js/communication/i2c_scanner.js": "7900c4261bc198b60c3ccc5e5f94b4622f5ab1c750895ff88e8312404c0f8aeb",
-    "src/js/core/utils.js": "e8e60cb5ded4d6435fbd64f2a333b1f025a627f1a79284b45e496a2e45058677",
-    "src/pages/index.html": "ec61fde8d8c3951d80c095eeb9f36e3bd709a29ce21b5dd7ec79b375bc92c971"
+    "src/js/core/execution/runner.js": "faa2cf2d8e9abc5d62a1a319b58eb812fd6a2add9ad5ad0bda5fb75d4eda7dc6",
+    "src/js/core/execution/main-file.js": "0a27a4f0a46434b1322a6cc39b230b2dd7239a5b33c028024ed936b449d914f1",
+    "src/js/core/execution/index.js": "f0e75545810909ca12aff0eeabd933eea3c1a8bb1fb0711346b9d0a1871bf140",
+    "src/js/core/utils.js": "edf6f8bf69b976ccf7db9c69d4dd7776a850b03ac334e494f76fff86cb7d15f3",
+    "src/pages/index.html": "b654145b4b644811b0dc601c077fac490fbf59200ee78f9c50864df3c91815dd"
   }
 }

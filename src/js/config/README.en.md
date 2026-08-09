@@ -12,9 +12,9 @@ Revision V7 is loaded as the default configuration. The interface selector can r
 
 | File | Responsibility |
 | --- | --- |
-| `profiles/base.js` | Declares shared defaults, safe merge, and structural validation. |
-| `profiles/v7.js` | Creates `BitdogLabConfig` from the V7 defaults. |
-| `profiles/v6.js` | Creates `BitdogLabConfig_V6` with only the V6 differences. |
+| `profiles/base.js` | Contains only shared generation, copy, and validation rules. It declares no GPIOs. |
+| `profiles/v7.js` | Fully declares V7 pins and peripherals and creates `BitdogLabConfig`. |
+| `profiles/v6.js` | Fully declares V6 pins and peripherals and creates `BitdogLabConfig_V6`. |
 | `toolbox.xml` | Organizes the categories, blocks, shadows, and initial values displayed by Blockly. |
 
 ## Active profile
@@ -29,7 +29,7 @@ BitdogLabConfig = (version === 'v6')
   : BitdogLabConfig_V7;
 ```
 
-Both profiles expose equivalent sections such as `PINS`, `NEOPIXEL`, `JOYSTICK`, `DISPLAY`, `ROBOT`, `SENSOR`, `MARKERS`, and `SETUP_PATTERNS`.
+Both profiles expose equivalent sections such as `PINS`, `NEOPIXEL`, `JOYSTICK`, `DISPLAY`, `ROBOT`, `SENSOR`, `MARKERS`, and `SETUP_PATTERNS`. Each version file intentionally repeats every hardware value, including equal values, so it remains a complete and easy-to-read board reference.
 
 ## Basic flow
 
@@ -40,4 +40,4 @@ Both profiles expose equivalent sections such as `PINS`, `NEOPIXEL`, `JOYSTICK`,
 5. The I²C scanner uses the buses and known devices from the same profile.
 6. In parallel, `toolbox.xml` is loaded, filtered by project, and applied to the workspace.
 
-> A new revision should preserve the same structural contract as the existing configurations so consumers do not need board-specific conditionals.
+> A new revision should fully declare its hardware and preserve the same structural contract, avoiding implicit inheritance and board-specific conditionals in consumers.

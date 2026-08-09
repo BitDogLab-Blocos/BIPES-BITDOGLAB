@@ -188,4 +188,3 @@ Code.patchBlocklyI18n = function() {
     nativeAlert(Code.translateText(String(message)));
   };
 })();
-

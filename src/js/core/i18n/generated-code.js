@@ -12,7 +12,6 @@ Code.normalizeAuditText = function(text) {
   }
   return normalized;
 };
-
 Code.translateGeneratedIdentifierPart = function(part) {
   if (Code.LANG !== 'en' || typeof part !== 'string' || !part) {
     return part;
@@ -264,4 +263,3 @@ Code.translateGeneratedCode = function(code) {
 
   return code;
 };
-

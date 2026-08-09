@@ -101,4 +101,3 @@ static _doSaveAsMainPy (onDone) {
 }
 
 globalThis.MainFileService = MainFileService;
-

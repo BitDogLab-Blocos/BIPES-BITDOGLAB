@@ -30,7 +30,6 @@ class workspace {
     this.term = get('#term');
   }
 }
-
 // Run or stop Python program (auto-connects if needed)
 workspace.prototype.run = function () {
   if (this.runButton.status) {
@@ -181,4 +180,3 @@ workspace.prototype.loadXML = function () {
     }
   }
 }
-

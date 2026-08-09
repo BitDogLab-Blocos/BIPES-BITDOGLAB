@@ -51,4 +51,3 @@ notify.prototype.send = function (message) {
 notify.prototype.log = function (message) {
   this.logs.push ({timestamp: +new Date, message: message});
 }
-
