@@ -1,45 +1,94 @@
-# Traduções do projeto
+# Traduções do BIPES–BitDogLab
 
 **Português** · [Read in English](README.en.md)
 
-Esta pasta centraliza os textos traduzidos usados pela aplicação web, pelo Blockly e pelo WebView do aplicativo Android. O catálogo mantém português do Brasil e inglês sem alterar os identificadores que precisam continuar estáveis no código gerado.
+`src/translations/` é a fonte de textos em português do Brasil e inglês usados pela interface web, Blockly, código MicroPython gerado, guias e WebView Android.
 
-## Organização
+## Estrutura
 
 ```text
 src/translations/
-├── catalog.js                 # catálogo principal da aplicação
+├── catalog.js
 └── blockly/
-    ├── messages.js            # mensagens e metadados de origem do Blockly
+    ├── messages.js
     └── data/
-        ├── constants.json     # constantes compartilhadas pelo Blockly
-        ├── en.json            # dados em inglês
-        ├── pt-br.json         # dados em português do Brasil
-        └── synonyms.json      # equivalências usadas pelo tooling do Blockly
+        ├── constants.json
+        ├── en.json
+        ├── pt-br.json
+        └── synonyms.json
 ```
 
-## Catálogo da aplicação
+| Parte | Responsabilidade |
+| --- | --- |
+| `catalog.js` | Mensagens próprias da aplicação e regras de tradução do código gerado. |
+| `blockly/messages.js` | Fonte e metadados das mensagens originadas no Blockly. |
+| `blockly/data/*.json` | Dados derivados usados pelo tooling de mensagens Blockly. |
 
-`catalog.js` reúne as mensagens próprias da BitDogLab nos mapas `pt-br` e `en` e expõe o resultado para o namespace global `Code`. O carregamento é iniciado por `src/js/core/language.js`; a camada de interface usa `Code.t(...)` e os atributos `data-i18n` para buscar as mensagens.
+## Camadas do catálogo
 
-Para adicionar um texto novo:
+`Code.TRANSLATION_CATALOG` separa conteúdos com riscos diferentes:
 
-1. crie uma chave estável e inclua-a nos dois idiomas;
-2. use `Code.t('app.nomeDaChave')` no JavaScript ou `data-i18n="app.nomeDaChave"` no HTML;
-3. preserve placeholders como `%1` e `%2` exatamente nas duas versões;
-4. mantenha em português os identificadores, nomes de variáveis, pinos e valores que precisam aparecer no MicroPython gerado.
+| Camada | Exemplo de consumidor |
+| --- | --- |
+| `app` | `Code.t('app.saveMainLabel')` e `data-i18n`. |
+| `blockly` | Labels, categorias e mensagens do editor. |
+| `text` | Compatibilidade com traduções antigas baseadas no texto original. |
+| `generated` | Identificadores, comentários e strings emitidos em MicroPython. |
 
-O tradutor legado por texto continua no catálogo para preservar blocos e projetos antigos enquanto a migração para chaves estáveis avança.
+Novos textos de interface devem usar chaves. A tradução textual permanece somente para preservar blocos e projetos antigos.
 
-## Dados do Blockly
+## Adicionar uma mensagem de interface
 
-`blockly/messages.js` acompanha o formato de mensagens do Blockly e registra as regras usadas para gerar os arquivos JSON. Ao alterar mensagens dessa origem, siga as instruções no próprio arquivo e regenere os dados correspondentes; não edite apenas um locale deixando os arquivos derivados divergentes.
+1. Escolha uma chave estável que descreva o significado, não a posição visual.
+2. Adicione português e inglês em `APP_MESSAGES`.
+3. Preserve placeholders como `%1`, `%2` e quebras de linha em ambos os idiomas.
+4. Consuma a chave no JavaScript:
 
-Os arquivos de dados não são um segundo catálogo da interface BitDogLab. Eles sustentam os textos e metadados do Blockly, enquanto `catalog.js` concentra as mensagens próprias do projeto.
+```js
+UI.notify.send(Code.t('app.versionChanged'));
+```
 
-## Checklist de tradução
+ou no HTML:
 
-- Verifique a interface em português e inglês no navegador.
-- Confirme que o texto traduzido não altera nomes de blocos, campos, variáveis ou identificadores gerados.
-- Teste placeholders, quebras de linha e caracteres especiais.
-- Valide também o WebView Android quando a mudança afetar mensagens carregadas durante a inicialização.
+```html
+<span data-i18n="app.saveMainLabel">Salvar na placa</span>
+```
+
+O texto original em HTML deve continuar útil caso o catálogo não carregue.
+
+## Traduzir o código gerado
+
+MicroPython possui nomes que não podem mudar, como módulos, classes, métodos e argumentos de API. `core/i18n/generated-code.js` usa listas explícitas e regras conservadoras para distinguir texto pedagógico de sintaxe executável.
+
+Ao adicionar uma tradução de código:
+
+- não altere imports, nomes de módulos ou atributos MicroPython;
+- mantenha pinos, números e valores literais funcionais;
+- preserve nomes necessários entre setup e loop;
+- teste identificadores compostos e palavras reservadas;
+- confira o resultado em V6 e V7.
+
+## Mensagens Blockly
+
+Os JSONs em `blockly/data/` não são um segundo catálogo da BitDogLab. Eles apoiam o conjunto de mensagens do Blockly. Ao mudar essa origem, atualize os idiomas e dados derivados em conjunto, seguindo os comentários de `blockly/messages.js`.
+
+## Guias de hardware
+
+Os tutoriais registram traduções dentro de seu próprio `tutorial.js`, pois cada módulo é carregado de forma independente. O teste de i18n garante que toda chave `data-copy` tenha versão inglesa.
+
+## Checklist
+
+- português e inglês carregam sem chave visível;
+- placeholders aparecem na mesma quantidade e ordem;
+- textos longos cabem em botões e painéis estreitos;
+- atributos `alt`, títulos e mensagens dinâmicas também são traduzidos;
+- Python gerado mantém APIs e executabilidade;
+- WebView Android apresenta o mesmo catálogo da web.
+
+## Validação
+
+```powershell
+node --test tests/i18n/*.test.js
+node tests/examples_generation_smoke.js
+node --test src/mobile/tests/*.test.js
+```
