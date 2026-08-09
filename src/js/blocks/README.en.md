@@ -17,6 +17,7 @@ The toolbox selects the blocks available to users. Definitions control shape and
 | `contracts/types.js` | Declares semantic domains and connection compatibility. |
 | `contracts/registry.js` | Maps block types to requirements, dependencies, and bilingual messages. |
 | `contracts/validator.js` | Analyzes the workspace, applies warnings, and blocks invalid code. |
+| `registry.js` | Checks that toolbox block types have definitions and generators. |
 | `sensor_libs.js` | Stores embedded MicroPython drivers for displays and sensors. |
 
 ## Registering a block
@@ -40,10 +41,11 @@ To make it available in the interface, include the identifier in `src/js/config/
 ## Basic flow
 
 1. `toolbox.xml` provides the available categories and blocks.
-2. `definitions/` creates the blocks inside the Blockly workspace.
-3. `contracts/` checks types, required inputs, ancestors, and dependencies.
-4. `generators/` transforms valid blocks into Python.
-5. `sensor_libs.js` provides embedded drivers when a generator needs them.
-6. The core organizes the final Python and sends it to the board.
+2. `registry.js` checks definitions and generators for loaded types.
+3. `definitions/` creates the blocks inside the Blockly workspace.
+4. `contracts/` checks types, required inputs, ancestors, and dependencies.
+5. `generators/` transforms valid blocks into Python.
+6. `sensor_libs.js` provides embedded drivers when a generator needs them.
+7. The core organizes the final Python and sends it to the board.
 
 > Script order in `src/pages/index.html` matters: types come before definitions, contracts before validation, and definitions before their matching generators.

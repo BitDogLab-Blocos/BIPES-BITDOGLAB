@@ -17,6 +17,12 @@
         }
 
         Code._fullToolboxXml = Blockly.Xml.textToDom(request.responseText);
+        if (Code.BlockRegistry) {
+          var registryReport = Code.BlockRegistry.validateToolbox(Code._fullToolboxXml);
+          if (!registryReport.valid) {
+            console.warn('[BitDogLab] Toolbox registry issues:', registryReport);
+          }
+        }
         var project = localStorage.getItem('bitdoglab_project') || 'basico';
         Code.filterToolboxByProject(project);
         Code.initProjectSelector();
@@ -40,4 +46,3 @@
   global.addEventListener('load', PageBootstrap.loadProjectToolbox);
   global.PageBootstrap = PageBootstrap;
 })(window);
-

@@ -12,8 +12,9 @@ Revision V7 is loaded as the default configuration. The interface selector can r
 
 | File | Responsibility |
 | --- | --- |
-| `bitdoglab_v7.js` | Declares `BitdogLabConfig`, the default profile with V7 pins and peripherals. |
-| `bitdoglab_v6.js` | Declares `BitdogLabConfig_V6` with the V6 pin, brightness, and bus differences. |
+| `profiles/base.js` | Declares shared defaults, safe merge, and structural validation. |
+| `profiles/v7.js` | Creates `BitdogLabConfig` from the V7 defaults. |
+| `profiles/v6.js` | Creates `BitdogLabConfig_V6` with only the V6 differences. |
 | `toolbox.xml` | Organizes the categories, blocks, shadows, and initial values displayed by Blockly. |
 
 ## Active profile
@@ -32,10 +33,10 @@ Both profiles expose equivalent sections such as `PINS`, `NEOPIXEL`, `JOYSTICK`,
 
 ## Basic flow
 
-1. `src/pages/index.html` loads the V7 and V6 profiles.
+1. `src/pages/index.html` loads the base, V7, and V6 profiles.
 2. `app.js` keeps `BitdogLabConfig` pointing to the selected revision.
 3. Block generators read pins, peripherals, and rules from the active profile.
-4. `codegen.js` uses markers and patterns to organize setup and loop code.
+4. `core/codegen/` uses markers and patterns to organize setup and loop code.
 5. The I²C scanner uses the buses and known devices from the same profile.
 6. In parallel, `toolbox.xml` is loaded, filtered by project, and applied to the workspace.
 

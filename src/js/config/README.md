@@ -12,8 +12,9 @@ A revisão V7 é carregada como configuração padrão. O seletor da interface p
 
 | Arquivo | Responsabilidade |
 | --- | --- |
-| `bitdoglab_v7.js` | Declara `BitdogLabConfig`, perfil padrão com pinos e periféricos da V7. |
-| `bitdoglab_v6.js` | Declara `BitdogLabConfig_V6` com as diferenças de pinos, brilho e barramentos da V6. |
+| `profiles/base.js` | Declara os padrões compartilhados, merge seguro e validação estrutural. |
+| `profiles/v7.js` | Cria `BitdogLabConfig` usando os padrões da V7. |
+| `profiles/v6.js` | Cria `BitdogLabConfig_V6` declarando somente as diferenças da V6. |
 | `toolbox.xml` | Organiza categorias, blocos, sombras e valores iniciais exibidos no Blockly. |
 
 ## Perfil ativo
@@ -32,10 +33,10 @@ Os dois perfis expõem seções equivalentes, como `PINS`, `NEOPIXEL`, `JOYSTICK
 
 ## Fluxo básico
 
-1. `src/pages/index.html` carrega os perfis V7 e V6.
+1. `src/pages/index.html` carrega a base, o perfil V7 e o perfil V6.
 2. `app.js` mantém `BitdogLabConfig` apontando para a revisão escolhida.
 3. Geradores de blocos consultam pinos, periféricos e regras do perfil ativo.
-4. `codegen.js` usa marcadores e padrões para organizar configuração e loop.
+4. `core/codegen/` usa marcadores e padrões para organizar configuração e loop.
 5. O scanner I²C usa os barramentos e dispositivos conhecidos do mesmo perfil.
 6. Em paralelo, `toolbox.xml` é carregado, filtrado pelo projeto e aplicado ao workspace.
 

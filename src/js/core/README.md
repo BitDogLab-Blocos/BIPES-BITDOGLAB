@@ -13,13 +13,15 @@ Cada arquivo concentra uma responsabilidade e publica apenas os pontos necessár
 | Arquivo | Responsabilidade |
 | --- | --- |
 | `app.js` | Executa o bootstrap e coordena a inicialização dos subsistemas. |
-| `workspace.js` | Cria o Blockly, carrega a toolbox, filtra projetos e apresenta lembretes de uso. |
-| `codegen.js` | Valida geradores, organiza o Python produzido e mantém a geração automática. |
+| `workspace/` | Separa ciclo Blockly, toolbox, projetos e lembretes, publicando a API em `Code`. |
+| `codegen/` | Separa validação, organização do Python e geração automática. |
+| `execution/` | Executa, interrompe, reinicia e salva `main.py` pela fachada `Tool`. |
 | `tabs.js` | Alterna, divide, renderiza e redimensiona os painéis da aplicação. |
 | `language.js` | Escolhe o idioma, carrega o catálogo e configura a direção da página. |
-| `i18n.js` | Usa o catálogo para traduzir a interface, a toolbox e os identificadores do código gerado, além de auditar o resultado. |
+| `i18n/` | Separa tradução da interface, Blockly e código gerado. |
 | `storage.js` | Salva projetos e backups do workspace no navegador e restaura a última sessão. |
-| `utils.js` | Fornece operações de execução, arquivos da placa, terminal, DOM e animações. |
+| `terminal.js` e `dom.js` | Integram o terminal e mantêm os pequenos helpers visuais. |
+| `utils.js` | Caminho temporário de compatibilidade; a implementação já foi extraída. |
 
 ## Como é iniciado
 
@@ -40,11 +42,11 @@ Code.init();
 ## Fluxo básico
 
 1. `app.js` inicia os serviços disponíveis no namespace `Code`.
-2. `workspace.js` cria o Blockly e carrega as categorias de blocos.
+2. `workspace/` cria o Blockly e carrega as categorias de blocos.
 3. Alterações no workspace são persistidas por `storage.js`.
-4. `codegen.js` transforma os blocos em Python e aplica os ajustes de execução.
+4. `codegen/` transforma os blocos em Python; `execution/` envia o resultado para a placa.
 5. `tabs.js` apresenta Blockly, console, arquivos, referência da placa ou painel de dados.
-6. `language.js` e `i18n.js` mantêm interface, toolbox e código gerado no idioma selecionado.
+6. `language.js` e `i18n/` mantêm interface, toolbox e código gerado no idioma selecionado.
 
 ## Catálogo de traduções
 

@@ -8,17 +8,15 @@ This folder connects browser events to BIPES services and maintains the applicat
 
 ![BIPES interface architecture](images/architecture.png)
 
-`ui.js` contains the classic components registered in the global `UI` object. `block_warning_ui.js` is a smaller specialized layer that adapts only the bubbles created by the block validator.
+Classic components now live in files grouped by responsibility. `ui.js` only creates the global `UI` registry, while `block_warning_ui.js` adapts bubbles created by the block validator.
 
 | Component | Responsibility |
 | --- | --- |
-| `panel` | Opens and closes shared side panels. |
-| `account` | Maintains the current project and local index used by storage/autosave. |
-| `channelPanel` | Displays and selects the serial communication channel. |
-| `notify` | Displays translated temporary messages and records diagnostic logs. |
-| `responsive` | Adjusts the layout and closes panels from outside areas. |
-| `progress` | Displays transmission and file operation progress. |
-| `workspace` | Connects buttons to execution, connection, device, and XML file actions. |
+| `panels.js` | Panels, communication channel, and responsive layout. |
+| `notifications.js` | Temporary messages and diagnostic logs. |
+| `progress.js` | Transmission and file-operation progress. |
+| `workspace-controls.js` | Execution, connection, device, and XML controls. |
+| `ui.js` | Creates the components and returns the registry used by bootstrap. |
 | `block_warning_ui.js` | Wraps long text and styles contract warning bubbles. |
 | `device-reference.js` | Loads and navigates the independent modules documented in `src/hardware-guides/README.md`. |
 
@@ -27,12 +25,7 @@ This folder connects browser events to BIPES services and maintains the applicat
 After the core, communication, terminal, and file services are available, `src/pages/index.html` creates the global registry:
 
 ```js
-var UI = {};
-UI['responsive'] = new responsive();
-UI['notify'] = new notify();
-UI['progress'] = new progress();
-UI['account'] = new account();
-UI['workspace'] = new workspace();
+var UI = UIFactory.create();
 ```
 
 Other modules access these components by key, for example `UI['notify'].send(message)` and `UI['progress'].start(total)`.
