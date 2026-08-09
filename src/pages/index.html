@@ -244,122 +244,6 @@
     </div>
   </div>
 
-  <script>
-    // Bounce animation keyframes for buttons
-    document.head.insertAdjacentHTML('beforeend', '<style>@keyframes bounce{0%,20%,50%,80%,100%{transform:translateY(0)}40%{transform:translateY(-20px)}60%{transform:translateY(-10px)}}</style>');
-
-    // Welcome flow: splash -> partnership -> tutorial
-    window.addEventListener('DOMContentLoaded', function() {
-      var startBtn = document.getElementById('startAdventureBtn');
-      var welcomeMsg = document.getElementById('welcome-message');
-      var partnershipNotice = document.getElementById('partnership-notice');
-      var closePartnershipBtn = document.getElementById('closePartnershipBtn');
-      var tutorialContainer = document.getElementById('tutorial-steps');
-
-      welcomeMsg.style.display = 'flex';
-
-      // Welcome -> Partnership transition
-      if (startBtn && welcomeMsg && partnershipNotice) {
-        startBtn.addEventListener('click', function() {
-          welcomeMsg.style.opacity = '0';
-          setTimeout(function() {
-            welcomeMsg.style.display = 'none';
-            partnershipNotice.style.display = 'flex';
-            partnershipNotice.style.opacity = '0';
-            void partnershipNotice.offsetWidth; // Force reflow
-            setTimeout(function() {
-              partnershipNotice.style.opacity = '1';
-            }, 50);
-          }, 1000);
-        });
-      }
-
-      // Partnership -> Tutorial transition
-      if (closePartnershipBtn && partnershipNotice && tutorialContainer) {
-        closePartnershipBtn.addEventListener('click', function() {
-          partnershipNotice.style.opacity = '0';
-          setTimeout(function() {
-            partnershipNotice.style.display = 'none';
-            tutorialContainer.style.display = 'block';
-            localStorage.setItem('bitdoglab_visited', 'true'); // Mark first visit
-          }, 1000);
-        });
-      }
-
-      // Toggle additional tutorial steps
-      var startCodingBtn = document.getElementById('startCodingBtn');
-      var additionalSteps = document.getElementById('additional-steps');
-
-      if (startCodingBtn && additionalSteps) {
-        startCodingBtn.addEventListener('click', function() {
-          if (additionalSteps.style.display === 'block') {
-            additionalSteps.style.display = 'none';
-          } else {
-            additionalSteps.style.display = 'block';
-            additionalSteps.style.backgroundColor = '#f5f0d5'; // Highlight effect
-            setTimeout(function() {
-              additionalSteps.style.backgroundColor = '#fafafa';
-            }, 1000);
-            additionalSteps.scrollIntoView({behavior: 'smooth'});
-            startCodingBtn.style.animation = 'bounce 0.5s';
-            setTimeout(function() { startCodingBtn.style.animation = ''; }, 500);
-          }
-        });
-      }
-    });
-  </script>
-
-  <script>
-    // Load Blockly toolbox from XML and apply project filter
-    window.addEventListener('load', function() {
-      try {
-        if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace()) {
-          var request = new XMLHttpRequest();
-          request.open('GET', '../js/config/toolbox.xml?ver=20260718a1', true);
-          request.onreadystatechange = function() {
-            if (request.readyState === 4 && request.status === 200) {
-              var toolboxXml = Blockly.Xml.textToDom(request.responseText);
-
-              // Store original full toolbox for project filtering
-              Code._fullToolboxXml = toolboxXml;
-
-              // Apply project filter (uses saved project or 'basico')
-              var project = localStorage.getItem('bitdoglab_project') || 'basico';
-              Code.filterToolboxByProject(project);
-
-              // Initialize project selector events
-              Code.initProjectSelector();
-
-              console.log('[BitdogLab] Toolbox loaded, project:', project);
-              Blockly.svgResize(Blockly.getMainWorkspace());
-            }
-          };
-          request.send(null);
-        }
-      } catch(e) {
-        console.error('Toolbox load error:', e);
-      }
-    });
-
-    // Tutorial panel close handlers
-    window.addEventListener('DOMContentLoaded', function() {
-      var closeTutorialBtn = document.getElementById('closeTutorialBtn');
-      var startCodingBtn = document.getElementById('startCodingBtn');
-      var tutorialContainer = document.getElementById('tutorial-steps');
-
-      if (closeTutorialBtn && tutorialContainer) {
-        closeTutorialBtn.addEventListener('click', function() {
-          tutorialContainer.style.display = 'none';
-        });
-      }
-
-      if (startCodingBtn && tutorialContainer) {
-        startCodingBtn.addEventListener('click', function() {
-          tutorialContainer.style.display = 'none';
-        });
-      }
-    });
-  </script>
 
   <div class="top-menu">
 
@@ -468,37 +352,9 @@
   </button>
 </div>
 
-<script>
-// Initialize Blockly workspace
-Code.init ();
-
-// Communication channels (WebSerial)
-var Channel = {};
-Channel ['webserial'] = new webserial ();
-Channel ['mux'] = new mux ();
-
-// Terminal (xterm.js)
-var terminal = new Terminal ();
-term.init('#term');
-
-// File manager
-var Files = new DeviceFilesManager ('#fileList');
-
-// UI components
-var UI = {};
-UI ['responsive'] = new responsive ();
-UI ['notify'] = new notify ();
-UI ['progress'] = new progress ();
-UI ['account'] = new account ();
-UI ['language-panel'] = new panel ('#languageButton','.language-panel');
-UI ['channel-panel'] = new channelPanel ('#channelButton','.channel-panel');
-UI ['toolbar'] = new panel ('#toolbarButton','.toolbar');
-UI ['workspace'] = new workspace ();
-
-// Clear queue from previous session
-Tool.clearQueue ();
-
-</script>
+<script src="../js/bootstrap/onboarding.js?ver=20260809arch1"></script>
+<script src="../js/bootstrap/services.js?ver=20260809arch1"></script>
+<script src="../js/bootstrap/page.js?ver=20260809arch1"></script>
 
 </body>
 </html>
