@@ -1,3 +1,38 @@
+// Account state used by project persistence and autosave
+function account () {
+
+	this.currentProject = {uid:'', xml:''};
+	this.projects = {}; // {uid: timestamp}
+
+  try {
+    this.restoreProjects(JSON.parse(localStorage.getItem('bipes_projects') || '{}'));
+  } catch (e) {
+    console.warn('[Account] Failed to restore project list:', e);
+    this.restoreProjects({});
+  }
+}
+// Restore project state from localStorage and discard orphaned entries
+account.prototype.restoreProjects = function (projects_) {
+  this.projects = (projects_ && typeof projects_ === 'object') ? projects_ : {};
+
+  var hasValidProjects = false;
+  for (const prop in this.projects) {
+    if (localStorage[prop]) {
+      hasValidProjects = true;
+    } else {
+      delete this.projects[prop]; // Clean orphaned project references
+    }
+  }
+
+  // If we have projects but currentProject.uid is not set, set it to the first one
+  if (hasValidProjects && !this.currentProject.uid) {
+    var firstProjectUid = Object.keys(this.projects)[0];
+    this.currentProject.uid = firstProjectUid;
+    this.currentProject.xml = localStorage[firstProjectUid];
+    console.log('[Account] Initialized currentProject.uid to:', firstProjectUid);
+  }
+};
+
 // Unified workspace persistence for autosave, project restore, and session backup.
 (function() {
   'use strict';
