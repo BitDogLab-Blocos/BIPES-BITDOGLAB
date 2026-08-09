@@ -1,113 +1,108 @@
-# Hardware guides
+# BIPES–BitDogLab hardware guides
 
 [Leia em português](README.md) · **English**
 
-This folder contains the tutorials shown in the **Device** tab. Each project keeps its content, translations, and behavior in an independent folder. A tutorial never imports or changes another tutorial's code.
-
-## Architecture
+Tutorials shown in the **Device** tab live under `src/hardware-guides/`. Each guide owns its content, translations, and interactions without depending on another project.
 
 ![Modular hardware guide architecture](images/architecture.svg)
 
-The shared flow is intentionally small: `manifest.js` declares which modules are loaded, `registry.js` validates and registers them, and `src/js/ui/device-reference.js` builds the menu and displays only the tutorial selected by the URL.
-
-| File or folder | Responsibility |
-| --- | --- |
-| `manifest.js` | Lists each available project's `tutorial.js`. |
-| `registry.js` | Exposes `register`, `get`, and `list`, validating the minimum module contract. |
-| `<project>/tutorial.html` | Stores Portuguese content and translation markers. |
-| `<project>/tutorial.js` | Registers menu text, template, English translations, and project-only behavior. |
-| `<project>/tutorial.css` | Optional; used only when shared CSS is not enough. |
-| `src/js/ui/device-reference.js` | Loads modules and templates, builds the menu, routes by hash, and applies language. |
-| `src/styles/device-reference.css` | Defines the shared visual language for every tutorial. |
-| `src/pages/device-reference.html` | Provides only the outer shell: sidebar and content region. |
-
-## Current structure
+## Loading flow
 
 ```text
-src/hardware-guides/
-├── images/
-│   └── architecture.svg
-├── bitdoglab/
-│   ├── tutorial.html
-│   └── tutorial.js
-├── estufa/
-│   ├── tutorial.html
-│   └── tutorial.js
-├── robo/
-│   ├── tutorial.html
-│   └── tutorial.js
-├── manifest.js
-├── registry.js
-├── README.md
-└── README.en.md
+manifest.js
+    ↓ lists modules
+<project>/tutorial.js
+    ↓ registers metadata and behavior
+registry.js
+    ↓ validates and sorts
+device-reference.js
+    ↓ loads the template and applies language
+<project>/tutorial.html
 ```
 
-The `bitdoglab`, `estufa`, and `robo` modules do not depend on one another. Removing one from the manifest does not change the others.
+| Part | Responsibility |
+| --- | --- |
+| `manifest.js` | Lists tutorial scripts loaded by the page. |
+| `registry.js` | Validates, registers, and sorts modules. |
+| `<project>/tutorial.html` | Original Portuguese content and translation markers. |
+| `<project>/tutorial.js` | Menu, template, translations, and project-only behavior. |
+| `<project>/tutorial.css` | Optional style isolated to one project. |
+| `src/js/ui/device-reference.js` | Navigation, loading, language, and lifecycle. |
+| `src/styles/device-reference.css` | Shared visual components. |
 
-## Tutorial contract
-
-Each `tutorial.js` calls `DeviceHardwareGuides.register` with these properties:
-
-| Property | Required | Purpose |
-| --- | --- | --- |
-| `id` | Yes | Space-free identifier used by the menu and URL hash. |
-| `order` | Recommended | Sets the tutorial's menu position. |
-| `template` | Yes | Path to `tutorial.html`, relative to `src/pages/device-reference.html`. |
-| `menu` | Yes | Button title and description in Portuguese and English. |
-| `translations` | For English | Maps every `data-copy` or `data-copy-alt` key to English. |
-| `init(context)` | No | Initializes project-only interaction after inserting the HTML. |
-| `stylesheet` | No | Loads project-only CSS while that tutorial is open. |
-
-The `context` passed to `init` contains the tutorial `root` element and current `lang`. Always query through `context.root` to keep behavior isolated.
-
-## Complete example: add a guide
-
-The example below creates a fictional `sensor-luz` project.
-
-### 1. Create the folder
+## Existing projects
 
 ```text
-src/hardware-guides/sensor-luz/
+hardware-guides/
+├── bitdoglab/         # board overview
+├── estufa/            # AHT20 and greenhouse assembly
+├── robo/              # chassis, H-bridge, and MPU6050
+├── images/            # images used by this documentation
+├── manifest.js
+└── registry.js
+```
+
+Removing a script from the manifest removes only that menu item. Project directories never import one another.
+
+## Module contract
+
+Each `tutorial.js` registers an object through `DeviceHardwareGuides.register`:
+
+| Field | Required | Description |
+| --- | --- | --- |
+| `id` | Yes | Lowercase identifier used by the menu and URL hash. |
+| `template` | Yes | HTML fragment path relative to the hosting page. |
+| `menu` | Yes | Title and description in `pt-br` and `en`. |
+| `order` | Recommended | Numeric menu position. |
+| `translations.en` | For English | Text matching every `data-copy` key. |
+| `init(context)` | No | Initializes controls owned by the guide. |
+| `stylesheet` | No | Stylesheet loaded only for this module. |
+
+`init` receives `{ root, lang }`. Every DOM query must start from `context.root` to prevent collisions between tutorials.
+
+## Create a guide
+
+The example below adds `sensor-luz`.
+
+### 1. Create the files
+
+```text
+hardware-guides/sensor-luz/
 ├── tutorial.html
 └── tutorial.js
 ```
 
-Use a short lowercase ID without spaces or accents. The folder and `id` must match.
+The directory name and `id` must match and use lowercase letters without spaces or accents.
 
-### 2. Write the Portuguese template
-
-Create `sensor-luz/tutorial.html`:
+### 2. Write the Portuguese HTML
 
 ```html
 <section class="project-panel is-active"
          id="sensor-luz"
          data-panel="sensor-luz">
   <header class="article-header">
-    <p class="article-index" data-copy="eyebrow">
-      PROJETO SENSOR DE LUZ
-    </p>
+    <p class="article-index" data-copy="eyebrow">PROJETO SENSOR DE LUZ</p>
     <h2 data-copy="title">Medindo a luminosidade</h2>
-    <p data-copy="intro">
-      Este tutorial explica como conectar e testar o sensor de luz.
-    </p>
+    <p data-copy="intro">Aprenda a conectar e testar o sensor.</p>
   </header>
 
   <figure class="component-figure">
     <img src="../assets/images/devices/sensor-luz.png"
-         alt="Sensor de luz usado no projeto"
+         alt="Sensor de luz"
          data-copy-alt="imageAlt">
-    <figcaption data-copy="imageCaption">
-      Módulo utilizado para medir a luz ambiente.
-    </figcaption>
+    <figcaption data-copy="imageCaption">Sensor usado no projeto.</figcaption>
   </figure>
 </section>
 ```
 
-Keep the original content in Portuguese, mark translated text with `data-copy`, and mark image alternatives with `data-copy-alt`. Translation replaces `textContent`, so place the attribute directly on the textual element. Image URLs start with `../assets/` because the fragment is rendered by `src/pages/device-reference.html`.
+Template rules:
 
-### 3. Register the module
+- keep useful content when JavaScript is unavailable;
+- place `data-copy` only on the element whose `textContent` is replaced;
+- use `data-copy-alt` for image alternative text;
+- resolve assets from `src/pages/device-reference.html`, which renders the fragment.
 
-Create `sensor-luz/tutorial.js`:
+### 3. Register metadata and translations
 
 ```js
 (function (registry) {
@@ -117,36 +112,24 @@ Create `sensor-luz/tutorial.js`:
     id: 'sensor-luz',
     order: 4,
     template: '../hardware-guides/sensor-luz/tutorial.html',
-
     menu: {
-      'pt-br': {
-        title: 'Sensor de luz',
-        description: 'Luminosidade ambiente'
-      },
-      en: {
-        title: 'Light sensor',
-        description: 'Ambient light'
-      }
+      'pt-br': { title: 'Sensor de luz', description: 'Luminosidade ambiente' },
+      en: { title: 'Light sensor', description: 'Ambient light' }
     },
-
     translations: {
       en: {
         eyebrow: 'LIGHT SENSOR PROJECT',
         title: 'Measuring light levels',
-        intro: 'This tutorial explains how to connect and test the light sensor.',
-        imageAlt: 'Light sensor used in the project',
-        imageCaption: 'Module used to measure ambient light.'
+        intro: 'Learn how to connect and test the sensor.',
+        imageAlt: 'Light sensor',
+        imageCaption: 'Sensor used by the project.'
       }
     }
   });
 })(window.DeviceHardwareGuides);
 ```
 
-The menu is generated automatically from `order` and `menu`. Do not add buttons manually to `device-reference.html`.
-
-### 4. Add one manifest entry
-
-Add the new script to `manifest.js`:
+### 4. Add the script to the manifest
 
 ```js
 window.DeviceHardwareGuideScripts = [
@@ -157,53 +140,39 @@ window.DeviceHardwareGuideScripts = [
 ];
 ```
 
-This is the only shared file that must change for a guide to appear in the **Device** tab.
+Do not create menu buttons manually; the interface derives them from registrations.
 
-### 5. Add optional behavior
-
-Static text, images, and tables do not need `init`. For interactive elements, add this property to the registered object:
+### 5. Add interaction only when needed
 
 ```js
 init: function (context) {
   var button = context.root.querySelector('#testLightSensor');
-  var result = context.root.querySelector('#lightSensorResult');
-  if (!button || !result) return;
+  if (!button) return;
 
   button.addEventListener('click', function () {
-    result.textContent = context.lang === 'en'
-      ? 'Connection reviewed.'
-      : 'Ligação conferida.';
+    button.textContent = context.lang === 'en' ? 'Reviewed' : 'Conferido';
   });
 }
 ```
 
-Keep this logic inside the project's `tutorial.js`, never in the shared loader.
+Reuse `device-reference.css` before adding styles. For a unique need, declare `stylesheet: '../hardware-guides/sensor-luz/tutorial.css'`.
 
-### 6. Add optional CSS
+## Validation
 
-Reuse `src/styles/device-reference.css` first. If the tutorial needs a unique component, create `sensor-luz/tutorial.css` and register:
-
-```js
-stylesheet: '../hardware-guides/sensor-luz/tutorial.css'
-```
-
-The loader adds this stylesheet when opening the tutorial and removes it when navigating away.
-
-### 7. Test both languages
-
-Serve the platform over HTTP and open:
+Serve the project over HTTP and open:
 
 ```text
 src/pages/device-reference.html#sensor-luz
 src/pages/device-reference.html?lang=en#sensor-luz
 ```
 
-Verify the menu, translations, image requests, responsive layout, URL hash, optional interactions, and that switching to another tutorial leaves no project-only styles behind.
+Check menu order, URL hash, Portuguese, English, images, responsive layout, and the absence of residual events or styles after navigating away. Then run:
 
-## Hardware guide versus Blockly project
+```powershell
+node --test tests/i18n/*.test.js
+node tests/examples_generation_smoke.js
+```
 
-Adding a folder and manifest entry creates a guide in the **Device** tab. It does not create a Blockly project category.
+## A guide is not a Blockly category
 
-If the hardware must also become a selectable **Projects** mode, separately register its card in `src/pages/index.html`, categories in `src/js/config/toolbox.xml`, name in `WorkspaceManager.PROJECT_NAMES`, and optionally its tutorial notice in `WorkspaceManager.PROJECT_HARDWARE_GUIDES`.
-
-This separation is intentional: a hardware guide can exist without new blocks, and a Blockly category can reuse already documented hardware.
+The manifest creates content in the **Device** tab. To expose the same hardware under **Projects**, separately register its card in `src/pages/index.html`, categories in `src/js/config/toolbox.xml`, and name in `WorkspaceManager.PROJECT_NAMES`.

@@ -1,36 +1,53 @@
-# Application assets
+# BIPES–BitDogLab visual assets
 
 [Leia em português](README.md) · **English**
 
-This folder contains the static files used by the web interface: images, icons, cursors, favicons, and Blockly-compatible resources. The files are served with `src/pages/` and are usually referenced through relative paths such as `../assets/...`.
+`src/assets/` contains only static files consumed by the web interface. Application logic belongs in `src/js/`, styles in `src/styles/`, and translatable copy in `src/translations/`.
 
-## Organization
+## Directory map
 
 ```text
 src/assets/
-├── cursors/            # cursors used while dragging blocks
-├── favicons/           # application favicon and icons
-├── icons/              # SVG sprites and interface controls
+├── cursors/          # cursors expected by Blockly while dragging
+├── favicons/         # icons displayed by the browser
+├── icons/            # interface-owned symbols and sprites
 ├── images/
-│   ├── blockly/        # helper images for the Blockly editor
-│   ├── devices/        # device photos and diagrams
-│   ├── logos/          # BIPES and BitDogLab branding
-│   └── themes/         # visual-theme previews
-└── media/              # copies at the legacy path expected by Blockly
+│   ├── devices/      # photos and diagrams used by hardware guides
+│   ├── logos/        # official brands displayed by the product
+│   └── themes/       # visual-theme illustrations
+└── media/            # files at the legacy path expected by Blockly
 ```
 
-## Rules by type
+## Ownership by group
 
-- **`cursors/`** contains the hand cursors used while moving blocks; preserve the names expected by Blockly.
-- **`favicons/`** contains the icons loaded by `src/pages/index.html`.
-- **`icons/`** contains SVG sprites and symbols shared by the CSS and interface components.
-- **`images/devices/`** is the place for board, sensor, and assembly images used by hardware guides.
-- **`images/logos/`** stores the branding displayed in the interface and guides.
-- **`images/themes/`** stores the previews used by visual themes.
-- **`media/`** keeps copies for older Blockly integrations. When changing a duplicated resource, check both paths before publishing.
+| Path | Main consumer | Maintenance rule |
+| --- | --- | --- |
+| `cursors/` | Blockly and CSS | Preserve filenames; they are part of the editor contract. |
+| `favicons/` | `src/pages/index.html` | Replace only when the application's official identity changes. |
+| `icons/` | components and stylesheets | Reuse existing symbols before adding another sprite. |
+| `images/devices/` | hardware guides | Use technically accurate images with a known origin. |
+| `images/logos/` | header, guides, and identity | Do not redraw or recompress official brands without authorization. |
+| `images/themes/` | appearance selector | Keep each filename aligned with its theme identifier. |
+| `media/` | legacy Blockly integration | Treat names and dimensions as an external compatibility contract. |
 
-## Adding a resource
+## Adding or replacing an asset
 
-Choose the subfolder according to the file's role, use a stable name, and update the code that references it. For images used by new tutorials, prefer `images/devices/`; for example and validation images, use the corresponding folders under the project-root `images/` directory.
+1. Choose the subfolder by consumer, not only by file format.
+2. Use a lowercase, descriptive, stable filename.
+3. Prefer SVG for icons and diagrams; use PNG/JPEG for captures and photographs.
+4. Find and update every reference with `rg "file-name" src`.
+5. Open the interface and verify loading, aspect ratio, and contrast.
+6. Run the example tests when the resource appears inside Blockly.
 
-Do not place translations, JavaScript code, or XML projects here. Translations belong in `src/translations/`, and application code should remain in the responsible modules under `src/`.
+## Keep source and generated files separate
+
+Interface assets and documentation images have different lifecycles. Architecture diagrams belong to the documented module's `images/` folder. Generated example images live under the repository-root `images/` directory. Never edit copies under `src/mobile/android/app/build/`; the Android build recreates them.
+
+## Quick verification
+
+```powershell
+rg -n "\.png|\.jpe?g|\.gif|\.svg" src/pages src/js src/styles
+node tests/examples_generation_smoke.js
+```
+
+An asset change is ready when no reference is broken, the browser reports no loading error, and the asset remains readable in both light and dark themes.
