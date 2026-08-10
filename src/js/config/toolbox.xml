@@ -379,6 +379,13 @@
 
   <!-- ========== CATEGORIAS DE PROJETO (aparecem conforme seletor) ========== -->
 
+  <!-- Projeto: Conexoes Externas -->
+  <category name="LEDs externos" colour="#d97706" data-project="externos"></category>
+  <category name="Luz e sombra com LDR" colour="#16a085" data-project="externos"></category>
+  <category name="Temperatura externa com NTC" colour="#e67e22" data-project="externos"></category>
+  <category name="Distância e presença com ultrassônico" colour="#2980b9" data-project="externos"></category>
+  <category name="Movimento externo com servo" colour="#00897b" data-project="externos"></category>
+
   <!-- Projeto: Robo Movel -->
   <category name="🕹️ Controle Robô" colour="#e67e22" data-project="robo">
     <block type="robo_inicializar">
