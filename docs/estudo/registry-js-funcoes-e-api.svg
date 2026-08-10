@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1900" viewBox="0 0 1400 1900" role="img" aria-labelledby="title desc">
+  <title id="title">BIPES BitDogLab registry.js — funções e API</title>
+  <desc id="desc">Tabela de estudo com as funções internas e a API pública definidas no arquivo registry.js.</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0f172a" flood-opacity=".18"/>
+    </filter>
+    <style>
+      .title { font: 700 48px Arial, sans-serif; fill: #102a56; }
+      .subtitle { font: 700 30px Arial, sans-serif; fill: #078c8d; }
+      .section { font: 700 30px Arial, sans-serif; fill: #ffffff; }
+      .header { font: 700 23px Arial, sans-serif; fill: #ffffff; }
+      .function { font: 700 22px Arial, sans-serif; fill: #102a56; }
+      .cell { font: 400 20px Arial, sans-serif; fill: #1f2937; }
+      .property { font: 700 21px Arial, sans-serif; fill: #102a56; }
+      .footer { font: 700 25px Arial, sans-serif; fill: #102a56; }
+      .muted { font: 400 20px Arial, sans-serif; fill: #475569; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="1900" fill="#ffffff"/>
+  <rect x="0" y="0" width="1400" height="15" fill="#078c8d"/>
+  <text x="70" y="95" class="title">BIPES–BitDogLab — registry.js</text>
+  <text x="70" y="145" class="subtitle">Funções, parâmetros, retorno e API pública</text>
+  <text x="70" y="190" class="muted">Arquivo responsável por registrar os contratos e as mensagens de validação dos blocos.</text>
+
+  <!-- Internal functions -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="235" width="1320" height="655" rx="24" fill="#ffffff" stroke="#102a56" stroke-width="3"/>
+    <rect x="40" y="235" width="1320" height="72" rx="24" fill="#102a56"/>
+    <rect x="40" y="283" width="1320" height="24" fill="#102a56"/>
+  </g>
+  <text x="78" y="283" class="section">Funções internas</text>
+
+  <rect x="40" y="307" width="1320" height="58" fill="#078c8d"/>
+  <line x1="300" y1="307" x2="300" y2="890" stroke="#ffffff" stroke-width="2"/>
+  <line x1="540" y1="307" x2="540" y2="890" stroke="#ffffff" stroke-width="2"/>
+  <line x1="760" y1="307" x2="760" y2="890" stroke="#ffffff" stroke-width="2"/>
+  <line x1="1060" y1="307" x2="1060" y2="890" stroke="#ffffff" stroke-width="2"/>
+  <text x="70" y="345" class="header">Função</text>
+  <text x="325" y="345" class="header">Recebe</text>
+  <text x="565" y="345" class="header">Retorna</text>
+  <text x="785" y="345" class="header">Exemplo</text>
+  <text x="1085" y="345" class="header">Finalidade</text>
+
+  <line x1="40" y1="565" x2="1360" y2="565" stroke="#102a56" stroke-width="2"/>
+  <text x="65" y="410" class="function">extendContract(</text>
+  <text x="65" y="440" class="function">blockType, extension)</text>
+  <text x="325" y="410" class="cell">ID do bloco e</text>
+  <text x="325" y="440" class="cell">extensão parcial</text>
+  <text x="565" y="410" class="cell">undefined</text>
+  <text x="785" y="410" class="cell">extendContract(</text>
+  <text x="785" y="440" class="cell">'bloco_alternar_led',</text>
+  <text x="785" y="470" class="cell">{ kind: 'statement' })</text>
+  <text x="1085" y="410" class="cell">Cria ou atualiza</text>
+  <text x="1085" y="440" class="cell">um contrato e</text>
+  <text x="1085" y="470" class="cell">mescla mapas de</text>
+  <text x="1085" y="500" class="cell">entradas.</text>
+
+  <text x="65" y="645" class="function">requireValues(</text>
+  <text x="65" y="675" class="function">blockType,</text>
+  <text x="65" y="705" class="function">requiredValueInputs)</text>
+  <text x="325" y="645" class="cell">ID do bloco e</text>
+  <text x="325" y="675" class="cell">mapa entrada →</text>
+  <text x="325" y="705" class="cell">rótulo do aviso</text>
+  <text x="565" y="645" class="cell">undefined</text>
+  <text x="785" y="645" class="cell">requireValues(</text>
+  <text x="785" y="675" class="cell">'mostrar_emoji',</text>
+  <text x="785" y="705" class="cell">{ COR: 'cor' })</text>
+  <text x="1085" y="645" class="cell">Registra entradas</text>
+  <text x="1085" y="675" class="cell">de valor que não</text>
+  <text x="1085" y="705" class="cell">podem ficar vazias.</text>
+
+  <!-- Public API -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="950" width="1320" height="655" rx="24" fill="#ffffff" stroke="#102a56" stroke-width="3"/>
+    <rect x="40" y="950" width="1320" height="72" rx="24" fill="#102a56"/>
+    <rect x="40" y="998" width="1320" height="24" fill="#102a56"/>
+  </g>
+  <text x="78" y="998" class="section">API pública: Code.BlockContracts</text>
+
+  <rect x="40" y="1022" width="1320" height="58" fill="#078c8d"/>
+  <line x1="300" y1="1022" x2="300" y2="1605" stroke="#ffffff" stroke-width="2"/>
+  <line x1="540" y1="1022" x2="540" y2="1605" stroke="#ffffff" stroke-width="2"/>
+  <line x1="760" y1="1022" x2="760" y2="1605" stroke="#ffffff" stroke-width="2"/>
+  <line x1="1060" y1="1022" x2="1060" y2="1605" stroke="#ffffff" stroke-width="2"/>
+  <text x="70" y="1060" class="header">Função</text>
+  <text x="325" y="1060" class="header">Recebe</text>
+  <text x="565" y="1060" class="header">Retorna</text>
+  <text x="785" y="1060" class="header">Exemplo</text>
+  <text x="1085" y="1060" class="header">Finalidade</text>
+
+  <line x1="40" y1="1305" x2="1360" y2="1305" stroke="#102a56" stroke-width="2"/>
+  <text x="65" y="1155" class="function">get(blockType)</text>
+  <text x="325" y="1155" class="cell">ID do bloco</text>
+  <text x="565" y="1155" class="cell">Contrato ou null</text>
+  <text x="785" y="1155" class="cell">get('joystick_seletor')</text>
+  <text x="1085" y="1155" class="cell">Consulta as regras</text>
+  <text x="1085" y="1185" class="cell">registradas para um</text>
+  <text x="1085" y="1215" class="cell">bloco.</text>
+
+  <text x="65" y="1385" class="function">getMessage(key)</text>
+  <text x="325" y="1385" class="cell">Chave da mensagem</text>
+  <text x="565" y="1385" class="cell">Texto traduzido</text>
+  <text x="565" y="1415" class="cell">ou a própria chave</text>
+  <text x="785" y="1385" class="cell">getMessage(</text>
+  <text x="785" y="1415" class="cell">'missingValueInput')</text>
+  <text x="1085" y="1385" class="cell">Escolhe pt-br ou</text>
+  <text x="1085" y="1415" class="cell">inglês e entrega o</text>
+  <text x="1085" y="1445" class="cell">texto do aviso.</text>
+
+  <!-- Public properties -->
+  <rect x="40" y="1665" width="1320" height="115" rx="20" fill="#e6fffb" stroke="#078c8d" stroke-width="3"/>
+  <text x="72" y="1710" class="property">Dados públicos expostos:</text>
+  <text x="390" y="1710" class="cell">VERSION</text>
+  <text x="590" y="1710" class="cell">contracts</text>
+  <text x="815" y="1710" class="cell">messages</text>
+  <text x="72" y="1750" class="muted">Versão do registro • mapa de contratos • tabela de mensagens em português e inglês</text>
+
+  <rect x="40" y="1820" width="1320" height="58" rx="18" fill="#ffffff" stroke="#078c8d" stroke-width="3"/>
+  <text x="100" y="1858" class="footer">registry.js: define contratos → Code.BlockContracts → validator.js consulta e valida</text>
+</svg>

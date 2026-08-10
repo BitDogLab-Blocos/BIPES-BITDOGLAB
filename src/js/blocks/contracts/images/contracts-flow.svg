@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Fluxo dos contratos dos blocos Blockly</title>
+  <desc id="desc">Diagrama que mostra types.js controlando o encaixe, registry.js descrevendo as exigências e validator.js verificando o workspace.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#172554"/>
+      <stop offset="1" stop-color="#312e81"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity=".28"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#a5b4fc"/>
+    </marker>
+    <style>
+      .title { font: 700 34px Arial, sans-serif; fill: #ffffff; }
+      .subtitle { font: 400 18px Arial, sans-serif; fill: #c7d2fe; }
+      .box-title { font: 700 27px Arial, sans-serif; fill: #0f172a; }
+      .box-text { font: 400 18px Arial, sans-serif; fill: #334155; }
+      .small { font: 600 16px Arial, sans-serif; fill: #e0e7ff; }
+      .arrow-label { font: 700 16px Arial, sans-serif; fill: #c7d2fe; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" rx="28" fill="url(#bg)"/>
+  <circle cx="1260" cy="110" r="180" fill="#6366f1" opacity=".16"/>
+  <circle cx="120" cy="730" r="210" fill="#14b8a6" opacity=".10"/>
+
+  <text x="70" y="75" class="title">Como os contratos protegem os blocos</text>
+  <text x="70" y="110" class="subtitle">Cada arquivo tem uma responsabilidade diferente.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="175" width="365" height="280" rx="24" fill="#dbeafe"/>
+    <rect x="518" y="175" width="365" height="280" rx="24" fill="#dcfce7"/>
+    <rect x="965" y="175" width="365" height="280" rx="24" fill="#fef3c7"/>
+  </g>
+
+  <text x="100" y="225" class="box-title">types.js</text>
+  <text x="100" y="270" class="box-text">Como o bloco encaixa?</text>
+  <text x="100" y="315" class="box-text">• domínios semânticos</text>
+  <text x="100" y="350" class="box-text">• exact e prefix</text>
+  <text x="100" y="385" class="box-text">• setCheck() no Blockly</text>
+  <text x="100" y="430" class="box-text">Protege a conexão durante a edição.</text>
+
+  <text x="548" y="225" class="box-title">registry.js</text>
+  <text x="548" y="270" class="box-text">O que o bloco exige?</text>
+  <text x="548" y="315" class="box-text">• entradas obrigatórias</text>
+  <text x="548" y="350" class="box-text">• dependências e contexto</text>
+  <text x="548" y="385" class="box-text">• filhos permitidos</text>
+  <text x="548" y="430" class="box-text">Descreve o contrato de cada caso.</text>
+
+  <text x="995" y="225" class="box-title">validator.js</text>
+  <text x="995" y="270" class="box-text">O workspace está correto?</text>
+  <text x="995" y="315" class="box-text">• lê os contratos</text>
+  <text x="995" y="350" class="box-text">• verifica o workspace</text>
+  <text x="995" y="385" class="box-text">• mostra avisos</text>
+  <text x="995" y="430" class="box-text">Decide se o código pode ser gerado.</text>
+
+  <line x1="435" y1="315" x2="510" y2="315" stroke="#a5b4fc" stroke-width="5" marker-end="url(#arrow)"/>
+  <text x="444" y="292" class="arrow-label">regras</text>
+  <line x1="883" y1="315" x2="957" y2="315" stroke="#a5b4fc" stroke-width="5" marker-end="url(#arrow)"/>
+  <text x="890" y="292" class="arrow-label">contratos</text>
+
+  <g filter="url(#shadow)">
+    <rect x="185" y="570" width="1030" height="125" rx="22" fill="#ffffff" opacity=".96"/>
+  </g>
+  <text x="235" y="620" class="box-title" font-size="24">Exemplo: criar_trilha_sonora</text>
+  <text x="235" y="660" class="box-text">types.js: STEP* aceita SoundCommand</text>
+  <text x="735" y="660" class="box-text">registry.js: valida os blocos reais e explica o erro</text>
+
+  <text x="70" y="765" class="small">types.js = encaixe  •  registry.js = exigências  •  validator.js = conferência e avisos</text>
+</svg>
