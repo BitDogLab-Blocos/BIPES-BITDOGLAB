@@ -15,7 +15,7 @@ const expectedNames = [
   'Luz e sombra com LDR',
   'Temperatura externa com NTC',
   'Distância e presença com ultrassônico',
-  'Movimento externo com servo'
+  'Servo Motor Externo'
 ];
 
 const externalCategories = Array.from(

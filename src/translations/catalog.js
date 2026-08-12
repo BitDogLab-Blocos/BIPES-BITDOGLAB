@@ -1437,7 +1437,7 @@ var CUSTOM_TRANSLATIONS_EN = {
   "Luz e sombra com LDR": "Light and Shadow with LDR",
   "Temperatura externa com NTC": "External Temperature with NTC",
   "Distância e presença com ultrassônico": "Distance and Presence with Ultrasonic",
-  "Movimento externo com servo": "External Motion with Servo",
+  "Servo Motor Externo": "External Servo Motor",
   "🔲 Matriz de LEDs": "🔲 LED Matrix",
   "🔢 Números na Matriz de LEDs": "🔢 Numbers on the LED Matrix",
   "😊 Emojis na Matriz de LEDs": "😊 Emojis on LED Matrix",

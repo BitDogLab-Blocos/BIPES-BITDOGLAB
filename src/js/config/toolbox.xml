@@ -384,7 +384,7 @@
   <category name="Luz e sombra com LDR" colour="#16a085" data-project="externos"></category>
   <category name="Temperatura externa com NTC" colour="#e67e22" data-project="externos"></category>
   <category name="Distância e presença com ultrassônico" colour="#2980b9" data-project="externos"></category>
-  <category name="Movimento externo com servo" colour="#00897b" data-project="externos"></category>
+  <category name="Servo Motor Externo" colour="#00897b" data-project="externos" css-icon="bitdoglab-servo-category-icon"></category>
 
   <!-- Projeto: Robo Movel -->
   <category name="🕹️ Controle Robô" colour="#e67e22" data-project="robo">
