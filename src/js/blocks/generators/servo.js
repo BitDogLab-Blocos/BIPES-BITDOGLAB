@@ -71,7 +71,7 @@
     return code && code.trim() ? code : '  pass\n';
   }
 
-  function joystickCondition(axis, physicalDirection) {
+  function joystickCondition(physicalDirection) {
     var joystick = BitdogLabConfig.JOYSTICK;
     var center = joystick.CENTER_VALUE;
     var deadzone = joystick.DEADZONE;
@@ -80,23 +80,20 @@
 
     var conditions = {
       RIGHT: invertX
-        ? '_servo_joy_value > ' + (center + deadzone)
-        : '_servo_joy_value < ' + (center - deadzone),
+        ? '_servo_joy_x_value > ' + (center + deadzone)
+        : '_servo_joy_x_value < ' + (center - deadzone),
       LEFT: invertX
-        ? '_servo_joy_value < ' + (center - deadzone)
-        : '_servo_joy_value > ' + (center + deadzone),
+        ? '_servo_joy_x_value < ' + (center - deadzone)
+        : '_servo_joy_x_value > ' + (center + deadzone),
       UP: invertY
-        ? '_servo_joy_value > ' + (center + deadzone)
-        : '_servo_joy_value < ' + (center - deadzone),
+        ? '_servo_joy_y_value > ' + (center + deadzone)
+        : '_servo_joy_y_value < ' + (center - deadzone),
       DOWN: invertY
-        ? '_servo_joy_value < ' + (center - deadzone)
-        : '_servo_joy_value > ' + (center + deadzone)
+        ? '_servo_joy_y_value < ' + (center - deadzone)
+        : '_servo_joy_y_value > ' + (center + deadzone)
     };
 
-    if (axis === 'Y') {
-      return conditions[physicalDirection === 'POSITIVE' ? 'UP' : 'DOWN'];
-    }
-    return conditions[physicalDirection === 'POSITIVE' ? 'RIGHT' : 'LEFT'];
+    return conditions[physicalDirection] || conditions.UP;
   }
 
   Blockly.Python['servo_mover'] = function(block) {
@@ -118,25 +115,26 @@
 
     var pins = BitdogLabConfig.PINS;
     var dig = Number(block.getFieldValue('DIG'));
-    var axis = block.getFieldValue('AXIS') || 'X';
-    var increaseDirection = block.getFieldValue('INCREASE_DIRECTION') || 'POSITIVE';
-    var decreaseDirection = increaseDirection === 'POSITIVE' ? 'NEGATIVE' : 'POSITIVE';
+    var increaseDirection = block.getFieldValue('DIR_INCREASE') || 'UP';
+    var decreaseDirection = block.getFieldValue('DIR_DECREASE') || 'DOWN';
     var initialAngle = numberFieldCode(block, 'INITIAL_ANGLE', '90');
     var step = numberFieldCode(block, 'STEP', '2');
-    var adcPin = axis === 'Y' ? pins.JOYSTICK_Y : pins.JOYSTICK_X;
 
-    Blockly.Python.definitions_['setup_servo_joystick_' + axis.toLowerCase()] =
-      '_servo_joy_' + axis.toLowerCase() + ' = ADC(Pin(' + adcPin + '))';
+    Blockly.Python.definitions_['setup_servo_joystick_x'] =
+      '_servo_joy_x = ADC(Pin(' + pins.JOYSTICK_X + '))';
+    Blockly.Python.definitions_['setup_servo_joystick_y'] =
+      '_servo_joy_y = ADC(Pin(' + pins.JOYSTICK_Y + '))';
 
     var code = '';
     code += 'if ' + dig + ' not in _servo_joystick_started:\n';
     code += '  _servo_move(' + dig + ', ' + initialAngle + ')\n';
     code += '  _servo_joystick_started[' + dig + '] = True\n';
-    code += '_servo_joy_value = _servo_joy_' + axis.toLowerCase() + '.read_u16()\n';
+    code += '_servo_joy_x_value = _servo_joy_x.read_u16()\n';
+    code += '_servo_joy_y_value = _servo_joy_y.read_u16()\n';
     code += '_servo_joy_step = max(1, abs(' + step + '))\n';
-    code += 'if ' + joystickCondition(axis, increaseDirection) + ':\n';
+    code += 'if ' + joystickCondition(increaseDirection) + ':\n';
     code += '  _servo_move(' + dig + ', _servo_current_angle(' + dig + ') + _servo_joy_step)\n';
-    code += 'elif ' + joystickCondition(axis, decreaseDirection) + ':\n';
+    code += 'elif ' + joystickCondition(decreaseDirection) + ':\n';
     code += '  _servo_move(' + dig + ', _servo_current_angle(' + dig + ') - _servo_joy_step)\n';
     return code;
   };

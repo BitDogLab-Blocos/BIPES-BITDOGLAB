@@ -7,8 +7,10 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const toolboxPath = path.join(root, 'src', 'js', 'config', 'toolbox.xml');
 const catalogPath = path.join(root, 'src', 'translations', 'catalog.js');
+const contractsPath = path.join(root, 'src', 'js', 'blocks', 'contracts', 'registry.js');
 const toolbox = fs.readFileSync(toolboxPath, 'utf8');
 const catalog = fs.readFileSync(catalogPath, 'utf8');
+const contracts = fs.readFileSync(contractsPath, 'utf8');
 
 const expectedNames = [
   'LEDs externos',
@@ -51,6 +53,30 @@ assert.deepStrictEqual(servoBlockTypes, [
   'display_mostrar_valor',
   'servo_angulo_atual'
 ], 'A categoria de servo deve oferecer cinco blocos e uma composição pronta de display.');
+
+assert.match(externalCategories[4].body, /<field name="DIR_INCREASE">UP<\/field>/);
+assert.match(externalCategories[4].body, /<field name="DIR_DECREASE">DOWN<\/field>/);
+assert.doesNotMatch(externalCategories[4].body, /<field name="(?:AXIS|INCREASE_DIRECTION)">/);
+
+[
+  ['servo_mover', 'statement'],
+  ['servo_angulo_atual', 'value'],
+  ['servo_joystick_controlar', 'statement'],
+  ['servo_subir_gradualmente', 'statement'],
+  ['servo_descer_gradualmente', 'statement']
+].forEach(([blockType, kind]) => {
+  const escapedType = blockType.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const contractMatch = contracts.match(new RegExp(
+    escapedType + ':\\s*\\{([\\s\\S]*?)\\n\\s*\\},'
+  ));
+  assert.ok(contractMatch, 'Contrato explícito ausente para ' + blockType + '.');
+  assert.match(contractMatch[1], new RegExp("kind:\\s*'" + kind + "'"));
+  assert.doesNotMatch(
+    contractMatch[1],
+    /requiredValueInputs/,
+    blockType + ' usa campos internos e não deve exigir blocos numéricos encaixados.'
+  );
+});
 
 function visibleExternalCategories(project) {
   return externalCategories.filter((category) => {

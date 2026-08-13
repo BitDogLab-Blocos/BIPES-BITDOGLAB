@@ -63,6 +63,21 @@
       requiresAnyBlock: ['joystick_controlar_buzzer'],
       requiresLabel: 'Joystick controla Buzzer'
     },
+    servo_mover: {
+      kind: 'statement'
+    },
+    servo_angulo_atual: {
+      kind: 'value'
+    },
+    servo_joystick_controlar: {
+      kind: 'statement'
+    },
+    servo_subir_gradualmente: {
+      kind: 'statement'
+    },
+    servo_descer_gradualmente: {
+      kind: 'statement'
+    },
     microfone_vu_meter: {
       kind: 'statement',
       requiredValueInputs: {

@@ -392,8 +392,8 @@
     <block type="servo_angulo_atual"><field name="DIG">0</field></block>
     <block type="servo_joystick_controlar">
       <field name="DIG">0</field>
-      <field name="AXIS">X</field>
-      <field name="INCREASE_DIRECTION">POSITIVE</field>
+      <field name="DIR_INCREASE">UP</field>
+      <field name="DIR_DECREASE">DOWN</field>
       <field name="INITIAL_ANGLE">90</field>
       <field name="STEP">2</field>
     </block>

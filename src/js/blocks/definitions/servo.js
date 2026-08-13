@@ -37,6 +37,27 @@
     return new Blockly.FieldNumber(defaultValue, 0, 60, 0.1);
   }
 
+  function joystickDirectionField(defaultDirection) {
+    var options = isEnglish() ? [
+      ['↑ Up', 'UP'],
+      ['↓ Down', 'DOWN'],
+      ['← Left', 'LEFT'],
+      ['→ Right', 'RIGHT']
+    ] : [
+      ['↑ Cima', 'UP'],
+      ['↓ Baixo', 'DOWN'],
+      ['← Esquerda', 'LEFT'],
+      ['→ Direita', 'RIGHT']
+    ];
+    for (var i = 0; i < options.length; i++) {
+      if (options[i][1] === defaultDirection) {
+        options.unshift(options.splice(i, 1)[0]);
+        break;
+      }
+    }
+    return new Blockly.FieldDropdown(options);
+  }
+
   function setCommandConnections(block) {
     block.setPreviousStatement(true, 'ProgramCommand');
     block.setNextStatement(true, 'ProgramCommand');
@@ -120,20 +141,11 @@
           .appendField(angleField(90), 'INITIAL_ANGLE')
           .appendField(isEnglish() ? 'degrees' : 'graus');
       this.appendDummyInput()
-          .appendField(isEnglish() ? 'using axis' : 'usando o eixo')
-          .appendField(new Blockly.FieldDropdown([
-            ['X — horizontal', 'X'],
-            ['Y — vertical', 'Y']
-          ]), 'AXIS');
+          .appendField(isEnglish() ? 'raises when moved:' : 'sobe ao mover:')
+          .appendField(joystickDirectionField('UP'), 'DIR_INCREASE');
       this.appendDummyInput()
-          .appendField(isEnglish() ? 'increase toward' : 'aumentando para')
-          .appendField(new Blockly.FieldDropdown(isEnglish() ? [
-            ['right / up', 'POSITIVE'],
-            ['left / down', 'NEGATIVE']
-          ] : [
-            ['direita / cima', 'POSITIVE'],
-            ['esquerda / baixo', 'NEGATIVE']
-          ]), 'INCREASE_DIRECTION');
+          .appendField(isEnglish() ? 'lowers when moved:' : 'desce ao mover:')
+          .appendField(joystickDirectionField('DOWN'), 'DIR_DECREASE');
       this.appendDummyInput()
           .appendField(isEnglish() ? 'in steps of' : 'em passos de')
           .appendField(stepField(2), 'STEP')
