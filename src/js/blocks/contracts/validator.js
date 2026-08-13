@@ -522,6 +522,22 @@
           block.getFieldValue('DIR_INCREASE') === block.getFieldValue('DIR_DECREASE')) {
         addWarning(warnings, block, msg('servoJoystickSameDirection'));
       }
+
+      if (block.type === 'servo_subir_gradualmente') {
+        var raiseStart = Number(block.getFieldValue('START'));
+        var raiseTarget = Number(block.getFieldValue('TARGET'));
+        if (raiseStart >= raiseTarget) {
+          addWarning(warnings, block, msg('servoRaiseAngleOrder'));
+        }
+      }
+
+      if (block.type === 'servo_descer_gradualmente') {
+        var lowerStart = Number(block.getFieldValue('START'));
+        var lowerTarget = Number(block.getFieldValue('TARGET'));
+        if (lowerStart <= lowerTarget) {
+          addWarning(warnings, block, msg('servoLowerAngleOrder'));
+        }
+      }
     }
 
     if (Object.keys(controllerConnections).length === 0) return;

@@ -88,9 +88,13 @@ assert.match(workspaceHints, /peça ajuda ao professor/);
 assert.match(contracts, /servoOledV7PinConflict:/);
 assert.match(contracts, /servoAngleConnectionMismatch:/);
 assert.match(contracts, /servoJoystickSameDirection:/);
+assert.match(contracts, /servoRaiseAngleOrder:/);
+assert.match(contracts, /servoLowerAngleOrder:/);
 assert.match(contractValidator, /function validateServoOledV7PinConflicts\(blocks, warnings\)/);
 assert.match(contractValidator, /function validateServoRules\(blocks, warnings\)/);
 assert.match(contractValidator, /block\.getFieldValue\('DIR_INCREASE'\) === block\.getFieldValue\('DIR_DECREASE'\)/);
+assert.match(contractValidator, /raiseStart >= raiseTarget/);
+assert.match(contractValidator, /lowerStart <= lowerTarget/);
 assert.match(contractValidator, /config\.PINS\.I2C_SDA, config\.PINS\.I2C_SCL/);
 
 [

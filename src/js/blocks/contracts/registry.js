@@ -22,6 +22,8 @@
       servoOledV7PinConflict: 'Na BitDogLab V7, as Conexões 2 e 3 compartilham os GPIOs usados pelo display OLED. Para usar servo e display juntos, escolha a Conexão 0 ou 1 no servo.',
       servoAngleConnectionMismatch: 'O bloco Ângulo atual usa a Conexão %1, mas nenhum bloco que move o servo usa essa mesma Conexão.',
       servoJoystickSameDirection: 'Escolha direções diferentes para subir e descer o servo. A mesma direção não consegue fazer os dois movimentos.',
+      servoRaiseAngleOrder: 'Para subir o servo, o ângulo inicial deve ser menor que o ângulo final.',
+      servoLowerAngleOrder: 'Para descer o servo, o ângulo inicial deve ser maior que o ângulo final.',
       generic: 'Revise a conexão deste bloco.'
     },
     en: {
@@ -41,6 +43,8 @@
       servoOledV7PinConflict: 'On BitDogLab V7, Connections 2 and 3 share the GPIOs used by the OLED display. To use a servo and display together, choose Connection 0 or 1 for the servo.',
       servoAngleConnectionMismatch: 'The Current angle block uses Connection %1, but no block that moves the servo uses that same Connection.',
       servoJoystickSameDirection: 'Choose different directions to raise and lower the servo. The same direction cannot perform both movements.',
+      servoRaiseAngleOrder: 'To raise the servo, the initial angle must be less than the final angle.',
+      servoLowerAngleOrder: 'To lower the servo, the initial angle must be greater than the final angle.',
       generic: 'Review this block connection.'
     }
   };

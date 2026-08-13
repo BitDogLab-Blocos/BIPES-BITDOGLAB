@@ -1,6 +1,6 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <!-- Movimento gradual contrário: o servo parte de 180 graus e desce até 30 graus em passos de 30 graus. -->
   <block type="servo_descer_gradualmente" x="20" y="20">
-    <field name="DIG">0</field><field name="TARGET">30</field><field name="STEP">30</field><field name="PAUSE">1</field>
+    <field name="DIG">0</field><field name="START">180</field><field name="TARGET">30</field><field name="STEP">30</field><field name="PAUSE">1</field>
   </block>
 </xml>

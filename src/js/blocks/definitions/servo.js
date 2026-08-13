@@ -67,6 +67,8 @@
 
   function appendGradualInputs(block, direction) {
     var ascending = direction === 'up';
+    var defaultStart = ascending ? 0 : 180;
+    var defaultTarget = ascending ? 180 : 0;
 
     block.appendDummyInput('HEADER')
         .appendField(ascending
@@ -76,10 +78,10 @@
         .appendField(digField(), 'DIG');
 
     block.appendDummyInput('TARGET_ROW')
-        .appendField(ascending
-          ? (isEnglish() ? 'from 0° to' : 'de 0° até')
-          : (isEnglish() ? 'from 180° to' : 'de 180° até'))
-        .appendField(angleField(90), 'TARGET')
+        .appendField(isEnglish() ? 'from' : 'de')
+        .appendField(angleField(defaultStart), 'START')
+        .appendField(isEnglish() ? 'to' : 'até')
+        .appendField(angleField(defaultTarget), 'TARGET')
         .appendField(isEnglish() ? 'degrees (limit: 0°–180°)' : 'graus (limite: 0°–180°)');
 
     block.appendDummyInput('STEP_ROW')
@@ -161,8 +163,8 @@
     init: function() {
       appendGradualInputs(this, 'up');
       this.setTooltip(isEnglish()
-        ? 'Starts at 0 degrees and raises the servo step by step to the final angle.'
-        : 'Começa em 0 graus e sobe o servo passo a passo até o ângulo final.');
+        ? 'Raises the servo step by step from the chosen initial angle to a greater final angle.'
+        : 'Sobe o servo passo a passo do ângulo inicial escolhido até um ângulo final maior.');
     }
   };
 
@@ -170,8 +172,8 @@
     init: function() {
       appendGradualInputs(this, 'down');
       this.setTooltip(isEnglish()
-        ? 'Starts at 180 degrees and lowers the servo step by step to the final angle.'
-        : 'Começa em 180 graus e desce o servo passo a passo até o ângulo final.');
+        ? 'Lowers the servo step by step from the chosen initial angle to a smaller final angle.'
+        : 'Desce o servo passo a passo do ângulo inicial escolhido até um ângulo final menor.');
     }
   };
 

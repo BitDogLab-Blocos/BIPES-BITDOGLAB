@@ -166,7 +166,10 @@
 
     var config = servoConfig();
     var dig = Number(block.getFieldValue('DIG'));
-    var targetExpression = numberFieldCode(block, 'TARGET', '90');
+    var defaultStart = ascending ? String(config.MIN_ANGLE) : String(config.MAX_ANGLE);
+    var defaultTarget = ascending ? String(config.MAX_ANGLE) : String(config.MIN_ANGLE);
+    var startExpression = numberFieldCode(block, 'START', defaultStart);
+    var targetExpression = numberFieldCode(block, 'TARGET', defaultTarget);
     var stepExpression = numberFieldCode(block, 'STEP', '10');
     var pauseExpression = numberFieldCode(block, 'PAUSE', '3');
     var eachStep = Blockly.Python.statementToCode(block, 'EACH_STEP');
@@ -176,7 +179,6 @@
     var stepName = distinctName('servo_step');
     var pauseName = distinctName('servo_pause');
     var angleName = distinctName('servo_angle');
-    var startAngle = ascending ? config.MIN_ANGLE : config.MAX_ANGLE;
     var comparison = ascending ? '<' : '>';
     var advance = ascending
       ? 'min(' + angleName + ' + ' + stepName + ', ' + targetName + ')'
@@ -186,7 +188,7 @@
     code += targetName + ' = max(' + config.MIN_ANGLE + ', min(' + config.MAX_ANGLE + ', ' + targetExpression + '))\n';
     code += stepName + ' = max(1, abs(' + stepExpression + '))\n';
     code += pauseName + ' = max(0, ' + pauseExpression + ')\n';
-    code += angleName + ' = ' + startAngle + '\n';
+    code += angleName + ' = max(' + config.MIN_ANGLE + ', min(' + config.MAX_ANGLE + ', ' + startExpression + '))\n';
     code += 'while True:\n';
     code += '  _servo_move(' + dig + ', ' + angleName + ')\n';
     code += '  time.sleep(' + pauseName + ')\n';

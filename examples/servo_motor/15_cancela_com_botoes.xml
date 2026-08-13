@@ -6,11 +6,11 @@
       <next><block type="servo_mover"><field name="DIG">0</field><field name="ANGLE">0</field>
         <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">250</field></block></value>
           <next><block type="botao_se_apertado"><field name="BOTAO">A</field>
-            <statement name="DO"><block type="servo_subir_gradualmente"><field name="DIG">0</field><field name="TARGET">180</field><field name="STEP">30</field><field name="PAUSE">0.5</field>
+            <statement name="DO"><block type="servo_subir_gradualmente"><field name="DIG">0</field><field name="START">0</field><field name="TARGET">180</field><field name="STEP">30</field><field name="PAUSE">0.5</field>
               <statement name="EACH_STEP"><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value></block></statement>
             </block></statement>
             <next><block type="botao_se_apertado"><field name="BOTAO">B</field>
-              <statement name="DO"><block type="servo_descer_gradualmente"><field name="DIG">0</field><field name="TARGET">0</field><field name="STEP">30</field><field name="PAUSE">0.5</field>
+              <statement name="DO"><block type="servo_descer_gradualmente"><field name="DIG">0</field><field name="START">180</field><field name="TARGET">0</field><field name="STEP">30</field><field name="PAUSE">0.5</field>
                 <statement name="EACH_STEP"><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value></block></statement>
               </block></statement>
               <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">250</field></block></value></block></next>
