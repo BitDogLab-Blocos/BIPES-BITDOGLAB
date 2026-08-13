@@ -1,0 +1,26 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto final: joystick move a cancela; OLED, LED, matriz e som informam se ela está fechada, em movimento ou aberta. -->
+  <block type="servo_joystick_controlar" x="20" y="20">
+    <field name="DIG">0</field><field name="INITIAL_ANGLE">0</field><field name="DIR_INCREASE">UP</field><field name="DIR_DECREASE">DOWN</field><field name="STEP">5</field>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">700</field></block></value>
+      <next><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="display_texto"><field name="TEXTO">Cancela:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+          <value name="VALOR"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value>
+          <next><block type="bloco_desligar_todos_leds">
+            <next><block type="controls_ifelse">
+              <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value><value name="B"><block type="math_number"><field name="NUM">30</field></block></value></block></value>
+              <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_red"></block></value><next><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_triste"></block></value><value name="COR"><block type="colour_red"></block></value></block></next></block></statement>
+              <statement name="ELSE"><block type="controls_ifelse">
+                <value name="IF0"><block type="logic_compare"><field name="OP">GTE</field><value name="A"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value><value name="B"><block type="math_number"><field name="NUM">150</field></block></value></block></value>
+                <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value><next><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_feliz"></block></value><value name="COR"><block type="colour_green"></block></value><next><block type="bipe_duplo"><field name="VOLUME">25</field></block></next></block></next></block></statement>
+                <statement name="ELSE"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_yellow"></block></value><next><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value><value name="COR"><block type="colour_yellow"></block></value></block></next></block></statement>
+              </block></statement>
+            </block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+    </block></next>
+  </block>
+</xml>

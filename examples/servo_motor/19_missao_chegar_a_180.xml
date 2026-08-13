@@ -1,0 +1,20 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Missão angular: o OLED mostra quanto falta para 180 graus e a matriz troca a seta por um coração ao chegar perto. -->
+  <block type="servo_joystick_controlar" x="20" y="20">
+    <field name="DIG">0</field><field name="INITIAL_ANGLE">0</field><field name="DIR_INCREASE">UP</field><field name="DIR_DECREASE">DOWN</field><field name="STEP">5</field>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value>
+      <next><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="display_texto"><field name="TEXTO">Faltam:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next><block type="display_mostrar_calculo"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+          <value name="VALOR"><block type="math_arithmetic"><field name="OP">MINUS</field><value name="A"><block type="math_number"><field name="NUM">180</field></block></value><value name="B"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value></block></value>
+          <next><block type="controls_ifelse">
+            <value name="IF0"><block type="logic_compare"><field name="OP">GTE</field><value name="A"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value><value name="B"><block type="math_number"><field name="NUM">170</field></block></value></block></value>
+            <statement name="DO0"><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_coracao"></block></value><value name="COR"><block type="colour_green"></block></value></block></statement>
+            <statement name="ELSE"><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_seta_cima"></block></value><value name="COR"><block type="colour_blue"></block></value></block></statement>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+    </block></next>
+  </block>
+</xml>

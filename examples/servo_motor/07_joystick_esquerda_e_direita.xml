@@ -1,0 +1,7 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Variação guiada: direita aumenta e esquerda diminui o ângulo, mostrando que a criança escolhe as direções. -->
+  <block type="servo_joystick_controlar" x="20" y="20">
+    <field name="DIG">0</field><field name="INITIAL_ANGLE">90</field><field name="DIR_INCREASE">RIGHT</field><field name="DIR_DECREASE">LEFT</field><field name="STEP">5</field>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">120</field></block></value></block></next>
+  </block>
+</xml>

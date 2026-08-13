@@ -1,30 +1,68 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Move o servo por três posições e mostra o último ângulo enviado no OLED. -->
-  <block type="servo_mover" x="20" y="20">
-    <field name="DIG">0</field>
-    <field name="ANGLE">0</field>
+  <!-- Move o servo por três posições e mostra no OLED cada mudança de ângulo. -->
+  <block type="display_limpar" x="20" y="20">
+    <field name="DISPLAY_TYPE">SMALL</field>
     <next>
-      <block type="esperar_segundos">
-        <value name="TIME"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
+      <block type="display_texto">
+        <field name="TEXTO">Ang Servo:</field>
+        <field name="LINHA">1</field>
+        <field name="ALINHAMENTO">LEFT</field>
+        <field name="DISPLAY_TYPE">SMALL</field>
         <next>
           <block type="servo_mover">
             <field name="DIG">0</field>
-            <field name="ANGLE">90</field>
+            <field name="ANGLE">0</field>
             <next>
-              <block type="esperar_segundos">
-                <value name="TIME"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
+              <block type="display_mostrar_valor">
+                <field name="LINHA">1</field>
+                <field name="ALINHAMENTO">RIGHT</field>
+                <field name="DISPLAY_TYPE">SMALL</field>
+                <value name="VALOR">
+                  <block type="servo_angulo_atual"><field name="DIG">0</field></block>
+                </value>
                 <next>
-                  <block type="servo_mover">
-                    <field name="DIG">0</field>
-                    <field name="ANGLE">180</field>
+                  <block type="esperar_segundos">
+                    <value name="TIME"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
                     <next>
-                      <block type="display_mostrar_valor">
-                        <field name="LINHA">1</field>
-                        <field name="ALINHAMENTO">CENTER</field>
-                        <field name="DISPLAY_TYPE">SMALL</field>
-                        <value name="VALOR">
-                          <block type="servo_angulo_atual"><field name="DIG">0</field></block>
-                        </value>
+                      <block type="servo_mover">
+                        <field name="DIG">0</field>
+                        <field name="ANGLE">90</field>
+                        <next>
+                          <block type="display_mostrar_valor">
+                            <field name="LINHA">1</field>
+                            <field name="ALINHAMENTO">RIGHT</field>
+                            <field name="DISPLAY_TYPE">SMALL</field>
+                            <value name="VALOR">
+                              <block type="servo_angulo_atual"><field name="DIG">0</field></block>
+                            </value>
+                            <next>
+                              <block type="esperar_segundos">
+                                <value name="TIME"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
+                                <next>
+                                  <block type="servo_mover">
+                                    <field name="DIG">0</field>
+                                    <field name="ANGLE">180</field>
+                                    <next>
+                                      <block type="display_mostrar_valor">
+                                        <field name="LINHA">1</field>
+                                        <field name="ALINHAMENTO">RIGHT</field>
+                                        <field name="DISPLAY_TYPE">SMALL</field>
+                                        <value name="VALOR">
+                                          <block type="servo_angulo_atual"><field name="DIG">0</field></block>
+                                        </value>
+                                        <next>
+                                          <block type="esperar_segundos">
+                                            <value name="TIME"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
                       </block>
                     </next>
                   </block>

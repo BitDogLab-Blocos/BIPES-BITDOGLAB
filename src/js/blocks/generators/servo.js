@@ -189,10 +189,10 @@
     code += angleName + ' = ' + startAngle + '\n';
     code += 'while True:\n';
     code += '  _servo_move(' + dig + ', ' + angleName + ')\n';
+    code += '  time.sleep(' + pauseName + ')\n';
     code += stepActions;
     code += '  if not (' + angleName + ' ' + comparison + ' ' + targetName + '):\n';
     code += '    break\n';
-    code += '  time.sleep(' + pauseName + ')\n';
     code += '  ' + angleName + ' = ' + advance + '\n';
     return code;
   }

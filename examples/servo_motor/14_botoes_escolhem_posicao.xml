@@ -1,0 +1,23 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Controle por botões: A leva o servo a 0 graus, B leva a 180 graus e o OLED confirma a posição comandada. -->
+  <block type="servo_mover" x="20" y="20">
+    <field name="DIG">0</field><field name="ANGLE">90</field>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">250</field></block></value>
+      <next><block type="botao_se_apertado"><field name="BOTAO">A</field>
+        <statement name="DO"><block type="servo_mover"><field name="DIG">0</field><field name="ANGLE">0</field>
+          <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">250</field></block></value></block></next>
+        </block></statement>
+        <next><block type="botao_se_apertado"><field name="BOTAO">B</field>
+          <statement name="DO"><block type="servo_mover"><field name="DIG">0</field><field name="ANGLE">180</field>
+            <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">250</field></block></value></block></next>
+          </block></statement>
+          <next><block type="display_texto"><field name="TEXTO">Ang Servo:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+            <next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+              <value name="VALOR"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value>
+            </block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

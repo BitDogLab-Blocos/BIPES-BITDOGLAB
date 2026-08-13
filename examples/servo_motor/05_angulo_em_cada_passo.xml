@@ -1,0 +1,25 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Observação em tempo real: a cada passo da subida, o OLED mostra o ângulo que acabou de ser enviado ao servo. -->
+  <block type="display_limpar" x="20" y="20">
+    <field name="DISPLAY_TYPE">SMALL</field>
+    <next>
+      <block type="display_texto">
+        <field name="TEXTO">Ang Servo:</field>
+        <field name="LINHA">1</field>
+        <field name="ALINHAMENTO">LEFT</field>
+        <field name="DISPLAY_TYPE">SMALL</field>
+        <next>
+          <block type="servo_subir_gradualmente">
+            <field name="DIG">0</field><field name="TARGET">120</field><field name="STEP">20</field><field name="PAUSE">1</field>
+            <statement name="EACH_STEP">
+              <block type="display_mostrar_valor">
+                <field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+                <value name="VALOR"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

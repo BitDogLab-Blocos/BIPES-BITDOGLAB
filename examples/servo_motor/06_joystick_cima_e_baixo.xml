@@ -1,0 +1,7 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Controle básico: mover o joystick para cima aumenta o ângulo e mover para baixo diminui o ângulo. -->
+  <block type="servo_joystick_controlar" x="20" y="20">
+    <field name="DIG">0</field><field name="INITIAL_ANGLE">90</field><field name="DIR_INCREASE">UP</field><field name="DIR_DECREASE">DOWN</field><field name="STEP">3</field>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">100</field></block></value></block></next>
+  </block>
+</xml>

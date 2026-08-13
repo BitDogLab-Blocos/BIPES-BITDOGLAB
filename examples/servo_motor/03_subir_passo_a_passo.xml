@@ -1,0 +1,6 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Primeiro movimento gradual: o servo parte de 0 graus e sobe até 60 graus em quatro passos visíveis. -->
+  <block type="servo_subir_gradualmente" x="20" y="20">
+    <field name="DIG">0</field><field name="TARGET">60</field><field name="STEP">15</field><field name="PAUSE">1</field>
+  </block>
+</xml>
