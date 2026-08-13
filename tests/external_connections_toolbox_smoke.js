@@ -33,8 +33,24 @@ assert.deepStrictEqual(actualNames, expectedNames, 'As cinco categorias externas
 
 externalCategories.forEach((category) => {
   assert.strictEqual(attribute(category.attributes, 'data-project'), 'externos');
-  assert.ok(!/<block\b/.test(category.body), 'As categorias devem permanecer vazias enquanto os blocos não forem implementados.');
+  if (category !== externalCategories[4]) {
+    assert.ok(!/<block\b/.test(category.body), 'Somente a categoria de servo deve possuir blocos nesta etapa.');
+  }
 });
+
+const servoBlockTypes = Array.from(
+  externalCategories[4].body.matchAll(/<block\s+[^>]*type="([^"]+)"/g),
+  (match) => match[1]
+);
+assert.deepStrictEqual(servoBlockTypes, [
+  'servo_mover',
+  'servo_angulo_atual',
+  'servo_joystick_controlar',
+  'servo_subir_gradualmente',
+  'servo_descer_gradualmente',
+  'display_mostrar_valor',
+  'servo_angulo_atual'
+], 'A categoria de servo deve oferecer cinco blocos e uma composição pronta de display.');
 
 function visibleExternalCategories(project) {
   return externalCategories.filter((category) => {
