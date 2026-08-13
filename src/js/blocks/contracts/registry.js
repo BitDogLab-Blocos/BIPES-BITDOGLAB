@@ -19,6 +19,7 @@
       workspaceHasIssues: 'Corrija os avisos dos blocos antes de gerar, executar ou enviar o código.',
       moreIssues: 'Ainda há mais %1 bloco(s) com aviso.',
       nearIncompatibleConnection: 'Este encaixe recebeu um bloco incompatível por perto. Aqui era esperado: %1. O bloco perto dele é: %2.',
+      servoOledV7PinConflict: 'Na BitDogLab V7, as Conexões 2 e 3 compartilham os GPIOs usados pelo display OLED. Para usar servo e display juntos, escolha a Conexão 0 ou 1 no servo.',
       generic: 'Revise a conexão deste bloco.'
     },
     en: {
@@ -35,6 +36,7 @@
       workspaceHasIssues: 'Fix the block warnings before generating, running, or sending code.',
       moreIssues: 'There are %1 more block(s) with warnings.',
       nearIncompatibleConnection: 'This socket has an incompatible block nearby. Expected here: %1. The nearby block is: %2.',
+      servoOledV7PinConflict: 'On BitDogLab V7, Connections 2 and 3 share the GPIOs used by the OLED display. To use a servo and display together, choose Connection 0 or 1 for the servo.',
       generic: 'Review this block connection.'
     }
   };

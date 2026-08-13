@@ -8,12 +8,14 @@ const root = path.resolve(__dirname, '..');
 const toolboxPath = path.join(root, 'src', 'js', 'config', 'toolbox.xml');
 const catalogPath = path.join(root, 'src', 'translations', 'catalog.js');
 const contractsPath = path.join(root, 'src', 'js', 'blocks', 'contracts', 'registry.js');
+const contractValidatorPath = path.join(root, 'src', 'js', 'blocks', 'contracts', 'validator.js');
 const servoDefinitionsPath = path.join(root, 'src', 'js', 'blocks', 'definitions', 'servo.js');
 const servoGeneratorsPath = path.join(root, 'src', 'js', 'blocks', 'generators', 'servo.js');
 const workspaceHintsPath = path.join(root, 'src', 'js', 'core', 'workspace', 'hints.js');
 const toolbox = fs.readFileSync(toolboxPath, 'utf8');
 const catalog = fs.readFileSync(catalogPath, 'utf8');
 const contracts = fs.readFileSync(contractsPath, 'utf8');
+const contractValidator = fs.readFileSync(contractValidatorPath, 'utf8');
 const servoDefinitions = fs.readFileSync(servoDefinitionsPath, 'utf8');
 const servoGenerators = fs.readFileSync(servoGeneratorsPath, 'utf8');
 const workspaceHints = fs.readFileSync(workspaceHintsPath, 'utf8');
@@ -68,6 +70,9 @@ assert.match(servoGenerators, /function sequentialAngleDisplayCode\(block, dig\)
 assert.match(servoGenerators, /Number\(valueBlock\.getFieldValue\('DIG'\)\) !== dig/);
 assert.match(workspaceHints, /WorkspaceManager\.showServoAngleReminder = function\(\)/);
 assert.match(workspaceHints, /blockType === 'servo_angulo_atual'/);
+assert.match(contracts, /servoOledV7PinConflict:/);
+assert.match(contractValidator, /function validateServoOledV7PinConflicts\(blocks, warnings\)/);
+assert.match(contractValidator, /config\.PINS\.I2C_SDA, config\.PINS\.I2C_SCL/);
 
 [
   ['servo_mover', 'statement'],

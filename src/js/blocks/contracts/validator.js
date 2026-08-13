@@ -469,6 +469,38 @@
     }
   }
 
+  function isOledBlock(block) {
+    if (!block) return false;
+    if (block.type && block.type.indexOf('display_') === 0) return true;
+    if (block.type === 'cronometro_mostrar') return true;
+    return Boolean(block.getFieldValue && block.getFieldValue('DISPLAY_TYPE'));
+  }
+
+  function validateServoOledV7PinConflicts(blocks, warnings) {
+    var config = global.BitdogLabConfig;
+    if (!config || !config.PINS || !config.EXTERNAL || !config.EXTERNAL.DIG_PINS) return;
+    if (!blocks.some(isOledBlock)) return;
+
+    var oledPins = [config.PINS.I2C_SDA, config.PINS.I2C_SCL];
+    var servoControllers = [
+      'servo_mover',
+      'servo_joystick_controlar',
+      'servo_subir_gradualmente',
+      'servo_descer_gradualmente'
+    ];
+
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (servoControllers.indexOf(block.type) === -1 || !block.getFieldValue) continue;
+
+      var dig = String(block.getFieldValue('DIG'));
+      var servoPin = config.EXTERNAL.DIG_PINS[dig];
+      if (oledPins.indexOf(servoPin) !== -1) {
+        addWarning(warnings, block, msg('servoOledV7PinConflict'));
+      }
+    }
+  }
+
   function validateWorkspace(workspace) {
     var allBlocks = getWorkspaceBlocks(workspace);
     var blocks = allBlocks.filter(isBlockEffectivelyEnabled);
@@ -481,6 +513,7 @@
     validateTypedEmptyValueInputs(blocks, warnings);
     validateContainers(blocks, warnings);
     validateDisplayTypeConflicts(blocks, warnings);
+    validateServoOledV7PinConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 
     applyWarnings(allBlocks, warnings);
