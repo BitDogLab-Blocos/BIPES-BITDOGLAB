@@ -180,6 +180,7 @@
     var pauseName = distinctName('servo_pause');
     var angleName = distinctName('servo_angle');
     var comparison = ascending ? '<' : '>';
+    var loopComparison = ascending ? '<=' : '>=';
     var advance = ascending
       ? 'min(' + angleName + ' + ' + stepName + ', ' + targetName + ')'
       : 'max(' + angleName + ' - ' + stepName + ', ' + targetName + ')';
@@ -189,7 +190,7 @@
     code += stepName + ' = max(1, abs(' + stepExpression + '))\n';
     code += pauseName + ' = max(0, ' + pauseExpression + ')\n';
     code += angleName + ' = max(' + config.MIN_ANGLE + ', min(' + config.MAX_ANGLE + ', ' + startExpression + '))\n';
-    code += 'while True:\n';
+    code += 'while ' + angleName + ' ' + loopComparison + ' ' + targetName + ':\n';
     code += '  _servo_move(' + dig + ', ' + angleName + ')\n';
     code += '  time.sleep(' + pauseName + ')\n';
     code += stepActions;
