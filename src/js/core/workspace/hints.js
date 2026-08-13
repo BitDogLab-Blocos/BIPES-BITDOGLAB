@@ -105,6 +105,39 @@ WorkspaceManager.showJoystickGetterReminder = function(blockType) {
   });
 };
 
+WorkspaceManager.showServoAngleReminder = function() {
+  var closeId = 'closeServoAngleNotification';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size: 16px;">💡 How to use the current servo angle</strong><br><br>' +
+      '📐 This value block needs a block that <strong>moves the servo</strong>.<br><br>' +
+      'Use <strong>Move servo</strong>, <strong>Joystick controls servo</strong>, <strong>Raise servo</strong>, or <strong>Lower servo</strong> with the <strong>same Connection</strong>.<br><br>' +
+      'The value is the <strong>last angle commanded by the program</strong>; a regular servo does not measure its physical position.<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Example:</strong><br>' +
+      '1️⃣ Raise servo on Connection 0<br>' +
+      '2️⃣ Show value: <strong>[Current servo angle on Connection 0]</strong><br>' +
+      '</div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size: 16px;">💡 Como usar o ângulo atual do servo</strong><br><br>' +
+      '📐 Este bloco de valor precisa de um bloco que <strong>mova o servo</strong>.<br><br>' +
+      'Use <strong>Mover servo</strong>, <strong>Joystick controla servo</strong>, <strong>Subir servo</strong> ou <strong>Descer servo</strong> com a <strong>mesma Conexão</strong>.<br><br>' +
+      'O valor representa o <strong>último ângulo enviado pelo programa</strong>; um servo comum não mede sua posição física.<br><br>' +
+      '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
+      '<strong>📝 Exemplo:</strong><br>' +
+      '1️⃣ Subir servo na Conexão 0<br>' +
+      '2️⃣ Mostrar valor: <strong>[Ângulo atual do servo na Conexão 0]</strong><br>' +
+      '</div>';
+
+  WorkspaceManager.createReminder({
+    id: 'servoAngleNotification',
+    closeId: closeId,
+    background: '#00897b',
+    maxWidth: '460px',
+    html: html
+  });
+};
+
 WorkspaceManager.showJoystickSeletorReminder = function() {
   var closeId = 'closeJoystickSeletorNotification';
   var html = Code.LANG === 'en'
@@ -540,6 +573,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
       if (joystickGetterBlocks.indexOf(blockType) !== -1) {
         Code.showJoystickGetterReminder(blockType);
       }
+      if (blockType === 'servo_angulo_atual') {
+        Code.showServoAngleReminder();
+      }
       if (blockType === 'joystick_seletor') {
         Code.showJoystickSeletorReminder();
       }
@@ -593,6 +629,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
         }
         if (valorBlock && valorBlock.type === 'robo_corrente_robo') {
           Code.showRobotCurrentReminder();
+        }
+        if (valorBlock && valorBlock.type === 'servo_angulo_atual') {
+          Code.showServoAngleReminder();
         }
       }
       if (blockType === 'estufa_toggle_sensor1' || blockType === 'estufa_toggle_sensor2') {

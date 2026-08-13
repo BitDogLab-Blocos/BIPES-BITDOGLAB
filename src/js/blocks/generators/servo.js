@@ -71,6 +71,27 @@
     return code && code.trim() ? code : '  pass\n';
   }
 
+  function indentCode(code) {
+    if (!code || !code.trim()) return '';
+    return code.split('\n').map(function(line) {
+      return line ? '  ' + line : '';
+    }).join('\n').replace(/\n*$/, '\n');
+  }
+
+  function sequentialAngleDisplayCode(block, dig) {
+    var nextBlock = block.getNextBlock && block.getNextBlock();
+    if (!nextBlock || nextBlock.type !== 'display_mostrar_valor') return '';
+
+    var valueBlock = nextBlock.getInputTargetBlock && nextBlock.getInputTargetBlock('VALOR');
+    if (!valueBlock || valueBlock.type !== 'servo_angulo_atual') return '';
+    if (Number(valueBlock.getFieldValue('DIG')) !== dig) return '';
+
+    var generator = Blockly.Python[nextBlock.type];
+    if (typeof generator !== 'function') return '';
+    var code = generator.call(Blockly.Python, nextBlock);
+    return typeof code === 'string' ? indentCode(code) : '';
+  }
+
   function joystickCondition(physicalDirection) {
     var joystick = BitdogLabConfig.JOYSTICK;
     var center = joystick.CENTER_VALUE;
@@ -148,7 +169,9 @@
     var targetExpression = numberFieldCode(block, 'TARGET', '90');
     var stepExpression = numberFieldCode(block, 'STEP', '10');
     var pauseExpression = numberFieldCode(block, 'PAUSE', '3');
-    var eachStep = indentOrPass(Blockly.Python.statementToCode(block, 'EACH_STEP'));
+    var eachStep = Blockly.Python.statementToCode(block, 'EACH_STEP');
+    var sequentialDisplay = sequentialAngleDisplayCode(block, dig);
+    var stepActions = indentOrPass((eachStep || '') + sequentialDisplay);
     var targetName = distinctName('servo_target');
     var stepName = distinctName('servo_step');
     var pauseName = distinctName('servo_pause');
@@ -166,7 +189,7 @@
     code += angleName + ' = ' + startAngle + '\n';
     code += 'while True:\n';
     code += '  _servo_move(' + dig + ', ' + angleName + ')\n';
-    code += eachStep;
+    code += stepActions;
     code += '  if not (' + angleName + ' ' + comparison + ' ' + targetName + '):\n';
     code += '    break\n';
     code += '  time.sleep(' + pauseName + ')\n';

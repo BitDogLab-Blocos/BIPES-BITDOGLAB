@@ -80,7 +80,7 @@
           ? (isEnglish() ? 'from 0° to' : 'de 0° até')
           : (isEnglish() ? 'from 180° to' : 'de 180° até'))
         .appendField(angleField(90), 'TARGET')
-        .appendField(isEnglish() ? 'degrees' : 'graus');
+        .appendField(isEnglish() ? 'degrees (limit: 0°–180°)' : 'graus (limite: 0°–180°)');
 
     block.appendDummyInput('STEP_ROW')
         .appendField(isEnglish() ? 'in steps of' : 'em passos de')

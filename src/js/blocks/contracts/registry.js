@@ -67,7 +67,14 @@
       kind: 'statement'
     },
     servo_angulo_atual: {
-      kind: 'value'
+      kind: 'value',
+      requiresAnyBlock: [
+        'servo_mover',
+        'servo_joystick_controlar',
+        'servo_subir_gradualmente',
+        'servo_descer_gradualmente'
+      ],
+      requiresLabel: 'Mover servo, Joystick controla servo, Subir servo ou Descer servo'
     },
     servo_joystick_controlar: {
       kind: 'statement'

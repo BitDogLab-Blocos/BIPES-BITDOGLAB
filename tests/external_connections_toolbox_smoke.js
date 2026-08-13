@@ -8,9 +8,15 @@ const root = path.resolve(__dirname, '..');
 const toolboxPath = path.join(root, 'src', 'js', 'config', 'toolbox.xml');
 const catalogPath = path.join(root, 'src', 'translations', 'catalog.js');
 const contractsPath = path.join(root, 'src', 'js', 'blocks', 'contracts', 'registry.js');
+const servoDefinitionsPath = path.join(root, 'src', 'js', 'blocks', 'definitions', 'servo.js');
+const servoGeneratorsPath = path.join(root, 'src', 'js', 'blocks', 'generators', 'servo.js');
+const workspaceHintsPath = path.join(root, 'src', 'js', 'core', 'workspace', 'hints.js');
 const toolbox = fs.readFileSync(toolboxPath, 'utf8');
 const catalog = fs.readFileSync(catalogPath, 'utf8');
 const contracts = fs.readFileSync(contractsPath, 'utf8');
+const servoDefinitions = fs.readFileSync(servoDefinitionsPath, 'utf8');
+const servoGenerators = fs.readFileSync(servoGeneratorsPath, 'utf8');
+const workspaceHints = fs.readFileSync(workspaceHintsPath, 'utf8');
 
 const expectedNames = [
   'LEDs externos',
@@ -57,6 +63,11 @@ assert.deepStrictEqual(servoBlockTypes, [
 assert.match(externalCategories[4].body, /<field name="DIR_INCREASE">UP<\/field>/);
 assert.match(externalCategories[4].body, /<field name="DIR_DECREASE">DOWN<\/field>/);
 assert.doesNotMatch(externalCategories[4].body, /<field name="(?:AXIS|INCREASE_DIRECTION)">/);
+assert.match(servoDefinitions, /graus \(limite: 0°–180°\)/);
+assert.match(servoGenerators, /function sequentialAngleDisplayCode\(block, dig\)/);
+assert.match(servoGenerators, /Number\(valueBlock\.getFieldValue\('DIG'\)\) !== dig/);
+assert.match(workspaceHints, /WorkspaceManager\.showServoAngleReminder = function\(\)/);
+assert.match(workspaceHints, /blockType === 'servo_angulo_atual'/);
 
 [
   ['servo_mover', 'statement'],
@@ -76,6 +87,17 @@ assert.doesNotMatch(externalCategories[4].body, /<field name="(?:AXIS|INCREASE_D
     /requiredValueInputs/,
     blockType + ' usa campos internos e não deve exigir blocos numéricos encaixados.'
   );
+});
+
+const servoAngleContract = contracts.match(/servo_angulo_atual:\s*\{([\s\S]*?)\n\s*\},/);
+assert.ok(servoAngleContract);
+[
+  'servo_mover',
+  'servo_joystick_controlar',
+  'servo_subir_gradualmente',
+  'servo_descer_gradualmente'
+].forEach((driverType) => {
+  assert.match(servoAngleContract[1], new RegExp("'" + driverType + "'"));
 });
 
 function visibleExternalCategories(project) {
