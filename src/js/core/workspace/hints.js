@@ -138,6 +138,83 @@ WorkspaceManager.showServoAngleReminder = function() {
   });
 };
 
+WorkspaceManager.showServoConnectionReminder = function(block) {
+  var closeId = 'closeServoConnectionNotification';
+  var boardImage = '../assets/images/devices/conexoes-externas.png';
+  var servoImage = '../assets/images/devices/servo-motor.png';
+  var wireRows = Code.LANG === 'en'
+    ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Servo wires</div>' +
+      '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Orange (signal)</strong> → V7: Connection 0 or 1 &nbsp;|&nbsp; V6: Connections 0, 1, 2 or 3</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Red (VCC)</strong> → 5V-VSYS</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Brown (GND)</strong> → GND</div>' +
+      '</div>'
+    : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Cabos do servo</div>' +
+      '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Laranja (sinal)</strong> → V7: Conexão 0 ou 1 &nbsp;|&nbsp; V6: Conexões 0, 1, 2 ou 3</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Vermelho (VCC)</strong> → 5V-VSYS</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Marrom (GND)</strong> → GND</div>' +
+      '</div>';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:17px;">🔌 How to connect the external servo</strong><br>' +
+      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
+      '<img src="' + boardImage + '" alt="External connections" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
+      '<img src="' + servoImage + '" alt="SG90 servo motor" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
+      '</div>' + wireRows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
+      '<strong>Make the bridge:</strong> servo plug → male-to-male jumper → alligator clip → board contact.<br>' +
+      'Turn the board off first and keep neighboring clips from touching.<br>' +
+      '<strong>Insulate the jumper-to-alligator connection with electrical tape</strong> so exposed metal cannot cause a short circuit.</div>' +
+      '<div style="margin-top:9px;"><strong>Important:</strong> do not connect the red wire to 3V3. If you are underage or are not familiar with electrical connections, ask a teacher for help before connecting anything in this category.</div>' +
+      '</div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:17px;">🔌 Como conectar o servo externo</strong><br>' +
+      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
+      '<img src="' + boardImage + '" alt="Conexões externas" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
+      '<img src="' + servoImage + '" alt="Servo motor SG90" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
+      '</div>' + wireRows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
+      '<strong>Faça a ponte:</strong> plugue do servo → jumper macho-macho → garra jacaré → contato da placa.<br>' +
+      'Primeiro desligue a placa e não deixe garras vizinhas se encostarem.<br>' +
+      '<strong>Isole a união do jumper com a garra jacaré usando fita isolante</strong> para nenhum metal exposto causar curto-circuito.</div>' +
+      '<div style="margin-top:9px;"><strong>Importante:</strong> não ligue o fio vermelho no 3V3. Se você for menor de idade ou não tiver conhecimento sobre conexões elétricas, peça ajuda ao professor antes de conectar qualquer dispositivo desta categoria.</div>' +
+      '</div>';
+
+  WorkspaceManager.createReminder({
+    id: 'servoConnectionNotification',
+    closeId: closeId,
+    background: '#00695c',
+    maxWidth: '680px',
+    html: html
+  });
+};
+
+WorkspaceManager.bindServoCategoryHint = function() {
+  var toolbox = Code.workspace && Code.workspace.getToolbox
+    ? Code.workspace.getToolbox()
+    : null;
+  var toolboxDiv = toolbox && toolbox.HtmlDiv;
+  if (!toolboxDiv || toolboxDiv.__bitdoglabServoHintBound) return;
+
+  toolboxDiv.__bitdoglabServoHintBound = true;
+  toolboxDiv.addEventListener('click', function(event) {
+    var clickTarget = event.target;
+    while (clickTarget && clickTarget !== toolboxDiv && !clickTarget.id) {
+      clickTarget = clickTarget.parentNode;
+    }
+    if (!clickTarget || !clickTarget.id || !toolbox.getToolboxItemById) return;
+
+    var item = toolbox.getToolboxItemById(clickTarget.id);
+    var categoryName = item && item.getName ? item.getName() : '';
+    if (categoryName === 'Servo Motor Externo' || categoryName === 'External Servo Motor') {
+      Code.showServoConnectionReminder();
+    }
+  });
+};
+
 WorkspaceManager.showJoystickSeletorReminder = function() {
   var closeId = 'closeJoystickSeletorNotification';
   var html = Code.LANG === 'en'
@@ -557,12 +634,20 @@ WorkspaceManager.showGraficoReminder = function() {
 };
 
 WorkspaceManager.bindWorkspaceHints = function() {
+  WorkspaceManager.bindServoCategoryHint();
+
   Code.workspace.addChangeListener(function(event) {
     if (event.type === Blockly.Events.BLOCK_CREATE) {
       var block = Code.workspace.getBlockById(event.blockId);
       if (!block) return;
 
       var blockType = block.type;
+      var servoControllerBlocks = [
+        'servo_mover',
+        'servo_joystick_controlar',
+        'servo_subir_gradualmente',
+        'servo_descer_gradualmente'
+      ];
       var joystickGetterBlocks = [
         'joystick_intensidade_atual',
         'joystick_frequencia_atual',
@@ -575,6 +660,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
       }
       if (blockType === 'servo_angulo_atual') {
         Code.showServoAngleReminder();
+      }
+      if (servoControllerBlocks.indexOf(blockType) !== -1) {
+        Code.showServoConnectionReminder(block);
       }
       if (blockType === 'joystick_seletor') {
         Code.showJoystickSeletorReminder();

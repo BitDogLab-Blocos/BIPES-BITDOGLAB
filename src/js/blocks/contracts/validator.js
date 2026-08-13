@@ -501,6 +501,46 @@
     }
   }
 
+  function validateServoRules(blocks, warnings) {
+    var controllerTypes = [
+      'servo_mover',
+      'servo_joystick_controlar',
+      'servo_subir_gradualmente',
+      'servo_descer_gradualmente'
+    ];
+    var controllerConnections = {};
+
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (!block.getFieldValue) continue;
+
+      if (controllerTypes.indexOf(block.type) !== -1) {
+        controllerConnections[String(block.getFieldValue('DIG'))] = true;
+      }
+
+      if (block.type === 'servo_joystick_controlar' &&
+          block.getFieldValue('DIR_INCREASE') === block.getFieldValue('DIR_DECREASE')) {
+        addWarning(warnings, block, msg('servoJoystickSameDirection'));
+      }
+    }
+
+    if (Object.keys(controllerConnections).length === 0) return;
+
+    for (var j = 0; j < blocks.length; j++) {
+      var angleBlock = blocks[j];
+      if (angleBlock.type !== 'servo_angulo_atual' || !angleBlock.getFieldValue) continue;
+
+      var angleConnection = String(angleBlock.getFieldValue('DIG'));
+      if (!controllerConnections[angleConnection]) {
+        addWarning(
+          warnings,
+          angleBlock,
+          format(msg('servoAngleConnectionMismatch'), angleConnection)
+        );
+      }
+    }
+  }
+
   function validateWorkspace(workspace) {
     var allBlocks = getWorkspaceBlocks(workspace);
     var blocks = allBlocks.filter(isBlockEffectivelyEnabled);
@@ -513,6 +553,7 @@
     validateTypedEmptyValueInputs(blocks, warnings);
     validateContainers(blocks, warnings);
     validateDisplayTypeConflicts(blocks, warnings);
+    validateServoRules(blocks, warnings);
     validateServoOledV7PinConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 

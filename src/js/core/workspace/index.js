@@ -10,6 +10,7 @@ Code.initProjectSelector = WorkspaceManager.initProjectSelector;
 Code.localizeRuntimePanel = WorkspaceManager.localizeRuntimePanel;
 Code.showJoystickGetterReminder = WorkspaceManager.showJoystickGetterReminder;
 Code.showServoAngleReminder = WorkspaceManager.showServoAngleReminder;
+Code.showServoConnectionReminder = WorkspaceManager.showServoConnectionReminder;
 Code.showJoystickSeletorReminder = WorkspaceManager.showJoystickSeletorReminder;
 Code.showMicGetterReminder = WorkspaceManager.showMicGetterReminder;
 Code.showBarraGetterReminder = WorkspaceManager.showBarraGetterReminder;

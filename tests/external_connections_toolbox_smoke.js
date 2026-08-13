@@ -70,8 +70,27 @@ assert.match(servoGenerators, /function sequentialAngleDisplayCode\(block, dig\)
 assert.match(servoGenerators, /Number\(valueBlock\.getFieldValue\('DIG'\)\) !== dig/);
 assert.match(workspaceHints, /WorkspaceManager\.showServoAngleReminder = function\(\)/);
 assert.match(workspaceHints, /blockType === 'servo_angulo_atual'/);
+assert.match(workspaceHints, /WorkspaceManager\.showServoConnectionReminder = function\(block\)/);
+assert.match(workspaceHints, /WorkspaceManager\.bindServoCategoryHint = function\(\)/);
+assert.match(workspaceHints, /categoryName === 'Servo Motor Externo'/);
+assert.match(workspaceHints, /categoryName === 'External Servo Motor'/);
+assert.match(workspaceHints, /Code\.showServoConnectionReminder\(\)/);
+assert.match(workspaceHints, /conexoes-externas\.png/);
+assert.match(workspaceHints, /servo-motor\.png/);
+assert.match(workspaceHints, /Laranja \(sinal\).*Conexão/);
+assert.match(workspaceHints, /Vermelho \(VCC\).*5V-VSYS/);
+assert.match(workspaceHints, /Marrom \(GND\).*GND/);
+assert.match(workspaceHints, /Cabos do servo/);
+assert.match(workspaceHints, /Laranja \(sinal\).*V7: Conexão 0 ou 1.*V6: Conexões 0, 1, 2 ou 3/);
+assert.match(workspaceHints, /jumper macho-macho/);
+assert.match(workspaceHints, /fita isolante/);
+assert.match(workspaceHints, /peça ajuda ao professor/);
 assert.match(contracts, /servoOledV7PinConflict:/);
+assert.match(contracts, /servoAngleConnectionMismatch:/);
+assert.match(contracts, /servoJoystickSameDirection:/);
 assert.match(contractValidator, /function validateServoOledV7PinConflicts\(blocks, warnings\)/);
+assert.match(contractValidator, /function validateServoRules\(blocks, warnings\)/);
+assert.match(contractValidator, /block\.getFieldValue\('DIR_INCREASE'\) === block\.getFieldValue\('DIR_DECREASE'\)/);
 assert.match(contractValidator, /config\.PINS\.I2C_SDA, config\.PINS\.I2C_SCL/);
 
 [
