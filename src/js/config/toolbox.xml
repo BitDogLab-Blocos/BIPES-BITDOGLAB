@@ -387,27 +387,27 @@
   <category name="Servo Motor Externo" colour="#00897b" data-project="externos" css-icon="bitdoglab-servo-category-icon">
     <block type="servo_mover">
       <field name="DIG">0</field>
-      <value name="ANGLE"><shadow type="math_number"><field name="NUM">90</field></shadow></value>
+      <field name="ANGLE">90</field>
     </block>
     <block type="servo_angulo_atual"><field name="DIG">0</field></block>
     <block type="servo_joystick_controlar">
       <field name="DIG">0</field>
       <field name="AXIS">X</field>
       <field name="INCREASE_DIRECTION">POSITIVE</field>
-      <value name="INITIAL_ANGLE"><shadow type="math_number"><field name="NUM">90</field></shadow></value>
-      <value name="STEP"><shadow type="math_number"><field name="NUM">2</field></shadow></value>
+      <field name="INITIAL_ANGLE">90</field>
+      <field name="STEP">2</field>
     </block>
     <block type="servo_subir_gradualmente">
       <field name="DIG">0</field>
-      <value name="TARGET"><shadow type="math_number"><field name="NUM">90</field></shadow></value>
-      <value name="STEP"><shadow type="math_number"><field name="NUM">10</field></shadow></value>
-      <value name="PAUSE"><shadow type="math_number"><field name="NUM">0.1</field></shadow></value>
+      <field name="TARGET">90</field>
+      <field name="STEP">10</field>
+      <field name="PAUSE">3</field>
     </block>
     <block type="servo_descer_gradualmente">
       <field name="DIG">0</field>
-      <value name="TARGET"><shadow type="math_number"><field name="NUM">90</field></shadow></value>
-      <value name="STEP"><shadow type="math_number"><field name="NUM">10</field></shadow></value>
-      <value name="PAUSE"><shadow type="math_number"><field name="NUM">0.1</field></shadow></value>
+      <field name="TARGET">90</field>
+      <field name="STEP">10</field>
+      <field name="PAUSE">3</field>
     </block>
     <block type="display_mostrar_valor">
       <value name="VALOR">

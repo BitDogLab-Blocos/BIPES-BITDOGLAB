@@ -18,11 +18,23 @@
 
   function digField() {
     return new Blockly.FieldDropdown([
-      ['DIG 0', '0'],
-      ['DIG 1', '1'],
-      ['DIG 2', '2'],
-      ['DIG 3', '3']
+      [isEnglish() ? 'Connection 0' : 'Conexão 0', '0'],
+      [isEnglish() ? 'Connection 1' : 'Conexão 1', '1'],
+      [isEnglish() ? 'Connection 2' : 'Conexão 2', '2'],
+      [isEnglish() ? 'Connection 3' : 'Conexão 3', '3']
     ]);
+  }
+
+  function angleField(defaultValue) {
+    return new Blockly.FieldNumber(defaultValue, 0, 180, 1);
+  }
+
+  function stepField(defaultValue) {
+    return new Blockly.FieldNumber(defaultValue, 1, 180, 1);
+  }
+
+  function pauseField(defaultValue) {
+    return new Blockly.FieldNumber(defaultValue, 0, 60, 0.1);
   }
 
   function setCommandConnections(block) {
@@ -35,45 +47,46 @@
   function appendGradualInputs(block, direction) {
     var ascending = direction === 'up';
 
-    block.appendValueInput('TARGET')
-        .setCheck('Number')
+    block.appendDummyInput('HEADER')
         .appendField(ascending
           ? (isEnglish() ? '↗️ Raise servo' : '↗️ Subir servo')
           : (isEnglish() ? '↘️ Lower servo' : '↘️ Descer servo'))
-        .appendField(digField(), 'DIG')
+        .appendField(isEnglish() ? 'on' : 'na')
+        .appendField(digField(), 'DIG');
+
+    block.appendDummyInput('TARGET_ROW')
         .appendField(ascending
           ? (isEnglish() ? 'from 0° to' : 'de 0° até')
-          : (isEnglish() ? 'from 180° to' : 'de 180° até'));
+          : (isEnglish() ? 'from 180° to' : 'de 180° até'))
+        .appendField(angleField(90), 'TARGET')
+        .appendField(isEnglish() ? 'degrees' : 'graus');
 
-    block.appendValueInput('STEP')
-        .setCheck('Number')
-        .appendField(isEnglish() ? 'degrees in steps of' : 'graus em passos de');
+    block.appendDummyInput('STEP_ROW')
+        .appendField(isEnglish() ? 'in steps of' : 'em passos de')
+        .appendField(stepField(10), 'STEP')
+        .appendField(isEnglish() ? 'degrees' : 'graus');
 
-    block.appendValueInput('PAUSE')
-        .setCheck('Number')
-        .appendField(isEnglish() ? 'degrees, pausing' : 'graus, com pausa de');
-
-    block.appendDummyInput()
+    block.appendDummyInput('PAUSE_ROW')
+        .appendField(isEnglish() ? 'pausing' : 'com pausa de')
+        .appendField(pauseField(3), 'PAUSE')
         .appendField(isEnglish() ? 'seconds' : 'segundos');
 
     block.appendStatementInput('EACH_STEP')
         .setCheck('ProgramCommand')
         .appendField(isEnglish() ? 'at each step do' : 'a cada passo faça');
 
-    block.setInputsInline(false);
     setCommandConnections(block);
   }
 
   Blockly.Blocks['servo_mover'] = {
     init: function() {
-      this.appendValueInput('ANGLE')
-          .setCheck('Number')
-          .appendField(isEnglish() ? '🎯 Move servo' : '🎯 Mover servo')
-          .appendField(digField(), 'DIG')
-          .appendField(isEnglish() ? 'to' : 'para');
       this.appendDummyInput()
+          .appendField(isEnglish() ? '🎯 Move servo' : '🎯 Mover servo')
+          .appendField(isEnglish() ? 'on' : 'na')
+          .appendField(digField(), 'DIG')
+          .appendField(isEnglish() ? 'to' : 'para')
+          .appendField(angleField(90), 'ANGLE')
           .appendField(isEnglish() ? 'degrees' : 'graus');
-      this.setInputsInline(true);
       setCommandConnections(this);
       this.setTooltip(isEnglish()
         ? 'Moves the selected external servo to an angle from 0 to 180 degrees.'
@@ -85,6 +98,7 @@
     init: function() {
       this.appendDummyInput()
           .appendField(isEnglish() ? '📐 Current servo angle' : '📐 Ângulo atual do servo')
+          .appendField(isEnglish() ? 'on' : 'na')
           .appendField(digField(), 'DIG');
       this.setOutput(true, 'Number');
       this.setColour(SERVO_COLOUR);
@@ -99,12 +113,14 @@
     init: function() {
       this.appendDummyInput()
           .appendField(isEnglish() ? '🕹️ Joystick controls servo' : '🕹️ Joystick controla servo')
+          .appendField(isEnglish() ? 'on' : 'na')
           .appendField(digField(), 'DIG');
-      this.appendValueInput('INITIAL_ANGLE')
-          .setCheck('Number')
-          .appendField(isEnglish() ? 'starting at' : 'começando em');
       this.appendDummyInput()
-          .appendField(isEnglish() ? 'degrees on axis' : 'graus no eixo')
+          .appendField(isEnglish() ? 'starting at' : 'começando em')
+          .appendField(angleField(90), 'INITIAL_ANGLE')
+          .appendField(isEnglish() ? 'degrees' : 'graus');
+      this.appendDummyInput()
+          .appendField(isEnglish() ? 'using axis' : 'usando o eixo')
           .appendField(new Blockly.FieldDropdown([
             ['X — horizontal', 'X'],
             ['Y — vertical', 'Y']
@@ -118,12 +134,10 @@
             ['direita / cima', 'POSITIVE'],
             ['esquerda / baixo', 'NEGATIVE']
           ]), 'INCREASE_DIRECTION');
-      this.appendValueInput('STEP')
-          .setCheck('Number')
-          .appendField(isEnglish() ? 'in steps of' : 'em passos de');
       this.appendDummyInput()
+          .appendField(isEnglish() ? 'in steps of' : 'em passos de')
+          .appendField(stepField(2), 'STEP')
           .appendField(isEnglish() ? 'degrees' : 'graus');
-      this.setInputsInline(false);
       setCommandConnections(this);
       this.setTooltip(isEnglish()
         ? 'Moves the servo with the joystick and updates its current angle at every movement.'

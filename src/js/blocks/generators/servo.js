@@ -58,8 +58,9 @@
       '  return _servo_angles.get(int(dig), 0)';
   }
 
-  function valueCode(block, inputName, fallback) {
-    return Blockly.Python.valueToCode(block, inputName, Blockly.Python.ORDER_NONE) || fallback;
+  function numberFieldCode(block, fieldName, fallback) {
+    var value = block.getFieldValue(fieldName);
+    return value === null || value === '' ? fallback : String(value);
   }
 
   function distinctName(baseName) {
@@ -101,7 +102,7 @@
   Blockly.Python['servo_mover'] = function(block) {
     ensureServoSupport();
     var dig = Number(block.getFieldValue('DIG'));
-    var angle = valueCode(block, 'ANGLE', '90');
+    var angle = numberFieldCode(block, 'ANGLE', '90');
     return '_servo_move(' + dig + ', ' + angle + ')\n';
   };
 
@@ -120,8 +121,8 @@
     var axis = block.getFieldValue('AXIS') || 'X';
     var increaseDirection = block.getFieldValue('INCREASE_DIRECTION') || 'POSITIVE';
     var decreaseDirection = increaseDirection === 'POSITIVE' ? 'NEGATIVE' : 'POSITIVE';
-    var initialAngle = valueCode(block, 'INITIAL_ANGLE', '90');
-    var step = valueCode(block, 'STEP', '2');
+    var initialAngle = numberFieldCode(block, 'INITIAL_ANGLE', '90');
+    var step = numberFieldCode(block, 'STEP', '2');
     var adcPin = axis === 'Y' ? pins.JOYSTICK_Y : pins.JOYSTICK_X;
 
     Blockly.Python.definitions_['setup_servo_joystick_' + axis.toLowerCase()] =
@@ -146,9 +147,9 @@
 
     var config = servoConfig();
     var dig = Number(block.getFieldValue('DIG'));
-    var targetExpression = valueCode(block, 'TARGET', ascending ? '90' : '90');
-    var stepExpression = valueCode(block, 'STEP', '10');
-    var pauseExpression = valueCode(block, 'PAUSE', '0.1');
+    var targetExpression = numberFieldCode(block, 'TARGET', '90');
+    var stepExpression = numberFieldCode(block, 'STEP', '10');
+    var pauseExpression = numberFieldCode(block, 'PAUSE', '3');
     var eachStep = indentOrPass(Blockly.Python.statementToCode(block, 'EACH_STEP'));
     var targetName = distinctName('servo_target');
     var stepName = distinctName('servo_step');

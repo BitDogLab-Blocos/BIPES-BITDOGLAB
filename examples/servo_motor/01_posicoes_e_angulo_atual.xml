@@ -2,21 +2,21 @@
   <!-- Move o servo por três posições e mostra o último ângulo enviado no OLED. -->
   <block type="servo_mover" x="20" y="20">
     <field name="DIG">0</field>
-    <value name="ANGLE"><shadow type="math_number"><field name="NUM">0</field></shadow></value>
+    <field name="ANGLE">0</field>
     <next>
       <block type="esperar_segundos">
         <value name="TIME"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
         <next>
           <block type="servo_mover">
             <field name="DIG">0</field>
-            <value name="ANGLE"><shadow type="math_number"><field name="NUM">90</field></shadow></value>
+            <field name="ANGLE">90</field>
             <next>
               <block type="esperar_segundos">
                 <value name="TIME"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
                 <next>
                   <block type="servo_mover">
                     <field name="DIG">0</field>
-                    <value name="ANGLE"><shadow type="math_number"><field name="NUM">180</field></shadow></value>
+                    <field name="ANGLE">180</field>
                     <next>
                       <block type="display_mostrar_valor">
                         <field name="LINHA">1</field>
