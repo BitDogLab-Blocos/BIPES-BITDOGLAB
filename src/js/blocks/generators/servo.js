@@ -1,0 +1,187 @@
+// Generators for external servo motor blocks.
+'use strict';
+
+(function(global) {
+  var Blockly = global.Blockly;
+  if (!Blockly || !Blockly.Python) {
+    console.warn('[BitDogLab] Python generator is not available for servo blocks.');
+    return;
+  }
+
+  function servoConfig() {
+    return global.BitdogLabConfig.EXTERNAL.SERVO;
+  }
+
+  function digPins() {
+    return global.BitdogLabConfig.EXTERNAL.DIG_PINS;
+  }
+
+  function pythonDigMap() {
+    var pins = digPins();
+    return '{' + Object.keys(pins).map(function(dig) {
+      return String(Number(dig)) + ': ' + String(pins[dig]);
+    }).join(', ') + '}';
+  }
+
+  function ensureServoSupport() {
+    var config = servoConfig();
+
+    Blockly.Python.definitions_['import_servo_machine'] = 'from machine import Pin, PWM';
+    Blockly.Python.definitions_['setup_servo_state'] =
+      BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+      '_servo_pins = ' + pythonDigMap() + '\n' +
+      '_servo_pwms = {}\n' +
+      '_servo_angles = {}\n' +
+      '_servo_joystick_started = {}\n' +
+      BitdogLabConfig.MARKERS.SETUP_END;
+
+    Blockly.Python.definitions_['servo_helpers'] =
+      'def _servo_get(dig):\n' +
+      '  dig = int(dig)\n' +
+      '  if dig not in _servo_pins:\n' +
+      '    raise ValueError("Invalid external DIG")\n' +
+      '  if dig not in _servo_pwms:\n' +
+      '    _servo_pwms[dig] = PWM(Pin(_servo_pins[dig]))\n' +
+      '    _servo_pwms[dig].freq(' + config.PWM_FREQ + ')\n' +
+      '    _servo_angles[dig] = 0\n' +
+      '  return _servo_pwms[dig]\n' +
+      '\n' +
+      'def _servo_move(dig, degrees):\n' +
+      '  dig = int(dig)\n' +
+      '  degrees = max(' + config.MIN_ANGLE + ', min(' + config.MAX_ANGLE + ', degrees))\n' +
+      '  pulse = ' + config.MIN_PULSE_NS + ' + int(((' + config.MAX_PULSE_NS + ' - ' + config.MIN_PULSE_NS + ') * degrees) // ' + (config.MAX_ANGLE - config.MIN_ANGLE) + ')\n' +
+      '  _servo_get(dig).duty_ns(pulse)\n' +
+      '  _servo_angles[dig] = degrees\n' +
+      '  return degrees\n' +
+      '\n' +
+      'def _servo_current_angle(dig):\n' +
+      '  return _servo_angles.get(int(dig), 0)';
+  }
+
+  function valueCode(block, inputName, fallback) {
+    return Blockly.Python.valueToCode(block, inputName, Blockly.Python.ORDER_NONE) || fallback;
+  }
+
+  function distinctName(baseName) {
+    return Blockly.Python.nameDB_.getDistinctName(baseName, Blockly.VARIABLE_CATEGORY_NAME);
+  }
+
+  function indentOrPass(code) {
+    return code && code.trim() ? code : '  pass\n';
+  }
+
+  function joystickCondition(axis, physicalDirection) {
+    var joystick = BitdogLabConfig.JOYSTICK;
+    var center = joystick.CENTER_VALUE;
+    var deadzone = joystick.DEADZONE;
+    var invertX = joystick.INVERT_X === true;
+    var invertY = joystick.INVERT_Y === true;
+
+    var conditions = {
+      RIGHT: invertX
+        ? '_servo_joy_value > ' + (center + deadzone)
+        : '_servo_joy_value < ' + (center - deadzone),
+      LEFT: invertX
+        ? '_servo_joy_value < ' + (center - deadzone)
+        : '_servo_joy_value > ' + (center + deadzone),
+      UP: invertY
+        ? '_servo_joy_value > ' + (center + deadzone)
+        : '_servo_joy_value < ' + (center - deadzone),
+      DOWN: invertY
+        ? '_servo_joy_value < ' + (center - deadzone)
+        : '_servo_joy_value > ' + (center + deadzone)
+    };
+
+    if (axis === 'Y') {
+      return conditions[physicalDirection === 'POSITIVE' ? 'UP' : 'DOWN'];
+    }
+    return conditions[physicalDirection === 'POSITIVE' ? 'RIGHT' : 'LEFT'];
+  }
+
+  Blockly.Python['servo_mover'] = function(block) {
+    ensureServoSupport();
+    var dig = Number(block.getFieldValue('DIG'));
+    var angle = valueCode(block, 'ANGLE', '90');
+    return '_servo_move(' + dig + ', ' + angle + ')\n';
+  };
+
+  Blockly.Python['servo_angulo_atual'] = function(block) {
+    ensureServoSupport();
+    var dig = Number(block.getFieldValue('DIG'));
+    return ['_servo_current_angle(' + dig + ')', Blockly.Python.ORDER_FUNCTION_CALL];
+  };
+
+  Blockly.Python['servo_joystick_controlar'] = function(block) {
+    ensureServoSupport();
+    Blockly.Python.definitions_['import_servo_adc'] = 'from machine import ADC';
+
+    var pins = BitdogLabConfig.PINS;
+    var dig = Number(block.getFieldValue('DIG'));
+    var axis = block.getFieldValue('AXIS') || 'X';
+    var increaseDirection = block.getFieldValue('INCREASE_DIRECTION') || 'POSITIVE';
+    var decreaseDirection = increaseDirection === 'POSITIVE' ? 'NEGATIVE' : 'POSITIVE';
+    var initialAngle = valueCode(block, 'INITIAL_ANGLE', '90');
+    var step = valueCode(block, 'STEP', '2');
+    var adcPin = axis === 'Y' ? pins.JOYSTICK_Y : pins.JOYSTICK_X;
+
+    Blockly.Python.definitions_['setup_servo_joystick_' + axis.toLowerCase()] =
+      '_servo_joy_' + axis.toLowerCase() + ' = ADC(Pin(' + adcPin + '))';
+
+    var code = '';
+    code += 'if ' + dig + ' not in _servo_joystick_started:\n';
+    code += '  _servo_move(' + dig + ', ' + initialAngle + ')\n';
+    code += '  _servo_joystick_started[' + dig + '] = True\n';
+    code += '_servo_joy_value = _servo_joy_' + axis.toLowerCase() + '.read_u16()\n';
+    code += '_servo_joy_step = max(1, abs(' + step + '))\n';
+    code += 'if ' + joystickCondition(axis, increaseDirection) + ':\n';
+    code += '  _servo_move(' + dig + ', _servo_current_angle(' + dig + ') + _servo_joy_step)\n';
+    code += 'elif ' + joystickCondition(axis, decreaseDirection) + ':\n';
+    code += '  _servo_move(' + dig + ', _servo_current_angle(' + dig + ') - _servo_joy_step)\n';
+    return code;
+  };
+
+  function gradualCode(block, ascending) {
+    ensureServoSupport();
+    Blockly.Python.definitions_['import_servo_time'] = 'import time';
+
+    var config = servoConfig();
+    var dig = Number(block.getFieldValue('DIG'));
+    var targetExpression = valueCode(block, 'TARGET', ascending ? '90' : '90');
+    var stepExpression = valueCode(block, 'STEP', '10');
+    var pauseExpression = valueCode(block, 'PAUSE', '0.1');
+    var eachStep = indentOrPass(Blockly.Python.statementToCode(block, 'EACH_STEP'));
+    var targetName = distinctName('servo_target');
+    var stepName = distinctName('servo_step');
+    var pauseName = distinctName('servo_pause');
+    var angleName = distinctName('servo_angle');
+    var startAngle = ascending ? config.MIN_ANGLE : config.MAX_ANGLE;
+    var comparison = ascending ? '<' : '>';
+    var advance = ascending
+      ? 'min(' + angleName + ' + ' + stepName + ', ' + targetName + ')'
+      : 'max(' + angleName + ' - ' + stepName + ', ' + targetName + ')';
+
+    var code = '';
+    code += targetName + ' = max(' + config.MIN_ANGLE + ', min(' + config.MAX_ANGLE + ', ' + targetExpression + '))\n';
+    code += stepName + ' = max(1, abs(' + stepExpression + '))\n';
+    code += pauseName + ' = max(0, ' + pauseExpression + ')\n';
+    code += angleName + ' = ' + startAngle + '\n';
+    code += 'while True:\n';
+    code += '  _servo_move(' + dig + ', ' + angleName + ')\n';
+    code += eachStep;
+    code += '  if not (' + angleName + ' ' + comparison + ' ' + targetName + '):\n';
+    code += '    break\n';
+    code += '  time.sleep(' + pauseName + ')\n';
+    code += '  ' + angleName + ' = ' + advance + '\n';
+    return code;
+  }
+
+  Blockly.Python['servo_subir_gradualmente'] = function(block) {
+    return gradualCode(block, true);
+  };
+
+  Blockly.Python['servo_descer_gradualmente'] = function(block) {
+    return gradualCode(block, false);
+  };
+
+  console.log('[BitDogLab] External servo generators loaded.');
+})(window);
