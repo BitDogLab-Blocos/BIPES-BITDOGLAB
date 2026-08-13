@@ -63,6 +63,35 @@
       requiresAnyBlock: ['joystick_controlar_buzzer'],
       requiresLabel: 'Joystick controla Buzzer'
     },
+    servo_mover: {
+      kind: 'statement',
+      requiredValueInputs: {
+        ANGLE: 'ângulo do servo'
+      }
+    },
+    servo_joystick_controlar: {
+      kind: 'statement',
+      requiredValueInputs: {
+        INITIAL_ANGLE: 'ângulo inicial',
+        STEP: 'passo em graus'
+      }
+    },
+    servo_subir_gradualmente: {
+      kind: 'statement',
+      requiredValueInputs: {
+        TARGET: 'ângulo final',
+        STEP: 'passo em graus',
+        PAUSE: 'pausa em segundos'
+      }
+    },
+    servo_descer_gradualmente: {
+      kind: 'statement',
+      requiredValueInputs: {
+        TARGET: 'ângulo final',
+        STEP: 'passo em graus',
+        PAUSE: 'pausa em segundos'
+      }
+    },
     microfone_vu_meter: {
       kind: 'statement',
       requiredValueInputs: {

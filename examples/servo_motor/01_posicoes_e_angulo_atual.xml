@@ -1,0 +1,39 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Move o servo por três posições e mostra o último ângulo enviado no OLED. -->
+  <block type="servo_mover" x="20" y="20">
+    <field name="DIG">0</field>
+    <value name="ANGLE"><shadow type="math_number"><field name="NUM">0</field></shadow></value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
+        <next>
+          <block type="servo_mover">
+            <field name="DIG">0</field>
+            <value name="ANGLE"><shadow type="math_number"><field name="NUM">90</field></shadow></value>
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
+                <next>
+                  <block type="servo_mover">
+                    <field name="DIG">0</field>
+                    <value name="ANGLE"><shadow type="math_number"><field name="NUM">180</field></shadow></value>
+                    <next>
+                      <block type="display_mostrar_valor">
+                        <field name="LINHA">1</field>
+                        <field name="ALINHAMENTO">CENTER</field>
+                        <field name="DISPLAY_TYPE">SMALL</field>
+                        <value name="VALOR">
+                          <block type="servo_angulo_atual"><field name="DIG">0</field></block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

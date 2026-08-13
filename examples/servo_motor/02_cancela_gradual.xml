@@ -1,0 +1,42 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Cancela: sobe e desce em passos visíveis, mostrando o ângulo durante o movimento. -->
+  <block type="servo_subir_gradualmente" x="20" y="20">
+    <field name="DIG">0</field>
+    <value name="TARGET"><shadow type="math_number"><field name="NUM">90</field></shadow></value>
+    <value name="STEP"><shadow type="math_number"><field name="NUM">10</field></shadow></value>
+    <value name="PAUSE"><shadow type="math_number"><field name="NUM">0.1</field></shadow></value>
+    <statement name="EACH_STEP">
+      <block type="display_mostrar_valor">
+        <field name="LINHA">1</field>
+        <field name="ALINHAMENTO">CENTER</field>
+        <field name="DISPLAY_TYPE">SMALL</field>
+        <value name="VALOR">
+          <block type="servo_angulo_atual"><field name="DIG">0</field></block>
+        </value>
+      </block>
+    </statement>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME"><shadow type="math_number"><field name="NUM">1</field></shadow></value>
+        <next>
+          <block type="servo_descer_gradualmente">
+            <field name="DIG">0</field>
+            <value name="TARGET"><shadow type="math_number"><field name="NUM">0</field></shadow></value>
+            <value name="STEP"><shadow type="math_number"><field name="NUM">10</field></shadow></value>
+            <value name="PAUSE"><shadow type="math_number"><field name="NUM">0.1</field></shadow></value>
+            <statement name="EACH_STEP">
+              <block type="display_mostrar_valor">
+                <field name="LINHA">1</field>
+                <field name="ALINHAMENTO">CENTER</field>
+                <field name="DISPLAY_TYPE">SMALL</field>
+                <value name="VALOR">
+                  <block type="servo_angulo_atual"><field name="DIG">0</field></block>
+                </value>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
