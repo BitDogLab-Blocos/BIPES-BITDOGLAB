@@ -57,6 +57,23 @@ var BitdogLabConfig = createProfile(BitdogLabProfileBase, {
     HEIGHT: 64
   },
 
+  EXTERNAL: {
+    DIG_PINS: {
+      '0': 0,
+      '1': 1,
+      '2': 2,
+      '3': 3
+    },
+    SERVO: {
+      ALLOWED_DIG: ['0', '1', '2', '3'],
+      PWM_FREQ: 50,
+      MIN_ANGLE: 0,
+      MAX_ANGLE: 180,
+      MIN_PULSE_NS: 640000,
+      MAX_PULSE_NS: 2420000
+    }
+  },
+
   ROBOT: {
     MPU_I2C_BUS: 0,
     MPU_I2C_SDA: 0,

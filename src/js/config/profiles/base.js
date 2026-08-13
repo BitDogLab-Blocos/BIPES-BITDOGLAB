@@ -151,7 +151,8 @@ function mergeProfile(target, overrides) {
 function validateBitdogLabProfile(profile) {
   var required = [
     'PINS', 'NEOPIXEL', 'JOYSTICK', 'DISPLAY', 'ROBOT', 'ROBOT_POWER',
-    'SENSOR', 'LED', 'LED_INIT', 'LOOP', 'MARKERS', 'SETUP_PATTERNS'
+    'SENSOR', 'EXTERNAL', 'LED', 'LED_INIT', 'LOOP', 'MARKERS',
+    'SETUP_PATTERNS'
   ];
   var missing = required.filter(function(section) {
     return !profile[section];
