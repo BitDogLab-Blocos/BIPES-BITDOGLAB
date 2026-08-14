@@ -128,7 +128,11 @@ workspace.prototype.readWorkspace = function (xml, prettyText) {
     try {
       let device = workspace_chunk.match(/<field name="DEVICE">(.+?)<\/field>/) [1];
       if (this.selector && (device === 'v6' || device === 'v7')) {
-        this.selector.value = device;
+        if (window.AppBootstrap && typeof AppBootstrap.applyDeviceProfile === 'function') {
+          AppBootstrap.applyDeviceProfile(device);
+        } else {
+          this.selector.value = device;
+        }
       }
     } catch(e) {UI ['notify'].log(e)}
   } else {

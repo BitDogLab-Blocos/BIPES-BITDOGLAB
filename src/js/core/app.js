@@ -3,13 +3,26 @@
 var Code = window.Code || (window.Code = {});
 var AppBootstrap = {};
 
+AppBootstrap.deviceProfiles = {
+  v6: BitdogLabConfig_V6,
+  v7: BitdogLabConfig
+};
+
+AppBootstrap.applyDeviceProfile = function(device) {
+  if (!AppBootstrap.deviceProfiles[device]) return false;
+
+  BitdogLabConfig = AppBootstrap.deviceProfiles[device];
+  var selector = document.getElementById('device_selector');
+  if (selector) selector.value = device;
+  return true;
+};
+
 AppBootstrap.initVersionSelector = function() {
   var versionSelector = document.getElementById('device_selector');
   if (!versionSelector) return;
 
-  var BitdogLabConfig_V7 = BitdogLabConfig;
   versionSelector.addEventListener('change', function() {
-    BitdogLabConfig = (this.value === 'v6') ? BitdogLabConfig_V6 : BitdogLabConfig_V7;
+    AppBootstrap.applyDeviceProfile(this.value);
     Code.renderContent();
     if (typeof mux !== 'undefined' && mux.connected && mux.connected()) {
       Tool.stopPython();
