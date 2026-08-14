@@ -1435,7 +1435,7 @@ var CUSTOM_TRANSLATIONS_EN = {
   "💡 LEDs": "💡 LEDs",
   "LEDs externos": "External LEDs",
   "Luz e sombra com LDR": "Light and Shadow with LDR",
-  "Temperatura externa com NTC": "External Temperature with NTC",
+  "Temperatura externa com DHT11": "External Temperature with DHT11",
   "Distância e presença com ultrassônico": "Distance and Presence with Ultrasonic",
   "Servo Motor Externo": "External Servo Motor",
   "🎯 Mover servo": "🎯 Move servo",
