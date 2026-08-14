@@ -15,12 +15,13 @@
   }
 
   function digField() {
-    return new Blockly.FieldDropdown([
-      [isEnglish() ? 'Connection 0' : 'Conexão 0', '0'],
-      [isEnglish() ? 'Connection 1' : 'Conexão 1', '1'],
-      [isEnglish() ? 'Connection 2' : 'Conexão 2', '2'],
-      [isEnglish() ? 'Connection 3' : 'Conexão 3', '3']
-    ]);
+    var profile = global.BitdogLabConfig || {};
+    var external = profile.EXTERNAL || {};
+    var dht11 = external.DHT11 || {};
+    var allowed = dht11.ALLOWED_DIG || ['0', '1', '2', '3'];
+    return new Blockly.FieldDropdown(allowed.map(function(dig) {
+      return [isEnglish() ? 'Connection ' + dig : 'Conexão ' + dig, String(dig)];
+    }));
   }
 
   function graphPositionField() {

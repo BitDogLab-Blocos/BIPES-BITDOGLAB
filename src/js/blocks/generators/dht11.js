@@ -15,12 +15,19 @@
   function pythonDigMap() {
     var profile = global.BitdogLabConfig || {};
     var pins = profile.EXTERNAL && profile.EXTERNAL.DIG_PINS || {};
-    return '{' + Object.keys(pins).map(function(dig) {
+    var dht11 = profile.EXTERNAL && profile.EXTERNAL.DHT11 || {};
+    var allowed = dht11.ALLOWED_DIG || Object.keys(pins);
+    return '{' + allowed.filter(function(dig) {
+      return pins[String(dig)] !== undefined;
+    }).map(function(dig) {
       return String(Number(dig)) + ': ' + String(pins[dig]);
     }).join(', ') + '}';
   }
 
   function ensureDHT11Support() {
+    var profile = global.BitdogLabConfig || {};
+    var dht11 = profile.EXTERNAL && profile.EXTERNAL.DHT11 || {};
+    var minInterval = Number(dht11.MIN_INTERVAL_MS) || 1000;
     Blockly.Python.definitions_['lib_dht11'] = SensorLibs.DHT11;
     Blockly.Python.definitions_['setup_dht11_state'] =
       (BitdogLabConfig.MARKERS ? BitdogLabConfig.MARKERS.SETUP_START : '# DHT11 setup') + '\n' +
@@ -44,7 +51,7 @@
       '  sensor = _dht11_get(dig)\n' +
       '  state = _dht11_cache[dig]\n' +
       '  now = time.ticks_ms()\n' +
-      '  if time.ticks_diff(now, state["at"]) < 1000:\n' +
+      '  if time.ticks_diff(now, state["at"]) < ' + minInterval + ':\n' +
       '    return state\n' +
       '  state["at"] = now\n' +
       '  try:\n' +

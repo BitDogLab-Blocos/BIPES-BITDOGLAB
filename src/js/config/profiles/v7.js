@@ -3,6 +3,7 @@
 // BitDogLab V7 — perfil completo de hardware.
 // Todos os pinos ficam explícitos aqui, inclusive os compartilhados com a V6.
 var BitdogLabConfig = createProfile(BitdogLabProfileBase, {
+  VERSION: 'v7',
   PINS: {
     // LED RGB
     LED_RED: 13,
@@ -71,6 +72,10 @@ var BitdogLabConfig = createProfile(BitdogLabProfileBase, {
       MAX_ANGLE: 180,
       MIN_PULSE_NS: 640000,
       MAX_PULSE_NS: 2420000
+    },
+    DHT11: {
+      ALLOWED_DIG: ['0', '1'],
+      MIN_INTERVAL_MS: 1000
     }
   },
 
