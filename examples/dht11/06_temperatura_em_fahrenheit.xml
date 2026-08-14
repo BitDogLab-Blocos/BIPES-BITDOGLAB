@@ -1,0 +1,4 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Usa matematica para converter Celsius em Fahrenheit: (C x 1.8) + 32. -->
+  <block x="20" y="20" type="display_texto"><field name="TEXTO">Fahrenheit:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="math_arithmetic"><field name="OP">ADD</field><value name="A"><block type="math_arithmetic"><field name="OP">MULTIPLY</field><value name="A"><block type="dht11_temperatura"><field name="DIG">0</field></block></value><value name="B"><block type="math_number"><field name="NUM">1.8</field></block></value></block></value><value name="B"><block type="math_number"><field name="NUM">32</field></block></value></block></value></block></next></block>
+</xml>

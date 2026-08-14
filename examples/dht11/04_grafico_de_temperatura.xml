@@ -1,0 +1,4 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O grafico acompanha a temperatura na tela toda; a plataforma atualiza a leitura continuamente. -->
+  <block x="20" y="20" type="dht11_plotar"><field name="POSICAO">0</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="dht11_temperatura"><field name="DIG">0</field></block></value><next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next></block>
+</xml>

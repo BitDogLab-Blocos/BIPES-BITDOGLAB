@@ -1,0 +1,87 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Desafio final: compara dois modulos DHT11, um na Conexao 0 e outro na Conexao 1. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">temperatura_a</field>
+    <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+    <next>
+      <block type="variables_guardar">
+        <field name="VAR">temperatura_b</field>
+        <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+        <next>
+          <block type="variables_guardar">
+            <field name="VAR">diferenca</field>
+            <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+            <next>
+              <block type="variables_alterar">
+                <field name="VAR">temperatura_a</field>
+                <value name="TARGET"><block type="variables_valor_guardado"><field name="VAR">temperatura_a</field></block></value>
+                <value name="VALUE"><block type="dht11_temperatura"><field name="DIG">0</field></block></value>
+                <next>
+                  <block type="variables_alterar">
+                    <field name="VAR">temperatura_b</field>
+                    <value name="TARGET"><block type="variables_valor_guardado"><field name="VAR">temperatura_b</field></block></value>
+                    <value name="VALUE"><block type="dht11_temperatura"><field name="DIG">1</field></block></value>
+                    <next>
+                      <block type="variables_alterar">
+                        <field name="VAR">diferenca</field>
+                        <value name="TARGET"><block type="variables_valor_guardado"><field name="VAR">diferenca</field></block></value>
+                        <value name="VALUE">
+                          <block type="math_arithmetic">
+                            <field name="OP">MINUS</field>
+                            <value name="A"><block type="variables_valor_guardado"><field name="VAR">temperatura_a</field></block></value>
+                            <value name="B"><block type="variables_valor_guardado"><field name="VAR">temperatura_b</field></block></value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="display_texto">
+                            <field name="TEXTO">Sensor 0:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+                            <next>
+                              <block type="display_mostrar_valor">
+                                <field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+                                <value name="VALOR"><block type="variables_valor_guardado"><field name="VAR">temperatura_a</field></block></value>
+                                <next>
+                                  <block type="display_texto">
+                                    <field name="TEXTO">Sensor 1:</field><field name="LINHA">2</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+                                    <next>
+                                      <block type="display_mostrar_valor">
+                                        <field name="LINHA">2</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field>
+                                        <value name="VALOR"><block type="variables_valor_guardado"><field name="VAR">temperatura_b</field></block></value>
+                                        <next>
+                                          <block type="controls_ifelse">
+                                            <value name="IF0">
+                                              <block type="logic_operation">
+                                                <field name="OP">OR</field>
+                                                <value name="A"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="variables_valor_guardado"><field name="VAR">diferenca</field></block></value><value name="B"><block type="math_number"><field name="NUM">3</field></block></value></block></value>
+                                                <value name="B"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="variables_valor_guardado"><field name="VAR">diferenca</field></block></value><value name="B"><block type="math_number"><field name="NUM">-3</field></block></value></block></value>
+                                              </block>
+                                            </value>
+                                            <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_red"></block></value><next><block type="bipe_duplo"><field name="VOLUME">35</field></block></next></block></statement>
+                                            <statement name="ELSE"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value></block></statement>
+                                            <next>
+                                              <block type="display_texto">
+                                                <field name="TEXTO">Diferenca:</field><field name="LINHA">3</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+                                                <next><block type="display_mostrar_valor"><field name="LINHA">3</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="variables_valor_guardado"><field name="VAR">diferenca</field></block></value><next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next></block></next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

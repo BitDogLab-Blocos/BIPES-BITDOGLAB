@@ -1,0 +1,4 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Dois graficos dividem o OLED: temperatura em cima e umidade embaixo. -->
+  <block x="20" y="20" type="dht11_plotar"><field name="POSICAO">1</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="dht11_temperatura"><field name="DIG">0</field></block></value><next><block type="dht11_plotar"><field name="POSICAO">2</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="dht11_umidade"><field name="DIG">0</field></block></value><next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next></block></next></block>
+</xml>
