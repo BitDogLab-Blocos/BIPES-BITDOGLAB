@@ -218,19 +218,19 @@ WorkspaceManager.bindServoCategoryHint = function() {
 WorkspaceManager.showDht11ConnectionReminder = function(block) {
   var closeId = 'closeDht11ConnectionNotification';
   var boardImage = '../assets/images/devices/conexoes-externas.png';
-  var dht11Image = '../assets/images/devices/dht11.png';
+  var dht11Image = '../assets/images/devices/dht11-pinout.png';
   var wireRows = Code.LANG === 'en'
     ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">DHT11 module pins</div>' +
       '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
-      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>VCC / +</strong> → 3V3</div>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>DATA / S</strong> → V7: Connection 0 or 1 &nbsp;|&nbsp; V6: Connections 0, 1, 2 or 3</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>GND / −</strong> → GND</div>' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>S (left pin)</strong> → positive / 3V3</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Center pin</strong> → DATA → V7: Connection 0 or 1 &nbsp;|&nbsp; V6: Connections 0, 1, 2 or 3</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>- (right pin)</strong> → negative / GND</div>' +
       '</div>'
     : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Pinos do módulo DHT11</div>' +
       '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
-      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>VCC / +</strong> → 3V3</div>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>DATA / S</strong> → V7: Conexão 0 ou 1 &nbsp;|&nbsp; V6: Conexões 0, 1, 2 ou 3</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>GND / −</strong> → GND</div>' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>S (pino da esquerda)</strong> → positivo / 3V3</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Pino do meio</strong> → DADOS → V7: Conexão 0 ou 1 &nbsp;|&nbsp; V6: Conexões 0, 1, 2 ou 3</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>- (pino da direita)</strong> → negativo / GND</div>' +
       '</div>';
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
@@ -241,10 +241,10 @@ WorkspaceManager.showDht11ConnectionReminder = function(block) {
       '<img src="' + dht11Image + '" alt="DHT11 sensor module" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
       '</div>' + wireRows +
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Make the bridge:</strong> DHT11 pin → male-to-male jumper → alligator clip → board contact.<br>' +
+      '<strong>Make the bridge:</strong> DHT11 pin → female end of a male-to-female jumper → male end held by the alligator clip → board contact.<br>' +
       'Turn the board and USB cable off before touching the wires. Keep neighboring clips from touching.<br>' +
       '<strong>Insulate the jumper-to-alligator connection with electrical tape</strong> so exposed metal cannot cause a short circuit.</div>' +
-      '<div style="margin-top:9px;"><strong>Important:</strong> check the labels printed on the module; the physical pin order and wire colors can vary. Use 3V3, never 5V-VSYS, for VCC. Use the same DIG for temperature and humidity from the same module and wait about one second between readings.</div>' +
+      '<div style="margin-top:9px;"><strong>Important:</strong> for the module shown, the left pin next to S is positive and goes to 3V3, the center pin is DATA, and the right pin marked - goes to GND. Check the labels printed on the module because other modules may vary. Never use 5V-VSYS. Use the same DIG for temperature and humidity from the same module and wait about one second between readings.</div>' +
       '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:10px;border-radius:5px;"><strong>BitDogLab V7:</strong> use only Connections 0 and 1 for the DHT11. Connections 2 and 3 are reserved by the OLED and the program will be blocked. <strong>BitDogLab V6:</strong> Connections 0, 1, 2 and 3 are available.</div>' +
       '<div style="margin-top:9px;"><strong>If you are underage or are not familiar with electrical connections, ask a teacher for help before connecting anything in this category.</strong></div>' +
       '</div>'
@@ -256,10 +256,10 @@ WorkspaceManager.showDht11ConnectionReminder = function(block) {
       '<img src="' + dht11Image + '" alt="Módulo sensor DHT11" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
       '</div>' + wireRows +
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Faça a ponte:</strong> pino do DHT11 → jumper macho-macho → garra jacaré → contato da placa.<br>' +
+      '<strong>Faça a ponte:</strong> pino do DHT11 → ponta fêmea do jumper macho-fêmea → ponta macho presa à garra jacaré → contato da placa.<br>' +
       'Desligue a placa e retire o cabo USB antes de mexer nos fios. Não deixe garras vizinhas se encostarem.<br>' +
       '<strong>Isole a união do jumper com a garra jacaré usando fita isolante</strong> para nenhum metal exposto causar curto-circuito.</div>' +
-      '<div style="margin-top:9px;"><strong>Importante:</strong> confira as marcações do módulo; a ordem física dos pinos e as cores dos fios podem variar. Use 3V3, nunca 5V-VSYS, no VCC. Use o mesmo DIG para temperatura e umidade do mesmo módulo e aguarde cerca de um segundo entre leituras.</div>' +
+      '<div style="margin-top:9px;"><strong>Importante:</strong> no módulo mostrado, o pino da esquerda, ao lado do S, é o positivo e vai ao 3V3; o pino do meio é o DADO; e o pino da direita, marcado -, vai ao GND. Confira as marcações do seu módulo, pois outros modelos podem variar. Nunca use 5V-VSYS. Use o mesmo DIG para temperatura e umidade do mesmo módulo e aguarde cerca de um segundo entre leituras.</div>' +
       '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:10px;border-radius:5px;"><strong>BitDogLab V7:</strong> use somente as Conexões 0 e 1 para o DHT11. As Conexões 2 e 3 são reservadas pelo OLED e o programa será bloqueado. <strong>BitDogLab V6:</strong> as Conexões 0, 1, 2 e 3 estão disponíveis.</div>' +
       '<div style="margin-top:9px;"><strong>Se você for menor de idade ou não tiver conhecimento sobre conexões elétricas, peça ajuda ao professor antes de conectar qualquer dispositivo desta categoria.</strong></div>' +
       '</div>';
