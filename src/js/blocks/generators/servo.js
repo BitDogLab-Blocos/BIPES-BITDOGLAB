@@ -192,8 +192,8 @@
     code += angleName + ' = max(' + config.MIN_ANGLE + ', min(' + config.MAX_ANGLE + ', ' + startExpression + '))\n';
     code += 'while ' + angleName + ' ' + loopComparison + ' ' + targetName + ':\n';
     code += '  _servo_move(' + dig + ', ' + angleName + ')\n';
-    code += '  time.sleep(' + pauseName + ')\n';
     code += stepActions;
+    code += '  time.sleep(' + pauseName + ')\n';
     code += '  if not (' + angleName + ' ' + comparison + ' ' + targetName + '):\n';
     code += '    break\n';
     code += '  ' + angleName + ' = ' + advance + '\n';

@@ -1,9 +1,6 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <!-- Move o servo por três posições e mostra no OLED cada mudança de ângulo. -->
-  <block type="display_limpar" x="20" y="20">
-    <field name="DISPLAY_TYPE">SMALL</field>
-    <next>
-      <block type="display_texto">
+  <block type="display_texto" x="20" y="20">
         <field name="TEXTO">Ang Servo:</field>
         <field name="LINHA">1</field>
         <field name="ALINHAMENTO">LEFT</field>
@@ -71,7 +68,5 @@
             </next>
           </block>
         </next>
-      </block>
-    </next>
   </block>
 </xml>
