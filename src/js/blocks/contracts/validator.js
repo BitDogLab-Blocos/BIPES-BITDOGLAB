@@ -501,12 +501,10 @@
     }
   }
 
-  function validateDht11OledV7PinConflicts(blocks, warnings) {
+  function validateDht11V7PinConflicts(blocks, warnings) {
     var config = global.BitdogLabConfig;
-    if (!config || !config.PINS || !config.EXTERNAL || !config.EXTERNAL.DIG_PINS) return;
-    if (!blocks.some(isOledBlock)) return;
-
-    var oledPins = [config.PINS.I2C_SDA, config.PINS.I2C_SCL];
+    if (!config || config.VERSION !== 'v7' || !config.EXTERNAL || !config.EXTERNAL.DHT11) return;
+    var allowed = config.EXTERNAL.DHT11.ALLOWED_DIG || ['0', '1'];
     var dht11Types = ['dht11_temperatura', 'dht11_umidade'];
 
     for (var i = 0; i < blocks.length; i++) {
@@ -514,9 +512,8 @@
       if (dht11Types.indexOf(block.type) === -1 || !block.getFieldValue) continue;
 
       var dig = String(block.getFieldValue('DIG'));
-      var dht11Pin = config.EXTERNAL.DIG_PINS[dig];
-      if (oledPins.indexOf(dht11Pin) !== -1) {
-        addWarning(warnings, block, msg('dht11OledV7PinConflict'));
+      if (allowed.indexOf(dig) === -1) {
+        addWarning(warnings, block, format(msg('dht11V7PinConflict'), dig));
       }
     }
   }
@@ -591,7 +588,7 @@
     validateDisplayTypeConflicts(blocks, warnings);
     validateServoRules(blocks, warnings);
     validateServoOledV7PinConflicts(blocks, warnings);
-    validateDht11OledV7PinConflicts(blocks, warnings);
+    validateDht11V7PinConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 
     applyWarnings(allBlocks, warnings);
