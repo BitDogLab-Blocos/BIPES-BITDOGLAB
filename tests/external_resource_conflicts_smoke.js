@@ -109,8 +109,31 @@ async function main() {
         };
       }
 
+      function dhtAht20Scenario(dhtConnection, ahtType) {
+        workspace.clear();
+        const dht = make('dht11_temperatura', { DIG: dhtConnection });
+        const dhtDisplay = make('display_mostrar_valor');
+        connectValue(dhtDisplay, 'VALOR', dht);
+        const aht = make(ahtType || 'sensor_temperatura');
+        if (aht.outputConnection) {
+          const ahtDisplay = make('display_mostrar_valor');
+          connectValue(ahtDisplay, 'VALOR', aht);
+        }
+        const report = window.Code.BlockContractValidator.getReport(workspace);
+        const dhtIssue = report.issues.find((issue) => issue.blockId === dht.id);
+        const ahtIssue = report.issues.find((issue) => issue.blockId === aht.id);
+        return {
+          valid: report.valid,
+          dhtWarning: dhtIssue && dhtIssue.messages.join('\n'),
+          ahtWarning: ahtIssue && ahtIssue.messages.join('\n')
+        };
+      }
+
       const v7SameConnection = conflictScenario(0, 0);
       const v7DifferentConnections = conflictScenario(0, 1);
+      const v7DhtAht20I2c0 = dhtAht20Scenario(0);
+      const v7DhtAht20I2c0OnConnection1 = dhtAht20Scenario(1);
+      const v7DhtEstufaI2c0 = dhtAht20Scenario(0, 'sensor_estufa_comparar');
 
       workspace.clear();
       const temperature = make('dht11_temperatura', { DIG: 0 });
@@ -123,14 +146,19 @@ async function main() {
 
       window.AppBootstrap.applyDeviceProfile('v6');
       const v6SameConnection = conflictScenario(3, 3);
+      const v6DhtAht20 = dhtAht20Scenario(0);
       window.AppBootstrap.applyDeviceProfile('v7');
 
       return {
         registryVersion: window.Code.ExternalResources.VERSION,
         v7SameConnection,
         v7DifferentConnections,
+        v7DhtAht20I2c0,
+        v7DhtAht20I2c0OnConnection1,
+        v7DhtEstufaI2c0,
         sameDhtValid: sameDhtReport.valid,
-        v6SameConnection
+        v6SameConnection,
+        v6DhtAht20
       };
     });
 
@@ -142,8 +170,17 @@ async function main() {
     assert.ok(result.v7SameConnection.servoWarning.includes('DHT11'));
     assert.ok(result.v7SameConnection.generated.includes('Codigo nao gerado'));
     assert.strictEqual(result.v7DifferentConnections.valid, true);
+    assert.strictEqual(result.v7DhtAht20I2c0.valid, false);
+    assert.ok(result.v7DhtAht20I2c0.dhtWarning.includes('AHT20'));
+    assert.ok(result.v7DhtAht20I2c0.dhtWarning.includes('I2C1'));
+    assert.ok(result.v7DhtAht20I2c0.ahtWarning.includes('outro conector I2C'));
+    assert.strictEqual(result.v7DhtAht20I2c0OnConnection1.valid, false);
+    assert.ok(result.v7DhtAht20I2c0OnConnection1.dhtWarning.includes('Conexão 1'));
+    assert.strictEqual(result.v7DhtEstufaI2c0.valid, false);
+    assert.ok(result.v7DhtEstufaI2c0.ahtWarning.includes('I2C1'));
     assert.strictEqual(result.sameDhtValid, true);
     assert.strictEqual(result.v6SameConnection.valid, false);
+    assert.strictEqual(result.v6DhtAht20.valid, true);
     assert.ok(result.v6SameConnection.dhtWarning.includes('Conexão 3'));
     assert.ok(result.v6SameConnection.servoWarning.includes('Conexão 3'));
 

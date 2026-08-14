@@ -220,17 +220,17 @@ WorkspaceManager.showDht11ConnectionReminder = function(block) {
   var boardImage = '../assets/images/devices/conexoes-externas.png';
   var dht11Image = '../assets/images/devices/dht11-pinout.png?ver=5';
   var wireRows = Code.LANG === 'en'
-    ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Follow the arrows in the picture</div>' +
-      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
-      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>Red arrow — +3V3:</strong> left pin, next to S. This gives power to the sensor.</div>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Blue arrow — DATA:</strong> center pin. This sends the reading. In the block, choose the same Connection where this wire is attached: V7 uses 0 or 1; V6 uses 0, 1, 2, or 3.</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Black arrow — GND:</strong> right pin, marked -. This is the negative contact.</div>' +
+    ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">DHT11 wires</div>' +
+      '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>Red arrow (+3V3)</strong> → left pin, next to S</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Blue arrow (DATA)</strong> → center pin &nbsp;|&nbsp; V7: Connection 0 or 1 &nbsp;|&nbsp; V6: Connections 0, 1, 2 or 3</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Black arrow (GND)</strong> → right pin, next to -</div>' +
       '</div>'
-    : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Siga as setas da imagem</div>' +
-      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
-      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>Seta vermelha — +3V3:</strong> pino da esquerda, ao lado do S. É a energia que liga o sensor.</div>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Seta azul — DADOS:</strong> pino do meio. É por onde o sensor envia a medição. No bloco, escolha a mesma Conexão onde este fio foi colocado: na V7 use 0 ou 1; na V6 use 0, 1, 2 ou 3.</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Seta preta — GND:</strong> pino da direita, marcado -. É o contato negativo.</div>' +
+    : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Fios do DHT11</div>' +
+      '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>Seta vermelha (+3V3)</strong> → pino da esquerda, ao lado do S</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Seta azul (DADOS)</strong> → pino do meio &nbsp;|&nbsp; V7: Conexões 0 ou 1 &nbsp;|&nbsp; V6: Conexões 0, 1, 2 ou 3</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Seta preta (GND)</strong> → pino da direita, ao lado do -</div>' +
       '</div>';
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
@@ -241,12 +241,10 @@ WorkspaceManager.showDht11ConnectionReminder = function(block) {
       '<img src="' + dht11Image + '" alt="DHT11 sensor module" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
       '</div>' + wireRows +
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Make one connection at a time:</strong> put the female end of the male-to-female jumper on the DHT11 pin. Hold the male end with the alligator clip. Then touch the clip to the matching contact on the BitDogLab.<br>' +
-      'Turn the board off and remove the USB cable before touching the wires. Do not let two clips touch.<br>' +
-      '<strong>Cover the metal connection with electrical tape</strong> so it cannot touch another contact.</div>' +
-      '<div style="margin-top:9px;"><strong>Easy check:</strong> follow the arrows, use 3V3 (never 5V-VSYS), and check that the Connection chosen in the block is the same contact where the DATA wire is attached. Temperature and humidity from the same sensor use the same Connection. If you choose different Connections, the program understands that you have two sensors. Wait about one second between readings.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:10px;border-radius:5px;"><strong>BitDogLab V7:</strong> the DATA wire can use only Connections 0 and 1. Connections 2 and 3 are used by the OLED, so the program will stop if you choose them. <strong>BitDogLab V6:</strong> the DATA wire can use Connections 0, 1, 2, or 3.</div>' +
-      '<div style="margin-top:9px;"><strong>If this is your first time, ask your teacher to check the wires before turning the board on.</strong></div>' +
+      '<strong>Make the bridge:</strong> DHT11 pin → female end of the male-to-female jumper → male end held by the alligator clip → board contact.<br>' +
+      'Turn the board off and remove the USB cable before touching the wires. Keep neighboring clips from touching.<br>' +
+      '<strong>Insulate the jumper-to-alligator connection with electrical tape</strong> so exposed metal cannot cause a short circuit.</div>' +
+      '<div style="margin-top:9px;"><strong>Important:</strong> use 3V3, never 5V-VSYS.<br><strong>Same DHT11:</strong> use the same Connection for temperature and humidity. Different Connections mean that the program understands there are two DHT11 modules.<br>On V7, DATA can use only 0 or 1; choosing 2 or 3 blocks the program. On V6, use 0, 1, 2 or 3. Ask your teacher to check the wires before turning the board on.</div>' +
       '</div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
@@ -256,12 +254,10 @@ WorkspaceManager.showDht11ConnectionReminder = function(block) {
       '<img src="' + dht11Image + '" alt="Módulo sensor DHT11" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
       '</div>' + wireRows +
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Faça uma ligação por vez:</strong> coloque a ponta fêmea do jumper macho-fêmea no pino do DHT11. Prenda a ponta macho na garra jacaré. Depois encoste a garra no contato correspondente da BitDogLab.<br>' +
-      'Desligue a placa e retire o cabo USB antes de mexer nos fios. Não deixe duas garras encostarem.<br>' +
-      '<strong>Cubra a parte metálica da ligação com fita isolante</strong> para ela não encostar em outro contato.</div>' +
-      '<div style="margin-top:9px;"><strong>Conferência fácil:</strong> siga as setas, use 3V3 (nunca 5V-VSYS) e veja se a Conexão escolhida no bloco é a mesma onde o fio de DADOS foi colocado. Temperatura e umidade do mesmo sensor usam a mesma Conexão. Se escolher Conexões diferentes, o programa entende que você tem dois sensores. Aguarde cerca de um segundo entre leituras.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:10px;border-radius:5px;"><strong>BitDogLab V7:</strong> o fio de DADOS só pode usar as Conexões 0 e 1. As Conexões 2 e 3 são usadas pelo OLED; se você escolher uma delas, o programa vai parar. <strong>BitDogLab V6:</strong> o fio de DADOS pode usar as Conexões 0, 1, 2 ou 3.</div>' +
-      '<div style="margin-top:9px;"><strong>Se for sua primeira vez, peça ao professor para conferir os fios antes de ligar a placa.</strong></div>' +
+      '<strong>Faça a ponte:</strong> pino do DHT11 → ponta fêmea do jumper macho-fêmea → ponta macho presa à garra jacaré → contato da placa.<br>' +
+      'Desligue a placa e retire o cabo USB antes de mexer nos fios. Não deixe garras vizinhas se encostarem.<br>' +
+      '<strong>Isole a união do jumper com a garra jacaré usando fita isolante</strong> para nenhum metal exposto causar curto-circuito.</div>' +
+      '<div style="margin-top:9px;"><strong>Importante:</strong> use 3V3, nunca 5V-VSYS.<br><strong>Mesmo DHT11:</strong> use a mesma Conexão para temperatura e umidade. Conexões diferentes fazem o programa entender que existem dois módulos DHT11.<br>Na V7, DADOS só pode usar 0 ou 1; escolher 2 ou 3 bloqueia o programa. Na V6, use 0, 1, 2 ou 3. Peça ao professor para conferir os fios antes de ligar a placa.</div>' +
       '</div>';
 
   WorkspaceManager.createReminder({

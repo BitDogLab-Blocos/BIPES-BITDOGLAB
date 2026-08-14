@@ -518,6 +518,53 @@
     }
   }
 
+  function validateDht11Aht20V7I2c0Conflicts(blocks, warnings) {
+    var config = global.BitdogLabConfig;
+    if (!config || config.VERSION !== 'v7' || !config.SENSOR || Number(config.SENSOR.I2C_BUS) !== 0) return;
+
+    var dht11Types = ['dht11_temperatura', 'dht11_umidade'];
+    var aht20Types = [
+      'sensor_temperatura',
+      'sensor_umidade',
+      'sensor_estufa_comparar',
+      'estufa_plotar'
+    ];
+    var dhtClaims = [];
+    var aht20Blocks = [];
+
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (!block || !block.getFieldValue) continue;
+
+      if (dht11Types.indexOf(block.type) !== -1) {
+        var dig = String(block.getFieldValue('DIG'));
+        if (dig === '0' || dig === '1') {
+          dhtClaims.push({ block: block, connection: dig });
+        }
+      }
+
+      if (aht20Types.indexOf(block.type) !== -1) {
+        aht20Blocks.push(block);
+      }
+    }
+
+    if (!dhtClaims.length || !aht20Blocks.length) return;
+
+    for (var dhtIndex = 0; dhtIndex < dhtClaims.length; dhtIndex++) {
+      addWarning(
+        warnings,
+        dhtClaims[dhtIndex].block,
+        format(msg('dht11Aht20V7I2c0Conflict'), dhtClaims[dhtIndex].connection)
+      );
+    }
+
+    var firstConnection = dhtClaims[0].connection;
+    var ahtWarning = format(msg('dht11Aht20V7I2c0Conflict'), firstConnection);
+    for (var ahtIndex = 0; ahtIndex < aht20Blocks.length; ahtIndex++) {
+      addWarning(warnings, aht20Blocks[ahtIndex], ahtWarning);
+    }
+  }
+
   function validateExternalResourceConflicts(blocks, warnings) {
     var config = global.BitdogLabConfig;
     var registry = Code.ExternalResources;
@@ -629,6 +676,7 @@
     validateServoRules(blocks, warnings);
     validateServoOledV7PinConflicts(blocks, warnings);
     validateDht11V7PinConflicts(blocks, warnings);
+    validateDht11Aht20V7I2c0Conflicts(blocks, warnings);
     validateExternalResourceConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 
