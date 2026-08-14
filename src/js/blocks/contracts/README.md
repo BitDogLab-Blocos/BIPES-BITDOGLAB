@@ -6,13 +6,16 @@ Esta pasta concentra as regras que fazem os blocos Blockly se encaixarem de form
 
 ![Fluxo dos contratos Blockly](images/contracts-flow.svg)
 
-## A diferença entre os três arquivos
+## A diferença entre os arquivos
 
 | Arquivo | Pergunta que responde | Responsabilidade |
 | --- | --- | --- |
 | `types.js` | “O que pode encaixar aqui?” | Define os tipos semânticos das conexões e aplica `setCheck()` no Blockly. |
 | `registry.js` | “O que este bloco exige?” | Registra entradas obrigatórias, dependências, blocos permitidos e textos dos avisos. |
+| `external_resources.js` | “Qual recurso físico este bloco ocupa?” | Registra periféricos externos, campos de conexão e GPIOs compartilhados. |
 | `validator.js` | “O programa está correto?” | Lê as regras, verifica o workspace e mostra os avisos ou impede a geração inválida. |
+
+`external_resources.js` separa a pinagem física das regras de encaixe. Blocos do mesmo periférico podem compartilhar uma conexão, como temperatura e umidade do mesmo DHT11. Periféricos diferentes que reivindicam o mesmo GPIO recebem aviso nos dois blocos e bloqueiam a geração até que a conexão lógica e o cabo na placa sejam conferidos.
 
 ## Por que `types.js` não lista todos os blocos?
 
@@ -92,6 +95,8 @@ usuário monta o workspace Blockly
         ↓
 registry.js descreve as exigências
         ↓
+external_resources.js registra os recursos físicos
+        ↓
 validator.js verifica o workspace
         ↓
 aviso ao usuário ou geração do código
@@ -103,6 +108,7 @@ aviso ao usuário ou geração do código
 | --- | --- | --- |
 | `Code.BlockTypeDomains` | `types.js` | Consultar domínios, tipos de saída e regras de conexão. |
 | `Code.BlockContracts` | `registry.js` | Consultar o contrato e as mensagens de cada bloco. |
+| `Code.ExternalResources` | `external_resources.js` | Consultar os recursos físicos reivindicados por cada bloco externo. |
 
 O carregamento deve ocorrer antes do validador. Primeiro os tipos ficam disponíveis, depois os contratos são registrados e, por fim, o validador usa essas informações.
 
@@ -111,5 +117,6 @@ O carregamento deve ocorrer antes do validador. Primeiro os tipos ficam disponí
 ```text
 types.js    = como o bloco encaixa
 registry.js = o que o bloco exige
+external_resources.js = qual recurso físico o bloco ocupa
 validator.js = como o sistema confere e avisa
 ```

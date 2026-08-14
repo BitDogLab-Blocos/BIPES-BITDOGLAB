@@ -6,13 +6,16 @@ This folder contains the rules that make Blockly blocks connect safely and warn 
 
 ![Blockly contracts flow](images/contracts-flow.svg)
 
-## The difference between the three files
+## The difference between the files
 
 | File | Question it answers | Responsibility |
 | --- | --- | --- |
 | `types.js` | “What can connect here?” | Defines semantic connection types and applies `setCheck()` in Blockly. |
 | `registry.js` | “What does this block require?” | Registers required inputs, dependencies, allowed blocks, and warning text. |
+| `external_resources.js` | “What physical resource does this block occupy?” | Registers external peripherals, connection fields, and shared GPIO resources. |
 | `validator.js` | “Is the program valid?” | Reads the rules, checks the workspace, and shows warnings or blocks invalid generation. |
+
+`external_resources.js` keeps physical pin ownership separate from socket typing. Blocks from the same peripheral may share a connection, such as temperature and humidity from one DHT11. Different peripherals claiming the same GPIO warn on both blocks and block generation until the logical connection and the actual board cable are checked.
 
 ## Why does `types.js` not list every block?
 
@@ -44,11 +47,13 @@ Both rules matter: Blockly protects editing-time connections, while the validato
 | --- | --- | --- |
 | `Code.BlockTypeDomains` | `types.js` | Querying domains, output types, and connection rules. |
 | `Code.BlockContracts` | `registry.js` | Querying each block contract and its messages. |
+| `Code.ExternalResources` | `external_resources.js` | Querying physical resources claimed by each external block. |
 
 ## Mental model
 
 ```text
 types.js     = how the block connects
 registry.js  = what the block requires
+external_resources.js = what physical resource the block occupies
 validator.js = how the system checks and warns
 ```

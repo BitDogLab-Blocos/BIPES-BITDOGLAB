@@ -518,6 +518,46 @@
     }
   }
 
+  function validateExternalResourceConflicts(blocks, warnings) {
+    var config = global.BitdogLabConfig;
+    var registry = Code.ExternalResources;
+    if (!config || !registry || !registry.getClaims) return;
+
+    var claimsByResource = {};
+    for (var i = 0; i < blocks.length; i++) {
+      var claims = registry.getClaims(blocks[i], config);
+      for (var claimIndex = 0; claimIndex < claims.length; claimIndex++) {
+        var claim = claims[claimIndex];
+        if (!claimsByResource[claim.resourceKey]) claimsByResource[claim.resourceKey] = [];
+        claimsByResource[claim.resourceKey].push(claim);
+      }
+    }
+
+    for (var resourceKey in claimsByResource) {
+      if (!claimsByResource.hasOwnProperty(resourceKey)) continue;
+      var resourceClaims = claimsByResource[resourceKey];
+
+      for (var leftIndex = 0; leftIndex < resourceClaims.length; leftIndex++) {
+        for (var rightIndex = leftIndex + 1; rightIndex < resourceClaims.length; rightIndex++) {
+          var left = resourceClaims[leftIndex];
+          var right = resourceClaims[rightIndex];
+          if (left.peripheralId === right.peripheralId) continue;
+
+          addWarning(
+            warnings,
+            left.block,
+            format2(msg('externalConnectionConflict'), left.connection, right.peripheralLabel)
+          );
+          addWarning(
+            warnings,
+            right.block,
+            format2(msg('externalConnectionConflict'), right.connection, left.peripheralLabel)
+          );
+        }
+      }
+    }
+  }
+
   function validateServoRules(blocks, warnings) {
     var controllerTypes = [
       'servo_mover',
@@ -589,6 +629,7 @@
     validateServoRules(blocks, warnings);
     validateServoOledV7PinConflicts(blocks, warnings);
     validateDht11V7PinConflicts(blocks, warnings);
+    validateExternalResourceConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 
     applyWarnings(allBlocks, warnings);

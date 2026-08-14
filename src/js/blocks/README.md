@@ -18,6 +18,7 @@ toolbox.xml → definição → contrato → gerador → core/codegen → MicroP
 | `generators/` | Imports, configuração e instruções Python de cada tipo. |
 | `contracts/types.js` | Domínios semânticos aceitos pelas conexões. |
 | `contracts/registry.js` | Requisitos, dependências e mensagens bilíngues. |
+| `contracts/external_resources.js` | Cadastro dos recursos físicos compartilhados pelos periféricos externos. |
 | `contracts/validator.js` | Avisos no workspace e bloqueio de código inválido. |
 | `registry.js` | Confere se cada tipo da toolbox tem definição e gerador. |
 | `sensor_libs.js` | Drivers MicroPython incorporados por alguns geradores. |

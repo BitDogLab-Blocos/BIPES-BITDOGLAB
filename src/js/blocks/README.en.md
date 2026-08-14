@@ -18,6 +18,7 @@ toolbox.xml → definition → contract → generator → core/codegen → Micro
 | `generators/` | Python imports, setup, and instructions for each type. |
 | `contracts/types.js` | Semantic domains accepted by connections. |
 | `contracts/registry.js` | Requirements, dependencies, and bilingual messages. |
+| `contracts/external_resources.js` | Physical resources shared by external peripherals. |
 | `contracts/validator.js` | Workspace warnings and invalid-code blocking. |
 | `registry.js` | Checks that every toolbox type has a definition and generator. |
 | `sensor_libs.js` | MicroPython drivers embedded by selected generators. |
