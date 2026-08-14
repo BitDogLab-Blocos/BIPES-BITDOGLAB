@@ -16,6 +16,10 @@ const toolbox = fs.readFileSync(toolboxPath, 'utf8');
 const catalog = fs.readFileSync(catalogPath, 'utf8');
 const contracts = fs.readFileSync(contractsPath, 'utf8');
 const contractValidator = fs.readFileSync(contractValidatorPath, 'utf8');
+const dht11DefinitionsPath = path.join(root, 'src', 'js', 'blocks', 'definitions', 'dht11.js');
+const dht11GeneratorsPath = path.join(root, 'src', 'js', 'blocks', 'generators', 'dht11.js');
+const dht11Definitions = fs.readFileSync(dht11DefinitionsPath, 'utf8');
+const dht11Generators = fs.readFileSync(dht11GeneratorsPath, 'utf8');
 const servoDefinitions = fs.readFileSync(servoDefinitionsPath, 'utf8');
 const servoGenerators = fs.readFileSync(servoGeneratorsPath, 'utf8');
 const workspaceHints = fs.readFileSync(workspaceHintsPath, 'utf8');
@@ -23,7 +27,7 @@ const workspaceHints = fs.readFileSync(workspaceHintsPath, 'utf8');
 const expectedNames = [
   'LEDs externos',
   'Luz e sombra com LDR',
-  'Temperatura externa com NTC',
+  'Temperatura externa com DHT11',
   'Distância e presença com ultrassônico',
   'Servo Motor Externo'
 ];
@@ -43,10 +47,36 @@ assert.deepStrictEqual(actualNames, expectedNames, 'As cinco categorias externas
 
 externalCategories.forEach((category) => {
   assert.strictEqual(attribute(category.attributes, 'data-project'), 'externos');
-  if (category !== externalCategories[4]) {
-    assert.ok(!/<block\b/.test(category.body), 'Somente a categoria de servo deve possuir blocos nesta etapa.');
+  if (category !== externalCategories[2] && category !== externalCategories[4]) {
+    assert.ok(!/<block\b/.test(category.body), 'Somente as categorias DHT11 e servo devem possuir blocos nesta etapa.');
   }
 });
+
+const dht11BlockTypes = Array.from(
+  externalCategories[2].body.matchAll(/<block\s+[^>]*type="([^"]+)"/g),
+  (match) => match[1]
+);
+assert.deepStrictEqual(dht11BlockTypes, [
+  'dht11_temperatura',
+  'display_mostrar_valor',
+  'dht11_temperatura',
+  'dht11_umidade',
+  'display_mostrar_valor',
+  'dht11_umidade',
+  'dht11_plotar',
+  'dht11_temperatura',
+  'dht11_plotar',
+  'dht11_umidade'
+], 'A categoria DHT11 deve oferecer valores, displays pré-montados e gráficos.');
+
+assert.match(dht11Definitions, /dht11_temperatura/);
+assert.match(dht11Definitions, /dht11_umidade/);
+assert.match(dht11Definitions, /dht11_plotar/);
+assert.match(dht11Definitions, /gráfico da estufa com AHT20/);
+assert.match(dht11Generators, /SensorLibs\.DHT11/);
+assert.match(dht11Generators, /dht11_temperature/);
+assert.match(dht11Generators, /dht11_humidity/);
+assert.match(dht11Generators, /AHT20 greenhouse project/);
 
 const servoBlockTypes = Array.from(
   externalCategories[4].body.matchAll(/<block\s+[^>]*type="([^"]+)"/g),
@@ -90,7 +120,9 @@ assert.match(contracts, /servoAngleConnectionMismatch:/);
 assert.match(contracts, /servoJoystickSameDirection:/);
 assert.match(contracts, /servoRaiseAngleOrder:/);
 assert.match(contracts, /servoLowerAngleOrder:/);
+assert.match(contracts, /dht11OledV7PinConflict:/);
 assert.match(contractValidator, /function validateServoOledV7PinConflicts\(blocks, warnings\)/);
+assert.match(contractValidator, /function validateDht11OledV7PinConflicts\(blocks, warnings\)/);
 assert.match(contractValidator, /function validateServoRules\(blocks, warnings\)/);
 assert.match(contractValidator, /block\.getFieldValue\('DIR_INCREASE'\) === block\.getFieldValue\('DIR_DECREASE'\)/);
 assert.match(contractValidator, /raiseStart >= raiseTarget/);

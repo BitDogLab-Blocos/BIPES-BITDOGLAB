@@ -501,6 +501,26 @@
     }
   }
 
+  function validateDht11OledV7PinConflicts(blocks, warnings) {
+    var config = global.BitdogLabConfig;
+    if (!config || !config.PINS || !config.EXTERNAL || !config.EXTERNAL.DIG_PINS) return;
+    if (!blocks.some(isOledBlock)) return;
+
+    var oledPins = [config.PINS.I2C_SDA, config.PINS.I2C_SCL];
+    var dht11Types = ['dht11_temperatura', 'dht11_umidade'];
+
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (dht11Types.indexOf(block.type) === -1 || !block.getFieldValue) continue;
+
+      var dig = String(block.getFieldValue('DIG'));
+      var dht11Pin = config.EXTERNAL.DIG_PINS[dig];
+      if (oledPins.indexOf(dht11Pin) !== -1) {
+        addWarning(warnings, block, msg('dht11OledV7PinConflict'));
+      }
+    }
+  }
+
   function validateServoRules(blocks, warnings) {
     var controllerTypes = [
       'servo_mover',
@@ -571,6 +591,7 @@
     validateDisplayTypeConflicts(blocks, warnings);
     validateServoRules(blocks, warnings);
     validateServoOledV7PinConflicts(blocks, warnings);
+    validateDht11OledV7PinConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 
     applyWarnings(allBlocks, warnings);
