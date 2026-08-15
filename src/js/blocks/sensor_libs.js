@@ -397,55 +397,72 @@ class SH1107_I2C(SH1107):
 
   // =============================================
   // DHT11 - Sensor digital de temperatura e umidade
-  // Fonte: firmware/PyLibs/dht.py
+  // Protocolo validado na BitDogLab com o DHT11 externo.
   // =============================================
   DHT11: `from machine import Pin
 import time
 
-class DHTBase:
-  """Base para sensores da familia DHT que usam o protocolo de um fio."""
+class DHT11:
   def __init__(self, pin):
     self.pin = pin
     self.buf = bytearray(5)
-    self.pin.init(Pin.OUT, Pin.PULL_DOWN)
-    self.pin(1)
-    time.sleep_ms(20)
-
-  def _wait_for_level(self, level, timeout_us):
-    start = time.ticks_us()
-    while self.pin.value() != level:
-      if time.ticks_diff(time.ticks_us(), start) > timeout_us:
-        raise OSError("DHT11: timeout na comunicacao")
+    self.pin.init(Pin.OUT)
+    self.pin.value(1)
+    time.sleep_ms(1000)
 
   def measure(self):
     pin = self.pin
     buf = self.buf
+
     for index in range(5):
       buf[index] = 0
-    pin.init(Pin.OUT, Pin.PULL_DOWN)
-    pin(0)
-    time.sleep_ms(20)
-    pin(1)
-    pin.init(Pin.IN, Pin.PULL_UP)
-    self._wait_for_level(0, 100)
-    self._wait_for_level(1, 100)
-    self._wait_for_level(0, 100)
-    for index in range(40):
-      self._wait_for_level(1, 100)
-      start = time.ticks_us()
-      self._wait_for_level(0, 100)
-      duration = time.ticks_diff(time.ticks_us(), start)
-      byte_index = index // 8
-      buf[byte_index] = (buf[byte_index] << 1) | (1 if duration > 40 else 0)
-    if (buf[0] + buf[1] + buf[2] + buf[3]) & 0xFF != buf[4]:
-      raise OSError("DHT11: checksum invalido")
 
-class DHT11(DHTBase):
+    pin.init(Pin.OUT)
+    pin.value(0)
+    time.sleep_ms(20)
+    pin.value(1)
+    pin.init(Pin.IN, Pin.PULL_UP)
+
+    start = time.ticks_us()
+    while pin.value():
+      if time.ticks_diff(time.ticks_us(), start) > 150:
+        raise OSError("DHT11: sensor nao respondeu")
+
+    start = time.ticks_us()
+    while not pin.value():
+      if time.ticks_diff(time.ticks_us(), start) > 150:
+        raise OSError("DHT11: timeout na resposta LOW")
+
+    start = time.ticks_us()
+    while pin.value():
+      if time.ticks_diff(time.ticks_us(), start) > 150:
+        raise OSError("DHT11: timeout na resposta HIGH")
+
+    for index in range(40):
+      start = time.ticks_us()
+      while not pin.value():
+        if time.ticks_diff(time.ticks_us(), start) > 100:
+          raise OSError("DHT11: timeout LOW no bit {}".format(index))
+
+      start = time.ticks_us()
+      while pin.value():
+        if time.ticks_diff(time.ticks_us(), start) > 100:
+          raise OSError("DHT11: timeout HIGH no bit {}".format(index))
+
+      duration = time.ticks_diff(time.ticks_us(), start)
+      bit = 1 if duration > 40 else 0
+      byte_index = index // 8
+      buf[byte_index] = ((buf[byte_index] << 1) | bit) & 0xFF
+
+    checksum = (buf[0] + buf[1] + buf[2] + buf[3]) & 0xFF
+    if checksum != buf[4]:
+      raise OSError("DHT11: checksum incorreto {}".format(list(buf)))
+
   def humidity(self):
-    return self.buf[0] + self.buf[1] / 100
+    return self.buf[0] + self.buf[1] / 10.0
 
   def temperature(self):
-    return self.buf[2] + self.buf[3] / 100
+    return self.buf[2] + self.buf[3] / 10.0
 `,
 
   // =============================================

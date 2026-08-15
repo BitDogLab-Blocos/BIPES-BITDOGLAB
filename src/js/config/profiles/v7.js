@@ -75,7 +75,7 @@ var BitdogLabConfig = createProfile(BitdogLabProfileBase, {
     },
     DHT11: {
       ALLOWED_DIG: ['0', '1'],
-      MIN_INTERVAL_MS: 1000
+      MIN_INTERVAL_MS: 2000
     }
   },
 

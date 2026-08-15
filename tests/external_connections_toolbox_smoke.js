@@ -18,11 +18,13 @@ const contracts = fs.readFileSync(contractsPath, 'utf8');
 const contractValidator = fs.readFileSync(contractValidatorPath, 'utf8');
 const dht11DefinitionsPath = path.join(root, 'src', 'js', 'blocks', 'definitions', 'dht11.js');
 const dht11GeneratorsPath = path.join(root, 'src', 'js', 'blocks', 'generators', 'dht11.js');
+const sensorLibsPath = path.join(root, 'src', 'js', 'blocks', 'sensor_libs.js');
 const dht11PinoutPath = path.join(root, 'src', 'assets', 'images', 'devices', 'dht11-pinout.png');
 const v6ProfilePath = path.join(root, 'src', 'js', 'config', 'profiles', 'v6.js');
 const v7ProfilePath = path.join(root, 'src', 'js', 'config', 'profiles', 'v7.js');
 const dht11Definitions = fs.readFileSync(dht11DefinitionsPath, 'utf8');
 const dht11Generators = fs.readFileSync(dht11GeneratorsPath, 'utf8');
+const sensorLibs = fs.readFileSync(sensorLibsPath, 'utf8');
 const v6Profile = fs.readFileSync(v6ProfilePath, 'utf8');
 const v7Profile = fs.readFileSync(v7ProfilePath, 'utf8');
 const servoDefinitions = fs.readFileSync(servoDefinitionsPath, 'utf8');
@@ -81,14 +83,22 @@ assert.match(dht11Definitions, /gráfico da estufa com AHT20/);
 assert.match(dht11Generators, /SensorLibs\.DHT11/);
 assert.match(dht11Generators, /dht11_temperature/);
 assert.match(dht11Generators, /dht11_humidity/);
+assert.match(sensorLibs, /class DHT11:/);
+assert.match(sensorLibs, /self\.pin\.init\(Pin\.OUT\)/);
+assert.match(sensorLibs, /time\.sleep_ms\(1000\)/);
+assert.match(sensorLibs, /pin\.init\(Pin\.IN, Pin\.PULL_UP\)/);
+assert.match(sensorLibs, /self\.buf\[1\] \/ 10\.0/);
+assert.match(sensorLibs, /self\.buf\[3\] \/ 10\.0/);
 assert.match(dht11Generators, /AHT20 greenhouse project/);
 assert.match(dht11Definitions, /external\.DHT11/);
 assert.match(dht11Generators, /ALLOWED_DIG/);
 assert.match(dht11Generators, /MIN_INTERVAL_MS/);
 assert.match(v7Profile, /VERSION: 'v7'/);
 assert.match(v7Profile, /DHT11:\s*\{[\s\S]*?ALLOWED_DIG: \['0', '1'\]/);
+assert.match(v7Profile, /DHT11:\s*\{[\s\S]*?MIN_INTERVAL_MS: 2000/);
 assert.match(v6Profile, /VERSION: 'v6'/);
 assert.match(v6Profile, /DHT11:\s*\{[\s\S]*?ALLOWED_DIG: \['0', '1', '2', '3'\]/);
+assert.match(v6Profile, /DHT11:\s*\{[\s\S]*?MIN_INTERVAL_MS: 2000/);
 
 const servoBlockTypes = Array.from(
   externalCategories[4].body.matchAll(/<block\s+[^>]*type="([^"]+)"/g),
