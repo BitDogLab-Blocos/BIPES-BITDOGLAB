@@ -218,18 +218,18 @@ WorkspaceManager.bindServoCategoryHint = function() {
 WorkspaceManager.showDht11ConnectionReminder = function(block) {
   var closeId = 'closeDht11ConnectionNotification';
   var boardImage = '../assets/images/devices/conexoes-externas.png';
-  var dht11Image = '../assets/images/devices/dht11-pinout.png?ver=5';
+  var dht11Image = '../assets/images/devices/dht11-pinout.png?ver=6';
   var wireRows = Code.LANG === 'en'
     ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">DHT11 wires</div>' +
       '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
-      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>Red arrow (+3V3)</strong> → left pin, next to S</div>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Blue arrow (DATA)</strong> → center pin &nbsp;|&nbsp; V7: Connection 0 or 1 &nbsp;|&nbsp; V6: Connections 0, 1, 2 or 3</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Orange arrow (DATA)</strong> → left pin, next to S &nbsp;|&nbsp; V7: Connection 0 or 1 &nbsp;|&nbsp; V6: Connections 0, 1, 2 or 3</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Red arrow (VCC / 3.3V)</strong> → center pin</div>' +
       '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Black arrow (GND)</strong> → right pin, next to -</div>' +
       '</div>'
     : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Fios do DHT11</div>' +
       '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
-      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>Seta vermelha (+3V3)</strong> → pino da esquerda, ao lado do S</div>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Seta azul (DADOS)</strong> → pino do meio &nbsp;|&nbsp; V7: Conexões 0 ou 1 &nbsp;|&nbsp; V6: Conexões 0, 1, 2 ou 3</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Seta laranja (DADOS)</strong> → pino da esquerda, ao lado do S &nbsp;|&nbsp; V7: Conexões 0 ou 1 &nbsp;|&nbsp; V6: Conexões 0, 1, 2 ou 3</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Seta vermelha (VCC / 3.3V)</strong> → pino do meio</div>' +
       '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Seta preta (GND)</strong> → pino da direita, ao lado do -</div>' +
       '</div>';
   var html = Code.LANG === 'en'
