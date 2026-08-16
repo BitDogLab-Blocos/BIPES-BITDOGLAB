@@ -1370,6 +1370,19 @@ button.icon.medium:before  {
   vertical-align: middle;
 }
 
+/* Ícone visual da categoria de LEDs externos. */
+.bitdoglab-external-led-category-icon {
+  width: 2.1rem;
+  height: 2.1rem;
+  margin-inline-end: 0.35rem;
+  background-image: url('../assets/images/devices/ky-016.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  visibility: visible !important;
+  vertical-align: middle;
+}
+
 .blocklyTreeSelected .blocklyTreeLabel {
     color: white !important;
 }

@@ -1433,7 +1433,7 @@ var CUSTOM_TRANSLATIONS_EN = {
   "⏱️ Tempo e Relógio": "⏱️ Weather and Clock",
   "🎨 Cores": "🎨 Colors",
   "💡 LEDs": "💡 LEDs",
-  "LEDs externos": "External LEDs",
+  "LEDs Externos": "External LEDs",
   "Luz e sombra com LDR": "Light and Shadow with LDR",
   "Temperatura externa com DHT11": "External Temperature with DHT11",
   "Distância e presença com ultrassônico": "Distance and Presence with Ultrasonic",

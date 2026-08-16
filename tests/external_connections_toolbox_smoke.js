@@ -32,7 +32,7 @@ const servoGenerators = fs.readFileSync(servoGeneratorsPath, 'utf8');
 const workspaceHints = fs.readFileSync(workspaceHintsPath, 'utf8');
 
 const expectedNames = [
-  'LEDs externos',
+  'LEDs Externos',
   'Luz e sombra com LDR',
   'Temperatura externa com DHT11',
   'Distância e presença com ultrassônico',

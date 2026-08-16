@@ -380,7 +380,7 @@
   <!-- ========== CATEGORIAS DE PROJETO (aparecem conforme seletor) ========== -->
 
   <!-- Projeto: Conexoes Externas -->
-  <category name="LEDs externos" colour="#d97706" data-project="externos"></category>
+  <category name="LEDs Externos" colour="#d97706" data-project="externos" css-icon="bitdoglab-external-led-category-icon"></category>
   <category name="Luz e sombra com LDR" colour="#16a085" data-project="externos"></category>
   <category name="Temperatura externa com DHT11" colour="#e67e22" data-project="externos" css-icon="bitdoglab-dht11-category-icon">
     <block type="dht11_temperatura">
