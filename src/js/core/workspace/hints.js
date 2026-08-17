@@ -240,7 +240,7 @@ WorkspaceManager.showExternalLedConnectionReminder = function() {
       '<strong>Use one colour channel at a time:</strong><br>' +
       '• <strong>-</strong> → GND<br>• <strong>R</strong> → the Connection chosen in the block (red)<br>• <strong>G</strong> → the Connection chosen in the block (green)<br>• <strong>B</strong> → the Connection chosen in the block (blue)<br>' +
       'Leave the other two colour wires disconnected. Turn the board off before changing wires.</div>' +
-      '<div style="margin-top:10px;"><strong>Safety:</strong> a loose 5 mm LED needs a resistor (about 470 Ω). KY-016 boards usually have resistors, but check the real module. On V7, use Connection 0 or 1 when the OLED is active.</div>' +
+      '<div style="margin-top:10px;"><strong>OLED on V7:</strong> use the LED colour channels on Connections 0 and 1. Do not use Connections 2 and 3 because they are used by the OLED display.</div>' +
       '</div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
@@ -253,7 +253,7 @@ WorkspaceManager.showExternalLedConnectionReminder = function() {
       '<strong>Use uma cor por vez:</strong><br>' +
       '• <strong>-</strong> → GND<br>• <strong>R</strong> → a Conexão escolhida no bloco (vermelho)<br>• <strong>G</strong> → a Conexão escolhida no bloco (verde)<br>• <strong>B</strong> → a Conexão escolhida no bloco (azul)<br>' +
       'Deixe os outros dois fios de cor desconectados. Desligue a placa antes de trocar os fios.</div>' +
-      '<div style="margin-top:10px;"><strong>Segurança:</strong> um LED de 5 mm solto precisa de resistor (aproximadamente 470 Ω). As placas KY-016 geralmente já têm resistores, mas confira o módulo real. Na V7, use Conexão 0 ou 1 quando o OLED estiver ativo.</div>' +
+      '<div style="margin-top:10px;"><strong>OLED na V7:</strong> use os canais de cor do LED nas Conexões 0 e 1. Não use as Conexões 2 e 3, pois elas são usadas pelo display OLED.</div>' +
       '</div>';
 
   WorkspaceManager.createReminder({
