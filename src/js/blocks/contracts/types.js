@@ -74,6 +74,13 @@
       'bloco_animar_led_brilhar'
     ],
 
+    EXTERNAL_LED_COMMANDS: [
+      'led_externo_ligar',
+      'led_externo_desligar',
+      'led_externo_piscar_rapido',
+      'led_externo_piscar_lento'
+    ],
+
     SOUND_COMMANDS: [
       'piano_nota',
       'parar_piano',
@@ -139,6 +146,12 @@
       blockTypes: ['bloco_criar_animacao_led'],
       prefix: {
         STEP: 'LedCommand'
+      }
+    },
+    {
+      blockTypes: ['led_externo_criar_animacao'],
+      prefix: {
+        STEP: 'ExternalLedCommand'
       }
     }
   ];
@@ -210,6 +223,10 @@
     LedCommand: {
       'pt-br': 'um comando de LED',
       en: 'an LED command'
+    },
+    ExternalLedCommand: {
+      'pt-br': 'um comando de LED externo',
+      en: 'an external LED command'
     },
     DisplayCommand: {
       'pt-br': 'um comando de display',
@@ -443,6 +460,7 @@
       this.applyPreviousCheck(this.get('MATRIX_ANIMATION_BLOCKS'), ['ProgramCommand', 'MatrixAnimationCommand']);
       this.applyPreviousCheck(this.get('MATRIX_OPTION_COMMANDS'), ['ProgramCommand', 'MatrixCommand', 'MatrixOptionCommand']);
       this.applyPreviousCheck(this.get('LED_COMMANDS'), ['ProgramCommand', 'LedCommand']);
+      this.applyPreviousCheck(this.get('EXTERNAL_LED_COMMANDS'), ['ProgramCommand', 'ExternalLedCommand']);
       this.applyPreviousCheck(this.get('SOUND_COMMANDS'), ['ProgramCommand', 'SoundCommand']);
       this.applyDefaultPreviousCheck('ProgramCommand', []);
       this.applyStatementInputChecks(INPUT_RULES);

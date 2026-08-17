@@ -23,6 +23,12 @@
       dht11V7PinConflict: 'Na BitDogLab V7, o DHT11 deve usar somente as Conexões 0 ou 1. A Conexão %1 fica reservada para o display OLED; escolha 0 ou 1 no DHT11.',
       dht11Aht20V7I2c0Conflict: 'Conflito de ligação: o DHT11 (sensor de temperatura externo) está na Conexão %1 e o AHT20 (sensor de temperatura do projeto Estufa) está usando o mesmo caminho da placa. Por isso os sensores podem se atrapalhar e o programa foi bloqueado. Para usar os dois, ligue o AHT20 no outro conector I2C (I2C1) ou mude a Conexão do DHT11. Confira os fios com o professor e tente compilar novamente.',
       externalConnectionConflict: 'A Conexão %1 já está sendo usada pelo bloco de %2. Mude a conexão neste bloco e confira fisicamente em qual contato da placa o cabo está ligado. A conexão escolhida no bloco não detecta a ligação real.',
+      externalLedInvalidConnection: 'O LED externo está em uma conexão que não existe neste perfil de placa. Escolha uma conexão DIG válida.',
+      externalLedNameEmpty: 'Dê um nome para este LED externo no botão de identificação. O nome é apenas uma etiqueta para organizar o programa.',
+      externalLedNameLong: 'O nome deste LED externo está grande. Prefira até 24 caracteres para facilitar a leitura.',
+      externalLedNameDifferentConnections: 'O mesmo nome de LED externo aparece em mais de uma conexão DIG. Use nomes diferentes ou a mesma conexão.',
+      externalLedNamesSameConnection: 'Há nomes diferentes de LED externo na mesma conexão DIG. Use um único nome para esse fio.',
+      externalLedOledV7PinConflict: 'Na BitDogLab V7, as Conexões 2 e 3 compartilham os GPIOs do display OLED. Para usar este LED externo com OLED, escolha a Conexão 0 ou 1.',
       servoAngleConnectionMismatch: 'O bloco Ângulo atual usa a Conexão %1, mas nenhum bloco que move o servo usa essa mesma Conexão.',
       servoJoystickSameDirection: 'Escolha direções diferentes para subir e descer o servo. A mesma direção não consegue fazer os dois movimentos.',
       servoRaiseAngleOrder: 'Para subir o servo, o ângulo inicial deve ser menor que o ângulo final.',
@@ -47,6 +53,12 @@
       dht11V7PinConflict: 'On BitDogLab V7, DHT11 must use only Connections 0 or 1. Connection %1 is reserved for the OLED display; choose Connection 0 or 1 for DHT11.',
       dht11Aht20V7I2c0Conflict: 'Wiring conflict: DHT11 (external temperature sensor) is on Connection %1 and AHT20 (Greenhouse project temperature sensor) is using the same board path. The sensors may interfere, so the program was blocked. To use both, connect AHT20 to the other I2C connector (I2C1) or move DHT11. Check the wires with your teacher and compile again.',
       externalConnectionConflict: 'Connection %1 is already used by the %2 block. Change the connection in this block and physically check which board contact the cable is connected to. The connection selected in the block cannot detect the real wiring.',
+      externalLedInvalidConnection: 'This external LED uses a connection that does not exist in the active board profile. Choose a valid DIG connection.',
+      externalLedNameEmpty: 'Give this external LED a name with the identification button. The name is only a label for organizing the program.',
+      externalLedNameLong: 'This external LED name is long. Prefer up to 24 characters so it stays easy to read.',
+      externalLedNameDifferentConnections: 'The same external LED name appears on more than one DIG connection. Use different names or the same connection.',
+      externalLedNamesSameConnection: 'Different external LED names use the same DIG connection. Use one name for that wire.',
+      externalLedOledV7PinConflict: 'On BitDogLab V7, Connections 2 and 3 share the OLED display GPIOs. To use this external LED with OLED, choose Connection 0 or 1.',
       servoAngleConnectionMismatch: 'The Current angle block uses Connection %1, but no block that moves the servo uses that same Connection.',
       servoJoystickSameDirection: 'Choose different directions to raise and lower the servo. The same direction cannot perform both movements.',
       servoRaiseAngleOrder: 'To raise the servo, the initial angle must be less than the final angle.',
@@ -60,6 +72,7 @@
   var MATRIX_COMMANDS = Domains ? Domains.get('MATRIX_COMMANDS') : [];
   var MATRIX_ANIMATION_BLOCKS = Domains ? Domains.get('MATRIX_ANIMATION_BLOCKS') : [];
   var LED_COMMANDS = Domains ? Domains.get('LED_COMMANDS') : [];
+  var EXTERNAL_LED_COMMANDS = Domains ? Domains.get('EXTERNAL_LED_COMMANDS') : [];
   var SOUND_COMMANDS = Domains ? Domains.get('SOUND_COMMANDS') : [];
 
   var CONTRACTS = {
@@ -240,6 +253,23 @@
           label: 'comandos de LED'
         }
       ]
+    },
+    led_externo_ligar: { kind: 'statement' },
+    led_externo_desligar: { kind: 'statement' },
+    led_externo_piscar_rapido: { kind: 'statement' },
+    led_externo_piscar_lento: { kind: 'statement' },
+    led_externo_criar_animacao: {
+      kind: 'statement',
+      dynamicStatementInputs: [
+        {
+          prefix: 'STEP',
+          allow: EXTERNAL_LED_COMMANDS,
+          label: 'comandos de LED externo'
+        }
+      ],
+      requiredValueInputPrefixes: {
+        TIME: 'duração em milissegundos'
+      }
     },
     criar_trilha_sonora: {
       kind: 'container',

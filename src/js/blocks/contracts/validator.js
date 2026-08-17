@@ -103,6 +103,17 @@
     }
   }
 
+  // Notices are displayed on the block but do not prevent code generation.
+  // They are used for editable labels and other guidance that is useful while
+  // assembling a project but is not a physical or type-safety error.
+  function addNotice(notices, block, text) {
+    if (!block || !text) return;
+    if (!notices[block.id]) notices[block.id] = [];
+    if (notices[block.id].indexOf(text) === -1) {
+      notices[block.id].push(text);
+    }
+  }
+
   function getConnectionChecks(connection) {
     if (!connection || !connection.getCheck) return [];
     return connection.getCheck() || [];
@@ -167,12 +178,13 @@
     }
   }
 
-  function applyWarnings(blocks, warnings) {
+  function applyWarnings(blocks, warnings, notices) {
     for (var i = 0; i < blocks.length; i++) {
       var block = blocks[i];
-      var warningText = warnings[block.id] && warnings[block.id].length
-        ? warnings[block.id].join('\n')
-        : '';
+      var messages = [];
+      if (warnings[block.id]) messages = messages.concat(warnings[block.id]);
+      if (notices && notices[block.id]) messages = messages.concat(notices[block.id]);
+      var warningText = messages.length ? messages.join('\n') : '';
 
       if (!warningText) {
         clearContractWarning(block);
@@ -565,6 +577,104 @@
     }
   }
 
+  var EXTERNAL_LED_TYPES = [
+    'led_externo_ligar',
+    'led_externo_desligar',
+    'led_externo_piscar_rapido',
+    'led_externo_piscar_lento'
+  ];
+
+  function externalLedName(block) {
+    if (!block) return '';
+    var field = block.getField && block.getField('LED');
+    var variable = field && field.getVariable ? field.getVariable() : null;
+    var name = variable && variable.name !== undefined
+      ? variable.name
+      : (field && field.getText ? field.getText() : '');
+    return String(name || '').trim();
+  }
+
+  function externalLedAllowedDig(config) {
+    var external = config && config.EXTERNAL || {};
+    var led = external.EXTERNAL_LED || {};
+    return led.ALLOWED_DIG || Object.keys(external.DIG_PINS || {});
+  }
+
+  function validateExternalLedRules(blocks, warnings, notices) {
+    var config = global.BitdogLabConfig || {};
+    var allowed = externalLedAllowedDig(config).map(String);
+    var byName = {};
+    var byDig = {};
+
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (EXTERNAL_LED_TYPES.indexOf(block.type) === -1 || !block.getFieldValue) continue;
+
+      var dig = String(block.getFieldValue('DIG') || '');
+      if (allowed.indexOf(dig) === -1) {
+        addWarning(warnings, block, msg('externalLedInvalidConnection'));
+      }
+
+      var name = externalLedName(block);
+      if (!name) {
+        addNotice(notices, block, msg('externalLedNameEmpty'));
+      } else if (name.length > 24) {
+        addNotice(notices, block, msg('externalLedNameLong'));
+      }
+
+      var entry = { block: block, name: name, dig: dig };
+      var nameKey = name.toLowerCase();
+      if (nameKey) {
+        if (!byName[nameKey]) byName[nameKey] = [];
+        byName[nameKey].push(entry);
+      }
+      if (!byDig[dig]) byDig[dig] = [];
+      byDig[dig].push(entry);
+    }
+
+    for (var nameKey in byName) {
+      if (!byName.hasOwnProperty(nameKey)) continue;
+      var nameEntries = byName[nameKey];
+      var connections = {};
+      for (var n = 0; n < nameEntries.length; n++) connections[nameEntries[n].dig] = true;
+      if (Object.keys(connections).length > 1) {
+        for (var n2 = 0; n2 < nameEntries.length; n2++) {
+          addNotice(notices, nameEntries[n2].block, msg('externalLedNameDifferentConnections'));
+        }
+      }
+    }
+
+    for (var digKey in byDig) {
+      if (!byDig.hasOwnProperty(digKey)) continue;
+      var digEntries = byDig[digKey];
+      var names = {};
+      for (var d = 0; d < digEntries.length; d++) {
+        if (digEntries[d].name) names[digEntries[d].name.toLowerCase()] = true;
+      }
+      if (Object.keys(names).length > 1) {
+        for (var d2 = 0; d2 < digEntries.length; d2++) {
+          addNotice(notices, digEntries[d2].block, msg('externalLedNamesSameConnection'));
+        }
+      }
+    }
+  }
+
+  function validateExternalLedOledV7PinConflicts(blocks, warnings) {
+    var config = global.BitdogLabConfig;
+    if (!config || config.VERSION !== 'v7' || !config.PINS || !config.EXTERNAL || !config.EXTERNAL.DIG_PINS) return;
+    if (!blocks.some(isOledBlock)) return;
+
+    var oledPins = [config.PINS.I2C_SDA, config.PINS.I2C_SCL];
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (EXTERNAL_LED_TYPES.indexOf(block.type) === -1 || !block.getFieldValue) continue;
+      var pin = config.EXTERNAL.DIG_PINS[String(block.getFieldValue('DIG'))];
+      if (oledPins.indexOf(pin) !== -1) {
+        addWarning(warnings, block, msg('externalLedOledV7PinConflict'));
+      }
+    }
+  }
+
   function validateExternalResourceConflicts(blocks, warnings) {
     var config = global.BitdogLabConfig;
     var registry = Code.ExternalResources;
@@ -665,6 +775,7 @@
     var allBlocks = getWorkspaceBlocks(workspace);
     var blocks = allBlocks.filter(isBlockEffectivelyEnabled);
     var warnings = {};
+    var notices = {};
 
     validateMissingGenerators(blocks, warnings);
     validateValuePlacement(blocks, warnings);
@@ -677,10 +788,13 @@
     validateServoOledV7PinConflicts(blocks, warnings);
     validateDht11V7PinConflicts(blocks, warnings);
     validateDht11Aht20V7I2c0Conflicts(blocks, warnings);
+    validateExternalLedRules(blocks, warnings, notices);
+    validateExternalLedOledV7PinConflicts(blocks, warnings);
     validateExternalResourceConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 
-    applyWarnings(allBlocks, warnings);
+    applyWarnings(allBlocks, warnings, notices);
+    warnings.__bitdoglabNotices = notices;
     return warnings;
   }
 
@@ -697,6 +811,7 @@
 
   function getValidationReport(workspace) {
     var warnings = validateWorkspace(workspace);
+    var notices = warnings.__bitdoglabNotices || {};
     var blocks = getAllBlocks(workspace);
     var blockById = {};
     var issues = [];
@@ -707,6 +822,7 @@
     }
 
     for (var blockId in warnings) {
+      if (blockId === '__bitdoglabNotices') continue;
       if (!warnings.hasOwnProperty(blockId) || !warnings[blockId].length) continue;
       var block = blockById[blockId] || null;
       totalMessages += warnings[blockId].length;
@@ -718,11 +834,29 @@
       });
     }
 
+    var noticeIssues = [];
+    var noticeMessageCount = 0;
+    for (var noticeBlockId in notices) {
+      if (!notices.hasOwnProperty(noticeBlockId) || !notices[noticeBlockId].length) continue;
+      var noticeBlock = blockById[noticeBlockId] || null;
+      noticeMessageCount += notices[noticeBlockId].length;
+      noticeIssues.push({
+        blockId: noticeBlockId,
+        blockType: noticeBlock ? noticeBlock.type : '',
+        blockLabel: getBlockLabel(noticeBlock),
+        messages: notices[noticeBlockId].slice(),
+        severity: 'notice'
+      });
+    }
+
     return {
       valid: issues.length === 0,
       issueCount: issues.length,
       messageCount: totalMessages,
-      issues: issues
+      issues: issues,
+      noticeCount: noticeIssues.length,
+      noticeMessageCount: noticeMessageCount,
+      notices: noticeIssues
     };
   }
 

@@ -6,6 +6,20 @@
 
   var PERIPHERALS = [
     {
+      id: 'external-led',
+      labels: {
+        'pt-br': 'LED externo',
+        en: 'external LED'
+      },
+      blockTypes: [
+        'led_externo_ligar',
+        'led_externo_desligar',
+        'led_externo_piscar_rapido',
+        'led_externo_piscar_lento'
+      ],
+      connectionFields: ['DIG']
+    },
+    {
       id: 'dht11',
       labels: {
         'pt-br': 'DHT11',
