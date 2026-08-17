@@ -14,6 +14,7 @@
     'led_externo_piscar_rapido',
     'led_externo_piscar_lento'
   ];
+  var GLOBAL_TYPES = ['led_externo_desligar_todos'];
   var ALL_TYPES = COMMAND_TYPES.concat(['led_externo_criar_animacao']);
   var CHANNEL_ORDER = ['R', 'G', 'B'];
   var CHANNELS = {
@@ -52,6 +53,20 @@
     field.isClickable = function() { return false; };
     return field;
   }
+
+  Blockly.Blocks['led_externo_desligar_todos'] = {
+    init: function() {
+      this.appendDummyInput()
+        .appendField('Desligar todos os LEDs externos');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(COLOUR);
+      this.setTooltip(isEnglish()
+        ? 'Turns off every external LED used in this project.'
+        : 'Desliga todos os LEDs externos usados neste projeto.');
+      this.setHelpUrl('');
+    }
+  };
 
   function setCommandShape(block, label, tooltip) {
     block.appendDummyInput()
@@ -272,6 +287,13 @@
     return block;
   }
 
+  function createGlobalBlock(type, gap) {
+    var block = Blockly.utils.xml.createElement('block');
+    block.setAttribute('type', type);
+    block.setAttribute('gap', String(gap || 12));
+    return block;
+  }
+
   function selectedChannels(workspace) {
     var selected = workspace.bitdogLabExternalLedChannels_ || {};
     workspace.getAllBlocks(false).forEach(function(block) {
@@ -366,6 +388,10 @@
       items.push(done);
     }
 
+    // This command is always available and is intentionally not offered
+    // inside the animation mutator.
+    items.push(createGlobalBlock('led_externo_desligar_todos', 18));
+
     CHANNEL_ORDER.forEach(function(channel) {
       if (!selected[channel]) return;
       items.push(createCommandBlock('led_externo_ligar', channel, 12));
@@ -380,6 +406,7 @@
   global.BitDogLabExternalLed = {
     channels: CHANNELS,
     commandTypes: COMMAND_TYPES,
+    globalTypes: GLOBAL_TYPES,
     allTypes: ALL_TYPES,
     flyoutCategory: externalLedFlyout,
     channelLabel: channelLabel

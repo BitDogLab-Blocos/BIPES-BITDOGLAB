@@ -5,6 +5,13 @@
   var Blockly = global.Blockly;
   if (!Blockly || !Blockly.Python) return;
 
+  var COMMAND_TYPES = [
+    'led_externo_ligar',
+    'led_externo_desligar',
+    'led_externo_piscar_rapido',
+    'led_externo_piscar_lento'
+  ];
+
   function profile() {
     return global.BitdogLabConfig || {};
   }
@@ -47,8 +54,8 @@
     return '# KY-016 ' + (labels[channel] || channel) + ' - Conexao ' + dig(block) + '\n';
   }
 
-  function ensurePin(block) {
-    var connection = dig(block);
+  function ensurePinForConnection(connection) {
+    connection = String(connection || '0');
     var pin = pins()[connection];
     if (pin === undefined || pin === null) pin = connection;
     var key = 'external_led_pin_' + connection;
@@ -59,6 +66,28 @@
     Blockly.Python.definitions_['external_led_off_' + connection] =
       'external_led_' + connection + '.duty_u16(' + String(dutyForLevel(inactiveLevel())) + ')';
     return 'external_led_' + connection;
+  }
+
+  function ensurePin(block) {
+    return ensurePinForConnection(dig(block));
+  }
+
+  function usedExternalLedConnections(block) {
+    var used = {};
+    var workspace = block && block.workspace;
+    if (!workspace || !workspace.getAllBlocks) return [];
+
+    var blocks = workspace.getAllBlocks(false);
+    for (var i = 0; i < blocks.length; i++) {
+      var candidate = blocks[i];
+      if (COMMAND_TYPES.indexOf(candidate.type) === -1 || !candidate.getFieldValue) continue;
+      if (candidate.isEnabled && !candidate.isEnabled()) continue;
+      var connection = candidate.getFieldValue('DIG');
+      if (connection !== null && connection !== undefined && connection !== '') {
+        used[String(connection)] = true;
+      }
+    }
+    return Object.keys(used).sort();
   }
 
   function ensureSleep() {
@@ -76,6 +105,16 @@
 
   Blockly.Python['led_externo_desligar'] = function(block) {
     return commandCode(block, inactiveLevel());
+  };
+
+  Blockly.Python['led_externo_desligar_todos'] = function(block) {
+    var connections = usedExternalLedConnections(block);
+    var code = '# Desligar todos os LEDs externos usados\n';
+    for (var i = 0; i < connections.length; i++) {
+      code += ensurePinForConnection(connections[i]) +
+        '.duty_u16(' + String(dutyForLevel(inactiveLevel())) + ')\n';
+    }
+    return code;
   };
 
   function blink(block, milliseconds) {

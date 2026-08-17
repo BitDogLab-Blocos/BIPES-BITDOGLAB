@@ -261,6 +261,7 @@
     led_externo_desligar: { kind: 'statement' },
     led_externo_piscar_rapido: { kind: 'statement' },
     led_externo_piscar_lento: { kind: 'statement' },
+    led_externo_desligar_todos: { kind: 'statement' },
     led_externo_criar_animacao: {
       kind: 'statement',
       dynamicStatementInputs: [
