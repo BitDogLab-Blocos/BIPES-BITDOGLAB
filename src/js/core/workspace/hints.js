@@ -81,7 +81,7 @@ WorkspaceManager.showJoystickGetterReminder = function(blockType) {
     ? WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
       '🕹️ This block <strong>does nothing on its own!</strong><br><br>' +
-      '📊 Place it inside the <strong>"Show Numeric Value"</strong> OLED display block to visualize the value on-screen.<br><br>' +
+      '📊 Place it inside the <strong>"Show Numeric Value"</strong> OLED display (board screen) block to visualize the value on-screen.<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Example:</strong><br>' +
       '1️⃣ 🕹️ Joystick-Controlled LED <small>(or buzzer)</small><br>' +
@@ -90,7 +90,7 @@ WorkspaceManager.showJoystickGetterReminder = function(blockType) {
     : WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
       '🕹️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
-      '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED para ver o número na tela!<br><br>' +
+      '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED (tela da placa) para ver o número na tela!<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Exemplo:</strong><br>' +
       '1️⃣ 🕹️ Joystick controla LED <small>(ou Buzzer)</small><br>' +
@@ -240,7 +240,7 @@ WorkspaceManager.showExternalLedConnectionReminder = function() {
       '<strong>Use one colour channel at a time:</strong><br>' +
       '• <strong>-</strong> → GND<br>• <strong>R</strong> → the Connection chosen in the block (red)<br>• <strong>G</strong> → the Connection chosen in the block (green)<br>• <strong>B</strong> → the Connection chosen in the block (blue)<br>' +
       'Leave the other two colour wires disconnected. Turn the board off before changing wires.</div>' +
-      '<div style="margin-top:10px;"><strong>OLED on V7:</strong> use the LED colour channels on Connections 0 and 1. Do not use Connections 2 and 3 because they are used by the OLED display.</div>' +
+      '<div style="margin-top:10px;"><strong>OLED display (board screen) on V7:</strong> use the LED colour channels on Connections 0 and 1. Do not use Connections 2 and 3 because they are used by the OLED display.</div>' +
       '</div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
@@ -253,7 +253,7 @@ WorkspaceManager.showExternalLedConnectionReminder = function() {
       '<strong>Use uma cor por vez:</strong><br>' +
       '• <strong>-</strong> → GND<br>• <strong>R</strong> → a Conexão escolhida no bloco (vermelho)<br>• <strong>G</strong> → a Conexão escolhida no bloco (verde)<br>• <strong>B</strong> → a Conexão escolhida no bloco (azul)<br>' +
       'Deixe os outros dois fios de cor desconectados. Desligue a placa antes de trocar os fios.</div>' +
-      '<div style="margin-top:10px;"><strong>OLED na V7:</strong> use os canais de cor do LED nas Conexões 0 e 1. Não use as Conexões 2 e 3, pois elas são usadas pelo display OLED.</div>' +
+      '<div style="margin-top:10px;"><strong>Display OLED (tela da placa) na V7:</strong> use os canais de cor do LED nas Conexões 0 e 1. Não use as Conexões 2 e 3, pois elas são usadas pelo display.</div>' +
       '</div>';
 
   WorkspaceManager.createReminder({
@@ -430,7 +430,7 @@ WorkspaceManager.showMicGetterReminder = function() {
     ? WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
       '🎙️ This block <strong>does nothing on its own!</strong><br><br>' +
-      '📊 Place it inside the <strong>"Show Numeric Value"</strong> OLED display block to inspect the measured value.<br><br>' +
+      '📊 Place it inside the <strong>"Show Numeric Value"</strong> OLED display (board screen) block to inspect the measured value.<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Example:</strong><br>' +
       '1️⃣ 🎙️ LED matrix sound-level meter<br>' +
@@ -439,7 +439,7 @@ WorkspaceManager.showMicGetterReminder = function() {
     : WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
       '🎙️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
-      '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED para ver o número na tela!<br><br>' +
+      '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED (tela da placa) para ver o número na tela!<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Exemplo:</strong><br>' +
       '1️⃣ 🎙️ Acender matriz de LEDs com barulho<br>' +
@@ -460,7 +460,7 @@ WorkspaceManager.showBarraGetterReminder = function() {
     ? WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
       '🖥️ This block <strong>does nothing on its own!</strong><br><br>' +
-      '📊 Place it inside the <strong>"Show Numeric Value"</strong> OLED display block to inspect the percentage value.<br><br>' +
+      '📊 Place it inside the <strong>"Show Numeric Value"</strong> OLED display (board screen) block to inspect the percentage value.<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Example:</strong><br>' +
       '1️⃣ 🖥️ OLED sound level meter  line: 3<br>' +
@@ -469,7 +469,7 @@ WorkspaceManager.showBarraGetterReminder = function() {
     : WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
       '🖥️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
-      '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED para ver a porcentagem na tela!<br><br>' +
+      '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED (tela da placa) para ver a porcentagem na tela!<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Exemplo:</strong><br>' +
       '1️⃣ 🖥️ Medidor de barulho no Display  linha: 3<br>' +
@@ -523,7 +523,7 @@ WorkspaceManager.showSensorReminder = function(blockType) {
     ? WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
       '🌡️ This block <strong>does nothing on its own!</strong><br><br>' +
-      '📊 Place it inside the <strong>"Show Numeric Value"</strong> OLED display block to inspect the reading.<br><br>' +
+      '📊 Place it inside the <strong>"Show Numeric Value"</strong> OLED display (board screen) block to inspect the reading.<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Example:</strong><br>' +
       '1️⃣ 📊 Show Numeric Value: <strong>[' + nomeBloco + ']</strong> line 1<br>' +
@@ -531,7 +531,7 @@ WorkspaceManager.showSensorReminder = function(blockType) {
     : WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
       '🌡️ Este bloco <strong>sozinho não faz nada!</strong><br><br>' +
-      '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED para ver o número na tela!<br><br>' +
+      '📊 Encaixe-o no bloco <strong>"Mostrar valor"</strong> do Display OLED (tela da placa) para ver o número na tela!<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Exemplo:</strong><br>' +
       '1️⃣ 📊 Mostrar valor: <strong>[' + nomeBloco + ']</strong> linha 1<br>' +
