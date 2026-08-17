@@ -77,6 +77,11 @@ var BitdogLabConfig_V6 = createProfile(BitdogLabProfileBase, {
     },
     EXTERNAL_LED: {
       ALLOWED_DIG: ['0', '1', '2', '3'],
+      PWM_DIG: ['0', '1', '2', '3'],
+      PWM_REQUIRED: true,
+      PWM_FREQ: 1000,
+      CHANNELS: ['R', 'G', 'B'],
+      MAX_MODULES: 1,
       ACTIVE_LEVEL: 1,
       INACTIVE_LEVEL: 0
     }

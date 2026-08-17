@@ -61,6 +61,19 @@
     }
   };
 
+  MESSAGES['pt-br'].externalLedDuplicateChannel = 'O canal %1 do KY-016 foi colocado nas Conexoes %2 e %3. Cada cor precisa ficar em uma unica Conexao.';
+  MESSAGES['pt-br'].externalLedDuplicateConnection = 'As cores %1 e %2 estao na mesma Conexao %3. Escolha tres Conexoes diferentes para o LED RGB.';
+  MESSAGES['pt-br'].externalLedPwmRequired = 'A Conexao %1 nao oferece PWM neste perfil. O LED RGB externo precisa de uma Conexao com PWM.';
+  MESSAGES['pt-br'].externalLedRgbOledConflict = 'Na BitDogLab V7, o KY-016 RGB completo precisa de tres Conexoes e o Display OLED (tela da placa) usa as Conexoes 2 e 3. Escolha usar o LED RGB ou o Display neste projeto.';
+  MESSAGES['pt-br'].externalLedMappingNotice = 'Este comando repete o canal %1. Tudo bem repetir comandos, mas mantenha o canal sempre na mesma Conexao.';
+  MESSAGES['pt-br'].externalLedWiringNotice = 'A letra escolhida e o pino fisico: R vermelho, G verde e B azul. Confira o fio com o professor.';
+  MESSAGES.en.externalLedDuplicateChannel = 'The KY-016 %1 channel was placed on Connections %2 and %3. Each colour must use one Connection only.';
+  MESSAGES.en.externalLedDuplicateConnection = 'Colours %1 and %2 use the same Connection %3. Choose three different Connections for the RGB LED.';
+  MESSAGES.en.externalLedPwmRequired = 'Connection %1 does not provide PWM in this profile. The external RGB LED needs a PWM connection.';
+  MESSAGES.en.externalLedRgbOledConflict = 'On BitDogLab V7, a complete KY-016 RGB LED needs three Connections and the OLED display (board screen) uses Connections 2 and 3. Choose the RGB LED or the display for this project.';
+  MESSAGES.en.externalLedMappingNotice = 'This command repeats channel %1. Repeating commands is fine, but keep the channel on the same Connection.';
+  MESSAGES.en.externalLedWiringNotice = 'The letter is the physical pin: R red, G green, and B blue. Check the wire with your teacher.';
+
   var Domains = Code.BlockTypeDomains;
   var MATRIX_OPTION_COMMANDS = Domains ? Domains.get('MATRIX_OPTION_COMMANDS') : [];
   var MATRIX_COMMANDS = Domains ? Domains.get('MATRIX_COMMANDS') : [];

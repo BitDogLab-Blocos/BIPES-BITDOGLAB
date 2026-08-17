@@ -8,8 +8,8 @@
     {
       id: 'external-led',
       labels: {
-        'pt-br': 'LED externo',
-        en: 'external LED'
+        'pt-br': 'LED RGB externo',
+        en: 'external RGB LED'
       },
       blockTypes: [
         'led_externo_ligar',
@@ -17,7 +17,9 @@
         'led_externo_piscar_rapido',
         'led_externo_piscar_lento'
       ],
-      connectionFields: ['DIG']
+      connectionFields: ['DIG'],
+      channelField: 'CHANNEL',
+      moduleLimit: 1
     },
     {
       id: 'dht11',
@@ -91,7 +93,7 @@
   }
 
   Code.ExternalResources = {
-    VERSION: '2026-08-14-external-resources',
+    VERSION: '2026-08-17-external-rgb-resources',
     peripherals: PERIPHERALS,
     getPeripheral: getPeripheral,
     getClaims: getClaims
