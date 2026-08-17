@@ -10,7 +10,7 @@
       }
 
       var request = new XMLHttpRequest();
-      request.open('GET', '../js/config/toolbox.xml?ver=20260816led1', true);
+      request.open('GET', '../js/config/toolbox.xml?ver=20260817language1', true);
       request.onreadystatechange = function() {
         if (request.readyState !== 4 || request.status !== 200) {
           return;

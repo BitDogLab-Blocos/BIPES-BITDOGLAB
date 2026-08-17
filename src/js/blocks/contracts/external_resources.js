@@ -8,8 +8,8 @@
     {
       id: 'external-led',
       labels: {
-        'pt-br': 'LED RGB externo',
-        en: 'external RGB LED'
+        'pt-br': 'módulo de LED colorido',
+        en: 'colour LED module'
       },
       blockTypes: [
         'led_externo_ligar',
@@ -26,8 +26,8 @@
     {
       id: 'dht11',
       labels: {
-        'pt-br': 'DHT11',
-        en: 'DHT11'
+        'pt-br': 'sensor de temperatura e umidade (DHT11)',
+        en: 'temperature and humidity sensor (DHT11)'
       },
       blockTypes: [
         'dht11_temperatura',

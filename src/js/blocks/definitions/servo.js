@@ -72,8 +72,8 @@
 
     block.appendDummyInput('HEADER')
         .appendField(ascending
-          ? (isEnglish() ? '↗️ Raise servo' : '↗️ Subir servo')
-          : (isEnglish() ? '↘️ Lower servo' : '↘️ Descer servo'))
+          ? (isEnglish() ? '↗️ Increase servo angle' : '↗️ Aumentar o ângulo do servo')
+          : (isEnglish() ? '↘️ Decrease servo angle' : '↘️ Diminuir o ângulo do servo'))
         .appendField(isEnglish() ? 'on' : 'na')
         .appendField(digField(), 'DIG');
 
@@ -85,9 +85,9 @@
         .appendField(isEnglish() ? 'degrees (limit: 0°–180°)' : 'graus (limite: 0°–180°)');
 
     block.appendDummyInput('STEP_ROW')
-        .appendField(isEnglish() ? 'in steps of' : 'em passos de')
+        .appendField(isEnglish() ? 'moving' : 'movendo')
         .appendField(stepField(10), 'STEP')
-        .appendField(isEnglish() ? 'degrees' : 'graus');
+        .appendField(isEnglish() ? 'degrees at a time' : 'graus de cada vez');
 
     block.appendDummyInput('PAUSE_ROW')
         .appendField(isEnglish() ? 'pausing' : 'com pausa de')
@@ -120,7 +120,7 @@
   Blockly.Blocks['servo_angulo_atual'] = {
     init: function() {
       this.appendDummyInput()
-          .appendField(isEnglish() ? '📐 Current servo angle' : '📐 Ângulo atual do servo')
+          .appendField(isEnglish() ? '📐 Last angle sent to servo' : '📐 Último ângulo enviado ao servo')
           .appendField(isEnglish() ? 'on' : 'na')
           .appendField(digField(), 'DIG');
       this.setOutput(true, 'Number');
@@ -143,15 +143,15 @@
           .appendField(angleField(90), 'INITIAL_ANGLE')
           .appendField(isEnglish() ? 'degrees' : 'graus');
       this.appendDummyInput()
-          .appendField(isEnglish() ? 'raises when moved:' : 'sobe ao mover:')
+          .appendField(isEnglish() ? 'increases the angle when moved:' : 'aumenta o ângulo ao mover:')
           .appendField(joystickDirectionField('UP'), 'DIR_INCREASE');
       this.appendDummyInput()
-          .appendField(isEnglish() ? 'lowers when moved:' : 'desce ao mover:')
+          .appendField(isEnglish() ? 'decreases the angle when moved:' : 'diminui o ângulo ao mover:')
           .appendField(joystickDirectionField('DOWN'), 'DIR_DECREASE');
       this.appendDummyInput()
-          .appendField(isEnglish() ? 'in steps of' : 'em passos de')
+          .appendField(isEnglish() ? 'moving' : 'movendo')
           .appendField(stepField(2), 'STEP')
-          .appendField(isEnglish() ? 'degrees' : 'graus');
+          .appendField(isEnglish() ? 'degrees at a time' : 'graus de cada vez');
       setCommandConnections(this);
       this.setTooltip(isEnglish()
         ? 'Moves the servo with the joystick and updates its current angle at every movement.'
@@ -163,8 +163,8 @@
     init: function() {
       appendGradualInputs(this, 'up');
       this.setTooltip(isEnglish()
-        ? 'Raises the servo step by step from the chosen initial angle to a greater final angle.'
-        : 'Sobe o servo passo a passo do ângulo inicial escolhido até um ângulo final maior.');
+        ? 'Increases the servo angle from the chosen initial number to a greater final number.'
+        : 'Aumenta o ângulo do servo. O número inicial deve ser menor que o número final.');
     }
   };
 
@@ -172,8 +172,8 @@
     init: function() {
       appendGradualInputs(this, 'down');
       this.setTooltip(isEnglish()
-        ? 'Lowers the servo step by step from the chosen initial angle to a smaller final angle.'
-        : 'Desce o servo passo a passo do ângulo inicial escolhido até um ângulo final menor.');
+        ? 'Decreases the servo angle from the chosen initial number to a smaller final number.'
+        : 'Diminui o ângulo do servo. O número inicial deve ser maior que o número final.');
     }
   };
 

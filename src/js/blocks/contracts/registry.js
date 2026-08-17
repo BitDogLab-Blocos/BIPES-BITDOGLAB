@@ -14,22 +14,22 @@
       missingValueInput: 'Falta encaixar um bloco aqui: %1.',
       missingGenerator: 'Este bloco ainda não tem gerador de código Python. Ele não vai virar programa.',
       needsAncestor: 'Este bloco deve ficar dentro de: %1.',
-      displayTypeConflict: 'Há blocos usando tipos de display diferentes. Use um único tipo de display no mesmo programa.',
+      displayTypeConflict: 'Há blocos usando telas diferentes. Escolha o mesmo tamanho de tela em todos eles.',
       emptyJoystickSelector: 'Coloque pelo menos uma opção dentro do seletor do joystick.',
-      workspaceHasIssues: 'Corrija os avisos dos blocos antes de gerar, executar ou enviar o código.',
+      workspaceHasIssues: 'Corrija os blocos marcados antes de rodar o programa.',
       moreIssues: 'Ainda há mais %1 bloco(s) com aviso.',
       nearIncompatibleConnection: 'Este encaixe recebeu um bloco incompatível por perto. Aqui era esperado: %1. O bloco perto dele é: %2.',
-      servoOledV7PinConflict: 'Na BitDogLab V7, as Conexões 2 e 3 compartilham os GPIOs usados pelo Display OLED (tela da placa). Para usar servo e Display juntos, escolha a Conexão 0 ou 1 no servo.',
-      dht11V7PinConflict: 'Na BitDogLab V7, o DHT11 deve usar somente as Conexões 0 ou 1. A Conexão %1 fica reservada para o Display OLED (tela da placa); escolha 0 ou 1 no DHT11.',
-      dht11Aht20V7I2c0Conflict: 'Conflito de ligação: o DHT11 (sensor de temperatura externo) está na Conexão %1 e o AHT20 (sensor de temperatura do projeto Estufa) está usando o mesmo caminho da placa. Por isso os sensores podem se atrapalhar e o programa foi bloqueado. Para usar os dois, ligue o AHT20 no outro conector I2C (I2C1) ou mude a Conexão do DHT11. Confira os fios com o professor e tente compilar novamente.',
-      externalConnectionConflict: 'A Conexão %1 já está sendo usada pelo bloco de %2. Mude a conexão neste bloco e confira fisicamente em qual contato da placa o cabo está ligado. A conexão escolhida no bloco não detecta a ligação real.',
-      externalLedInvalidConnection: 'O LED externo está em uma conexão que não existe neste perfil de placa. Escolha uma conexão DIG válida.',
-      externalLedInvalidChannel: 'Escolha o canal R (vermelho), G (verde) ou B (azul) do KY-016.',
-      externalLedOledV7PinConflict: 'Na BitDogLab V7, as Conexões 2 e 3 compartilham os GPIOs do Display OLED (tela da placa). Para usar este LED externo com o Display, escolha a Conexão 0 ou 1.',
-      servoAngleConnectionMismatch: 'O bloco Ângulo atual usa a Conexão %1, mas nenhum bloco que move o servo usa essa mesma Conexão.',
-      servoJoystickSameDirection: 'Escolha direções diferentes para subir e descer o servo. A mesma direção não consegue fazer os dois movimentos.',
-      servoRaiseAngleOrder: 'Para subir o servo, o ângulo inicial deve ser menor que o ângulo final.',
-      servoLowerAngleOrder: 'Para descer o servo, o ângulo inicial deve ser maior que o ângulo final.',
+      servoOledV7PinConflict: 'Na placa BitDogLab V7, as Conexões 2 e 3 também são usadas pelo Display (tela da placa). Para usar o servo e a tela juntos, escolha a Conexão 0 ou 1 no servo.',
+      dht11V7PinConflict: 'Na placa BitDogLab V7, o DHT11 deve usar somente as Conexões 0 ou 1. A Conexão %1 também é usada pelo Display (tela da placa); escolha 0 ou 1 no DHT11.',
+      dht11Aht20V7I2c0Conflict: 'O sensor DHT11 está na Conexão %1. Os dois sensores estão tentando usar a mesma ligação da placa e podem se atrapalhar. O programa foi bloqueado. Peça ao professor para mover o sensor da Estufa para a outra entrada indicada no guia ou escolha outra Conexão para o DHT11. Depois, rode o programa novamente.',
+      externalConnectionConflict: 'A Conexão %1 já está sendo usada pelo bloco de %2. Escolha outro número neste bloco. Depois, confira se o número escolhido é o mesmo contato onde o fio foi colocado na placa.',
+      externalLedInvalidConnection: 'Este LED externo usa uma Conexão que não existe na versão da BitDogLab selecionada. Escolha uma Conexão disponível na placa.',
+      externalLedInvalidChannel: 'Escolha o pino R — vermelho, G — verde ou B — azul do módulo de LED colorido KY-016.',
+      externalLedOledV7PinConflict: 'Na placa BitDogLab V7, as Conexões 2 e 3 também são usadas pelo Display (tela da placa). Para usar este LED externo com a tela, escolha a Conexão 0 ou 1.',
+      servoAngleConnectionMismatch: 'O bloco Último ângulo enviado ao servo usa a Conexão %1, mas nenhum bloco que move o servo usa essa mesma Conexão.',
+      servoJoystickSameDirection: 'Escolha direções diferentes para aumentar e diminuir o ângulo do servo. A mesma direção não consegue fazer os dois movimentos.',
+      servoRaiseAngleOrder: 'Para aumentar o ângulo do servo, o número inicial deve ser menor que o número final.',
+      servoLowerAngleOrder: 'Para diminuir o ângulo do servo, o número inicial deve ser maior que o número final.',
       generic: 'Revise a conexão deste bloco.'
     },
     en: {
@@ -41,36 +41,36 @@
       missingValueInput: 'A block is missing here: %1.',
       missingGenerator: 'This block does not have a Python code generator yet. It will not become a program.',
       needsAncestor: 'This block should be inside: %1.',
-      displayTypeConflict: 'Blocks are using different display types. Use one display type in the same program.',
+      displayTypeConflict: 'Blocks are using different screens. Choose the same screen size in all of them.',
       emptyJoystickSelector: 'Add at least one option inside the joystick selector.',
-      workspaceHasIssues: 'Fix the block warnings before generating, running, or sending code.',
+      workspaceHasIssues: 'Fix the marked blocks before running the program.',
       moreIssues: 'There are %1 more block(s) with warnings.',
       nearIncompatibleConnection: 'This socket has an incompatible block nearby. Expected here: %1. The nearby block is: %2.',
-      servoOledV7PinConflict: 'On BitDogLab V7, Connections 2 and 3 share the GPIOs used by the OLED display (board screen). To use a servo and display together, choose Connection 0 or 1 for the servo.',
+      servoOledV7PinConflict: 'On board BitDogLab V7, Connections 2 and 3 are also used by the board display. To use the servo and screen together, choose Connection 0 or 1 for the servo.',
       dht11V7PinConflict: 'On BitDogLab V7, DHT11 must use only Connections 0 or 1. Connection %1 is reserved for the OLED display (board screen); choose Connection 0 or 1 for DHT11.',
-      dht11Aht20V7I2c0Conflict: 'Wiring conflict: DHT11 (external temperature sensor) is on Connection %1 and AHT20 (Greenhouse project temperature sensor) is using the same board path. The sensors may interfere, so the program was blocked. To use both, connect AHT20 to the other I2C connector (I2C1) or move DHT11. Check the wires with your teacher and compile again.',
+      dht11Aht20V7I2c0Conflict: 'The DHT11 sensor is on Connection %1. The two sensors are trying to use the same board connection and may interfere with each other. The program was blocked. Ask your teacher to move the Greenhouse sensor to the other input shown in the guide, or choose another Connection for DHT11. Then run the program again.',
       externalConnectionConflict: 'Connection %1 is already used by the %2 block. Change the connection in this block and physically check which board contact the cable is connected to. The connection selected in the block cannot detect the real wiring.',
-      externalLedInvalidConnection: 'This external LED uses a connection that does not exist in the active board profile. Choose a valid DIG connection.',
-      externalLedInvalidChannel: 'Choose the R (red), G (green), or B (blue) KY-016 channel.',
-      externalLedOledV7PinConflict: 'On BitDogLab V7, Connections 2 and 3 share the OLED display (board screen) GPIOs. To use this external LED with the display, choose Connection 0 or 1.',
-      servoAngleConnectionMismatch: 'The Current angle block uses Connection %1, but no block that moves the servo uses that same Connection.',
-      servoJoystickSameDirection: 'Choose different directions to raise and lower the servo. The same direction cannot perform both movements.',
-      servoRaiseAngleOrder: 'To raise the servo, the initial angle must be less than the final angle.',
-      servoLowerAngleOrder: 'To lower the servo, the initial angle must be greater than the final angle.',
+      externalLedInvalidConnection: 'This external LED uses a Connection that does not exist on the selected BitDogLab version. Choose a Connection available on the board.',
+      externalLedInvalidChannel: 'Choose the R — red, G — green, or B — blue pin on the KY-016 colour LED module.',
+      externalLedOledV7PinConflict: 'On board BitDogLab V7, Connections 2 and 3 are also used by the board display. To use this external LED with the screen, choose Connection 0 or 1.',
+      servoAngleConnectionMismatch: 'The Last angle sent to servo block uses Connection %1, but no block that moves the servo uses that same Connection.',
+      servoJoystickSameDirection: 'Choose different directions to increase and decrease the servo angle. The same direction cannot perform both movements.',
+      servoRaiseAngleOrder: 'To increase the servo angle, the initial number must be less than the final number.',
+      servoLowerAngleOrder: 'To decrease the servo angle, the initial number must be greater than the final number.',
       generic: 'Review this block connection.'
     }
   };
 
-  MESSAGES['pt-br'].externalLedDuplicateChannel = 'O canal %1 do KY-016 foi colocado nas Conexoes %2 e %3. Cada cor precisa ficar em uma unica Conexao.';
-  MESSAGES['pt-br'].externalLedDuplicateConnection = 'As cores %1 e %2 estao na mesma Conexao %3. Escolha tres Conexoes diferentes para o LED RGB.';
-  MESSAGES['pt-br'].externalLedPwmRequired = 'A Conexao %1 nao oferece PWM neste perfil. O LED RGB externo precisa de uma Conexao com PWM.';
-  MESSAGES['pt-br'].externalLedRgbOledConflict = 'Na BitDogLab V7, o KY-016 RGB completo precisa de tres Conexoes e o Display OLED (tela da placa) usa as Conexoes 2 e 3. Escolha usar o LED RGB ou o Display neste projeto.';
-  MESSAGES['pt-br'].externalLedGlobalOledV7Conflict = 'O bloco Desligar todos os LEDs externos usa as Conexoes DIG 0, 1, 2 e 3. Na V7, ele nao pode ser usado junto com o Display OLED (tela da placa).';
-  MESSAGES.en.externalLedDuplicateChannel = 'The KY-016 %1 channel was placed on Connections %2 and %3. Each colour must use one Connection only.';
+  MESSAGES['pt-br'].externalLedDuplicateChannel = 'O pino da cor %1 do KY-016 foi colocado nas Conexões %2 e %3. Cada cor precisa ficar em uma única Conexão.';
+  MESSAGES['pt-br'].externalLedDuplicateConnection = 'As cores %1 e %2 estão na mesma Conexão %3. Escolha três Conexões diferentes para o LED colorido.';
+  MESSAGES['pt-br'].externalLedPwmRequired = 'A Conexão %1 não consegue controlar corretamente este LED. Escolha outra Conexão da placa.';
+  MESSAGES['pt-br'].externalLedRgbOledConflict = 'Na placa BitDogLab V7, o módulo de LED colorido completo precisa de três Conexões, mas o Display (tela da placa) usa as Conexões 2 e 3. Escolha usar o LED colorido ou a tela neste projeto.';
+  MESSAGES['pt-br'].externalLedGlobalOledV7Conflict = 'O bloco Desligar todos os LEDs externos verifica as quatro Conexões da placa: 0, 1, 2 e 3. Na placa V7, ele não pode ser usado junto com o Display (tela da placa).';
+  MESSAGES.en.externalLedDuplicateChannel = 'The KY-016 %1 colour pin was placed on Connections %2 and %3. Each colour must use one Connection only.';
   MESSAGES.en.externalLedDuplicateConnection = 'Colours %1 and %2 use the same Connection %3. Choose three different Connections for the RGB LED.';
-  MESSAGES.en.externalLedPwmRequired = 'Connection %1 does not provide PWM in this profile. The external RGB LED needs a PWM connection.';
-  MESSAGES.en.externalLedRgbOledConflict = 'On BitDogLab V7, a complete KY-016 RGB LED needs three Connections and the OLED display (board screen) uses Connections 2 and 3. Choose the RGB LED or the display for this project.';
-  MESSAGES.en.externalLedGlobalOledV7Conflict = 'The Turn off all external LEDs block uses DIG Connections 0, 1, 2, and 3. On V7, it cannot be used together with the OLED display (board screen).';
+  MESSAGES.en.externalLedPwmRequired = 'Connection %1 cannot control this LED correctly. Choose another board Connection.';
+  MESSAGES.en.externalLedRgbOledConflict = 'On board BitDogLab V7, the complete colour LED module needs three Connections, but the board display uses Connections 2 and 3. Choose the colour LED or the screen for this project.';
+  MESSAGES.en.externalLedGlobalOledV7Conflict = 'The Turn off all external LEDs block checks all four board Connections: 0, 1, 2, and 3. On board V7, it cannot be used together with the board display.';
 
   var Domains = Code.BlockTypeDomains;
   var MATRIX_OPTION_COMMANDS = Domains ? Domains.get('MATRIX_OPTION_COMMANDS') : [];
@@ -108,7 +108,7 @@
         'servo_subir_gradualmente',
         'servo_descer_gradualmente'
       ],
-      requiresLabel: 'Mover servo, Joystick controla servo, Subir servo ou Descer servo'
+      requiresLabel: 'Mover servo, Joystick controla servo, Aumentar o ângulo do servo ou Diminuir o ângulo do servo'
     },
     servo_joystick_controlar: {
       kind: 'statement'

@@ -33,10 +33,10 @@ const workspaceHints = fs.readFileSync(workspaceHintsPath, 'utf8');
 
 const expectedNames = [
   'LEDs Externos',
-  'Luz e sombra com LDR',
-  'Temperatura externa com DHT11',
-  'Distância e presença com ultrassônico',
-  'Servo Motor Externo'
+  'Sensor de luz e sombra (LDR)',
+  'Sensor externo de temperatura e umidade (DHT11)',
+  'Sensor de distância e presença',
+  'Servo externo'
 ];
 
 const externalCategories = Array.from(
@@ -79,7 +79,10 @@ assert.deepStrictEqual(dht11BlockTypes, [
 assert.match(dht11Definitions, /dht11_temperatura/);
 assert.match(dht11Definitions, /dht11_umidade/);
 assert.match(dht11Definitions, /dht11_plotar/);
-assert.match(dht11Definitions, /gráfico da estufa com AHT20/);
+assert.match(dht11Definitions, /Temperatura DHT11/);
+assert.match(dht11Definitions, /Umidade DHT11/);
+assert.match(dht11Definitions, /tamanho da tela/);
+assert.doesNotMatch(dht11Definitions, /gráfico da estufa com AHT20/);
 assert.match(dht11Generators, /SensorLibs\.DHT11/);
 assert.match(dht11Generators, /dht11_temperature/);
 assert.match(dht11Generators, /dht11_humidity/);
@@ -126,35 +129,38 @@ assert.match(workspaceHints, /WorkspaceManager\.showServoConnectionReminder = fu
 assert.match(workspaceHints, /WorkspaceManager\.bindServoCategoryHint = function\(\)/);
 assert.match(workspaceHints, /WorkspaceManager\.showDht11ConnectionReminder = function\(block\)/);
 assert.match(workspaceHints, /WorkspaceManager\.bindDht11CategoryHint = function\(\)/);
-assert.match(workspaceHints, /categoryName === 'Temperatura externa com DHT11'/);
-assert.match(workspaceHints, /categoryName === 'External Temperature with DHT11'/);
+assert.match(workspaceHints, /categoryName === 'Sensor externo de temperatura e umidade \(DHT11\)'/);
+assert.match(workspaceHints, /categoryName === 'External temperature and humidity sensor \(DHT11\)'/);
 assert.match(workspaceHints, /Code\.showDht11ConnectionReminder\(\)/);
 assert.match(workspaceHints, /dht11-pinout\.png/);
 assert.ok(fs.existsSync(dht11PinoutPath), 'A imagem de pinagem do DHT11 deve existir.');
 assert.match(workspaceHints, /Fios do DHT11/);
-assert.match(workspaceHints, /Seta laranja.*DADOS/);
-assert.match(workspaceHints, /Seta vermelha.*VCC \/ 3\.3V/);
-assert.match(workspaceHints, /Seta preta.*GND/);
+assert.match(workspaceHints, /Seta laranja.*sinal\/leitura do sensor/);
+assert.match(workspaceHints, /Seta vermelha.*alimentação elétrica de 3,3 V/);
+assert.match(workspaceHints, /Seta preta.*negativo\/terra/);
 assert.match(workspaceHints, /garra jacaré/);
-assert.match(workspaceHints, /Na V7.*DADOS.*0 ou 1/);
-assert.match(workspaceHints, /Na V6.*0, 1, 2 ou 3/);
-assert.match(workspaceHints, /Mesmo DHT11.*mesma Conexão.*dois módulos DHT11/);
+assert.match(workspaceHints, /Na placa V7.*leitura do sensor.*Conexão 0 ou 1/);
+assert.match(workspaceHints, /Na placa V6.*0, 1, 2 ou 3/);
+assert.match(workspaceHints, /mesmo sensor físico.*mesma Conexão.*sensores separados/);
 assert.match(workspaceHints, /professor para conferir os fios/);
-assert.match(workspaceHints, /peça ajuda ao professor/);
-assert.match(workspaceHints, /categoryName === 'Servo Motor Externo'/);
-assert.match(workspaceHints, /categoryName === 'External Servo Motor'/);
+assert.doesNotMatch(workspaceHints, /Se você for menor de idade/);
+assert.match(workspaceHints, /categoryName === 'Servo externo'/);
+assert.match(workspaceHints, /Último ângulo enviado ao servo/);
+assert.match(workspaceHints, /Aumentar o ângulo do servo/);
+assert.match(workspaceHints, /Diminuir o ângulo do servo/);
+assert.match(workspaceHints, /categoryName === 'External Servo'/);
 assert.match(workspaceHints, /Code\.showServoConnectionReminder\(\)/);
 assert.match(workspaceHints, /conexoes-externas\.png/);
 assert.match(workspaceHints, /servo-motor\.png/);
-assert.match(workspaceHints, /Laranja \(sinal\).*Conexão/);
-assert.match(workspaceHints, /Vermelho \(VCC\).*5V-VSYS/);
-assert.match(workspaceHints, /Marrom \(GND\).*GND/);
+assert.match(workspaceHints, /Laranja — sinal do servo.*Conexão/);
+assert.match(workspaceHints, /Vermelho — alimentação elétrica.*5V-VSYS/);
+assert.match(workspaceHints, /Marrom — negativo\/terra.*GND/);
 assert.match(workspaceHints, /Cabos do servo/);
-assert.match(workspaceHints, /Laranja \(sinal\).*V7: Conexão 0 ou 1.*V6: Conexões 0, 1, 2 ou 3/);
+assert.match(workspaceHints, /Laranja — sinal do servo.*placa V7: Conexão 0 ou 1.*placa V6: Conexão 0, 1, 2 ou 3/);
 assert.match(workspaceHints, /ponta fêmea do jumper macho-fêmea/);
 assert.match(workspaceHints, /jumper macho-macho.*garra/);
 assert.match(workspaceHints, /fita isolante/);
-assert.match(workspaceHints, /peça ajuda ao professor/);
+assert.match(workspaceHints, /Peça a um professor para conferir os fios/);
 assert.match(contracts, /servoOledV7PinConflict:/);
 assert.match(contracts, /servoAngleConnectionMismatch:/);
 assert.match(contracts, /servoJoystickSameDirection:/);

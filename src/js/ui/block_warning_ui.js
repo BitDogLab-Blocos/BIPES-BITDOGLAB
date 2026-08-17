@@ -111,10 +111,56 @@
     }
   }
 
+  function showHardwareGuidanceForWarning(warning) {
+    var block = warning && warning.block_;
+    if (!block || !block.__bitdoglabContractWarningText) return;
+
+    var type = block.type || '';
+    var externalLedTypes = [
+      'led_externo_ligar',
+      'led_externo_desligar',
+      'led_externo_piscar_rapido',
+      'led_externo_piscar_lento',
+      'led_externo_criar_animacao',
+      'led_externo_desligar_todos'
+    ];
+    var servoTypes = [
+      'servo_mover',
+      'servo_joystick_controlar',
+      'servo_subir_gradualmente',
+      'servo_descer_gradualmente'
+    ];
+
+    if (externalLedTypes.indexOf(type) !== -1 && typeof global.Code.showExternalLedWarningReminder === 'function') {
+      global.Code.showExternalLedWarningReminder(block);
+    } else if (type === 'dht11_temperatura' || type === 'dht11_umidade') {
+      if (typeof global.Code.showDht11ConnectionReminder === 'function') {
+        global.Code.showDht11ConnectionReminder(block);
+      }
+    } else if (servoTypes.indexOf(type) !== -1) {
+      if (typeof global.Code.showServoConnectionReminder === 'function') {
+        global.Code.showServoConnectionReminder(block);
+      }
+    } else if (type === 'servo_angulo_atual' && typeof global.Code.showServoAngleReminder === 'function') {
+      global.Code.showServoAngleReminder();
+    }
+  }
+
   function install() {
     if (!global.Blockly || !global.Blockly.Warning || !global.Blockly.Bubble) return;
     var prototype = global.Blockly.Warning.prototype;
     if (prototype.__bitdoglabWarningUiInstalled) return;
+
+    var originalIconClick = prototype.iconClick_ || global.Blockly.Icon.prototype.iconClick_;
+    prototype.iconClick_ = function(event) {
+      var opening = !this.isVisible();
+      originalIconClick.call(this, event);
+      if (opening) {
+        setTimeout(function() {
+          showHardwareGuidanceForWarning(this);
+        }.bind(this), 0);
+      }
+    };
 
     var originalCreateBubble = prototype.createBubble_;
     prototype.createBubble_ = function() {

@@ -13,6 +13,7 @@ Code.showServoAngleReminder = WorkspaceManager.showServoAngleReminder;
 Code.showServoConnectionReminder = WorkspaceManager.showServoConnectionReminder;
 Code.showDht11ConnectionReminder = WorkspaceManager.showDht11ConnectionReminder;
 Code.showExternalLedConnectionReminder = WorkspaceManager.showExternalLedConnectionReminder;
+Code.showExternalLedWarningReminder = WorkspaceManager.showExternalLedWarningReminder;
 Code.showExternalLedChannelReminder = WorkspaceManager.showExternalLedChannelReminder;
 Code.showJoystickSeletorReminder = WorkspaceManager.showJoystickSeletorReminder;
 Code.showMicGetterReminder = WorkspaceManager.showMicGetterReminder;

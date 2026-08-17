@@ -109,24 +109,24 @@ WorkspaceManager.showServoAngleReminder = function() {
   var closeId = 'closeServoAngleNotification';
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size: 16px;">💡 How to use the current servo angle</strong><br><br>' +
+      '<strong style="font-size: 16px;">💡 How to use the last angle sent to the servo</strong><br><br>' +
       '📐 This value block needs a block that <strong>moves the servo</strong>.<br><br>' +
-      'Use <strong>Move servo</strong>, <strong>Joystick controls servo</strong>, <strong>Raise servo</strong>, or <strong>Lower servo</strong> with the <strong>same Connection</strong>.<br><br>' +
+      'Use <strong>Move servo</strong>, <strong>Joystick controls servo</strong>, <strong>Increase servo angle</strong>, or <strong>Decrease servo angle</strong> with the <strong>same Connection</strong>.<br><br>' +
       'The value is the <strong>last angle commanded by the program</strong>; a regular servo does not measure its physical position.<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Example:</strong><br>' +
-      '1️⃣ Raise servo on Connection 0<br>' +
-      '2️⃣ Show value: <strong>[Current servo angle on Connection 0]</strong><br>' +
+      '1️⃣ Increase servo angle on Connection 0<br>' +
+      '2️⃣ Show value: <strong>[Last angle sent to servo on Connection 0]</strong><br>' +
       '</div>'
     : WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size: 16px;">💡 Como usar o ângulo atual do servo</strong><br><br>' +
+      '<strong style="font-size: 16px;">💡 Como usar o último ângulo enviado ao servo</strong><br><br>' +
       '📐 Este bloco de valor precisa de um bloco que <strong>mova o servo</strong>.<br><br>' +
-      'Use <strong>Mover servo</strong>, <strong>Joystick controla servo</strong>, <strong>Subir servo</strong> ou <strong>Descer servo</strong> com a <strong>mesma Conexão</strong>.<br><br>' +
+      'Use <strong>Mover servo</strong>, <strong>Joystick controla servo</strong>, <strong>Aumentar o ângulo do servo</strong> ou <strong>Diminuir o ângulo do servo</strong> com a <strong>mesma Conexão</strong>.<br><br>' +
       'O valor representa o <strong>último ângulo enviado pelo programa</strong>; um servo comum não mede sua posição física.<br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Exemplo:</strong><br>' +
-      '1️⃣ Subir servo na Conexão 0<br>' +
-      '2️⃣ Mostrar valor: <strong>[Ângulo atual do servo na Conexão 0]</strong><br>' +
+      '1️⃣ Aumentar o ângulo do servo na Conexão 0<br>' +
+      '2️⃣ Mostrar valor: <strong>[Último ângulo enviado ao servo na Conexão 0]</strong><br>' +
       '</div>';
 
   WorkspaceManager.createReminder({
@@ -146,14 +146,14 @@ WorkspaceManager.showServoConnectionReminder = function(block) {
     ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Servo wires</div>' +
       '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
       '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Orange (signal)</strong> → V7: Connection 0 or 1 &nbsp;|&nbsp; V6: Connections 0, 1, 2 or 3</div>' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Red (VCC)</strong> → 5V-VSYS</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Brown (GND)</strong> → GND</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Red — electrical power (VCC)</strong> → board 5V-VSYS contact (5 V power)</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Brown — negative/ground (GND)</strong> → board GND contact</div>' +
       '</div>'
     : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Cabos do servo</div>' +
       '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Laranja (sinal)</strong> → V7: Conexão 0 ou 1 &nbsp;|&nbsp; V6: Conexões 0, 1, 2 ou 3</div>' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Vermelho (VCC)</strong> → 5V-VSYS</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Marrom (GND)</strong> → GND</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Laranja — sinal do servo</strong> → placa V7: Conexão 0 ou 1 &nbsp;|&nbsp; placa V6: Conexão 0, 1, 2 ou 3</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Vermelho — alimentação elétrica (VCC)</strong> → contato 5V-VSYS da placa — alimentação de 5 V</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Marrom — negativo/terra (GND)</strong> → contato GND da placa</div>' +
       '</div>';
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
@@ -164,10 +164,10 @@ WorkspaceManager.showServoConnectionReminder = function(block) {
       '<img src="' + servoImage + '" alt="SG90 servo motor" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
       '</div>' + wireRows +
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Make the bridge:</strong> servo plug → male-to-male jumper → alligator clip → board contact.<br>' +
+      '<strong>Build this connection sequence:</strong> servo plug → male-to-male jumper → alligator clip → board contact.<br>' +
       'Turn the board off first and keep neighboring clips from touching.<br>' +
       '<strong>Insulate the jumper-to-alligator connection with electrical tape</strong> so exposed metal cannot cause a short circuit.</div>' +
-      '<div style="margin-top:9px;"><strong>Important:</strong> do not connect the red wire to 3V3. If you are underage or are not familiar with electrical connections, ask a teacher for help before connecting anything in this category.</div>' +
+      '<div style="margin-top:9px;"><strong>Important:</strong> do not connect the red wire to the board 3V3 contact (3.3 V power). Ask a teacher to check the wires before powering the board.</div>' +
       '</div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
@@ -177,10 +177,10 @@ WorkspaceManager.showServoConnectionReminder = function(block) {
       '<img src="' + servoImage + '" alt="Servo motor SG90" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
       '</div>' + wireRows +
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Faça a ponte:</strong> plugue do servo → jumper macho-macho → garra jacaré → contato da placa.<br>' +
+      '<strong>Monte esta sequência de ligação:</strong> plugue do servo → jumper macho-macho → garra jacaré → contato da placa.<br>' +
       'Primeiro desligue a placa e não deixe garras vizinhas se encostarem.<br>' +
       '<strong>Isole a união do jumper com a garra jacaré usando fita isolante</strong> para nenhum metal exposto causar curto-circuito.</div>' +
-      '<div style="margin-top:9px;"><strong>Importante:</strong> não ligue o fio vermelho no 3V3. Se você for menor de idade ou não tiver conhecimento sobre conexões elétricas, peça ajuda ao professor antes de conectar qualquer dispositivo desta categoria.</div>' +
+      '<div style="margin-top:9px;"><strong>Importante:</strong> não ligue o fio vermelho no contato 3V3 da placa — alimentação de 3,3 V. Peça a um professor para conferir os fios antes de ligar a placa.</div>' +
       '</div>';
 
   WorkspaceManager.createReminder({
@@ -209,7 +209,7 @@ WorkspaceManager.bindServoCategoryHint = function() {
 
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
-    if (categoryName === 'Servo Motor Externo' || categoryName === 'External Servo Motor') {
+    if (categoryName === 'Servo externo' || categoryName === 'External Servo') {
       Code.showServoConnectionReminder();
     }
   });
@@ -224,93 +224,158 @@ WorkspaceManager.externalLedChannelInfo = function(channel) {
   return info[channel] || info.R;
 };
 
-WorkspaceManager.showExternalLedConnectionReminder = function() {
-  var closeId = 'closeExternalLedConnectionNotification';
+// RGB-specific version: the category is intentionally explicit for children
+// and teachers who may not know that the letters are physical LED pins.
+WorkspaceManager.showExternalLedConnectionReminder = function(block) {
+  WorkspaceManager.showExternalLedWarningReminder(block || null);
+};
+
+WorkspaceManager.showExternalLedWarningReminder = function(block) {
+  var closeId = 'closeExternalLedWarningNotification';
   var boardImage = '../assets/images/devices/conexoes-externas.png';
   var ledImage = '../assets/images/devices/ky-016.png';
+  var commandTypes = [
+    'led_externo_ligar',
+    'led_externo_desligar',
+    'led_externo_piscar_rapido',
+    'led_externo_piscar_lento',
+    'led_externo_criar_animacao'
+  ];
+  var channelLabels = {
+    R: Code.LANG === 'en' ? 'R (red)' : 'R (vermelho)',
+    G: Code.LANG === 'en' ? 'G (green)' : 'G (verde)',
+    B: Code.LANG === 'en' ? 'B (blue)' : 'B (azul)'
+  };
+  var issue = Code.LANG === 'en'
+    ? 'Check the KY-016 colour channels and board Connections before running.'
+    : 'Confira os canais do KY-016 e as Conexões da placa antes de executar.';
+  var channelConnectionMap = { R: [], G: [], B: [] };
+  var connectionChannels = {};
+  var workspace = block && block.workspace ? block.workspace : Code.workspace;
+  var allBlocks = workspace && workspace.getAllBlocks ? workspace.getAllBlocks(false) : [];
+
+  for (var i = 0; i < allBlocks.length; i++) {
+    var candidate = allBlocks[i];
+    if (commandTypes.indexOf(candidate.type) === -1 || !candidate.getFieldValue) continue;
+    var candidateChannel = String(candidate.getFieldValue('CHANNEL') || '');
+    var candidateConnection = String(candidate.getFieldValue('DIG') || '');
+    if (!candidateConnection || !channelConnectionMap[candidateChannel]) continue;
+    if (channelConnectionMap[candidateChannel].indexOf(candidateConnection) === -1) {
+      channelConnectionMap[candidateChannel].push(candidateConnection);
+    }
+    if (!connectionChannels[candidateConnection]) connectionChannels[candidateConnection] = [];
+    if (connectionChannels[candidateConnection].indexOf(candidateChannel) === -1) {
+      connectionChannels[candidateConnection].push(candidateChannel);
+    }
+  }
+
+  if (block && block.type === 'led_externo_desligar_todos') {
+    issue = Code.LANG === 'en'
+        ? 'This block checks all four board Connections: 0, 1, 2 and 3. On board V7, it cannot share them with a servo, DHT11, or the board display.'
+        : 'Este bloco verifica as quatro Conexões da placa: 0, 1, 2 e 3. Na placa V7, ele não pode compartilhar essas Conexões com o servo, o DHT11 ou o Display (tela da placa).';
+  } else if (block && block.getFieldValue) {
+    var channel = String(block.getFieldValue('CHANNEL') || '');
+    var channelConnections = channelConnectionMap[channel] || [];
+    if (channelConnections.length > 1) {
+      issue = Code.LANG === 'en'
+        ? 'The ' + (channelLabels[channel] || channel) + ' channel appears on Connections ' + channelConnections.join(' and ') + '. Use only one Connection for each colour.'
+        : 'O canal ' + (channelLabels[channel] || channel) + ' aparece nas Conexões ' + channelConnections.join(' e ') + '. Use somente uma Conexão para cada cor.';
+    } else {
+      var selectedConnection = String(block.getFieldValue('DIG') || '');
+      var selectedChannels = connectionChannels[selectedConnection] || [];
+      if (selectedChannels.length > 1) {
+        issue = Code.LANG === 'en'
+          ? 'Connections ' + selectedConnection + ' is being used by ' + selectedChannels.join(' and ') + '. Put each colour on a different Connection.'
+          : 'A Conexão ' + selectedConnection + ' está sendo usada por ' + selectedChannels.join(' e ') + '. Coloque cada cor em uma Conexão diferente.';
+      }
+    }
+  }
+
+  function connectionDescription(channelName) {
+    var connections = channelConnectionMap[channelName] || [];
+    if (!connections.length) {
+      return Code.LANG === 'en'
+        ? 'choose one of the 4 board Connections: 0, 1, 2 or 3. Do not reuse another colour\'s Connection'
+        : 'escolha uma das 4 Conexões da placa: 0, 1, 2 ou 3. Cada cor deve usar um número diferente';
+    }
+    if (connections.length === 1) {
+      var selected = connections[0];
+      var otherChannels = (connectionChannels[selected] || []).filter(function(otherChannel) {
+        return otherChannel !== channelName;
+      });
+      if (otherChannels.length) {
+        return (Code.LANG === 'en' ? 'Connection ' : 'Conexão ') + selected +
+          (Code.LANG === 'en'
+            ? ' — ERROR: also used by ' + otherChannels.join(' and ')
+            : ' — ERRO: também usada por ' + otherChannels.join(' e '));
+      }
+      return (Code.LANG === 'en' ? 'Connection ' : 'Conexão ') + selected +
+        (Code.LANG === 'en'
+          ? '. Do not use this number for another colour'
+          : '. Não use este número em outra cor');
+    }
+    return (Code.LANG === 'en' ? 'Connections ' : 'Conexões ') +
+      connections.join(Code.LANG === 'en' ? ' and ' : ' e ') +
+      (Code.LANG === 'en' ? ' — ERROR: choose only one' : ' — ERRO: escolha somente uma');
+  }
+
+  var wireRows = Code.LANG === 'en'
+    ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Where to connect each colour LED pin</div>' +
+      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>- (negative/ground)</strong> &rarr; board GND contact</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>R — red</strong> &rarr; ' + connectionDescription('R') + '</div>' +
+      '<div style="background:#f8f9fa;color:#263238;padding:8px;border-radius:5px;"><strong>G — green</strong> &rarr; ' + connectionDescription('G') + '</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>B — blue</strong> &rarr; ' + connectionDescription('B') + '</div>' +
+      '</div>'
+    : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Onde ligar cada pino do LED colorido</div>' +
+      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>- (negativo/terra)</strong> &rarr; contato GND da placa</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>R — vermelho</strong> &rarr; ' + connectionDescription('R') + '</div>' +
+      '<div style="background:#f8f9fa;color:#263238;padding:8px;border-radius:5px;"><strong>G — verde</strong> &rarr; ' + connectionDescription('G') + '</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>B — azul</strong> &rarr; ' + connectionDescription('B') + '</div>' +
+      '</div>';
+  var colourIntro = Code.LANG === 'en'
+    ? '<div style="background:#fff3e0;color:#4e342e;padding:9px;border-radius:6px;margin-bottom:10px;"><strong>Each pin controls one colour.</strong> Choose R, G, or B in the block.</div>'
+    : '<div style="background:#fff3e0;color:#4e342e;padding:9px;border-radius:6px;margin-bottom:10px;"><strong>Cada pino controla uma cor.</strong> Escolha R, G ou B no bloco.</div>';
+  var problemLine = block
+    ? (Code.LANG === 'en'
+      ? '<strong>Problem found:</strong> ' + issue + '<br>'
+      : '<strong>Problema encontrado:</strong> ' + issue + '<br>')
+    : '';
+
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🔌 How to connect the KY-016</strong><br>' +
+      '<strong style="font-size:17px;">🔌 How to connect the colour LED module (KY-016)</strong><br>' +
       '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
       '<img src="' + boardImage + '" alt="External connections" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
       '<img src="' + ledImage + '" alt="KY-016 RGB LED module" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;line-height:1.55;">' +
-      '<strong>Use one colour channel at a time:</strong><br>' +
-      '• <strong>-</strong> → GND<br>• <strong>R</strong> → the Connection chosen in the block (red)<br>• <strong>G</strong> → the Connection chosen in the block (green)<br>• <strong>B</strong> → the Connection chosen in the block (blue)<br>' +
-      'Leave the other two colour wires disconnected. Turn the board off before changing wires.</div>' +
-      '<div style="margin-top:10px;"><strong>OLED display (board screen) on V7:</strong> use the LED colour channels on Connections 0 and 1. Do not use Connections 2 and 3 because they are used by the OLED display.</div>' +
+      '</div>' + colourIntro + wireRows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
+      '<strong>Build this connection sequence:</strong> KY-016 pin &rarr; female end of the male-to-female jumper &rarr; male end held by the alligator clip &rarr; board contact.<br>' +
+      'Turn the board off and remove the USB cable before touching the wires. Keep neighbouring clips from touching.<br>' +
+      '<strong>Insulate the jumper-to-alligator connection with electrical tape</strong> so exposed metal cannot cause a short circuit.</div>' +
+      '<div style="margin-top:9px;">' + problemLine + '<strong>Important:</strong> each colour uses one Connection and different colours cannot share the same number. On board V7, use Connections 0 and 1 when the board display is active. Ask a teacher to check the wires before powering the board.</div>' +
       '</div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🔌 Como ligar o KY-016</strong><br>' +
+      '<strong style="font-size:17px;">🔌 Como conectar o módulo de LED colorido (KY-016)</strong><br>' +
       '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
       '<img src="' + boardImage + '" alt="Conexões externas" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
       '<img src="' + ledImage + '" alt="Módulo LED RGB KY-016" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;line-height:1.55;">' +
-      '<strong>Use uma cor por vez:</strong><br>' +
-      '• <strong>-</strong> → GND<br>• <strong>R</strong> → a Conexão escolhida no bloco (vermelho)<br>• <strong>G</strong> → a Conexão escolhida no bloco (verde)<br>• <strong>B</strong> → a Conexão escolhida no bloco (azul)<br>' +
-      'Deixe os outros dois fios de cor desconectados. Desligue a placa antes de trocar os fios.</div>' +
-      '<div style="margin-top:10px;"><strong>Display OLED (tela da placa) na V7:</strong> use os canais de cor do LED nas Conexões 0 e 1. Não use as Conexões 2 e 3, pois elas são usadas pelo display.</div>' +
+      '</div>' + colourIntro + wireRows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
+      '<strong>Monte esta sequência de ligação:</strong> pino do KY-016 &rarr; ponta fêmea do jumper macho-fêmea &rarr; ponta macho presa à garra jacaré &rarr; contato da placa.<br>' +
+      'Desligue a placa e retire o cabo USB antes de mexer nos fios. Não deixe garras vizinhas se encostarem.<br>' +
+      '<strong>Isole a união do jumper com a garra jacaré usando fita isolante</strong> para nenhum metal exposto causar curto-circuito.</div>' +
+      '<div style="margin-top:9px;">' + problemLine + '<strong>Importante:</strong> cada cor usa uma Conexão e cores diferentes não podem usar o mesmo número. Na placa V7, use as Conexões 0 e 1 quando o Display (tela da placa) estiver ativo. Peça a um professor para conferir os fios antes de ligar a placa.</div>' +
       '</div>';
 
   WorkspaceManager.createReminder({
-    id: 'externalLedConnectionNotification',
+    id: 'externalLedWarningNotification',
     closeId: closeId,
-    background: '#d97706',
+    background: '#e67e22',
     maxWidth: '700px',
-    html: html
-  });
-};
-
-// RGB-specific version: the category is intentionally explicit for children
-// and teachers who may not know that the letters are physical LED pins.
-WorkspaceManager.showExternalLedConnectionReminder = function() {
-  var closeId = 'closeExternalLedConnectionNotification';
-  var html = Code.LANG === 'en'
-    ? WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size:17px;">How to connect the KY-016 RGB LED</strong><br><br>' +
-      '<strong>1. Common pin:</strong> connect <strong>-</strong> to GND.<br>' +
-      '<strong>2. Colour pins:</strong> R = red, G = green, B = blue. Add each channel with <strong>+ Add an RGB channel</strong> only once.<br>' +
-      '<strong>3. Board connections:</strong> connect R, G and B to three different DIG Connections. The letter is the LED pin; the DIG number is the board contact.<br><br>' +
-      '<strong>V7 and OLED display (board screen):</strong> a complete RGB LED needs three Connections, while the display uses Connections 2 and 3. Choose RGB or the display. If you use only two colour channels with the display, use Connections 0 and 1 only.'
-    : WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size:17px;">Como ligar o LED RGB KY-016</strong><br><br>' +
-      '<strong>1. Pino comum:</strong> ligue <strong>-</strong> ao GND.<br>' +
-      '<strong>2. Pinos de cor:</strong> R = vermelho, G = verde, B = azul. Use <strong>+ Adicionar canal RGB</strong> uma vez para cada cor.<br>' +
-      '<strong>3. Conexoes da placa:</strong> ligue R, G e B a tres Conexoes DIG diferentes. A letra e o pino do LED; o numero DIG e o contato da placa.<br><br>' +
-      '<strong>V7 e Display OLED (tela da placa):</strong> um RGB completo precisa de tres Conexoes, mas o display usa as Conexoes 2 e 3. Escolha RGB ou display. Se usar somente duas cores com o display, use apenas as Conexoes 0 e 1.';
-
-  WorkspaceManager.createReminder({
-    id: 'externalLedConnectionNotification',
-    closeId: closeId,
-    background: '#d97706',
-    maxWidth: '700px',
-    html: html
-  });
-};
-
-WorkspaceManager.showExternalLedChannelReminder = function(channel) {
-  var closeId = 'closeExternalLedChannel_' + String(channel || 'R');
-  var info = WorkspaceManager.externalLedChannelInfo(channel);
-  var label = Code.LANG === 'en' ? info.en : info.pt;
-  var html = Code.LANG === 'en'
-    ? WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size:17px;">You chose ' + label + '</strong><br><br>' +
-      'In the KY-016, connect the <strong>' + label + '</strong> pin to the <strong>Connection 0, 1, 2 or 3</strong> selected in your block. Connect <strong>-</strong> to GND and leave the other two colour pins disconnected.<br><br>' +
-      'The letter in the block is the physical LED pin. The Connection number is the board contact. They are different things.'
-    : WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size:17px;">Você escolheu o canal ' + label + '</strong><br><br>' +
-      'No KY-016, ligue o pino <strong>' + label + '</strong> à <strong>Conexão 0, 1, 2 ou 3</strong> escolhida no bloco. Ligue <strong>-</strong> ao GND e deixe os outros dois pinos de cor desconectados.<br><br>' +
-      'A letra no bloco é o pino físico do LED. O número da Conexão é o contato da placa. São coisas diferentes.';
-
-  WorkspaceManager.createReminder({
-    id: 'externalLedChannelNotification_' + String(channel || 'R'),
-    closeId: closeId,
-    background: '#d97706',
-    maxWidth: '540px',
     html: html
   });
 };
@@ -327,10 +392,10 @@ WorkspaceManager.showExternalLedChannelReminder = function(channel) {
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size:17px;">You chose ' + label + '</strong><br><br>' +
-      'Connect the <strong>' + label + '</strong> pin on the KY-016 to the DIG Connection selected in the block. Keep R, G and B on different Connections. Connect <strong>-</strong> to GND.'
+      'Connect the <strong>' + label + '</strong> pin on the KY-016 to one of the <strong>4 board Connections: 0, 1, 2 or 3</strong>, using the number selected in the block. Each colour must use a different number. Connect <strong>-</strong> to the negative/ground (GND) contact.'
     : WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size:17px;">Voce escolheu ' + label + '</strong><br><br>' +
-      'Ligue o pino <strong>' + label + '</strong> do KY-016 a Conexao DIG escolhida no bloco. Mantenha R, G e B em Conexoes diferentes. Ligue <strong>-</strong> ao GND.';
+      '<strong style="font-size:17px;">Você escolheu ' + label + '</strong><br><br>' +
+      'Ligue o pino <strong>' + label + '</strong> do módulo de LED colorido KY-016 a uma das <strong>4 Conexões da placa: 0, 1, 2 ou 3</strong>, usando o número escolhido no bloco. Cada cor precisa usar um número diferente. Ligue <strong>-</strong> ao contato negativo/terra (GND).';
 
   WorkspaceManager.createReminder({
     id: 'externalLedChannelNotification_' + String(channel || 'R'),
@@ -365,19 +430,30 @@ WorkspaceManager.showDht11ConnectionReminder = function(block) {
   var closeId = 'closeDht11ConnectionNotification';
   var boardImage = '../assets/images/devices/conexoes-externas.png';
   var dht11Image = '../assets/images/devices/dht11-pinout.png?ver=6';
+  var aht20GuideImage = '../assets/images/devices/aht20-ligacao.svg';
+  var warningText = block && block.__bitdoglabContractWarningText
+    ? String(block.__bitdoglabContractWarningText)
+    : '';
+  var hasSensorConflict = warningText.indexOf('dois sensores') !== -1 ||
+    warningText.indexOf('two sensors') !== -1;
   var wireRows = Code.LANG === 'en'
     ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">DHT11 wires</div>' +
       '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Orange arrow (DATA)</strong> → left pin, next to S &nbsp;|&nbsp; V7: Connection 0 or 1 &nbsp;|&nbsp; V6: Connections 0, 1, 2 or 3</div>' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Red arrow (VCC / 3.3V)</strong> → center pin</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Black arrow (GND)</strong> → right pin, next to -</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Orange arrow — sensor reading (pin S)</strong> → left pin &nbsp;|&nbsp; board V7: Connection 0 or 1 &nbsp;|&nbsp; board V6: Connection 0, 1, 2 or 3</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Red arrow — 3.3 V electrical power</strong> → center pin and board 3V3 contact</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Black arrow — negative/ground (GND)</strong> → right pin, next to -, and board GND contact</div>' +
       '</div>'
     : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Fios do DHT11</div>' +
       '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Seta laranja (DADOS)</strong> → pino da esquerda, ao lado do S &nbsp;|&nbsp; V7: Conexões 0 ou 1 &nbsp;|&nbsp; V6: Conexões 0, 1, 2 ou 3</div>' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Seta vermelha (VCC / 3.3V)</strong> → pino do meio</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Seta preta (GND)</strong> → pino da direita, ao lado do -</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Seta laranja — sinal/leitura do sensor (pino S)</strong> → pino da esquerda. Esse fio leva a leitura até a placa.<br>Placa V7: Conexão 0 ou 1 &nbsp;|&nbsp; placa V6: Conexão 0, 1, 2 ou 3</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Seta vermelha — alimentação elétrica de 3,3 V</strong> → pino do meio e contato 3V3 da placa</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Seta preta — negativo/terra (GND)</strong> → pino da direita, ao lado de -, e contato GND da placa</div>' +
       '</div>';
+  var conflictGuide = !hasSensorConflict ? '' : (Code.LANG === 'en'
+    ? '<div style="margin:10px 0;background:#fff;padding:9px;border-radius:6px;color:#4e342e;"><strong>The two sensors need separate inputs.</strong><br>Ask your teacher to use the other Greenhouse sensor input shown in this guide.</div>' +
+      '<img src="' + aht20GuideImage + '" alt="Guide showing the other Greenhouse sensor input" style="width:100%;max-height:250px;object-fit:contain;background:white;border-radius:6px;margin-bottom:10px;">'
+    : '<div style="margin:10px 0;background:#fff;padding:9px;border-radius:6px;color:#4e342e;"><strong>Os dois sensores precisam de entradas separadas.</strong><br>Peça ao professor para usar a outra entrada do sensor da Estufa indicada neste guia.</div>' +
+      '<img src="' + aht20GuideImage + '" alt="Guia indicando a outra entrada do sensor da Estufa" style="width:100%;max-height:250px;object-fit:contain;background:white;border-radius:6px;margin-bottom:10px;">');
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
@@ -385,12 +461,12 @@ WorkspaceManager.showDht11ConnectionReminder = function(block) {
       '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
       '<img src="' + boardImage + '" alt="External connections" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
       '<img src="' + dht11Image + '" alt="DHT11 sensor module" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + wireRows +
+      '</div>' + wireRows + conflictGuide +
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Make the bridge:</strong> DHT11 pin → female end of the male-to-female jumper → male end held by the alligator clip → board contact.<br>' +
+      '<strong>Build this connection sequence:</strong> DHT11 pin → female end of the male-to-female jumper → male end held by the alligator clip → board contact.<br>' +
       'Turn the board off and remove the USB cable before touching the wires. Keep neighboring clips from touching.<br>' +
       '<strong>Insulate the jumper-to-alligator connection with electrical tape</strong> so exposed metal cannot cause a short circuit.</div>' +
-      '<div style="margin-top:9px;"><strong>Important:</strong> use 3V3, never 5V-VSYS.<br><strong>Same DHT11:</strong> use the same Connection for temperature and humidity. Different Connections mean that the program understands there are two DHT11 modules.<br>On V7, DATA can use only 0 or 1; choosing 2 or 3 blocks the program. On V6, use 0, 1, 2 or 3. Ask your teacher to check the wires before turning the board on.</div>' +
+      '<div style="margin-top:9px;"><strong>Important:</strong> use the board 3V3 contact (3.3 V power), never 5V-VSYS (5 V power).<br><strong>If the temperature and humidity blocks use the same physical sensor:</strong> choose the same Connection in both blocks. Different numbers mean two separate sensors.<br>On board V7, the sensor reading can use only Connection 0 or 1. On board V6, use 0, 1, 2 or 3.<br>Ask a teacher to check the wires before powering the board.</div>' +
       '</div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
@@ -398,12 +474,12 @@ WorkspaceManager.showDht11ConnectionReminder = function(block) {
       '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
       '<img src="' + boardImage + '" alt="Conexões externas" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
       '<img src="' + dht11Image + '" alt="Módulo sensor DHT11" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + wireRows +
+      '</div>' + wireRows + conflictGuide +
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Faça a ponte:</strong> pino do DHT11 → ponta fêmea do jumper macho-fêmea → ponta macho presa à garra jacaré → contato da placa.<br>' +
+      '<strong>Monte esta sequência de ligação:</strong> pino do DHT11 → ponta fêmea do jumper macho-fêmea → ponta macho presa à garra jacaré → contato da placa.<br>' +
       'Desligue a placa e retire o cabo USB antes de mexer nos fios. Não deixe garras vizinhas se encostarem.<br>' +
       '<strong>Isole a união do jumper com a garra jacaré usando fita isolante</strong> para nenhum metal exposto causar curto-circuito.</div>' +
-      '<div style="margin-top:9px;"><strong>Importante:</strong> use 3V3, nunca 5V-VSYS.<br><strong>Mesmo DHT11:</strong> use a mesma Conexão para temperatura e umidade. Conexões diferentes fazem o programa entender que existem dois módulos DHT11.<br>Na V7, DADOS só pode usar 0 ou 1; escolher 2 ou 3 bloqueia o programa. Na V6, use 0, 1, 2 ou 3. Peça ao professor para conferir os fios antes de ligar a placa.</div>' +
+      '<div style="margin-top:9px;"><strong>Importante:</strong> use o contato 3V3 da placa — alimentação de 3,3 V. Nunca use o contato 5V-VSYS — alimentação de 5 V.<br><strong>Se os blocos de temperatura e umidade usam o mesmo sensor físico:</strong> escolha a mesma Conexão nos dois blocos. Números diferentes significam dois sensores separados.<br>Na placa V7, o fio de leitura do sensor só pode usar a Conexão 0 ou 1. Na placa V6, use 0, 1, 2 ou 3.<br>Peça a um professor para conferir os fios antes de ligar a placa.</div>' +
       '</div>';
 
   WorkspaceManager.createReminder({
@@ -432,7 +508,7 @@ WorkspaceManager.bindDht11CategoryHint = function() {
 
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
-    if (categoryName === 'Temperatura externa com DHT11' || categoryName === 'External Temperature with DHT11') {
+    if (categoryName === 'Sensor externo de temperatura e umidade (DHT11)' || categoryName === 'External temperature and humidity sensor (DHT11)') {
       Code.showDht11ConnectionReminder();
     }
   });

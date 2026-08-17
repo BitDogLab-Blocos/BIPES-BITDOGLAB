@@ -36,6 +36,18 @@
     ]);
   }
 
+  function appendScreenSizeInput(block) {
+    block.appendDummyInput()
+      .appendField(isEnglish() ? 'screen size' : 'tamanho da tela')
+      .appendField(new Blockly.FieldDropdown(isEnglish() ? [
+        ['small OLED', 'SMALL'],
+        ['large SH1107', 'LARGE']
+      ] : [
+        ['pequena OLED', 'SMALL'],
+        ['grande SH1107', 'LARGE']
+      ]), 'DISPLAY_TYPE');
+  }
+
   function setValueBlock(block) {
     block.setOutput(true, 'Number');
     block.setColour(DHT11_COLOUR);
@@ -58,7 +70,7 @@
       setValueBlock(this);
       this.setTooltip(isEnglish()
         ? 'Returns the DHT11 temperature in degrees Celsius. Connect it to Show value, math, conditions, or a graph.'
-        : 'Entrega a temperatura do DHT11 em graus Celsius. Encaixe em Mostrar valor, matemática, condições ou gráfico.');
+        : 'Entrega a temperatura do ar em graus Celsius usando o sensor DHT11. Encaixe em Mostrar valor, matemática, condições ou gráfico.');
     }
   };
 
@@ -71,12 +83,11 @@
       setValueBlock(this);
       this.setTooltip(isEnglish()
         ? 'Returns the DHT11 relative humidity percentage. Connect it to Show value, math, conditions, or a graph.'
-        : 'Entrega a umidade relativa do DHT11 em porcentagem. Encaixe em Mostrar valor, matemática, condições ou gráfico.');
+        : 'Entrega a quantidade de umidade do ar, em porcentagem, usando o sensor DHT11. Encaixe em Mostrar valor, matemática, condições ou gráfico.');
     }
   };
 
-  // Graph behavior follows the AHT20 greenhouse graph block:
-  // value input + screen position + display type.
+  // Graph block: value input, screen position, and screen size.
   Blockly.Blocks['dht11_plotar'] = {
     init: function() {
       this.appendValueInput('VALOR')
@@ -85,12 +96,12 @@
       this.appendDummyInput()
         .appendField(isEnglish() ? 'on' : 'na')
         .appendField(graphPositionField(), 'POSICAO');
-      appendDisplayTypeInput(this);
+      appendScreenSizeInput(this);
       this.setInputsInline(true);
       setCommandBlock(this);
       this.setTooltip(isEnglish()
-        ? 'Shows a scrolling graph for a DHT11 value. Use the DHT11 temperature or humidity block as the value, choose the screen position, and choose the display type. It follows the AHT20 greenhouse graph behavior.'
-        : 'Mostra um gráfico contínuo de um valor do DHT11. Use o bloco de temperatura ou umidade como valor, escolha a posição e o tipo de display. O comportamento é semelhante ao gráfico da estufa com AHT20.');
+        ? 'Shows a scrolling graph of the air temperature or humidity. Choose where it appears and the board screen size.'
+        : 'Mostra um gráfico contínuo da temperatura ou da umidade do ar. Escolha onde ele aparecerá e o tamanho da tela da placa.');
     }
   };
 

@@ -86,7 +86,7 @@
     init: function() {
       setCommandShape(this,
         isEnglish() ? '💡 Turn on' : '💡 Ligar',
-        isEnglish() ? 'Turns on the selected KY-016 channel.' : 'Liga o canal R, G ou B escolhido do KY-016.');
+        isEnglish() ? 'Turns on the selected KY-016 colour pin.' : 'Liga o pino da cor R, G ou B escolhido no módulo de LED colorido KY-016.');
     }
   };
 
@@ -94,7 +94,7 @@
     init: function() {
       setCommandShape(this,
         isEnglish() ? '🌑 Turn off' : '🌑 Desligar',
-        isEnglish() ? 'Turns off the selected KY-016 channel.' : 'Desliga o canal R, G ou B escolhido do KY-016.');
+        isEnglish() ? 'Turns off the selected KY-016 colour pin.' : 'Desliga o pino da cor R, G ou B escolhido no módulo de LED colorido KY-016.');
     }
   };
 
@@ -102,7 +102,7 @@
     init: function() {
       setCommandShape(this,
         isEnglish() ? '⚡ Blink quickly' : '⚡ Piscar rápido',
-        isEnglish() ? 'One cycle: 200 ms on, 200 ms off.' : 'Um ciclo: 200 ms ligado, 200 ms desligado.');
+        isEnglish() ? 'One blink: on for 0.2 seconds, then off for 0.2 seconds.' : 'Uma piscada: fica ligado por 0,2 segundo e desligado por 0,2 segundo.');
     }
   };
 
@@ -110,7 +110,7 @@
     init: function() {
       setCommandShape(this,
         isEnglish() ? '🐢 Blink slowly' : '🐢 Piscar devagar',
-        isEnglish() ? 'One cycle: 1000 ms on, 1000 ms off.' : 'Um ciclo: 1000 ms ligado, 1000 ms desligado.');
+        isEnglish() ? 'One blink: on for 1 second, then off for 1 second.' : 'Uma piscada: fica ligado por 1 segundo e desligado por 1 segundo.');
     }
   };
 
@@ -159,8 +159,8 @@
         'led_externo_criar_animacao_time'
       ]));
       this.setTooltip(isEnglish()
-        ? 'Creates a finite animation. Choose the KY-016 channel in each action.'
-        : 'Cria uma animação finita. Escolha o canal do KY-016 em cada ação.');
+        ? 'Creates an animation that stops after the last action. Choose the R, G, or B colour pin in each action.'
+        : 'Cria uma animação que termina após a última ação. Escolha o pino da cor R, G ou B em cada ação.');
     },
 
     mutationToDom: function() {
@@ -345,7 +345,7 @@
     var help = document.createElement('p');
     help.textContent = isEnglish()
       ? 'Choose each channel only once. Then connect that letter to the selected board connection.'
-      : 'Escolha cada canal apenas uma vez. Depois ligue essa letra à Conexão escolhida na placa.';
+      : 'Escolha cada pino de cor apenas uma vez. Depois ligue essa letra à Conexão escolhida na placa.';
     card.appendChild(help);
 
     CHANNEL_ORDER.forEach(function(channel) {
@@ -378,7 +378,7 @@
     var available = CHANNEL_ORDER.filter(function(channel) { return !selected[channel]; });
     if (available.length) {
       var button = Blockly.utils.xml.createElement('button');
-      button.setAttribute('text', isEnglish() ? '+ Add an RGB channel' : '+ Adicionar canal RGB');
+    button.setAttribute('text', isEnglish() ? '+ Add an RGB colour' : '+ Adicionar uma cor RGB');
       button.setAttribute('callbackKey', 'CHOOSE_EXTERNAL_LED_CHANNEL');
       workspace.registerButtonCallback('CHOOSE_EXTERNAL_LED_CHANNEL', showChannelPicker);
       items.push(button);
