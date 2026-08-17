@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Primeiro passo: ligue o pino R (vermelho) na Conexão 0 e observe por 3 segundos. -->
+  <block type="led_externo_ligar" x="20" y="20">
+    <field name="CHANNEL">R</field><field name="DIG">0</field>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="tempo_segundos"><field name="NUM">3</field></block></value>
+      <next><block type="led_externo_desligar"><field name="CHANNEL">R</field><field name="DIG">0</field></block></next>
+    </block></next>
+  </block>
+</xml>

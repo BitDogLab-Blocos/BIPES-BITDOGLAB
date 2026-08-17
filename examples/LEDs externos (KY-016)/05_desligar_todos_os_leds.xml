@@ -1,0 +1,12 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Cada cor usa uma Conexão diferente: R=0, G=1 e B=2. -->
+  <block type="led_externo_ligar" x="20" y="20"><field name="CHANNEL">R</field><field name="DIG">0</field>
+    <next><block type="led_externo_ligar"><field name="CHANNEL">G</field><field name="DIG">1</field>
+      <next><block type="led_externo_ligar"><field name="CHANNEL">B</field><field name="DIG">2</field>
+        <next><block type="esperar_segundos"><value name="TIME"><block type="tempo_segundos"><field name="NUM">2</field></block></value>
+          <next><block type="led_externo_desligar_todos"></block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

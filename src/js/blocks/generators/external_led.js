@@ -131,7 +131,11 @@
     var steps = block.steps_ || [];
     for (var i = 0; i < steps.length; i++) {
       if (steps[i] === 'action') {
-        code += Blockly.Python.statementToCode(block, 'STEP' + i);
+        // `statementToCode` indents a statement because it normally lives
+        // inside a parent control block. Animation steps are emitted at the
+        // same level as the animation itself, so remove that helper indent.
+        var actionCode = Blockly.Python.statementToCode(block, 'STEP' + i);
+        code += actionCode ? actionCode.replace(/^  /gm, '') : '';
       } else {
         var duration = Blockly.Python.valueToCode(block, 'TIME' + i, Blockly.Python.ORDER_ATOMIC) || '0';
         // Time reporters use milliseconds internally; this block presents

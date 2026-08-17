@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O servo usa a Conexão 0; os LEDs ficam em 1 e 2, sem compartilhar pinos. -->
+  <block type="servo_mover" x="20" y="20"><field name="DIG">0</field><field name="ANGLE">0</field>
+    <next><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">1</field>
+      <next><block type="esperar_segundos"><value name="TIME"><block type="tempo_segundos"><field name="NUM">2</field></block></value>
+        <next><block type="servo_mover"><field name="DIG">0</field><field name="ANGLE">90</field>
+          <next><block type="led_externo_desligar"><field name="CHANNEL">R</field><field name="DIG">1</field>
+            <next><block type="led_externo_ligar"><field name="CHANNEL">G</field><field name="DIG">2</field>
+              <next><block type="esperar_segundos"><value name="TIME"><block type="tempo_segundos"><field name="NUM">2</field></block></value>
+                <next><block type="led_externo_desligar"><field name="CHANNEL">G</field><field name="DIG">2</field></block></next>
+              </block></next>
+            </block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

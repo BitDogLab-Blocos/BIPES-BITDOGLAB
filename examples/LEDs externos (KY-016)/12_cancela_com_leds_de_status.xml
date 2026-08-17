@@ -1,0 +1,15 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Botão A abre a cancela e mostra vermelho; botão B fecha e mostra verde. -->
+  <block type="servo_mover" x="20" y="20"><field name="DIG">0</field><field name="ANGLE">0</field>
+    <next><block type="botao_se_apertado"><field name="BOTAO">A</field>
+      <statement name="DO"><block type="servo_subir_gradualmente"><field name="DIG">0</field><field name="START">0</field><field name="TARGET">180</field><field name="STEP">30</field><field name="PAUSE">0.2</field>
+        <statement name="EACH_STEP"><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">1</field></block></statement>
+      </block></statement>
+      <next><block type="botao_se_apertado"><field name="BOTAO">B</field>
+        <statement name="DO"><block type="servo_descer_gradualmente"><field name="DIG">0</field><field name="START">180</field><field name="TARGET">0</field><field name="STEP">30</field><field name="PAUSE">0.2</field>
+          <statement name="EACH_STEP"><block type="led_externo_ligar"><field name="CHANNEL">G</field><field name="DIG">2</field></block></statement>
+        </block></statement>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A variável modo alterna entre duas escolhas; A muda para o modo 1. -->
+  <block type="variables_guardar" x="20" y="20"><field name="VAR">modo</field><value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+    <next><block type="botao_se_apertado"><field name="BOTAO">A</field>
+      <statement name="DO"><block type="variables_alterar"><field name="VAR">modo</field><value name="TARGET"><block type="variables_valor_guardado"><field name="VAR">modo</field></block></value><value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value>
+        <next><block type="controls_ifelse"><value name="IF0"><block type="logic_compare"><field name="OP">EQ</field><value name="A"><block type="variables_valor_guardado"><field name="VAR">modo</field></block></value><value name="B"><block type="math_number"><field name="NUM">1</field></block></value></block></value>
+          <statement name="DO0"><block type="led_externo_ligar"><field name="CHANNEL">B</field><field name="DIG">2</field></block></statement>
+          <statement name="ELSE"><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">0</field></block></statement>
+        </block></next>
+      </block></statement>
+    </block></next>
+  </block>
+</xml>

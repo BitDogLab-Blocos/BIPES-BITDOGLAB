@@ -1,0 +1,12 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Com o Display (tela da placa), use somente Conexões 0 e 1. Aqui usamos apenas 0. -->
+  <block type="display_limpar" x="20" y="20"><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_texto"><field name="TEXTO">Vermelho ligado</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">0</field>
+        <next><block type="esperar_segundos"><value name="TIME"><block type="tempo_segundos"><field name="NUM">3</field></block></value>
+          <next><block type="led_externo_desligar"><field name="CHANNEL">R</field><field name="DIG">0</field><next><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field></block></next></block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

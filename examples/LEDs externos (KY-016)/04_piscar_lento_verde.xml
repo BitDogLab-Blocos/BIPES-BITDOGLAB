@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Piscar lento deixa cada acendimento bem fácil de acompanhar. -->
+  <block type="led_externo_piscar_lento" x="20" y="20">
+    <field name="CHANNEL">G</field><field name="DIG">3</field>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="tempo_segundos"><field name="NUM">6</field></block></value>
+      <next><block type="led_externo_desligar"><field name="CHANNEL">G</field><field name="DIG">3</field></block></next>
+    </block></next>
+  </block>
+</xml>

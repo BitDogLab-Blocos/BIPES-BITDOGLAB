@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto avançado: servo na 0, RGB nas 1/2/3, matriz e som indicam a posição. -->
+  <block type="servo_joystick_controlar" x="20" y="20"><field name="DIG">0</field><field name="INITIAL_ANGLE">90</field><field name="DIR_INCREASE">UP</field><field name="DIR_DECREASE">DOWN</field><field name="STEP">10</field>
+    <next><block type="controls_ifelse"><value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value><value name="B"><block type="math_number"><field name="NUM">45</field></block></value></block></value>
+      <statement name="DO0"><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">1</field><next><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_triste"></block></value><value name="COR"><block type="colour_red"></block></value><next><block type="bipe_curto"><field name="VOLUME">35</field></block></next></block></next></block></statement>
+      <statement name="ELSE"><block type="controls_ifelse"><value name="IF0"><block type="logic_compare"><field name="OP">GTE</field><value name="A"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value><value name="B"><block type="math_number"><field name="NUM">135</field></block></value></block></value>
+        <statement name="DO0"><block type="led_externo_ligar"><field name="CHANNEL">G</field><field name="DIG">2</field><next><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_feliz"></block></value><value name="COR"><block type="colour_green"></block></value></block></next></block></statement>
+        <statement name="ELSE"><block type="led_externo_ligar"><field name="CHANNEL">B</field><field name="DIG">3</field><next><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value><value name="COR"><block type="colour_blue"></block></value></block></next></block></statement>
+      </block></statement>
+      <next><block type="esperar_segundos"><value name="TIME"><block type="tempo_segundos"><field name="NUM">1</field></block></value></block></next>
+    </block></next>
+  </block>
+</xml>

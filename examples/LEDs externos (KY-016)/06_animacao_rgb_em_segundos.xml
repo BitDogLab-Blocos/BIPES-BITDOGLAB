@@ -1,0 +1,14 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Uma animação é uma fila: ação, espera em segundos, ação, espera... -->
+  <block type="led_externo_criar_animacao" x="20" y="20">
+    <mutation steps='[&quot;action&quot;,&quot;time&quot;,&quot;action&quot;,&quot;time&quot;,&quot;action&quot;,&quot;time&quot;]'></mutation>
+    <field name="CHANNEL">R</field>
+    <statement name="STEP0"><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">0</field></block></statement>
+    <value name="TIME1"><block type="tempo_segundos"><field name="NUM">1</field></block></value>
+    <statement name="STEP2"><block type="led_externo_ligar"><field name="CHANNEL">G</field><field name="DIG">1</field></block></statement>
+    <value name="TIME3"><block type="tempo_segundos"><field name="NUM">1</field></block></value>
+    <statement name="STEP4"><block type="led_externo_ligar"><field name="CHANNEL">B</field><field name="DIG">2</field></block></statement>
+    <value name="TIME5"><block type="tempo_segundos"><field name="NUM">2</field></block></value>
+    <next><block type="led_externo_desligar_todos"></block></next>
+  </block>
+</xml>

@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Display (tela) e LED usam apenas Conexões 0 e 1. O joystick escolhe o lado. -->
+  <block type="display_limpar" x="20" y="20"><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_texto"><field name="TEXTO">Posicao:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="joystick_posicao_x"></block></value>
+        <next><block type="controls_ifelse"><value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="joystick_posicao_x"></block></value><value name="B"><block type="math_number"><field name="NUM">35</field></block></value></block></value>
+          <statement name="DO0"><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">0</field></block></statement>
+          <statement name="ELSE"><block type="led_externo_ligar"><field name="CHANNEL">G</field><field name="DIG">1</field></block></statement>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>
