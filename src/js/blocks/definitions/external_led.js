@@ -1,5 +1,5 @@
 // ==========================================
-// Category: External LEDs (KY-016, one channel at a time)
+// Category: External RGB LED (KY-016, one fixed channel per block group)
 // ==========================================
 'use strict';
 
@@ -43,10 +43,20 @@
     return item[isEnglish() ? 'en' : 'pt'];
   }
 
+  // The colour is chosen in the category's "+" button. Keep this field
+  // visible so children can see R/G/B, but do not let a block silently
+  // change to another physical channel after it was created.
+  function channelField() {
+    var field = new Blockly.FieldDropdown(channelOptions());
+    field.showEditor_ = function() {};
+    field.isClickable = function() { return false; };
+    return field;
+  }
+
   function setCommandShape(block, label, tooltip) {
     block.appendDummyInput()
       .appendField(label)
-      .appendField(new Blockly.FieldDropdown(channelOptions()), 'CHANNEL')
+      .appendField(channelField(), 'CHANNEL')
       .appendField(isEnglish() ? 'on' : 'na')
       .appendField(new Blockly.FieldDropdown(connectionOptions()), 'DIG');
     block.setInputsInline(true);
@@ -124,7 +134,7 @@
       this.setColour(COLOUR);
       this.appendDummyInput()
         .appendField(isEnglish() ? '🎬 Animate' : '🎬 Criar animação de')
-        .appendField(new Blockly.FieldDropdown(channelOptions()), 'CHANNEL');
+        .appendField(channelField(), 'CHANNEL');
       this.steps_ = ['action', 'time'];
       this.updateShape_();
       this.setPreviousStatement(true, null);
@@ -346,7 +356,7 @@
     var available = CHANNEL_ORDER.filter(function(channel) { return !selected[channel]; });
     if (available.length) {
       var button = Blockly.utils.xml.createElement('button');
-      button.setAttribute('text', isEnglish() ? '+ Choose KY-016 colour' : '+ Escolher cor do KY-016');
+      button.setAttribute('text', isEnglish() ? '+ Add an RGB channel' : '+ Adicionar canal RGB');
       button.setAttribute('callbackKey', 'CHOOSE_EXTERNAL_LED_CHANNEL');
       workspace.registerButtonCallback('CHOOSE_EXTERNAL_LED_CHANNEL', showChannelPicker);
       items.push(button);
