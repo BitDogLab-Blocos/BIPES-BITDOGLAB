@@ -591,7 +591,7 @@
     'led_externo_piscar_lento'
   ];
 
-  function validateExternalLedRules(blocks, warnings, notices) {
+  function validateExternalLedRules(blocks, warnings) {
     var config = global.BitdogLabConfig || {};
     var external = config.EXTERNAL || {};
     var ledConfig = external.EXTERNAL_LED || {};
@@ -642,8 +642,6 @@
             format3(msg('externalLedDuplicateChannel'), currentChannel, channelDigs[0], channelDigs[1])
           );
         }
-      } else if (channelClaims.length > 1) {
-        addNotice(notices, channelClaims[0].block, format(msg('externalLedMappingNotice'), currentChannel));
       }
     }
 
@@ -667,10 +665,6 @@
       }
     }
 
-    for (var noticeChannel in byChannel) {
-      if (!byChannel.hasOwnProperty(noticeChannel) || !byChannel[noticeChannel].length) continue;
-      addNotice(notices, byChannel[noticeChannel][0].block, msg('externalLedWiringNotice'));
-    }
   }
 
   function validateExternalLedOledV7PinConflicts(blocks, warnings) {
@@ -815,7 +809,7 @@
     validateServoOledV7PinConflicts(blocks, warnings);
     validateDht11V7PinConflicts(blocks, warnings);
     validateDht11Aht20V7I2c0Conflicts(blocks, warnings);
-    validateExternalLedRules(blocks, warnings, notices);
+    validateExternalLedRules(blocks, warnings);
     validateExternalLedOledV7PinConflicts(blocks, warnings);
     validateExternalResourceConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
