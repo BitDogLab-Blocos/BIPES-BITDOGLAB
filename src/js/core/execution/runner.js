@@ -30,7 +30,10 @@ class ExecutionRunner {
   }
 
   static runPython (code_) {
-    if (code_ == undefined && !Tool.validateWorkspaceBeforeCodeAction('executar codigo')) return;
+    // Always validate the current workspace before sending code. A caller may
+    // provide a pre-generated string, but it must not bypass block safety
+    // rules after the workspace has become invalid.
+    if (!Tool.validateWorkspaceBeforeCodeAction('executar codigo')) return;
 
     // Parar scanner I2C ANTES de enviar código (evita CTRL_C durante paste mode)
     i2cScanner.stop();
