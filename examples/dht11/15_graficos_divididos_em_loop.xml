@@ -1,4 +1,0 @@
-<xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Atualiza os dois graficos em uma sequencia finita de doze amostras. -->
-  <block x="20" y="20" type="controls_repeat_simple"><field name="TIMES">12</field><statement name="DO"><block type="dht11_plotar"><field name="POSICAO">1</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="dht11_temperatura"><field name="DIG">0</field></block></value><next><block type="dht11_plotar"><field name="POSICAO">2</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="dht11_umidade"><field name="DIG">0</field></block></value></block></next></block></statement></block>
-</xml>
