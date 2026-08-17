@@ -72,22 +72,10 @@
     return ensurePinForConnection(dig(block));
   }
 
-  function usedExternalLedConnections(block) {
-    var used = {};
-    var workspace = block && block.workspace;
-    if (!workspace || !workspace.getAllBlocks) return [];
-
-    var blocks = workspace.getAllBlocks(false);
-    for (var i = 0; i < blocks.length; i++) {
-      var candidate = blocks[i];
-      if (COMMAND_TYPES.indexOf(candidate.type) === -1 || !candidate.getFieldValue) continue;
-      if (candidate.isEnabled && !candidate.isEnabled()) continue;
-      var connection = candidate.getFieldValue('DIG');
-      if (connection !== null && connection !== undefined && connection !== '') {
-        used[String(connection)] = true;
-      }
-    }
-    return Object.keys(used).sort();
+  function allExternalLedConnections() {
+    var config = (profile().EXTERNAL || {}).EXTERNAL_LED || {};
+    var allowed = config.ALLOWED_DIG || Object.keys(pins());
+    return allowed.map(String).sort();
   }
 
   function ensureSleep() {
@@ -108,7 +96,10 @@
   };
 
   Blockly.Python['led_externo_desligar_todos'] = function(block) {
-    var connections = usedExternalLedConnections(block);
+    // This block must also work when it is the only external-LED block.
+    // The validator prevents using it together with another peripheral on
+    // any DIG, so touching all external DIG connections is safe here.
+    var connections = allExternalLedConnections();
     var code = '# Desligar todos os LEDs externos usados\n';
     for (var i = 0; i < connections.length; i++) {
       code += ensurePinForConnection(connections[i]) +

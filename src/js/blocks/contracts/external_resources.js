@@ -15,11 +15,13 @@
         'led_externo_ligar',
         'led_externo_desligar',
         'led_externo_piscar_rapido',
-        'led_externo_piscar_lento'
+        'led_externo_piscar_lento',
+        'led_externo_desligar_todos'
       ],
       connectionFields: ['DIG'],
       channelField: 'CHANNEL',
-      moduleLimit: 1
+      moduleLimit: 1,
+      claimAllConnections: true
     },
     {
       id: 'dht11',
@@ -71,6 +73,26 @@
     if (!peripheral || !block || !block.getFieldValue) return [];
 
     var claims = [];
+    if (peripheral.claimAllConnections && block.type === 'led_externo_desligar_todos') {
+      var allConnections = (config.EXTERNAL && config.EXTERNAL.EXTERNAL_LED || {}).ALLOWED_DIG ||
+        Object.keys((config.EXTERNAL && config.EXTERNAL.DIG_PINS) || {});
+      for (var allIndex = 0; allIndex < allConnections.length; allIndex++) {
+        var allConnection = String(allConnections[allIndex]);
+        var allPin = getConnectionPin(config, allConnection);
+        if (allPin === null) continue;
+        claims.push({
+          block: block,
+          peripheralId: peripheral.id,
+          peripheralLabel: peripheral.labels[Code.LANG || 'pt-br'] || peripheral.labels['pt-br'],
+          field: 'DIG',
+          connection: allConnection,
+          pin: allPin,
+          resourceKey: 'gpio:' + String(allPin)
+        });
+      }
+      return claims;
+    }
+
     for (var i = 0; i < peripheral.connectionFields.length; i++) {
       var field = peripheral.connectionFields[i];
       var connection = block.getFieldValue(field);

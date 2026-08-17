@@ -590,6 +590,7 @@
     'led_externo_piscar_rapido',
     'led_externo_piscar_lento'
   ];
+  var EXTERNAL_LED_GLOBAL_TYPES = ['led_externo_desligar_todos'];
 
   function validateExternalLedRules(blocks, warnings) {
     var config = global.BitdogLabConfig || {};
@@ -671,6 +672,12 @@
     var config = global.BitdogLabConfig;
     if (!config || config.VERSION !== 'v7' || !config.PINS || !config.EXTERNAL || !config.EXTERNAL.DIG_PINS) return;
     if (!blocks.some(isOledBlock)) return;
+
+    for (var globalIndex = 0; globalIndex < blocks.length; globalIndex++) {
+      if (EXTERNAL_LED_GLOBAL_TYPES.indexOf(blocks[globalIndex].type) !== -1) {
+        addWarning(warnings, blocks[globalIndex], msg('externalLedGlobalOledV7Conflict'));
+      }
+    }
 
     var oledPins = [config.PINS.I2C_SDA, config.PINS.I2C_SCL];
     var channels = {};

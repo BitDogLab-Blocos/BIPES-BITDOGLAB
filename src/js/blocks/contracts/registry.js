@@ -65,10 +65,12 @@
   MESSAGES['pt-br'].externalLedDuplicateConnection = 'As cores %1 e %2 estao na mesma Conexao %3. Escolha tres Conexoes diferentes para o LED RGB.';
   MESSAGES['pt-br'].externalLedPwmRequired = 'A Conexao %1 nao oferece PWM neste perfil. O LED RGB externo precisa de uma Conexao com PWM.';
   MESSAGES['pt-br'].externalLedRgbOledConflict = 'Na BitDogLab V7, o KY-016 RGB completo precisa de tres Conexoes e o Display OLED (tela da placa) usa as Conexoes 2 e 3. Escolha usar o LED RGB ou o Display neste projeto.';
+  MESSAGES['pt-br'].externalLedGlobalOledV7Conflict = 'O bloco Desligar todos os LEDs externos usa as Conexoes DIG 0, 1, 2 e 3. Na V7, ele nao pode ser usado junto com o Display OLED (tela da placa).';
   MESSAGES.en.externalLedDuplicateChannel = 'The KY-016 %1 channel was placed on Connections %2 and %3. Each colour must use one Connection only.';
   MESSAGES.en.externalLedDuplicateConnection = 'Colours %1 and %2 use the same Connection %3. Choose three different Connections for the RGB LED.';
   MESSAGES.en.externalLedPwmRequired = 'Connection %1 does not provide PWM in this profile. The external RGB LED needs a PWM connection.';
   MESSAGES.en.externalLedRgbOledConflict = 'On BitDogLab V7, a complete KY-016 RGB LED needs three Connections and the OLED display (board screen) uses Connections 2 and 3. Choose the RGB LED or the display for this project.';
+  MESSAGES.en.externalLedGlobalOledV7Conflict = 'The Turn off all external LEDs block uses DIG Connections 0, 1, 2, and 3. On V7, it cannot be used together with the OLED display (board screen).';
 
   var Domains = Code.BlockTypeDomains;
   var MATRIX_OPTION_COMMANDS = Domains ? Domains.get('MATRIX_OPTION_COMMANDS') : [];
