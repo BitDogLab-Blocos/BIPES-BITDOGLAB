@@ -119,7 +119,7 @@
       this.setColour(COLOUR);
       this.appendDummyInput().appendField(isEnglish() ? 'animation' : 'animação');
       this.appendStatementInput('STACK');
-      this.setTooltip(isEnglish() ? 'Add LED actions and durations.' : 'Adicione ações do LED e durações.');
+      this.setTooltip(isEnglish() ? 'Add LED actions and wait times in seconds.' : 'Adicione ações do LED e tempos de espera em segundos.');
       this.contextMenu = false;
     }
   };
@@ -137,7 +137,7 @@
   Blockly.Blocks['led_externo_criar_animacao_time'] = {
     init: function() {
       this.setColour(COLOUR);
-      this.appendDummyInput().appendField(isEnglish() ? 'duration' : 'duração');
+      this.appendDummyInput().appendField(isEnglish() ? 'wait (seconds)' : 'espera (segundos)');
       this.setPreviousStatement(true);
       this.setNextStatement(true);
       this.contextMenu = false;
@@ -254,7 +254,7 @@
         } else {
           this.appendValueInput('TIME' + i)
             .setCheck('Time')
-            .appendField(isEnglish() ? 'Wait (ms):' : 'Esperar (ms):');
+            .appendField(isEnglish() ? 'Wait (Seconds):' : 'Esperar (Segundos):');
         }
       }
     }

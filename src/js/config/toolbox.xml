@@ -382,7 +382,7 @@
   <!-- Projeto: Conexoes Externas -->
   <category name="LEDs Externos" colour="#d97706" data-project="externos" custom="EXTERNAL_LED" css-icon="bitdoglab-external-led-category-icon"></category>
   <category name="Sensor de luz e sombra (LDR)" colour="#16a085" data-project="externos"></category>
-  <category name="Sensor externo de temperatura e umidade (DHT11)" colour="#e67e22" data-project="externos" css-icon="bitdoglab-dht11-category-icon">
+  <category name="Temperatura e umidade externo" colour="#e67e22" data-project="externos" css-icon="bitdoglab-dht11-category-icon">
     <block type="dht11_temperatura">
       <field name="DIG">0</field>
     </block>

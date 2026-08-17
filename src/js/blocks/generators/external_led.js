@@ -134,7 +134,9 @@
         code += Blockly.Python.statementToCode(block, 'STEP' + i);
       } else {
         var duration = Blockly.Python.valueToCode(block, 'TIME' + i, Blockly.Python.ORDER_ATOMIC) || '0';
-        code += 'time.sleep_ms(int(' + duration + '))\n';
+        // Time reporters use milliseconds internally; this block presents
+        // seconds to the learner, so convert before calling time.sleep().
+        code += 'time.sleep(float(' + duration + ') / 1000)\n';
       }
     }
     return code;

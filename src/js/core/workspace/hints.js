@@ -508,7 +508,7 @@ WorkspaceManager.bindDht11CategoryHint = function() {
 
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
-    if (categoryName === 'Sensor externo de temperatura e umidade (DHT11)' || categoryName === 'External temperature and humidity sensor (DHT11)') {
+    if (categoryName === 'Temperatura e umidade externo' || categoryName === 'External temperature and humidity') {
       Code.showDht11ConnectionReminder();
     }
   });

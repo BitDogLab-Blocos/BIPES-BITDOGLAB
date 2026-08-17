@@ -34,7 +34,7 @@ const workspaceHints = fs.readFileSync(workspaceHintsPath, 'utf8');
 const expectedNames = [
   'LEDs Externos',
   'Sensor de luz e sombra (LDR)',
-  'Sensor externo de temperatura e umidade (DHT11)',
+  'Temperatura e umidade externo',
   'Sensor de distância e presença',
   'Servo externo'
 ];
@@ -129,8 +129,8 @@ assert.match(workspaceHints, /WorkspaceManager\.showServoConnectionReminder = fu
 assert.match(workspaceHints, /WorkspaceManager\.bindServoCategoryHint = function\(\)/);
 assert.match(workspaceHints, /WorkspaceManager\.showDht11ConnectionReminder = function\(block\)/);
 assert.match(workspaceHints, /WorkspaceManager\.bindDht11CategoryHint = function\(\)/);
-assert.match(workspaceHints, /categoryName === 'Sensor externo de temperatura e umidade \(DHT11\)'/);
-assert.match(workspaceHints, /categoryName === 'External temperature and humidity sensor \(DHT11\)'/);
+assert.match(workspaceHints, /categoryName === 'Temperatura e umidade externo'/);
+assert.match(workspaceHints, /categoryName === 'External temperature and humidity'/);
 assert.match(workspaceHints, /Code\.showDht11ConnectionReminder\(\)/);
 assert.match(workspaceHints, /dht11-pinout\.png/);
 assert.ok(fs.existsSync(dht11PinoutPath), 'A imagem de pinagem do DHT11 deve existir.');

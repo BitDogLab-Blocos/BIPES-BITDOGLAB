@@ -1435,7 +1435,7 @@ var CUSTOM_TRANSLATIONS_EN = {
   "💡 LEDs": "💡 LEDs",
   "LEDs Externos": "External LEDs",
   "Sensor de luz e sombra (LDR)": "Light and shadow sensor (LDR)",
-  "Sensor externo de temperatura e umidade (DHT11)": "External temperature and humidity sensor (DHT11)",
+  "Temperatura e umidade externo": "External temperature and humidity",
   "Sensor de distância e presença": "Distance and presence sensor",
   "Servo externo": "External Servo",
   "🎯 Mover servo": "🎯 Move servo",
