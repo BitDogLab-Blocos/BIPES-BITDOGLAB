@@ -24,6 +24,15 @@
     return config.INACTIVE_LEVEL === undefined ? 0 : config.INACTIVE_LEVEL;
   }
 
+  function pwmFrequency() {
+    var config = (profile().EXTERNAL || {}).EXTERNAL_LED || {};
+    return Number(config.PWM_FREQ || 1000);
+  }
+
+  function dutyForLevel(level) {
+    return Number(level) ? 65535 : 0;
+  }
+
   function dig(block) {
     return String(block.getFieldValue('DIG') || '0');
   }
@@ -44,8 +53,11 @@
     if (pin === undefined || pin === null) pin = connection;
     var key = 'external_led_pin_' + connection;
     Blockly.Python.definitions_['import_external_led_pin'] = 'from machine import Pin';
+    Blockly.Python.definitions_['import_external_led_pwm'] = 'from machine import PWM';
     Blockly.Python.definitions_[key] =
-      'external_led_' + connection + ' = Pin(' + String(pin) + ', Pin.OUT, value=' + String(inactiveLevel()) + ')';
+      'external_led_' + connection + ' = PWM(Pin(' + String(pin) + '), freq=' + String(pwmFrequency()) + ')';
+    Blockly.Python.definitions_['external_led_off_' + connection] =
+      'external_led_' + connection + '.duty_u16(' + String(dutyForLevel(inactiveLevel())) + ')';
     return 'external_led_' + connection;
   }
 
@@ -55,7 +67,7 @@
 
   function commandCode(block, value) {
     var pin = ensurePin(block);
-    return channelComment(block) + pin + '.value(' + String(value) + ')\n';
+    return channelComment(block) + pin + '.duty_u16(' + String(dutyForLevel(value)) + ')\n';
   }
 
   Blockly.Python['led_externo_ligar'] = function(block) {
@@ -69,9 +81,9 @@
   function blink(block, milliseconds) {
     var pin = ensurePin(block);
     ensureSleep();
-    return channelComment(block) + pin + '.value(' + String(activeLevel()) + ')\n' +
+    return channelComment(block) + pin + '.duty_u16(' + String(dutyForLevel(activeLevel())) + ')\n' +
       'time.sleep_ms(' + String(milliseconds) + ')\n' +
-      pin + '.value(' + String(inactiveLevel()) + ')\n' +
+      pin + '.duty_u16(' + String(dutyForLevel(inactiveLevel())) + ')\n' +
       'time.sleep_ms(' + String(milliseconds) + ')\n';
   }
 

@@ -265,6 +265,33 @@ WorkspaceManager.showExternalLedConnectionReminder = function() {
   });
 };
 
+// RGB-specific version: the category is intentionally explicit for children
+// and teachers who may not know that the letters are physical LED pins.
+WorkspaceManager.showExternalLedConnectionReminder = function() {
+  var closeId = 'closeExternalLedConnectionNotification';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size:17px;">How to connect the KY-016 RGB LED</strong><br><br>' +
+      '<strong>1. Common pin:</strong> connect <strong>-</strong> to GND.<br>' +
+      '<strong>2. Colour pins:</strong> R = red, G = green, B = blue. Add each channel with <strong>+ Add an RGB channel</strong> only once.<br>' +
+      '<strong>3. Board connections:</strong> connect R, G and B to three different DIG Connections. The letter is the LED pin; the DIG number is the board contact.<br><br>' +
+      '<strong>V7 and OLED display (board screen):</strong> a complete RGB LED needs three Connections, while the display uses Connections 2 and 3. Choose RGB or the display. If you use only two colour channels with the display, use Connections 0 and 1 only.'
+    : WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size:17px;">Como ligar o LED RGB KY-016</strong><br><br>' +
+      '<strong>1. Pino comum:</strong> ligue <strong>-</strong> ao GND.<br>' +
+      '<strong>2. Pinos de cor:</strong> R = vermelho, G = verde, B = azul. Use <strong>+ Adicionar canal RGB</strong> uma vez para cada cor.<br>' +
+      '<strong>3. Conexoes da placa:</strong> ligue R, G e B a tres Conexoes DIG diferentes. A letra e o pino do LED; o numero DIG e o contato da placa.<br><br>' +
+      '<strong>V7 e Display OLED (tela da placa):</strong> um RGB completo precisa de tres Conexoes, mas o display usa as Conexoes 2 e 3. Escolha RGB ou display. Se usar somente duas cores com o display, use apenas as Conexoes 0 e 1.';
+
+  WorkspaceManager.createReminder({
+    id: 'externalLedConnectionNotification',
+    closeId: closeId,
+    background: '#d97706',
+    maxWidth: '700px',
+    html: html
+  });
+};
+
 WorkspaceManager.showExternalLedChannelReminder = function(channel) {
   var closeId = 'closeExternalLedChannel_' + String(channel || 'R');
   var info = WorkspaceManager.externalLedChannelInfo(channel);
@@ -278,6 +305,32 @@ WorkspaceManager.showExternalLedChannelReminder = function(channel) {
       '<strong style="font-size:17px;">Você escolheu o canal ' + label + '</strong><br><br>' +
       'No KY-016, ligue o pino <strong>' + label + '</strong> à <strong>Conexão 0, 1, 2 ou 3</strong> escolhida no bloco. Ligue <strong>-</strong> ao GND e deixe os outros dois pinos de cor desconectados.<br><br>' +
       'A letra no bloco é o pino físico do LED. O número da Conexão é o contato da placa. São coisas diferentes.';
+
+  WorkspaceManager.createReminder({
+    id: 'externalLedChannelNotification_' + String(channel || 'R'),
+    closeId: closeId,
+    background: '#d97706',
+    maxWidth: '540px',
+    html: html
+  });
+};
+
+WorkspaceManager.showExternalLedChannelReminder = function(channel) {
+  var labels = {
+    R: { pt: 'R (vermelho)', en: 'R (red)' },
+    G: { pt: 'G (verde)', en: 'G (green)' },
+    B: { pt: 'B (azul)', en: 'B (blue)' }
+  };
+  var selected = labels[channel] || labels.R;
+  var label = Code.LANG === 'en' ? selected.en : selected.pt;
+  var closeId = 'closeExternalLedChannel_' + String(channel || 'R');
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size:17px;">You chose ' + label + '</strong><br><br>' +
+      'Connect the <strong>' + label + '</strong> pin on the KY-016 to the DIG Connection selected in the block. Keep R, G and B on different Connections. Connect <strong>-</strong> to GND.'
+    : WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size:17px;">Voce escolheu ' + label + '</strong><br><br>' +
+      'Ligue o pino <strong>' + label + '</strong> do KY-016 a Conexao DIG escolhida no bloco. Mantenha R, G e B em Conexoes diferentes. Ligue <strong>-</strong> ao GND.';
 
   WorkspaceManager.createReminder({
     id: 'externalLedChannelNotification_' + String(channel || 'R'),

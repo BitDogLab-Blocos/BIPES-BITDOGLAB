@@ -93,7 +93,7 @@
   }
 
   Code.ExternalResources = {
-    VERSION: '2026-08-17-external-rgb-resources',
+    VERSION: '2026-08-14-external-resources',
     peripherals: PERIPHERALS,
     getPeripheral: getPeripheral,
     getClaims: getClaims
