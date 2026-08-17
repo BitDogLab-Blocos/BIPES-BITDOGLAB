@@ -104,6 +104,13 @@ WorkspaceManager.initWorkspace = function() {
     }
   });
 
+  if (window.BitDogLabExternalLed && Code.workspace.registerToolboxCategoryCallback) {
+    Code.workspace.registerToolboxCategoryCallback(
+      'EXTERNAL_LED',
+      window.BitDogLabExternalLed.flyoutCategory
+    );
+  }
+
   Code.loadBlocks('');
   WorkspaceManager.enhanceBlocklyControls();
 
