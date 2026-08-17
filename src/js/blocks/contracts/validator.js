@@ -584,27 +584,12 @@
     'led_externo_piscar_lento'
   ];
 
-  function externalLedName(block) {
-    if (!block) return '';
-    var field = block.getField && block.getField('LED');
-    var variable = field && field.getVariable ? field.getVariable() : null;
-    var name = variable && variable.name !== undefined
-      ? variable.name
-      : (field && field.getText ? field.getText() : '');
-    return String(name || '').trim();
-  }
-
-  function externalLedAllowedDig(config) {
-    var external = config && config.EXTERNAL || {};
-    var led = external.EXTERNAL_LED || {};
-    return led.ALLOWED_DIG || Object.keys(external.DIG_PINS || {});
-  }
-
-  function validateExternalLedRules(blocks, warnings, notices) {
+  function validateExternalLedRules(blocks, warnings) {
     var config = global.BitdogLabConfig || {};
-    var allowed = externalLedAllowedDig(config).map(String);
-    var byName = {};
-    var byDig = {};
+    var external = config.EXTERNAL || {};
+    var ledConfig = external.EXTERNAL_LED || {};
+    var allowed = (ledConfig.ALLOWED_DIG || Object.keys(external.DIG_PINS || {})).map(String);
+    var channels = ['R', 'G', 'B'];
 
     for (var i = 0; i < blocks.length; i++) {
       var block = blocks[i];
@@ -614,47 +599,8 @@
       if (allowed.indexOf(dig) === -1) {
         addWarning(warnings, block, msg('externalLedInvalidConnection'));
       }
-
-      var name = externalLedName(block);
-      if (!name) {
-        addNotice(notices, block, msg('externalLedNameEmpty'));
-      } else if (name.length > 24) {
-        addNotice(notices, block, msg('externalLedNameLong'));
-      }
-
-      var entry = { block: block, name: name, dig: dig };
-      var nameKey = name.toLowerCase();
-      if (nameKey) {
-        if (!byName[nameKey]) byName[nameKey] = [];
-        byName[nameKey].push(entry);
-      }
-      if (!byDig[dig]) byDig[dig] = [];
-      byDig[dig].push(entry);
-    }
-
-    for (var nameKey in byName) {
-      if (!byName.hasOwnProperty(nameKey)) continue;
-      var nameEntries = byName[nameKey];
-      var connections = {};
-      for (var n = 0; n < nameEntries.length; n++) connections[nameEntries[n].dig] = true;
-      if (Object.keys(connections).length > 1) {
-        for (var n2 = 0; n2 < nameEntries.length; n2++) {
-          addNotice(notices, nameEntries[n2].block, msg('externalLedNameDifferentConnections'));
-        }
-      }
-    }
-
-    for (var digKey in byDig) {
-      if (!byDig.hasOwnProperty(digKey)) continue;
-      var digEntries = byDig[digKey];
-      var names = {};
-      for (var d = 0; d < digEntries.length; d++) {
-        if (digEntries[d].name) names[digEntries[d].name.toLowerCase()] = true;
-      }
-      if (Object.keys(names).length > 1) {
-        for (var d2 = 0; d2 < digEntries.length; d2++) {
-          addNotice(notices, digEntries[d2].block, msg('externalLedNamesSameConnection'));
-        }
+      if (channels.indexOf(String(block.getFieldValue('CHANNEL') || '')) === -1) {
+        addWarning(warnings, block, msg('externalLedInvalidChannel'));
       }
     }
   }
@@ -788,7 +734,7 @@
     validateServoOledV7PinConflicts(blocks, warnings);
     validateDht11V7PinConflicts(blocks, warnings);
     validateDht11Aht20V7I2c0Conflicts(blocks, warnings);
-    validateExternalLedRules(blocks, warnings, notices);
+    validateExternalLedRules(blocks, warnings);
     validateExternalLedOledV7PinConflicts(blocks, warnings);
     validateExternalResourceConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);

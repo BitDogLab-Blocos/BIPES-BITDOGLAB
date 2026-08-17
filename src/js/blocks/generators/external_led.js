@@ -28,6 +28,16 @@
     return String(block.getFieldValue('DIG') || '0');
   }
 
+  function channelComment(block) {
+    var labels = {
+      R: 'R (vermelho)',
+      G: 'G (verde)',
+      B: 'B (azul)'
+    };
+    var channel = String(block.getFieldValue('CHANNEL') || 'R');
+    return '# KY-016 ' + (labels[channel] || channel) + ' - Conexao ' + dig(block) + '\n';
+  }
+
   function ensurePin(block) {
     var connection = dig(block);
     var pin = pins()[connection];
@@ -45,7 +55,7 @@
 
   function commandCode(block, value) {
     var pin = ensurePin(block);
-    return pin + '.value(' + String(value) + ')\n';
+    return channelComment(block) + pin + '.value(' + String(value) + ')\n';
   }
 
   Blockly.Python['led_externo_ligar'] = function(block) {
@@ -59,7 +69,7 @@
   function blink(block, milliseconds) {
     var pin = ensurePin(block);
     ensureSleep();
-    return pin + '.value(' + String(activeLevel()) + ')\n' +
+    return channelComment(block) + pin + '.value(' + String(activeLevel()) + ')\n' +
       'time.sleep_ms(' + String(milliseconds) + ')\n' +
       pin + '.value(' + String(inactiveLevel()) + ')\n' +
       'time.sleep_ms(' + String(milliseconds) + ')\n';
@@ -88,4 +98,3 @@
     return code;
   };
 })(window);
-

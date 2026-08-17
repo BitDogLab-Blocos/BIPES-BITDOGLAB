@@ -1,5 +1,5 @@
 // ==========================================
-// Category: External LEDs (KY-016 used as a one-channel digital LED)
+// Category: External LEDs (KY-016, one channel at a time)
 // ==========================================
 'use strict';
 
@@ -8,32 +8,47 @@
   if (!Blockly || !Blockly.Blocks) return;
 
   var COLOUR = 35;
-  var VARIABLE_TYPE = 'ExternalLed';
+  var COMMAND_TYPES = [
+    'led_externo_ligar',
+    'led_externo_desligar',
+    'led_externo_piscar_rapido',
+    'led_externo_piscar_lento'
+  ];
+  var ALL_TYPES = COMMAND_TYPES.concat(['led_externo_criar_animacao']);
+  var CHANNEL_ORDER = ['R', 'G', 'B'];
+  var CHANNELS = {
+    R: { pt: '🔴 R — Vermelho', en: '🔴 R — Red' },
+    G: { pt: '🟢 G — Verde', en: '🟢 G — Green' },
+    B: { pt: '🔵 B — Azul', en: '🔵 B — Blue' }
+  };
 
   function isEnglish() {
     return global.Code && global.Code.LANG === 'en';
   }
 
-  // The name is a wiring label, not a Python variable. Keeping a FieldVariable
-  // gives us Blockly's rename and XML persistence behavior while preventing the
-  // Python generator from creating an unused ``name = None`` assignment.
-  function externalLedField() {
-    var field = new Blockly.FieldVariable('LED', null, [VARIABLE_TYPE], VARIABLE_TYPE);
-    field.referencesVariables = function() { return false; };
-    return field;
+  function channelOptions() {
+    return CHANNEL_ORDER.map(function(channel) {
+      return [CHANNELS[channel][isEnglish() ? 'en' : 'pt'], channel];
+    });
+  }
+
+  function connectionOptions() {
+    return [0, 1, 2, 3].map(function(dig) {
+      return [isEnglish() ? 'Connection ' + dig : 'Conexão ' + dig, String(dig)];
+    });
+  }
+
+  function channelLabel(channel) {
+    var item = CHANNELS[channel] || CHANNELS.R;
+    return item[isEnglish() ? 'en' : 'pt'];
   }
 
   function setCommandShape(block, label, tooltip) {
     block.appendDummyInput()
       .appendField(label)
-      .appendField(externalLedField(), 'LED')
-      .appendField(isEnglish() ? 'on Connection' : 'na Conexão')
-      .appendField(new Blockly.FieldDropdown([
-        [isEnglish() ? 'Connection 0' : 'Conexão 0', '0'],
-        [isEnglish() ? 'Connection 1' : 'Conexão 1', '1'],
-        [isEnglish() ? 'Connection 2' : 'Conexão 2', '2'],
-        [isEnglish() ? 'Connection 3' : 'Conexão 3', '3']
-      ]), 'DIG');
+      .appendField(new Blockly.FieldDropdown(channelOptions()), 'CHANNEL')
+      .appendField(isEnglish() ? 'on' : 'na')
+      .appendField(new Blockly.FieldDropdown(connectionOptions()), 'DIG');
     block.setInputsInline(true);
     block.setPreviousStatement(true, null);
     block.setNextStatement(true, null);
@@ -45,32 +60,32 @@
   Blockly.Blocks['led_externo_ligar'] = {
     init: function() {
       setCommandShape(this,
-        isEnglish() ? '💡 Turn on external LED' : '💡 Ligar LED externo',
-        isEnglish() ? 'Turns on the selected LED channel.' : 'Liga o canal digital do LED externo selecionado.');
+        isEnglish() ? '💡 Turn on' : '💡 Ligar',
+        isEnglish() ? 'Turns on the selected KY-016 channel.' : 'Liga o canal R, G ou B escolhido do KY-016.');
     }
   };
 
   Blockly.Blocks['led_externo_desligar'] = {
     init: function() {
       setCommandShape(this,
-        isEnglish() ? '🌑 Turn off external LED' : '🌑 Desligar LED externo',
-        isEnglish() ? 'Turns off the selected LED channel.' : 'Desliga o canal digital do LED externo selecionado.');
+        isEnglish() ? '🌑 Turn off' : '🌑 Desligar',
+        isEnglish() ? 'Turns off the selected KY-016 channel.' : 'Desliga o canal R, G ou B escolhido do KY-016.');
     }
   };
 
   Blockly.Blocks['led_externo_piscar_rapido'] = {
     init: function() {
       setCommandShape(this,
-        isEnglish() ? '⚡ Blink external LED quickly' : '⚡ Piscar LED externo rápido',
-        isEnglish() ? 'One cycle: 200 ms on, 200 ms off.' : 'Faz um ciclo: 200 ms ligado e 200 ms desligado.');
+        isEnglish() ? '⚡ Blink quickly' : '⚡ Piscar rápido',
+        isEnglish() ? 'One cycle: 200 ms on, 200 ms off.' : 'Um ciclo: 200 ms ligado, 200 ms desligado.');
     }
   };
 
   Blockly.Blocks['led_externo_piscar_lento'] = {
     init: function() {
       setCommandShape(this,
-        isEnglish() ? '🐢 Blink external LED slowly' : '🐢 Piscar LED externo devagar',
-        isEnglish() ? 'One cycle: 1000 ms on, 1000 ms off.' : 'Faz um ciclo: 1000 ms ligado e 1000 ms desligado.');
+        isEnglish() ? '🐢 Blink slowly' : '🐢 Piscar devagar',
+        isEnglish() ? 'One cycle: 1000 ms on, 1000 ms off.' : 'Um ciclo: 1000 ms ligado, 1000 ms desligado.');
     }
   };
 
@@ -107,6 +122,9 @@
   Blockly.Blocks['led_externo_criar_animacao'] = {
     init: function() {
       this.setColour(COLOUR);
+      this.appendDummyInput()
+        .appendField(isEnglish() ? '🎬 Animate' : '🎬 Criar animação de')
+        .appendField(new Blockly.FieldDropdown(channelOptions()), 'CHANNEL');
       this.steps_ = ['action', 'time'];
       this.updateShape_();
       this.setPreviousStatement(true, null);
@@ -116,8 +134,8 @@
         'led_externo_criar_animacao_time'
       ]));
       this.setTooltip(isEnglish()
-        ? 'Creates a finite external LED animation. It does not create a forever loop.'
-        : 'Cria uma animação finita do LED externo. Ela não cria um loop infinito.');
+        ? 'Creates a finite animation. Choose the KY-016 channel in each action.'
+        : 'Cria uma animação finita. Escolha o canal do KY-016 em cada ação.');
     },
 
     mutationToDom: function() {
@@ -128,11 +146,7 @@
 
     domToMutation: function(xmlElement) {
       var raw = xmlElement.getAttribute('steps');
-      try {
-        this.steps_ = raw ? JSON.parse(raw) : [];
-      } catch (e) {
-        this.steps_ = [];
-      }
+      try { this.steps_ = raw ? JSON.parse(raw) : []; } catch (e) { this.steps_ = []; }
       this.steps_ = this.steps_.filter(function(step) {
         return step === 'action' || step === 'time';
       });
@@ -160,28 +174,24 @@
       var steps = [];
       var connections = [];
       while (item) {
-        var kind = item.type === 'led_externo_criar_animacao_action' ? 'action' : 'time';
-        steps.push(kind);
+        steps.push(item.type === 'led_externo_criar_animacao_action' ? 'action' : 'time');
         connections.push(item.stepConnection_ || null);
         item = item.nextConnection && item.nextConnection.targetBlock();
       }
 
       for (var i = 0; i < this.steps_.length; i++) {
-        var inputName = this.steps_[i] === 'action' ? 'STEP' + i : 'TIME' + i;
-        var input = this.getInput(inputName);
-        if (input && input.connection && input.connection.targetConnection &&
-            connections.indexOf(input.connection.targetConnection) === -1) {
-          input.connection.disconnect();
+        var oldName = this.steps_[i] === 'action' ? 'STEP' + i : 'TIME' + i;
+        var oldInput = this.getInput(oldName);
+        if (oldInput && oldInput.connection && oldInput.connection.targetConnection &&
+            connections.indexOf(oldInput.connection.targetConnection) === -1) {
+          oldInput.connection.disconnect();
         }
       }
-
       this.steps_ = steps;
       this.updateShape_();
       for (var j = 0; j < this.steps_.length; j++) {
-        if (connections[j]) {
-          Blockly.Mutator.reconnect(connections[j], this,
-            this.steps_[j] === 'action' ? 'STEP' + j : 'TIME' + j);
-        }
+        if (connections[j]) Blockly.Mutator.reconnect(
+          connections[j], this, this.steps_[j] === 'action' ? 'STEP' + j : 'TIME' + j);
       }
     },
 
@@ -199,22 +209,18 @@
 
     updateShape_: function() {
       var index = 0;
-      while (this.getInput('STEP' + index) || this.getInput('TIME' + index) || this.getInput('LABEL' + index)) {
+      while (this.getInput('STEP' + index) || this.getInput('TIME' + index)) {
         if (this.getInput('STEP' + index)) this.removeInput('STEP' + index);
         if (this.getInput('TIME' + index)) this.removeInput('TIME' + index);
-        if (this.getInput('LABEL' + index)) this.removeInput('LABEL' + index);
         index++;
       }
       if (this.getInput('EMPTY')) this.removeInput('EMPTY');
 
       if (!this.steps_.length) {
         this.appendDummyInput('EMPTY').appendField(
-          isEnglish() ? '🎬 Create external LED animation' : '🎬 Criar animação de LEDs externos');
+          isEnglish() ? 'Add animation steps' : 'Adicione passos à animação');
         return;
       }
-
-      this.appendDummyInput('LABEL0').appendField(
-        isEnglish() ? '🎬 External LED animation' : '🎬 Animação de LEDs externos');
       for (var i = 0; i < this.steps_.length; i++) {
         if (this.steps_[i] === 'action') {
           this.appendStatementInput('STEP' + i)
@@ -229,87 +235,145 @@
     }
   };
 
-  function createFieldDom(variable) {
-    return Blockly.Variables.generateVariableFieldDom(variable);
+  function createField(name, value) {
+    var field = Blockly.utils.xml.createElement('field');
+    field.setAttribute('name', name);
+    field.appendChild(Blockly.utils.xml.createTextNode(value));
+    return field;
   }
 
-  function createCommandBlock(type, variable, gap) {
+  function createCommandBlock(type, channel, gap) {
     var block = Blockly.utils.xml.createElement('block');
     block.setAttribute('type', type);
     block.setAttribute('gap', String(gap || 12));
-    block.appendChild(createFieldDom(variable));
-    var dig = Blockly.utils.xml.createElement('field');
-    dig.setAttribute('name', 'DIG');
-    dig.appendChild(Blockly.utils.xml.createTextNode('0'));
-    block.appendChild(dig);
+    block.appendChild(createField('CHANNEL', channel));
+    block.appendChild(createField('DIG', '0'));
     return block;
   }
 
-  function createAnimationBlock(variable) {
+  function createAnimationBlock(channel) {
     var block = Blockly.utils.xml.createElement('block');
     block.setAttribute('type', 'led_externo_criar_animacao');
     block.setAttribute('gap', '24');
+    block.appendChild(createField('CHANNEL', channel));
     var mutation = Blockly.utils.xml.createElement('mutation');
     mutation.setAttribute('steps', '["action","time"]');
     block.appendChild(mutation);
     return block;
   }
 
-  function markCreated(workspace, variable) {
-    workspace.bitdogLabExternalLedIds_ = workspace.bitdogLabExternalLedIds_ || {};
-    if (variable) workspace.bitdogLabExternalLedIds_[variable.getId()] = true;
-  }
-
-  function refresh(workspace) {
-    if (workspace.refreshToolboxSelection) workspace.refreshToolboxSelection();
-  }
-
-  function createExternalLed(button) {
-    var workspace = button.getTargetWorkspace();
-    var prompt = isEnglish() ? 'Name this external LED:' : 'Nome deste LED externo:';
-    Blockly.Variables.promptName(prompt, '', function(name) {
-      if (!name) return;
-      var existing = Blockly.Variables.nameUsedWithAnyType(name, workspace);
-      if (existing) {
-        var message = Blockly.Msg.VARIABLE_ALREADY_EXISTS_FOR_ANOTHER_TYPE ||
-          'A variable named "%1" already exists for another type "%2".';
-        Blockly.alert(message.replace('%1', existing.name).replace('%2', existing.type));
-        return;
-      }
-      markCreated(workspace, workspace.createVariable(name, VARIABLE_TYPE));
-      refresh(workspace);
+  function selectedChannels(workspace) {
+    var selected = workspace.bitdogLabExternalLedChannels_ || {};
+    workspace.getAllBlocks(false).forEach(function(block) {
+      if (ALL_TYPES.indexOf(block.type) === -1 || !block.getFieldValue) return;
+      var channel = block.getFieldValue('CHANNEL');
+      if (CHANNEL_ORDER.indexOf(channel) !== -1) selected[channel] = true;
     });
+    workspace.bitdogLabExternalLedChannels_ = selected;
+    return selected;
+  }
+
+  function closeChannelPicker() {
+    var picker = document.getElementById('external-led-channel-picker');
+    if (picker && picker.parentNode) picker.parentNode.removeChild(picker);
+  }
+
+  function addChannel(workspace, channel) {
+    var selected = selectedChannels(workspace);
+    if (selected[channel]) {
+      closeChannelPicker();
+      return;
+    }
+    selected[channel] = true;
+    refreshFlyout(workspace);
+    closeChannelPicker();
+    if (global.Code && global.Code.showExternalLedChannelReminder) {
+      global.Code.showExternalLedChannelReminder(channel);
+    }
+  }
+
+  function refreshFlyout(workspace) {
+    if (workspace && workspace.refreshToolboxSelection) workspace.refreshToolboxSelection();
+  }
+
+  function showChannelPicker(button) {
+    var workspace = button.getTargetWorkspace();
+    var selected = selectedChannels(workspace);
+    closeChannelPicker();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'external-led-channel-picker';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:10001;display:flex;align-items:center;justify-content:center;padding:18px;';
+    var card = document.createElement('div');
+    card.style.cssText = 'background:#fff7ed;color:#4a2c13;border:3px solid #d97706;border-radius:14px;max-width:520px;width:100%;padding:22px;box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:Arial,sans-serif;';
+    var title = document.createElement('h2');
+    title.textContent = isEnglish() ? 'Which KY-016 colour will you use?' : 'Qual cor do KY-016 você vai usar?';
+    title.style.margin = '0 0 8px';
+    card.appendChild(title);
+    var help = document.createElement('p');
+    help.textContent = isEnglish()
+      ? 'Choose each channel only once. Then connect that letter to the selected board connection.'
+      : 'Escolha cada canal apenas uma vez. Depois ligue essa letra à Conexão escolhida na placa.';
+    card.appendChild(help);
+
+    CHANNEL_ORDER.forEach(function(channel) {
+      var choice = document.createElement('button');
+      choice.type = 'button';
+      choice.disabled = !!selected[channel];
+      choice.textContent = selected[channel]
+        ? (channelLabel(channel) + ' — já adicionado')
+        : channelLabel(channel);
+      choice.style.cssText = 'display:block;width:100%;margin:8px 0;padding:13px 15px;border:2px solid #d97706;border-radius:9px;background:' + (selected[channel] ? '#eadfd2' : '#fff') + ';color:#4a2c13;font-size:17px;text-align:left;cursor:' + (selected[channel] ? 'not-allowed' : 'pointer') + ';';
+      choice.addEventListener('click', function() { addChannel(workspace, channel); });
+      card.appendChild(choice);
+    });
+    var cancel = document.createElement('button');
+    cancel.type = 'button';
+    cancel.textContent = isEnglish() ? 'Cancel' : 'Cancelar';
+    cancel.style.cssText = 'margin-top:10px;padding:9px 16px;border:0;border-radius:8px;background:#6b7280;color:white;font-size:15px;cursor:pointer;';
+    cancel.addEventListener('click', closeChannelPicker);
+    card.appendChild(cancel);
+    overlay.appendChild(card);
+    overlay.addEventListener('click', function(event) {
+      if (event.target === overlay) closeChannelPicker();
+    });
+    document.body.appendChild(overlay);
   }
 
   function externalLedFlyout(workspace) {
     var items = [];
-    var button = Blockly.utils.xml.createElement('button');
-    button.setAttribute('text', isEnglish() ? '+ Identify new LED' : '+ Identificar novo LED');
-    button.setAttribute('callbackKey', 'CREATE_EXTERNAL_LED');
-    workspace.registerButtonCallback('CREATE_EXTERNAL_LED', createExternalLed);
-    items.push(button);
-
-    var ids = workspace.bitdogLabExternalLedIds_ || {};
-    var variables = workspace.getVariablesOfType(VARIABLE_TYPE).filter(function(variable) {
-      return !!ids[variable.getId()];
-    });
-    variables.sort(Blockly.VariableModel.compareByName);
-    for (var i = 0; i < variables.length; i++) {
-      var variable = variables[i];
-      items.push(createCommandBlock('led_externo_ligar', variable, 12));
-      items.push(createCommandBlock('led_externo_desligar', variable, 12));
-      items.push(createCommandBlock('led_externo_piscar_rapido', variable, 12));
-      items.push(createCommandBlock('led_externo_piscar_lento', variable, 12));
-      items.push(createAnimationBlock(variable));
+    var selected = selectedChannels(workspace);
+    var available = CHANNEL_ORDER.filter(function(channel) { return !selected[channel]; });
+    if (available.length) {
+      var button = Blockly.utils.xml.createElement('button');
+      button.setAttribute('text', isEnglish() ? '+ Choose KY-016 colour' : '+ Escolher cor do KY-016');
+      button.setAttribute('callbackKey', 'CHOOSE_EXTERNAL_LED_CHANNEL');
+      workspace.registerButtonCallback('CHOOSE_EXTERNAL_LED_CHANNEL', showChannelPicker);
+      items.push(button);
+    } else {
+      var done = Blockly.utils.xml.createElement('label');
+      done.setAttribute('text', isEnglish() ? '✅ R, G and B already added' : '✅ R, G e B já foram adicionados');
+      items.push(done);
     }
+
+    CHANNEL_ORDER.forEach(function(channel) {
+      if (!selected[channel]) return;
+      items.push(createCommandBlock('led_externo_ligar', channel, 12));
+      items.push(createCommandBlock('led_externo_desligar', channel, 12));
+      items.push(createCommandBlock('led_externo_piscar_rapido', channel, 12));
+      items.push(createCommandBlock('led_externo_piscar_lento', channel, 12));
+      items.push(createAnimationBlock(channel));
+    });
     return items;
   }
 
   global.BitDogLabExternalLed = {
-    VARIABLE_TYPE: VARIABLE_TYPE,
+    channels: CHANNELS,
+    commandTypes: COMMAND_TYPES,
+    allTypes: ALL_TYPES,
     flyoutCategory: externalLedFlyout,
-    field: externalLedField
+    channelLabel: channelLabel
   };
 
-  console.log('[BitDogLab] External LED blocks loaded.');
+  console.log('[BitDogLab] External LED channel blocks loaded.');
 })(window);

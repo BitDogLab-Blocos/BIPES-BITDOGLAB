@@ -215,6 +215,99 @@ WorkspaceManager.bindServoCategoryHint = function() {
   });
 };
 
+WorkspaceManager.externalLedChannelInfo = function(channel) {
+  var info = {
+    R: { pt: 'R (vermelho)', en: 'R (red)' },
+    G: { pt: 'G (verde)', en: 'G (green)' },
+    B: { pt: 'B (azul)', en: 'B (blue)' }
+  };
+  return info[channel] || info.R;
+};
+
+WorkspaceManager.showExternalLedConnectionReminder = function() {
+  var closeId = 'closeExternalLedConnectionNotification';
+  var boardImage = '../assets/images/devices/conexoes-externas.png';
+  var ledImage = '../assets/images/devices/ky-016.png';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:17px;">🔌 How to connect the KY-016</strong><br>' +
+      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
+      '<img src="' + boardImage + '" alt="External connections" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
+      '<img src="' + ledImage + '" alt="KY-016 RGB LED module" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
+      '</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;line-height:1.55;">' +
+      '<strong>Use one colour channel at a time:</strong><br>' +
+      '• <strong>-</strong> → GND<br>• <strong>R</strong> → the Connection chosen in the block (red)<br>• <strong>G</strong> → the Connection chosen in the block (green)<br>• <strong>B</strong> → the Connection chosen in the block (blue)<br>' +
+      'Leave the other two colour wires disconnected. Turn the board off before changing wires.</div>' +
+      '<div style="margin-top:10px;"><strong>Safety:</strong> a loose 5 mm LED needs a resistor (about 470 Ω). KY-016 boards usually have resistors, but check the real module. On V7, use Connection 0 or 1 when the OLED is active.</div>' +
+      '</div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:17px;">🔌 Como ligar o KY-016</strong><br>' +
+      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
+      '<img src="' + boardImage + '" alt="Conexões externas" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
+      '<img src="' + ledImage + '" alt="Módulo LED RGB KY-016" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
+      '</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;line-height:1.55;">' +
+      '<strong>Use uma cor por vez:</strong><br>' +
+      '• <strong>-</strong> → GND<br>• <strong>R</strong> → a Conexão escolhida no bloco (vermelho)<br>• <strong>G</strong> → a Conexão escolhida no bloco (verde)<br>• <strong>B</strong> → a Conexão escolhida no bloco (azul)<br>' +
+      'Deixe os outros dois fios de cor desconectados. Desligue a placa antes de trocar os fios.</div>' +
+      '<div style="margin-top:10px;"><strong>Segurança:</strong> um LED de 5 mm solto precisa de resistor (aproximadamente 470 Ω). As placas KY-016 geralmente já têm resistores, mas confira o módulo real. Na V7, use Conexão 0 ou 1 quando o OLED estiver ativo.</div>' +
+      '</div>';
+
+  WorkspaceManager.createReminder({
+    id: 'externalLedConnectionNotification',
+    closeId: closeId,
+    background: '#d97706',
+    maxWidth: '700px',
+    html: html
+  });
+};
+
+WorkspaceManager.showExternalLedChannelReminder = function(channel) {
+  var closeId = 'closeExternalLedChannel_' + String(channel || 'R');
+  var info = WorkspaceManager.externalLedChannelInfo(channel);
+  var label = Code.LANG === 'en' ? info.en : info.pt;
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size:17px;">You chose ' + label + '</strong><br><br>' +
+      'In the KY-016, connect the <strong>' + label + '</strong> pin to the <strong>Connection 0, 1, 2 or 3</strong> selected in your block. Connect <strong>-</strong> to GND and leave the other two colour pins disconnected.<br><br>' +
+      'The letter in the block is the physical LED pin. The Connection number is the board contact. They are different things.'
+    : WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size:17px;">Você escolheu o canal ' + label + '</strong><br><br>' +
+      'No KY-016, ligue o pino <strong>' + label + '</strong> à <strong>Conexão 0, 1, 2 ou 3</strong> escolhida no bloco. Ligue <strong>-</strong> ao GND e deixe os outros dois pinos de cor desconectados.<br><br>' +
+      'A letra no bloco é o pino físico do LED. O número da Conexão é o contato da placa. São coisas diferentes.';
+
+  WorkspaceManager.createReminder({
+    id: 'externalLedChannelNotification_' + String(channel || 'R'),
+    closeId: closeId,
+    background: '#d97706',
+    maxWidth: '540px',
+    html: html
+  });
+};
+
+WorkspaceManager.bindExternalLedCategoryHint = function() {
+  var toolbox = Code.workspace && Code.workspace.getToolbox ? Code.workspace.getToolbox() : null;
+  var toolboxDiv = toolbox && toolbox.HtmlDiv;
+  if (!toolboxDiv || toolboxDiv.__bitdoglabExternalLedHintBound) return;
+
+  toolboxDiv.__bitdoglabExternalLedHintBound = true;
+  toolboxDiv.addEventListener('click', function(event) {
+    var clickTarget = event.target;
+    while (clickTarget && clickTarget !== toolboxDiv && !clickTarget.id) {
+      clickTarget = clickTarget.parentNode;
+    }
+    if (!clickTarget || !clickTarget.id || !toolbox.getToolboxItemById) return;
+    var item = toolbox.getToolboxItemById(clickTarget.id);
+    var categoryName = item && item.getName ? item.getName() : '';
+    if (categoryName === 'LEDs Externos' || categoryName === 'External LEDs') {
+      Code.showExternalLedConnectionReminder();
+    }
+  });
+};
+
 WorkspaceManager.showDht11ConnectionReminder = function(block) {
   var closeId = 'closeDht11ConnectionNotification';
   var boardImage = '../assets/images/devices/conexoes-externas.png';
@@ -713,6 +806,7 @@ WorkspaceManager.showGraficoReminder = function() {
 WorkspaceManager.bindWorkspaceHints = function() {
   WorkspaceManager.bindServoCategoryHint();
   WorkspaceManager.bindDht11CategoryHint();
+  WorkspaceManager.bindExternalLedCategoryHint();
 
   Code.workspace.addChangeListener(function(event) {
     if (event.type === Blockly.Events.BLOCK_CREATE) {
@@ -741,6 +835,11 @@ WorkspaceManager.bindWorkspaceHints = function() {
       }
       if (blockType === 'dht11_temperatura' || blockType === 'dht11_umidade') {
         Code.showDht11ConnectionReminder(block);
+      }
+      if (window.BitDogLabExternalLed &&
+          window.BitDogLabExternalLed.allTypes.indexOf(blockType) !== -1 &&
+          block.getFieldValue && block.getFieldValue('CHANNEL')) {
+        Code.showExternalLedChannelReminder(block.getFieldValue('CHANNEL'));
       }
       if (servoControllerBlocks.indexOf(blockType) !== -1) {
         Code.showServoConnectionReminder(block);
