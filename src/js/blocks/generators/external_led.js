@@ -63,8 +63,16 @@
     Blockly.Python.definitions_['import_external_led_pwm'] = 'from machine import PWM';
     Blockly.Python.definitions_[key] =
       'external_led_' + connection + ' = PWM(Pin(' + String(pin) + '), freq=' + String(pwmFrequency()) + ')';
+    // The safe initial state belongs to setup. If emitted as a regular
+    // definition line, the organizer places it at the start of every loop
+    // and button-driven LED states cannot persist.
+    var markers = profile().MARKERS || {};
+    var setupStart = markers.SETUP_START || '# SETUP_BLOCK_START';
+    var setupEnd = markers.SETUP_END || '# SETUP_BLOCK_END';
     Blockly.Python.definitions_['external_led_off_' + connection] =
-      'external_led_' + connection + '.duty_u16(' + String(dutyForLevel(inactiveLevel())) + ')';
+      setupStart + '\n' +
+      'external_led_' + connection + '.duty_u16(' + String(dutyForLevel(inactiveLevel())) + ')\n' +
+      setupEnd;
     return 'external_led_' + connection;
   }
 

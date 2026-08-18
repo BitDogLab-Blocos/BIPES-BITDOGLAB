@@ -9,6 +9,8 @@
     <value name="TIME3"><block type="tempo_segundos"><field name="NUM">1</field></block></value>
     <statement name="STEP4"><block type="led_externo_ligar"><field name="CHANNEL">B</field><field name="DIG">2</field></block></statement>
     <value name="TIME5"><block type="tempo_segundos"><field name="NUM">2</field></block></value>
-    <next><block type="led_externo_desligar_todos"></block></next>
+    <next><block type="led_externo_desligar_todos">
+      <next><block type="esperar_segundos"><value name="TIME"><block type="tempo_segundos"><field name="NUM">1</field></block></value></block></next>
+    </block></next>
   </block>
 </xml>
