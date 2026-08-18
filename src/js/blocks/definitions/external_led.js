@@ -386,9 +386,11 @@
       items.push(done);
     }
 
-    // This command is always available and is intentionally not offered
-    // inside the animation mutator.
+    // These generic blocks are always available, even before a colour channel
+    // is added to the workspace. They are intentionally not offered inside
+    // the animation mutator.
     items.push(createGlobalBlock('led_externo_desligar_todos', 18));
+    items.push(createAnimationBlock());
 
     CHANNEL_ORDER.forEach(function(channel) {
       if (!selected[channel]) return;
@@ -397,9 +399,6 @@
       items.push(createCommandBlock('led_externo_piscar_rapido', channel, 12));
       items.push(createCommandBlock('led_externo_piscar_lento', channel, 12));
     });
-    if (CHANNEL_ORDER.some(function(channel) { return selected[channel]; })) {
-      items.push(createAnimationBlock());
-    }
     return items;
   }
 
