@@ -1,5 +1,5 @@
 // ==========================================
-// Category: External RGB LED (KY-016, one fixed channel per block group)
+// Category: External RGB LED (KY-016, channels selected in command blocks)
 // ==========================================
 'use strict';
 
@@ -45,8 +45,8 @@
   }
 
   // The colour is chosen in the category's "+" button. Keep this field
-  // visible so children can see R/G/B, but do not let a block silently
-  // change to another physical channel after it was created.
+  // visible on command blocks so learners can see R/G/B, but do not let a
+  // command silently change to another physical channel after it was created.
   function channelField() {
     var field = new Blockly.FieldDropdown(channelOptions());
     field.showEditor_ = function() {};
@@ -148,8 +148,7 @@
     init: function() {
       this.setColour(COLOUR);
       this.appendDummyInput()
-        .appendField(isEnglish() ? '🎬 Animate' : '🎬 Criar animação de')
-        .appendField(channelField(), 'CHANNEL');
+        .appendField(isEnglish() ? '🎬 Animate external LEDs' : '🎬 Criar animação dos LEDs externos');
       this.steps_ = ['action', 'time'];
       this.updateShape_();
       this.setPreviousStatement(true, null);
@@ -276,11 +275,10 @@
     return block;
   }
 
-  function createAnimationBlock(channel) {
+  function createAnimationBlock() {
     var block = Blockly.utils.xml.createElement('block');
     block.setAttribute('type', 'led_externo_criar_animacao');
     block.setAttribute('gap', '24');
-    block.appendChild(createField('CHANNEL', channel));
     var mutation = Blockly.utils.xml.createElement('mutation');
     mutation.setAttribute('steps', '["action","time"]');
     block.appendChild(mutation);
@@ -398,8 +396,10 @@
       items.push(createCommandBlock('led_externo_desligar', channel, 12));
       items.push(createCommandBlock('led_externo_piscar_rapido', channel, 12));
       items.push(createCommandBlock('led_externo_piscar_lento', channel, 12));
-      items.push(createAnimationBlock(channel));
     });
+    if (CHANNEL_ORDER.some(function(channel) { return selected[channel]; })) {
+      items.push(createAnimationBlock());
+    }
     return items;
   }
 
