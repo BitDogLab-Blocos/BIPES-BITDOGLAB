@@ -591,6 +591,9 @@
     'led_externo_piscar_lento'
   ];
   var EXTERNAL_LED_GLOBAL_TYPES = ['led_externo_desligar_todos'];
+  var EXTERNAL_LED_ANY_TYPES = EXTERNAL_LED_TYPES.concat([
+    'led_externo_criar_animacao'
+  ], EXTERNAL_LED_GLOBAL_TYPES);
 
   function validateExternalLedRules(blocks, warnings) {
     var config = global.BitdogLabConfig || {};
@@ -668,10 +671,20 @@
 
   }
 
-  function validateExternalLedOledV7PinConflicts(blocks, warnings) {
+  function validateExternalLedOledV7PinConflicts(blocks, warnings, notices) {
     var config = global.BitdogLabConfig;
     if (!config || config.VERSION !== 'v7' || !config.PINS || !config.EXTERNAL || !config.EXTERNAL.DIG_PINS) return;
     if (!blocks.some(isOledBlock)) return;
+
+    var externalLedBlocks = [];
+    for (var externalIndex = 0; externalIndex < blocks.length; externalIndex++) {
+      if (EXTERNAL_LED_ANY_TYPES.indexOf(blocks[externalIndex].type) !== -1) {
+        externalLedBlocks.push(blocks[externalIndex]);
+      }
+    }
+    if (externalLedBlocks.length) {
+      addNotice(notices, externalLedBlocks[0], msg('externalLedOledV7Notice'));
+    }
 
     for (var globalIndex = 0; globalIndex < blocks.length; globalIndex++) {
       if (EXTERNAL_LED_GLOBAL_TYPES.indexOf(blocks[globalIndex].type) !== -1) {
@@ -817,7 +830,7 @@
     validateDht11V7PinConflicts(blocks, warnings);
     validateDht11Aht20V7I2c0Conflicts(blocks, warnings);
     validateExternalLedRules(blocks, warnings);
-    validateExternalLedOledV7PinConflicts(blocks, warnings);
+    validateExternalLedOledV7PinConflicts(blocks, warnings, notices);
     validateExternalResourceConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 
