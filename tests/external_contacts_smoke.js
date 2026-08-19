@@ -83,7 +83,8 @@ function compilePython(code) {
         Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), workspace);
         return {
           report: Code.BlockContractValidator.getReport(workspace),
-          code: Blockly.Python.workspaceToCode(workspace)
+          code: Blockly.Python.workspaceToCode(workspace),
+          generated: Code.generateCode()
         };
       }
 
@@ -92,14 +93,10 @@ function compilePython(code) {
         '<block type="external_contact_when_closed"><field name="DIG">' + dig + '</field>' +
         '<statement name="DO">' + action + '</statement>' + (next || '') + '</block>'
       );
-      const forever = (body) => (
-        '<xml><block type="controls_repeat_forever"><statement name="DO">' + body + '</statement></block></xml>'
-      );
-
-      const gnd = load(forever(event(0)));
+      const gnd = load('<xml>' + event(0) + '</xml>');
       const threeVolt = load(
         '<xml><block type="external_contact_prepare"><field name="COMMON">3V3</field></block>' +
-        '<block type="controls_repeat_forever"><statement name="DO">' + event(1) + '</statement></block></xml>'
+        event(1) + '</xml>'
       );
       const booleanContact = load(
         '<xml><block type="controls_if"><value name="IF0">' +
@@ -107,7 +104,7 @@ function compilePython(code) {
         '</value><statement name="DO0">' + action + '</statement></block></xml>'
       );
       const matrixTest = load('<xml><block type="external_contact_test_matrix"></block></xml>');
-      const eventOutsideForever = load('<xml>' + event(0) + '</xml>');
+      const standaloneEvent = load('<xml>' + event(0) + '</xml>');
       const conflictingPreparation = load(
         '<xml><block type="external_contact_prepare"><field name="COMMON">GND</field></block>' +
         '<block type="external_contact_prepare"><field name="COMMON">3V3</field></block></xml>'
@@ -130,7 +127,7 @@ function compilePython(code) {
         '<xml><block type="external_contact_test_matrix"></block><block type="display_testar_conexao"></block></xml>'
       );
       const secondEvent = '<next>' + event(0) + '</next>';
-      const sharedConnectionEvents = load(forever(event(0, secondEvent)));
+      const sharedConnectionEvents = load('<xml>' + event(0, secondEvent) + '</xml>');
 
       return {
         definitions: [
@@ -143,7 +140,7 @@ function compilePython(code) {
         threeVolt,
         booleanContact,
         matrixTest,
-        eventOutsideForever,
+        standaloneEvent,
         conflictingPreparation,
         duplicatePreparation,
         servoConflict,
@@ -167,8 +164,9 @@ function compilePython(code) {
     assert.strictEqual(result.matrixTest.report.valid, true);
     assert.match(result.matrixTest.code, /_contact_test_button/);
     assert.match(result.matrixTest.code, /\(0, 0\), \(1, 1\), \(2, 3\), \(3, 4\)/);
-    assert.strictEqual(result.eventOutsideForever.report.valid, false);
-    assert.match(result.eventOutsideForever.report.issues[0].messages.join('\n'), /Repetir sempre/);
+    assert.strictEqual(result.standaloneEvent.report.valid, true);
+    assert.match(result.standaloneEvent.generated, /while True:/);
+    assert.doesNotMatch(result.standaloneEvent.generated, /Codigo nao gerado/);
     assert.strictEqual(result.conflictingPreparation.report.valid, false);
     assert.ok(result.conflictingPreparation.report.issues.some((issue) => /GND/.test(issue.messages.join('\n'))));
     assert.strictEqual(result.duplicatePreparation.report.valid, true);

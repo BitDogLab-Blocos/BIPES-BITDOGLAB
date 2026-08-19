@@ -148,8 +148,6 @@
     },
     external_contact_when_closed: {
       kind: 'container',
-      requiredAncestorAny: ['controls_repeat_forever'],
-      requiredAncestorLabel: 'Repetir sempre / Repeat forever',
       inputs: {
         DO: {
           label: 'ações do programa'
