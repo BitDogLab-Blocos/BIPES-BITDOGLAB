@@ -162,7 +162,7 @@ async function main() {
       };
     });
 
-    assert.strictEqual(result.registryVersion, '2026-08-14-external-resources');
+    assert.strictEqual(result.registryVersion, '2026-08-19-external-contacts');
     assert.strictEqual(result.v7SameConnection.valid, false);
     assert.ok(result.v7SameConnection.dhtWarning.includes('Conexão 0'));
     assert.ok(result.v7SameConnection.servoWarning.includes('Conexão 0'));

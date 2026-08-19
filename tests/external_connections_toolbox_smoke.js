@@ -32,6 +32,7 @@ const servoGenerators = fs.readFileSync(servoGeneratorsPath, 'utf8');
 const workspaceHints = fs.readFileSync(workspaceHintsPath, 'utf8');
 
 const expectedNames = [
+  'Contatos',
   'LEDs Externos',
   'Sensor de luz e sombra (LDR)',
   'Temperatura e umidade externo',
@@ -50,17 +51,28 @@ function attribute(attributes, name) {
 }
 
 const actualNames = externalCategories.map((category) => attribute(category.attributes, 'name'));
-assert.deepStrictEqual(actualNames, expectedNames, 'As cinco categorias externas devem existir na ordem planejada.');
+assert.deepStrictEqual(actualNames, expectedNames, 'As seis categorias externas devem existir na ordem planejada.');
 
 externalCategories.forEach((category) => {
   assert.strictEqual(attribute(category.attributes, 'data-project'), 'externos');
-  if (category !== externalCategories[2] && category !== externalCategories[4]) {
-    assert.ok(!/<block\b/.test(category.body), 'Somente as categorias DHT11 e servo devem possuir blocos nesta etapa.');
+  if (category !== externalCategories[0] && category !== externalCategories[3] && category !== externalCategories[5]) {
+    assert.ok(!/<block\b/.test(category.body), 'Somente as categorias Contatos, DHT11 e servo devem possuir blocos estaticos nesta etapa.');
   }
 });
 
+const contactBlockTypes = Array.from(
+  externalCategories[0].body.matchAll(/<block\s+[^>]*type="([^"]+)"/g),
+  (match) => match[1]
+);
+assert.deepStrictEqual(contactBlockTypes, [
+  'external_contact_prepare',
+  'external_contact_when_closed',
+  'external_contact_is_closed',
+  'external_contact_test_matrix'
+], 'A primeira categoria externa deve oferecer os quatro blocos de contatos.');
+
 const dht11BlockTypes = Array.from(
-  externalCategories[2].body.matchAll(/<block\s+[^>]*type="([^"]+)"/g),
+  externalCategories[3].body.matchAll(/<block\s+[^>]*type="([^"]+)"/g),
   (match) => match[1]
 );
 assert.deepStrictEqual(dht11BlockTypes, [
@@ -104,7 +116,7 @@ assert.match(v6Profile, /DHT11:\s*\{[\s\S]*?ALLOWED_DIG: \['0', '1', '2', '3'\]/
 assert.match(v6Profile, /DHT11:\s*\{[\s\S]*?MIN_INTERVAL_MS: 2000/);
 
 const servoBlockTypes = Array.from(
-  externalCategories[4].body.matchAll(/<block\s+[^>]*type="([^"]+)"/g),
+  externalCategories[5].body.matchAll(/<block\s+[^>]*type="([^"]+)"/g),
   (match) => match[1]
 );
 assert.deepStrictEqual(servoBlockTypes, [
@@ -117,9 +129,9 @@ assert.deepStrictEqual(servoBlockTypes, [
   'servo_angulo_atual'
 ], 'A categoria de servo deve oferecer cinco blocos e uma composição pronta de display.');
 
-assert.match(externalCategories[4].body, /<field name="DIR_INCREASE">UP<\/field>/);
-assert.match(externalCategories[4].body, /<field name="DIR_DECREASE">DOWN<\/field>/);
-assert.doesNotMatch(externalCategories[4].body, /<field name="(?:AXIS|INCREASE_DIRECTION)">/);
+assert.match(externalCategories[5].body, /<field name="DIR_INCREASE">UP<\/field>/);
+assert.match(externalCategories[5].body, /<field name="DIR_DECREASE">DOWN<\/field>/);
+assert.doesNotMatch(externalCategories[5].body, /<field name="(?:AXIS|INCREASE_DIRECTION)">/);
 assert.match(servoDefinitions, /graus \(limite: 0°–180°\)/);
 assert.match(servoGenerators, /function sequentialAngleDisplayCode\(block, dig\)/);
 assert.match(servoGenerators, /Number\(valueBlock\.getFieldValue\('DIG'\)\) !== dig/);
@@ -215,7 +227,7 @@ function visibleExternalCategories(project) {
   });
 }
 
-assert.strictEqual(visibleExternalCategories('externos').length, 5);
+assert.strictEqual(visibleExternalCategories('externos').length, 6);
 ['basico', 'robo', 'estufa', 'piano'].forEach((project) => {
   assert.strictEqual(visibleExternalCategories(project).length, 0, 'Categorias externas apareceram no projeto ' + project + '.');
 });
@@ -224,4 +236,4 @@ expectedNames.forEach((name) => {
   assert.ok(catalog.includes(JSON.stringify(name) + ':'), 'Tradução ausente para a categoria: ' + name);
 });
 
-console.log('OK: 5 categorias exclusivas do projeto de conexões externas.');
+console.log('OK: 6 categorias exclusivas do projeto de conexões externas, com Contatos em primeiro lugar.');

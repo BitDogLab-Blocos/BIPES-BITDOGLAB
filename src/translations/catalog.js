@@ -1433,6 +1433,7 @@ var CUSTOM_TRANSLATIONS_EN = {
   "⏱️ Tempo e Relógio": "⏱️ Weather and Clock",
   "🎨 Cores": "🎨 Colors",
   "💡 LEDs": "💡 LEDs",
+  "Contatos": "Contacts",
   "LEDs Externos": "External LEDs",
   "Sensor de luz e sombra (LDR)": "Light and shadow sensor (LDR)",
   "Temperatura e umidade externo": "External temperature and humidity",

@@ -64,7 +64,8 @@
       '_contact_active_level = ' + String(activeLevel) + '\n' +
       '_contact_debounce_ms = ' + String(debounce) + '\n' +
       '_contact_pins = {}\n' +
-      '_contact_states = {}';
+      '_contact_states = {}\n' +
+      '_contact_event_seen = {}';
     Blockly.Python.definitions_.external_contact_helpers =
       'def _contact_get(dig):\n' +
       '  dig = int(dig)\n' +
@@ -74,7 +75,7 @@
       '    pin = Pin(_contact_pin_numbers[dig], Pin.IN, _contact_pull)\n' +
       '    raw = pin.value()\n' +
       '    _contact_pins[dig] = pin\n' +
-      '    _contact_states[dig] = {"raw": raw, "stable": raw, "changed": time.ticks_ms(), "pending": False}\n' +
+      '    _contact_states[dig] = {"raw": raw, "stable": raw, "changed": time.ticks_ms(), "event": 0}\n' +
       '  return _contact_pins[dig]\n' +
       '\n' +
       'def _contact_update(dig):\n' +
@@ -91,18 +92,19 @@
       '    state["stable"] = raw\n' +
       '    has_contact = raw == _contact_active_level\n' +
       '    if has_contact and not was_contact:\n' +
-      '      state["pending"] = True\n' +
+      '      state["event"] += 1\n' +
       '  return state["stable"] == _contact_active_level\n' +
       '\n' +
       'def _contact_is_closed(dig):\n' +
       '  return _contact_update(dig)\n' +
       '\n' +
-      'def _contact_take_event(dig):\n' +
+      'def _contact_take_event(dig, event_key):\n' +
       '  dig = int(dig)\n' +
       '  _contact_update(dig)\n' +
       '  state = _contact_states[dig]\n' +
-      '  if state["pending"]:\n' +
-      '    state["pending"] = False\n' +
+      '  last_event = _contact_event_seen.get(event_key, 0)\n' +
+      '  if state["event"] != last_event:\n' +
+      '    _contact_event_seen[event_key] = state["event"]\n' +
       '    return True\n' +
       '  return False';
   }
@@ -121,7 +123,8 @@
     setupContactRuntime();
     var branch = Blockly.Python.statementToCode(block, 'DO');
     if (!branch) branch = Blockly.Python.INDENT + 'pass\n';
-    return 'if _contact_take_event(' + digValue(block) + '):\n' + branch;
+    var eventKey = JSON.stringify('contact_' + String(block.id || 'event'));
+    return 'if _contact_take_event(' + digValue(block) + ', ' + eventKey + '):\n' + branch;
   };
 
   Blockly.Python.external_contact_is_closed = function(block) {
