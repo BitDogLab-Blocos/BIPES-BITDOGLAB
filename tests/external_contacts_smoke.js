@@ -133,6 +133,30 @@ function compilePython(code) {
         text: compilePanel ? compilePanel.textContent : ''
       };
       if (compilePanel) compilePanel.remove();
+      const displayNotice = load(
+        '<xml>' + prepare('GND') + '<block type="controls_if"><value name="IF0"><block type="external_contact_is_closed">' +
+        '<field name="DIG">0</field></block></value><statement name="DO0">' + action + '</statement></block>' +
+        '<block type="display_testar_conexao"></block></xml>'
+      );
+      const displayReserved = load(
+        '<xml>' + prepare('GND') + '<block type="controls_if"><value name="IF0"><block type="external_contact_is_closed">' +
+        '<field name="DIG">2</field></block></value><statement name="DO0">' + action + '</statement></block>' +
+        '<block type="display_testar_conexao"></block></xml>'
+      );
+      const ledConflict = load(
+        '<xml>' + prepare('GND') + '<block type="controls_if"><value name="IF0"><block type="external_contact_is_closed">' +
+        '<field name="DIG">0</field></block></value><statement name="DO0">' + action + '</statement></block>' +
+        '<block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">0</field></block></xml>'
+      );
+      const dhtConflict = load(
+        '<xml>' + prepare('GND') + '<block type="controls_if"><value name="IF0"><block type="external_contact_is_closed">' +
+        '<field name="DIG">1</field></block></value><statement name="DO0">' + action + '</statement></block>' +
+        '<block type="display_mostrar_valor"><value name="VALOR"><block type="dht11_temperatura"><field name="DIG">1</field></block></value></block></xml>'
+      );
+      const matrixPeripheralConflict = load(
+        '<xml>' + prepare('GND') + '<block type="external_contact_test_matrix"></block>' +
+        '<block type="servo_mover"><field name="DIG">0</field><field name="ANGLE">90</field></block></xml>'
+      );
       const conflictingPreparation = load(
         '<xml><block type="external_contact_prepare"><field name="COMMON">GND</field></block>' +
         '<block type="external_contact_prepare"><field name="COMMON">3V3</field></block></xml>'
@@ -171,6 +195,11 @@ function compilePython(code) {
         matrixRows,
         missingPrepare,
         runAllowedWithoutPrepare,
+        displayNotice,
+        displayReserved,
+        ledConflict,
+        dhtConflict,
+        matrixPeripheralConflict,
         categoryGuide,
         compileGuide,
         conflictingPreparation,
@@ -204,6 +233,18 @@ function compilePython(code) {
     assert.ok(result.missingPrepare.report.issues.some((issue) => /Preparar contatos/.test(issue.messages.join('\n'))));
     assert.match(result.missingPrepare.generated, /Codigo nao gerado/);
     assert.strictEqual(result.runAllowedWithoutPrepare, false);
+    assert.strictEqual(result.displayNotice.report.valid, true);
+    assert.ok(result.displayNotice.report.noticeCount > 0);
+    assert.match(result.displayNotice.report.notices[0].messages.join('\n'), /Confira os fios/);
+    assert.strictEqual(result.displayReserved.report.valid, false);
+    assert.ok(result.displayReserved.report.issues.some((issue) => /Display/.test(issue.messages.join('\n'))));
+    assert.strictEqual(result.ledConflict.report.valid, false);
+    assert.match(result.ledConflict.generated, /Codigo nao gerado/);
+    assert.ok(result.ledConflict.report.issues.some((issue) => /LED|Conexão/.test(issue.messages.join('\n'))));
+    assert.strictEqual(result.dhtConflict.report.valid, false);
+    assert.ok(result.dhtConflict.report.issues.some((issue) => /DHT11|Conexão/.test(issue.messages.join('\n'))));
+    assert.strictEqual(result.matrixPeripheralConflict.report.valid, false);
+    assert.ok(result.matrixPeripheralConflict.report.issues.some((issue) => /servo|Conexão/.test(issue.messages.join('\n'))));
     assert.strictEqual(result.categoryGuide.bound, true);
     assert.strictEqual(result.categoryGuide.opened, true);
     assert.strictEqual(result.categoryGuide.imageCount, 2);
@@ -211,6 +252,8 @@ function compilePython(code) {
     assert.match(result.categoryGuide.text, /Sempre comece com Preparar contatos/);
     assert.match(result.categoryGuide.text, /massinha condutiva/);
     assert.match(result.categoryGuide.text, /Não precisa usar Repetir para sempre/);
+    assert.match(result.categoryGuide.text, /LED externo, servo ou DHT11/);
+    assert.match(result.categoryGuide.text, /Display na BitDogLab V7/);
     assert.strictEqual(result.compileGuide.opened, true);
     assert.match(result.compileGuide.text, /programa foi bloqueado/);
     assert.match(result.compileGuide.text, /Preparar contatos/);

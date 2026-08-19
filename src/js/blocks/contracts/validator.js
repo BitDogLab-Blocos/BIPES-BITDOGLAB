@@ -772,6 +772,9 @@
     }
 
     if (config.VERSION !== 'v7' || !blocks.some(isOledBlock)) return;
+    if (contactBlocks.length) {
+      addNotice(notices, contactBlocks[0], msg('externalContactOledV7Notice'));
+    }
     var reserved = (contactConfig.OLED_RESERVED_DIG || ['2', '3']).map(String);
     for (var oledIndex = 0; oledIndex < blocks.length; oledIndex++) {
       var contactBlock = blocks[oledIndex];

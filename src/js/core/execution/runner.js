@@ -17,14 +17,12 @@ class ExecutionRunner {
     if (report.valid) return true;
 
     const workspaceBlocks = Code.workspace.getAllBlocks ? Code.workspace.getAllBlocks(false) : [];
-    const hasContactSetup = workspaceBlocks.some((block) => block.type === 'external_contact_prepare');
-    const contactWithoutSetup = !hasContactSetup && workspaceBlocks.find((block) => (
-      block.type === 'external_contact_when_closed' ||
-      block.type === 'external_contact_is_closed' ||
-      block.type === 'external_contact_test_matrix'
+    const contactIssue = report.issues.find((issue) => (
+      issue.blockType && issue.blockType.indexOf('external_contact_') === 0
     ));
-    if (contactWithoutSetup && Code.showExternalContactReminder) {
-      Code.showExternalContactReminder(contactWithoutSetup);
+    const contactWarningBlock = contactIssue && workspaceBlocks.find((block) => block.id === contactIssue.blockId);
+    if (contactWarningBlock && Code.showExternalContactReminder) {
+      Code.showExternalContactReminder(contactWarningBlock);
     }
 
     const summary = Code.BlockContractValidator.getSummaryText(report, 3);
