@@ -5,7 +5,6 @@
       <value name="IF0"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="microfone_nivel_atual"></block></value><value name="B"><block type="math_number"><field name="NUM">3</field></block></value></block></value>
       <statement name="DO0"><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">0</field><next><block type="bipe_curto"><field name="VOLUME">30</field></block></next></block></statement>
       <statement name="ELSE"><block type="led_externo_ligar"><field name="CHANNEL">G</field><field name="DIG">1</field></block></statement>
-      <next><block type="esperar_segundos"><value name="TIME"><block type="tempo_segundos"><field name="NUM">1</field></block></value><next><block type="led_externo_desligar_todos"><next><block type="esperar_segundos"><value name="TIME"><block type="tempo_segundos"><field name="NUM">1</field></block></value></block></next></block></next></block></next>
-    </block></next>
+      <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">200</field></block></value><next><block type="led_externo_desligar_todos"></block></next></block></next></block></next>
   </block>
 </xml>
