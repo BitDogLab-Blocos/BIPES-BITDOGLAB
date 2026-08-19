@@ -27,6 +27,11 @@
       externalLedInvalidChannel: 'Escolha o pino R — vermelho, G — verde ou B — azul do módulo de LED colorido KY-016.',
       externalLedOledV7Notice: '👀 Confira os fios! Na BitDogLab V7, a tela usa as Conexões 2 e 3. Se um fio colorido do KY-016 estiver em 2 ou 3, essa cor pode piscar com a tela. Use 0 e 1 para até duas cores junto com a tela. Para usar vermelho, verde e azul, escolha a tela ou o LED colorido.',
       externalLedOledV7PinConflict: 'Na placa BitDogLab V7, as Conexões 2 e 3 também são usadas pelo Display (tela da placa). Para usar este LED externo com a tela, escolha a Conexão 0 ou 1.',
+      externalContactInvalidConnection: 'Esta Conexão não está disponível para contatos na placa selecionada. Escolha uma Conexão mostrada no bloco.',
+      externalContactPrepareConflict: 'Há duas preparações diferentes para os contatos. Escolha somente um fio comum para todo o projeto: GND ou 3,3 V.',
+      externalContactPrepareDuplicate: 'Este preparo está repetido. Um único bloco Preparar contatos vale para todas as Conexões.',
+      externalContactOledV7Conflict: 'A Conexão %1 também é usada pelo Display na BitDogLab V7. Para usar contato e tela juntos, escolha a Conexão 0 ou 1.',
+      externalContactTestOledV7Conflict: 'O teste verifica as quatro Conexões, mas o Display usa as Conexões 2 e 3 na BitDogLab V7. Remova os blocos do Display antes de testar os contatos.',
       servoAngleConnectionMismatch: 'O bloco Último ângulo enviado ao servo usa a Conexão %1, mas nenhum bloco que move o servo usa essa mesma Conexão.',
       servoJoystickSameDirection: 'Escolha direções diferentes para aumentar e diminuir o ângulo do servo. A mesma direção não consegue fazer os dois movimentos.',
       servoRaiseAngleOrder: 'Para aumentar o ângulo do servo, o número inicial deve ser menor que o número final.',
@@ -55,6 +60,11 @@
       externalLedInvalidChannel: 'Choose the R — red, G — green, or B — blue pin on the KY-016 colour LED module.',
       externalLedOledV7Notice: '👀 Check the wires! On BitDogLab V7, the screen uses Connections 2 and 3. If a KY-016 colour wire is on 2 or 3, that colour may blink with the screen. Use 0 and 1 for up to two colours with the screen. To use red, green, and blue, choose the screen or the colour LED.',
       externalLedOledV7PinConflict: 'On board BitDogLab V7, Connections 2 and 3 are also used by the board display. To use this external LED with the screen, choose Connection 0 or 1.',
+      externalContactInvalidConnection: 'This Connection is not available for contacts on the selected board. Choose a Connection shown in the block.',
+      externalContactPrepareConflict: 'There are two different contact setups. Choose only one common wire for the whole project: GND or 3.3 V.',
+      externalContactPrepareDuplicate: 'This setup is repeated. One Set up contacts block applies to every Connection.',
+      externalContactOledV7Conflict: 'Connection %1 is also used by the display on BitDogLab V7. To use a contact and the screen together, choose Connection 0 or 1.',
+      externalContactTestOledV7Conflict: 'The test checks all four Connections, but the display uses Connections 2 and 3 on BitDogLab V7. Remove the display blocks before testing contacts.',
       servoAngleConnectionMismatch: 'The Last angle sent to servo block uses Connection %1, but no block that moves the servo uses that same Connection.',
       servoJoystickSameDirection: 'Choose different directions to increase and decrease the servo angle. The same direction cannot perform both movements.',
       servoRaiseAngleOrder: 'To increase the servo angle, the initial number must be less than the final number.',
@@ -132,6 +142,25 @@
       requiredValueInputs: {
         VALOR: 'temperatura ou umidade do DHT11'
       }
+    },
+    external_contact_prepare: {
+      kind: 'statement'
+    },
+    external_contact_when_closed: {
+      kind: 'container',
+      requiredAncestorAny: ['controls_repeat_forever'],
+      requiredAncestorLabel: 'Repetir sempre / Repeat forever',
+      inputs: {
+        DO: {
+          label: 'ações do programa'
+        }
+      }
+    },
+    external_contact_is_closed: {
+      kind: 'value'
+    },
+    external_contact_test_matrix: {
+      kind: 'statement'
     },
     microfone_vu_meter: {
       kind: 'statement',
@@ -405,7 +434,7 @@
   }
 
   Code.BlockContracts = {
-    VERSION: '2026-08-14-external-resources',
+    VERSION: '2026-08-19-external-contacts',
     contracts: CONTRACTS,
     messages: MESSAGES,
     get: function(blockType) {

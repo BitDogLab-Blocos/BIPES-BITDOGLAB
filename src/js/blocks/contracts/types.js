@@ -11,7 +11,8 @@
       'controls_if',
       'controls_ifelse',
       'botao_enquanto_apertado',
-      'botao_se_apertado'
+      'botao_se_apertado',
+      'external_contact_when_closed'
     ],
 
     DISPLAY_COMMANDS: [

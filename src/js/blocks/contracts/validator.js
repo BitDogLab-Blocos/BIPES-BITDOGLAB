@@ -716,6 +716,70 @@
     }
   }
 
+  var EXTERNAL_CONTACT_CONNECTION_TYPES = [
+    'external_contact_when_closed',
+    'external_contact_is_closed'
+  ];
+
+  function validateExternalContactRules(blocks, warnings, notices) {
+    var config = global.BitdogLabConfig || {};
+    var external = config.EXTERNAL || {};
+    var contactConfig = external.EXTERNAL_CONTACT || {};
+    var allowed = (contactConfig.ALLOWED_DIG || Object.keys(external.DIG_PINS || {})).map(String);
+    var preparations = [];
+    var preparationModes = {};
+
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (!block || !block.getFieldValue) continue;
+
+      if (block.type === 'external_contact_prepare') {
+        var common = block.getFieldValue('COMMON') === '3V3' ? '3V3' : 'GND';
+        preparations.push(block);
+        preparationModes[common] = true;
+        continue;
+      }
+
+      if (EXTERNAL_CONTACT_CONNECTION_TYPES.indexOf(block.type) === -1) continue;
+      var dig = String(block.getFieldValue('DIG') || '');
+      if (allowed.indexOf(dig) === -1) {
+        addWarning(warnings, block, msg('externalContactInvalidConnection'));
+      }
+    }
+
+    if (Object.keys(preparationModes).length > 1) {
+      for (var preparationIndex = 0; preparationIndex < preparations.length; preparationIndex++) {
+        addWarning(warnings, preparations[preparationIndex], msg('externalContactPrepareConflict'));
+      }
+    } else if (preparations.length > 1) {
+      for (var duplicateIndex = 1; duplicateIndex < preparations.length; duplicateIndex++) {
+        addNotice(notices, preparations[duplicateIndex], msg('externalContactPrepareDuplicate'));
+      }
+    }
+
+    if (config.VERSION !== 'v7' || !blocks.some(isOledBlock)) return;
+    var reserved = (contactConfig.OLED_RESERVED_DIG || ['2', '3']).map(String);
+    for (var oledIndex = 0; oledIndex < blocks.length; oledIndex++) {
+      var contactBlock = blocks[oledIndex];
+      if (!contactBlock || !contactBlock.getFieldValue) continue;
+
+      if (contactBlock.type === 'external_contact_test_matrix') {
+        addWarning(warnings, contactBlock, msg('externalContactTestOledV7Conflict'));
+        continue;
+      }
+
+      if (EXTERNAL_CONTACT_CONNECTION_TYPES.indexOf(contactBlock.type) === -1) continue;
+      var contactDig = String(contactBlock.getFieldValue('DIG') || '');
+      if (reserved.indexOf(contactDig) !== -1) {
+        addWarning(
+          warnings,
+          contactBlock,
+          format(msg('externalContactOledV7Conflict'), contactDig)
+        );
+      }
+    }
+  }
+
   function validateExternalResourceConflicts(blocks, warnings) {
     var config = global.BitdogLabConfig;
     var registry = Code.ExternalResources;
@@ -831,6 +895,7 @@
     validateDht11Aht20V7I2c0Conflicts(blocks, warnings);
     validateExternalLedRules(blocks, warnings);
     validateExternalLedOledV7PinConflicts(blocks, warnings, notices);
+    validateExternalContactRules(blocks, warnings, notices);
     validateExternalResourceConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 

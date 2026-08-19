@@ -21,7 +21,25 @@
       connectionFields: ['DIG'],
       channelField: 'CHANNEL',
       moduleLimit: 1,
-      claimAllConnections: true
+      claimAllConnections: true,
+      claimAllBlockTypes: ['led_externo_desligar_todos'],
+      configKey: 'EXTERNAL_LED'
+    },
+    {
+      id: 'external-contact',
+      labels: {
+        'pt-br': 'contato externo',
+        en: 'external contact'
+      },
+      blockTypes: [
+        'external_contact_when_closed',
+        'external_contact_is_closed',
+        'external_contact_test_matrix'
+      ],
+      connectionFields: ['DIG'],
+      claimAllConnections: true,
+      claimAllBlockTypes: ['external_contact_test_matrix'],
+      configKey: 'EXTERNAL_CONTACT'
     },
     {
       id: 'dht11',
@@ -73,8 +91,11 @@
     if (!peripheral || !block || !block.getFieldValue) return [];
 
     var claims = [];
-    if (peripheral.claimAllConnections && block.type === 'led_externo_desligar_todos') {
-      var allConnections = (config.EXTERNAL && config.EXTERNAL.EXTERNAL_LED || {}).ALLOWED_DIG ||
+    if (peripheral.claimAllConnections &&
+        peripheral.claimAllBlockTypes &&
+        peripheral.claimAllBlockTypes.indexOf(block.type) !== -1) {
+      var peripheralConfig = config.EXTERNAL && config.EXTERNAL[peripheral.configKey] || {};
+      var allConnections = peripheralConfig.ALLOWED_DIG ||
         Object.keys((config.EXTERNAL && config.EXTERNAL.DIG_PINS) || {});
       for (var allIndex = 0; allIndex < allConnections.length; allIndex++) {
         var allConnection = String(allConnections[allIndex]);
@@ -115,7 +136,7 @@
   }
 
   Code.ExternalResources = {
-    VERSION: '2026-08-14-external-resources',
+    VERSION: '2026-08-19-external-contacts',
     peripherals: PERIPHERALS,
     getPeripheral: getPeripheral,
     getClaims: getClaims
