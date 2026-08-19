@@ -1383,6 +1383,19 @@ button.icon.medium:before  {
   vertical-align: middle;
 }
 
+/* Visual icon for the child-friendly external contacts category. */
+.bitdoglab-external-contact-category-icon {
+  width: 2.1rem;
+  height: 2.1rem;
+  margin-inline-end: 0.35rem;
+  background-image: url('../assets/images/devices/external-contacts.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  visibility: visible !important;
+  vertical-align: middle;
+}
+
 .blocklyTreeSelected .blocklyTreeLabel {
     color: white !important;
 }
