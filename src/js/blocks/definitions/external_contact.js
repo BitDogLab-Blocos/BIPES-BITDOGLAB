@@ -93,7 +93,15 @@
       this.appendDummyInput()
         .appendField(isEnglish()
           ? '🧪 Test contacts on the LED Matrix'
-          : '🧪 Testar contatos na Matriz de LEDs');
+          : '🧪 Testar contatos na Matriz de LEDs')
+        .appendField(isEnglish() ? 'by' : 'por')
+        .appendField(new Blockly.FieldDropdown(isEnglish() ? [
+          ['columns', 'COLUMNS'],
+          ['rows', 'ROWS']
+        ] : [
+          ['colunas', 'COLUMNS'],
+          ['linhas', 'ROWS']
+        ]), 'LAYOUT');
       setCommandConnections(this);
       this.setTooltip(isEnglish()
         ? 'Shows the four contact Connections on the LED Matrix. Press button A to finish the test.'

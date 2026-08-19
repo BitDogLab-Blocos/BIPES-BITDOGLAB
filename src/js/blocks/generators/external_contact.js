@@ -132,7 +132,7 @@
     return ['_contact_is_closed(' + digValue(block) + ')', Blockly.Python.ORDER_FUNCTION_CALL];
   };
 
-  Blockly.Python.external_contact_test_matrix = function() {
+  Blockly.Python.external_contact_test_matrix = function(block) {
     setupContactRuntime();
     var profile = global.BitdogLabConfig || {};
     var pins = profile.PINS || {};
@@ -153,18 +153,29 @@
       '_contact_matrix_map = ' + JSON.stringify(matrix) + '\n' +
       '_contact_test_button = Pin(' + String(pins.BUTTON_A) + ', Pin.IN, Pin.PULL_UP)';
 
-    var columns = [0, 1, 3, 4];
+    var layout = block && block.getFieldValue && block.getFieldValue('LAYOUT') === 'ROWS'
+      ? 'ROWS'
+      : 'COLUMNS';
+    var coordinates = layout === 'ROWS' ? [4, 3, 2, 1] : [0, 1, 2, 3];
     var pairs = allowedConnections().slice(0, 4).map(function(dig, index) {
-      return '(' + String(Number(dig)) + ', ' + String(columns[index]) + ')';
+      return '(' + String(Number(dig)) + ', ' + String(coordinates[index]) + ')';
     }).join(', ');
     var code = 'while _contact_test_button.value() != 0:\n';
     code += '  for _contact_led in range(' + String(matrixConfig.COUNT || 25) + '):\n';
     code += '    _contact_matrix[_contact_led] = (0, 0, 0)\n';
-    code += '  for _contact_dig, _contact_column in (' + pairs + '):\n';
-    code += '    if _contact_is_closed(_contact_dig):\n';
-    code += '      for _contact_row in range(5):\n';
-    code += '        _contact_index = _contact_matrix_map[_contact_row][_contact_column]\n';
-    code += '        _contact_matrix[_contact_index] = (0, ' + String(brightness) + ', ' + String(blue) + ')\n';
+    if (layout === 'ROWS') {
+      code += '  for _contact_dig, _contact_row in (' + pairs + '):\n';
+      code += '    if _contact_is_closed(_contact_dig):\n';
+      code += '      for _contact_column in range(5):\n';
+      code += '        _contact_index = _contact_matrix_map[_contact_row][_contact_column]\n';
+      code += '        _contact_matrix[_contact_index] = (0, ' + String(brightness) + ', ' + String(blue) + ')\n';
+    } else {
+      code += '  for _contact_dig, _contact_column in (' + pairs + '):\n';
+      code += '    if _contact_is_closed(_contact_dig):\n';
+      code += '      for _contact_row in range(5):\n';
+      code += '        _contact_index = _contact_matrix_map[_contact_row][_contact_column]\n';
+      code += '        _contact_matrix[_contact_index] = (0, ' + String(brightness) + ', ' + String(blue) + ')\n';
+    }
     code += '  _contact_matrix.write()\n';
     code += '  time.sleep_ms(20)\n';
     code += 'while _contact_test_button.value() == 0:\n';

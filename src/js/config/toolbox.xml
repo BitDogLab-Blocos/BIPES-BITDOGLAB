@@ -383,6 +383,11 @@
   <category name="Contatos" colour="#0f9d8a" data-project="externos" css-icon="bitdoglab-external-contact-category-icon">
     <block type="external_contact_prepare"><field name="COMMON">GND</field></block>
     <block type="external_contact_when_closed"><field name="DIG">0</field></block>
+    <block type="controls_ifelse">
+      <value name="IF0">
+        <block type="external_contact_is_closed"><field name="DIG">0</field></block>
+      </value>
+    </block>
     <block type="external_contact_is_closed"><field name="DIG">0</field></block>
     <block type="external_contact_test_matrix"></block>
   </category>

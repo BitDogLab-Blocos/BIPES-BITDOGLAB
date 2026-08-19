@@ -124,6 +124,7 @@ function compilePython(code) {
         '</value><statement name="DO0">' + action + '</statement></block></xml>'
       );
       const matrixTest = load('<xml>' + prepare('GND') + '<block type="external_contact_test_matrix"></block></xml>');
+      const matrixRows = load('<xml>' + prepare('GND') + '<block type="external_contact_test_matrix"><field name="LAYOUT">ROWS</field></block></xml>');
       const missingPrepare = load('<xml>' + event(0) + '</xml>');
       const runAllowedWithoutPrepare = window.Tool.validateWorkspaceBeforeCodeAction('executar codigo');
       const compilePanel = document.getElementById('externalContactNotification');
@@ -167,6 +168,7 @@ function compilePython(code) {
         threeVolt,
         booleanContact,
         matrixTest,
+        matrixRows,
         missingPrepare,
         runAllowedWithoutPrepare,
         categoryGuide,
@@ -195,7 +197,9 @@ function compilePython(code) {
     assert.match(result.booleanContact.code, /if _contact_is_closed\(0\):/);
     assert.strictEqual(result.matrixTest.report.valid, true);
     assert.match(result.matrixTest.code, /_contact_test_button/);
-    assert.match(result.matrixTest.code, /\(0, 0\), \(1, 1\), \(2, 3\), \(3, 4\)/);
+    assert.match(result.matrixTest.code, /\(0, 0\), \(1, 1\), \(2, 2\), \(3, 3\)/);
+    assert.match(result.matrixRows.code, /for _contact_dig, _contact_row in \(\(0, 4\), \(1, 3\), \(2, 2\), \(3, 1\)\)/);
+    assert.match(result.matrixRows.code, /for _contact_column in range\(5\)/);
     assert.strictEqual(result.missingPrepare.report.valid, false);
     assert.ok(result.missingPrepare.report.issues.some((issue) => /Preparar contatos/.test(issue.messages.join('\n'))));
     assert.match(result.missingPrepare.generated, /Codigo nao gerado/);
@@ -224,7 +228,7 @@ function compilePython(code) {
     assert.strictEqual(eventKeys.length, 2);
     assert.notStrictEqual(eventKeys[0], eventKeys[1]);
 
-    [result.gnd.code, result.threeVolt.code, result.booleanContact.code, result.matrixTest.code].forEach((code) => {
+    [result.gnd.code, result.threeVolt.code, result.booleanContact.code, result.matrixTest.code, result.matrixRows.code].forEach((code) => {
       const compiled = compilePython(code);
       assert.strictEqual(compiled.status, 0, compiled.stderr || compiled.stdout);
     });

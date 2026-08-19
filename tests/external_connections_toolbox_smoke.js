@@ -67,9 +67,11 @@ const contactBlockTypes = Array.from(
 assert.deepStrictEqual(contactBlockTypes, [
   'external_contact_prepare',
   'external_contact_when_closed',
+  'controls_ifelse',
+  'external_contact_is_closed',
   'external_contact_is_closed',
   'external_contact_test_matrix'
-], 'A primeira categoria externa deve oferecer os quatro blocos de contatos.');
+], 'A categoria Contatos deve mostrar os dois blocos iniciais, a aplicacao do valor, a variavel e o teste.');
 
 const dht11BlockTypes = Array.from(
   externalCategories[3].body.matchAll(/<block\s+[^>]*type="([^"]+)"/g),
