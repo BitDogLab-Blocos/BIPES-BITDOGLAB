@@ -380,6 +380,12 @@
   <!-- ========== CATEGORIAS DE PROJETO (aparecem conforme seletor) ========== -->
 
   <!-- Projeto: Conexoes Externas -->
+  <category name="Contatos" colour="#0f9d8a" data-project="externos" css-icon="bitdoglab-external-contact-category-icon">
+    <block type="external_contact_prepare"><field name="COMMON">GND</field></block>
+    <block type="external_contact_when_closed"><field name="DIG">0</field></block>
+    <block type="external_contact_is_closed"><field name="DIG">0</field></block>
+    <block type="external_contact_test_matrix"></block>
+  </category>
   <category name="LEDs Externos" colour="#d97706" data-project="externos" custom="EXTERNAL_LED" css-icon="bitdoglab-external-led-category-icon"></category>
   <category name="Sensor de luz e sombra (LDR)" colour="#16a085" data-project="externos"></category>
   <category name="Temperatura e umidade externo" colour="#e67e22" data-project="externos" css-icon="bitdoglab-dht11-category-icon">

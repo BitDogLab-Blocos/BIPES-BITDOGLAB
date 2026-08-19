@@ -63,6 +63,11 @@ var BitdogLabConfig_V6 = createProfile(BitdogLabProfileBase, {
       '2': 2,
       '3': 3
     },
+    EXTERNAL_CONTACT: {
+      ALLOWED_DIG: ['0', '1', '2', '3'],
+      DEFAULT_COMMON: 'GND',
+      DEBOUNCE_MS: 50
+    },
     SERVO: {
       ALLOWED_DIG: ['0', '1', '2', '3'],
       PWM_FREQ: 50,
