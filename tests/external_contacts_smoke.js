@@ -254,6 +254,8 @@ function compilePython(code) {
     assert.match(result.categoryGuide.text, /Não precisa usar Repetir para sempre/);
     assert.match(result.categoryGuide.text, /LED externo, servo ou DHT11/);
     assert.match(result.categoryGuide.text, /Display na BitDogLab V7/);
+    assert.match(result.categoryGuide.text, /AHT20/);
+    assert.match(result.categoryGuide.text, /MPU6050/);
     assert.strictEqual(result.compileGuide.opened, true);
     assert.match(result.compileGuide.text, /programa foi bloqueado/);
     assert.match(result.compileGuide.text, /Preparar contatos/);

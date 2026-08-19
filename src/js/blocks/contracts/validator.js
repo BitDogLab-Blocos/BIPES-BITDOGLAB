@@ -797,6 +797,55 @@
     }
   }
 
+  function isDht11Aht20Conflict(left, right) {
+    return (left.peripheralId === 'dht11' && right.peripheralId === 'aht20-i2c') ||
+      (right.peripheralId === 'dht11' && left.peripheralId === 'aht20-i2c');
+  }
+
+  function addPhysicalResourceConflict(warnings, left, right) {
+    var leftIsContact = left.peripheralId === 'external-contact';
+    var rightIsContact = right.peripheralId === 'external-contact';
+
+    if (leftIsContact && right.internalI2c) {
+      addWarning(
+        warnings,
+        left.block,
+        format2(msg('externalContactI2cConflict'), left.connection, right.peripheralLabel)
+      );
+      addWarning(
+        warnings,
+        right.block,
+        format2(msg('externalContactI2cConflict'), left.connection, right.peripheralLabel)
+      );
+      return;
+    }
+
+    if (rightIsContact && left.internalI2c) {
+      addWarning(
+        warnings,
+        left.block,
+        format2(msg('externalContactI2cConflict'), right.connection, left.peripheralLabel)
+      );
+      addWarning(
+        warnings,
+        right.block,
+        format2(msg('externalContactI2cConflict'), right.connection, left.peripheralLabel)
+      );
+      return;
+    }
+
+    addWarning(
+      warnings,
+      left.block,
+      format2(msg('externalConnectionConflict'), left.connection, right.peripheralLabel)
+    );
+    addWarning(
+      warnings,
+      right.block,
+      format2(msg('externalConnectionConflict'), right.connection, left.peripheralLabel)
+    );
+  }
+
   function validateExternalResourceConflicts(blocks, warnings) {
     var config = global.BitdogLabConfig;
     var registry = Code.ExternalResources;
@@ -822,16 +871,15 @@
           var right = resourceClaims[rightIndex];
           if (left.peripheralId === right.peripheralId) continue;
 
-          addWarning(
-            warnings,
-            left.block,
-            format2(msg('externalConnectionConflict'), left.connection, right.peripheralLabel)
-          );
-          addWarning(
-            warnings,
-            right.block,
-            format2(msg('externalConnectionConflict'), right.connection, left.peripheralLabel)
-          );
+          // Different I2C devices may share SDA/SCL. They must still conflict
+          // with a GPIO peripheral, such as an external contact or LED.
+          if (left.internalI2c && right.internalI2c) continue;
+
+          // Keep the more didactic, existing DHT11/AHT20 explanation instead
+          // of adding a second generic resource warning for the same pair.
+          if (isDht11Aht20Conflict(left, right)) continue;
+
+          addPhysicalResourceConflict(warnings, left, right);
         }
       }
     }
