@@ -215,6 +215,88 @@ WorkspaceManager.bindServoCategoryHint = function() {
   });
 };
 
+WorkspaceManager.showExternalContactReminder = function(block) {
+  var closeId = 'closeExternalContactNotification';
+  var boardImage = '../assets/images/devices/conexoes-externas.png';
+  var contactImage = '../assets/images/devices/external-contacts.png';
+  var warningText = block && block.__bitdoglabContractWarningText
+    ? String(block.__bitdoglabContractWarningText)
+    : '';
+  var problemLine = warningText
+    ? (Code.LANG === 'en'
+      ? '<div style="background:#ffebee;color:#7f0000;padding:9px;border-radius:6px;margin-bottom:10px;"><strong>Why the program was blocked:</strong><br>' + warningText + '</div>'
+      : '<div style="background:#ffebee;color:#7f0000;padding:9px;border-radius:6px;margin-bottom:10px;"><strong>Por que o programa foi bloqueado:</strong><br>' + warningText + '</div>')
+    : '';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:18px;">🔌 How to create touch contacts</strong>' +
+      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
+      '<img src="' + boardImage + '" alt="External Connections" style="width:55%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
+      '<img src="' + contactImage + '" alt="Alligator clips making contact" style="width:40%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
+      '</div>' + problemLine +
+      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Always start with Set up contacts.</strong><br>Place it near the beginning of the project. The other contact blocks will not compile without it.</div>' +
+      '<div style="display:grid;gap:7px;margin-bottom:10px;">' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:9px;border-radius:6px;"><strong>GND — recommended:</strong> connect the shared piece of conductive material to GND. Connect each separate touch piece to Connection 0, 1, 2, or 3.</div>' +
+      '<div style="background:#fff8e1;color:#5d4037;padding:9px;border-radius:6px;"><strong>3.3 V — alternative:</strong> choose 3.3 V in Set up contacts and connect the shared piece to 3V3. Never let 3V3 touch GND.</div>' +
+      '</div>' +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:6px;margin-bottom:10px;">' +
+      '<strong>What happens?</strong> The board senses when two conductive parts touch. You can use aluminium foil, conductive dough, fruit, graphite, or alligator clips.' +
+      '</div>' +
+      '<div style="background:#e0f2f1;color:#004d40;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Example:</strong><br>1️⃣ Set up contacts using GND<br>2️⃣ When contact is made on Connection 0 → play a beep<br><em>You do not need a Repeat forever block; the workspace already repeats the project.</em></div>' +
+      '<strong>Safety:</strong> turn the board off before changing wires. Use only one shared mode in the whole project. On BitDogLab V7, the display shares Connections 2 and 3, so use 0 or 1 when the display is active. Ask a teacher to check the circuit before powering the board.' +
+      '</div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:18px;">🔌 Como criar contatos de toque</strong>' +
+      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
+      '<img src="' + boardImage + '" alt="Conexões externas" style="width:55%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
+      '<img src="' + contactImage + '" alt="Garras jacaré fazendo contato" style="width:40%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
+      '</div>' + problemLine +
+      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Sempre comece com Preparar contatos.</strong><br>Coloque esse bloco perto do começo do projeto. Os outros blocos de Contatos não serão compilados sem ele.</div>' +
+      '<div style="display:grid;gap:7px;margin-bottom:10px;">' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:9px;border-radius:6px;"><strong>GND — recomendado:</strong> ligue a peça compartilhada de material condutor ao GND. Ligue cada peça de toque separada à Conexão 0, 1, 2 ou 3.</div>' +
+      '<div style="background:#fff8e1;color:#5d4037;padding:9px;border-radius:6px;"><strong>3,3 V — alternativa:</strong> escolha 3,3 V em Preparar contatos e ligue a peça compartilhada ao 3V3. Nunca deixe o 3V3 encostar no GND.</div>' +
+      '</div>' +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:6px;margin-bottom:10px;">' +
+      '<strong>O que acontece?</strong> A placa percebe quando duas partes condutoras encostam. Você pode usar papel-alumínio, massinha condutiva, frutas, grafite ou garras jacaré.' +
+      '</div>' +
+      '<div style="background:#e0f2f1;color:#004d40;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Exemplo:</strong><br>1️⃣ Preparar contatos usando GND<br>2️⃣ Quando houver contato na Conexão 0 → tocar um bipe<br><em>Não precisa usar Repetir para sempre: o próprio workspace já repete o projeto.</em></div>' +
+      '<strong>Segurança:</strong> desligue a placa antes de mudar os fios. Use somente um tipo de fio compartilhado em todo o projeto. Na BitDogLab V7, o Display compartilha as Conexões 2 e 3; use 0 ou 1 quando a tela estiver ativa. Peça a um professor para conferir a montagem antes de ligar a placa.' +
+      '</div>';
+
+  WorkspaceManager.createReminder({
+    id: 'externalContactNotification',
+    closeId: closeId,
+    background: '#0f9d8a',
+    maxWidth: '720px',
+    html: html
+  });
+};
+
+WorkspaceManager.bindExternalContactCategoryHint = function() {
+  var toolbox = Code.workspace && Code.workspace.getToolbox ? Code.workspace.getToolbox() : null;
+  var toolboxDiv = toolbox && toolbox.HtmlDiv;
+  if (!toolboxDiv || toolboxDiv.__bitdoglabExternalContactHintBound) return;
+
+  toolboxDiv.__bitdoglabExternalContactHintBound = true;
+  toolboxDiv.addEventListener('click', function(event) {
+    var clickTarget = event.target;
+    var item = null;
+    while (clickTarget && clickTarget !== toolboxDiv) {
+      if (clickTarget.id && toolbox.getToolboxItemById) {
+        item = toolbox.getToolboxItemById(clickTarget.id);
+        if (item) break;
+      }
+      clickTarget = clickTarget.parentNode;
+    }
+    var categoryName = item && item.getName ? item.getName() : '';
+    if (categoryName === 'Contatos' || categoryName === 'Contacts') {
+      Code.showExternalContactReminder();
+    }
+  });
+};
+
 WorkspaceManager.externalLedChannelInfo = function(channel) {
   var info = {
     R: { pt: 'R (vermelho)', en: 'R (red)' },
@@ -933,6 +1015,7 @@ WorkspaceManager.showGraficoReminder = function() {
 };
 
 WorkspaceManager.bindWorkspaceHints = function() {
+  WorkspaceManager.bindExternalContactCategoryHint();
   WorkspaceManager.bindServoCategoryHint();
   WorkspaceManager.bindDht11CategoryHint();
   WorkspaceManager.bindExternalLedCategoryHint();

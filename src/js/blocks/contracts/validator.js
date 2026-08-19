@@ -720,6 +720,9 @@
     'external_contact_when_closed',
     'external_contact_is_closed'
   ];
+  var EXTERNAL_CONTACT_USAGE_TYPES = EXTERNAL_CONTACT_CONNECTION_TYPES.concat([
+    'external_contact_test_matrix'
+  ]);
 
   function validateExternalContactRules(blocks, warnings, notices) {
     var config = global.BitdogLabConfig || {};
@@ -728,6 +731,7 @@
     var allowed = (contactConfig.ALLOWED_DIG || Object.keys(external.DIG_PINS || {})).map(String);
     var preparations = [];
     var preparationModes = {};
+    var contactBlocks = [];
 
     for (var i = 0; i < blocks.length; i++) {
       var block = blocks[i];
@@ -740,10 +744,20 @@
         continue;
       }
 
+      if (EXTERNAL_CONTACT_USAGE_TYPES.indexOf(block.type) !== -1) {
+        contactBlocks.push(block);
+      }
+
       if (EXTERNAL_CONTACT_CONNECTION_TYPES.indexOf(block.type) === -1) continue;
       var dig = String(block.getFieldValue('DIG') || '');
       if (allowed.indexOf(dig) === -1) {
         addWarning(warnings, block, msg('externalContactInvalidConnection'));
+      }
+    }
+
+    if (!preparations.length) {
+      for (var missingIndex = 0; missingIndex < contactBlocks.length; missingIndex++) {
+        addWarning(warnings, contactBlocks[missingIndex], msg('externalContactMissingPrepare'));
       }
     }
 

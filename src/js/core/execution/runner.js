@@ -16,6 +16,17 @@ class ExecutionRunner {
     const report = Code.BlockContractValidator.getReport(Code.workspace);
     if (report.valid) return true;
 
+    const workspaceBlocks = Code.workspace.getAllBlocks ? Code.workspace.getAllBlocks(false) : [];
+    const hasContactSetup = workspaceBlocks.some((block) => block.type === 'external_contact_prepare');
+    const contactWithoutSetup = !hasContactSetup && workspaceBlocks.find((block) => (
+      block.type === 'external_contact_when_closed' ||
+      block.type === 'external_contact_is_closed' ||
+      block.type === 'external_contact_test_matrix'
+    ));
+    if (contactWithoutSetup && Code.showExternalContactReminder) {
+      Code.showExternalContactReminder(contactWithoutSetup);
+    }
+
     const summary = Code.BlockContractValidator.getSummaryText(report, 3);
     const message = summary || 'Corrija os avisos dos blocos antes de continuar.';
 
