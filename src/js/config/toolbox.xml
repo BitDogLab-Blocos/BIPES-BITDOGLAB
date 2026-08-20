@@ -392,8 +392,8 @@
     <block type="external_contact_test_matrix"></block>
   </category>
   <category name="LEDs Externos" colour="#d97706" data-project="externos" custom="EXTERNAL_LED" css-icon="bitdoglab-external-led-category-icon"></category>
-  <category name="Sensor de luz e sombra (LDR)" colour="#16a085" data-project="externos" css-icon="bitdoglab-ldr-category-icon"></category>
-  <category name="Temperatura e umidade externo" colour="#e67e22" data-project="externos" css-icon="bitdoglab-dht11-category-icon">
+  <category name="Sensor de Luz" colour="#16a085" data-project="externos" css-icon="bitdoglab-ldr-category-icon"></category>
+  <category name="Temperatura e Umidade Externas" colour="#e67e22" data-project="externos" css-icon="bitdoglab-dht11-category-icon">
     <block type="dht11_temperatura">
       <field name="DIG">0</field>
     </block>
@@ -439,8 +439,8 @@
       <field name="DISPLAY_TYPE">SMALL</field>
     </block>
   </category>
-  <category name="Sensor de distância e presença" colour="#2980b9" data-project="externos"></category>
-  <category name="Servo externo" colour="#00897b" data-project="externos" css-icon="bitdoglab-servo-category-icon">
+  <category name="Sensor de Distância" colour="#2980b9" data-project="externos"></category>
+  <category name="Servo Motor" colour="#00897b" data-project="externos" css-icon="bitdoglab-servo-category-icon">
     <block type="servo_mover">
       <field name="DIG">0</field>
       <field name="ANGLE">90</field>

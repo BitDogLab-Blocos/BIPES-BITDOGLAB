@@ -209,7 +209,7 @@ WorkspaceManager.bindServoCategoryHint = function() {
 
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
-    if (categoryName === 'Servo externo' || categoryName === 'External Servo') {
+    if (categoryName === 'Servo Motor' || categoryName === 'External Servo') {
       Code.showServoConnectionReminder();
     }
   });
@@ -602,7 +602,7 @@ WorkspaceManager.bindDht11CategoryHint = function() {
 
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
-    if (categoryName === 'Temperatura e umidade externo' || categoryName === 'External temperature and humidity') {
+    if (categoryName === 'Temperatura e Umidade Externas' || categoryName === 'External temperature and humidity') {
       Code.showDht11ConnectionReminder();
     }
   });
@@ -714,7 +714,7 @@ WorkspaceManager.bindLdrCategoryHint = function() {
 
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
-    if (categoryName === 'Sensor de luz e sombra (LDR)' || categoryName === 'Light and shadow sensor (LDR)') {
+    if (categoryName === 'Sensor de Luz' || categoryName === 'Light and shadow sensor (LDR)') {
       Code.showLdrConnectionReminder();
       WorkspaceManager.showLdrJumperReminder();
     }

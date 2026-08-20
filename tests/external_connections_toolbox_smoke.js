@@ -34,10 +34,10 @@ const workspaceHints = fs.readFileSync(workspaceHintsPath, 'utf8');
 const expectedNames = [
   'Contatos',
   'LEDs Externos',
-  'Sensor de luz e sombra (LDR)',
-  'Temperatura e umidade externo',
-  'Sensor de distância e presença',
-  'Servo externo'
+  'Sensor de Luz',
+  'Temperatura e Umidade Externas',
+  'Sensor de Distância',
+  'Servo Motor'
 ];
 
 const externalCategories = Array.from(
@@ -143,22 +143,22 @@ assert.match(workspaceHints, /WorkspaceManager\.showServoConnectionReminder = fu
 assert.match(workspaceHints, /WorkspaceManager\.bindServoCategoryHint = function\(\)/);
 assert.match(workspaceHints, /WorkspaceManager\.showDht11ConnectionReminder = function\(block\)/);
 assert.match(workspaceHints, /WorkspaceManager\.bindDht11CategoryHint = function\(\)/);
-assert.match(workspaceHints, /categoryName === 'Temperatura e umidade externo'/);
+assert.match(workspaceHints, /categoryName === 'Temperatura e Umidade Externas'/);
 assert.match(workspaceHints, /categoryName === 'External temperature and humidity'/);
 assert.match(workspaceHints, /Code\.showDht11ConnectionReminder\(\)/);
 assert.match(workspaceHints, /dht11-pinout\.png/);
 assert.ok(fs.existsSync(dht11PinoutPath), 'A imagem de pinagem do DHT11 deve existir.');
-assert.match(workspaceHints, /Fios do DHT11/);
-assert.match(workspaceHints, /Seta laranja.*sinal\/leitura do sensor/);
-assert.match(workspaceHints, /Seta vermelha.*alimentação elétrica de 3,3 V/);
-assert.match(workspaceHints, /Seta preta.*negativo\/terra/);
+assert.match(workspaceHints, /Identifique os pinos do módulo DHT11/);
+assert.match(workspaceHints, /Pino da esquerda — dados \(S\).*leituras de temperatura e umidade/);
+assert.match(workspaceHints, /Pino do meio — alimentação elétrica.*3V3/);
+assert.match(workspaceHints, /Pino da direita — GND.*contato GND/);
 assert.match(workspaceHints, /garra jacaré/);
-assert.match(workspaceHints, /Na placa V7.*leitura do sensor.*Conexão 0 ou 1/);
-assert.match(workspaceHints, /Na placa V6.*0, 1, 2 ou 3/);
-assert.match(workspaceHints, /mesmo sensor físico.*mesma Conexão.*sensores separados/);
-assert.match(workspaceHints, /professor para conferir os fios/);
+assert.match(workspaceHints, /BitDogLab V7: Conexão 0 ou Conexão 1/);
+assert.match(workspaceHints, /BitDogLab V6: Conexão 0, 1, 2 ou 3/);
+assert.match(workspaceHints, /mesmo sensor físico.*mesma Conexão.*dois sensores separados/);
+assert.match(workspaceHints, /professor para conferir os três fios e a Conexão escolhida/);
 assert.doesNotMatch(workspaceHints, /Se você for menor de idade/);
-assert.match(workspaceHints, /categoryName === 'Servo externo'/);
+assert.match(workspaceHints, /categoryName === 'Servo Motor'/);
 assert.match(workspaceHints, /Último ângulo enviado ao servo/);
 assert.match(workspaceHints, /Aumentar o ângulo do servo/);
 assert.match(workspaceHints, /Diminuir o ângulo do servo/);
@@ -166,15 +166,15 @@ assert.match(workspaceHints, /categoryName === 'External Servo'/);
 assert.match(workspaceHints, /Code\.showServoConnectionReminder\(\)/);
 assert.match(workspaceHints, /conexoes-externas\.png/);
 assert.match(workspaceHints, /servo-motor\.png/);
-assert.match(workspaceHints, /Laranja — sinal do servo.*Conexão/);
-assert.match(workspaceHints, /Vermelho — alimentação elétrica.*5V-VSYS/);
-assert.match(workspaceHints, /Marrom — negativo\/terra.*GND/);
-assert.match(workspaceHints, /Cabos do servo/);
-assert.match(workspaceHints, /Laranja — sinal do servo.*placa V7: Conexão 0 ou 1.*placa V6: Conexão 0, 1, 2 ou 3/);
+assert.match(workspaceHints, /Laranja — sinal:.*Conexão/);
+assert.match(workspaceHints, /Vermelho — VCC:.*5V-VSYS/);
+assert.match(workspaceHints, /Marrom — GND:.*negativo\/terra/);
+assert.match(workspaceHints, /Identifique os fios do servo/);
+assert.match(workspaceHints, /Laranja — sinal:.*BitDogLab V7: Conexão 0 ou Conexão 1.*BitDogLab V6: Conexão 0, 1, 2 ou 3/);
 assert.match(workspaceHints, /ponta fêmea do jumper macho-fêmea/);
 assert.match(workspaceHints, /jumper macho-macho.*garra/);
 assert.match(workspaceHints, /fita isolante/);
-assert.match(workspaceHints, /Peça a um professor para conferir os fios/);
+assert.match(workspaceHints, /peça ao professor para conferir os três fios/i);
 assert.match(contracts, /servoOledV7PinConflict:/);
 assert.match(contracts, /servoAngleConnectionMismatch:/);
 assert.match(contracts, /servoJoystickSameDirection:/);
