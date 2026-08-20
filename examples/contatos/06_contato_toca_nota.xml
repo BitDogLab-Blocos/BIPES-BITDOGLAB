@@ -9,11 +9,6 @@
           <block type="tocar_nota">
             <value name="NOTA"><block type="nota_mi"></block></value>
             <field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">350</field>
-            <next>
-              <block type="esperar_milisegundos">
-                <value name="TIME"><block type="math_number"><field name="NUM">450</field></block></value>
-              </block>
-            </next>
           </block>
         </statement>
       </block>
