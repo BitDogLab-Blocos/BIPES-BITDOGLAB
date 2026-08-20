@@ -1,0 +1,7 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O teste mostra cada contato nas colunas 0, 1, 2 e 3; aperte o botao A para sair. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next><block type="external_contact_test_matrix"><field name="LAYOUT">COLUMNS</field></block></next>
+  </block>
+</xml>

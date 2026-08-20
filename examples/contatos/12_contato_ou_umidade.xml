@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Enquanto a Conexao 1 estiver tocada, o DHT11 da Conexao 0 registra a umidade; caso contrario, toca dois bipes. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0"><block type="external_contact_is_closed"><field name="DIG">1</field></block></value>
+        <statement name="DO0">
+          <block type="dht11_plotar">
+            <value name="VALOR"><block type="dht11_umidade"><field name="DIG">0</field></block></value>
+            <field name="POSICAO">2</field><field name="DISPLAY_TYPE">SMALL</field>
+          </block>
+        </statement>
+        <statement name="ELSE"><block type="bipe_duplo"><field name="VOLUME">30</field></block></statement>
+      </block>
+    </next>
+  </block>
+</xml>

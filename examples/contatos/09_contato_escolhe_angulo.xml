@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A Conexao 2 escolhe um dos dois angulos do servo ligado na Conexao 3. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0"><block type="external_contact_is_closed"><field name="DIG">2</field></block></value>
+        <statement name="DO0"><block type="servo_mover"><field name="DIG">3</field><field name="ANGLE">30</field></block></statement>
+        <statement name="ELSE"><block type="servo_mover"><field name="DIG">3</field><field name="ANGLE">150</field></block></statement>
+      </block>
+    </next>
+  </block>
+</xml>

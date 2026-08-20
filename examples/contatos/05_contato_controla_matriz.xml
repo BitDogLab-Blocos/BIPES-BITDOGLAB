@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A Conexao 2 decide o estado da Matriz: azul enquanto houver contato e apagada quando separar. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0"><block type="external_contact_is_closed"><field name="DIG">2</field></block></value>
+        <statement name="DO0">
+          <block type="preencher_matriz">
+            <field name="INTENSITY">30</field>
+            <value name="COLOUR"><block type="colour_blue"></block></value>
+          </block>
+        </statement>
+        <statement name="ELSE"><block type="desligar_matriz"></block></statement>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,21 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Um toque na Conexao 1 movimenta o servo da Conexao 2 entre duas posicoes. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="external_contact_when_closed">
+        <field name="DIG">1</field>
+        <statement name="DO">
+          <block type="servo_mover"><field name="DIG">2</field><field name="ANGLE">20</field>
+            <next>
+              <block type="esperar_milisegundos">
+                <value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value>
+                <next><block type="servo_mover"><field name="DIG">2</field><field name="ANGLE">100</field></block></next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

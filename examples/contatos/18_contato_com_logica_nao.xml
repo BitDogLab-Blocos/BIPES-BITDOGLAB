@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A logica NAO inverte a leitura: sem contato o LED amarelo acende; com contato, todos os LEDs apagam. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0"><block type="logic_negate"><value name="BOOL"><block type="external_contact_is_closed"><field name="DIG">0</field></block></value></block></value>
+        <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_yellow"></block></value></block></statement>
+        <statement name="ELSE"><block type="bloco_desligar_todos_leds"></block></statement>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,27 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O contato na Conexao 0 acende o vermelho externo na 1 e leva o servo da 2 a 90 graus. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="external_contact_when_closed"><field name="DIG">0</field>
+        <statement name="DO">
+          <block type="servo_mover"><field name="DIG">2</field><field name="ANGLE">90</field>
+            <next>
+              <block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">1</field>
+                <next>
+                  <block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value>
+                    <next>
+                      <block type="led_externo_desligar"><field name="CHANNEL">R</field><field name="DIG">1</field>
+                        <next><block type="servo_mover"><field name="DIG">2</field><field name="ANGLE">0</field></block></next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

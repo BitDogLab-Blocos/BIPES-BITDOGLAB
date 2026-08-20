@@ -1,0 +1,20 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O toque na Conexao 0 registra a temperatura do DHT11 ligado separadamente na Conexao 1. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="external_contact_when_closed">
+        <field name="DIG">0</field>
+        <statement name="DO">
+          <block type="dht11_plotar">
+            <value name="VALOR"><block type="dht11_temperatura"><field name="DIG">1</field></block></value>
+            <field name="POSICAO">1</field><field name="DISPLAY_TYPE">SMALL</field>
+            <next>
+              <block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

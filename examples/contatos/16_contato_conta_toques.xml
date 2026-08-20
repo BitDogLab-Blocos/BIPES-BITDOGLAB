@@ -1,0 +1,25 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A memoria soma um ponto a cada toque na Conexao 0; ao chegar a 3, o verde externo acende na Conexao 1. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">toques</field>
+    <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+    <next>
+      <block type="external_contact_prepare"><field name="COMMON">GND</field>
+        <next>
+          <block type="external_contact_when_closed"><field name="DIG">0</field>
+            <statement name="DO">
+              <block type="variables_adicionar"><field name="VAR">toques</field><value name="AMOUNT"><block type="math_number"><field name="NUM">1</field></block></value>
+                <next>
+                  <block type="controls_if">
+                    <value name="IF0"><block type="logic_compare"><field name="OP">GTE</field><value name="A"><block type="variables_valor_guardado"><field name="VAR">toques</field></block></value><value name="B"><block type="math_number"><field name="NUM">3</field></block></value></block></value>
+                    <statement name="DO0"><block type="led_externo_ligar"><field name="CHANNEL">G</field><field name="DIG">1</field></block></statement>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
