@@ -1,17 +1,22 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- O toque na Conexao 0 registra a temperatura do DHT11 ligado separadamente na Conexao 1. -->
+  <!-- Enquanto o contato 0 estiver encostado, o grafico recebe novas leituras do DHT11 na Conexao 1. -->
   <block type="external_contact_prepare" x="20" y="20">
     <field name="COMMON">GND</field>
     <next>
-      <block type="external_contact_when_closed">
-        <field name="DIG">0</field>
-        <statement name="DO">
+      <block type="controls_ifelse">
+        <value name="IF0"><block type="external_contact_is_closed"><field name="DIG">0</field></block></value>
+        <statement name="DO0">
           <block type="dht11_plotar">
             <value name="VALOR"><block type="dht11_temperatura"><field name="DIG">1</field></block></value>
             <field name="POSICAO">1</field><field name="DISPLAY_TYPE">SMALL</field>
-            <next>
-              <block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block>
-            </next>
+            <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field>
+            <next><block type="display_texto"><field name="TEXTO">Toque para ler</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+              <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">500</field></block></value></block></next>
+            </block></next>
           </block>
         </statement>
       </block>

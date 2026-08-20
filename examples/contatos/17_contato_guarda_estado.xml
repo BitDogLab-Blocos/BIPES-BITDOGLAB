@@ -1,27 +1,38 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- A variavel guarda 1 enquanto a Conexao 1 esta tocada e volta a 0 quando o contato e separado. -->
+  <!-- A memoria guarda o estado do contato 1: 1 significa encostado e 0 separado. O LED e o OLED tornam essa lembranca visivel. -->
   <block type="variables_guardar" x="20" y="20">
     <field name="VAR">estado</field>
     <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
     <next>
       <block type="external_contact_prepare"><field name="COMMON">GND</field>
         <next>
-          <block type="controls_ifelse">
-            <value name="IF0"><block type="external_contact_is_closed"><field name="DIG">1</field></block></value>
-            <statement name="DO0">
-              <block type="variables_alterar"><field name="VAR">estado</field>
-                <value name="TARGET"><block type="variables_valor_guardado"><field name="VAR">estado</field></block></value>
-                <value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value>
-                <next><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value></block></next>
+          <block type="bloco_desligar_todos_leds">
+            <next>
+              <block type="controls_ifelse">
+                <value name="IF0"><block type="external_contact_is_closed"><field name="DIG">1</field></block></value>
+                <statement name="DO0">
+                  <block type="variables_alterar"><field name="VAR">estado</field><value name="TARGET"><block type="variables_valor_guardado"><field name="VAR">estado</field></block></value><value name="VALUE"><block type="math_number"><field name="NUM">1</field></block></value>
+                    <next><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value></block></next>
+                  </block>
+                </statement>
+                <statement name="ELSE">
+                  <block type="variables_alterar"><field name="VAR">estado</field><value name="TARGET"><block type="variables_valor_guardado"><field name="VAR">estado</field></block></value><value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+                    <next><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_red"></block></value></block></next>
+                  </block>
+                </statement>
+                <next>
+                  <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field>
+                    <next>
+                      <block type="display_texto"><field name="TEXTO">Contato:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+                        <next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="variables_valor_guardado"><field name="VAR">estado</field></block></value>
+                          <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next>
+                        </block></next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
               </block>
-            </statement>
-            <statement name="ELSE">
-              <block type="variables_alterar"><field name="VAR">estado</field>
-                <value name="TARGET"><block type="variables_valor_guardado"><field name="VAR">estado</field></block></value>
-                <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
-                <next><block type="bloco_desligar_todos_leds"></block></next>
-              </block>
-            </statement>
+            </next>
           </block>
         </next>
       </block>

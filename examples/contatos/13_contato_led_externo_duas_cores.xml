@@ -1,12 +1,96 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- O contato na Conexao 1 seleciona o estado do KY-016: vermelho na Conexao 2 ou verde na Conexao 3. -->
+  <!-- Dois contatos formam uma regra: um contato sozinho mostra vermelho; os dois juntos liberam o verde do KY-016. -->
   <block type="external_contact_prepare" x="20" y="20">
-    <field name="COMMON">3V3</field>
+    <field name="COMMON">GND</field>
     <next>
-      <block type="controls_ifelse">
-        <value name="IF0"><block type="external_contact_is_closed"><field name="DIG">1</field></block></value>
-        <statement name="DO0"><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">2</field></block></statement>
-        <statement name="ELSE"><block type="led_externo_ligar"><field name="CHANNEL">G</field><field name="DIG">3</field></block></statement>
+      <block type="led_externo_desligar">
+        <field name="CHANNEL">R</field>
+        <field name="DIG">3</field>
+        <next>
+          <block type="led_externo_desligar">
+            <field name="CHANNEL">G</field>
+            <field name="DIG">2</field>
+            <next>
+              <block type="controls_ifelse">
+                <value name="IF0">
+                  <block type="logic_operation">
+                    <field name="OP">AND</field>
+                    <value name="A">
+                      <block type="external_contact_is_closed">
+                        <field name="DIG">0</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="external_contact_is_closed">
+                        <field name="DIG">1</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="led_externo_ligar">
+                    <field name="CHANNEL">G</field>
+                    <field name="DIG">2</field>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME">
+                          <block type="math_number">
+                            <field name="NUM">1</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="led_externo_desligar">
+                            <field name="CHANNEL">G</field>
+                            <field name="DIG">2</field>
+                            <next>
+                              <block type="esperar_segundos">
+                                <value name="TIME">
+                                  <block type="math_number">
+                                    <field name="NUM">1</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+                <statement name="ELSE">
+                  <block type="led_externo_ligar">
+                    <field name="CHANNEL">R</field>
+                    <field name="DIG">3</field>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME">
+                          <block type="math_number">
+                            <field name="NUM">1</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="led_externo_desligar">
+                            <field name="CHANNEL">R</field>
+                            <field name="DIG">3</field>
+                            <next>
+                              <block type="esperar_segundos">
+                                <value name="TIME">
+                                  <block type="math_number">
+                                    <field name="NUM">1</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
       </block>
     </next>
   </block>

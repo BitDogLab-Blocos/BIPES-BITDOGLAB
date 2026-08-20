@@ -1,20 +1,19 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Um toque na Conexao 0 faz o KY-016 alternar vermelho e azul; os fios usam 1 e 2. -->
+  <!-- Um toque na Conexao 0 cria uma comemoracao: coracao na Matriz, nota musical e limpeza ao final. -->
   <block type="external_contact_prepare" x="20" y="20">
     <field name="COMMON">GND</field>
     <next>
       <block type="external_contact_when_closed"><field name="DIG">0</field>
         <statement name="DO">
-          <block type="led_externo_criar_animacao">
-            <mutation steps="[&quot;action&quot;,&quot;time&quot;,&quot;action&quot;,&quot;time&quot;]"></mutation>
-            <statement name="STEP0"><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">1</field></block></statement>
-            <value name="TIME1"><block type="tempo_segundos"><field name="NUM">1</field></block></value>
-            <statement name="STEP2"><block type="led_externo_ligar"><field name="CHANNEL">B</field><field name="DIG">2</field></block></statement>
-            <value name="TIME3"><block type="tempo_segundos"><field name="NUM">1</field></block></value>
+          <block type="mostrar_emoji"><value name="EMOJI"><block type="emoji_coracao"></block></value><value name="COR"><block type="colour_green"></block></value><field name="BRILHO">30</field>
             <next>
-              <block type="led_externo_desligar"><field name="CHANNEL">R</field><field name="DIG">1</field>
+              <block type="tocar_nota"><value name="NOTA"><block type="nota_mi"></block></value><field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">350</field>
                 <next>
-                  <block type="led_externo_desligar"><field name="CHANNEL">B</field><field name="DIG">2</field></block>
+                  <block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                    <next>
+                      <block type="desligar_matriz"><next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next></block>
+                    </next>
+                  </block>
                 </next>
               </block>
             </next>

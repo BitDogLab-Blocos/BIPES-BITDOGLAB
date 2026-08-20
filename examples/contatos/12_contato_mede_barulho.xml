@@ -1,0 +1,35 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O contato 1 libera um medidor de barulho: o microfone atualiza a leitura e o OLED mostra o nivel. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0"><block type="external_contact_is_closed"><field name="DIG">1</field></block></value>
+        <statement name="DO0">
+          <block type="microfone_vu_meter"><field name="BRILHO">30</field><value name="COR"><block type="colour_orange"></block></value>
+            <next>
+              <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field>
+                <next>
+                  <block type="display_texto"><field name="TEXTO">Som:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+                    <next>
+                      <block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="microfone_nivel_atual"></block></value>
+                        <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">500</field></block></value></block></next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field>
+            <next><block type="display_texto"><field name="TEXTO">Encoste contato</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+              <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">500</field></block></value></block></next>
+            </block></next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>
