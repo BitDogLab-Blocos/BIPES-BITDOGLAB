@@ -1,7 +1,7 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- O teste mostra cada contato nas linhas 4, 3, 2 e 1 usando o fio comum no 3V3. -->
+  <!-- O teste mostra cada contato nas linhas 4, 3, 2 e 1 usando GND. O teste completo precisa incluir 2 e 3 na V7. -->
   <block type="external_contact_prepare" x="20" y="20">
-    <field name="COMMON">3V3</field>
+    <field name="COMMON">GND</field>
     <next><block type="external_contact_test_matrix"><field name="LAYOUT">ROWS</field></block>
     </next>
   </block>

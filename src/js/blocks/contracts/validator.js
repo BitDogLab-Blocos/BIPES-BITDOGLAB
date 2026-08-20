@@ -771,8 +771,11 @@
       }
     }
 
-    if (config.VERSION !== 'v7' || !blocks.some(isOledBlock)) return;
-    if (contactBlocks.length) {
+    if (config.VERSION !== 'v7') return;
+    var hasOledBlock = blocks.some(isOledBlock);
+    var has3V3Preparation = !!preparationModes['3V3'];
+    if (!hasOledBlock && !has3V3Preparation) return;
+    if (hasOledBlock && contactBlocks.length) {
       addNotice(notices, contactBlocks[0], msg('externalContactOledV7Notice'));
     }
     var reserved = (contactConfig.OLED_RESERVED_DIG || ['2', '3']).map(String);
@@ -781,7 +784,13 @@
       if (!contactBlock || !contactBlock.getFieldValue) continue;
 
       if (contactBlock.type === 'external_contact_test_matrix') {
-        addWarning(warnings, contactBlock, msg('externalContactTestOledV7Conflict'));
+        addWarning(
+          warnings,
+          contactBlock,
+          msg(has3V3Preparation
+            ? 'externalContactTest3V3OledV7Conflict'
+            : 'externalContactTestOledV7Conflict')
+        );
         continue;
       }
 
@@ -791,7 +800,9 @@
         addWarning(
           warnings,
           contactBlock,
-          format(msg('externalContactOledV7Conflict'), contactDig)
+          format(msg(has3V3Preparation
+            ? 'externalContact3V3OledV7Conflict'
+            : 'externalContactOledV7Conflict'), contactDig)
         );
       }
     }

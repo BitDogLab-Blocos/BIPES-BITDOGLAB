@@ -1,10 +1,10 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- O fio comum vai ao 3V3; um toque na Conexao 3 mostra o numero 2 na Matriz. -->
+  <!-- O fio comum vai ao 3V3; um toque na Conexao 0 mostra o numero 2 na Matriz. A V7 reserva 2 e 3 para a tela. -->
   <block type="external_contact_prepare" x="20" y="20">
     <field name="COMMON">3V3</field>
     <next>
       <block type="external_contact_when_closed">
-        <field name="DIG">3</field>
+        <field name="DIG">0</field>
         <statement name="DO">
           <block type="mostrar_numero_matriz">
             <field name="BRILHO">30</field>
@@ -13,7 +13,15 @@
             <next>
               <block type="esperar_segundos">
                 <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
-                <next><block type="desligar_matriz"></block></next>
+                <next>
+                  <block type="desligar_matriz">
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                      </block>
+                    </next>
+                  </block>
+                </next>
               </block>
             </next>
           </block>

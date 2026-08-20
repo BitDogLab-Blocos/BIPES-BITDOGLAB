@@ -68,6 +68,18 @@ var BitdogLabProfileBase = {
              line.startsWith('_btn_c_last_time') ||
              line.startsWith('_btn_joystick_last_time') ||
              line.startsWith('_debounce_ms') ||
+             // Estado persistente dos eventos de contatos externos.
+             // Essas variáveis precisam ser inicializadas antes do loop
+             // principal; se forem recriadas a cada ciclo, o debounce nunca
+             // consegue reconhecer a transição de contato.
+             line.startsWith('_contact_pin_numbers') ||
+             line.startsWith('_contact_common') ||
+             line.startsWith('_contact_pull') ||
+             line.startsWith('_contact_active_level') ||
+             line.startsWith('_contact_debounce_ms') ||
+             line.startsWith('_contact_pins') ||
+             line.startsWith('_contact_states') ||
+             line.startsWith('_contact_event_seen') ||
              line.indexOf('.irq(trigger=') !== -1 ||
              line.indexOf(' = ADC(') !== -1 ||
              line.startsWith('joystick_') ||
