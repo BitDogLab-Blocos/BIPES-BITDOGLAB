@@ -752,17 +752,22 @@ button.icon.medium:before  {
 #toolbarButton.on:before {
   background-position: left calc(-2.5rem*11) bottom;
 }
-/* White icons */
-#saveButton,
-#loadButton,
-#trashButton,
-#connectButton,
-#serialButton,
+/* Connection icon */
 #connectButton:before {
   background-position: left calc(-1.5rem*13) top;
 }
 #connectButton.on:before {
   background-position: left calc(-1.5rem*13) bottom;
+}
+
+/* Keep the main toolbar actions visible over every visual theme. */
+@media (min-width: 60em) {
+  .top-menu #connectButton:before,
+  .top-menu #saveButton:before,
+  .top-menu #loadButton:before,
+  .top-menu #trashButton:before {
+    filter: brightness(0) invert(1) drop-shadow(0 1px 1px rgba(0, 0, 0, .55));
+  }
 }
 @media (max-width: 710px) {
   .tab_collapse {
