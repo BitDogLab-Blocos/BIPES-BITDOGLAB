@@ -602,6 +602,83 @@ WorkspaceManager.bindDht11CategoryHint = function() {
   });
 };
 
+WorkspaceManager.showLdrConnectionReminder = function() {
+  var closeId = 'closeLdrConnectionNotification';
+  var boardImage = '../assets/images/devices/conexoes-externas.png';
+  var ldrImage = '../assets/images/devices/ldr-pinout.png?ver=20260820ldr2';
+  var wireRows = Code.LANG === 'en'
+    ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">LDR wires</div>' +
+      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Black arrow — negative/ground (GND)</strong> → left pin and a GND contact on the board</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Red arrow — electrical power (VCC / 3.3 V)</strong> → center pin and the 3V3 contact on the board</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Orange arrow — analog data (ADC)</strong> → right pin marked S and the ANA-IN contact on the board</div>' +
+      '</div>'
+    : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Fios do LDR</div>' +
+      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Seta preta — negativo/terra (GND)</strong> → pino da esquerda e um contato GND da placa</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Seta vermelha — alimentação elétrica (VCC / 3,3 V)</strong> → pino do meio e contato 3V3 da placa</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Seta laranja — dados analógicos (ADC)</strong> → pino da direita, marcado S, e contato ANA-IN da placa</div>' +
+      '</div>';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:17px;">🔌 How to connect the external LDR</strong><br>' +
+      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
+      '<img src="' + boardImage + '" alt="BitDogLab external connections" style="width:54%;max-height:220px;object-fit:contain;background:white;border-radius:6px;">' +
+      '<img src="' + ldrImage + '" alt="LDR module pinout" style="width:42%;max-height:220px;object-fit:contain;background:white;border-radius:6px;">' +
+      '</div>' + wireRows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
+      '<strong>Build this connection sequence:</strong> LDR pin → female end of a male-to-female jumper → male end held by an alligator clip → board contact.<br>' +
+      'Turn the board off and disconnect the USB cable before changing wires. Keep neighboring clips from touching.<br>' +
+      '<strong>Insulate the jumper-to-alligator connection with electrical tape</strong> so exposed metal cannot cause a short circuit.</div>' +
+      '<div style="margin-top:9px;"><strong>Important:</strong> use the 3V3 contact for power, never 5V-VSYS. Connect the signal pin S only to ANA-IN, not to Connections 0, 1, 2, or 3. Ask a teacher to check the wiring before powering the board.</div>' +
+      '</div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:17px;">🔌 Como conectar o LDR externo</strong><br>' +
+      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
+      '<img src="' + boardImage + '" alt="Conexões externas da BitDogLab" style="width:54%;max-height:220px;object-fit:contain;background:white;border-radius:6px;">' +
+      '<img src="' + ldrImage + '" alt="Pinos do módulo LDR" style="width:42%;max-height:220px;object-fit:contain;background:white;border-radius:6px;">' +
+      '</div>' + wireRows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
+      '<strong>Monte esta sequência de ligação:</strong> pino do LDR → ponta fêmea do jumper macho-fêmea → ponta macho presa à garra jacaré → contato da placa.<br>' +
+      'Desligue a placa e retire o cabo USB antes de mudar os fios. Não deixe garras vizinhas se encostarem.<br>' +
+      '<strong>Isole a união do jumper com a garra jacaré usando fita isolante</strong> para nenhum metal exposto causar curto-circuito.</div>' +
+      '<div style="margin-top:9px;"><strong>Importante:</strong> use o contato 3V3 para alimentação, nunca 5V-VSYS. Ligue o pino de sinal S somente ao ANA-IN, não às Conexões 0, 1, 2 ou 3. Peça ao professor para conferir a montagem antes de ligar a placa.</div>' +
+      '</div>';
+
+  WorkspaceManager.createReminder({
+    id: 'ldrConnectionNotification',
+    closeId: closeId,
+    background: '#16a085',
+    maxWidth: '700px',
+    html: html
+  });
+};
+
+WorkspaceManager.bindLdrCategoryHint = function() {
+  var toolbox = Code.workspace && Code.workspace.getToolbox
+    ? Code.workspace.getToolbox()
+    : null;
+  var toolboxDiv = toolbox && toolbox.HtmlDiv;
+  if (!toolboxDiv || toolboxDiv.__bitdoglabLdrHintBound) return;
+
+  toolboxDiv.__bitdoglabLdrHintBound = true;
+  toolboxDiv.addEventListener('click', function(event) {
+    var clickTarget = event.target;
+    while (clickTarget && clickTarget !== toolboxDiv && !clickTarget.id) {
+      clickTarget = clickTarget.parentNode;
+    }
+    if (!clickTarget || !clickTarget.id || !toolbox.getToolboxItemById) return;
+
+    var item = toolbox.getToolboxItemById(clickTarget.id);
+    var categoryName = item && item.getName ? item.getName() : '';
+    if (categoryName === 'Sensor de luz e sombra (LDR)' || categoryName === 'Light and shadow sensor (LDR)') {
+      Code.showLdrConnectionReminder();
+    }
+  });
+};
+
 WorkspaceManager.showJoystickSeletorReminder = function() {
   var closeId = 'closeJoystickSeletorNotification';
   var html = Code.LANG === 'en'
@@ -1025,6 +1102,7 @@ WorkspaceManager.bindWorkspaceHints = function() {
   WorkspaceManager.bindServoCategoryHint();
   WorkspaceManager.bindDht11CategoryHint();
   WorkspaceManager.bindExternalLedCategoryHint();
+  WorkspaceManager.bindLdrCategoryHint();
 
   Code.workspace.addChangeListener(function(event) {
     if (event.type === Blockly.Events.BLOCK_CREATE) {
