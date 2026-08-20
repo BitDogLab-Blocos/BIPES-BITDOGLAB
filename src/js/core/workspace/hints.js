@@ -22,8 +22,8 @@ WorkspaceManager.createReminder = function(options) {
   notification.id = options.id;
   notification.style.cssText = [
     'position: fixed',
-    'top: 20px',
-    'right: 20px',
+    'top: ' + (options.top || '20px'),
+    options.left ? 'left: ' + options.left : 'right: ' + (options.right || '20px'),
     'background: ' + options.background,
     'color: white',
     'padding: 18px 45px 18px 20px',
@@ -656,6 +656,37 @@ WorkspaceManager.showLdrConnectionReminder = function() {
   });
 };
 
+WorkspaceManager.showLdrJumperReminder = function() {
+  var closeId = 'closeLdrJumperNotification';
+  var jumperImage = '../assets/images/devices/ldr-jumper-jp1.png?ver=20260820jp2';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:17px;">⚠️ Enable the analog input (ANA-IN)</strong>' +
+      '<img src="' + jumperImage + '" alt="How to move the JP1 jumper to enable ANA-IN" style="display:block;width:100%;max-height:62vh;object-fit:contain;background:white;border-radius:6px;margin:12px 0;">' +
+      '<div style="background:#fff3cd;color:#4e342e;padding:10px;border:2px solid #f9b900;border-radius:6px;">' +
+      '<strong>Ask the teacher to make this change.</strong> Turn the board off and disconnect the USB cable before moving the jumper. Move it to the <strong>MIC side</strong>, leaving <strong>JP1 free</strong>, to enable ANA-IN.<br><br>' +
+      '<strong>The microphone and LDR cannot be used at the same time.</strong></div>' +
+      '</div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:17px;">⚠️ Liberar a entrada analógica (ANA-IN)</strong>' +
+      '<img src="' + jumperImage + '" alt="Como mover o jumper JP1 para liberar a entrada ANA-IN" style="display:block;width:100%;max-height:62vh;object-fit:contain;background:white;border-radius:6px;margin:12px 0;">' +
+      '<div style="background:#fff3cd;color:#4e342e;padding:10px;border:2px solid #f9b900;border-radius:6px;">' +
+      '<strong>Peça ao professor para fazer esta alteração.</strong> Desligue a placa e retire o cabo USB antes de mover o jumper. Coloque-o no <strong>lado MIC</strong>, deixando o <strong>JP1 livre</strong>, para liberar a entrada ANA-IN.<br><br>' +
+      '<strong>O microfone e o LDR não podem ser usados ao mesmo tempo.</strong></div>' +
+      '</div>';
+
+  WorkspaceManager.createReminder({
+    id: 'ldrJumperNotification',
+    closeId: closeId,
+    background: '#d68910',
+    maxWidth: '400px',
+    right: '805px',
+    html: html
+  });
+};
+
 WorkspaceManager.bindLdrCategoryHint = function() {
   var toolbox = Code.workspace && Code.workspace.getToolbox
     ? Code.workspace.getToolbox()
@@ -675,6 +706,7 @@ WorkspaceManager.bindLdrCategoryHint = function() {
     var categoryName = item && item.getName ? item.getName() : '';
     if (categoryName === 'Sensor de luz e sombra (LDR)' || categoryName === 'Light and shadow sensor (LDR)') {
       Code.showLdrConnectionReminder();
+      WorkspaceManager.showLdrJumperReminder();
     }
   });
 };
