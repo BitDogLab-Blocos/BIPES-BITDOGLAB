@@ -17,6 +17,7 @@ Code.showExternalLedWarningReminder = WorkspaceManager.showExternalLedWarningRem
 Code.showExternalLedChannelReminder = WorkspaceManager.showExternalLedChannelReminder;
 Code.showExternalContactReminder = WorkspaceManager.showExternalContactReminder;
 Code.showLdrConnectionReminder = WorkspaceManager.showLdrConnectionReminder;
+Code.showLdrScaleReminder = WorkspaceManager.showLdrScaleReminder;
 Code.showJoystickSeletorReminder = WorkspaceManager.showJoystickSeletorReminder;
 Code.showMicGetterReminder = WorkspaceManager.showMicGetterReminder;
 Code.showBarraGetterReminder = WorkspaceManager.showBarraGetterReminder;

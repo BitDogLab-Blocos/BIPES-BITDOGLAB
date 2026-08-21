@@ -1,6 +1,13 @@
 'use strict';
 
 class ExecutionRunner {
+  static workspaceUsesLdr () {
+    if (!Code || !Code.workspace || !Code.workspace.getAllBlocks) return false;
+    return Code.workspace.getAllBlocks(false).some((block) => (
+      block.type === 'ldr_valor' || block.type === 'ldr_plotar'
+    ));
+  }
+
   static updateFileStatus (message) {
     if (typeof Files !== 'undefined' && Files && typeof Files.setStatus === 'function') {
       Files.setStatus(message);
@@ -76,6 +83,13 @@ class ExecutionRunner {
       UI['progress'].start(estimatedPackets);
 
       mux.bufferPush (`\x05${code}\x04`); // \x05=raw REPL mode, \x04=soft reboot to execute
+
+      // The scale direction is a property of the LDR module. Only ask the
+      // child to check it after an LDR program has actually been queued for
+      // the board, never while they are assembling the blocks.
+      if (ExecutionRunner.workspaceUsesLdr() && Code.showLdrScaleReminder) {
+        Code.showLdrScaleReminder();
+      }
     }
   }
 

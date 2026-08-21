@@ -22,7 +22,7 @@ WorkspaceManager.createReminder = function(options) {
   notification.id = options.id;
   notification.style.cssText = [
     'position: fixed',
-    'top: ' + (options.top || '20px'),
+    options.bottom ? 'bottom: ' + options.bottom : 'top: ' + (options.top || '20px'),
     options.left ? 'left: ' + options.left : 'right: ' + (options.right || '20px'),
     'background: ' + options.background,
     'color: white',
@@ -610,35 +610,8 @@ WorkspaceManager.bindDht11CategoryHint = function() {
 
 WorkspaceManager.showLdrConnectionReminder = function() {
   var closeId = 'closeLdrConnectionNotification';
-  var invertButtonId = 'invertLdrScaleButton';
-  var scaleStatusId = 'ldrScaleStatus';
-  var scaleFeedbackId = 'ldrScaleFeedback';
   var boardImage = '../assets/images/devices/conexoes-externas.png';
   var ldrImage = '../assets/images/devices/ldr-pinout.png?ver=20260820ldr2';
-  var ldrSettings = Code.LdrSettings;
-  var scaleIsInverted = !ldrSettings || ldrSettings.isInverted();
-  var scaleStatus = Code.LANG === 'en'
-    ? (scaleIsInverted ? 'Current direction: inverted' : 'Current direction: normal')
-    : (scaleIsInverted ? 'Direção atual: invertida' : 'Direção atual: normal');
-  var scaleControls = Code.LANG === 'en'
-    ? '<div style="margin-top:9px;background:#e8f5e9;color:#1b5e20;padding:11px;border-radius:6px;">' +
-      '<strong style="font-size:16px;">☀️ Test the light reading</strong><br>' +
-      '1. Run the program.<br>2. Shine light on the sensor and then cover it.<br>' +
-      '3. More light should show a bigger number.<br><br>' +
-      'If more light shows a smaller number, use the button below.' +
-      '<div id="' + scaleStatusId + '" style="margin:9px 0 7px;font-weight:bold;">' + scaleStatus + '</div>' +
-      '<button id="' + invertButtonId + '" type="button" style="background:#5e35b1;color:white;border:0;border-radius:6px;padding:10px 16px;font-size:15px;font-weight:bold;cursor:pointer;">🔄 Invert scale</button>' +
-      '<div id="' + scaleFeedbackId + '" role="status" aria-live="polite" style="display:none;margin-top:9px;background:white;padding:8px;border-radius:5px;"></div>' +
-      '</div>'
-    : '<div style="margin-top:9px;background:#e8f5e9;color:#1b5e20;padding:11px;border-radius:6px;">' +
-      '<strong style="font-size:16px;">☀️ Teste a leitura da luz</strong><br>' +
-      '1. Execute o programa.<br>2. Ilumine o sensor e depois cubra-o.<br>' +
-      '3. Mais luz deve mostrar um número maior.<br><br>' +
-      'Se mais luz mostrar um número menor, use o botão abaixo.' +
-      '<div id="' + scaleStatusId + '" style="margin:9px 0 7px;font-weight:bold;">' + scaleStatus + '</div>' +
-      '<button id="' + invertButtonId + '" type="button" style="background:#5e35b1;color:white;border:0;border-radius:6px;padding:10px 16px;font-size:15px;font-weight:bold;cursor:pointer;">🔄 Inverter escala</button>' +
-      '<div id="' + scaleFeedbackId + '" role="status" aria-live="polite" style="display:none;margin-top:9px;background:white;padding:8px;border-radius:5px;"></div>' +
-      '</div>';
   var wireRows = Code.LANG === 'en'
     ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identify the LDR module pins</div>' +
       '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
@@ -663,7 +636,6 @@ WorkspaceManager.showLdrConnectionReminder = function() {
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
       '<strong>Connect in this order:</strong><br>1. Turn the board off and disconnect the USB cable.<br>2. For each pin: LDR pin → female end of a male-to-female jumper → male end held by an alligator clip → correct board contact.<br>3. Insulate every jumper-to-clip joint with electrical tape.</div>' +
       '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Important:</strong><br>• Power the LDR only from 3V3. Never use 5V-VSYS.<br>• Connect pin S only to ANA-IN. Never connect it to Connection 0, Connection 1, Connection 2, or Connection 3.<br>• Follow the separate JP1 warning to enable ANA-IN.</div>' +
-      scaleControls +
       '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> do not let neighbouring clips touch. Cover every exposed metal part to prevent a short circuit.</div>' +
       '<div style="margin-top:9px;"><strong>Before powering the board, ask a teacher to check all three wires and the JP1 jumper.</strong></div>' +
       '</div>'
@@ -677,7 +649,6 @@ WorkspaceManager.showLdrConnectionReminder = function() {
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
       '<strong>Monte nesta ordem:</strong><br>1. Desligue a placa e retire o cabo USB.<br>2. Para cada pino: pino do LDR → ponta fêmea do jumper macho-fêmea → ponta macho presa à garra jacaré → contato correto da placa.<br>3. Isole com fita isolante a união entre cada jumper e sua garra jacaré.</div>' +
       '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Importante:</strong><br>• Alimente o LDR somente pelo contato 3V3. Nunca use 5V-VSYS.<br>• Ligue o pino S somente ao contato ANA-IN. Nunca ligue esse pino à Conexão 0, Conexão 1, Conexão 2 ou Conexão 3.<br>• Siga também o aviso separado do JP1 para liberar a entrada ANA-IN.</div>' +
-      scaleControls +
       '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> não deixe garras vizinhas se encostarem. Cubra todo metal exposto para evitar curto-circuito.</div>' +
       '<div style="margin-top:9px;"><strong>Antes de ligar a placa, peça ao professor para conferir os três fios e o jumper JP1.</strong></div>' +
       '</div>';
@@ -687,6 +658,51 @@ WorkspaceManager.showLdrConnectionReminder = function() {
     closeId: closeId,
     background: '#8e7cc3',
     maxWidth: '700px',
+    html: html
+  });
+};
+
+WorkspaceManager.showLdrScaleReminder = function() {
+  var closeId = 'closeLdrScaleNotification';
+  var invertButtonId = 'invertLdrScaleButton';
+  var scaleStatusId = 'ldrScaleStatus';
+  var scaleFeedbackId = 'ldrScaleFeedback';
+  var ldrSettings = Code.LdrSettings;
+  var standardDirection = !ldrSettings || ldrSettings.isInverted();
+  var scaleStatus = Code.LANG === 'en'
+    ? (standardDirection ? 'Current direction: standard' : 'Current direction: inverted')
+    : (standardDirection ? 'Direção atual: padrão' : 'Direção atual: invertida');
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size:17px;">☀️ Check the light direction</strong><br><br>' +
+      'Your program with the light sensor was sent to the board.<br><br>' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:10px;border-radius:6px;">' +
+      'Shine light on the sensor and then cover it. <strong>More light should show a bigger number.</strong>' +
+      '</div>' +
+      '<div id="' + scaleStatusId + '" style="margin:11px 0 8px;font-weight:bold;font-size:15px;">' + scaleStatus + '</div>' +
+      'If the reading works backwards, use this button:<br>' +
+      '<button id="' + invertButtonId + '" type="button" style="margin-top:8px;background:#5e35b1;color:white;border:0;border-radius:6px;padding:10px 16px;font-size:15px;font-weight:bold;cursor:pointer;">🔄 Invert scale</button>' +
+      '<div style="margin-top:11px;background:#fff3cd;color:#4e342e;padding:9px;border-radius:6px;"><strong>Important:</strong> after changing the direction, click Run again to send the change to the board.</div>' +
+      '<div id="' + scaleFeedbackId + '" role="status" aria-live="polite" style="display:none;margin-top:9px;background:white;color:#1b5e20;padding:9px;border-radius:6px;font-weight:bold;"></div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size:17px;">☀️ Confira a direção da luz</strong><br><br>' +
+      'Seu programa com o sensor de luz foi enviado para a placa.<br><br>' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:10px;border-radius:6px;">' +
+      'Ilumine o sensor e depois cubra-o. <strong>Mais luz deve mostrar um número maior.</strong>' +
+      '</div>' +
+      '<div id="' + scaleStatusId + '" style="margin:11px 0 8px;font-weight:bold;font-size:15px;">' + scaleStatus + '</div>' +
+      'Se a leitura funcionar ao contrário, use este botão:<br>' +
+      '<button id="' + invertButtonId + '" type="button" style="margin-top:8px;background:#5e35b1;color:white;border:0;border-radius:6px;padding:10px 16px;font-size:15px;font-weight:bold;cursor:pointer;">🔄 Inverter escala</button>' +
+      '<div style="margin-top:11px;background:#fff3cd;color:#4e342e;padding:9px;border-radius:6px;"><strong>Importante:</strong> depois de mudar a direção, clique em Executar novamente para enviar a mudança à placa.</div>' +
+      '<div id="' + scaleFeedbackId + '" role="status" aria-live="polite" style="display:none;margin-top:9px;background:white;color:#1b5e20;padding:9px;border-radius:6px;font-weight:bold;"></div>';
+
+  WorkspaceManager.createReminder({
+    id: 'ldrScaleNotification',
+    closeId: closeId,
+    background: '#8e7cc3',
+    maxWidth: '440px',
+    left: '20px',
+    bottom: '20px',
     html: html
   });
 
@@ -701,11 +717,11 @@ WorkspaceManager.showLdrConnectionReminder = function() {
       var status = document.getElementById(scaleStatusId);
       var feedback = document.getElementById(scaleFeedbackId);
       var statusText = Code.LANG === 'en'
-        ? (isInverted ? 'Current direction: inverted' : 'Current direction: normal')
-        : (isInverted ? 'Direção atual: invertida' : 'Direção atual: normal');
+        ? (isInverted ? 'Current direction: standard' : 'Current direction: inverted')
+        : (isInverted ? 'Direção atual: padrão' : 'Direção atual: invertida');
       var feedbackText = Code.LANG === 'en'
-        ? 'Done! The direction changed. Run the program again to test it.'
-        : 'Pronto! A direção mudou. Execute o programa novamente para testar.';
+        ? 'Done! The direction changed. Click Run again to send the change to the board.'
+        : 'Pronto! A direção mudou. Clique em Executar novamente para enviar a mudança à placa.';
 
       if (status) status.textContent = statusText;
       if (feedback) {
@@ -1231,9 +1247,6 @@ WorkspaceManager.bindWorkspaceHints = function() {
       if (blockType === 'dht11_temperatura' || blockType === 'dht11_umidade') {
         Code.showDht11ConnectionReminder(block);
       }
-      if (blockType === 'ldr_valor' || blockType === 'ldr_plotar') {
-        Code.showLdrConnectionReminder(block);
-      }
       if (window.BitDogLabExternalLed &&
           window.BitDogLabExternalLed.allTypes.indexOf(blockType) !== -1 &&
           block.getFieldValue && block.getFieldValue('CHANNEL')) {
@@ -1311,12 +1324,6 @@ WorkspaceManager.bindWorkspaceHints = function() {
       }
       if (blockType === 'temporizacao') {
         Code.showTimingPanel();
-      }
-    }
-    if (event.type === Blockly.Events.SELECTED && event.newElementId) {
-      var selectedBlock = Code.workspace.getBlockById(event.newElementId);
-      if (selectedBlock && (selectedBlock.type === 'ldr_valor' || selectedBlock.type === 'ldr_plotar')) {
-        Code.showLdrConnectionReminder(selectedBlock);
       }
     }
   });
