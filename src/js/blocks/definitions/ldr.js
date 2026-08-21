@@ -52,8 +52,8 @@
       this.setOutput(true, 'Number');
       this.setColour(LDR_COLOUR);
       this.setTooltip(isEnglish()
-        ? 'Returns the LDR light level as a percentage from 0 to 100. Use it in Show value, math, conditions, or a graph.'
-        : 'Entrega o nível de luz do LDR em porcentagem, de 0 a 100. Use em Mostrar valor, matemática, condições ou gráfico.');
+        ? 'Returns the LDR light level as a percentage from 0 to 100 (more light = higher value). Use it in Show value, math, conditions, or a graph.'
+        : 'Entrega o nível de luz do LDR em porcentagem, de 0 a 100 (mais luz = valor maior). Use em Mostrar valor, matemática, condições ou gráfico.');
       this.setHelpUrl('');
     }
   };

@@ -31,10 +31,10 @@
   }
 
   function ldrPercentageExpression() {
+    // The common KY-018 divider produces a higher ADC value in the dark.
+    // Invert it so the block follows the intuitive scale: more light = more %.
     // read_u16() is the MicroPython-normalized ADC range: 0..65535.
-    // Keep the block output as an integer percentage for simple comparisons
-    // in Blockly (for example, light > 60).
-    return 'max(0, min(100, round(ldr_adc.read_u16() * 100 / 65535)))';
+    return 'max(0, min(100, 100 - round(ldr_adc.read_u16() * 100 / 65535)))';
   }
 
   function ensureLdrGraphSupport(displayType) {
