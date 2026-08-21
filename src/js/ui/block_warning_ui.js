@@ -137,6 +137,14 @@
       if (typeof global.Code.showDht11ConnectionReminder === 'function') {
         global.Code.showDht11ConnectionReminder(block);
       }
+    } else if (type === 'ldr_valor') {
+      if (typeof global.Code.showLdrConnectionReminder === 'function') {
+        global.Code.showLdrConnectionReminder(block);
+      }
+      if (global.WorkspaceManager &&
+          typeof global.WorkspaceManager.showLdrJumperReminder === 'function') {
+        global.WorkspaceManager.showLdrJumperReminder();
+      }
     } else if (servoTypes.indexOf(type) !== -1) {
       if (typeof global.Code.showServoConnectionReminder === 'function') {
         global.Code.showServoConnectionReminder(block);

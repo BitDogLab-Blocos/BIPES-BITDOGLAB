@@ -54,6 +54,33 @@
       connectionFields: ['DIG']
     },
     {
+      id: 'ldr',
+      labels: {
+        'pt-br': 'sensor de luz (LDR)',
+        en: 'light sensor (LDR)'
+      },
+      blockTypes: [
+        'ldr_valor'
+      ],
+      analogInputConfigKey: 'LDR'
+    },
+    {
+      id: 'microphone',
+      labels: {
+        'pt-br': 'microfone',
+        en: 'microphone'
+      },
+      blockTypes: [
+        'microfone_testar',
+        'microfone_vu_meter',
+        'microfone_barra_display',
+        'microfone_contar_palmas',
+        'microfone_controlar_led'
+      ],
+      analogPinKey: 'MIC',
+      analogConnection: 'MIC'
+    },
+    {
       id: 'servo',
       labels: {
         'pt-br': 'servo',
@@ -211,12 +238,44 @@
     return claims;
   }
 
+  function getAnalogClaim(block, config, peripheral) {
+    var pin = null;
+    var connection = peripheral.analogConnection || 'ANA-IN';
+    var field = 'ANALOG';
+
+    if (peripheral.analogInputConfigKey) {
+      var inputConfig = config.EXTERNAL && config.EXTERNAL[peripheral.analogInputConfigKey] || {};
+      pin = inputConfig.ADC_PIN;
+      connection = inputConfig.CONNECTION || connection;
+      field = 'CONNECTION';
+    } else if (peripheral.analogPinKey) {
+      pin = config.PINS && config.PINS[peripheral.analogPinKey];
+    }
+
+    if (pin === undefined || pin === null) return [];
+
+    return [{
+      block: block,
+      peripheralId: peripheral.id,
+      peripheralLabel: peripheral.labels[Code.LANG || 'pt-br'] || peripheral.labels['pt-br'],
+      field: field,
+      connection: String(connection),
+      pin: pin,
+      resourceKey: 'gpio:' + String(pin),
+      analogInput: true
+    }];
+  }
+
   function getClaims(block, config) {
     var peripheral = getPeripheral(block && block.type);
     if (!peripheral || !block || !block.getFieldValue) return [];
 
     if (peripheral.i2cPairType) {
       return getI2cClaims(block, config, peripheral);
+    }
+
+    if (peripheral.analogInputConfigKey || peripheral.analogPinKey) {
+      return getAnalogClaim(block, config, peripheral);
     }
 
     var claims = [];
@@ -265,7 +324,7 @@
   }
 
   Code.ExternalResources = {
-    VERSION: '2026-08-19-external-contacts-i2c',
+    VERSION: '2026-08-20-external-ldr-analog',
     peripherals: PERIPHERALS,
     getPeripheral: getPeripheral,
     getClaims: getClaims

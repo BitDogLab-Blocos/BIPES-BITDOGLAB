@@ -94,6 +94,11 @@
   MESSAGES.en.externalLedRgbOledConflict = 'On board BitDogLab V7, the complete colour LED module needs three Connections, but the board display uses Connections 2 and 3. Choose the colour LED or the screen for this project.';
   MESSAGES.en.externalLedGlobalOledV7Conflict = 'The Turn off all external LEDs block checks all four board Connections: 0, 1, 2, and 3. On board V7, it cannot be used together with the board display.';
 
+  MESSAGES['pt-br'].ldrInvalidConnection = 'O sensor de luz deve usar somente a entrada ANA-IN. Confira se o pino S está ligado na ANA-IN da placa.';
+  MESSAGES['pt-br'].ldrMicrophoneConflict = 'O sensor de luz e o microfone usam a mesma entrada analógica da placa. Eles não podem funcionar juntos. Retire um dos dois blocos e peça ao professor para conferir o jumper JP1.';
+  MESSAGES.en.ldrInvalidConnection = 'The light sensor must use only the ANA-IN input. Check that the S pin is connected to ANA-IN on the board.';
+  MESSAGES.en.ldrMicrophoneConflict = 'The light sensor and microphone use the same analogue input on the board. They cannot work together. Remove one of the two blocks and ask your teacher to check jumper JP1.';
+
   var Domains = Code.BlockTypeDomains;
   var MATRIX_OPTION_COMMANDS = Domains ? Domains.get('MATRIX_OPTION_COMMANDS') : [];
   var MATRIX_COMMANDS = Domains ? Domains.get('MATRIX_COMMANDS') : [];
@@ -151,6 +156,15 @@
       kind: 'statement',
       requiredValueInputs: {
         VALOR: 'temperatura ou umidade do DHT11'
+      }
+    },
+    ldr_valor: {
+      kind: 'value'
+    },
+    ldr_plotar: {
+      kind: 'statement',
+      requiredValueInputs: {
+        VALOR: 'valor do sensor de luz'
       }
     },
     external_contact_prepare: {
@@ -442,7 +456,7 @@
   }
 
   Code.BlockContracts = {
-    VERSION: '2026-08-19-external-contacts',
+    VERSION: '2026-08-20-external-ldr',
     contracts: CONTRACTS,
     messages: MESSAGES,
     get: function(blockType) {

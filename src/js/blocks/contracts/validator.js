@@ -813,7 +813,18 @@
       (right.peripheralId === 'dht11' && left.peripheralId === 'aht20-i2c');
   }
 
+  function isLdrMicrophoneConflict(left, right) {
+    return (left.peripheralId === 'ldr' && right.peripheralId === 'microphone') ||
+      (right.peripheralId === 'ldr' && left.peripheralId === 'microphone');
+  }
+
   function addPhysicalResourceConflict(warnings, left, right) {
+    if (isLdrMicrophoneConflict(left, right)) {
+      addWarning(warnings, left.block, msg('ldrMicrophoneConflict'));
+      addWarning(warnings, right.block, msg('ldrMicrophoneConflict'));
+      return;
+    }
+
     var leftIsContact = left.peripheralId === 'external-contact';
     var rightIsContact = right.peripheralId === 'external-contact';
 
@@ -896,6 +907,21 @@
     }
   }
 
+  function validateLdrRules(blocks, warnings) {
+    var config = global.BitdogLabConfig || {};
+    var ldrConfig = config.EXTERNAL && config.EXTERNAL.LDR || {};
+    var expectedConnection = String(ldrConfig.CONNECTION || 'ANA-IN');
+
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (block.type !== 'ldr_valor' || !block.getFieldValue) continue;
+
+      if (String(block.getFieldValue('CONNECTION') || '') !== expectedConnection) {
+        addWarning(warnings, block, msg('ldrInvalidConnection'));
+      }
+    }
+  }
+
   function validateServoRules(blocks, warnings) {
     var controllerTypes = [
       'servo_mover',
@@ -972,6 +998,7 @@
     validateExternalLedRules(blocks, warnings);
     validateExternalLedOledV7PinConflicts(blocks, warnings, notices);
     validateExternalContactRules(blocks, warnings, notices);
+    validateLdrRules(blocks, warnings);
     validateExternalResourceConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 
