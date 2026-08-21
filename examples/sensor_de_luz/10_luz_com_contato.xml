@@ -1,0 +1,12 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O contato autoriza a leitura: encostado mostra o valor do LDR; separado pede um toque. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next><block type="controls_ifelse">
+      <value name="IF0"><block type="external_contact_is_closed"><field name="DIG">0</field></block></value>
+      <statement name="DO0"><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto"><field name="TEXTO">Luz:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value></block></next></block></next></block></statement>
+      <statement name="ELSE"><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto"><field name="TEXTO">Encoste para ler</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></next></block></statement>
+      <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next>
+    </block></next>
+  </block>
+</xml>

@@ -2,8 +2,8 @@
   <!-- Exemplo de automacao: o servo move a cortina e o OLED informa o estado escolhido pela luz. -->
   <block type="controls_ifelse" x="20" y="20">
     <value name="IF0"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value><value name="B"><block type="math_number"><field name="NUM">61</field></block></value></block></value>
-    <statement name="DO0"><block type="servo_mover"><field name="DIG">1</field><field name="ANGLE">20</field><next><block type="display_texto"><field name="TEXTO">Cortina aberta</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></next></block></statement>
-    <statement name="ELSE"><block type="servo_mover"><field name="DIG">1</field><field name="ANGLE">160</field><next><block type="display_texto"><field name="TEXTO">Cortina fechada</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></next></block></statement>
+    <statement name="DO0"><block type="servo_mover"><field name="DIG">1</field><field name="ANGLE">20</field><next><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto"><field name="TEXTO">Cortina aberta</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></next></block></next></block></statement>
+    <statement name="ELSE"><block type="servo_mover"><field name="DIG">1</field><field name="ANGLE">160</field><next><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto"><field name="TEXTO">Cortina fechada</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></next></block></next></block></statement>
     <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block></next>
   </block>
 </xml>
