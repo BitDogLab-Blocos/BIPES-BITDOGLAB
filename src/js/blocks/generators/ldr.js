@@ -31,10 +31,14 @@
   }
 
   function ldrPercentageExpression() {
-    // The common KY-018 divider produces a higher ADC value in the dark.
-    // Invert it so the block follows the intuitive scale: more light = more %.
-    // read_u16() is the MicroPython-normalized ADC range: 0..65535.
-    return 'max(0, min(100, 100 - round(ldr_adc.read_u16() * 100 / 65535)))';
+    // KY-018 modules can use either voltage-divider orientation. Keep the
+    // public scale intuitive (0 = dark, 100 = bright) after the user chooses
+    // the direction that matches their module.
+    var settings = global.Code && global.Code.LdrSettings;
+    var inverted = !settings || settings.isInverted();
+    var directReading = 'round(ldr_adc.read_u16() * 100 / 65535)';
+    var percentage = inverted ? '100 - ' + directReading : directReading;
+    return 'max(0, min(100, ' + percentage + '))';
   }
 
   function ensureLdrGraphSupport(displayType) {
