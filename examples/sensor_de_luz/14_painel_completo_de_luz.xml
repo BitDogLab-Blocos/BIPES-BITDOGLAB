@@ -7,7 +7,7 @@
         <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value><value name="B"><block type="math_number"><field name="NUM">27</field></block></value></block></value>
         <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_red"></block></value><next><block type="bipe_curto"><field name="VOLUME">20</field></block></next></block></statement>
         <statement name="ELSE"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value></block></statement>
-        <next><block type="ldr_plotar"><field name="POSICAO">2</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value><next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next></block></next>
+        <next><block type="ldr_plotar"><field name="POSICAO">2</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value></block></next>
       </block></next>
     </block></next>
   </block>

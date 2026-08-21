@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1120" viewBox="0 0 1400 1120" role="img" aria-labelledby="title description">
+  <title id="title">Fluxo para corrigir a escala do sensor LDR</title>
+  <desc id="description">Fluxograma que mostra o envio do programa, o teste de luz e a inversão da escala quando pouca luz produz valores altos e muita luz produz valores baixos.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000"/>
+    </marker>
+    <style>
+      .title { font: 700 34px Arial, Helvetica, sans-serif; fill: #000; }
+      .subtitle { font: 400 20px Arial, Helvetica, sans-serif; fill: #000; }
+      .block-text { font: 700 24px Arial, Helvetica, sans-serif; fill: #000; text-anchor: middle; }
+      .small-text { font: 400 20px Arial, Helvetica, sans-serif; fill: #000; text-anchor: middle; }
+      .branch-text { font: 700 19px Arial, Helvetica, sans-serif; fill: #000; }
+      .shape { fill: #fff; stroke: #000; stroke-width: 3; }
+      .arrow { fill: none; stroke: #000; stroke-width: 3; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1400" height="1120" fill="#fff"/>
+
+  <text x="700" y="50" class="title" text-anchor="middle">Fluxo para corrigir a escala do sensor LDR</text>
+  <text x="700" y="82" class="subtitle" text-anchor="middle">Alguns módulos podem apresentar a leitura invertida.</text>
+
+  <!-- Início -->
+  <rect x="480" y="115" width="440" height="76" rx="38" class="shape"/>
+  <text x="700" y="162" class="block-text">Programa com bloco LDR</text>
+
+  <path d="M 700 191 L 700 229" class="arrow"/>
+
+  <!-- Envio -->
+  <rect x="450" y="230" width="500" height="82" class="shape"/>
+  <text x="700" y="280" class="block-text">Enviar código para a placa</text>
+
+  <path d="M 700 312 L 700 350" class="arrow"/>
+
+  <!-- Teste -->
+  <rect x="450" y="351" width="500" height="102" class="shape"/>
+  <text x="700" y="393" class="block-text">Testar o sensor</text>
+  <text x="700" y="427" class="small-text">Pouca luz  |  Muita luz</text>
+
+  <path d="M 700 453 L 700 493" class="arrow"/>
+
+  <!-- Decisão -->
+  <polygon points="700,494 980,606 700,718 420,606" class="shape"/>
+  <text x="700" y="574" class="block-text">
+    <tspan x="700" dy="0">Pouca luz: 80–100</tspan>
+    <tspan x="700" dy="36">e muita luz: 0–20?</tspan>
+  </text>
+
+  <!-- Caminho não invertido -->
+  <path d="M 980 606 L 1040 606" class="arrow"/>
+  <text x="995" y="585" class="branch-text">NÃO</text>
+  <rect x="1042" y="556" width="300" height="100" class="shape"/>
+  <text x="1192" y="596" class="block-text">
+    <tspan x="1192" dy="0">Manter a escala</tspan>
+    <tspan x="1192" dy="32">padrão</tspan>
+  </text>
+  <path d="M 1192 656 L 1192 731" class="arrow"/>
+  <rect x="1052" y="733" width="280" height="82" rx="41" class="shape"/>
+  <text x="1192" y="783" class="block-text">Continuar o projeto</text>
+
+  <!-- Caminho invertido -->
+  <path d="M 700 718 L 700 765" class="arrow"/>
+  <text x="718" y="750" class="branch-text">SIM</text>
+  <rect x="500" y="767" width="400" height="82" class="shape"/>
+  <text x="700" y="817" class="block-text">Clicar em “Inverter escala”</text>
+
+  <path d="M 700 849 L 700 886" class="arrow"/>
+  <rect x="500" y="888" width="400" height="82" class="shape"/>
+  <text x="700" y="938" class="block-text">Enviar o código novamente</text>
+
+  <path d="M 700 970 L 700 1007" class="arrow"/>
+  <rect x="470" y="1009" width="460" height="86" rx="43" class="shape"/>
+  <text x="700" y="1044" class="block-text">Leitura corrigida</text>
+  <text x="700" y="1076" class="small-text">0 = escuro  |  100 = claro</text>
+</svg>

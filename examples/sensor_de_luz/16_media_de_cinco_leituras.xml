@@ -1,0 +1,36 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Cinco leituras sao somadas na variavel e depois divididas para mostrar uma media. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">soma</field>
+    <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+    <next>
+      <block type="variables_guardar">
+        <field name="VAR">leituras</field>
+        <value name="VALUE"><block type="math_number"><field name="NUM">0</field></block></value>
+        <next>
+          <block type="display_texto"><field name="TEXTO">Lendo 5 vezes...</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field>
+            <next>
+              <block type="controls_repeat_simple"><field name="TIMES">5</field>
+                <statement name="DO">
+                  <block type="variables_alterar">
+                    <field name="VAR">soma</field>
+                    <value name="TARGET"><block type="variables_valor_guardado"><field name="VAR">soma</field></block></value>
+                    <value name="VALUE"><block type="math_arithmetic"><field name="OP">ADD</field><value name="A"><block type="variables_valor_guardado"><field name="VAR">soma</field></block></value><value name="B"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value></block></value>
+                    <next><block type="variables_adicionar"><field name="VAR">leituras</field><value name="AMOUNT"><block type="math_number"><field name="NUM">1</field></block></value><next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">200</field></block></value></block></next></block></next>
+                  </block>
+                </statement>
+                <next>
+                  <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field>
+                    <next><block type="display_texto"><field name="TEXTO">Media da luz (%):</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+                      <next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="math_arithmetic"><field name="OP">DIVIDE</field><value name="A"><block type="variables_valor_guardado"><field name="VAR">soma</field></block></value><value name="B"><block type="variables_valor_guardado"><field name="VAR">leituras</field></block></value></block></value></block></next>
+                    </block></next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

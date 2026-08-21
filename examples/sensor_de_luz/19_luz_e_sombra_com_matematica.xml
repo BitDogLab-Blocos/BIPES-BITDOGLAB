@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A porcentagem de sombra e calculada com 100 menos a porcentagem de luz. -->
+  <block type="display_texto" x="20" y="20">
+    <field name="TEXTO">Luz (%):</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value>
+      <next><block type="display_texto"><field name="TEXTO">Sombra (%):</field><field name="LINHA">2</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next><block type="display_mostrar_valor"><field name="LINHA">2</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="math_arithmetic"><field name="OP">MINUS</field><value name="A"><block type="math_number"><field name="NUM">100</field></block></value><value name="B"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value></block></value>
+          <next><block type="controls_ifelse"><value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value><value name="B"><block type="math_number"><field name="NUM">30</field></block></value></block></value><statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_blue"></block></value></block></statement><statement name="ELSE"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_yellow"></block></value></block></statement></block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

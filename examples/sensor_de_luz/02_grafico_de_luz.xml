@@ -1,0 +1,4 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O grafico acompanha as variacoes de luz ao longo do tempo. -->
+  <block type="ldr_plotar" x="20" y="20"><field name="POSICAO">0</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value></block>
+</xml>
