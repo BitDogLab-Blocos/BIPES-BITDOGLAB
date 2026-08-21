@@ -7,7 +7,10 @@ WorkspaceManager.ensureReminderStyle = function() {
   if (document.getElementById('runtime-reminder-style')) return;
   var style = document.createElement('style');
   style.id = 'runtime-reminder-style';
-  style.textContent = '@keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }';
+  style.textContent =
+    '@keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }' +
+    '@keyframes centeredReminderIn { from { transform: translate(-50%, -46%); opacity: 0; } to { transform: translate(-50%, -50%); opacity: 1; } }' +
+    '@keyframes centeredReminderOut { from { transform: translate(-50%, -50%); opacity: 1; } to { transform: translate(-50%, -46%); opacity: 0; } }';
   document.head.appendChild(style);
 };
 
@@ -22,8 +25,12 @@ WorkspaceManager.createReminder = function(options) {
   notification.id = options.id;
   notification.style.cssText = [
     'position: fixed',
-    options.bottom ? 'bottom: ' + options.bottom : 'top: ' + (options.top || '20px'),
-    options.left ? 'left: ' + options.left : 'right: ' + (options.right || '20px'),
+    options.centered
+      ? 'top: 50%'
+      : (options.bottom ? 'bottom: ' + options.bottom : 'top: ' + (options.top || '20px')),
+    options.centered
+      ? 'left: 50%'
+      : (options.left ? 'left: ' + options.left : 'right: ' + (options.right || '20px')),
     'background: ' + options.background,
     'color: white',
     'padding: 18px 45px 18px 20px',
@@ -31,10 +38,14 @@ WorkspaceManager.createReminder = function(options) {
     'box-shadow: 0 4px 12px rgba(0,0,0,0.3)',
     'z-index: 10000',
     'max-width: ' + (options.maxWidth || '450px'),
+    options.maxHeight ? 'max-height: ' + options.maxHeight : '',
+    options.maxHeight ? 'overflow-y: auto' : '',
+    options.maxHeight ? 'box-sizing: border-box' : '',
     'font-family: Arial, sans-serif',
     'font-size: 14px',
     'line-height: 1.6',
-    'animation: slideIn 0.3s ease-out'
+    options.centered ? 'transform: translate(-50%, -50%)' : '',
+    options.centered ? 'animation: centeredReminderIn 0.3s ease-out' : 'animation: slideIn 0.3s ease-out'
   ].join('; ');
   notification.innerHTML = options.html;
 
@@ -46,7 +57,9 @@ WorkspaceManager.createReminder = function(options) {
   var closeBtn = document.getElementById(options.closeId);
   closeBtn.addEventListener('click', function() {
     if (notification && notification.parentNode) {
-      notification.style.animation = 'slideOut 0.3s ease-in';
+      notification.style.animation = options.centered
+        ? 'centeredReminderOut 0.3s ease-in'
+        : 'slideOut 0.3s ease-in';
       setTimeout(function() {
         if (notification && notification.parentNode) {
           notification.parentNode.removeChild(notification);
@@ -676,22 +689,30 @@ WorkspaceManager.showLdrScaleReminder = function() {
     ? WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size:17px;">☀️ Check the light direction</strong><br><br>' +
       'Your program with the light sensor was sent to the board.<br><br>' +
+      '<div style="background:white;color:#4527a0;padding:10px;border-radius:6px;margin-bottom:9px;">' +
+      '<strong>Why can the number work backwards?</strong><br>Light sensors can be built in two different ways. On some of them, more light makes the number go down. Do not worry: this does not mean you connected it incorrectly!' +
+      '</div>' +
       '<div style="background:#e8f5e9;color:#1b5e20;padding:10px;border-radius:6px;">' +
-      'Shine light on the sensor and then cover it. <strong>More light should show a bigger number.</strong>' +
+      '<strong>Try it:</strong><br>1. Cover the sensor or leave it with very little light.<br>2. Then shine plenty of light on it.<br><br>' +
+      'If little light shows a high number, between <strong>80 and 100</strong>, and plenty of light shows a low number, between <strong>0 and 20</strong>, the scale is backwards. Click <strong>Invert scale</strong>.' +
       '</div>' +
       '<div id="' + scaleStatusId + '" style="margin:11px 0 8px;font-weight:bold;font-size:15px;">' + scaleStatus + '</div>' +
-      'If the reading works backwards, use this button:<br>' +
+      'If your number does the opposite, use this button:<br>' +
       '<button id="' + invertButtonId + '" type="button" style="margin-top:8px;background:#5e35b1;color:white;border:0;border-radius:6px;padding:10px 16px;font-size:15px;font-weight:bold;cursor:pointer;">🔄 Invert scale</button>' +
       '<div style="margin-top:11px;background:#fff3cd;color:#4e342e;padding:9px;border-radius:6px;"><strong>Important:</strong> after changing the direction, click Run again to send the change to the board.</div>' +
       '<div id="' + scaleFeedbackId + '" role="status" aria-live="polite" style="display:none;margin-top:9px;background:white;color:#1b5e20;padding:9px;border-radius:6px;font-weight:bold;"></div>'
     : WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size:17px;">☀️ Confira a direção da luz</strong><br><br>' +
       'Seu programa com o sensor de luz foi enviado para a placa.<br><br>' +
+      '<div style="background:white;color:#4527a0;padding:10px;border-radius:6px;margin-bottom:9px;">' +
+      '<strong>Por que o número pode funcionar ao contrário?</strong><br>Os sensores de luz podem ser montados de dois jeitos. Em alguns deles, quando chega mais luz, o número diminui. Fique tranquilo: isso não quer dizer que você ligou o sensor errado!' +
+      '</div>' +
       '<div style="background:#e8f5e9;color:#1b5e20;padding:10px;border-radius:6px;">' +
-      'Ilumine o sensor e depois cubra-o. <strong>Mais luz deve mostrar um número maior.</strong>' +
+      '<strong>Faça um teste:</strong><br>1. Cubra o sensor ou deixe-o com bem pouca luz.<br>2. Depois, ilumine bastante o sensor.<br><br>' +
+      'Se com pouca luz aparecer um número alto, entre <strong>80 e 100</strong>, e com muita luz aparecer um número baixo, entre <strong>0 e 20</strong>, a escala está ao contrário. Clique em <strong>Inverter escala</strong>.' +
       '</div>' +
       '<div id="' + scaleStatusId + '" style="margin:11px 0 8px;font-weight:bold;font-size:15px;">' + scaleStatus + '</div>' +
-      'Se a leitura funcionar ao contrário, use este botão:<br>' +
+      'Se o seu número fizer o contrário, use este botão:<br>' +
       '<button id="' + invertButtonId + '" type="button" style="margin-top:8px;background:#5e35b1;color:white;border:0;border-radius:6px;padding:10px 16px;font-size:15px;font-weight:bold;cursor:pointer;">🔄 Inverter escala</button>' +
       '<div style="margin-top:11px;background:#fff3cd;color:#4e342e;padding:9px;border-radius:6px;"><strong>Importante:</strong> depois de mudar a direção, clique em Executar novamente para enviar a mudança à placa.</div>' +
       '<div id="' + scaleFeedbackId + '" role="status" aria-live="polite" style="display:none;margin-top:9px;background:white;color:#1b5e20;padding:9px;border-radius:6px;font-weight:bold;"></div>';
@@ -701,8 +722,8 @@ WorkspaceManager.showLdrScaleReminder = function() {
     closeId: closeId,
     background: '#8e7cc3',
     maxWidth: '440px',
-    left: '20px',
-    bottom: '20px',
+    maxHeight: 'calc(100vh - 40px)',
+    centered: true,
     html: html
   });
 
