@@ -656,7 +656,7 @@ WorkspaceManager.showLdrConnectionReminder = function() {
   WorkspaceManager.createReminder({
     id: 'ldrConnectionNotification',
     closeId: closeId,
-    background: '#16a085',
+    background: '#8e7cc3',
     maxWidth: '700px',
     html: html
   });
@@ -690,7 +690,7 @@ WorkspaceManager.showLdrJumperReminder = function() {
   WorkspaceManager.createReminder({
     id: 'ldrJumperNotification',
     closeId: closeId,
-    background: '#d68910',
+    background: '#8e7cc3',
     maxWidth: '400px',
     right: '805px',
     html: html

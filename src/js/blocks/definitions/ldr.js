@@ -8,7 +8,7 @@
     return;
   }
 
-  var LDR_COLOUR = '#16a085';
+  var LDR_COLOUR = '#8e7cc3';
 
   function isEnglish() {
     return global.Code && global.Code.LANG === 'en';
