@@ -392,7 +392,30 @@
     <block type="external_contact_test_matrix"></block>
   </category>
   <category name="LEDs Externos" colour="#d97706" data-project="externos" custom="EXTERNAL_LED" css-icon="bitdoglab-external-led-category-icon"></category>
-  <category name="Sensor de Luz" colour="#16a085" data-project="externos" css-icon="bitdoglab-ldr-category-icon"></category>
+  <category name="Sensor de Luz" colour="#16a085" data-project="externos" css-icon="bitdoglab-ldr-category-icon">
+    <block type="ldr_valor">
+      <field name="CONNECTION">ANA-IN</field>
+    </block>
+    <block type="display_mostrar_valor">
+      <value name="VALOR">
+        <block type="ldr_valor">
+          <field name="CONNECTION">ANA-IN</field>
+        </block>
+      </value>
+      <field name="LINHA">1</field>
+      <field name="ALINHAMENTO">CENTER</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block>
+    <block type="ldr_plotar">
+      <value name="VALOR">
+        <block type="ldr_valor">
+          <field name="CONNECTION">ANA-IN</field>
+        </block>
+      </value>
+      <field name="POSICAO">1</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block>
+  </category>
   <category name="Temperatura e Umidade Externas" colour="#e67e22" data-project="externos" css-icon="bitdoglab-dht11-category-icon">
     <block type="dht11_temperatura">
       <field name="DIG">0</field>

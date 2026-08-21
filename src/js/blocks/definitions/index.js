@@ -21,6 +21,8 @@
     'dht11_temperatura',
     'dht11_umidade',
     'dht11_plotar',
+    'ldr_valor',
+    'ldr_plotar',
     'led_externo_ligar',
     'led_externo_desligar',
     'led_externo_piscar_rapido',

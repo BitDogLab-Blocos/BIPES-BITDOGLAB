@@ -83,6 +83,10 @@ var BitdogLabConfig = createProfile(BitdogLabProfileBase, {
       ALLOWED_DIG: ['0', '1'],
       MIN_INTERVAL_MS: 2000
     },
+    LDR: {
+      CONNECTION: 'ANA-IN',
+      ADC_PIN: 28
+    },
     EXTERNAL_LED: {
       ALLOWED_DIG: ['0', '1', '2', '3'],
       PWM_DIG: ['0', '1', '2', '3'],
