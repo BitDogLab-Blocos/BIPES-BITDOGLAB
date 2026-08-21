@@ -30,6 +30,13 @@
     Blockly.Python.definitions_['setup_ldr'] = 'ldr_adc = ADC(Pin(' + ldrAdcPin() + '))';
   }
 
+  function ldrPercentageExpression() {
+    // read_u16() is the MicroPython-normalized ADC range: 0..65535.
+    // Keep the block output as an integer percentage for simple comparisons
+    // in Blockly (for example, light > 60).
+    return 'max(0, min(100, round(ldr_adc.read_u16() * 100 / 65535)))';
+  }
+
   function ensureLdrGraphSupport(displayType) {
     _setupDisplayDefinitions(displayType);
     Blockly.Python.definitions_['import_time'] = 'import time';
@@ -151,7 +158,7 @@
 
   Blockly.Python['ldr_valor'] = function(block) {
     ensureLdrSupport();
-    return ['ldr_adc.read_u16()', Blockly.Python.ORDER_FUNCTION_CALL];
+    return [ldrPercentageExpression(), Blockly.Python.ORDER_FUNCTION_CALL];
   };
 
   Blockly.Python['ldr_plotar'] = function(block) {

@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A Matriz mostra sol com muita luz e lua quando o ambiente escurece. -->
+  <block type="controls_ifelse" x="20" y="20">
+    <value name="IF0"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value><value name="B"><block type="math_number"><field name="NUM">55</field></block></value></block></value>
+    <statement name="DO0"><block type="mostrar_emoji"><field name="BRILHO">35</field><value name="EMOJI"><block type="emoji_sol"></block></value><value name="COR"><block type="colour_yellow"></block></value></block></statement>
+    <statement name="ELSE"><block type="mostrar_emoji"><field name="BRILHO">25</field><value name="EMOJI"><block type="emoji_flor"></block></value><value name="COR"><block type="colour_blue"></block></value></block></statement>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next>
+  </block>
+</xml>

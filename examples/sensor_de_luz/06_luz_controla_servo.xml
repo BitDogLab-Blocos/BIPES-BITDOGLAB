@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A luz decide a posicao de uma persiana: aberta com claridade e fechada no escuro. -->
+  <block type="controls_ifelse" x="20" y="20">
+    <value name="IF0"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value><value name="B"><block type="math_number"><field name="NUM">61</field></block></value></block></value>
+    <statement name="DO0"><block type="servo_mover"><field name="DIG">0</field><field name="ANGLE">0</field><next><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value></block></next></block></statement>
+    <statement name="ELSE"><block type="servo_mover"><field name="DIG">0</field><field name="ANGLE">180</field><next><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_blue"></block></value></block></next></block></statement>
+    <next><block type="display_texto"><field name="TEXTO">LDR:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value></block></next></block></next>
+  </block>
+</xml>

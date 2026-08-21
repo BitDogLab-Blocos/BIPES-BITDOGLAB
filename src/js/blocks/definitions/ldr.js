@@ -46,14 +46,14 @@
   Blockly.Blocks['ldr_valor'] = {
     init: function() {
       this.appendDummyInput()
-        .appendField(isEnglish() ? '💡 LDR light value' : '💡 Valor da luz (LDR)')
+        .appendField(isEnglish() ? '💡 LDR light (%)' : '💡 Luz do LDR (%)')
         .appendField(isEnglish() ? 'on' : 'na')
         .appendField(connectionField(), 'CONNECTION');
       this.setOutput(true, 'Number');
       this.setColour(LDR_COLOUR);
       this.setTooltip(isEnglish()
-        ? 'Returns the light sensor reading from the ANA-IN analogue input. Use it in Show value, math, conditions, or a graph.'
-        : 'Entrega a leitura do sensor de luz pela entrada analógica ANA-IN. Use em Mostrar valor, matemática, condições ou gráfico.');
+        ? 'Returns the LDR light level as a percentage from 0 to 100. Use it in Show value, math, conditions, or a graph.'
+        : 'Entrega o nível de luz do LDR em porcentagem, de 0 a 100. Use em Mostrar valor, matemática, condições ou gráfico.');
       this.setHelpUrl('');
     }
   };

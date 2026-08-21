@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O LDR movimenta uma pequena barreira e a Matriz mostra o estado do ambiente. -->
+  <block type="controls_ifelse" x="20" y="20">
+    <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value><value name="B"><block type="math_number"><field name="NUM">34</field></block></value></block></value>
+    <statement name="DO0"><block type="servo_mover"><field name="DIG">0</field><field name="ANGLE">90</field><next><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_triste"></block></value><value name="COR"><block type="colour_blue"></block></value></block></next></block></statement>
+    <statement name="ELSE"><block type="servo_mover"><field name="DIG">0</field><field name="ANGLE">0</field><next><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_feliz"></block></value><value name="COR"><block type="colour_yellow"></block></value></block></next></block></statement>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next>
+  </block>
+</xml>
