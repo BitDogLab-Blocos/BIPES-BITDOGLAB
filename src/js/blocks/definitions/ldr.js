@@ -46,14 +46,14 @@
   Blockly.Blocks['ldr_valor'] = {
     init: function() {
       this.appendDummyInput()
-        .appendField(isEnglish() ? '💡 LDR light (%)' : '💡 Luz do LDR (%)')
+        .appendField(isEnglish() ? '💡 Light level (%)' : '💡 Nível de luz (%)')
         .appendField(isEnglish() ? 'on' : 'na')
         .appendField(connectionField(), 'CONNECTION');
       this.setOutput(true, 'Number');
       this.setColour(LDR_COLOUR);
       this.setTooltip(isEnglish()
-        ? 'Returns the LDR light level as a percentage from 0 to 100 (more light = higher value). Use it in Show value, math, conditions, or a graph.'
-        : 'Entrega o nível de luz do LDR em porcentagem, de 0 a 100 (mais luz = valor maior). Use em Mostrar valor, matemática, condições ou gráfico.');
+        ? 'Shows a number from 0 to 100. More light should give a bigger number. If it works backwards, use Invert scale in the sensor notice.'
+        : 'Mostra um número de 0 a 100. Mais luz deve dar um número maior. Se funcionar ao contrário, use Inverter escala no aviso do sensor.');
       this.setHelpUrl('');
     }
   };
