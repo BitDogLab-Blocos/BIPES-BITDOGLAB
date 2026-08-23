@@ -172,9 +172,6 @@
     ultrassonico_distancia: {
       kind: 'value'
     },
-    ultrassonico_mostrar_distancia: {
-      kind: 'statement'
-    },
     ultrassonico_plotar: {
       kind: 'statement',
       requiredValueInputs: {

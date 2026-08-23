@@ -72,7 +72,6 @@
       },
       blockTypes: [
         'ultrassonico_distancia',
-        'ultrassonico_mostrar_distancia',
         'ultrassonico_plotar'
       ],
       i2cPairType: 'ultrassonico'

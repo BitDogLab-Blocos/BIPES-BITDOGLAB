@@ -928,8 +928,7 @@
     var expectedTrig = String(ultrasonic.TRIG_CONNECTION || '3');
     var expectedEcho = String(ultrasonic.ECHO_CONNECTION || '2');
     var ultrasonicTypes = [
-      'ultrassonico_distancia',
-      'ultrassonico_mostrar_distancia'
+      'ultrassonico_distancia'
     ];
 
     for (var i = 0; i < blocks.length; i++) {

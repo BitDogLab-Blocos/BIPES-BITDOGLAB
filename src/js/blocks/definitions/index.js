@@ -22,7 +22,6 @@
     'dht11_umidade',
     'dht11_plotar',
     'ultrassonico_distancia',
-    'ultrassonico_mostrar_distancia',
     'ultrassonico_plotar',
     'ldr_valor',
     'ldr_plotar',

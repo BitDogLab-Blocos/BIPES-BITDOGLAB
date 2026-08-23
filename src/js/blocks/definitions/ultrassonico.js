@@ -20,16 +20,7 @@
     var connection = kind === 'TRIG'
       ? String(config.TRIG_CONNECTION || '3')
       : String(config.ECHO_CONNECTION || '2');
-    var label = isEnglish() ? 'Connection ' + connection : 'Conexão ' + connection;
-    return new Blockly.FieldDropdown([[label, connection]]);
-  }
-
-  function appendWiringInputs(block) {
-    block.appendDummyInput()
-      .appendField(isEnglish() ? 'TRIG/SCL on' : 'TRIG/SCL na')
-      .appendField(connectionField('TRIG'), 'TRIG')
-      .appendField(isEnglish() ? 'ECHO/SDA on' : 'ECHO/SDA na')
-      .appendField(connectionField('ECHO'), 'ECHO');
+    return new Blockly.FieldDropdown([[connection, connection]]);
   }
 
   function graphPositionField() {
@@ -66,28 +57,17 @@
   Blockly.Blocks['ultrassonico_distancia'] = {
     init: function() {
       this.appendDummyInput()
-        .appendField(isEnglish() ? '📏 Distance (cm)' : '📏 Distância (cm)');
-      appendWiringInputs(this);
+        .appendField(isEnglish() ? '📏 Distance (cm)' : '📏 Distância (cm)')
+        .appendField('TRIG/SCL')
+        .appendField(connectionField('TRIG'), 'TRIG')
+        .appendField('ECHO/SDA')
+        .appendField(connectionField('ECHO'), 'ECHO');
       this.setOutput(true, 'Number');
       this.setColour(ULTRASSONICO_COLOUR);
       this.setTooltip(isEnglish()
         ? 'Returns the distance in centimetres. TRIG/SCL is fixed to Connection 3 and ECHO/SDA to Connection 2.'
         : 'Entrega a distância em centímetros. TRIG/SCL fica fixo na Conexão 3 e ECHO/SDA na Conexão 2.');
       this.setHelpUrl('');
-    }
-  };
-
-  Blockly.Blocks['ultrassonico_mostrar_distancia'] = {
-    init: function() {
-      this.appendDummyInput()
-        .appendField(isEnglish() ? '📏 Show distance' : '📏 Mostrar distância');
-      appendWiringInputs(this);
-      appendScreenSizeInput(this);
-      this.setInputsInline(true);
-      setCommandBlock(this);
-      this.setTooltip(isEnglish()
-        ? 'Measures the sensor and shows the distance in centimetres on the display. The sensor uses Connections 2 and 3.'
-        : 'Mede o sensor e mostra a distância em centímetros no display. O sensor usa as Conexões 2 e 3.');
     }
   };
 

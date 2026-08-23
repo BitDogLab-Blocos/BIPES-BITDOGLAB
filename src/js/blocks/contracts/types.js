@@ -28,7 +28,6 @@
       'display_dashboard_matriz',
       'display_mostrar_tempo_ligado',
       'cronometro_mostrar',
-      'ultrassonico_mostrar_distancia',
       'ultrassonico_plotar'
     ],
 

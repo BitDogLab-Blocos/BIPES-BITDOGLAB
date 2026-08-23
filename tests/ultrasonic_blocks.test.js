@@ -87,15 +87,26 @@ test('ultrasonic blocks expose only the fixed TRIG/SCL and ECHO/SDA connections'
   sandbox.window = sandbox;
   runScripts(['src/js/blocks/definitions/ultrassonico.js'], sandbox);
 
-  for (const type of ['ultrassonico_distancia', 'ultrassonico_mostrar_distancia']) {
-    const block = makeBlock();
-    Blockly.Blocks[type].init.call(block);
-    assert.deepEqual(JSON.parse(JSON.stringify(block.fields.TRIG.options)), [['Conexão 3', '3']]);
-    assert.deepEqual(JSON.parse(JSON.stringify(block.fields.ECHO.options)), [['Conexão 2', '2']]);
-  }
+  const block = makeBlock();
+  Blockly.Blocks.ultrassonico_distancia.init.call(block);
+
+  assert.equal(block.inputs.length, 1);
+  assert.deepEqual(JSON.parse(JSON.stringify(block.fields.TRIG.options)), [['3', '3']]);
+  assert.deepEqual(JSON.parse(JSON.stringify(block.fields.ECHO.options)), [['2', '2']]);
 });
 
-test('ultrasonic generators create reading, display, and graph code', () => {
+test('ultrasonic toolbox follows the sensor value plus generic display pattern', () => {
+  const toolbox = source('src/js/config/toolbox.xml');
+  const category = toolbox.match(/<category name="Sensor de Distância"[\s\S]*?<\/category>/);
+
+  assert.ok(category);
+  assert.match(category[0], /<block type="ultrassonico_distancia">/);
+  assert.match(category[0], /<block type="display_mostrar_valor">[\s\S]*?<block type="ultrassonico_distancia">/);
+  assert.match(category[0], /<block type="ultrassonico_plotar">[\s\S]*?<block type="ultrassonico_distancia">/);
+  assert.doesNotMatch(category[0], /ultrassonico_mostrar_distancia/);
+});
+
+test('ultrasonic generators create reading and graph code', () => {
   const Blockly = {
     Python: {
       definitions_: {},
@@ -124,7 +135,6 @@ test('ultrasonic generators create reading, display, and graph code', () => {
   ], sandbox);
 
   const valueCode = Blockly.Python.ultrassonico_distancia({});
-  const displayCode = Blockly.Python.ultrassonico_mostrar_distancia({});
   const graphCode = Blockly.Python.ultrassonico_plotar({
     id: 'graph-1',
     getFieldValue: () => '1'
@@ -132,7 +142,6 @@ test('ultrasonic generators create reading, display, and graph code', () => {
   const definitions = Blockly.Python.definitions_;
 
   assert.deepEqual(Array.from(valueCode), ['_ultrassonico_valor()', 2]);
-  assert.match(displayCode, /_ultrassonico_mostrar\(\)/);
   assert.match(graphCode, /_ultrassonico_grafico/);
   assert.match(definitions.setup_ultrassonico, /I2C\(1, sda=Pin\(2\), scl=Pin\(3\)/);
   assert.match(definitions.func_ultrassonico_valor, /450\.0 if _cm is None/);
