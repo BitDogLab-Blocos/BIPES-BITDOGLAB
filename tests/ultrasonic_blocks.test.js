@@ -106,12 +106,40 @@ test('ultrasonic toolbox follows the sensor value plus generic display pattern',
   assert.doesNotMatch(category[0], /ultrassonico_mostrar_distancia/);
 });
 
+test('ultrasonic graph keeps display options together on a second row', () => {
+  const Blockly = {
+    Blocks: {},
+    FieldDropdown: makeFieldDropdown
+  };
+  const sandbox = { console, window: null, Blockly, Code: { LANG: 'pt-br' }, BitdogLabConfig: ultrasonicProfile() };
+  sandbox.window = sandbox;
+  runScripts(['src/js/blocks/definitions/ultrassonico.js'], sandbox);
+
+  const block = makeBlock();
+  Blockly.Blocks.ultrassonico_plotar.init.call(block);
+
+  assert.equal(block.inputs.length, 2);
+  assert.equal(block.inputs[0].name, 'VALOR');
+  assert.deepEqual(block.inputs[1].fields.map(({ name }) => name).filter(Boolean), ['POSICAO', 'DISPLAY_TYPE']);
+  assert.deepEqual(JSON.parse(JSON.stringify(block.fields.POSICAO.options)), [
+    ['cima', '1'],
+    ['baixo', '2'],
+    ['toda', '0']
+  ]);
+  assert.deepEqual(JSON.parse(JSON.stringify(block.fields.DISPLAY_TYPE.options)), [
+    ['pequena', 'SMALL'],
+    ['grande', 'LARGE']
+  ]);
+  assert.equal(block.inline, false);
+});
+
 test('ultrasonic generators create reading and graph code', () => {
   const Blockly = {
     Python: {
       definitions_: {},
       ORDER_FUNCTION_CALL: 2,
       ORDER_ATOMIC: 0,
+      ORDER_NONE: 99,
       VARIABLE_CATEGORY_NAME: 'VARIABLE',
       valueToCode: () => '_ultrassonico_valor()',
       quote_: (value) => JSON.stringify(value),
@@ -124,17 +152,28 @@ test('ultrasonic generators create reading and graph code', () => {
     window: null,
     Blockly,
     BitdogLabConfig: profile,
-    SensorLibs: { Ultrassonico: 'class SensorUltrassonico: pass' },
-    _getDisplayType: () => 'SMALL',
-    _setupDisplayDefinitions: () => {}
+    SensorLibs: {
+      Ultrassonico: 'class SensorUltrassonico: pass',
+      SSD1306: 'class SSD1306_I2C: pass'
+    }
   };
   sandbox.window = sandbox;
   runScripts([
+    'src/js/blocks/generators/helpers.js',
+    'src/js/blocks/generators/display.js',
     'src/js/blocks/generators/sensor.js',
     'src/js/blocks/generators/ultrassonico.js'
   ], sandbox);
 
   const valueCode = Blockly.Python.ultrassonico_distancia({});
+  const displayCode = Blockly.Python.display_mostrar_valor({
+    getFieldValue: (name) => ({
+      DISPLAY_TYPE: 'SMALL',
+      LINHA: '1',
+      ALINHAMENTO: 'CENTER'
+    })[name],
+    getInputTargetBlock: () => ({ type: 'ultrassonico_distancia' })
+  });
   const graphCode = Blockly.Python.ultrassonico_plotar({
     id: 'graph-1',
     getFieldValue: () => '1'
@@ -142,8 +181,10 @@ test('ultrasonic generators create reading and graph code', () => {
   const definitions = Blockly.Python.definitions_;
 
   assert.deepEqual(Array.from(valueCode), ['_ultrassonico_valor()', 2]);
+  assert.match(displayCode, /_display_value = str\(_ultrassonico_valor\(\)\)/);
   assert.match(graphCode, /_ultrassonico_grafico/);
   assert.match(definitions.setup_ultrassonico, /I2C\(1, sda=Pin\(2\), scl=Pin\(3\)/);
+  assert.match(definitions.setup_display, /I2C\(1, scl=Pin\(3\), sda=Pin\(2\)/);
   assert.match(definitions.func_ultrassonico_valor, /450\.0 if _cm is None/);
   assert.match(definitions.func_ultrassonico_grafico, /oled\.line/);
 });
@@ -156,6 +197,59 @@ test('ultrasonic I2C claims use GPIO 2 and GPIO 3', () => {
   const claims = sandbox.Code.ExternalResources.getClaims(block, ultrasonicProfile());
   assert.deepEqual(Array.from(claims.map((claim) => claim.pin)).sort((a, b) => a - b), [2, 3]);
   assert.ok(claims.every((claim) => claim.internalI2c));
+});
+
+test('ultrasonic shares I2C safely and protects connections 2 and 3 from GPIO peripherals', () => {
+  let nextId = 0;
+  function block(type, fields = {}) {
+    return {
+      id: `integration-${++nextId}`,
+      type,
+      getFieldValue: (name) => fields[name] ?? '',
+      setWarningText(text) { this.warning = text; }
+    };
+  }
+
+  const Code = {
+    LANG: 'pt-br',
+    BlockTypeDomains: { get: () => [], getOutputWarning: () => '' },
+    ExternalResources: null
+  };
+  const sandbox = { console, window: null, Code, Blockly: {}, BitdogLabConfig: ultrasonicProfile() };
+  sandbox.window = sandbox;
+  runScripts([
+    'src/js/blocks/contracts/external_resources.js',
+    'src/js/blocks/contracts/registry.js',
+    'src/js/blocks/contracts/validator.js'
+  ], sandbox);
+
+  function report(blocks) {
+    return Code.BlockContractValidator.getReport({ getAllBlocks: () => blocks });
+  }
+
+  const ultrasonicWithAht20 = report([
+    block('ultrassonico_distancia', { TRIG: '3', ECHO: '2' }),
+    block('sensor_temperatura')
+  ]);
+  const ultrasonicWithFreeConnections = report([
+    block('ultrassonico_distancia', { TRIG: '3', ECHO: '2' }),
+    block('dht11_temperatura', { DIG: '0' }),
+    block('servo_mover', { DIG: '1' }),
+    block('ldr_valor', { CONNECTION: 'ANA-IN' })
+  ]);
+  const ultrasonicWithLedOnSda = report([
+    block('ultrassonico_distancia', { TRIG: '3', ECHO: '2' }),
+    block('led_externo_ligar', { DIG: '2', CHANNEL: 'R' })
+  ]);
+  const ultrasonicWithServoOnScl = report([
+    block('ultrassonico_distancia', { TRIG: '3', ECHO: '2' }),
+    block('servo_mover', { DIG: '3' })
+  ]);
+
+  assert.equal(ultrasonicWithAht20.valid, true);
+  assert.equal(ultrasonicWithFreeConnections.valid, true);
+  assert.equal(ultrasonicWithLedOnSda.valid, false);
+  assert.equal(ultrasonicWithServoOnScl.valid, false);
 });
 
 test('validator blocks manually changed ultrasonic connections', () => {

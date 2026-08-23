@@ -25,26 +25,24 @@
 
   function graphPositionField() {
     return new Blockly.FieldDropdown(isEnglish() ? [
-      ['Top half', '1'],
-      ['Bottom half', '2'],
-      ['Whole screen', '0']
+      ['top', '1'],
+      ['bottom', '2'],
+      ['whole', '0']
     ] : [
-      ['Metade de cima', '1'],
-      ['Metade de baixo', '2'],
-      ['Tela toda', '0']
+      ['cima', '1'],
+      ['baixo', '2'],
+      ['toda', '0']
     ]);
   }
 
-  function appendScreenSizeInput(block) {
-    block.appendDummyInput()
-      .appendField(isEnglish() ? 'screen size' : 'tamanho da tela')
-      .appendField(new Blockly.FieldDropdown(isEnglish() ? [
-        ['small OLED', 'SMALL'],
-        ['large SH1107', 'LARGE']
-      ] : [
-        ['pequena OLED', 'SMALL'],
-        ['grande SH1107', 'LARGE']
-      ]), 'DISPLAY_TYPE');
+  function screenSizeField() {
+    return new Blockly.FieldDropdown(isEnglish() ? [
+      ['small', 'SMALL'],
+      ['large', 'LARGE']
+    ] : [
+      ['pequena', 'SMALL'],
+      ['grande', 'LARGE']
+    ]);
   }
 
   function setCommandBlock(block) {
@@ -78,9 +76,10 @@
         .appendField(isEnglish() ? '📊 Show distance graph of' : '📊 Mostrar gráfico da distância');
       this.appendDummyInput()
         .appendField(isEnglish() ? 'on' : 'na')
-        .appendField(graphPositionField(), 'POSICAO');
-      appendScreenSizeInput(this);
-      this.setInputsInline(true);
+        .appendField(graphPositionField(), 'POSICAO')
+        .appendField(isEnglish() ? 'screen' : 'tela')
+        .appendField(screenSizeField(), 'DISPLAY_TYPE');
+      this.setInputsInline(false);
       setCommandBlock(this);
       this.setTooltip(isEnglish()
         ? 'Shows a scrolling graph of the distance. Connect Distance (cm) to the value input and choose the screen position.'
