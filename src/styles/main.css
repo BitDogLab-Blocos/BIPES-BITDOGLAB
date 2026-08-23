@@ -1388,6 +1388,19 @@ button.icon.medium:before  {
   vertical-align: middle;
 }
 
+/* Ícone visual da categoria do sensor ultrassônico HC-SR04. */
+.bitdoglab-distance-sensor-category-icon {
+  width: 2.1rem;
+  height: 2.1rem;
+  margin-inline-end: 0.35rem;
+  background-image: url('../assets/images/devices/hc-sr04.png?ver=20260822distance1');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  visibility: visible !important;
+  vertical-align: middle;
+}
+
 /* Ícone visual da categoria de LEDs externos. */
 .bitdoglab-external-led-category-icon {
   width: 2.1rem;

@@ -462,7 +462,7 @@
       <field name="DISPLAY_TYPE">SMALL</field>
     </block>
   </category>
-  <category name="Sensor de Distância" colour="#2980b9" data-project="externos"></category>
+  <category name="Sensor de Distância" colour="#2980b9" data-project="externos" css-icon="bitdoglab-distance-sensor-category-icon"></category>
   <category name="Servo Motor" colour="#00897b" data-project="externos" css-icon="bitdoglab-servo-category-icon">
     <block type="servo_mover">
       <field name="DIG">0</field>
