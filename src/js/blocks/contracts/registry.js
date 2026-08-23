@@ -96,8 +96,10 @@
 
   MESSAGES['pt-br'].ldrInvalidConnection = 'O sensor de luz deve usar somente a entrada ANA-IN. Confira se o pino S está ligado na ANA-IN da placa.';
   MESSAGES['pt-br'].ldrMicrophoneConflict = 'O sensor de luz e o microfone usam a mesma entrada analógica da placa. Eles não podem funcionar juntos. Retire um dos dois blocos e peça ao professor para conferir o jumper JP1.';
+  MESSAGES['pt-br'].ultrassonicoInvalidConnection = 'O sensor ultrassônico deve usar TRIG/SCL na Conexão 3 e ECHO/SDA na Conexão 2. Essas ligações são fixas para funcionar junto com o display.';
   MESSAGES.en.ldrInvalidConnection = 'The light sensor must use only the ANA-IN input. Check that the S pin is connected to ANA-IN on the board.';
   MESSAGES.en.ldrMicrophoneConflict = 'The light sensor and microphone use the same analogue input on the board. They cannot work together. Remove one of the two blocks and ask your teacher to check jumper JP1.';
+  MESSAGES.en.ultrassonicoInvalidConnection = 'The ultrasonic sensor must use TRIG/SCL on Connection 3 and ECHO/SDA on Connection 2. These connections are fixed so it can work with the display.';
 
   var Domains = Code.BlockTypeDomains;
   var MATRIX_OPTION_COMMANDS = Domains ? Domains.get('MATRIX_OPTION_COMMANDS') : [];
@@ -165,6 +167,18 @@
       kind: 'statement',
       requiredValueInputs: {
         VALOR: 'valor do sensor de luz'
+      }
+    },
+    ultrassonico_distancia: {
+      kind: 'value'
+    },
+    ultrassonico_mostrar_distancia: {
+      kind: 'statement'
+    },
+    ultrassonico_plotar: {
+      kind: 'statement',
+      requiredValueInputs: {
+        VALOR: 'distância do sensor ultrassônico'
       }
     },
     external_contact_prepare: {

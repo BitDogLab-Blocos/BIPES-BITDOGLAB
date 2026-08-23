@@ -88,7 +88,9 @@ var BitdogLabConfig_V6 = createProfile(BitdogLabProfileBase, {
       I2C_BUS: 1,
       I2C_FREQ: 400000,
       I2C_SDA: 14,
-      I2C_SCL: 15
+      I2C_SCL: 15,
+      TRIG_CONNECTION: '3',
+      ECHO_CONNECTION: '2'
     },
     EXTERNAL_LED: {
       ALLOWED_DIG: ['0', '1', '2', '3'],

@@ -27,7 +27,9 @@
       'display_mostrar_status_buzzer',
       'display_dashboard_matriz',
       'display_mostrar_tempo_ligado',
-      'cronometro_mostrar'
+      'cronometro_mostrar',
+      'ultrassonico_mostrar_distancia',
+      'ultrassonico_plotar'
     ],
 
     MATRIX_OPTION_COMMANDS: [

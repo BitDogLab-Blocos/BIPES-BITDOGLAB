@@ -65,6 +65,19 @@
       analogInputConfigKey: 'LDR'
     },
     {
+      id: 'ultrassonico-i2c',
+      labels: {
+        'pt-br': 'sensor ultrassônico de distância',
+        en: 'ultrasonic distance sensor'
+      },
+      blockTypes: [
+        'ultrassonico_distancia',
+        'ultrassonico_mostrar_distancia',
+        'ultrassonico_plotar'
+      ],
+      i2cPairType: 'ultrassonico'
+    },
+    {
       id: 'microphone',
       labels: {
         'pt-br': 'microfone',
@@ -203,6 +216,9 @@
       addI2cPair(pairs, seen, robot.MPU_I2C_BUS_ALT, robot.MPU_I2C_SDA_ALT, robot.MPU_I2C_SCL_ALT);
     } else if (pairType === 'ina226') {
       addI2cPair(pairs, seen, power.INA226_I2C_BUS, power.INA226_I2C_SDA, power.INA226_I2C_SCL);
+    } else if (pairType === 'ultrassonico') {
+      var ultrasonic = config.EXTERNAL && config.EXTERNAL.ULTRASSONICO || {};
+      addI2cPair(pairs, seen, ultrasonic.I2C_BUS, ultrasonic.I2C_SDA, ultrasonic.I2C_SCL);
     }
 
     return pairs;

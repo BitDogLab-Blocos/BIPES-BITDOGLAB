@@ -922,6 +922,28 @@
     }
   }
 
+  function validateUltrassonicoRules(blocks, warnings) {
+    var config = global.BitdogLabConfig || {};
+    var ultrasonic = config.EXTERNAL && config.EXTERNAL.ULTRASSONICO || {};
+    var expectedTrig = String(ultrasonic.TRIG_CONNECTION || '3');
+    var expectedEcho = String(ultrasonic.ECHO_CONNECTION || '2');
+    var ultrasonicTypes = [
+      'ultrassonico_distancia',
+      'ultrassonico_mostrar_distancia'
+    ];
+
+    for (var i = 0; i < blocks.length; i++) {
+      var block = blocks[i];
+      if (ultrasonicTypes.indexOf(block.type) === -1 || !block.getFieldValue) continue;
+
+      var trig = String(block.getFieldValue('TRIG') || '');
+      var echo = String(block.getFieldValue('ECHO') || '');
+      if (trig !== expectedTrig || echo !== expectedEcho) {
+        addWarning(warnings, block, msg('ultrassonicoInvalidConnection'));
+      }
+    }
+  }
+
   function validateServoRules(blocks, warnings) {
     var controllerTypes = [
       'servo_mover',
@@ -999,6 +1021,7 @@
     validateExternalLedOledV7PinConflicts(blocks, warnings, notices);
     validateExternalContactRules(blocks, warnings, notices);
     validateLdrRules(blocks, warnings);
+    validateUltrassonicoRules(blocks, warnings);
     validateExternalResourceConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 
