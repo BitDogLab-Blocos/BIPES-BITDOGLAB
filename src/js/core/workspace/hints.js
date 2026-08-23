@@ -624,7 +624,7 @@ WorkspaceManager.bindDht11CategoryHint = function() {
 WorkspaceManager.showDistanceSensorConnectionReminder = function() {
   var closeId = 'closeDistanceSensorConnectionNotification';
   var boardImage = '../assets/images/devices/conexoes-externas.png';
-  var sensorImage = '../assets/images/devices/hc-sr04.png?ver=20260822distance1';
+  var sensorImage = '../assets/images/devices/hc-sr04-pinout.png?ver=20260822distance2';
   var wireRows = Code.LANG === 'en'
     ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identify the ultrasonic sensor pins</div>' +
       '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
@@ -670,7 +670,40 @@ WorkspaceManager.showDistanceSensorConnectionReminder = function() {
     id: 'distanceSensorConnectionNotification',
     closeId: closeId,
     background: '#2980b9',
-    maxWidth: '720px',
+    maxWidth: '760px',
+    html: html
+  });
+};
+
+WorkspaceManager.showDistanceSensorSolderReminder = function() {
+  var closeId = 'closeDistanceSensorSolderNotification';
+  var solderImage = '../assets/images/devices/hc-sr04-m1-solder.png?ver=20260822distance1';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:17px;">👩‍🏫 Teacher only — solder M1 before class</strong>' +
+      '<div style="margin-top:9px;background:#fff3cd;color:#4e342e;padding:9px;border-radius:6px;"><strong>The teacher must prepare the sensor before the activity.</strong> Students must not use the soldering iron.</div>' +
+      '<img src="' + solderImage + '" alt="Rear of the ultrasonic sensor showing where the teacher must solder M1" style="display:block;width:100%;max-height:48vh;object-fit:contain;background:white;border-radius:6px;margin:12px 0;">' +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:6px;"><strong>Do this before class:</strong><br>1. Disconnect the sensor from the BitDogLab and every power source.<br>2. Turn the sensor over and find <strong>R2 M1</strong>, indicated by the red arrow.<br>3. With suitable soldering equipment, place a small amount of solder joining the <strong>two metal points at M1</strong>.<br>4. Do not solder <strong>M2</strong>.<br>5. Check that the solder did not touch nearby parts.<br>6. Let the sensor cool completely before connecting it.</div>' +
+      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:6px;"><strong>Safety:</strong> only the teacher should do this, in a ventilated place, on a heat-resistant surface and wearing eye protection.</div>' +
+      '<div style="margin-top:9px;font-size:13px;"><a href="https://ptsolns.com/blogs/tinker-thoughts/ttb22-the-i2c-mode-of-the-hc-sr04-ultrasonic-sensor" target="_blank" rel="noopener noreferrer" style="color:white;font-weight:bold;">Technical reference: M1 soldered and M2 open</a></div>' +
+      '</div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:17px;">👩‍🏫 Somente para o professor — solde M1 antes da aula</strong>' +
+      '<div style="margin-top:9px;background:#fff3cd;color:#4e342e;padding:9px;border-radius:6px;"><strong>O professor deve preparar o sensor antes da atividade.</strong> Os alunos não devem usar o ferro de solda.</div>' +
+      '<img src="' + solderImage + '" alt="Parte traseira do sensor ultrassônico mostrando onde o professor deve soldar M1" style="display:block;width:100%;max-height:48vh;object-fit:contain;background:white;border-radius:6px;margin:12px 0;">' +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:6px;"><strong>Faça isto antes da aula:</strong><br>1. Desconecte o sensor da BitDogLab e de qualquer fonte de energia.<br>2. Vire o sensor e encontre <strong>R2 M1</strong>, indicado pela seta vermelha.<br>3. Com o equipamento de soldagem adequado, coloque uma pequena quantidade de solda unindo os <strong>dois pontos metálicos de M1</strong>.<br>4. Não coloque solda em <strong>M2</strong>.<br>5. Confira se a solda não encostou nas peças próximas.<br>6. Espere o sensor esfriar completamente antes de conectá-lo.</div>' +
+      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:6px;"><strong>Segurança:</strong> somente o professor deve fazer essa preparação, em local ventilado, sobre superfície resistente ao calor e usando proteção para os olhos.</div>' +
+      '<div style="margin-top:9px;font-size:13px;"><a href="https://ptsolns.com/blogs/tinker-thoughts/ttb22-the-i2c-mode-of-the-hc-sr04-ultrasonic-sensor" target="_blank" rel="noopener noreferrer" style="color:white;font-weight:bold;">Referência técnica: M1 com solda e M2 aberto</a></div>' +
+      '</div>';
+
+  WorkspaceManager.createReminder({
+    id: 'distanceSensorSolderNotification',
+    closeId: closeId,
+    background: '#8e44ad',
+    maxWidth: '400px',
+    right: '805px',
     html: html
   });
 };
@@ -694,6 +727,7 @@ WorkspaceManager.bindDistanceSensorCategoryHint = function() {
     var categoryName = item && item.getName ? item.getName() : '';
     if (categoryName === 'Sensor de Distância' || categoryName === 'Distance and presence sensor') {
       Code.showDistanceSensorConnectionReminder();
+      WorkspaceManager.showDistanceSensorSolderReminder();
     }
   });
 };
