@@ -115,6 +115,8 @@ var BitdogLabProfileBase = {
              line.startsWith('_display_height') ||
              line.startsWith('_sh1107_') ||
              line.startsWith('_i2c_sensor') ||
+             line.startsWith('_i2c_ultrassonico') ||
+             line.startsWith('_ultrassonico') ||
              line.startsWith('_i2c_estufa') ||
              line.startsWith('_aht_esq') ||
              line.startsWith('_aht_dir') ||

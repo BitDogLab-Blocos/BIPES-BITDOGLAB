@@ -84,6 +84,12 @@ var BitdogLabConfig_V6 = createProfile(BitdogLabProfileBase, {
       CONNECTION: 'ANA-IN',
       ADC_PIN: 28
     },
+    ULTRASSONICO: {
+      I2C_BUS: 1,
+      I2C_FREQ: 400000,
+      I2C_SDA: 14,
+      I2C_SCL: 15
+    },
     EXTERNAL_LED: {
       ALLOWED_DIG: ['0', '1', '2', '3'],
       PWM_DIG: ['0', '1', '2', '3'],
@@ -135,6 +141,7 @@ var BitdogLabConfig_V6 = createProfile(BitdogLabProfileBase, {
     AHT20_ADDR: '0x38',
     I2C_KNOWN_DEVICES: {
       0x38: 'AHT20',
+      0x57: 'Ultrassonico',
       0x68: 'MPU6050'
     }
   }

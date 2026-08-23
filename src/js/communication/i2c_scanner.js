@@ -223,6 +223,10 @@ class I2CScanner {
       var message = '📐 Sensor acelerômetro MPU6050 conectado no ' + busLabel + '!';
       UI['notify'].send(message);
       term.write('\r\n' + message + '\r\n');
+    } else if (name === 'Ultrassonico') {
+      var ultrasonicMessage = '📏 Sensor ultrassônico conectado no ' + busLabel + '!';
+      UI['notify'].send(ultrasonicMessage);
+      term.write('\r\n' + ultrasonicMessage + '\r\n');
     }
   }
 
@@ -238,6 +242,10 @@ class I2CScanner {
       var message = '⚠️ Sensor acelerômetro MPU6050 desconectado do ' + busLabel + '!';
       UI['notify'].send(message);
       term.write('\r\n>>> ' + message + ' <<<\x1b[m\r\n');
+    } else if (name === 'Ultrassonico') {
+      var ultrasonicMessage = '⚠️ Sensor ultrassônico desconectado do ' + busLabel + '!';
+      UI['notify'].send(ultrasonicMessage);
+      term.write('\r\n>>> ' + ultrasonicMessage + ' <<<\x1b[m\r\n');
     }
   }
 

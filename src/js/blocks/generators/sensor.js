@@ -50,6 +50,26 @@ function _setupAHT20Definitions() {
     '  return _aht20_umid\n';
 }
 
+// Inicializa o HC-SR04 em modo I2C nos pinos compartilhados com o display.
+// O sensor usa o mesmo barramento dos conectores 2 e 3, mas possui endereço
+// próprio (0x57), portanto pode funcionar junto com o display.
+function _setupUltrassonicoDefinitions() {
+  var profile = window.BitdogLabConfig || {};
+  var pins = profile.PINS || {};
+  var config = profile.EXTERNAL && profile.EXTERNAL.ULTRASSONICO || {};
+  var bus = config.I2C_BUS !== undefined ? config.I2C_BUS : 1;
+  var freq = config.I2C_FREQ || 400000;
+  var sda = config.I2C_SDA !== undefined ? config.I2C_SDA : pins.I2C_SDA;
+  var scl = config.I2C_SCL !== undefined ? config.I2C_SCL : pins.I2C_SCL;
+
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['lib_ultrassonico'] = SensorLibs.Ultrassonico;
+  Blockly.Python.definitions_['setup_ultrassonico'] =
+    '_i2c_ultrassonico = I2C(' + bus + ', sda=Pin(' + sda + '), scl=Pin(' + scl + '), freq=' + freq + ')\n' +
+    '_ultrassonico = SensorUltrassonico(_i2c_ultrassonico)';
+}
+
 function _setupEstufaMeasurementDisplay(displayType) {
   _setupDisplayDefinitions(displayType);
   Blockly.Python.definitions_['import_time'] = 'import time';
