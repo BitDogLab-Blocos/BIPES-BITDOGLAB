@@ -340,7 +340,7 @@
   }
 
   Code.ExternalResources = {
-    VERSION: '2026-08-20-external-ldr-analog',
+    VERSION: '2026-08-23-ultrasonic-i2c',
     peripherals: PERIPHERALS,
     getPeripheral: getPeripheral,
     getClaims: getClaims

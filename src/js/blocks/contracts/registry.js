@@ -470,7 +470,7 @@
   }
 
   Code.BlockContracts = {
-    VERSION: '2026-08-20-external-ldr',
+    VERSION: '2026-08-23-ultrasonic',
     contracts: CONTRACTS,
     messages: MESSAGES,
     get: function(blockType) {
