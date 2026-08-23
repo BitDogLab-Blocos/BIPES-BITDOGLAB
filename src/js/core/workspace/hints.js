@@ -621,6 +621,83 @@ WorkspaceManager.bindDht11CategoryHint = function() {
   });
 };
 
+WorkspaceManager.showDistanceSensorConnectionReminder = function() {
+  var closeId = 'closeDistanceSensorConnectionNotification';
+  var boardImage = '../assets/images/devices/conexoes-externas.png';
+  var sensorImage = '../assets/images/devices/hc-sr04.png?ver=20260822distance1';
+  var wireRows = Code.LANG === 'en'
+    ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identify the ultrasonic sensor pins</div>' +
+      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>VCC pin:</strong> electrical power → 3V3 contact on the board</div>' +
+      '<div style="background:#e3f2fd;color:#0d47a1;padding:8px;border-radius:5px;"><strong>TRIG/SCL pin:</strong> synchronization signal → Connection 3 on the board</div>' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>ECHO/SDA pin:</strong> data signal → Connection 2 on the board</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>GND pin:</strong> negative/ground → GND contact on the board</div>' +
+      '</div>'
+    : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identifique os pinos do sensor ultrassônico</div>' +
+      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Pino VCC:</strong> alimentação elétrica → contato 3V3 da placa</div>' +
+      '<div style="background:#e3f2fd;color:#0d47a1;padding:8px;border-radius:5px;"><strong>Pino TRIG/SCL:</strong> sinal de sincronização → Conexão 3 da placa</div>' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>Pino ECHO/SDA:</strong> sinal de dados → Conexão 2 da placa</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Pino GND:</strong> negativo/terra → contato GND da placa</div>' +
+      '</div>';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:17px;">🔌 How to connect the ultrasonic sensor</strong><br>' +
+      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
+      '<img src="' + boardImage + '" alt="BitDogLab external connections" style="width:54%;max-height:210px;object-fit:contain;background:white;border-radius:6px;">' +
+      '<img src="' + sensorImage + '" alt="Ultrasonic distance sensor" style="width:42%;max-height:210px;object-fit:contain;background:white;border-radius:6px;">' +
+      '</div>' + wireRows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Connect in this order:</strong><br>1. Turn the board off and disconnect the USB cable.<br>2. Connect VCC to 3V3 and GND to GND.<br>3. Connect ECHO/SDA to Connection 2.<br>4. Connect TRIG/SCL to Connection 3.<br>5. Insulate every exposed jumper-to-clip joint.</div>' +
+      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Important:</strong><br>• Use the 3.3 V-compatible sensor specified for this project.<br>• Connection 2 is always ECHO/SDA and Connection 3 is always TRIG/SCL; do not swap them.<br>• The sensor and board display can use Connections 2 and 3 together.<br>• Connections 0 and 1 remain free for other external components.</div>' +
+      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> never connect VCC to 5V-VSYS, do not change wires while the board is powered, and do not let neighbouring clips touch.</div>' +
+      '<div style="margin-top:9px;"><strong>Before powering the board, ask a teacher to check all four wires.</strong></div>' +
+      '</div>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
+      '<strong style="font-size:17px;">🔌 Como conectar o sensor ultrassônico</strong><br>' +
+      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
+      '<img src="' + boardImage + '" alt="Conexões externas da BitDogLab" style="width:54%;max-height:210px;object-fit:contain;background:white;border-radius:6px;">' +
+      '<img src="' + sensorImage + '" alt="Sensor ultrassônico de distância" style="width:42%;max-height:210px;object-fit:contain;background:white;border-radius:6px;">' +
+      '</div>' + wireRows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Monte nesta ordem:</strong><br>1. Desligue a placa e retire o cabo USB.<br>2. Ligue VCC em 3V3 e GND em GND.<br>3. Ligue ECHO/SDA na Conexão 2.<br>4. Ligue TRIG/SCL na Conexão 3.<br>5. Isole toda união exposta entre jumper e garra jacaré.</div>' +
+      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Importante:</strong><br>• Use o sensor compatível com 3,3 V indicado para este projeto.<br>• A Conexão 2 é sempre ECHO/SDA e a Conexão 3 é sempre TRIG/SCL; não troque os dois fios.<br>• O sensor e o Display da placa podem usar juntos as Conexões 2 e 3.<br>• As Conexões 0 e 1 continuam livres para outros componentes externos.</div>' +
+      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> nunca ligue VCC em 5V-VSYS, não mude os fios com a placa ligada e não deixe garras vizinhas se encostarem.</div>' +
+      '<div style="margin-top:9px;"><strong>Antes de ligar a placa, peça ao professor para conferir os quatro fios.</strong></div>' +
+      '</div>';
+
+  WorkspaceManager.createReminder({
+    id: 'distanceSensorConnectionNotification',
+    closeId: closeId,
+    background: '#2980b9',
+    maxWidth: '720px',
+    html: html
+  });
+};
+
+WorkspaceManager.bindDistanceSensorCategoryHint = function() {
+  var toolbox = Code.workspace && Code.workspace.getToolbox
+    ? Code.workspace.getToolbox()
+    : null;
+  var toolboxDiv = toolbox && toolbox.HtmlDiv;
+  if (!toolboxDiv || toolboxDiv.__bitdoglabDistanceSensorHintBound) return;
+
+  toolboxDiv.__bitdoglabDistanceSensorHintBound = true;
+  toolboxDiv.addEventListener('click', function(event) {
+    var clickTarget = event.target;
+    while (clickTarget && clickTarget !== toolboxDiv && !clickTarget.id) {
+      clickTarget = clickTarget.parentNode;
+    }
+    if (!clickTarget || !clickTarget.id || !toolbox.getToolboxItemById) return;
+
+    var item = toolbox.getToolboxItemById(clickTarget.id);
+    var categoryName = item && item.getName ? item.getName() : '';
+    if (categoryName === 'Sensor de Distância' || categoryName === 'Distance and presence sensor') {
+      Code.showDistanceSensorConnectionReminder();
+    }
+  });
+};
+
 WorkspaceManager.showLdrConnectionReminder = function() {
   var closeId = 'closeLdrConnectionNotification';
   var boardImage = '../assets/images/devices/conexoes-externas.png';
@@ -1239,6 +1316,7 @@ WorkspaceManager.bindWorkspaceHints = function() {
   WorkspaceManager.bindDht11CategoryHint();
   WorkspaceManager.bindExternalLedCategoryHint();
   WorkspaceManager.bindLdrCategoryHint();
+  WorkspaceManager.bindDistanceSensorCategoryHint();
 
   Code.workspace.addChangeListener(function(event) {
     if (event.type === Blockly.Events.BLOCK_CREATE) {
