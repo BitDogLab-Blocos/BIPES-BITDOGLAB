@@ -670,7 +670,7 @@ WorkspaceManager.showDistanceSensorConnectionReminder = function() {
     id: 'distanceSensorConnectionNotification',
     closeId: closeId,
     background: '#2980b9',
-    maxWidth: '760px',
+    maxWidth: '700px',
     html: html
   });
 };
@@ -701,7 +701,7 @@ WorkspaceManager.showDistanceSensorSolderReminder = function() {
   WorkspaceManager.createReminder({
     id: 'distanceSensorSolderNotification',
     closeId: closeId,
-    background: '#8e44ad',
+    background: '#2980b9',
     maxWidth: '400px',
     right: '805px',
     html: html
