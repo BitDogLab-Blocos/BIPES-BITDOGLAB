@@ -89,7 +89,7 @@ var BitdogLabConfig = createProfile(BitdogLabProfileBase, {
     },
     ULTRASSONICO: {
       I2C_BUS: 1,
-      I2C_FREQ: 400000,
+      I2C_FREQ: 100000,
       I2C_SDA: 2,
       I2C_SCL: 3,
       TRIG_CONNECTION: '3',

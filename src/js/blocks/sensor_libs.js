@@ -476,6 +476,8 @@ class SensorUltrassonico:
   I2C_ADDR = 0x57
   CMD_START = 0x01
   REG_READ = 0xAF
+  MEASUREMENT_WAIT_MS = 200
+  READ_SETTLE_MS = 50
   TIMEOUT_MS = 600
 
   def __init__(self, i2c: I2C):
@@ -492,10 +494,11 @@ class SensorUltrassonico:
     except Exception:
       return None
 
-    time.sleep_ms(120)
+    time.sleep_ms(self.MEASUREMENT_WAIT_MS)
 
     try:
       self.i2c.writeto(self.I2C_ADDR, bytes([self.REG_READ]))
+      time.sleep_ms(self.READ_SETTLE_MS)
       dados = self.i2c.readfrom(self.I2C_ADDR, 3)
       if dados[0] == 0xFF and dados[1] == 0xFF:
         return None
