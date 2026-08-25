@@ -13,7 +13,10 @@
     Blockly.Python.definitions_['func_ultrassonico_valor'] =
       'def _ultrassonico_valor():\n' +
       '  _cm = _ultrassonico.ler()\n' +
-      '  return 450.0 if _cm is None else _cm\n';
+      '  return float("nan") if _cm is None else _cm\n';
+    Blockly.Python.definitions_['func_ultrassonico_formatar'] =
+      'def _ultrassonico_formatar(_valor):\n' +
+      '  return "Obj nao detectado" if _valor != _valor else str(_valor)\n';
   }
 
   function ensureUltrassonicoGraphSupport(displayType) {
@@ -27,7 +30,6 @@
       '    if buf_id not in _ultrassonico_graficos:\n' +
       '      _ultrassonico_graficos[buf_id] = []\n' +
       '    _buf = _ultrassonico_graficos[buf_id]\n' +
-      '    _buf.append(_valor)\n' +
       '    _altura = getattr(oled, "height", 64)\n' +
       '    if pos == 0:\n' +
       '      _y_titulo, _y_ini, _y_fim = 0, 10, _altura - 1\n' +
@@ -35,6 +37,12 @@
       '      _y_titulo, _y_ini, _y_fim = 0, 10, _altura // 2 - 1\n' +
       '    else:\n' +
       '      _y_titulo, _y_ini, _y_fim = _altura // 2, _altura // 2 + 10, _altura - 1\n' +
+      '    if _valor != _valor:\n' +
+      '      oled.fill_rect(0, _y_titulo, 128, _y_fim - _y_titulo + 1, 0)\n' +
+      '      oled.text("Obj nao detectado", 0, _y_titulo, 1)\n' +
+      '      oled.show()\n' +
+      '      return\n' +
+      '    _buf.append(_valor)\n' +
       '    _limite = 100 if _altura >= 128 else 60\n' +
       '    if len(_buf) > _limite:\n' +
       '      _buf.pop(0)\n' +

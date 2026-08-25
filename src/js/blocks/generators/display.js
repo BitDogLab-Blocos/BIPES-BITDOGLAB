@@ -335,6 +335,8 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
     code += '_display_value = "{:.2f} V".format(' + valor + ')\n';
   } else if (valueBlock && valueBlock.type === 'robo_corrente_robo') {
     code += '_display_value = "{:.2f} A".format(' + valor + ')\n';
+  } else if (valueBlock && valueBlock.type === 'ultrassonico_distancia') {
+    code += '_display_value = _ultrassonico_formatar(' + valor + ')\n';
   } else if (isRobotNumericValue) {
     code += '_display_value = str(round(' + valor + ', 4))' + sufixoUnidade + '\n';
   } else {
