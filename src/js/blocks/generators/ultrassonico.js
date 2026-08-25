@@ -8,21 +8,70 @@
     return;
   }
 
+  // O SSD1306 pequeno e o sensor usam os mesmos pinos do I2C1, mas a
+  // biblioteca do sensor precisa de 100 kHz. Dois objetos I2C de hardware
+  // no mesmo periférico causam ETIMEDOUT durante oled.show(). No pequeno,
+  // usamos SoftI2C para manter o hardware I2C exclusivo do display.
+  function ensureUltrassonicoSmallBus() {
+    if (Blockly.Python.activeDisplayType !== 'SMALL' ||
+        !Blockly.Python.definitions_['setup_display']) {
+      return false;
+    }
+
+    var profile = global.BitdogLabConfig || {};
+    var pins = profile.PINS || {};
+    var display = profile.DISPLAY || {};
+    var config = profile.EXTERNAL && profile.EXTERNAL.ULTRASSONICO || {};
+    var bus = config.I2C_BUS !== undefined ? config.I2C_BUS : 1;
+    var freq = config.I2C_FREQ || 100000;
+    var sda = config.I2C_SDA !== undefined ? config.I2C_SDA : pins.I2C_SDA;
+    var scl = config.I2C_SCL !== undefined ? config.I2C_SCL : pins.I2C_SCL;
+
+    Blockly.Python.definitions_['import_soft_i2c'] = 'from machine import SoftI2C';
+    Blockly.Python.definitions_['setup_ultrassonico'] =
+      BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+      '# _i2c_ultrassonico = I2C(' + bus + ', sda=Pin(' + sda + '), scl=Pin(' + scl + '), freq=' + freq + ')\n' +
+      '_i2c_ultrassonico = SoftI2C(sda=Pin(' + sda + '), scl=Pin(' + scl + '), freq=' + freq + ')\n' +
+      '_ultrassonico = SensorUltrassonico(_i2c_ultrassonico)\n' +
+      BitdogLabConfig.MARKERS.SETUP_END;
+    Blockly.Python.definitions_['func_ultrassonico_rebind_display'] =
+      'def _ultrassonico_rebind_display():\n' +
+      '  global _ultrassonico_display_i2c\n' +
+      '  _ultrassonico_display_i2c = I2C(' + (display.I2C_BUS !== undefined ? display.I2C_BUS : bus) +
+        ', sda=Pin(' + (pins.I2C_SDA !== undefined ? pins.I2C_SDA : sda) +
+        '), scl=Pin(' + (pins.I2C_SCL !== undefined ? pins.I2C_SCL : scl) +
+        '), freq=' + (display.I2C_FREQ || 400000) + ')\n' +
+      '  oled.i2c = _ultrassonico_display_i2c\n';
+    Blockly.Python.definitions_['func_ultrassonico_prepare_bus'] =
+      'def _ultrassonico_prepare_bus():\n' +
+      '  global _i2c_ultrassonico\n' +
+      '  _i2c_ultrassonico = SoftI2C(sda=Pin(' + sda + '), scl=Pin(' + scl + '), freq=' + freq + ')\n' +
+      '  _ultrassonico.i2c = _i2c_ultrassonico\n';
+    return true;
+  }
+
   function ensureUltrassonicoReadSupport() {
     _setupUltrassonicoDefinitions();
+    var usesSmallBus = ensureUltrassonicoSmallBus();
     Blockly.Python.definitions_['setup_ultrassonico_cache'] =
       '_ultrassonico_cache_valor = float("nan")\n' +
       '_ultrassonico_cache_tempo = 0\n' +
       '_ultrassonico_cache_pronto = False';
     Blockly.Python.definitions_['setup_ultrassonico_warmup'] =
-      '_ultrassonico.ler()';
+      BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+      'time.sleep_ms(50)\n' +
+      '_ultrassonico.ler()\n' +
+      BitdogLabConfig.MARKERS.SETUP_END;
     Blockly.Python.definitions_['func_ultrassonico_valor'] =
       'def _ultrassonico_valor():\n' +
       '  global _ultrassonico_cache_valor, _ultrassonico_cache_tempo, _ultrassonico_cache_pronto\n' +
       '  _agora = time.ticks_ms()\n' +
       '  if _ultrassonico_cache_pronto and time.ticks_diff(_agora, _ultrassonico_cache_tempo) < 50:\n' +
+      (usesSmallBus ? '    _ultrassonico_rebind_display()\n' : '') +
       '    return _ultrassonico_cache_valor\n' +
+      (usesSmallBus ? '  _ultrassonico_prepare_bus()\n' : '') +
       '  _cm = _ultrassonico.ler()\n' +
+      (usesSmallBus ? '  _ultrassonico_rebind_display()\n' : '') +
       '  _ultrassonico_cache_valor = float("nan") if _cm is None else _cm\n' +
       '  _ultrassonico_cache_tempo = time.ticks_ms()\n' +
       '  _ultrassonico_cache_pronto = True\n' +
@@ -62,14 +111,16 @@
       '    if len(_buf) > _limite:\n' +
       '      _buf.pop(0)\n' +
       '    oled.fill_rect(0, _y_titulo, 128, 8, 0)\n' +
-      '    oled.text("Dist cm", 0, _y_titulo, 1)\n' +
+      '    oled.text("Dist:" + str(round(_valor, 1)), 0, _y_titulo, 1)\n' +
       '    oled.fill_rect(0, _y_ini, 128, _y_fim - _y_ini + 1, 0)\n' +
       '    if len(_buf) < 2:\n' +
       '      oled.show()\n' +
       '      return\n' +
       '    _minimo, _maximo = min(_buf), max(_buf)\n' +
       '    if _maximo == _minimo:\n' +
-      '      _maximo = _minimo + 1\n' +
+      '      _margem = max(1.0, abs(_minimo) * 0.05)\n' +
+      '      _minimo = max(0.0, _minimo - _margem)\n' +
+      '      _maximo = _maximo + _margem\n' +
       '    _x_ini = 30\n' +
       '    _altura_grafico = _y_fim - _y_ini\n' +
       '    oled.hline(_x_ini, _y_fim, 128 - _x_ini, 1)\n' +
