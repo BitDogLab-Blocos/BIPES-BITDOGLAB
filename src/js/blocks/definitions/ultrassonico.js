@@ -25,23 +25,23 @@
 
   function graphPositionField() {
     return new Blockly.FieldDropdown(isEnglish() ? [
-      ['top', '1'],
-      ['bottom', '2'],
-      ['whole', '0']
+      ['Top half', '1'],
+      ['Bottom half', '2'],
+      ['Whole screen', '0']
     ] : [
-      ['cima', '1'],
-      ['baixo', '2'],
-      ['toda', '0']
+      ['Metade de cima', '1'],
+      ['Metade de baixo', '2'],
+      ['Tela toda', '0']
     ]);
   }
 
   function screenSizeField() {
     return new Blockly.FieldDropdown(isEnglish() ? [
-      ['small', 'SMALL'],
-      ['large', 'LARGE']
+      ['small OLED', 'SMALL'],
+      ['large SH1107', 'LARGE']
     ] : [
-      ['pequena', 'SMALL'],
-      ['grande', 'LARGE']
+      ['pequena OLED', 'SMALL'],
+      ['grande SH1107', 'LARGE']
     ]);
   }
 

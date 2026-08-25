@@ -10,18 +10,31 @@
 
   function ensureUltrassonicoReadSupport() {
     _setupUltrassonicoDefinitions();
+    Blockly.Python.definitions_['setup_ultrassonico_cache'] =
+      '_ultrassonico_cache_valor = float("nan")\n' +
+      '_ultrassonico_cache_tempo = 0\n' +
+      '_ultrassonico_cache_pronto = False';
+    Blockly.Python.definitions_['setup_ultrassonico_warmup'] =
+      '_ultrassonico.ler()';
     Blockly.Python.definitions_['func_ultrassonico_valor'] =
       'def _ultrassonico_valor():\n' +
+      '  global _ultrassonico_cache_valor, _ultrassonico_cache_tempo, _ultrassonico_cache_pronto\n' +
+      '  _agora = time.ticks_ms()\n' +
+      '  if _ultrassonico_cache_pronto and time.ticks_diff(_agora, _ultrassonico_cache_tempo) < 50:\n' +
+      '    return _ultrassonico_cache_valor\n' +
       '  _cm = _ultrassonico.ler()\n' +
-      '  return float("nan") if _cm is None else _cm\n';
+      '  _ultrassonico_cache_valor = float("nan") if _cm is None else _cm\n' +
+      '  _ultrassonico_cache_tempo = time.ticks_ms()\n' +
+      '  _ultrassonico_cache_pronto = True\n' +
+      '  return _ultrassonico_cache_valor\n';
     Blockly.Python.definitions_['func_ultrassonico_formatar'] =
       'def _ultrassonico_formatar(_valor):\n' +
       '  return "Obj nao detectado" if _valor != _valor else str(_valor)\n';
   }
 
   function ensureUltrassonicoGraphSupport(displayType) {
-    ensureUltrassonicoReadSupport();
     _setupDisplayDefinitions(displayType);
+    ensureUltrassonicoReadSupport();
     Blockly.Python.definitions_['func_ultrassonico_grafico'] =
       '_ultrassonico_graficos = {}\n' +
       'def _ultrassonico_grafico(buf_id, valor, pos):\n' +
@@ -38,10 +51,12 @@
       '    else:\n' +
       '      _y_titulo, _y_ini, _y_fim = _altura // 2, _altura // 2 + 10, _altura - 1\n' +
       '    if _valor != _valor:\n' +
-      '      oled.fill_rect(0, _y_titulo, 128, _y_fim - _y_titulo + 1, 0)\n' +
-      '      oled.text("Obj nao detectado", 0, _y_titulo, 1)\n' +
-      '      oled.show()\n' +
-      '      return\n' +
+      '      if not _buf:\n' +
+      '        oled.fill_rect(0, _y_titulo, 128, _y_fim - _y_titulo + 1, 0)\n' +
+      '        oled.text("Obj nao detectado", 0, _y_titulo, 1)\n' +
+      '        oled.show()\n' +
+      '        return\n' +
+      '      _valor = _buf[-1]\n' +
       '    _buf.append(_valor)\n' +
       '    _limite = 100 if _altura >= 128 else 60\n' +
       '    if len(_buf) > _limite:\n' +

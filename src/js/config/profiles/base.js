@@ -116,7 +116,10 @@ var BitdogLabProfileBase = {
              line.startsWith('_sh1107_') ||
              line.startsWith('_i2c_sensor') ||
              line.startsWith('_i2c_ultrassonico') ||
-             line.startsWith('_ultrassonico') ||
+             line.startsWith('_ultrassonico =') ||
+             line.startsWith('_ultrassonico_graficos =') ||
+             line.startsWith('_ultrassonico_cache_') ||
+             line.startsWith('_ultrassonico.ler()') ||
              line.startsWith('_i2c_estufa') ||
              line.startsWith('_aht_esq') ||
              line.startsWith('_aht_dir') ||
