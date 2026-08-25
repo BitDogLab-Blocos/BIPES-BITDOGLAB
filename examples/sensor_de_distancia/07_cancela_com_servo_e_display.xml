@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A cancela abre para um objeto proximo e o display informa seu estado. -->
+  <block type="controls_ifelse" x="20" y="20">
+    <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="ultrassonico_distancia"><field name="TRIG">3</field><field name="ECHO">2</field></block></value><value name="B"><block type="math_number"><field name="NUM">20</field></block></value></block></value>
+    <statement name="DO0"><block type="servo_mover"><field name="DIG">1</field><field name="ANGLE">90</field><next><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto"><field name="TEXTO">Cancela aberta</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></next></block></next></block></statement>
+    <statement name="ELSE"><block type="servo_mover"><field name="DIG">1</field><field name="ANGLE">0</field><next><block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto"><field name="TEXTO">Cancela fechada</field><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field></block></next></block></next></block></statement>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next>
+  </block>
+</xml>

@@ -222,15 +222,21 @@ Blockly.Python["display_mostrar_calculo"] = function(block) {
   // Calcular posição X baseado no alinhamento e tamanho do texto
   if (alinhamento === 'LEFT') {
     code += '_calc_x = 3\n';
+    code += '_calc_clear_x = 0\n';
+    code += '_calc_clear_width = 64\n';
   } else if (alinhamento === 'CENTER') {
     code += '_calc_x = max(3, (128 - len(_calc_result) * 8) // 2)\n';
+    code += '_calc_clear_x = 0\n';
+    code += '_calc_clear_width = 128\n';
   } else { // RIGHT
     code += '_calc_x = max(3, 125 - len(_calc_result) * 8)\n';
+    code += '_calc_clear_x = 64\n';
+    code += '_calc_clear_width = 64\n';
   }
 
   // Limpar a linha inteira antes de escrever: resultados que mudam de tamanho
   // (por exemplo, 9 -> 10 ou 100 -> 5) não deixam pixels antigos no OLED.
-  code += 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
+  code += 'oled.fill_rect(_calc_clear_x, ' + y + ', _calc_clear_width, 8, 0)\n';
 
   // Mostrar o resultado no display
   code += 'oled.text(_calc_result, _calc_x, ' + y + ', 1)\n';
@@ -347,17 +353,20 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
   if (alinhamento === 'LEFT') {
     code += '_display_x = 3\n';
     code += '_display_x_clear = 0\n';
+    code += '_display_clear_width = 64\n';
   } else if (alinhamento === 'CENTER') {
     code += '_display_x = max(3, (128 - len(_display_value) * 8) // 2)\n';
     code += '_display_x_clear = 0\n';
+    code += '_display_clear_width = 128\n';
   } else { // RIGHT
     code += '_display_x = max(3, 125 - len(_display_value) * 8)\n';
-    // 32px extras à esquerda: cobre transição de até 4 chars (ex: "100%" → "1%")
-    code += '_display_x_clear = 0\n';
+    // Preserve a label written on the left of the same line.
+    code += '_display_x_clear = 64\n';
+    code += '_display_clear_width = 64\n';
   }
 
   // Limpar área do valor antes de escrever (evita sobreposição de pixels antigos)
-  code += 'oled.fill_rect(_display_x_clear, ' + y + ', 128 - _display_x_clear, 8, 0)\n';
+  code += 'oled.fill_rect(_display_x_clear, ' + y + ', _display_clear_width, 8, 0)\n';
 
   // Mostrar o valor no display
   code += 'oled.text(_display_value, _display_x, ' + y + ', 1)\n';

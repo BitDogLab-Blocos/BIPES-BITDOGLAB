@@ -78,7 +78,7 @@
       '  return _ultrassonico_cache_valor\n';
     Blockly.Python.definitions_['func_ultrassonico_formatar'] =
       'def _ultrassonico_formatar(_valor):\n' +
-      '  return "Obj nao detectado" if _valor != _valor else str(_valor)\n';
+      '  return "OBJ" if _valor != _valor else str(_valor)\n';
   }
 
   function ensureUltrassonicoGraphSupport(displayType) {
@@ -102,7 +102,7 @@
       '    if _valor != _valor:\n' +
       '      if not _buf:\n' +
       '        oled.fill_rect(0, _y_titulo, 128, _y_fim - _y_titulo + 1, 0)\n' +
-      '        oled.text("Obj nao detectado", 0, _y_titulo, 1)\n' +
+      '        oled.text("OBJ", 0, _y_titulo, 1)\n' +
       '        oled.show()\n' +
       '        return\n' +
       '      _valor = _buf[-1]\n' +
