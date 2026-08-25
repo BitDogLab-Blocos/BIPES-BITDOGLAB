@@ -346,14 +346,14 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
   // Calcular posição X baseado no alinhamento e tamanho do texto
   if (alinhamento === 'LEFT') {
     code += '_display_x = 3\n';
-    code += '_display_x_clear = 3\n';
+    code += '_display_x_clear = 0\n';
   } else if (alinhamento === 'CENTER') {
     code += '_display_x = max(3, (128 - len(_display_value) * 8) // 2)\n';
-    code += '_display_x_clear = max(3, _display_x - 16)\n';
+    code += '_display_x_clear = 0\n';
   } else { // RIGHT
     code += '_display_x = max(3, 125 - len(_display_value) * 8)\n';
     // 32px extras à esquerda: cobre transição de até 4 chars (ex: "100%" → "1%")
-    code += '_display_x_clear = max(3, _display_x - 32)\n';
+    code += '_display_x_clear = 0\n';
   }
 
   // Limpar área do valor antes de escrever (evita sobreposição de pixels antigos)
