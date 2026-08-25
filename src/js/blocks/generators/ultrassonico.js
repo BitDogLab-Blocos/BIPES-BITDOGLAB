@@ -8,12 +8,12 @@
     return;
   }
 
-  // O SSD1306 pequeno e o sensor usam os mesmos pinos do I2C1, mas a
-  // biblioteca do sensor precisa de 100 kHz. Dois objetos I2C de hardware
-  // no mesmo periférico causam ETIMEDOUT durante oled.show(). No pequeno,
-  // usamos SoftI2C para manter o hardware I2C exclusivo do display.
-  function ensureUltrassonicoSmallBus() {
-    if (Blockly.Python.activeDisplayType !== 'SMALL' ||
+  // O display e o sensor usam os mesmos pinos I2C, mas a biblioteca do
+  // sensor precisa de 100 kHz. Dois objetos I2C de hardware no mesmo
+  // periférico podem causar falhas durante a leitura ou oled.show().
+  // Usamos SoftI2C para o sensor e mantemos o hardware I2C exclusivo do OLED.
+  function ensureUltrassonicoSharedBus() {
+    if (!Blockly.Python.activeDisplayType ||
         !Blockly.Python.definitions_['setup_display']) {
       return false;
     }
@@ -52,7 +52,7 @@
 
   function ensureUltrassonicoReadSupport() {
     _setupUltrassonicoDefinitions();
-    var usesSmallBus = ensureUltrassonicoSmallBus();
+    var usesSharedBus = ensureUltrassonicoSharedBus();
     Blockly.Python.definitions_['setup_ultrassonico_cache'] =
       '_ultrassonico_cache_valor = float("nan")\n' +
       '_ultrassonico_cache_tempo = 0\n' +
@@ -67,11 +67,11 @@
       '  global _ultrassonico_cache_valor, _ultrassonico_cache_tempo, _ultrassonico_cache_pronto\n' +
       '  _agora = time.ticks_ms()\n' +
       '  if _ultrassonico_cache_pronto and time.ticks_diff(_agora, _ultrassonico_cache_tempo) < 50:\n' +
-      (usesSmallBus ? '    _ultrassonico_rebind_display()\n' : '') +
+      (usesSharedBus ? '    _ultrassonico_rebind_display()\n' : '') +
       '    return _ultrassonico_cache_valor\n' +
-      (usesSmallBus ? '  _ultrassonico_prepare_bus()\n' : '') +
+      (usesSharedBus ? '  _ultrassonico_prepare_bus()\n' : '') +
       '  _cm = _ultrassonico.ler()\n' +
-      (usesSmallBus ? '  _ultrassonico_rebind_display()\n' : '') +
+      (usesSharedBus ? '  _ultrassonico_rebind_display()\n' : '') +
       '  _ultrassonico_cache_valor = float("nan") if _cm is None else _cm\n' +
       '  _ultrassonico_cache_tempo = time.ticks_ms()\n' +
       '  _ultrassonico_cache_pronto = True\n' +
