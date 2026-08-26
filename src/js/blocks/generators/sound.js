@@ -203,10 +203,9 @@ Blockly.Python["parar_som"] = function(block) {
   Blockly.Python.definitions_['setup_buzzer'] = 'buzzer = PWM(Pin(' + BitdogLabConfig.PINS.BUZZER + '))';
   Blockly.Python.definitions_['setup_buzzer_mudo'] = '_buzzer_mudo = False';
 
-  var code = '';
-  code += 'buzzer.duty_u16(0)  # silencia o buzzer\n';
-  code += '_buzzer_mudo = True  # impede som nas próximas iterações (quando há botões)\n';
-  return code;
+  // Stop only the sound that is active now. A persistent mute latch makes a
+  // later sound command unable to play, breaking repeated contact/button use.
+  return 'buzzer.duty_u16(0)  # silencia o buzzer\n';
 };
 
 
