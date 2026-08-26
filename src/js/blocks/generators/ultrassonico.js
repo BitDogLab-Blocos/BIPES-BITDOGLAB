@@ -13,11 +13,6 @@
   // periférico podem causar falhas durante a leitura ou oled.show().
   // Usamos SoftI2C para o sensor e mantemos o hardware I2C exclusivo do OLED.
   function ensureUltrassonicoSharedBus() {
-    if (!Blockly.Python.activeDisplayType ||
-        !Blockly.Python.definitions_['setup_display']) {
-      return false;
-    }
-
     var profile = global.BitdogLabConfig || {};
     var pins = profile.PINS || {};
     var display = profile.DISPLAY || {};
@@ -61,6 +56,7 @@
       BitdogLabConfig.MARKERS.SETUP_START + '\n' +
       'time.sleep_ms(50)\n' +
       '_ultrassonico.ler()\n' +
+      (usesSharedBus ? '_ultrassonico_rebind_display()\n' : '') +
       BitdogLabConfig.MARKERS.SETUP_END;
     Blockly.Python.definitions_['func_ultrassonico_valor'] =
       'def _ultrassonico_valor():\n' +
