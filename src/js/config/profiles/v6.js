@@ -109,7 +109,10 @@ var BitdogLabConfig_V6 = createProfile(BitdogLabProfileBase, {
       MOVEMENT_RELEASE_THRESHOLD_MS2: 1.1768,
       MOVEMENT_HOLD_MS: 250,
       BALL_DEADZONE_G: 0.04,
-      BALL_SMOOTHING: 0.28
+      BALL_SMOOTHING: 0.28,
+      BALL_X_SIGN: 1,
+      BALL_Y_SIGN: -1,
+      BALL_RADIUS: 2
     },
     EXTERNAL_LED: {
       ALLOWED_DIG: ['0', '1', '2', '3'],

@@ -140,6 +140,58 @@
     return ['_mpu6050_movimentado()', Blockly.Python.ORDER_FUNCTION_CALL];
   };
 
+  Blockly.Python['mpu6050_bolinha_display'] = function(block) {
+    var displayType = _setupDisplayForBlock(block);
+    ensureMpu6050ReadSupport();
+
+    var profile = global.BitdogLabConfig || {};
+    var config = profile.EXTERNAL && profile.EXTERNAL.MPU6050 || {};
+    var deadzone = numberConfig(config, 'BALL_DEADZONE_G', 0.04);
+    var smoothing = numberConfig(config, 'BALL_SMOOTHING', 0.28);
+    var xSign = numberConfig(config, 'BALL_X_SIGN', 1) < 0 ? -1 : 1;
+    var ySign = numberConfig(config, 'BALL_Y_SIGN', -1) < 0 ? -1 : 1;
+    var radius = Math.max(1, Math.min(4, Math.round(numberConfig(config, 'BALL_RADIUS', 2))));
+
+    Blockly.Python.definitions_['setup_mpu6050_ball'] =
+      BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+      '_mpu6050_ball_x = (_display_width - 1) / 2\n' +
+      '_mpu6050_ball_y = (_display_height - 1) / 2\n' +
+      BitdogLabConfig.MARKERS.SETUP_END;
+    Blockly.Python.definitions_['func_mpu6050_ball'] =
+      'def _mpu6050_ball_update():\n' +
+      '  global _mpu6050_ball_x, _mpu6050_ball_y\n' +
+      '  _sample = _mpu6050_sample()\n' +
+      '  _center_x = (_display_width - 1) / 2\n' +
+      '  _center_y = (_display_height - 1) / 2\n' +
+      '  oled.fill(0)\n' +
+      '  if any(_value != _value for _value in _sample):\n' +
+      '    _mpu6050_ball_x = _center_x\n' +
+      '    _mpu6050_ball_y = _center_y\n' +
+      '    oled.text("MPU?", max(0, int(_center_x) - 16), max(0, int(_center_y) - 4), 1)\n' +
+      '    oled.show()\n' +
+      '    return\n' +
+      '  _gx = _sample[0] / 9.80665\n' +
+      '  _gy = _sample[1] / 9.80665\n' +
+      '  if abs(_gx) < ' + deadzone + ':\n' +
+      '    _gx = 0.0\n' +
+      '  if abs(_gy) < ' + deadzone + ':\n' +
+      '    _gy = 0.0\n' +
+      '  _gx = max(-1.0, min(1.0, _gx * ' + xSign + '))\n' +
+      '  _gy = max(-1.0, min(1.0, _gy * ' + ySign + '))\n' +
+      '  _target_x = _center_x + _gx * max(0, _center_x - ' + radius + ')\n' +
+      '  _target_y = _center_y + _gy * max(0, _center_y - ' + radius + ')\n' +
+      '  _mpu6050_ball_x += (_target_x - _mpu6050_ball_x) * ' + smoothing + '\n' +
+      '  _mpu6050_ball_y += (_target_y - _mpu6050_ball_y) * ' + smoothing + '\n' +
+      '  _ball_x = max(' + radius + ', min(_display_width - ' + (radius + 1) + ', int(round(_mpu6050_ball_x))))\n' +
+      '  _ball_y = max(' + radius + ', min(_display_height - ' + (radius + 1) + ', int(round(_mpu6050_ball_y))))\n' +
+      '  oled.fill_rect(_ball_x - 1, _ball_y - ' + radius + ', 3, ' + (radius * 2 + 1) + ', 1)\n' +
+      '  oled.fill_rect(_ball_x - ' + radius + ', _ball_y - 1, ' + (radius * 2 + 1) + ', 3, 1)\n' +
+      '  oled.show()\n';
+
+    Blockly.Python.mpu6050BallDisplayType = displayType;
+    return '_mpu6050_ball_update()\n';
+  };
+
   global.ensureMpu6050ReadSupport = ensureMpu6050ReadSupport;
   console.log('[BitDogLab] MPU6050 value generators loaded.');
 })(window);
