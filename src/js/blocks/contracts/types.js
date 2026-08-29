@@ -28,7 +28,8 @@
       'display_dashboard_matriz',
       'display_mostrar_tempo_ligado',
       'cronometro_mostrar',
-      'ultrassonico_plotar'
+      'ultrassonico_plotar',
+      'mpu6050_bolinha_display'
     ],
 
     MATRIX_OPTION_COMMANDS: [

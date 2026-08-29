@@ -489,7 +489,55 @@
       <field name="DISPLAY_TYPE">SMALL</field>
     </block>
   </category>
-  <category name="Movimento e Inclinação" colour="#c2185b" data-project="externos" css-icon="bitdoglab-mpu6050-category-icon"></category>
+  <category name="Movimento e Inclinação" colour="#c2185b" data-project="externos" css-icon="bitdoglab-mpu6050-category-icon">
+    <block type="mpu6050_inclinacao">
+      <field name="DIRECTION">RIGHT</field>
+      <field name="SCL">3</field>
+      <field name="SDA">2</field>
+    </block>
+    <block type="display_mostrar_valor">
+      <value name="VALOR">
+        <block type="mpu6050_inclinacao">
+          <field name="DIRECTION">RIGHT</field>
+          <field name="SCL">3</field>
+          <field name="SDA">2</field>
+        </block>
+      </value>
+      <field name="LINHA">1</field>
+      <field name="ALINHAMENTO">CENTER</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block>
+    <block type="controls_ifelse">
+      <value name="IF0">
+        <block type="mpu6050_foi_movimentado">
+          <field name="SCL">3</field>
+          <field name="SDA">2</field>
+        </block>
+      </value>
+    </block>
+    <block type="mpu6050_aceleracao">
+      <field name="AXIS">X</field>
+      <field name="SCL">3</field>
+      <field name="SDA">2</field>
+    </block>
+    <block type="display_mostrar_valor">
+      <value name="VALOR">
+        <block type="mpu6050_aceleracao">
+          <field name="AXIS">X</field>
+          <field name="SCL">3</field>
+          <field name="SDA">2</field>
+        </block>
+      </value>
+      <field name="LINHA">1</field>
+      <field name="ALINHAMENTO">CENTER</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block>
+    <block type="mpu6050_bolinha_display">
+      <field name="SCL">3</field>
+      <field name="SDA">2</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block>
+  </category>
   <category name="Servo Motor" colour="#00897b" data-project="externos" css-icon="bitdoglab-servo-category-icon">
     <block type="servo_mover">
       <field name="DIG">0</field>
