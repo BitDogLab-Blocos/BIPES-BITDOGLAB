@@ -1438,6 +1438,7 @@ var CUSTOM_TRANSLATIONS_EN = {
   "Sensor de Luz": "Light and shadow sensor (LDR)",
   "Temperatura e Umidade Externas": "External temperature and humidity",
   "Sensor de Distância": "Distance and presence sensor",
+  "Movimento e Inclinação": "Movement and Tilt",
   "Servo Motor": "External Servo",
   "🎯 Mover servo": "🎯 Move servo",
   "📐 Último ângulo enviado ao servo": "📐 Last angle sent to servo",

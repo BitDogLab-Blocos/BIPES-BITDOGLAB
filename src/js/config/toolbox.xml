@@ -489,6 +489,7 @@
       <field name="DISPLAY_TYPE">SMALL</field>
     </block>
   </category>
+  <category name="Movimento e Inclinação" colour="#c2185b" data-project="externos" css-icon="bitdoglab-mpu6050-category-icon"></category>
   <category name="Servo Motor" colour="#00897b" data-project="externos" css-icon="bitdoglab-servo-category-icon">
     <block type="servo_mover">
       <field name="DIG">0</field>
