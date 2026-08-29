@@ -24,6 +24,21 @@ function _setupDisplayForConfig(displayConfig) {
   return displayType;
 }
 
+function _setupSharedExternalI2c() {
+  var pins = BitdogLabConfig.PINS;
+  var display = BitdogLabConfig.DISPLAY;
+
+  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  Blockly.Python.definitions_['setup_external_i2c'] =
+    'i2c = I2C(' + display.I2C_BUS +
+    ', scl=Pin(' + pins.I2C_SCL +
+    '), sda=Pin(' + pins.I2C_SDA +
+    '), freq=' + display.I2C_FREQ + ')';
+
+  return 'i2c';
+}
+
 function _getBuzzerDisplayConfig() {
   if (Blockly.Python.buzzerDisplayConfig) {
     return Blockly.Python.buzzerDisplayConfig;

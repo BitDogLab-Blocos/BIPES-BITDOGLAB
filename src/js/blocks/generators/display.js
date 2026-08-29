@@ -17,13 +17,11 @@ function _setupDisplayDefinitions(displayType) {
   }
   Blockly.Python.activeDisplayType = displayType;
 
-  Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  _setupSharedExternalI2c();
 
   if (displayType === 'LARGE') {
     Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
     Blockly.Python.definitions_['setup_display'] =
-      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
       '_sh1107_scan = i2c.scan()\n' +
       '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
       'oled = SH1107_I2C(128, 128, i2c, address=_sh1107_addr, rotate=90)\n' +
@@ -32,7 +30,6 @@ function _setupDisplayDefinitions(displayType) {
   } else {
     Blockly.Python.definitions_['lib_ssd1306'] = SensorLibs.SSD1306;
     Blockly.Python.definitions_['setup_display'] =
-      'i2c = I2C(' + display.I2C_BUS + ', scl=Pin(' + pins.I2C_SCL + '), sda=Pin(' + pins.I2C_SDA + '), freq=' + display.I2C_FREQ + ')\n' +
       '_ssd1306_scan = i2c.scan()\n' +
       '_ssd1306_addr = 0x3C if 0x3C in _ssd1306_scan else (0x3D if 0x3D in _ssd1306_scan else 0x3C)\n' +
       'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c, addr=_ssd1306_addr)\n' +
@@ -343,6 +340,10 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
     code += '_display_value = "{:.2f} A".format(' + valor + ')\n';
   } else if (valueBlock && valueBlock.type === 'ultrassonico_distancia') {
     code += '_display_value = _ultrassonico_formatar(' + valor + ')\n';
+  } else if (valueBlock && valueBlock.type === 'mpu6050_inclinacao') {
+    code += '_display_value = _mpu6050_formatar(' + valor + ', " deg")\n';
+  } else if (valueBlock && valueBlock.type === 'mpu6050_aceleracao') {
+    code += '_display_value = _mpu6050_formatar(' + valor + ', " m/s2")\n';
   } else if (isRobotNumericValue) {
     code += '_display_value = str(round(' + valor + ', 4))' + sufixoUnidade + '\n';
   } else {
