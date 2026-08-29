@@ -1406,7 +1406,7 @@ button.icon.medium:before  {
   width: 2.1rem;
   height: 2.1rem;
   margin-inline-end: 0.35rem;
-  background-image: url('../assets/images/devices/mpu6050-eixos.png?ver=20260828mpu1');
+  background-image: url('../assets/images/devices/mpu6050.png?ver=20260828mpu2');
   background-color: white;
   background-position: center;
   background-repeat: no-repeat;
