@@ -97,9 +97,27 @@
   MESSAGES['pt-br'].ldrInvalidConnection = 'O sensor de luz deve usar somente a entrada ANA-IN. Confira se o pino S está ligado na ANA-IN da placa.';
   MESSAGES['pt-br'].ldrMicrophoneConflict = 'O sensor de luz e o microfone usam a mesma entrada analógica da placa. Eles não podem funcionar juntos. Retire um dos dois blocos e peça ao professor para conferir o jumper JP1.';
   MESSAGES['pt-br'].ultrassonicoInvalidConnection = 'O sensor ultrassônico deve usar TRIG/SCL na Conexão 3 e ECHO/SDA na Conexão 2. Essas ligações são fixas para funcionar junto com o display.';
+  MESSAGES['pt-br'].mpu6050UnsupportedProfile = 'O sensor externo MPU6050 ainda não pode ser usado com esta versão da BitDogLab. Escolha a placa V7 para usar os blocos de Movimento e Inclinação.';
+  MESSAGES['pt-br'].mpu6050InvalidProfile = 'A configuração do MPU6050 está incompleta nesta versão da placa. Recarregue o projeto e confirme o perfil da BitDogLab.';
+  MESSAGES['pt-br'].mpu6050InvalidConnection = 'O MPU6050 deve usar SDA na Conexão 2 e SCL na Conexão 3. Essas ligações são fixas e não podem ser trocadas.';
+  MESSAGES['pt-br'].mpu6050InvalidDirection = 'Escolha direita ou esquerda para medir a inclinação.';
+  MESSAGES['pt-br'].mpu6050InvalidAxis = 'Escolha o eixo X, Y ou Z para medir a aceleração.';
+  MESSAGES['pt-br'].mpu6050InvalidDisplayType = 'Escolha somente uma das telas disponíveis para movimentar a bolinha.';
+  MESSAGES['pt-br'].mpu6050RobotConflict = 'O MPU6050 externo e o MPU6050 do robô não podem ser usados no mesmo programa. Escolha somente um sensor de movimento.';
+  MESSAGES['pt-br'].mpu6050BallDuplicate = 'Use apenas um bloco de bolinha controlada pelo movimento no programa.';
+  MESSAGES['pt-br'].mpu6050BallDisplayConflict = 'A bolinha controlada pelo movimento precisa cuidar sozinha do Display. Retire os outros blocos que desenham ou mostram informações na tela.';
   MESSAGES.en.ldrInvalidConnection = 'The light sensor must use only the ANA-IN input. Check that the S pin is connected to ANA-IN on the board.';
   MESSAGES.en.ldrMicrophoneConflict = 'The light sensor and microphone use the same analogue input on the board. They cannot work together. Remove one of the two blocks and ask your teacher to check jumper JP1.';
   MESSAGES.en.ultrassonicoInvalidConnection = 'The ultrasonic sensor must use TRIG/SCL on Connection 3 and ECHO/SDA on Connection 2. These connections are fixed so it can work with the display.';
+  MESSAGES.en.mpu6050UnsupportedProfile = 'The external MPU6050 sensor cannot be used with this BitDogLab version yet. Select board V7 to use the Movement and Tilt blocks.';
+  MESSAGES.en.mpu6050InvalidProfile = 'The MPU6050 configuration is incomplete for this board version. Reload the project and check the BitDogLab profile.';
+  MESSAGES.en.mpu6050InvalidConnection = 'The MPU6050 must use SDA on Connection 2 and SCL on Connection 3. These fixed connections cannot be swapped.';
+  MESSAGES.en.mpu6050InvalidDirection = 'Choose right or left to measure the tilt.';
+  MESSAGES.en.mpu6050InvalidAxis = 'Choose the X, Y, or Z axis to measure acceleration.';
+  MESSAGES.en.mpu6050InvalidDisplayType = 'Choose only one of the available screens to move the ball.';
+  MESSAGES.en.mpu6050RobotConflict = 'The external MPU6050 and the robot MPU6050 cannot be used in the same program. Choose only one motion sensor.';
+  MESSAGES.en.mpu6050BallDuplicate = 'Use only one motion-controlled ball block in the program.';
+  MESSAGES.en.mpu6050BallDisplayConflict = 'The motion-controlled ball must manage the Display by itself. Remove the other blocks that draw or show information on the screen.';
 
   var Domains = Code.BlockTypeDomains;
   var MATRIX_OPTION_COMMANDS = Domains ? Domains.get('MATRIX_OPTION_COMMANDS') : [];
@@ -177,6 +195,18 @@
       requiredValueInputs: {
         VALOR: 'distância do sensor ultrassônico'
       }
+    },
+    mpu6050_inclinacao: {
+      kind: 'value'
+    },
+    mpu6050_foi_movimentado: {
+      kind: 'value'
+    },
+    mpu6050_aceleracao: {
+      kind: 'value'
+    },
+    mpu6050_bolinha_display: {
+      kind: 'statement'
     },
     external_contact_prepare: {
       kind: 'statement'
@@ -467,7 +497,7 @@
   }
 
   Code.BlockContracts = {
-    VERSION: '2026-08-23-ultrasonic',
+    VERSION: '2026-08-29-mpu6050',
     contracts: CONTRACTS,
     messages: MESSAGES,
     get: function(blockType) {

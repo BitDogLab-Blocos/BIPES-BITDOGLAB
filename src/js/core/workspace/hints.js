@@ -736,6 +736,28 @@ WorkspaceManager.showMpu6050ConnectionReminder = function() {
   var closeId = 'closeMpu6050ConnectionNotification';
   var boardImage = '../assets/images/devices/conexoes-externas.png';
   var sensorImage = '../assets/images/devices/mpu6050-eixos.png?ver=20260828mpu1';
+  var profile = window.BitdogLabConfig || {};
+  var mpuConfig = profile.EXTERNAL && profile.EXTERNAL.MPU6050 || {};
+
+  if (mpuConfig.SUPPORTED !== true) {
+    var unavailableHtml = Code.LANG === 'en'
+      ? WorkspaceManager.closeButton(closeId) +
+        '<strong style="font-size:17px;">Movement and Tilt is unavailable on this board</strong><br>' +
+        '<div style="margin-top:10px;background:rgba(255,255,255,.16);padding:11px;border-radius:6px;">The external MPU6050 uses Connections 2 and 3, but this board version routes its Display through a different I2C arrangement. Select <strong>BitDogLab V7</strong> before using these blocks.</div>'
+      : WorkspaceManager.closeButton(closeId) +
+        '<strong style="font-size:17px;">Movimento e Inclinação não está disponível nesta placa</strong><br>' +
+        '<div style="margin-top:10px;background:rgba(255,255,255,.16);padding:11px;border-radius:6px;">O MPU6050 externo usa as Conexões 2 e 3, mas esta versão da placa liga o Display por outra organização I2C. Selecione a <strong>BitDogLab V7</strong> antes de usar estes blocos.</div>';
+
+    WorkspaceManager.createReminder({
+      id: 'mpu6050ConnectionNotification',
+      closeId: closeId,
+      background: '#c2185b',
+      maxWidth: '560px',
+      html: unavailableHtml
+    });
+    return;
+  }
+
   var wireRows = Code.LANG === 'en'
     ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identify the MPU6050 pins</div>' +
       '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
@@ -762,7 +784,7 @@ WorkspaceManager.showMpu6050ConnectionReminder = function() {
       '<img src="' + sensorImage + '" alt="MPU6050 board with its movement axes" style="width:50%;max-height:230px;object-fit:contain;background:white;border-radius:6px;">' +
       '</div>' + wireRows +
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Connect in this order:</strong><br>1. Turn the board off and disconnect the USB cable.<br>2. Connect VCC to 3V3 and GND to GND.<br>3. Connect SDA to Connection 2.<br>4. Connect SCL to Connection 3.<br>5. Leave INT, AD0, XCL and XDA disconnected.<br>6. Insulate every exposed jumper-to-clip joint.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Important:</strong><br>• Connection 2 is always SDA and Connection 3 is always SCL; do not swap them.<br>• The MPU6050 and the board display can use Connections 2 and 3 together.<br>• Connections 0 and 1 remain free for other external components.<br>• The X, Y and Z arrows in the image show the directions measured by the sensor.</div>' +
+      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Important:</strong><br>• Connection 2 is always SDA and Connection 3 is always SCL; do not swap them.<br>• The MPU6050, the board Display, and the ultrasonic sensor can use Connections 2 and 3 together.<br>• Connections 0 and 1 remain free for other external components.<br>• The X, Y and Z arrows in the image show the directions measured by the sensor.</div>' +
       '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> never connect VCC to 5V-VSYS, do not change wires while the board is powered, and do not let neighbouring clips touch.</div>' +
       '<div style="margin-top:9px;"><strong>Before powering the board, ask a teacher to check all four wires.</strong></div>' +
       '</div>'
@@ -774,7 +796,7 @@ WorkspaceManager.showMpu6050ConnectionReminder = function() {
       '<img src="' + sensorImage + '" alt="Placa MPU6050 com os eixos de movimento" style="width:50%;max-height:230px;object-fit:contain;background:white;border-radius:6px;">' +
       '</div>' + wireRows +
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Monte nesta ordem:</strong><br>1. Desligue a placa e retire o cabo USB.<br>2. Ligue VCC em 3V3 e GND em GND.<br>3. Ligue SDA na Conexão 2.<br>4. Ligue SCL na Conexão 3.<br>5. Deixe INT, AD0, XCL e XDA sem conectar.<br>6. Isole toda união exposta entre jumper e garra jacaré.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Importante:</strong><br>• A Conexão 2 é sempre SDA e a Conexão 3 é sempre SCL; não troque os dois fios.<br>• O MPU6050 e o Display da placa podem usar juntos as Conexões 2 e 3.<br>• As Conexões 0 e 1 continuam livres para outros componentes externos.<br>• As setas X, Y e Z da imagem mostram as direções medidas pelo sensor.</div>' +
+      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Importante:</strong><br>• A Conexão 2 é sempre SDA e a Conexão 3 é sempre SCL; não troque os dois fios.<br>• O MPU6050, o Display da placa e o sensor ultrassônico podem usar juntos as Conexões 2 e 3.<br>• As Conexões 0 e 1 continuam livres para outros componentes externos.<br>• As setas X, Y e Z da imagem mostram as direções medidas pelo sensor.</div>' +
       '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> nunca ligue VCC em 5V-VSYS, não mude os fios com a placa ligada e não deixe garras vizinhas se encostarem.</div>' +
       '<div style="margin-top:9px;"><strong>Antes de ligar a placa, peça ao professor para conferir os quatro fios.</strong></div>' +
       '</div>';

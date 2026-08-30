@@ -943,6 +943,124 @@
     }
   }
 
+  function validateMpu6050Rules(blocks, warnings) {
+    var mpu6050Types = [
+      'mpu6050_inclinacao',
+      'mpu6050_foi_movimentado',
+      'mpu6050_aceleracao',
+      'mpu6050_bolinha_display'
+    ];
+    var robotMpu6050Types = [
+      'robo_inicializar',
+      'robo_frente',
+      'robo_tras',
+      'robo_girar',
+      'robo_parar',
+      'robo_joystick',
+      'robo_giro_valor',
+      'robo_aceleracao_x',
+      'robo_aceleracao_y',
+      'robo_aceleracao_z',
+      'robo_transferidor_360'
+    ];
+    var mpuBlocks = [];
+    var robotBlocks = [];
+    var ballBlocks = [];
+    var otherDisplayBlocks = [];
+
+    for (var i = 0; i < blocks.length; i++) {
+      if (mpu6050Types.indexOf(blocks[i].type) !== -1) {
+        mpuBlocks.push(blocks[i]);
+        if (blocks[i].type === 'mpu6050_bolinha_display') ballBlocks.push(blocks[i]);
+      }
+      if (robotMpu6050Types.indexOf(blocks[i].type) !== -1) robotBlocks.push(blocks[i]);
+      if (blocks[i].type !== 'mpu6050_bolinha_display' && isOledBlock(blocks[i])) {
+        otherDisplayBlocks.push(blocks[i]);
+      }
+    }
+
+    if (mpuBlocks.length === 0) return;
+
+    var profile = global.BitdogLabConfig || {};
+    var mpuConfig = profile.EXTERNAL && profile.EXTERNAL.MPU6050;
+    var requiredNumericFields = [
+      'I2C_BUS',
+      'I2C_FREQ',
+      'I2C_SDA',
+      'I2C_SCL',
+      'ADDRESS'
+    ];
+    var validProfile = Boolean(mpuConfig) &&
+      (mpuConfig.SUPPORTED === true || mpuConfig.SUPPORTED === false) &&
+      String(mpuConfig.SDA_CONNECTION || '') !== '' &&
+      String(mpuConfig.SCL_CONNECTION || '') !== '';
+
+    for (var numericIndex = 0; numericIndex < requiredNumericFields.length; numericIndex++) {
+      if (!mpuConfig || !isFinite(Number(mpuConfig[requiredNumericFields[numericIndex]]))) {
+        validProfile = false;
+      }
+    }
+
+    var expectedSda = String(mpuConfig && mpuConfig.SDA_CONNECTION || '2');
+    var expectedScl = String(mpuConfig && mpuConfig.SCL_CONNECTION || '3');
+
+    for (var blockIndex = 0; blockIndex < mpuBlocks.length; blockIndex++) {
+      var block = mpuBlocks[blockIndex];
+
+      if (!validProfile) {
+        addWarning(warnings, block, msg('mpu6050InvalidProfile'));
+      } else if (mpuConfig.SUPPORTED !== true) {
+        addWarning(warnings, block, msg('mpu6050UnsupportedProfile'));
+      }
+
+      if (!block.getFieldValue) continue;
+
+      if (String(block.getFieldValue('SDA') || '') !== expectedSda ||
+          String(block.getFieldValue('SCL') || '') !== expectedScl) {
+        addWarning(warnings, block, msg('mpu6050InvalidConnection'));
+      }
+
+      if (block.type === 'mpu6050_inclinacao' &&
+          ['RIGHT', 'LEFT'].indexOf(block.getFieldValue('DIRECTION')) === -1) {
+        addWarning(warnings, block, msg('mpu6050InvalidDirection'));
+      }
+
+      if (block.type === 'mpu6050_aceleracao' &&
+          ['X', 'Y', 'Z'].indexOf(block.getFieldValue('AXIS')) === -1) {
+        addWarning(warnings, block, msg('mpu6050InvalidAxis'));
+      }
+
+      if (block.type === 'mpu6050_bolinha_display' &&
+          ['SMALL', 'LARGE'].indexOf(block.getFieldValue('DISPLAY_TYPE')) === -1) {
+        addWarning(warnings, block, msg('mpu6050InvalidDisplayType'));
+      }
+    }
+
+    if (robotBlocks.length > 0) {
+      for (var externalIndex = 0; externalIndex < mpuBlocks.length; externalIndex++) {
+        addWarning(warnings, mpuBlocks[externalIndex], msg('mpu6050RobotConflict'));
+      }
+      for (var robotIndex = 0; robotIndex < robotBlocks.length; robotIndex++) {
+        addWarning(warnings, robotBlocks[robotIndex], msg('mpu6050RobotConflict'));
+      }
+    }
+
+    if (ballBlocks.length > 1) {
+      for (var ballIndex = 0; ballIndex < ballBlocks.length; ballIndex++) {
+        addWarning(warnings, ballBlocks[ballIndex], msg('mpu6050BallDuplicate'));
+      }
+    }
+
+    if (ballBlocks.length > 0 && otherDisplayBlocks.length > 0) {
+      for (var ballDisplayIndex = 0; ballDisplayIndex < ballBlocks.length; ballDisplayIndex++) {
+        addWarning(warnings, ballBlocks[ballDisplayIndex], msg('mpu6050BallDisplayConflict'));
+      }
+      for (var displayIndex = 0; displayIndex < otherDisplayBlocks.length; displayIndex++) {
+        addWarning(warnings, otherDisplayBlocks[displayIndex], msg('mpu6050BallDisplayConflict'));
+      }
+    }
+  }
+
   function validateServoRules(blocks, warnings) {
     var controllerTypes = [
       'servo_mover',
@@ -1021,6 +1139,7 @@
     validateExternalContactRules(blocks, warnings, notices);
     validateLdrRules(blocks, warnings);
     validateUltrassonicoRules(blocks, warnings);
+    validateMpu6050Rules(blocks, warnings);
     validateExternalResourceConflicts(blocks, warnings);
     validateNearMissConnections(blocks, warnings);
 

@@ -77,6 +77,20 @@
       i2cPairType: 'ultrassonico'
     },
     {
+      id: 'external-mpu6050-i2c',
+      labels: {
+        'pt-br': 'sensor externo de movimento MPU6050',
+        en: 'external MPU6050 motion sensor'
+      },
+      blockTypes: [
+        'mpu6050_inclinacao',
+        'mpu6050_foi_movimentado',
+        'mpu6050_aceleracao',
+        'mpu6050_bolinha_display'
+      ],
+      i2cPairType: 'external-mpu6050'
+    },
+    {
       id: 'microphone',
       labels: {
         'pt-br': 'microfone',
@@ -218,6 +232,15 @@
     } else if (pairType === 'ultrassonico') {
       var ultrasonic = config.EXTERNAL && config.EXTERNAL.ULTRASSONICO || {};
       addI2cPair(pairs, seen, ultrasonic.I2C_BUS, ultrasonic.I2C_SDA, ultrasonic.I2C_SCL);
+    } else if (pairType === 'external-mpu6050') {
+      var externalMpu6050 = config.EXTERNAL && config.EXTERNAL.MPU6050 || {};
+      addI2cPair(
+        pairs,
+        seen,
+        externalMpu6050.I2C_BUS,
+        externalMpu6050.I2C_SDA,
+        externalMpu6050.I2C_SCL
+      );
     }
 
     return pairs;
@@ -339,7 +362,7 @@
   }
 
   Code.ExternalResources = {
-    VERSION: '2026-08-23-ultrasonic-i2c',
+    VERSION: '2026-08-29-mpu6050-i2c',
     peripherals: PERIPHERALS,
     getPeripheral: getPeripheral,
     getClaims: getClaims
