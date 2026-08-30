@@ -41,9 +41,10 @@ Every final profile must expose:
 | `ROBOT` | MPU6050, H-bridge, PWM, and movement parameters. |
 | `ROBOT_POWER` | INA226 bus and calibration. |
 | `SENSOR` | Buses and known I²C addresses. |
+| `EXTERNAL.MPU6050` | Per-revision capability, shared I²C, fixed Connections 2/3, address, and motion parameters. |
 | `LED`, `LED_INIT`, `LOOP`, `MARKERS`, `SETUP_PATTERNS` | Shared generation rules. |
 
-`createProfile` validates this contract while scripts load. An incomplete profile must fail early, before users assemble blocks.
+`createProfile` validates this contract while scripts load. An incomplete profile must fail early, before users assemble blocks. For the external MPU6050, validation also guarantees SDA on Connection 2, SCL on Connection 3, and address `0x68`. When `SUPPORTED` is true, the sensor must share its bus, frequency, and GPIOs with the Display.
 
 ## Revision selection
 

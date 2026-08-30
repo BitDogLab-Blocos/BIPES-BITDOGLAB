@@ -41,9 +41,10 @@ Todo perfil final deve expor:
 | `ROBOT` | MPU6050, ponte H, PWM e parâmetros de movimento. |
 | `ROBOT_POWER` | Barramento e calibração do INA226. |
 | `SENSOR` | Barramentos e endereços I²C conhecidos. |
+| `EXTERNAL.MPU6050` | Capacidade por revisão, I²C compartilhado, Conexões fixas 2/3, endereço e parâmetros de movimento. |
 | `LED`, `LED_INIT`, `LOOP`, `MARKERS`, `SETUP_PATTERNS` | Regras compartilhadas de geração. |
 
-`createProfile` valida esse contrato durante o carregamento. Um perfil incompleto deve falhar cedo, antes de o usuário montar blocos.
+`createProfile` valida esse contrato durante o carregamento. Um perfil incompleto deve falhar cedo, antes de o usuário montar blocos. Para o MPU6050 externo, a validação também garante SDA na Conexão 2, SCL na Conexão 3 e endereço `0x68`. Quando `SUPPORTED` é verdadeiro, o sensor deve compartilhar barramento, frequência e GPIOs com o Display.
 
 ## Seleção da revisão
 

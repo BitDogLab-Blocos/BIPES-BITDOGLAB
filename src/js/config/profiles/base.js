@@ -103,7 +103,7 @@ var BitdogLabProfileBase = {
              (line.startsWith('_cursor_col = ') || line.startsWith('_cursor_row = ') || line.startsWith('_cursor_tempo = ')) ||
              line.startsWith('EMOJI_NAMES =') ||
              line.startsWith('AHT20_ADDR') ||
-             line.startsWith('MPU6050_ADDR') ||
+             line.startsWith('MPU6050_') ||
              line.startsWith('INA226_ADDR') ||
              line.startsWith('CONFIG_REG') ||
              line.startsWith('SHUNT_VOLTAGE_REG') ||
@@ -165,6 +165,111 @@ function mergeProfile(target, overrides) {
   return target;
 }
 
+function validateExternalMpu6050Profile(profile) {
+  var mpu = profile.EXTERNAL && profile.EXTERNAL.MPU6050;
+  var prefix = 'Perfil BitDogLab ' + (profile.VERSION || '') + ' inválido: EXTERNAL.MPU6050 ';
+  if (!mpu) {
+    throw new Error(prefix + 'não foi configurado.');
+  }
+
+  var requiredFields = [
+    'SUPPORTED',
+    'I2C_BUS',
+    'I2C_FREQ',
+    'I2C_SDA',
+    'I2C_SCL',
+    'SDA_CONNECTION',
+    'SCL_CONNECTION',
+    'ADDRESS',
+    'SAMPLE_CACHE_MS',
+    'RECONNECT_MS',
+    'TILT_DEADZONE_DEG',
+    'TILT_RIGHT_SIGN',
+    'MOVEMENT_THRESHOLD_MS2',
+    'MOVEMENT_RELEASE_THRESHOLD_MS2',
+    'MOVEMENT_HOLD_MS',
+    'BALL_DEADZONE_G',
+    'BALL_SMOOTHING',
+    'BALL_X_SIGN',
+    'BALL_Y_SIGN',
+    'BALL_RADIUS'
+  ];
+  var missingFields = requiredFields.filter(function(field) {
+    return mpu[field] === undefined || mpu[field] === null;
+  });
+  if (missingFields.length) {
+    throw new Error(prefix + 'está incompleto: ' + missingFields.join(', ') + '.');
+  }
+
+  if (mpu.SUPPORTED !== true && mpu.SUPPORTED !== false) {
+    throw new Error(prefix + 'SUPPORTED deve ser booleano.');
+  }
+
+  var numericFields = requiredFields.filter(function(field) {
+    return ['SUPPORTED', 'SDA_CONNECTION', 'SCL_CONNECTION'].indexOf(field) === -1;
+  });
+  var invalidNumericFields = numericFields.filter(function(field) {
+    return !isFinite(Number(mpu[field]));
+  });
+  if (invalidNumericFields.length) {
+    throw new Error(prefix + 'possui valores numéricos inválidos: ' + invalidNumericFields.join(', ') + '.');
+  }
+
+  if (String(mpu.SDA_CONNECTION) !== '2' || String(mpu.SCL_CONNECTION) !== '3') {
+    throw new Error(prefix + 'deve manter SDA na Conexão 2 e SCL na Conexão 3.');
+  }
+
+  var digPins = profile.EXTERNAL.DIG_PINS || {};
+  if (Number(mpu.I2C_SDA) !== Number(digPins['2']) || Number(mpu.I2C_SCL) !== Number(digPins['3'])) {
+    throw new Error(prefix + 'não corresponde aos GPIOs das Conexões 2 e 3.');
+  }
+
+  if (Number(mpu.ADDRESS) !== 0x68) {
+    throw new Error(prefix + 'ADDRESS deve ser 0x68 enquanto o pino AD0 permanecer desconectado.');
+  }
+
+  if (!Number.isInteger(Number(mpu.I2C_BUS)) || Number(mpu.I2C_BUS) < 0 ||
+      Number(mpu.I2C_FREQ) <= 0 ||
+      !Number.isInteger(Number(mpu.I2C_SDA)) || Number(mpu.I2C_SDA) < 0 ||
+      !Number.isInteger(Number(mpu.I2C_SCL)) || Number(mpu.I2C_SCL) < 0) {
+    throw new Error(prefix + 'possui barramento, frequência ou GPIO inválido.');
+  }
+
+  if (Number(mpu.SAMPLE_CACHE_MS) <= 0 || Number(mpu.RECONNECT_MS) < Number(mpu.SAMPLE_CACHE_MS)) {
+    throw new Error(prefix + 'deve usar cache positivo e reconexão maior ou igual ao tempo do cache.');
+  }
+
+  if (Number(mpu.TILT_DEADZONE_DEG) < 0 || Number(mpu.TILT_DEADZONE_DEG) >= 90 ||
+      Math.abs(Number(mpu.TILT_RIGHT_SIGN)) !== 1) {
+    throw new Error(prefix + 'possui configuração de inclinação inválida.');
+  }
+
+  if (Number(mpu.MOVEMENT_THRESHOLD_MS2) <= 0 ||
+      Number(mpu.MOVEMENT_RELEASE_THRESHOLD_MS2) < 0 ||
+      Number(mpu.MOVEMENT_RELEASE_THRESHOLD_MS2) >= Number(mpu.MOVEMENT_THRESHOLD_MS2) ||
+      Number(mpu.MOVEMENT_HOLD_MS) < 0) {
+    throw new Error(prefix + 'possui limiares de movimento inválidos.');
+  }
+
+  if (Number(mpu.BALL_DEADZONE_G) < 0 || Number(mpu.BALL_DEADZONE_G) >= 1 ||
+      Number(mpu.BALL_SMOOTHING) <= 0 || Number(mpu.BALL_SMOOTHING) > 1 ||
+      Math.abs(Number(mpu.BALL_X_SIGN)) !== 1 || Math.abs(Number(mpu.BALL_Y_SIGN)) !== 1 ||
+      !Number.isInteger(Number(mpu.BALL_RADIUS)) || Number(mpu.BALL_RADIUS) < 1 || Number(mpu.BALL_RADIUS) > 4) {
+    throw new Error(prefix + 'possui configuração inválida para a bolinha do Display.');
+  }
+
+  if (mpu.SUPPORTED === true) {
+    var display = profile.DISPLAY || {};
+    var pins = profile.PINS || {};
+    if (Number(mpu.I2C_BUS) !== Number(display.I2C_BUS) ||
+        Number(mpu.I2C_FREQ) !== Number(display.I2C_FREQ) ||
+        Number(mpu.I2C_SDA) !== Number(pins.I2C_SDA) ||
+        Number(mpu.I2C_SCL) !== Number(pins.I2C_SCL)) {
+      throw new Error(prefix + 'marcado como suportado deve compartilhar barramento, frequência e pinos com o Display.');
+    }
+  }
+}
+
 function validateBitdogLabProfile(profile) {
   var required = [
     'PINS', 'NEOPIXEL', 'JOYSTICK', 'DISPLAY', 'ROBOT', 'ROBOT_POWER',
@@ -177,6 +282,7 @@ function validateBitdogLabProfile(profile) {
   if (missing.length) {
     throw new Error('Perfil BitDogLab incompleto: ' + missing.join(', '));
   }
+  validateExternalMpu6050Profile(profile);
   return profile;
 }
 
@@ -204,6 +310,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     BitdogLabProfileBase: BitdogLabProfileBase,
     createProfile: createProfile,
-    validateBitdogLabProfile: validateBitdogLabProfile
+    validateBitdogLabProfile: validateBitdogLabProfile,
+    validateExternalMpu6050Profile: validateExternalMpu6050Profile
   };
 }
