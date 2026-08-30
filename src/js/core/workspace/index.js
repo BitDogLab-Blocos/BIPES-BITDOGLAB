@@ -20,6 +20,7 @@ Code.showLdrConnectionReminder = WorkspaceManager.showLdrConnectionReminder;
 Code.showDistanceSensorConnectionReminder = WorkspaceManager.showDistanceSensorConnectionReminder;
 Code.showMpu6050ConnectionReminder = WorkspaceManager.showMpu6050ConnectionReminder;
 Code.showMpu6050TiltTutorial = WorkspaceManager.showMpu6050TiltTutorial;
+Code.showMpu6050AccelerationTutorial = WorkspaceManager.showMpu6050AccelerationTutorial;
 Code.closeMpu6050TiltTutorial = WorkspaceManager.closeMpu6050TiltTutorial;
 Code.showLdrScaleReminder = WorkspaceManager.showLdrScaleReminder;
 Code.showJoystickSeletorReminder = WorkspaceManager.showJoystickSeletorReminder;

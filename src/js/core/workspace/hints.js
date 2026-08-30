@@ -1576,6 +1576,106 @@ WorkspaceManager.showMpu6050TiltTutorial = function(block) {
   panel.querySelector('.bitdoglab-mpu6050-tilt-ok').focus();
 };
 
+/*
+ * The acceleration value block gets the same priority treatment as the tilt
+ * block, but uses the axis illustration and explains the selected axis.
+ */
+WorkspaceManager.showMpu6050AccelerationTutorial = function(block) {
+  var active = WorkspaceManager._mpu6050TiltTutorialState;
+  if (active) {
+    WorkspaceManager.closeMpu6050TiltTutorial();
+  }
+
+  var tutorialId = 'mpu6050AccelerationTutorial';
+  var titleId = 'mpu6050AccelerationTutorialTitle';
+  var backdrop = document.createElement('div');
+  backdrop.className = 'bitdoglab-mpu6050-tilt-backdrop';
+  backdrop.setAttribute('aria-hidden', 'true');
+
+  var panel = document.createElement('section');
+  panel.id = tutorialId;
+  panel.className = 'bitdoglab-mpu6050-tilt-tutorial';
+  panel.setAttribute('role', 'dialog');
+  panel.setAttribute('aria-modal', 'true');
+  panel.setAttribute('aria-labelledby', titleId);
+
+  var hiddenElements = [];
+  var selectors = [
+    '[id$="Notification"]',
+    '#project-hardware-notice',
+    '#tutorial-steps',
+    '#partnership-notice'
+  ];
+  var elementsToHide = document.querySelectorAll(selectors.join(','));
+  elementsToHide.forEach(function(element) {
+    if (element.id === tutorialId) return;
+    hiddenElements.push({
+      element: element,
+      hidden: element.hidden,
+      style: element.getAttribute('style')
+    });
+    element.hidden = true;
+    element.style.setProperty('display', 'none', 'important');
+  });
+
+  var state = {
+    panel: panel,
+    backdrop: backdrop,
+    hiddenElements: hiddenElements,
+    onKeyDown: null
+  };
+  WorkspaceManager._mpu6050TiltTutorialState = state;
+
+  var axis = block && block.getFieldValue && block.getFieldValue('AXIS');
+  if (axis !== 'Y' && axis !== 'Z') axis = 'X';
+
+  var axisDescription = Code.LANG === 'en'
+    ? (axis === 'X' ? 'left and right' : axis === 'Y' ? 'front and back' : 'up and down')
+    : (axis === 'X' ? 'esquerda e direita' : axis === 'Y' ? 'frente e tr&aacute;s' : 'cima e baixo');
+  var axisName = Code.LANG === 'en' ? 'axis ' + axis : 'eixo ' + axis;
+
+  panel.innerHTML = Code.LANG === 'en'
+    ? '<header class="bitdoglab-mpu6050-tilt-header">' +
+      '<div><span class="bitdoglab-mpu6050-tilt-kicker">MPU6050</span>' +
+      '<h2 id="' + titleId + '">How to use the acceleration block</h2></div>' +
+      '<button type="button" class="bitdoglab-mpu6050-tilt-close" aria-label="Close">&times;</button>' +
+      '</header>' +
+      '<img class="bitdoglab-mpu6050-tilt-image" src="../assets/images/devices/mpu6050-eixos-aceleracao.png?ver=20260830accel1" alt="MPU6050 with the X, Y and Z axes">' +
+      '<div class="bitdoglab-mpu6050-tilt-copy">' +
+      '<p><strong>1. Fix the accelerometer</strong><br>Keep the MPU6050 firmly in the position shown in the picture.</p>' +
+      '<p><strong>2. Choose ' + axisName + '</strong><br>The selected axis measures movement ' + axisDescription + '.</p>' +
+      '<p><strong>3. Read the value</strong><br>The block returns acceleration in m/s². Store it in a variable, compare it in a condition, or show it on the Display.</p>' +
+      '</div>' +
+      '<button type="button" class="bitdoglab-mpu6050-tilt-ok">Got it!</button>'
+    : '<header class="bitdoglab-mpu6050-tilt-header">' +
+      '<div><span class="bitdoglab-mpu6050-tilt-kicker">MPU6050</span>' +
+      '<h2 id="' + titleId + '">Como usar o bloco de acelera&ccedil;&atilde;o</h2></div>' +
+      '<button type="button" class="bitdoglab-mpu6050-tilt-close" aria-label="Fechar">&times;</button>' +
+      '</header>' +
+      '<img class="bitdoglab-mpu6050-tilt-image" src="../assets/images/devices/mpu6050-eixos-aceleracao.png?ver=20260830accel1" alt="MPU6050 com os eixos X, Y e Z">' +
+      '<div class="bitdoglab-mpu6050-tilt-copy">' +
+      '<p><strong>1. Fixe o aceler&ocirc;metro</strong><br>Prenda o MPU6050 firmemente na posi&ccedil;&atilde;o mostrada na imagem.</p>' +
+      '<p><strong>2. Escolha o ' + axisName + '</strong><br>Esse eixo mede o movimento para ' + axisDescription + '.</p>' +
+      '<p><strong>3. Leia o valor</strong><br>O bloco informa a acelera&ccedil;&atilde;o em m/s&sup2;. Guarde em uma vari&aacute;vel, compare em uma condi&ccedil;&atilde;o ou mostre no Display.</p>' +
+      '</div>' +
+      '<button type="button" class="bitdoglab-mpu6050-tilt-ok">Entendi!</button>';
+
+  document.body.appendChild(backdrop);
+  document.body.appendChild(panel);
+  document.body.classList.add('bitdoglab-mpu6050-tilt-tutorial-open');
+
+  var close = function() {
+    WorkspaceManager.closeMpu6050TiltTutorial();
+  };
+  panel.querySelector('.bitdoglab-mpu6050-tilt-close').addEventListener('click', close);
+  panel.querySelector('.bitdoglab-mpu6050-tilt-ok').addEventListener('click', close);
+  state.onKeyDown = function(event) {
+    if (event.key === 'Escape') close();
+  };
+  document.addEventListener('keydown', state.onKeyDown);
+  panel.querySelector('.bitdoglab-mpu6050-tilt-ok').focus();
+};
+
 WorkspaceManager.bindWorkspaceHints = function() {
   WorkspaceManager.bindExternalContactCategoryHint();
   WorkspaceManager.bindServoCategoryHint();
@@ -1594,6 +1694,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
 
       if (blockType === 'mpu6050_inclinacao') {
         Code.showMpu6050TiltTutorial(block);
+      }
+      if (blockType === 'mpu6050_aceleracao') {
+        Code.showMpu6050AccelerationTutorial(block);
       }
 
       var servoControllerBlocks = [
@@ -1667,6 +1770,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
         if (valorBlock && valorBlock.type === 'mpu6050_inclinacao') {
           Code.showMpu6050TiltTutorial(valorBlock);
         }
+        if (valorBlock && valorBlock.type === 'mpu6050_aceleracao') {
+          Code.showMpu6050AccelerationTutorial(valorBlock);
+        }
         if (valorBlock && valorBlock.type === 'robo_giro_valor') {
           Code.showRobotInstrumentDisplayReminder();
         }
@@ -1706,6 +1812,10 @@ WorkspaceManager.bindWorkspaceHints = function() {
       if (movedBlock && movedBlock.type === 'mpu6050_inclinacao' &&
           movedParent && movedParent.type === 'display_mostrar_valor') {
         Code.showMpu6050TiltTutorial(movedBlock);
+      }
+      if (movedBlock && movedBlock.type === 'mpu6050_aceleracao' &&
+          movedParent && movedParent.type === 'display_mostrar_valor') {
+        Code.showMpu6050AccelerationTutorial(movedBlock);
       }
     }
   });
