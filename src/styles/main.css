@@ -1049,6 +1049,141 @@ button.icon.medium:before  {
   }
 }
 
+/* Priority tutorial shown when the MPU6050 inclination value block is added. */
+.bitdoglab-mpu6050-tilt-backdrop {
+  position: fixed;
+  z-index: 100010;
+  inset: 0;
+  background: rgba(24, 17, 42, 0.58);
+}
+
+.bitdoglab-mpu6050-tilt-tutorial {
+  position: fixed;
+  z-index: 100011;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  width: min(430px, calc(100% - 32px));
+  max-height: calc(100vh - 32px);
+  box-sizing: border-box;
+  flex-direction: column;
+  overflow-y: auto;
+  border: 3px solid #c2185b;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(15, 8, 32, 0.48);
+  color: #263244;
+  transform: translate(-50%, -50%);
+  animation: bitdoglabMpuTiltTutorialIn 0.2s ease-out;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.bitdoglab-mpu6050-tilt-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px 10px;
+  background: #c2185b;
+  color: #fff;
+}
+
+.bitdoglab-mpu6050-tilt-kicker {
+  display: block;
+  margin-bottom: 2px;
+  color: #ffd6e5;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.bitdoglab-mpu6050-tilt-header h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.2;
+}
+
+.bitdoglab-mpu6050-tilt-close {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.18);
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.bitdoglab-mpu6050-tilt-close:hover,
+.bitdoglab-mpu6050-tilt-close:focus-visible {
+  background: rgba(0, 0, 0, 0.34);
+  outline: 2px solid #fff;
+  outline-offset: 1px;
+}
+
+.bitdoglab-mpu6050-tilt-image {
+  display: block;
+  width: calc(100% - 24px);
+  max-height: 220px;
+  margin: 12px auto 4px;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.bitdoglab-mpu6050-tilt-copy {
+  padding: 0 18px 4px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.bitdoglab-mpu6050-tilt-copy p {
+  margin: 9px 0;
+}
+
+.bitdoglab-mpu6050-tilt-direction {
+  color: #c2185b;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.bitdoglab-mpu6050-tilt-ok {
+  align-self: flex-end;
+  margin: 4px 18px 16px;
+  padding: 9px 18px;
+  border: 0;
+  border-radius: 9px;
+  background: #c2185b;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.bitdoglab-mpu6050-tilt-ok:hover,
+.bitdoglab-mpu6050-tilt-ok:focus-visible {
+  background: #8e1243;
+  outline: 3px solid rgba(194, 24, 91, 0.26);
+  outline-offset: 2px;
+}
+
+body.bitdoglab-mpu6050-tilt-tutorial-open .bitdoglab-contract-warning-bubble {
+  visibility: hidden !important;
+}
+
+body.bitdoglab-mpu6050-tilt-tutorial-open [id$="Notification"],
+body.bitdoglab-mpu6050-tilt-tutorial-open #project-hardware-notice,
+body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
+  visibility: hidden !important;
+}
+
+@keyframes bitdoglabMpuTiltTutorialIn {
+  from { opacity: 0; transform: translate(-50%, -47%) scale(0.98); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
 /* Device selector */
 #deviceSelect {
   display: inline-flex;

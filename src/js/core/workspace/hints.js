@@ -1445,6 +1445,137 @@ WorkspaceManager.showGraficoReminder = function() {
   });
 };
 
+/*
+ * The inclination value block needs a short, hands-on explanation before the
+ * child starts using it.  This panel is intentionally independent from the
+ * regular reminders: it is modal, sits above every other hint, and temporarily
+ * hides the reminders that are already open so the instruction is unambiguous.
+ */
+WorkspaceManager.closeMpu6050TiltTutorial = function() {
+  var state = WorkspaceManager._mpu6050TiltTutorialState;
+  if (!state) return;
+
+  if (state.panel && state.panel.parentNode) {
+    state.panel.parentNode.removeChild(state.panel);
+  }
+  if (state.backdrop && state.backdrop.parentNode) {
+    state.backdrop.parentNode.removeChild(state.backdrop);
+  }
+
+  (state.hiddenElements || []).forEach(function(item) {
+    if (!item.element) return;
+    if (item.style === null) {
+      item.element.removeAttribute('style');
+    } else {
+      item.element.setAttribute('style', item.style);
+    }
+    item.element.hidden = item.hidden;
+  });
+
+  if (document.body) {
+    document.body.classList.remove('bitdoglab-mpu6050-tilt-tutorial-open');
+  }
+  if (state.onKeyDown) {
+    document.removeEventListener('keydown', state.onKeyDown);
+  }
+  WorkspaceManager._mpu6050TiltTutorialState = null;
+};
+
+WorkspaceManager.showMpu6050TiltTutorial = function(block) {
+  var active = WorkspaceManager._mpu6050TiltTutorialState;
+  if (active) {
+    WorkspaceManager.closeMpu6050TiltTutorial();
+  }
+
+  var tutorialId = 'mpu6050TiltTutorial';
+  var backdrop = document.createElement('div');
+  backdrop.className = 'bitdoglab-mpu6050-tilt-backdrop';
+  backdrop.setAttribute('aria-hidden', 'true');
+
+  var panel = document.createElement('section');
+  panel.id = tutorialId;
+  panel.className = 'bitdoglab-mpu6050-tilt-tutorial';
+  panel.setAttribute('role', 'dialog');
+  panel.setAttribute('aria-modal', 'true');
+  panel.setAttribute('aria-labelledby', 'mpu6050TiltTutorialTitle');
+
+  var hiddenElements = [];
+  var selectors = [
+    '[id$="Notification"]',
+    '#project-hardware-notice',
+    '#tutorial-steps',
+    '#partnership-notice'
+  ];
+  var elementsToHide = document.querySelectorAll(selectors.join(','));
+  elementsToHide.forEach(function(element) {
+    if (element.id === tutorialId) return;
+    hiddenElements.push({
+      element: element,
+      hidden: element.hidden,
+      style: element.getAttribute('style')
+    });
+    element.hidden = true;
+    element.style.setProperty('display', 'none', 'important');
+  });
+
+  var state = {
+    panel: panel,
+    backdrop: backdrop,
+    hiddenElements: hiddenElements,
+    onKeyDown: null
+  };
+  WorkspaceManager._mpu6050TiltTutorialState = state;
+
+  var direction = block && block.getFieldValue && block.getFieldValue('DIRECTION') === 'LEFT'
+    ? 'left'
+    : 'right';
+  var directionText = Code.LANG === 'en'
+    ? (direction === 'left' ? 'left' : 'right')
+    : (direction === 'left' ? 'esquerda' : 'direita');
+  var directionArticle = Code.LANG === 'en' ? 'the ' : 'a ';
+
+  panel.innerHTML = Code.LANG === 'en'
+    ? '<header class="bitdoglab-mpu6050-tilt-header">' +
+      '<div><span class="bitdoglab-mpu6050-tilt-kicker">MPU6050</span>' +
+      '<h2 id="mpu6050TiltTutorialTitle">How to use the tilt block</h2></div>' +
+      '<button type="button" class="bitdoglab-mpu6050-tilt-close" aria-label="Close">&times;</button>' +
+      '</header>' +
+      '<img class="bitdoglab-mpu6050-tilt-image" src="../assets/images/devices/mpu6050-inclinacao.png?ver=20260830tilt1" alt="MPU6050 tilted to the left or right">' +
+      '<div class="bitdoglab-mpu6050-tilt-copy">' +
+      '<p><strong>1. Fix the accelerometer level</strong><br>Keep the MPU6050 firmly in the position shown in the picture.</p>' +
+      '<p><strong>2. Move it to <span class="bitdoglab-mpu6050-tilt-direction">' + directionText + '</span></strong><br>Use the same side selected in your block: <strong>Tilt to ' + directionArticle + directionText + '</strong>.</p>' +
+      '<p><strong>3. Read the value</strong><br>The block returns the tilt angle in degrees. You can compare it in a condition or show it on the Display.</p>' +
+      '</div>' +
+      '<button type="button" class="bitdoglab-mpu6050-tilt-ok">Got it!</button>'
+    : '<header class="bitdoglab-mpu6050-tilt-header">' +
+      '<div><span class="bitdoglab-mpu6050-tilt-kicker">MPU6050</span>' +
+      '<h2 id="mpu6050TiltTutorialTitle">Como usar o bloco de inclinação</h2></div>' +
+      '<button type="button" class="bitdoglab-mpu6050-tilt-close" aria-label="Fechar">&times;</button>' +
+      '</header>' +
+      '<img class="bitdoglab-mpu6050-tilt-image" src="../assets/images/devices/mpu6050-inclinacao.png?ver=20260830tilt1" alt="MPU6050 inclinado para a esquerda ou para a direita">' +
+      '<div class="bitdoglab-mpu6050-tilt-copy">' +
+      '<p><strong>1. Fixe o acelerômetro reto</strong><br>Prenda o MPU6050 firmemente na posição mostrada na imagem.</p>' +
+      '<p><strong>2. Mova para <span class="bitdoglab-mpu6050-tilt-direction">' + directionText + '</span></strong><br>Use o mesmo lado escolhido no bloco: <strong>Inclinação para ' + directionText + '</strong>.</p>' +
+      '<p><strong>3. Leia o valor</strong><br>O bloco informa o ângulo de inclinação em graus. Você pode compará-lo em uma condição ou mostrá-lo no Display.</p>' +
+      '</div>' +
+      '<button type="button" class="bitdoglab-mpu6050-tilt-ok">Entendi!</button>';
+
+  document.body.appendChild(backdrop);
+  document.body.appendChild(panel);
+  document.body.classList.add('bitdoglab-mpu6050-tilt-tutorial-open');
+
+  var close = function() {
+    WorkspaceManager.closeMpu6050TiltTutorial();
+  };
+  panel.querySelector('.bitdoglab-mpu6050-tilt-close').addEventListener('click', close);
+  panel.querySelector('.bitdoglab-mpu6050-tilt-ok').addEventListener('click', close);
+  state.onKeyDown = function(event) {
+    if (event.key === 'Escape') close();
+  };
+  document.addEventListener('keydown', state.onKeyDown);
+  panel.querySelector('.bitdoglab-mpu6050-tilt-ok').focus();
+};
+
 WorkspaceManager.bindWorkspaceHints = function() {
   WorkspaceManager.bindExternalContactCategoryHint();
   WorkspaceManager.bindServoCategoryHint();
@@ -1460,6 +1591,11 @@ WorkspaceManager.bindWorkspaceHints = function() {
       if (!block) return;
 
       var blockType = block.type;
+
+      if (blockType === 'mpu6050_inclinacao') {
+        Code.showMpu6050TiltTutorial(block);
+      }
+
       var servoControllerBlocks = [
         'servo_mover',
         'servo_joystick_controlar',
@@ -1528,6 +1664,9 @@ WorkspaceManager.bindWorkspaceHints = function() {
       }
       if (blockType === 'display_mostrar_valor') {
         var valorBlock = block.getInputTargetBlock && block.getInputTargetBlock('VALOR');
+        if (valorBlock && valorBlock.type === 'mpu6050_inclinacao') {
+          Code.showMpu6050TiltTutorial(valorBlock);
+        }
         if (valorBlock && valorBlock.type === 'robo_giro_valor') {
           Code.showRobotInstrumentDisplayReminder();
         }
@@ -1559,6 +1698,14 @@ WorkspaceManager.bindWorkspaceHints = function() {
       }
       if (blockType === 'temporizacao') {
         Code.showTimingPanel();
+      }
+    } else if (event.type === Blockly.Events.BLOCK_MOVE &&
+               event.oldParentId !== event.newParentId) {
+      var movedBlock = Code.workspace.getBlockById(event.blockId);
+      var movedParent = movedBlock && movedBlock.getParent ? movedBlock.getParent() : null;
+      if (movedBlock && movedBlock.type === 'mpu6050_inclinacao' &&
+          movedParent && movedParent.type === 'display_mostrar_valor') {
+        Code.showMpu6050TiltTutorial(movedBlock);
       }
     }
   });
