@@ -53,9 +53,9 @@
 
   function appendFixedConnections(block) {
     block.appendDummyInput()
-      .appendField('SCL')
+      .appendField(isEnglish() ? 'SCL Connection' : 'SCL Conexão')
       .appendField(connectionField('SCL'), 'SCL')
-      .appendField('SDA')
+      .appendField(isEnglish() ? 'SDA Connection' : 'SDA Conexão')
       .appendField(connectionField('SDA'), 'SDA');
   }
 
