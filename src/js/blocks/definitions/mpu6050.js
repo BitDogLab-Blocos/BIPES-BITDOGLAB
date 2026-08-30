@@ -93,8 +93,8 @@
       appendFixedConnections(this);
       setValueBlock(this, 'Boolean');
       this.setTooltip(isEnglish()
-        ? 'Answers yes when the sensor is moved and no while it remains still. Use it inside a condition.'
-        : 'Responde sim quando o sensor é movimentado e não quando permanece parado. Use dentro de uma condição.');
+        ? 'Answers yes after an intentional movement is confirmed; small shakes are ignored. Use it inside a condition.'
+        : 'Responde sim depois que um movimento intencional é confirmado; pequenos tremores são ignorados. Use dentro de uma condição.');
     }
   };
 

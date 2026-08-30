@@ -21,8 +21,9 @@
     var reconnectMs = numberConfig(config, 'RECONNECT_MS', 1000);
     var tiltDeadzone = numberConfig(config, 'TILT_DEADZONE_DEG', 2);
     var tiltRightSign = numberConfig(config, 'TILT_RIGHT_SIGN', 1) < 0 ? -1 : 1;
-    var movementThreshold = numberConfig(config, 'MOVEMENT_THRESHOLD_MS2', 1.96133);
-    var movementRelease = numberConfig(config, 'MOVEMENT_RELEASE_THRESHOLD_MS2', 1.1768);
+    var movementThreshold = numberConfig(config, 'MOVEMENT_THRESHOLD_MS2', 2.941995);
+    var movementRelease = numberConfig(config, 'MOVEMENT_RELEASE_THRESHOLD_MS2', 1.96133);
+    var movementConfirmations = Math.max(1, Math.min(5, Math.round(numberConfig(config, 'MOVEMENT_CONFIRMATION_SAMPLES', 2))));
     var movementHoldMs = numberConfig(config, 'MOVEMENT_HOLD_MS', 250);
 
     _setupSharedExternalI2c();
@@ -38,6 +39,7 @@
       '_mpu6050_last_retry_ms = time.ticks_ms()\n' +
       '_mpu6050_previous_sample = None\n' +
       '_mpu6050_motion_active = False\n' +
+      '_mpu6050_motion_hits = 0\n' +
       '_mpu6050_motion_last_ms = 0\n' +
       BitdogLabConfig.MARKERS.SETUP_END;
 
@@ -82,12 +84,13 @@
       '  return _sample[_index]\n' +
       '\n' +
       'def _mpu6050_movimentado():\n' +
-      '  global _mpu6050_previous_sample, _mpu6050_motion_active, _mpu6050_motion_last_ms\n' +
+      '  global _mpu6050_previous_sample, _mpu6050_motion_active, _mpu6050_motion_hits, _mpu6050_motion_last_ms\n' +
       '  _sample = _mpu6050_sample()\n' +
       '  _now = time.ticks_ms()\n' +
       '  if any(_value != _value for _value in _sample):\n' +
       '    _mpu6050_previous_sample = None\n' +
       '    _mpu6050_motion_active = False\n' +
+      '    _mpu6050_motion_hits = 0\n' +
       '    return False\n' +
       '  if _mpu6050_previous_sample is None:\n' +
       '    _mpu6050_previous_sample = _sample\n' +
@@ -98,11 +101,16 @@
       '  _delta = math.sqrt(_dx * _dx + _dy * _dy + _dz * _dz)\n' +
       '  _mpu6050_previous_sample = _sample\n' +
       '  if _delta >= ' + movementThreshold + ':\n' +
-      '    _mpu6050_motion_active = True\n' +
+      '    _mpu6050_motion_hits = min(' + movementConfirmations + ', _mpu6050_motion_hits + 1)\n' +
+      '  else:\n' +
+      '    _mpu6050_motion_hits = 0\n' +
+      '  if not _mpu6050_motion_active:\n' +
+      '    if _mpu6050_motion_hits >= ' + movementConfirmations + ':\n' +
+      '      _mpu6050_motion_active = True\n' +
+      '      _mpu6050_motion_last_ms = _now\n' +
+      '  elif _delta >= ' + movementRelease + ':\n' +
       '    _mpu6050_motion_last_ms = _now\n' +
-      '  elif _mpu6050_motion_active and _delta >= ' + movementRelease + ':\n' +
-      '    _mpu6050_motion_last_ms = _now\n' +
-      '  elif _mpu6050_motion_active and time.ticks_diff(_now, _mpu6050_motion_last_ms) >= ' + movementHoldMs + ':\n' +
+      '  elif time.ticks_diff(_now, _mpu6050_motion_last_ms) >= ' + movementHoldMs + ':\n' +
       '    _mpu6050_motion_active = False\n' +
       '  return _mpu6050_motion_active\n' +
       '\n' +

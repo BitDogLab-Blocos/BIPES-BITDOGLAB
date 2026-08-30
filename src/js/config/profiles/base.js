@@ -187,6 +187,7 @@ function validateExternalMpu6050Profile(profile) {
     'TILT_RIGHT_SIGN',
     'MOVEMENT_THRESHOLD_MS2',
     'MOVEMENT_RELEASE_THRESHOLD_MS2',
+    'MOVEMENT_CONFIRMATION_SAMPLES',
     'MOVEMENT_HOLD_MS',
     'BALL_DEADZONE_G',
     'BALL_SMOOTHING',
@@ -247,6 +248,9 @@ function validateExternalMpu6050Profile(profile) {
   if (Number(mpu.MOVEMENT_THRESHOLD_MS2) <= 0 ||
       Number(mpu.MOVEMENT_RELEASE_THRESHOLD_MS2) < 0 ||
       Number(mpu.MOVEMENT_RELEASE_THRESHOLD_MS2) >= Number(mpu.MOVEMENT_THRESHOLD_MS2) ||
+      !Number.isInteger(Number(mpu.MOVEMENT_CONFIRMATION_SAMPLES)) ||
+      Number(mpu.MOVEMENT_CONFIRMATION_SAMPLES) < 1 ||
+      Number(mpu.MOVEMENT_CONFIRMATION_SAMPLES) > 5 ||
       Number(mpu.MOVEMENT_HOLD_MS) < 0) {
     throw new Error(prefix + 'possui limiares de movimento inválidos.');
   }
