@@ -1,0 +1,23 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Central de telemetria: observe giro, aceleracao, tensao e corrente ao mesmo tempo. -->
+  <block type="robo_inicializar" x="20" y="20">
+    <field name="ESPERA">5</field>
+    <next><block type="display_texto"><field name="TEXTO">Giro:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+      <next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="robo_giro_valor"></block></value>
+        <next><block type="display_texto"><field name="TEXTO">Acel X:</field><field name="LINHA">2</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+          <next><block type="display_mostrar_valor"><field name="LINHA">2</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="robo_aceleracao_x"></block></value>
+            <next><block type="display_texto"><field name="TEXTO">Bateria:</field><field name="LINHA">3</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+              <next><block type="display_mostrar_valor"><field name="LINHA">3</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="robo_tensao_bateria"></block></value>
+                <next><block type="display_texto"><field name="TEXTO">Corrente:</field><field name="LINHA">4</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+                  <next><block type="display_mostrar_valor"><field name="LINHA">4</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="robo_corrente_robo"></block></value>
+                    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">250</field></block></value></block></next>
+                  </block></next>
+                </block></next>
+              </block></next>
+            </block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

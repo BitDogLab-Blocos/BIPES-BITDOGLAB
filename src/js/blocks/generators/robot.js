@@ -270,11 +270,11 @@ function _setupRoboMovelDefinitions() {
     '      valor_giro = _robo_giro() if atualizar_giro else _robo_angulo\n' +
     '      _robo_escrever_valor_display(valor_giro, _robo_display_giro_linha_y, _robo_display_giro_alinhamento, "")\n' +
     '    if _robo_display_acel_x_ativo:\n' +
-    '      _robo_escrever_valor_display(_robo_aceleracao_x(), _robo_display_acel_x_linha_y, _robo_display_acel_x_alinhamento, " m/s2")\n' +
+    '      _robo_escrever_valor_display(_robo_aceleracao_x(), _robo_display_acel_x_linha_y, _robo_display_acel_x_alinhamento, "m/s2", 1)\n' +
     '    if _robo_display_acel_y_ativo:\n' +
-    '      _robo_escrever_valor_display(_robo_aceleracao_y(), _robo_display_acel_y_linha_y, _robo_display_acel_y_alinhamento, " m/s2")\n' +
+    '      _robo_escrever_valor_display(_robo_aceleracao_y(), _robo_display_acel_y_linha_y, _robo_display_acel_y_alinhamento, "m/s2", 1)\n' +
     '    if _robo_display_acel_z_ativo:\n' +
-    '      _robo_escrever_valor_display(_robo_aceleracao_z(), _robo_display_acel_z_linha_y, _robo_display_acel_z_alinhamento, " m/s2")\n' +
+    '      _robo_escrever_valor_display(_robo_aceleracao_z(), _robo_display_acel_z_linha_y, _robo_display_acel_z_alinhamento, "m/s2", 1)\n' +
     '    if _robo_display_tensao_bateria_ativo:\n' +
     '      _robo_escrever_valor_display(_robo_tensao_bateria(), _robo_display_tensao_bateria_linha_y, _robo_display_tensao_bateria_alinhamento, " V", 2)\n' +
     '    if _robo_display_corrente_robo_ativo:\n' +
@@ -287,13 +287,13 @@ function _setupRoboMovelDefinitions() {
     '  if casas is None:\n' +
     '    texto = str(round(valor, 4)) + sufixo\n' +
     '  else:\n' +
-    '    texto = ("{:." + str(casas) + "f}").format(valor) + sufixo\n' +
+    '    texto = str(round(valor, casas)) + sufixo\n' +
     '  if alinhamento == "LEFT":\n' +
     '    x = 3\n' +
     '    x_clear = 3\n' +
     '  elif alinhamento == "RIGHT":\n' +
-    '    x = max(3, 125 - len(texto) * 8)\n' +
-    '    x_clear = max(3, x - 40)\n' +
+    '    x = max(64, 128 - len(texto) * 8)\n' +
+    '    x_clear = 64\n' +
     '  else:\n' +
     '    x = max(3, (128 - len(texto) * 8) // 2)\n' +
     '    x_clear = max(3, x - 32)\n' +

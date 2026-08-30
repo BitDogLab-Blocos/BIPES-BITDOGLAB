@@ -226,7 +226,8 @@ Blockly.Python["display_mostrar_calculo"] = function(block) {
     code += '_calc_clear_x = 0\n';
     code += '_calc_clear_width = 128\n';
   } else { // RIGHT
-    code += '_calc_x = max(3, 125 - len(_calc_result) * 8)\n';
+    // Keep the value in the right half so a label on the left is preserved.
+    code += '_calc_x = max(64, 128 - len(_calc_result) * 8)\n';
     code += '_calc_clear_x = 64\n';
     code += '_calc_clear_width = 64\n';
   }
@@ -344,6 +345,13 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
     code += '_display_value = _mpu6050_formatar(' + valor + ', " deg")\n';
   } else if (valueBlock && valueBlock.type === 'mpu6050_aceleracao') {
     code += '_display_value = _mpu6050_formatar(' + valor + ', " m/s2")\n';
+  } else if (valueBlock && (
+    valueBlock.type === 'robo_aceleracao_x' ||
+    valueBlock.type === 'robo_aceleracao_y' ||
+    valueBlock.type === 'robo_aceleracao_z'
+  )) {
+    // Keep robot acceleration compact enough for the right half of the OLED.
+    code += '_display_value = str(round(' + valor + ', 1)) + "m/s2"\n';
   } else if (isRobotNumericValue) {
     code += '_display_value = str(round(' + valor + ', 4))' + sufixoUnidade + '\n';
   } else {
@@ -360,7 +368,8 @@ Blockly.Python["display_mostrar_valor"] = function(block) {
     code += '_display_x_clear = 0\n';
     code += '_display_clear_width = 128\n';
   } else { // RIGHT
-    code += '_display_x = max(3, 125 - len(_display_value) * 8)\n';
+    // Keep the value in the right half so a label on the left is preserved.
+    code += '_display_x = max(64, 128 - len(_display_value) * 8)\n';
     // Preserve a label written on the left of the same line.
     code += '_display_x_clear = 64\n';
     code += '_display_clear_width = 64\n';

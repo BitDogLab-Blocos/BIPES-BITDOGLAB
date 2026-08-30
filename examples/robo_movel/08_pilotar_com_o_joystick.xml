@@ -1,0 +1,7 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Controle livre: depois da calibracao, o joystick pilota o robo continuamente. -->
+  <block type="robo_inicializar" x="20" y="20">
+    <field name="ESPERA">5</field>
+    <next><block type="robo_joystick"></block></next>
+  </block>
+</xml>

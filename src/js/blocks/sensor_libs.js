@@ -193,16 +193,22 @@ class MPU6050:
     self.offset_z = 0.0
     self.is_ready = False
     self.last_error = None
+    self.identity = None
     self.initialize()
   def initialize(self):
     self.is_ready = False
     try:
-      identity = self.i2c.readfrom_mem(self.addr, MPU6050_WHO_AM_I, 1)[0]
-      if identity != MPU6050_ID:
-        raise RuntimeError("identidade inesperada: 0x{:02x}".format(identity))
+      # Preserve the robot's original startup sequence: wake/configure first.
+      # Some MPU6050 boards return an invalid WHO_AM_I value for a short time
+      # after power-up (and compatible clones may expose another ID), so this
+      # diagnostic must never prevent the gyro from becoming ready.
       self.i2c.writeto_mem(self.addr, 0x6B, b"\\x00")
       self.i2c.writeto_mem(self.addr, 0x1B, b"\\x00")
       self.i2c.writeto_mem(self.addr, 0x1C, b"\\x00")
+      try:
+        self.identity = self.i2c.readfrom_mem(self.addr, MPU6050_WHO_AM_I, 1)[0]
+      except Exception:
+        self.identity = None
       self.last_error = None
       self.is_ready = True
     except Exception as exc:
