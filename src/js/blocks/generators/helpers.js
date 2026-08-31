@@ -27,6 +27,27 @@ function _setupDisplayForConfig(displayConfig) {
 function _setupSharedExternalI2c() {
   var pins = BitdogLabConfig.PINS;
   var display = BitdogLabConfig.DISPLAY;
+  var frequency = display.I2C_FREQ;
+  var ultrasonic = BitdogLabConfig.EXTERNAL && BitdogLabConfig.EXTERNAL.ULTRASSONICO;
+
+  // Na V7, display, MPU6050 e ultrassonico ocupam o mesmo barramento e os
+  // mesmos pinos. Quando o ultrassonico esta no programa, todos permanecem
+  // na frequencia mais baixa aceita pelo conjunto. Isso evita reinicializar
+  // o I2C entre leituras, operacao que deixa o OLED instavel com o tempo.
+  if (ultrasonic &&
+      ultrasonic.I2C_BUS === display.I2C_BUS &&
+      ultrasonic.I2C_SDA === pins.I2C_SDA &&
+      ultrasonic.I2C_SCL === pins.I2C_SCL) {
+    try {
+      var workspace = Blockly.getMainWorkspace();
+      var usesUltrasonic = workspace && workspace.getAllBlocks(false).some(function(block) {
+        return block.type === 'ultrassonico_distancia' || block.type === 'ultrassonico_plotar';
+      });
+      if (usesUltrasonic) {
+        frequency = Math.min(Number(display.I2C_FREQ), Number(ultrasonic.I2C_FREQ));
+      }
+    } catch (_error) {}
+  }
 
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
@@ -34,7 +55,7 @@ function _setupSharedExternalI2c() {
     'i2c = I2C(' + display.I2C_BUS +
     ', scl=Pin(' + pins.I2C_SCL +
     '), sda=Pin(' + pins.I2C_SDA +
-    '), freq=' + display.I2C_FREQ + ')';
+    '), freq=' + frequency + ')';
 
   return 'i2c';
 }

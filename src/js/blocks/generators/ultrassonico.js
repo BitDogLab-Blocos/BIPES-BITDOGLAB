@@ -8,10 +8,10 @@
     return;
   }
 
-  // Display e MPU6050 usam o I2C de hardware a 400 kHz. O ultrassonico
-  // precisa de 100 kHz; durante sua leitura usamos SoftI2C e depois
-  // restauramos o objeto compartilhado para todos os consumidores.
-  function ensureUltrassonicoSharedBus() {
+  // Na V7, display, MPU6050 e ultrassonico ficam no mesmo I2C de hardware,
+  // fixo em 100 kHz. Na V6, o ultrassonico usa outros pinos e permanece em
+  // um SoftI2C independente. Nenhum dos casos troca o barramento em runtime.
+  function ensureUltrassonicoBus() {
     var profile = global.BitdogLabConfig || {};
     var pins = profile.PINS || {};
     var display = profile.DISPLAY || {};
@@ -20,54 +20,31 @@
     var freq = config.I2C_FREQ || 100000;
     var sda = config.I2C_SDA !== undefined ? config.I2C_SDA : pins.I2C_SDA;
     var scl = config.I2C_SCL !== undefined ? config.I2C_SCL : pins.I2C_SCL;
+    var sharesDisplayBus = bus === display.I2C_BUS &&
+      sda === pins.I2C_SDA && scl === pins.I2C_SCL;
 
-    Blockly.Python.definitions_['import_soft_i2c'] = 'from machine import SoftI2C';
+    var transport;
+    if (sharesDisplayBus) {
+      _setupSharedExternalI2c();
+      transport = 'i2c';
+    } else {
+      Blockly.Python.definitions_['import_soft_i2c'] = 'from machine import SoftI2C';
+      transport = 'SoftI2C(sda=Pin(' + sda + '), scl=Pin(' + scl + '), freq=' + freq + ')';
+    }
+
     Blockly.Python.definitions_['setup_ultrassonico'] =
       BitdogLabConfig.MARKERS.SETUP_START + '\n' +
-      '# _i2c_ultrassonico = I2C(' + bus + ', sda=Pin(' + sda + '), scl=Pin(' + scl + '), freq=' + freq + ')\n' +
-      '_i2c_ultrassonico = SoftI2C(sda=Pin(' + sda + '), scl=Pin(' + scl + '), freq=' + freq + ')\n' +
+      '_i2c_ultrassonico = ' + transport + '\n' +
       'try:\n' +
       '  _ultrassonico = SensorUltrassonico(_i2c_ultrassonico)\n' +
       'except Exception:\n' +
       '  _ultrassonico = None\n' +
       BitdogLabConfig.MARKERS.SETUP_END;
-    Blockly.Python.definitions_['func_ultrassonico_restore_shared_bus'] =
-      'def _ultrassonico_restore_shared_bus():\n' +
-      '  global i2c, _mpu6050_cache_ready\n' +
-      '  i2c = I2C(' + (display.I2C_BUS !== undefined ? display.I2C_BUS : bus) +
-        ', sda=Pin(' + (pins.I2C_SDA !== undefined ? pins.I2C_SDA : sda) +
-        '), scl=Pin(' + (pins.I2C_SCL !== undefined ? pins.I2C_SCL : scl) +
-        '), freq=' + (display.I2C_FREQ || 400000) + ')\n' +
-      '  try:\n' +
-      '    oled.i2c = i2c\n' +
-      '  except (NameError, AttributeError):\n' +
-      '    pass\n' +
-      '  try:\n' +
-      '    _mpu6050.set_i2c(i2c)\n' +
-      '    _mpu6050_cache_ready = False\n' +
-      '  except (NameError, AttributeError):\n' +
-      '    pass\n';
-    Blockly.Python.definitions_['func_ultrassonico_prepare_bus'] =
-      'def _ultrassonico_prepare_bus():\n' +
-      '  global _i2c_ultrassonico, _ultrassonico\n' +
-      '  try:\n' +
-      '    i2c.deinit()\n' +
-      '  except (NameError, AttributeError):\n' +
-      '    pass\n' +
-      '  _i2c_ultrassonico = SoftI2C(sda=Pin(' + sda + '), scl=Pin(' + scl + '), freq=' + freq + ')\n' +
-      '  if _ultrassonico is None:\n' +
-      '    try:\n' +
-      '      _ultrassonico = SensorUltrassonico(_i2c_ultrassonico)\n' +
-      '    except Exception:\n' +
-      '      _ultrassonico = None\n' +
-      '  else:\n' +
-      '    _ultrassonico.i2c = _i2c_ultrassonico\n';
-    return true;
   }
 
   function ensureUltrassonicoReadSupport() {
     _setupUltrassonicoDefinitions();
-    var usesSharedBus = ensureUltrassonicoSharedBus();
+    ensureUltrassonicoBus();
     Blockly.Python.definitions_['setup_ultrassonico_cache'] =
       '_ultrassonico_cache_valor = float("nan")\n' +
       '_ultrassonico_cache_tempo = 0\n' +
@@ -80,8 +57,6 @@
       '    _ultrassonico.ler()\n' +
       'except Exception:\n' +
       '  pass\n' +
-      'finally:\n' +
-      (usesSharedBus ? '  _ultrassonico_restore_shared_bus()\n' : '  pass\n') +
       BitdogLabConfig.MARKERS.SETUP_END;
     Blockly.Python.definitions_['func_ultrassonico_valor'] =
       'def _ultrassonico_valor():\n' +
@@ -89,14 +64,11 @@
       '  _agora = time.ticks_ms()\n' +
       '  if _ultrassonico_cache_pronto and time.ticks_diff(_agora, _ultrassonico_cache_tempo) < 50:\n' +
       '    return _ultrassonico_cache_valor\n' +
-      (usesSharedBus ? '  _ultrassonico_prepare_bus()\n' : '') +
       '  _cm = None\n' +
       '  try:\n' +
       '    _cm = _ultrassonico.ler() if _ultrassonico is not None else None\n' +
       '  except Exception:\n' +
       '    _cm = None\n' +
-      '  finally:\n' +
-      (usesSharedBus ? '    _ultrassonico_restore_shared_bus()\n' : '    pass\n') +
       '  _ultrassonico_cache_valor = float("nan") if _cm is None else _cm\n' +
       '  _ultrassonico_cache_tempo = time.ticks_ms()\n' +
       '  _ultrassonico_cache_pronto = True\n' +

@@ -1,0 +1,12 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Painel simples para testar a leitura do acelerometro e do ultrassonico juntos. -->
+  <block type="display_texto" x="20" y="20"><field name="TEXTO">Acel X:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+    <next><block type="display_mostrar_valor"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="mpu6050_aceleracao"><field name="AXIS">X</field><field name="SCL">3</field><field name="SDA">2</field></block></value>
+      <next><block type="display_texto"><field name="TEXTO">Dist cm:</field><field name="LINHA">2</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field>
+        <next><block type="display_mostrar_valor"><field name="LINHA">2</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="ultrassonico_distancia"><field name="TRIG">3</field><field name="ECHO">2</field></block></value>
+          <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>
