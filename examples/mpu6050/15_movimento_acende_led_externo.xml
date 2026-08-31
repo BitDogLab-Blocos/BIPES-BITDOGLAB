@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O canal vermelho do KY-016 na Conexao 0 acende somente enquanto o MPU6050 detecta movimento. -->
+  <block type="controls_ifelse" x="20" y="20">
+    <value name="IF0"><block type="mpu6050_foi_movimentado"><field name="SCL">3</field><field name="SDA">2</field></block></value>
+    <statement name="DO0"><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">0</field></block></statement>
+    <statement name="ELSE"><block type="led_externo_desligar"><field name="CHANNEL">R</field><field name="DIG">0</field></block></statement>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next>
+  </block>
+</xml>
