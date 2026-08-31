@@ -29,10 +29,38 @@ function _setupDisplayDefinitions(displayType) {
       '_display_height = 128';
   } else {
     Blockly.Python.definitions_['lib_ssd1306'] = SensorLibs.SSD1306;
+    // Restrito a V7 com ultrassonico no mesmo I2C. Os demais projetos
+    // continuam gerando o driver SSD1306 original, sem alterar seu fluxo.
+    var pagedWrites = BitdogLabConfig.VERSION === 'v7' &&
+      _usesUltrasonicOnSharedDisplayI2c();
+    var displayClass = 'SSD1306_I2C';
+    if (pagedWrites) {
+      displayClass = 'SSD1306_I2C_PAGED';
+      Blockly.Python.definitions_['lib_ssd1306_paged_transport'] =
+        'class SSD1306_I2C_PAGED(SSD1306_I2C):\n' +
+        '  def __init__(self, width, height, i2c, addr=0x3c, external_vcc=False):\n' +
+        '    self._last_pages = [None] * (height // 8)\n' +
+        '    super().__init__(width, height, i2c, addr, external_vcc)\n' +
+        '  def show(self):\n' +
+        '    _data = memoryview(self.buffer)[1:]\n' +
+        '    for _page in range(self.pages):\n' +
+        '      _start = _page * self.width\n' +
+        '      _page_data = bytes(_data[_start:_start + self.width])\n' +
+        '      if self._last_pages[_page] == _page_data:\n' +
+        '        continue\n' +
+        '      self.write_cmd(SET_COL_ADDR)\n' +
+        '      self.write_cmd(0)\n' +
+        '      self.write_cmd(self.width - 1)\n' +
+        '      self.write_cmd(SET_PAGE_ADDR)\n' +
+        '      self.write_cmd(_page)\n' +
+        '      self.write_cmd(_page)\n' +
+        '      self.i2c.writevto(self.addr, (b"\\x40", _page_data))\n' +
+        '      self._last_pages[_page] = _page_data\n';
+    }
     Blockly.Python.definitions_['setup_display'] =
       '_ssd1306_scan = i2c.scan()\n' +
       '_ssd1306_addr = 0x3C if 0x3C in _ssd1306_scan else (0x3D if 0x3D in _ssd1306_scan else 0x3C)\n' +
-      'oled = SSD1306_I2C(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c, addr=_ssd1306_addr)\n' +
+      'oled = ' + displayClass + '(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c, addr=_ssd1306_addr)\n' +
       '_display_width = ' + display.WIDTH + '\n' +
       '_display_height = ' + display.HEIGHT;
   }
