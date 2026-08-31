@@ -946,6 +946,184 @@ button.icon.medium:before  {
   }
 }
 
+/* Confirmation shown before entering the External Connections project. */
+body.bitdoglab-external-project-warning-open {
+  overflow: hidden;
+}
+
+.external-project-warning {
+  position: fixed;
+  inset: 0;
+  z-index: 100005;
+  display: grid;
+  box-sizing: border-box;
+  place-items: center;
+  overflow-y: auto;
+  padding: 28px 18px;
+  background: rgba(20, 13, 39, 0.86);
+}
+
+.external-project-warning[hidden] {
+  display: none;
+}
+
+.external-project-warning-card {
+  width: min(880px, 100%);
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 3px solid #7c3aed;
+  border-radius: 20px;
+  background: #fff;
+  color: #253247;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+}
+
+.external-project-warning-header {
+  padding: 24px 28px 20px;
+  background: linear-gradient(135deg, #4c1d95, #6d28d9);
+  color: #fff;
+  text-align: left;
+}
+
+.external-project-warning-eyebrow {
+  margin: 0 0 6px;
+  color: #ddd6fe;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.external-project-warning-header h2 {
+  margin: 0;
+  font-size: clamp(1.45rem, 4vw, 2rem);
+  line-height: 1.2;
+}
+
+.external-project-warning-header > p:last-child {
+  margin: 10px 0 0;
+  color: #f5f3ff;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.external-project-warning-grid {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 18px;
+  padding: 22px 28px 10px;
+  text-align: left;
+}
+
+.external-project-warning-grid section {
+  border: 1px solid #ddd6fe;
+  border-radius: 14px;
+  background: #faf8ff;
+  padding: 16px 18px;
+}
+
+.external-project-warning-grid h3 {
+  margin: 0 0 10px;
+  color: #4c1d95;
+  font-size: 1rem;
+}
+
+.external-project-warning-grid ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.external-project-warning-grid li {
+  margin: 7px 0;
+  line-height: 1.35;
+}
+
+.external-project-sensor-note,
+.external-project-safety {
+  margin: 12px 28px 0;
+  border-radius: 12px;
+  padding: 13px 15px;
+  text-align: left;
+  font-size: 0.94rem;
+  line-height: 1.48;
+}
+
+.external-project-sensor-note {
+  border-left: 5px solid #2563eb;
+  background: #eff6ff;
+  color: #1e3a8a;
+}
+
+.external-project-safety {
+  border-left: 5px solid #d97706;
+  background: #fff7ed;
+  color: #7c2d12;
+  font-weight: 650;
+}
+
+.external-project-warning-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 28px 24px;
+}
+
+.external-project-warning-actions button {
+  min-height: 44px;
+  border-radius: 10px;
+  padding: 10px 17px;
+  cursor: pointer;
+  font-size: 0.94rem;
+  font-weight: 800;
+}
+
+.external-project-cancel {
+  border: 1px solid #a8b2c1;
+  background: #fff;
+  color: #344054;
+}
+
+.external-project-confirm {
+  border: 1px solid #5b21b6;
+  background: #6d28d9;
+  color: #fff;
+}
+
+.external-project-warning-actions button:hover,
+.external-project-warning-actions button:focus-visible {
+  filter: brightness(0.94);
+  outline: 3px solid rgba(109, 40, 217, 0.25);
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .external-project-warning {
+    place-items: start center;
+    padding: 14px 10px;
+  }
+
+  .external-project-warning-grid {
+    grid-template-columns: 1fr;
+    padding: 16px 16px 6px;
+  }
+
+  .external-project-warning-header {
+    padding: 20px 18px 17px;
+  }
+
+  .external-project-sensor-note,
+  .external-project-safety {
+    margin-right: 16px;
+    margin-left: 16px;
+  }
+
+  .external-project-warning-actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+    padding: 18px 16px 20px;
+  }
+}
+
 /* Hardware guide notice shown after selecting a project. */
 .project-hardware-notice {
   position: fixed;

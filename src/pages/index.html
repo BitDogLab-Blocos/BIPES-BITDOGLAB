@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicons/bitdog-logo.jpg">
   <meta name="theme-color" content="#2980b9">
 
-  <link rel="stylesheet" href="../styles/main.css?ver=20260830mpuTilt1">
+  <link rel="stylesheet" href="../styles/main.css?ver=20260831externalEntry1">
   <link rel="stylesheet" href="../styles/visual-themes.css?ver=20260722b2">
   <link rel="stylesheet" href="../../device-file-manager/device-files.css?ver=20260718a8">
   <link rel="stylesheet" href="../styles/libs.css">
@@ -48,7 +48,7 @@
   <script src="../js/core/codegen/index.js?ver=20260809arch1"></script>
   <script src="../js/core/workspace/lifecycle.js?ver=20260809arch1"></script>
   <script src="../js/core/workspace/toolbox.js?ver=20260809arch1"></script>
-  <script src="../js/core/workspace/projects.js?ver=20260809arch1"></script>
+  <script src="../js/core/workspace/projects.js?ver=20260831externalEntry1"></script>
   <script src="../js/core/workspace/hints.js?ver=20260830mpuAccel1"></script>
   <script src="../js/core/workspace/index.js?ver=20260830mpuAccel1"></script>
   <script src="../js/core/app.js?ver=20260814device1"></script>
@@ -173,6 +173,35 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div id="external-project-warning" class="external-project-warning" role="dialog" aria-modal="true" aria-labelledby="externalProjectWarningTitle" hidden>
+    <section class="external-project-warning-card">
+      <header class="external-project-warning-header">
+        <p id="externalProjectWarningEyebrow" class="external-project-warning-eyebrow"></p>
+        <h2 id="externalProjectWarningTitle"></h2>
+        <p id="externalProjectWarningIntro"></p>
+      </header>
+
+      <div class="external-project-warning-grid">
+        <section>
+          <h3 id="externalProjectComponentsTitle"></h3>
+          <ul id="externalProjectComponents"></ul>
+        </section>
+        <section>
+          <h3 id="externalProjectMaterialsTitle"></h3>
+          <ul id="externalProjectMaterials"></ul>
+        </section>
+      </div>
+
+      <p id="externalProjectSensorNote" class="external-project-sensor-note"></p>
+      <p id="externalProjectSafety" class="external-project-safety"></p>
+
+      <footer class="external-project-warning-actions">
+        <button id="cancelExternalProject" class="external-project-cancel" type="button"></button>
+        <button id="confirmExternalProject" class="external-project-confirm" type="button"></button>
+      </footer>
+    </section>
   </div>
 
   <aside id="project-hardware-notice" class="project-hardware-notice" role="region" aria-live="polite" aria-labelledby="projectHardwareNoticeTitle" hidden>
