@@ -24,47 +24,31 @@ function _setupDisplayForConfig(displayConfig) {
   return displayType;
 }
 
-function _usesUltrasonicOnSharedDisplayI2c() {
-  var pins = BitdogLabConfig.PINS;
-  var display = BitdogLabConfig.DISPLAY;
-  var ultrasonic = BitdogLabConfig.EXTERNAL && BitdogLabConfig.EXTERNAL.ULTRASSONICO;
-
-  if (!ultrasonic ||
-      ultrasonic.I2C_BUS !== display.I2C_BUS ||
-      ultrasonic.I2C_SDA !== pins.I2C_SDA ||
-      ultrasonic.I2C_SCL !== pins.I2C_SCL) return false;
-
+function _getGeneratorWorkspace() {
   try {
-    var workspace = Blockly.getMainWorkspace();
-    return Boolean(workspace && workspace.getAllBlocks(false).some(function(block) {
-      return block.type === 'ultrassonico_distancia' || block.type === 'ultrassonico_plotar';
-    }));
+    return Blockly.getMainWorkspace();
   } catch (_error) {
-    return false;
+    return null;
   }
 }
 
-function _getSharedExternalI2cFrequency() {
-  var display = BitdogLabConfig.DISPLAY;
-  var ultrasonic = BitdogLabConfig.EXTERNAL && BitdogLabConfig.EXTERNAL.ULTRASSONICO;
-  if (_usesUltrasonicOnSharedDisplayI2c()) {
-    return Math.min(Number(display.I2C_FREQ), Number(ultrasonic.I2C_FREQ));
-  }
-  return display.I2C_FREQ;
+function _resolveSharedExternalI2cPolicy() {
+  return BitdogLabI2cPolicy.resolveSharedDisplayBus(
+    BitdogLabConfig,
+    _getGeneratorWorkspace()
+  );
 }
 
-function _setupSharedExternalI2c() {
-  var pins = BitdogLabConfig.PINS;
-  var display = BitdogLabConfig.DISPLAY;
-  var frequency = _getSharedExternalI2cFrequency();
+function _setupSharedExternalI2c(busPolicy) {
+  busPolicy = busPolicy || _resolveSharedExternalI2cPolicy();
 
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
   Blockly.Python.definitions_['setup_external_i2c'] =
-    'i2c = I2C(' + display.I2C_BUS +
-    ', scl=Pin(' + pins.I2C_SCL +
-    '), sda=Pin(' + pins.I2C_SDA +
-    '), freq=' + frequency + ')';
+    'i2c = I2C(' + busPolicy.bus +
+    ', scl=Pin(' + busPolicy.scl +
+    '), sda=Pin(' + busPolicy.sda +
+    '), freq=' + busPolicy.frequency + ')';
 
   return 'i2c';
 }

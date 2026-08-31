@@ -8,9 +8,6 @@
     return;
   }
 
-  // Na V7, display, MPU6050 e ultrassonico ficam no mesmo I2C de hardware,
-  // fixo em 100 kHz. Na V6, o ultrassonico usa outros pinos e permanece em
-  // um SoftI2C independente. Nenhum dos casos troca o barramento em runtime.
   function ensureUltrassonicoBus() {
     var profile = global.BitdogLabConfig || {};
     var pins = profile.PINS || {};

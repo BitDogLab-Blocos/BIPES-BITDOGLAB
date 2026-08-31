@@ -1,8 +1,13 @@
 // Generators for display blocks.
 'use strict';
 
+function _displaySetupDefinition(code) {
+  return BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+    code + '\n' +
+    BitdogLabConfig.MARKERS.SETUP_END;
+}
+
 function _setupDisplayDefinitions(displayType) {
-  var pins = BitdogLabConfig.PINS;
   var display = BitdogLabConfig.DISPLAY;
   displayType = displayType || DEFAULT_DISPLAY_TYPE;
 
@@ -17,52 +22,35 @@ function _setupDisplayDefinitions(displayType) {
   }
   Blockly.Python.activeDisplayType = displayType;
 
-  _setupSharedExternalI2c();
+  var busPolicy = _resolveSharedExternalI2cPolicy();
+  _setupSharedExternalI2c(busPolicy);
+  var transport = BitdogLabDisplayTransport.select(
+    BitdogLabConfig,
+    displayType,
+    busPolicy
+  );
 
   if (displayType === 'LARGE') {
     Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
-    Blockly.Python.definitions_['setup_display'] =
+    Blockly.Python.definitions_['setup_display'] = _displaySetupDefinition(
       '_sh1107_scan = i2c.scan()\n' +
       '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
-      'oled = SH1107_I2C(128, 128, i2c, address=_sh1107_addr, rotate=90)\n' +
+      'oled = ' + transport.driverClass + '(128, 128, i2c, address=_sh1107_addr, rotate=90)\n' +
       '_display_width = 128\n' +
-      '_display_height = 128';
+      '_display_height = 128'
+    );
   } else {
     Blockly.Python.definitions_['lib_ssd1306'] = SensorLibs.SSD1306;
-    // Restrito a V7 com ultrassonico no mesmo I2C. Os demais projetos
-    // continuam gerando o driver SSD1306 original, sem alterar seu fluxo.
-    var pagedWrites = BitdogLabConfig.VERSION === 'v7' &&
-      _usesUltrasonicOnSharedDisplayI2c();
-    var displayClass = 'SSD1306_I2C';
-    if (pagedWrites) {
-      displayClass = 'SSD1306_I2C_PAGED';
-      Blockly.Python.definitions_['lib_ssd1306_paged_transport'] =
-        'class SSD1306_I2C_PAGED(SSD1306_I2C):\n' +
-        '  def __init__(self, width, height, i2c, addr=0x3c, external_vcc=False):\n' +
-        '    self._last_pages = [None] * (height // 8)\n' +
-        '    super().__init__(width, height, i2c, addr, external_vcc)\n' +
-        '  def show(self):\n' +
-        '    _data = memoryview(self.buffer)[1:]\n' +
-        '    for _page in range(self.pages):\n' +
-        '      _start = _page * self.width\n' +
-        '      _page_data = bytes(_data[_start:_start + self.width])\n' +
-        '      if self._last_pages[_page] == _page_data:\n' +
-        '        continue\n' +
-        '      self.write_cmd(SET_COL_ADDR)\n' +
-        '      self.write_cmd(0)\n' +
-        '      self.write_cmd(self.width - 1)\n' +
-        '      self.write_cmd(SET_PAGE_ADDR)\n' +
-        '      self.write_cmd(_page)\n' +
-        '      self.write_cmd(_page)\n' +
-        '      self.i2c.writevto(self.addr, (b"\\x40", _page_data))\n' +
-        '      self._last_pages[_page] = _page_data\n';
+    if (transport.pythonDefinition) {
+      Blockly.Python.definitions_[transport.definitionKey] = transport.pythonDefinition;
     }
-    Blockly.Python.definitions_['setup_display'] =
+    Blockly.Python.definitions_['setup_display'] = _displaySetupDefinition(
       '_ssd1306_scan = i2c.scan()\n' +
       '_ssd1306_addr = 0x3C if 0x3C in _ssd1306_scan else (0x3D if 0x3D in _ssd1306_scan else 0x3C)\n' +
-      'oled = ' + displayClass + '(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c, addr=_ssd1306_addr)\n' +
+      'oled = ' + transport.driverClass + '(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c, addr=_ssd1306_addr)\n' +
       '_display_width = ' + display.WIDTH + '\n' +
-      '_display_height = ' + display.HEIGHT;
+      '_display_height = ' + display.HEIGHT
+    );
   }
 }
 

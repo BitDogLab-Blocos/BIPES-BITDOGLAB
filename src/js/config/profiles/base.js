@@ -46,8 +46,6 @@ var BitdogLabProfileBase = {
              line.indexOf('=I2C(') !== -1 ||
              line.indexOf(' = SSD1306_I2C(') !== -1 ||
              line.indexOf('=SSD1306_I2C(') !== -1 ||
-             line.indexOf(' = SSD1306_I2C_PAGED(') !== -1 ||
-             line.indexOf('=SSD1306_I2C_PAGED(') !== -1 ||
              line.indexOf(' = SH1107_I2C(') !== -1 ||
              line.indexOf('=SH1107_I2C(') !== -1 ||
              line.startsWith('LED_MATRIX = ') ||
