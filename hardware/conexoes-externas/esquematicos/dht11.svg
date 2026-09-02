@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Ligação do sensor DHT11</title>
+  <desc id="desc">DHT11 alimentado em 3,3 volts, sinal T graus e umidade relativa com resistor pull-up de 10 quilohms, terceiro pino sem conexão e quarto pino no terra.</desc>
+  <rect width="1200" height="700" fill="#ffffff"/>
+
+  <g fill="none" stroke="#000000" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter">
+    <!-- Corpo do sensor -->
+    <rect x="760" y="105" width="290" height="465" fill="#ffffff"/>
+
+    <!-- Alimentação e ramificação para o pull-up -->
+    <circle cx="190" cy="165" r="8" fill="#ffffff"/>
+    <line x1="198" y1="165" x2="760" y2="165"/>
+    <circle cx="390" cy="165" r="7" fill="#000000"/>
+
+    <!-- Pull-up de dados -->
+    <line x1="390" y1="165" x2="390" y2="215"/>
+    <rect x="360" y="215" width="60" height="115" fill="#ffffff"/>
+    <line x1="390" y1="330" x2="390" y2="370"/>
+
+    <!-- Saída de dados -->
+    <circle cx="190" cy="370" r="8" fill="#ffffff"/>
+    <line x1="198" y1="370" x2="760" y2="370"/>
+    <circle cx="390" cy="370" r="7" fill="#000000"/>
+
+    <!-- Pino sem conexão -->
+    <line x1="700" y1="455" x2="760" y2="455"/>
+    <line x1="687" y1="442" x2="713" y2="468"/>
+    <line x1="713" y1="442" x2="687" y2="468"/>
+
+    <!-- Terra -->
+    <line x1="600" y1="525" x2="760" y2="525"/>
+    <line x1="600" y1="525" x2="600" y2="615"/>
+    <line x1="550" y1="615" x2="650" y2="615"/>
+    <line x1="565" y1="632" x2="635" y2="632"/>
+    <line x1="582" y1="649" x2="618" y2="649"/>
+  </g>
+
+  <g fill="#000000" font-family="Arial, Helvetica, sans-serif">
+    <text x="215" y="154" font-size="32" font-weight="700">+3,3 V</text>
+    <text x="278" y="255" font-size="28" font-weight="700">R1</text>
+    <text x="265" y="292" font-size="28">10 kΩ</text>
+    <text x="215" y="360" font-size="31" font-weight="700">T°/UR</text>
+    <text x="215" y="402" font-size="27">Conexão 0 ou 1</text>
+    <text x="800" y="230" font-size="52" font-weight="700">DHT11</text>
+    <text x="790" y="158" font-size="26">1  VCC</text>
+    <text x="790" y="363" font-size="26">2  DATA</text>
+    <text x="790" y="448" font-size="26">3  NC</text>
+    <text x="790" y="518" font-size="26">4  GND</text>
+    <text x="630" y="462" font-size="26" font-weight="700">NC</text>
+    <text x="670" y="645" font-size="30" font-weight="700">GND</text>
+  </g>
+</svg>

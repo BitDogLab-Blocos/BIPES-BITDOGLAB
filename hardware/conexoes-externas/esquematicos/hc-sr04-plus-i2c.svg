@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Ligação do HC-SR04 Plus em I2C</title>
+  <desc id="desc">Sensor ultrassônico HC-SR04 Plus alimentado em 3,3 volts, SDA na Conexão 2, SCL na Conexão 3 e terra comum.</desc>
+  <rect width="1200" height="700" fill="#ffffff"/>
+
+  <g fill="none" stroke="#000000" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter">
+    <rect x="610" y="90" width="390" height="500" fill="#ffffff"/>
+
+    <circle cx="155" cy="175" r="8" fill="#ffffff"/>
+    <line x1="163" y1="175" x2="610" y2="175"/>
+
+    <circle cx="155" cy="300" r="8" fill="#ffffff"/>
+    <line x1="163" y1="300" x2="610" y2="300"/>
+
+    <circle cx="155" cy="405" r="8" fill="#ffffff"/>
+    <line x1="163" y1="405" x2="610" y2="405"/>
+
+    <line x1="470" y1="525" x2="610" y2="525"/>
+    <line x1="470" y1="525" x2="470" y2="610"/>
+    <line x1="420" y1="610" x2="520" y2="610"/>
+    <line x1="435" y1="627" x2="505" y2="627"/>
+    <line x1="452" y1="644" x2="488" y2="644"/>
+  </g>
+
+  <g fill="#000000" font-family="Arial, Helvetica, sans-serif">
+    <text x="185" y="165" font-size="32" font-weight="700">+3,3 V</text>
+    <text x="185" y="290" font-size="31" font-weight="700">SDA</text>
+    <text x="185" y="328" font-size="27">Conexão 2</text>
+    <text x="185" y="395" font-size="31" font-weight="700">SCL</text>
+    <text x="185" y="433" font-size="27">Conexão 3</text>
+    <text x="655" y="175" font-size="28">VCC</text>
+    <text x="655" y="300" font-size="28">ECHO / SDA</text>
+    <text x="655" y="405" font-size="28">TRIG / SCL</text>
+    <text x="655" y="525" font-size="28">GND</text>
+    <text x="674" y="245" font-size="39" font-weight="700">HC-SR04 PLUS</text>
+    <text x="760" y="355" font-size="34" font-weight="700">I²C</text>
+    <text x="695" y="480" font-size="25">M1 fechado · M2 aberto</text>
+    <text x="535" y="640" font-size="30" font-weight="700">GND</text>
+  </g>
+</svg>

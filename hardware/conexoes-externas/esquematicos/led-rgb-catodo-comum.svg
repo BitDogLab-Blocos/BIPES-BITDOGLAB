@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Ligação do LED RGB de cátodo comum</title>
+  <desc id="desc">Três entradas de cor, cada uma com resistor de 220 ohms, alimentam os três diodos do LED RGB, que compartilham o cátodo ligado ao terra.</desc>
+  <rect width="1200" height="700" fill="#ffffff"/>
+
+  <g fill="none" stroke="#000000" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter">
+    <!-- Entradas -->
+    <circle cx="105" cy="175" r="8" fill="#ffffff"/>
+    <line x1="113" y1="175" x2="315" y2="175"/>
+    <circle cx="105" cy="335" r="8" fill="#ffffff"/>
+    <line x1="113" y1="335" x2="315" y2="335"/>
+    <circle cx="105" cy="495" r="8" fill="#ffffff"/>
+    <line x1="113" y1="495" x2="315" y2="495"/>
+
+    <!-- Resistores de 220 ohms -->
+    <path d="M 315 175 L 330 175 L 342 145 L 360 205 L 378 145 L 396 205 L 414 145 L 432 205 L 444 175 L 465 175"/>
+    <path d="M 315 335 L 330 335 L 342 305 L 360 365 L 378 305 L 396 365 L 414 305 L 432 365 L 444 335 L 465 335"/>
+    <path d="M 315 495 L 330 495 L 342 465 L 360 525 L 378 465 L 396 525 L 414 465 L 432 525 L 444 495 L 465 495"/>
+    <line x1="465" y1="175" x2="555" y2="175"/>
+    <line x1="465" y1="335" x2="555" y2="335"/>
+    <line x1="465" y1="495" x2="555" y2="495"/>
+
+    <!-- Diodos emissores de luz -->
+    <path d="M 555 135 L 555 215 L 625 175 Z" fill="#ffffff"/>
+    <line x1="625" y1="135" x2="625" y2="215"/>
+    <line x1="625" y1="175" x2="780" y2="175"/>
+
+    <path d="M 555 295 L 555 375 L 625 335 Z" fill="#ffffff"/>
+    <line x1="625" y1="295" x2="625" y2="375"/>
+    <line x1="625" y1="335" x2="780" y2="335"/>
+
+    <path d="M 555 455 L 555 535 L 625 495 Z" fill="#ffffff"/>
+    <line x1="625" y1="455" x2="625" y2="535"/>
+    <line x1="625" y1="495" x2="780" y2="495"/>
+
+    <!-- Setas de emissão -->
+    <line x1="650" y1="145" x2="700" y2="110"/>
+    <path d="M 700 110 L 680 114 M 700 110 L 691 129"/>
+    <line x1="650" y1="305" x2="700" y2="270"/>
+    <path d="M 700 270 L 680 274 M 700 270 L 691 289"/>
+    <line x1="650" y1="465" x2="700" y2="430"/>
+    <path d="M 700 430 L 680 434 M 700 430 L 691 449"/>
+
+    <!-- Cátodo comum e terra -->
+    <line x1="780" y1="175" x2="780" y2="585"/>
+    <circle cx="780" cy="175" r="6" fill="#000000"/>
+    <circle cx="780" cy="335" r="6" fill="#000000"/>
+    <circle cx="780" cy="495" r="6" fill="#000000"/>
+    <line x1="730" y1="585" x2="830" y2="585"/>
+    <line x1="745" y1="602" x2="815" y2="602"/>
+    <line x1="762" y1="619" x2="798" y2="619"/>
+  </g>
+
+  <g fill="#000000" font-family="Arial, Helvetica, sans-serif">
+    <text x="135" y="158" font-size="29" font-weight="700">VERMELHO</text>
+    <text x="135" y="191" font-size="20">conexão escolhida</text>
+    <text x="135" y="318" font-size="29" font-weight="700">VERDE</text>
+    <text x="135" y="351" font-size="20">conexão escolhida</text>
+    <text x="135" y="478" font-size="29" font-weight="700">AZUL</text>
+    <text x="135" y="511" font-size="20">conexão escolhida</text>
+
+    <text x="345" y="135" font-size="24" font-weight="700">220 Ω</text>
+    <text x="345" y="295" font-size="24" font-weight="700">220 Ω</text>
+    <text x="345" y="455" font-size="24" font-weight="700">220 Ω</text>
+
+    <text x="835" y="285" font-size="35" font-weight="700">LED RGB</text>
+    <text x="835" y="327" font-size="28">cátodo comum</text>
+    <text x="835" y="608" font-size="30" font-weight="700">GND</text>
+  </g>
+</svg>

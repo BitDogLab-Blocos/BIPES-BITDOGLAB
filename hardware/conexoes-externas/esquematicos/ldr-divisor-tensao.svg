@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Divisor de tensão com LDR</title>
+  <desc id="desc">Circuito de 3,3 volts ligado a um resistor de 10 quilohms, saída Luz para ANA-IN e LDR ligado ao terra.</desc>
+
+  <rect width="1200" height="700" fill="#ffffff"/>
+
+  <g fill="none" stroke="#000000" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter">
+    <!-- Alimentação -->
+    <circle cx="500" cy="80" r="8" fill="#ffffff"/>
+    <line x1="500" y1="88" x2="500" y2="135"/>
+
+    <!-- R1: 10 kΩ -->
+    <line x1="500" y1="135" x2="500" y2="170"/>
+    <rect x="470" y="170" width="60" height="130" fill="#ffffff"/>
+    <line x1="500" y1="300" x2="500" y2="355"/>
+
+    <!-- Nó de saída -->
+    <circle cx="500" cy="355" r="7" fill="#000000"/>
+    <line x1="500" y1="355" x2="825" y2="355"/>
+    <circle cx="825" cy="355" r="8" fill="#ffffff"/>
+
+    <!-- LDR -->
+    <line x1="500" y1="355" x2="500" y2="395"/>
+    <circle cx="500" cy="485" r="90"/>
+    <rect x="470" y="420" width="60" height="130" fill="#ffffff"/>
+    <line x1="500" y1="395" x2="500" y2="420"/>
+    <line x1="500" y1="550" x2="500" y2="610"/>
+
+    <!-- Setas de luz incidindo no LDR -->
+    <line x1="655" y1="405" x2="585" y2="445"/>
+    <path d="M 585 445 L 605 421 M 585 445 L 616 447"/>
+    <line x1="675" y1="465" x2="605" y2="505"/>
+    <path d="M 605 505 L 625 481 M 605 505 L 636 507"/>
+
+    <!-- Terra -->
+    <line x1="500" y1="610" x2="500" y2="625"/>
+    <line x1="450" y1="625" x2="550" y2="625"/>
+    <line x1="465" y1="642" x2="535" y2="642"/>
+    <line x1="482" y1="659" x2="518" y2="659"/>
+  </g>
+
+  <g fill="#000000" font-family="Arial, Helvetica, sans-serif">
+    <text x="555" y="92" font-size="34" font-weight="700">+3,3 V</text>
+    <text x="340" y="220" font-size="30" font-weight="700">R1</text>
+    <text x="330" y="258" font-size="30">10 kΩ</text>
+    <text x="850" y="346" font-size="32" font-weight="700">LUZ</text>
+    <text x="850" y="384" font-size="28">ANA-IN (GPIO 28)</text>
+    <text x="285" y="475" font-size="30" font-weight="700">LDR1</text>
+    <text x="300" y="515" font-size="28">LDR</text>
+    <text x="565" y="655" font-size="30" font-weight="700">GND</text>
+  </g>
+</svg>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Ligação do módulo GY-521 com MPU-6050</title>
+  <desc id="desc">Módulo GY-521 alimentado em 3,3 volts, SDA na Conexão 2, SCL na Conexão 3, terra comum e demais pinos sem conexão.</desc>
+  <rect width="1200" height="700" fill="#ffffff"/>
+
+  <g fill="none" stroke="#000000" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter">
+    <rect x="605" y="55" width="380" height="590" fill="#ffffff"/>
+
+    <!-- I2C -->
+    <circle cx="150" cy="260" r="8" fill="#ffffff"/>
+    <line x1="158" y1="260" x2="605" y2="260"/>
+    <circle cx="150" cy="350" r="8" fill="#ffffff"/>
+    <line x1="158" y1="350" x2="605" y2="350"/>
+
+    <!-- Alimentação -->
+    <line x1="985" y1="135" x2="1080" y2="135"/>
+    <circle cx="1088" cy="135" r="8" fill="#ffffff"/>
+
+    <!-- Terra -->
+    <line x1="985" y1="205" x2="1050" y2="205"/>
+    <line x1="1050" y1="205" x2="1050" y2="590"/>
+    <line x1="1000" y1="590" x2="1100" y2="590"/>
+    <line x1="1015" y1="607" x2="1085" y2="607"/>
+    <line x1="1032" y1="624" x2="1068" y2="624"/>
+
+    <!-- Pinos não usados -->
+    <line x1="550" y1="430" x2="605" y2="430"/>
+    <line x1="538" y1="418" x2="562" y2="442"/>
+    <line x1="562" y1="418" x2="538" y2="442"/>
+
+    <line x1="550" y1="485" x2="605" y2="485"/>
+    <line x1="538" y1="473" x2="562" y2="497"/>
+    <line x1="562" y1="473" x2="538" y2="497"/>
+
+    <line x1="550" y1="540" x2="605" y2="540"/>
+    <line x1="538" y1="528" x2="562" y2="552"/>
+    <line x1="562" y1="528" x2="538" y2="552"/>
+
+    <line x1="550" y1="595" x2="605" y2="595"/>
+    <line x1="538" y1="583" x2="562" y2="607"/>
+    <line x1="562" y1="583" x2="538" y2="607"/>
+  </g>
+
+  <g fill="#000000" font-family="Arial, Helvetica, sans-serif">
+    <text x="180" y="250" font-size="31" font-weight="700">SCL</text>
+    <text x="180" y="286" font-size="27">Conexão 3</text>
+    <text x="180" y="340" font-size="31" font-weight="700">SDA</text>
+    <text x="180" y="376" font-size="27">Conexão 2</text>
+
+    <text x="650" y="105" font-size="40" font-weight="700">GY-521</text>
+    <text x="650" y="145" font-size="30">MPU-6050</text>
+    <text x="915" y="130" font-size="25">VCC</text>
+    <text x="915" y="200" font-size="25">GND</text>
+    <text x="635" y="253" font-size="25">SCL</text>
+    <text x="635" y="343" font-size="25">SDA</text>
+    <text x="635" y="423" font-size="25">XDA</text>
+    <text x="635" y="478" font-size="25">XCL</text>
+    <text x="635" y="533" font-size="25">AD0</text>
+    <text x="635" y="588" font-size="25">INT</text>
+
+    <text x="1110" y="145" font-size="31" font-weight="700">+3,3 V</text>
+    <text x="1090" y="620" font-size="29" font-weight="700">GND</text>
+    <text x="442" y="438" font-size="25" font-weight="700">NC</text>
+    <text x="442" y="493" font-size="25" font-weight="700">NC</text>
+    <text x="442" y="548" font-size="25" font-weight="700">NC</text>
+    <text x="442" y="603" font-size="25" font-weight="700">NC</text>
+  </g>
+</svg>
