@@ -1243,17 +1243,43 @@
     workspace.__bitdoglabContractValidation = true;
 
     var timer = null;
+    function validateAndShowPreventiveNotice() {
+      var warnings = validateWorkspace(workspace);
+      var notices = warnings.__bitdoglabNotices || {};
+      var expectedMessage = msg('externalLedOledV7Notice');
+      var hasExternalLedDisplayNotice = false;
+
+      for (var blockId in notices) {
+        if (!notices.hasOwnProperty(blockId)) continue;
+        if (notices[blockId].indexOf(expectedMessage) !== -1) {
+          hasExternalLedDisplayNotice = true;
+          break;
+        }
+      }
+
+      if (!hasExternalLedDisplayNotice) {
+        workspace.__bitdoglabExternalLedDisplayNoticeShown = false;
+        return;
+      }
+      if (workspace.__bitdoglabExternalLedDisplayNoticeShown) return;
+
+      workspace.__bitdoglabExternalLedDisplayNoticeShown = true;
+      if (typeof Code.showExternalLedDisplayNotice === 'function') {
+        Code.showExternalLedDisplayNotice();
+      }
+    }
+
     function schedule(event) {
       if (!shouldValidateEvent(event)) return;
       if (timer) clearTimeout(timer);
       timer = setTimeout(function() {
-        validateWorkspace(workspace);
+        validateAndShowPreventiveNotice();
       }, 120);
     }
 
     workspace.addChangeListener(schedule);
     setTimeout(function() {
-      validateWorkspace(workspace);
+      validateAndShowPreventiveNotice();
     }, 500);
   }
 

@@ -329,6 +329,29 @@ WorkspaceManager.showExternalLedConnectionReminder = function(block) {
   WorkspaceManager.showExternalLedWarningReminder(block || null);
 };
 
+WorkspaceManager.showExternalLedDisplayNotice = function() {
+  var closeId = 'closeExternalLedDisplayNotice';
+  var html = Code.LANG === 'en'
+    ? WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size:17px;">⚠️ Display and external LED</strong><br><br>' +
+      'Before powering the board, check the KY-016 wires. On BitDogLab V7, the Display uses Connections 2 and 3 and sends signals through them.<br><br>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;"><strong>Even if the blocks use only Connection 0 or 1, no R, G, or B wire may remain connected to Connection 2 or 3.</strong> A colour connected there may blink when the screen is updated.</div><br>' +
+      '<strong>With the Display in the project, use only Connections 0 and 1 for external LEDs.</strong>'
+    : WorkspaceManager.closeButton(closeId) +
+      '<strong style="font-size:17px;">⚠️ Display e LED externo</strong><br><br>' +
+      'Antes de ligar a placa, confira os fios do KY-016. Na BitDogLab V7, o Display usa as Conexões 2 e 3 e envia sinais por elas.<br><br>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;"><strong>Mesmo que os blocos usem somente a Conexão 0 ou 1, nenhum fio R, G ou B pode ficar conectado às Conexões 2 ou 3.</strong> Uma cor ligada nelas pode piscar junto com a atualização da tela.</div><br>' +
+      '<strong>Com o Display no projeto, use somente as Conexões 0 e 1 para LEDs externos.</strong>';
+
+  WorkspaceManager.createReminder({
+    id: 'externalLedDisplayNotice',
+    closeId: closeId,
+    background: '#d97706',
+    maxWidth: '560px',
+    html: html
+  });
+};
+
 WorkspaceManager.showExternalLedWarningReminder = function(block) {
   var closeId = 'closeExternalLedWarningNotification';
   var boardImage = '../assets/images/devices/conexoes-externas.png';
