@@ -51,6 +51,7 @@ var APP_MESSAGES = {
     reconnectUsbPins: 'Desconecte e reconecte a placa USB para aplicar a nova pinagem.',
     projectBasic: 'Básico',
     projectRobot: 'Robô Móvel',
+    projectRobotArrows: 'Robô Móvel — Setas',
     projectExternalConnections: 'Conexões Externas',
     projectExternalConnectionsDescription: 'Conecte componentes e crie projetos fora da placa',
     projectExternalConnectionsImageAlt: 'Base com conexões externas da BitDogLab',
@@ -63,7 +64,6 @@ var APP_MESSAGES = {
     robotModeCompleteAudience: 'Indicado para estudantes do Ensino Fundamental, Ensino Médio e Ensino Superior.',
     robotModeArrowsTitle: '⬆️ Modo por Setas',
     robotModeArrowsAudience: 'Indicado para crianças da Educação Infantil e dos anos iniciais do Ensino Fundamental.',
-    robotModeComingSoon: 'Em breve',
     robotModeBackLabel: 'Voltar aos projetos'
   },
   'en': {
@@ -106,6 +106,7 @@ var APP_MESSAGES = {
     reconnectUsbPins: 'Disconnect and reconnect the USB board to apply the new pin mapping.',
     projectBasic: 'Basics',
     projectRobot: 'Mobile Robot',
+    projectRobotArrows: 'Mobile Robot — Arrows',
     projectExternalConnections: 'External Connections',
     projectExternalConnectionsDescription: 'Connect components and build projects beyond the board',
     projectExternalConnectionsImageAlt: 'BitDogLab base with external connections',
@@ -118,7 +119,6 @@ var APP_MESSAGES = {
     robotModeCompleteAudience: 'Designed for elementary, secondary, and higher education students.',
     robotModeArrowsTitle: '⬆️ Arrow Mode',
     robotModeArrowsAudience: 'Designed for early childhood education and the first years of elementary school.',
-    robotModeComingSoon: 'Coming soon',
     robotModeBackLabel: 'Back to projects'
   }
 };
@@ -519,6 +519,7 @@ var CUSTOM_OVERRIDES = {
     '🎙️ Microfone': '🎙️ Microphone',
     '🌱 Sensores e Estufa': '🌱 Sensors and Greenhouse',
     'Controle Robô': 'Robot Control',
+    '⬆️ Setas do Robô': '⬆️ Robot Arrows',
     'Em breve: blocos de motor e sensores': 'Coming soon: motor control and sensor blocks',
     '⏱️ Tempo e Relógio': '⏱️ Time and Clock',
     '🔢 Números na Matriz de LEDs': '🔢 LED Matrix Numbers',

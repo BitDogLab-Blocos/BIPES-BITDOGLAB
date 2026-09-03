@@ -664,6 +664,11 @@
     </block>
   </category>
 
+  <!-- Projeto: Robo Movel por Setas -->
+  <category name="⬆️ Setas do Robô" colour="#2980b9" data-project="robo_setas">
+    <label text="🚧"></label>
+  </category>
+
   <!-- Projeto: Piano Musical -->
   <category name="🎹 Controle Piano" colour="#22c55e" data-project="piano">
     <block type="piano_interativo"></block>

@@ -6,6 +6,7 @@ var WorkspaceManager = window.WorkspaceManager || (window.WorkspaceManager = {})
 WorkspaceManager.PROJECT_NAMES = {
   'basico': 'projectBasic',
   'robo': 'projectRobot',
+  'robo_setas': 'projectRobotArrows',
   'externos': 'projectExternalConnections',
   'estufa': 'projectGreenhouse',
   'piano': 'projectPiano'
@@ -99,6 +100,8 @@ WorkspaceManager.PROJECT_HARDWARE_GUIDES = {
   }
 };
 
+WorkspaceManager.PROJECT_HARDWARE_GUIDES.robo_setas = WorkspaceManager.PROJECT_HARDWARE_GUIDES.robo;
+
 WorkspaceManager.showProjectHardwareNotice = function(project) {
   var notice = document.getElementById('project-hardware-notice');
   var guide = WorkspaceManager.PROJECT_HARDWARE_GUIDES[project];
@@ -141,6 +144,7 @@ WorkspaceManager.initProjectSelector = function() {
   var robotModeSelector = document.getElementById('robot-mode-selector');
   var closeRobotModeSelector = document.getElementById('closeRobotModeSelector');
   var selectCompleteRobotMode = document.getElementById('selectCompleteRobotMode');
+  var selectArrowRobotMode = document.getElementById('selectArrowRobotMode');
   var cards = document.querySelectorAll('.project-card');
   if (!btn || !modal) return;
 
@@ -148,8 +152,9 @@ WorkspaceManager.initProjectSelector = function() {
   btn.textContent = Code.getProjectLabel ? Code.getProjectLabel(saved) : (WorkspaceManager.PROJECT_NAMES[saved] || 'Básico');
 
   function highlightCard(project) {
+    var highlightedProject = project === 'robo_setas' ? 'robo' : project;
     cards.forEach(function(card) {
-      card.classList.toggle('selected', card.getAttribute('data-project') === project);
+      card.classList.toggle('selected', card.getAttribute('data-project') === highlightedProject);
     });
   }
 
@@ -272,6 +277,13 @@ WorkspaceManager.initProjectSelector = function() {
     selectCompleteRobotMode.addEventListener('click', function() {
       closeRobotModeSelection(false);
       activateProject('robo');
+    });
+  }
+
+  if (selectArrowRobotMode) {
+    selectArrowRobotMode.addEventListener('click', function() {
+      closeRobotModeSelection(false);
+      activateProject('robo_setas');
     });
   }
 

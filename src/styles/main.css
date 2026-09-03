@@ -1048,9 +1048,11 @@ body.bitdoglab-robot-mode-selector-open {
   border-color: #2980b9;
 }
 
-.robot-mode-option:disabled {
-  cursor: not-allowed;
-  opacity: 0.72;
+.robot-mode-option.is-arrows:hover,
+.robot-mode-option.is-arrows:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(41, 128, 185, 0.24);
+  outline: none;
 }
 
 .robot-mode-option strong {
@@ -1062,15 +1064,6 @@ body.bitdoglab-robot-mode-selector-open {
   max-width: 30rem;
   font-size: 1rem;
   line-height: 1.5;
-}
-
-.robot-mode-option small {
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: #dbeafe;
-  color: #1e40af;
-  font-size: 0.82rem;
-  font-weight: 800;
 }
 
 @media (max-width: 640px) {
