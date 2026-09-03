@@ -223,6 +223,12 @@ var BLOCKLY_MESSAGES = {
 };
 var CUSTOM_OVERRIDES = {
   'en': {
+    'Inicia o robô e prepara o sensor de giro.': 'Starts the robot and prepares the rotation sensor.',
+    'Avança uma casa por 1 segundo.': 'Moves forward one square for 1 second.',
+    'Gira 90 graus à esquerda e avança uma casa por 1 segundo.': 'Turns 90 degrees left and moves forward one square for 1 second.',
+    'Gira 90 graus à direita e avança uma casa por 1 segundo.': 'Turns 90 degrees right and moves forward one square for 1 second.',
+    'Gira 180 graus e avança uma casa por 1 segundo.': 'Turns 180 degrees and moves forward one square for 1 second.',
+    'Para o robô e finaliza a sequência.': 'Stops the robot and ends the sequence.',
     'resto de': 'remainder of',
     'Mostrar resultado na aba de mensagens:': 'Display result in the messages tab:',
     'No texto': 'Within text',

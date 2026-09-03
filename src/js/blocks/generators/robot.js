@@ -417,6 +417,36 @@ function _roboSetupCode(code) {
   return BitdogLabConfig.MARKERS.SETUP_START + '\n' + code + BitdogLabConfig.MARKERS.SETUP_END + '\n';
 }
 
+Blockly.Python['robo_setas_iniciar'] = function(_block) {
+  _setupRoboMovelDefinitions();
+  return _roboSetupCode('_robo_inicializar(5)\n');
+};
+
+Blockly.Python['robo_setas_frente'] = function(_block) {
+  _setupRoboMovelDefinitions();
+  return _roboSetupCode('_robo_frente(1)\n');
+};
+
+Blockly.Python['robo_setas_esquerda'] = function(_block) {
+  _setupRoboMovelDefinitions();
+  return _roboSetupCode('_robo_girar(90, "L")\n_robo_frente(1)\n');
+};
+
+Blockly.Python['robo_setas_direita'] = function(_block) {
+  _setupRoboMovelDefinitions();
+  return _roboSetupCode('_robo_girar(90, "R")\n_robo_frente(1)\n');
+};
+
+Blockly.Python['robo_setas_voltar'] = function(_block) {
+  _setupRoboMovelDefinitions();
+  return _roboSetupCode('_robo_girar(180, "R")\n_robo_frente(1)\n');
+};
+
+Blockly.Python['robo_setas_finalizar'] = function(_block) {
+  _setupRoboMovelDefinitions();
+  return _roboSetupCode('_robo_parar()\n');
+};
+
 Blockly.Python['robo_inicializar'] = function(block) {
   _setupRoboMovelDefinitions();
   var espera = Number(block.getFieldValue('ESPERA'));

@@ -666,7 +666,12 @@
 
   <!-- Projeto: Robo Movel por Setas -->
   <category name="⬆️ Setas do Robô" colour="#2980b9" data-project="robo_setas">
-    <label text="🚧"></label>
+    <block type="robo_setas_iniciar"></block>
+    <block type="robo_setas_frente"></block>
+    <block type="robo_setas_esquerda"></block>
+    <block type="robo_setas_direita"></block>
+    <block type="robo_setas_voltar"></block>
+    <block type="robo_setas_finalizar"></block>
   </category>
 
   <!-- Projeto: Piano Musical -->

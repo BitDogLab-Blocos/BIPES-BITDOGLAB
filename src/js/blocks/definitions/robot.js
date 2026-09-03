@@ -1,5 +1,71 @@
 'use strict';
 
+var ROBO_SETAS_ICON_BASE = '../assets/icons/robot-arrows/';
+var ROBO_SETAS_ICON_SIZE = 56;
+
+function appendRoboSetasIcon(block, icon, alt) {
+  block.appendDummyInput()
+      .appendField(new Blockly.FieldImage(
+          ROBO_SETAS_ICON_BASE + icon,
+          ROBO_SETAS_ICON_SIZE,
+          ROBO_SETAS_ICON_SIZE,
+          alt));
+}
+
+function initRoboSetasMovementBlock(block, icon, alt, tooltip) {
+  appendRoboSetasIcon(block, icon, alt);
+  block.setPreviousStatement(true, null);
+  block.setNextStatement(true, null);
+  block.setColour('#2563eb');
+  block.setTooltip(tooltip);
+  block.setHelpUrl('');
+}
+
+Blockly.Blocks['robo_setas_iniciar'] = {
+  init: function() {
+    appendRoboSetasIcon(this, 'start.svg', '🚩');
+    this.setNextStatement(true, null);
+    this.setColour('#16a34a');
+    this.setTooltip('Inicia o robô e prepara o sensor de giro.');
+    this.setHelpUrl('');
+    this.hat = 'cap';
+  }
+};
+
+Blockly.Blocks['robo_setas_frente'] = {
+  init: function() {
+    initRoboSetasMovementBlock(this, 'up.svg', '⬆️', 'Avança uma casa por 1 segundo.');
+  }
+};
+
+Blockly.Blocks['robo_setas_esquerda'] = {
+  init: function() {
+    initRoboSetasMovementBlock(this, 'left.svg', '⬅️', 'Gira 90 graus à esquerda e avança uma casa por 1 segundo.');
+  }
+};
+
+Blockly.Blocks['robo_setas_direita'] = {
+  init: function() {
+    initRoboSetasMovementBlock(this, 'right.svg', '➡️', 'Gira 90 graus à direita e avança uma casa por 1 segundo.');
+  }
+};
+
+Blockly.Blocks['robo_setas_voltar'] = {
+  init: function() {
+    initRoboSetasMovementBlock(this, 'down.svg', '⬇️', 'Gira 180 graus e avança uma casa por 1 segundo.');
+  }
+};
+
+Blockly.Blocks['robo_setas_finalizar'] = {
+  init: function() {
+    appendRoboSetasIcon(this, 'finish.svg', '🏁');
+    this.setPreviousStatement(true, null);
+    this.setColour('#dc2626');
+    this.setTooltip('Para o robô e finaliza a sequência.');
+    this.setHelpUrl('');
+  }
+};
+
 Blockly.Blocks['robo_inicializar'] = {
   init: function() {
     this.appendDummyInput()
