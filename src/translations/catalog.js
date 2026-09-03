@@ -57,7 +57,14 @@ var APP_MESSAGES = {
     projectGreenhouse: 'Estufa',
     projectPiano: 'Piano Musical',
     projectPianoTitle: 'Piano Musical',
-    projectPianoDescription: 'Toque notas no piano, veja na pauta e gere código para o buzzer'
+    projectPianoDescription: 'Toque notas no piano, veja na pauta e gere código para o buzzer',
+    robotModeDialogTitle: 'Escolha o modo do Robô Móvel',
+    robotModeCompleteTitle: '🧩 Modo Completo',
+    robotModeCompleteAudience: 'Indicado para estudantes do Ensino Fundamental, Ensino Médio e Ensino Superior.',
+    robotModeArrowsTitle: '⬆️ Modo por Setas',
+    robotModeArrowsAudience: 'Indicado para crianças da Educação Infantil e dos anos iniciais do Ensino Fundamental.',
+    robotModeComingSoon: 'Em breve',
+    robotModeBackLabel: 'Voltar aos projetos'
   },
   'en': {
     hello: 'Hello',
@@ -105,7 +112,14 @@ var APP_MESSAGES = {
     projectGreenhouse: 'Greenhouse',
     projectPiano: 'Musical Piano',
     projectPianoTitle: 'Musical Piano',
-    projectPianoDescription: 'Play notes on the piano, view the score, and generate buzzer code'
+    projectPianoDescription: 'Play notes on the piano, view the score, and generate buzzer code',
+    robotModeDialogTitle: 'Choose the Mobile Robot mode',
+    robotModeCompleteTitle: '🧩 Complete Mode',
+    robotModeCompleteAudience: 'Designed for elementary, secondary, and higher education students.',
+    robotModeArrowsTitle: '⬆️ Arrow Mode',
+    robotModeArrowsAudience: 'Designed for early childhood education and the first years of elementary school.',
+    robotModeComingSoon: 'Coming soon',
+    robotModeBackLabel: 'Back to projects'
   }
 };
 

@@ -946,6 +946,152 @@ button.icon.medium:before  {
   }
 }
 
+/* Choice shown before entering the existing Mobile Robot project. */
+body.bitdoglab-robot-mode-selector-open {
+  overflow: hidden;
+}
+
+.robot-mode-selector {
+  position: fixed;
+  inset: 0;
+  z-index: 100004;
+  display: grid;
+  box-sizing: border-box;
+  place-items: center;
+  overflow-y: auto;
+  padding: 28px 18px;
+  background: rgba(20, 13, 39, 0.9);
+}
+
+.robot-mode-selector[hidden] {
+  display: none;
+}
+
+.robot-mode-selector-card {
+  position: relative;
+  width: min(820px, 100%);
+  box-sizing: border-box;
+  padding: 34px;
+  border: 3px solid #7c3aed;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+}
+
+.robot-mode-selector-card > h2 {
+  margin: 0 44px 26px;
+  color: var(--bitdoglab-primary);
+  font-family: var(--font-primary);
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  line-height: 1.2;
+  text-align: center;
+}
+
+.robot-mode-selector-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--bitdoglab-primary);
+  cursor: pointer;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.robot-mode-selector-close:hover,
+.robot-mode-selector-close:focus-visible {
+  background: #ede9fe;
+  outline: 3px solid #f59e0b;
+}
+
+.robot-mode-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.robot-mode-option {
+  display: flex;
+  min-height: 220px;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 28px 24px;
+  border: 4px solid transparent;
+  border-radius: 20px;
+  background: #f8fafc;
+  color: #334155;
+  cursor: pointer;
+  font-family: var(--font-primary);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.robot-mode-option.is-complete {
+  border-color: #e67e22;
+}
+
+.robot-mode-option.is-complete:hover,
+.robot-mode-option.is-complete:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(230, 126, 34, 0.24);
+  outline: none;
+}
+
+.robot-mode-option.is-arrows {
+  border-color: #2980b9;
+}
+
+.robot-mode-option:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.robot-mode-option strong {
+  color: var(--bitdoglab-primary);
+  font-size: 1.55rem;
+}
+
+.robot-mode-option span {
+  max-width: 30rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.robot-mode-option small {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1e40af;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+@media (max-width: 640px) {
+  .robot-mode-selector-card {
+    padding: 30px 18px 20px;
+  }
+
+  .robot-mode-selector-card > h2 {
+    margin: 0 38px 20px 0;
+    text-align: left;
+  }
+
+  .robot-mode-options {
+    grid-template-columns: 1fr;
+  }
+
+  .robot-mode-option {
+    min-height: 170px;
+  }
+}
+
 /* Confirmation shown before entering the External Connections project. */
 body.bitdoglab-external-project-warning-open {
   overflow: hidden;

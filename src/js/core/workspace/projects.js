@@ -138,6 +138,9 @@ WorkspaceManager.initProjectSelector = function() {
   var externalWarning = document.getElementById('external-project-warning');
   var cancelExternalProject = document.getElementById('cancelExternalProject');
   var confirmExternalProject = document.getElementById('confirmExternalProject');
+  var robotModeSelector = document.getElementById('robot-mode-selector');
+  var closeRobotModeSelector = document.getElementById('closeRobotModeSelector');
+  var selectCompleteRobotMode = document.getElementById('selectCompleteRobotMode');
   var cards = document.querySelectorAll('.project-card');
   if (!btn || !modal) return;
 
@@ -215,6 +218,26 @@ WorkspaceManager.initProjectSelector = function() {
     document.body.classList.remove('bitdoglab-external-project-warning-open');
   }
 
+  function openRobotModeSelector() {
+    if (!robotModeSelector) {
+      activateProject('robo');
+      return;
+    }
+    modal.style.display = 'none';
+    robotModeSelector.hidden = false;
+    document.body.classList.add('bitdoglab-robot-mode-selector-open');
+    if (selectCompleteRobotMode) selectCompleteRobotMode.focus();
+  }
+
+  function closeRobotModeSelection(showProjects) {
+    if (robotModeSelector) robotModeSelector.hidden = true;
+    document.body.classList.remove('bitdoglab-robot-mode-selector-open');
+    if (showProjects) {
+      highlightCard(localStorage.getItem('bitdoglab_project') || 'basico');
+      modal.style.display = 'flex';
+    }
+  }
+
   btn.addEventListener('click', function() {
     highlightCard(localStorage.getItem('bitdoglab_project') || 'basico');
     modal.style.display = 'flex';
@@ -231,9 +254,32 @@ WorkspaceManager.initProjectSelector = function() {
         openExternalWarning();
         return;
       }
+      if (project === 'robo') {
+        openRobotModeSelector();
+        return;
+      }
       activateProject(project);
     });
   });
+
+  if (closeRobotModeSelector) {
+    closeRobotModeSelector.addEventListener('click', function() {
+      closeRobotModeSelection(true);
+    });
+  }
+
+  if (selectCompleteRobotMode) {
+    selectCompleteRobotMode.addEventListener('click', function() {
+      closeRobotModeSelection(false);
+      activateProject('robo');
+    });
+  }
+
+  if (robotModeSelector) {
+    robotModeSelector.addEventListener('click', function(event) {
+      if (event.target === robotModeSelector) closeRobotModeSelection(true);
+    });
+  }
 
   if (cancelExternalProject) {
     cancelExternalProject.addEventListener('click', function() {

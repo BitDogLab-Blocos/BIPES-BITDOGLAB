@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicons/bitdog-logo.jpg">
   <meta name="theme-color" content="#2980b9">
 
-  <link rel="stylesheet" href="../styles/main.css?ver=20260831externalEntry1">
+  <link rel="stylesheet" href="../styles/main.css?ver=20260903robotModes1">
   <link rel="stylesheet" href="../styles/visual-themes.css?ver=20260722b2">
   <link rel="stylesheet" href="../../device-file-manager/device-files.css?ver=20260718a8">
   <link rel="stylesheet" href="../styles/libs.css">
@@ -48,7 +48,7 @@
   <script src="../js/core/codegen/index.js?ver=20260809arch1"></script>
   <script src="../js/core/workspace/lifecycle.js?ver=20260809arch1"></script>
   <script src="../js/core/workspace/toolbox.js?ver=20260809arch1"></script>
-  <script src="../js/core/workspace/projects.js?ver=20260831externalEntry1"></script>
+  <script src="../js/core/workspace/projects.js?ver=20260903robotModes1"></script>
   <script src="../js/core/workspace/hints.js?ver=20260902externalLedDisplay1"></script>
   <script src="../js/core/workspace/index.js?ver=20260902externalLedDisplay1"></script>
   <script src="../js/core/app.js?ver=20260814device1"></script>
@@ -173,6 +173,31 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div id="robot-mode-selector" class="robot-mode-selector" role="dialog" aria-modal="true" aria-labelledby="robotModeDialogTitle" hidden>
+    <section class="robot-mode-selector-card">
+      <button
+        id="closeRobotModeSelector"
+        class="robot-mode-selector-close"
+        type="button"
+        aria-label="Voltar aos projetos"
+        data-i18n-aria-label="app.robotModeBackLabel">&times;</button>
+      <h2 id="robotModeDialogTitle" data-i18n="app.robotModeDialogTitle">Escolha o modo do Robô Móvel</h2>
+
+      <div class="robot-mode-options">
+        <button id="selectCompleteRobotMode" class="robot-mode-option is-complete" type="button">
+          <strong data-i18n="app.robotModeCompleteTitle">🧩 Modo Completo</strong>
+          <span data-i18n="app.robotModeCompleteAudience">Indicado para estudantes do Ensino Fundamental, Ensino Médio e Ensino Superior.</span>
+        </button>
+
+        <button class="robot-mode-option is-arrows" type="button" disabled aria-disabled="true">
+          <strong data-i18n="app.robotModeArrowsTitle">⬆️ Modo por Setas</strong>
+          <span data-i18n="app.robotModeArrowsAudience">Indicado para crianças da Educação Infantil e dos anos iniciais do Ensino Fundamental.</span>
+          <small data-i18n="app.robotModeComingSoon">Em breve</small>
+        </button>
+      </div>
+    </section>
   </div>
 
   <div id="external-project-warning" class="external-project-warning" role="dialog" aria-modal="true" aria-labelledby="externalProjectWarningTitle" hidden>
