@@ -114,5 +114,5 @@ Code.LANG = LanguageManager.getLang();
 
 if (!Code._translationScriptsInjected) {
   Code._translationScriptsInjected = true;
-  document.write('<script src="../translations/catalog.js?ver=20260903robotArrows1"></script>\n');
+  document.write('<script src="../translations/catalog.js?ver=20260903moonMission2"></script>\n');
 }

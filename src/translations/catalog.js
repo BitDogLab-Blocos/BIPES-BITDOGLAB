@@ -64,7 +64,11 @@ var APP_MESSAGES = {
     robotModeCompleteAudience: 'Indicado para estudantes do Ensino Fundamental, Ensino Médio e Ensino Superior.',
     robotModeArrowsTitle: '⬆️ Modo por Setas',
     robotModeArrowsAudience: 'Indicado para crianças da Educação Infantil e dos anos iniciais do Ensino Fundamental.',
-    robotModeBackLabel: 'Voltar aos projetos'
+    robotModeBackLabel: 'Voltar aos projetos',
+    arrowModeIntroTitle: '🤖 Programação em Tapetes',
+    arrowModeIntroDescription: 'Este modo foi desenvolvido para tapetes didáticos. Na Missão Lua, o robô sai de um ponto e chega a outro, desviando de obstáculos.',
+    arrowModeIntroStart: 'Começar',
+    arrowModeIntroImageAlt: 'Exemplo da Missão Lua com um rover e setas sobre o tapete'
   },
   'en': {
     hello: 'Hello',
@@ -119,7 +123,11 @@ var APP_MESSAGES = {
     robotModeCompleteAudience: 'Designed for elementary, secondary, and higher education students.',
     robotModeArrowsTitle: '⬆️ Arrow Mode',
     robotModeArrowsAudience: 'Designed for early childhood education and the first years of elementary school.',
-    robotModeBackLabel: 'Back to projects'
+    robotModeBackLabel: 'Back to projects',
+    arrowModeIntroTitle: '🤖 Programming with Mats',
+    arrowModeIntroDescription: 'This mode was designed for educational mats. In Moon Mission, the robot travels from one point to another while avoiding obstacles.',
+    arrowModeIntroStart: 'Start',
+    arrowModeIntroImageAlt: 'Moon Mission example with a rover and arrows on the mat'
   }
 };
 

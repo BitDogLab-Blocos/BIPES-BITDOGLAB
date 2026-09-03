@@ -1085,6 +1085,79 @@ body.bitdoglab-robot-mode-selector-open {
   }
 }
 
+/* Short visual example shown only when Arrow Mode is selected. */
+body.bitdoglab-arrow-mode-intro-open {
+  overflow: hidden;
+}
+
+.arrow-mode-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100005;
+  display: grid;
+  box-sizing: border-box;
+  place-items: center;
+  overflow-y: auto;
+  padding: 18px;
+  background: rgba(20, 13, 39, 0.88);
+}
+
+.arrow-mode-intro[hidden] {
+  display: none;
+}
+
+.arrow-mode-intro-card {
+  width: min(430px, 100%);
+  box-sizing: border-box;
+  padding: 16px;
+  border: 3px solid #2563eb;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+  color: #334155;
+  text-align: center;
+}
+
+.arrow-mode-intro-image {
+  display: block;
+  width: 100%;
+  max-height: 62vh;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.arrow-mode-intro-card h2 {
+  margin: 12px 0 4px;
+  color: var(--bitdoglab-primary);
+  font-family: var(--font-primary);
+  font-size: 1.45rem;
+}
+
+.arrow-mode-intro-card p {
+  margin: 0 0 12px;
+  font-size: 1rem;
+}
+
+.arrow-mode-intro-card button {
+  min-width: 150px;
+  padding: 11px 24px;
+  border: 0;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.arrow-mode-intro-card button:hover,
+.arrow-mode-intro-card button:focus-visible {
+  background: #1d4ed8;
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
 /* Confirmation shown before entering the External Connections project. */
 body.bitdoglab-external-project-warning-open {
   overflow: hidden;

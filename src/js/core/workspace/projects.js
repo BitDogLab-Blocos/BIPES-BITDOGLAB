@@ -145,6 +145,8 @@ WorkspaceManager.initProjectSelector = function() {
   var closeRobotModeSelector = document.getElementById('closeRobotModeSelector');
   var selectCompleteRobotMode = document.getElementById('selectCompleteRobotMode');
   var selectArrowRobotMode = document.getElementById('selectArrowRobotMode');
+  var arrowModeIntro = document.getElementById('arrow-mode-intro');
+  var startArrowMode = document.getElementById('startArrowMode');
   var cards = document.querySelectorAll('.project-card');
   if (!btn || !modal) return;
 
@@ -243,6 +245,18 @@ WorkspaceManager.initProjectSelector = function() {
     }
   }
 
+  function openArrowModeIntro() {
+    if (!arrowModeIntro) return;
+    arrowModeIntro.hidden = false;
+    document.body.classList.add('bitdoglab-arrow-mode-intro-open');
+    if (startArrowMode) startArrowMode.focus();
+  }
+
+  function closeArrowModeIntro() {
+    if (arrowModeIntro) arrowModeIntro.hidden = true;
+    document.body.classList.remove('bitdoglab-arrow-mode-intro-open');
+  }
+
   btn.addEventListener('click', function() {
     highlightCard(localStorage.getItem('bitdoglab_project') || 'basico');
     modal.style.display = 'flex';
@@ -284,6 +298,17 @@ WorkspaceManager.initProjectSelector = function() {
     selectArrowRobotMode.addEventListener('click', function() {
       closeRobotModeSelection(false);
       activateProject('robo_setas');
+      openArrowModeIntro();
+    });
+  }
+
+  if (startArrowMode) {
+    startArrowMode.addEventListener('click', closeArrowModeIntro);
+  }
+
+  if (arrowModeIntro) {
+    arrowModeIntro.addEventListener('click', function(event) {
+      if (event.target === arrowModeIntro) closeArrowModeIntro();
     });
   }
 
