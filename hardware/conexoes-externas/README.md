@@ -29,12 +29,13 @@ O objetivo não é usar obrigatoriamente todos os periféricos ao mesmo tempo. A
 | Arquivo | Conteúdo |
 | --- | --- |
 | [`placa-conexoes-externas-bitdoglab.fzz`](placa-conexoes-externas-bitdoglab.fzz) | Projeto editável da placa no Fritzing. |
+| [`gerber-placa-conexoes-externas-bitdoglab.zip`](gerber-placa-conexoes-externas-bitdoglab.zip) | Pacote Gerber pronto para cotação e fabricação da PCB. |
 | [`Lista_Componentes_Quantidades_Usadas.xlsx`](Lista_Componentes_Quantidades_Usadas.xlsx) | Lista de materiais, quantidades previstas e referências de compra. |
 | [`projeto-eletrico-conexoes-externas.png`](projeto-eletrico-conexoes-externas.png) | Prancha geral com todos os esquemáticos separados em quadros. |
 | [`projeto-eletrico-conexoes-externas.svg`](esquematicos/projeto-eletrico-conexoes-externas.svg) | Versão vetorial editável da prancha geral, armazenada com os demais esquemáticos. |
 | `README.md` | Guia de hardware, ligações e uso com os blocos. |
 
-Os **arquivos Gerber de fabricação**, incluindo as camadas necessárias para produzir a PCB, também serão disponibilizados neste diretório. Enquanto eles não estiverem publicados, o arquivo Fritzing deve ser tratado como a fonte editável do projeto, não como um pacote final enviado diretamente à fabricante.
+O arquivo `.fzz` é a fonte editável do projeto. Para fabricar a PCB, envie o pacote Gerber `.zip` diretamente ao serviço de fabricação, sem descompactá-lo. O pacote contém as camadas de cobre, máscara de solda, serigrafia e contorno da placa, além dos arquivos de furação e posicionamento de componentes.
 
 ## Esquemáticos elétricos
 
@@ -217,6 +218,6 @@ Os arquivos XML podem ser abertos no editor para estudar, executar e modificar o
 
 ## Fabricação e contribuições
 
-O projeto Fritzing pode ser aberto para estudar o esquemático, a disposição dos componentes e as trilhas da PCB. Ajustes de footprint, revisão elétrica e validação das dimensões devem ser feitos antes de gerar uma nova versão para fabricação.
+O projeto Fritzing pode ser aberto para estudar o esquemático, a disposição dos componentes e as trilhas da PCB. O pacote [`gerber-placa-conexoes-externas-bitdoglab.zip`](gerber-placa-conexoes-externas-bitdoglab.zip) reúne os arquivos necessários para solicitar a fabricação desta revisão da placa.
 
-Quando os Gerbers forem publicados, mantenha junto deles uma identificação de versão compatível com o arquivo `.fzz` e com a lista de componentes. Isso permite reproduzir a placa sem misturar revisões diferentes do circuito.
+Antes de enviar o pacote à fabricante, confira no visualizador Gerber as dimensões, o contorno, as furações e as camadas de cobre, máscara e serigrafia. Se o projeto `.fzz` for alterado, gere um novo pacote Gerber e mantenha os dois arquivos na mesma revisão para evitar a fabricação de uma versão desatualizada do circuito.
