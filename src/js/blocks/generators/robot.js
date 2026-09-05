@@ -43,6 +43,8 @@ function _setupRoboMovelDefinitions() {
     '_robo_zona_morta_giro = ' + robot.TURN_DEADZONE_DPS + '\n' +
     '_robo_timeout_min_ms = ' + robot.TURN_TIMEOUT_MIN_MS + '\n' +
     '_robo_timeout_ms_por_grau = ' + robot.TURN_TIMEOUT_MS_PER_DEGREE + '\n' +
+    '_robo_tempo_bloco_setas = 0.8\n' +
+    '_robo_orientacao_setas = 0\n' +
     '_robo_mpu_sda = ' + robot.MPU_I2C_SDA + '\n' +
     '_robo_mpu_scl = ' + robot.MPU_I2C_SCL + '\n' +
     '_robo_mpu_sda_alt = ' + (hasAltMpuI2c ? robot.MPU_I2C_SDA_ALT : 'None') + '\n' +
@@ -179,6 +181,12 @@ function _setupRoboMovelDefinitions() {
     '  _robo_giro_tempo = ticks_ms()\n' +
     '  print("Robo pronto!" if _robo_pronto else "Falha ao calibrar o robo.")\n' +
     '\n' +
+    'def _robo_iniciar_setas(espera=5):\n' +
+    '  global _robo_orientacao_setas\n' +
+    '  _robo_parar()\n' +
+    '  _robo_orientacao_setas = 0\n' +
+    '  _robo_inicializar(espera)\n' +
+    '\n' +
     'def _robo_girar(graus, direcao="L"):\n' +
     '  global _robo_angulo, _robo_giro_tempo\n' +
     '  if not _robo_pronto:\n' +
@@ -217,6 +225,21 @@ function _setupRoboMovelDefinitions() {
     '  _robo_giro_tempo = ticks_ms()\n' +
     '  sleep_ms(200)\n' +
     '  print("Giro", "esquerda" if direcao == "L" else "direita", round(acumulado, 1), "graus")\n' +
+    '\n' +
+    'def _robo_ir_para(direcao):\n' +
+    '  global _robo_orientacao_setas\n' +
+    '  direcao = int(direcao) % 4\n' +
+    '  giro = direcao - _robo_orientacao_setas\n' +
+    '  if giro < 0:\n' +
+    '    giro += 4\n' +
+    '  if giro == 1:\n' +
+    '    _robo_girar(90, "R")\n' +
+    '  elif giro == 2:\n' +
+    '    _robo_girar(180, "R")\n' +
+    '  elif giro == 3:\n' +
+    '    _robo_girar(90, "L")\n' +
+    '  _robo_frente(_robo_tempo_bloco_setas)\n' +
+    '  _robo_orientacao_setas = direcao\n' +
     '\n' +
     'def _robo_giro():\n' +
     '  global _robo_angulo, _robo_giro_tempo\n' +
@@ -419,27 +442,27 @@ function _roboSetupCode(code) {
 
 Blockly.Python['robo_setas_iniciar'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_inicializar(5)\n');
+  return _roboSetupCode('_robo_iniciar_setas(5)\n');
 };
 
 Blockly.Python['robo_setas_frente'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_frente(1)\n');
+  return _roboSetupCode('_robo_ir_para(0)\n');
 };
 
 Blockly.Python['robo_setas_esquerda'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_girar(90, "L")\n_robo_frente(1)\n');
+  return _roboSetupCode('_robo_ir_para(3)\n');
 };
 
 Blockly.Python['robo_setas_direita'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_girar(90, "R")\n_robo_frente(1)\n');
+  return _roboSetupCode('_robo_ir_para(1)\n');
 };
 
 Blockly.Python['robo_setas_voltar'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_girar(180, "R")\n_robo_frente(1)\n');
+  return _roboSetupCode('_robo_ir_para(2)\n');
 };
 
 Blockly.Python['robo_setas_finalizar'] = function(_block) {

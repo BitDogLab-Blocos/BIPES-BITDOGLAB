@@ -26,7 +26,7 @@ Blockly.Blocks['robo_setas_iniciar'] = {
     appendRoboSetasIcon(this, 'start.svg', '🚩');
     this.setNextStatement(true, null);
     this.setColour('#16a34a');
-    this.setTooltip('Inicia o robô e prepara o sensor de giro.');
+    this.setTooltip('Inicia o robô apontado para cima e prepara o sensor de giro.');
     this.setHelpUrl('');
     this.hat = 'cap';
   }
@@ -34,25 +34,25 @@ Blockly.Blocks['robo_setas_iniciar'] = {
 
 Blockly.Blocks['robo_setas_frente'] = {
   init: function() {
-    initRoboSetasMovementBlock(this, 'up.svg', '⬆️', 'Avança uma casa por 1 segundo.');
+    initRoboSetasMovementBlock(this, 'up.svg', '⬆️', 'Vai uma casa para cima no tapete.');
   }
 };
 
 Blockly.Blocks['robo_setas_esquerda'] = {
   init: function() {
-    initRoboSetasMovementBlock(this, 'left.svg', '⬅️', 'Gira 90 graus à esquerda e avança uma casa por 1 segundo.');
+    initRoboSetasMovementBlock(this, 'left.svg', '⬅️', 'Vai uma casa para a esquerda no tapete.');
   }
 };
 
 Blockly.Blocks['robo_setas_direita'] = {
   init: function() {
-    initRoboSetasMovementBlock(this, 'right.svg', '➡️', 'Gira 90 graus à direita e avança uma casa por 1 segundo.');
+    initRoboSetasMovementBlock(this, 'right.svg', '➡️', 'Vai uma casa para a direita no tapete.');
   }
 };
 
 Blockly.Blocks['robo_setas_voltar'] = {
   init: function() {
-    initRoboSetasMovementBlock(this, 'down.svg', '⬇️', 'Gira 180 graus e avança uma casa por 1 segundo.');
+    initRoboSetasMovementBlock(this, 'down.svg', '⬇️', 'Vai uma casa para baixo no tapete.');
   }
 };
 
