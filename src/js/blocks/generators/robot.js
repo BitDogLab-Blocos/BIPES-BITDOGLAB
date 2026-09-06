@@ -44,7 +44,9 @@ function _setupRoboMovelDefinitions() {
     '_robo_timeout_min_ms = ' + robot.TURN_TIMEOUT_MIN_MS + '\n' +
     '_robo_timeout_ms_por_grau = ' + robot.TURN_TIMEOUT_MS_PER_DEGREE + '\n' +
     '_robo_tempo_bloco_setas = 0.8\n' +
+    '_robo_pausa_setas_repetidas_ms = 300\n' +
     '_robo_orientacao_setas = 0\n' +
+    '_robo_ultima_direcao_setas = None\n' +
     '_robo_mpu_sda = ' + robot.MPU_I2C_SDA + '\n' +
     '_robo_mpu_scl = ' + robot.MPU_I2C_SCL + '\n' +
     '_robo_mpu_sda_alt = ' + (hasAltMpuI2c ? robot.MPU_I2C_SDA_ALT : 'None') + '\n' +
@@ -182,10 +184,16 @@ function _setupRoboMovelDefinitions() {
     '  print("Robo pronto!" if _robo_pronto else "Falha ao calibrar o robo.")\n' +
     '\n' +
     'def _robo_iniciar_setas(espera=5):\n' +
-    '  global _robo_orientacao_setas\n' +
+    '  global _robo_orientacao_setas, _robo_ultima_direcao_setas\n' +
     '  _robo_parar()\n' +
     '  _robo_orientacao_setas = 0\n' +
+    '  _robo_ultima_direcao_setas = None\n' +
     '  _robo_inicializar(espera)\n' +
+    '\n' +
+    'def _robo_finalizar_setas():\n' +
+    '  global _robo_ultima_direcao_setas\n' +
+    '  _robo_parar()\n' +
+    '  _robo_ultima_direcao_setas = None\n' +
     '\n' +
     'def _robo_girar(graus, direcao="L"):\n' +
     '  global _robo_angulo, _robo_giro_tempo\n' +
@@ -227,8 +235,10 @@ function _setupRoboMovelDefinitions() {
     '  print("Giro", "esquerda" if direcao == "L" else "direita", round(acumulado, 1), "graus")\n' +
     '\n' +
     'def _robo_ir_para(direcao):\n' +
-    '  global _robo_orientacao_setas\n' +
+    '  global _robo_orientacao_setas, _robo_ultima_direcao_setas\n' +
     '  direcao = int(direcao) % 4\n' +
+    '  if _robo_ultima_direcao_setas == direcao:\n' +
+    '    sleep_ms(_robo_pausa_setas_repetidas_ms)\n' +
     '  giro = direcao - _robo_orientacao_setas\n' +
     '  if giro < 0:\n' +
     '    giro += 4\n' +
@@ -240,6 +250,7 @@ function _setupRoboMovelDefinitions() {
     '    _robo_girar(90, "L")\n' +
     '  _robo_frente(_robo_tempo_bloco_setas)\n' +
     '  _robo_orientacao_setas = direcao\n' +
+    '  _robo_ultima_direcao_setas = direcao\n' +
     '\n' +
     'def _robo_giro():\n' +
     '  global _robo_angulo, _robo_giro_tempo\n' +
@@ -467,7 +478,7 @@ Blockly.Python['robo_setas_voltar'] = function(_block) {
 
 Blockly.Python['robo_setas_finalizar'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_parar()\n');
+  return _roboSetupCode('_robo_finalizar_setas()\n');
 };
 
 Blockly.Python['robo_inicializar'] = function(block) {

@@ -4,6 +4,9 @@
 Blockly.Python["controls_repeat_simple"] = function(block) {
   var times = block.getFieldValue('TIMES');
   var statements = Blockly.Python.statementToCode(block, 'DO');
+  var setupStart = (BitdogLabConfig.MARKERS && BitdogLabConfig.MARKERS.SETUP_START) || '# SETUP_BLOCK_START';
+  var setupEnd = (BitdogLabConfig.MARKERS && BitdogLabConfig.MARKERS.SETUP_END) || '# SETUP_BLOCK_END';
+  var containsSetupBlocks = statements.indexOf(setupStart) !== -1 || statements.indexOf(setupEnd) !== -1;
 
   // Remove initial indentation (Blockly adds 2 spaces)
   if (statements) {
@@ -12,6 +15,18 @@ Blockly.Python["controls_repeat_simple"] = function(block) {
 
   // Remove sound block markers
   statements = statements.replace(/# SOUND_BLOCK_START|# SOUND_BLOCK_END/g, '');
+
+  // A repeated setup action (for example, an arrow movement) must remain a
+  // single setup unit so the Python organizer preserves the loop and order.
+  if (containsSetupBlocks) {
+    statements = statements.replace(/^[ \t]*# SETUP_BLOCK_START[ \t]*\n?/gm, '');
+    statements = statements.replace(/^[ \t]*# SETUP_BLOCK_END[ \t]*\n?/gm, '');
+  }
+
+  function preserveSetupOrder(code) {
+    if (!containsSetupBlocks) return code;
+    return setupStart + '\n' + code + setupEnd + '\n';
+  }
 
   // CRITICAL FIX: Replace 'while True:' with limited iterations
   // This allows infinite-loop blocks to work inside "Repeat X times"
@@ -26,7 +41,7 @@ Blockly.Python["controls_repeat_simple"] = function(block) {
     } else {
       code += 'pass\n';
     }
-    return code;
+    return preserveSetupOrder(code);
   }
 
   // Normal case: Simple for loop
@@ -44,7 +59,7 @@ Blockly.Python["controls_repeat_simple"] = function(block) {
     code += '  pass\n';
   }
 
-  return code;
+  return preserveSetupOrder(code);
 };
 
 Blockly.Python["controls_repeat_forever"] = function(block) {
