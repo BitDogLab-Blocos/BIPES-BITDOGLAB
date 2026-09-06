@@ -1,0 +1,14 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Caminho em L: duas casas para cima e duas para a direita. -->
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next><block type="robo_setas_frente">
+      <next><block type="robo_setas_frente">
+        <next><block type="robo_setas_direita">
+          <next><block type="robo_setas_direita">
+            <next><block type="robo_setas_finalizar"></block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

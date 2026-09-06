@@ -1,0 +1,14 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O robo sobe duas casas, muda de sentido e retorna ao inicio. -->
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next><block type="robo_setas_frente">
+      <next><block type="robo_setas_frente">
+        <next><block type="robo_setas_voltar">
+          <next><block type="robo_setas_voltar">
+            <next><block type="robo_setas_finalizar"></block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

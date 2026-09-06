@@ -1,0 +1,8 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Primeiro contato: iniciar, subir uma casa e finalizar. -->
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next><block type="robo_setas_frente">
+      <next><block type="robo_setas_finalizar"></block></next>
+    </block></next>
+  </block>
+</xml>
