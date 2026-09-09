@@ -47,9 +47,9 @@ Blockly.Blocks['bloco_acender_led_brilho'] = {
     this.appendValueInput("COLOUR")
         .setCheck("Colour")
         .appendField("🔆 Ligar LED da cor");
-    this.appendDummyInput()
+    this.appendValueInput("INTENSITY")
+        .setCheck("Number")
         .appendField("com brilho de")
-        .appendField(new Blockly.FieldNumber(100, 0, 100), "INTENSITY")
         .appendField("%");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);

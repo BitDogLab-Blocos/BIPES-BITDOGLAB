@@ -218,7 +218,13 @@
     <block type="bloco_ligar_led"></block>
     <block type="bloco_desligar_led"></block>
     <block type="bloco_desligar_todos_leds"></block>
-    <block type="bloco_acender_led_brilho"></block>
+    <block type="bloco_acender_led_brilho">
+      <value name="INTENSITY">
+        <block type="math_number">
+          <field name="NUM">50</field>
+        </block>
+      </value>
+    </block>
     <block type="bloco_piscar_led"></block>
     <block type="piscar_led_lento"></block>
     <block type="bloco_animar_led_coracao"></block>

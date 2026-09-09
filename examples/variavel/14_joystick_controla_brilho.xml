@@ -37,7 +37,11 @@
             </value>
             <statement name="DO0">
               <block type="bloco_acender_led_brilho">
-                <field name="INTENSITY">100</field>
+                <value name="INTENSITY">
+                  <block type="math_number">
+                    <field name="NUM">100</field>
+                  </block>
+                </value>
                 <value name="COLOUR">
                   <block type="colour_blue"></block>
                 </value>
@@ -45,7 +49,11 @@
             </statement>
             <statement name="ELSE">
               <block type="bloco_acender_led_brilho">
-                <field name="INTENSITY">20</field>
+                <value name="INTENSITY">
+                  <block type="math_number">
+                    <field name="NUM">20</field>
+                  </block>
+                </value>
                 <value name="COLOUR">
                   <block type="colour_blue"></block>
                 </value>

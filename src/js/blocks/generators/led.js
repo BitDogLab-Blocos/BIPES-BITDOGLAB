@@ -73,7 +73,11 @@ Blockly.Python["bloco_acender_led_brilho"] = function(block) {
   Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
   Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
   var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(0, 0, 0)';
-  var intensity = block.getFieldValue('INTENSITY');
+  var intensity = Blockly.Python.valueToCode(
+    block,
+    'INTENSITY',
+    Blockly.Python.ORDER_ATOMIC
+  ) || '50';
   var code = 'led_vermelho.duty_u16(int(' + colour + '[0] * 257 * ' + intensity + ' / 100))\n';
   code += 'led_verde.duty_u16(int(' + colour + '[1] * 257 * ' + intensity + ' / 100))\n';
   code += 'led_azul.duty_u16(int(' + colour + '[2] * 257 * ' + intensity + ' / 100))\n';

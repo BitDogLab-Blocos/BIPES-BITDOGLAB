@@ -16,13 +16,13 @@
                   <block type="controls_ifelse">
                     <value name="IF0"><block type="logic_compare"><field name="OP">LTE</field><value name="A"><block type="variables_valor_guardado"><field name="VAR">distancia</field></block></value><value name="B"><block type="math_number"><field name="NUM">8</field></block></value></block></value>
                     <statement name="DO0">
-                      <block type="bloco_acender_led_brilho"><field name="INTENSITY">100</field><value name="COLOUR"><block type="colour_green"></block></value>
+                      <block type="bloco_acender_led_brilho"><value name="INTENSITY"><block type="math_number"><field name="NUM">100</field></block></value><value name="COLOUR"><block type="colour_green"></block></value>
                         <next><block type="preencher_matriz"><field name="INTENSITY">30</field><value name="COLOUR"><block type="colour_green"></block></value><next><block type="tocar_som_agudo"><field name="VOLUME">50</field><field name="DURATION">250</field></block></next></block>
                         </next>
                       </block>
                     </statement>
                     <statement name="ELSE">
-                      <block type="bloco_acender_led_brilho"><field name="INTENSITY">35</field><value name="COLOUR"><block type="colour_red"></block></value>
+                      <block type="bloco_acender_led_brilho"><value name="INTENSITY"><block type="math_number"><field name="NUM">35</field></block></value><value name="COLOUR"><block type="colour_red"></block></value>
                         <next><block type="preencher_matriz"><field name="INTENSITY">30</field><value name="COLOUR"><block type="colour_red"></block></value><next><block type="bipe_curto"></block></next></block>
                         </next>
                       </block>

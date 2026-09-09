@@ -14,8 +14,8 @@
             <next>
               <block type="controls_ifelse">
                 <value name="IF0"><block type="logic_compare"><field name="OP">GTE</field><value name="A"><block type="variables_valor_guardado"><field name="VAR">eixo_x</field></block></value><value name="B"><block type="math_number"><field name="NUM">64</field></block></value></block></value>
-                <statement name="DO0"><block type="bloco_acender_led_brilho"><field name="INTENSITY">100</field><value name="COLOUR"><block type="colour_blue"></block></value></block></statement>
-                <statement name="ELSE"><block type="bloco_acender_led_brilho"><field name="INTENSITY">20</field><value name="COLOUR"><block type="colour_blue"></block></value></block></statement>
+                <statement name="DO0"><block type="bloco_acender_led_brilho"><value name="INTENSITY"><block type="math_number"><field name="NUM">100</field></block></value><value name="COLOUR"><block type="colour_blue"></block></value></block></statement>
+                <statement name="ELSE"><block type="bloco_acender_led_brilho"><value name="INTENSITY"><block type="math_number"><field name="NUM">20</field></block></value><value name="COLOUR"><block type="colour_blue"></block></value></block></statement>
               </block>
             </next>
           </block>
