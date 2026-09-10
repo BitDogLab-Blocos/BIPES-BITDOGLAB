@@ -21,6 +21,7 @@
         id: String(category.id || ''),
         title: String(category.title || category.id || 'Exemplos'),
         icon: String(category.icon || '□'),
+        cssIcon: String(category.cssIcon || ''),
         examples: examples.map(function(example) {
           return {
             number: Number(example.number) || 0,
@@ -39,7 +40,7 @@
 
   ExamplesCatalog.load = function() {
     if (!catalogPromise) {
-      catalogPromise = fetch('../../examples/catalog.json?ver=20260910examples-repetition1')
+      catalogPromise = fetch('../../examples/catalog.json?ver=20260910examples-all1')
         .then(function(response) {
           if (!response.ok) throw new Error('Não foi possível carregar o catálogo de exemplos.');
           return response.json();

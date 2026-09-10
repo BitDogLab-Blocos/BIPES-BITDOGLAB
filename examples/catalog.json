@@ -6,23 +6,685 @@
       "title": "Repetição",
       "icon": "🔁",
       "examples": [
-        { "number": 1, "title": "Ligar e desligar LED", "description": "Repita uma sequência simples para controlar o LED.", "icon": "↔", "xml": "examples/repeticao/01_led_ligar_desligar.xml" },
-        { "number": 2, "title": "Ciclo RGB", "description": "Percorra cores diferentes usando um ciclo de repetição.", "icon": "RGB", "xml": "examples/repeticao/02_ciclo_rgb.xml" },
-        { "number": 3, "title": "Transição de cores", "description": "Repita uma transição gradual entre cores.", "icon": "→", "xml": "examples/repeticao/03_transicao_de_cores.xml" },
-        { "number": 4, "title": "Preencher e apagar a matriz", "description": "Repita os comandos para preencher e limpar a matriz.", "icon": "□", "xml": "examples/repeticao/04_matriz_preencher_apagar.xml" },
-        { "number": 5, "title": "Repetição aninhada", "description": "Use uma repetição dentro de outra para criar uma sequência.", "icon": "↻", "xml": "examples/repeticao/05_repeticao_aninhada_bipes.xml" },
-        { "number": 6, "title": "Números na matriz", "description": "Mostre uma sequência de números repetindo os comandos da matriz.", "icon": "123", "xml": "examples/repeticao/06_numeros_na_matriz.xml" },
-        { "number": 7, "title": "Emojis na matriz", "description": "Alterne expressões na matriz usando repetição.", "icon": ":)", "xml": "examples/repeticao/07_emojis_na_matriz.xml" },
-        { "number": 8, "title": "Animação repetida na matriz", "description": "Crie uma animação que se repete continuamente.", "icon": "✦", "xml": "examples/repeticao/08_animacao_matriz_repetida.xml" },
-        { "number": 9, "title": "Padrão de bipes", "description": "Repita um padrão sonoro com o buzzer.", "icon": "♫", "xml": "examples/repeticao/09_padrao_de_bipes.xml" },
-        { "number": 10, "title": "Sequência de notas", "description": "Toque uma sequência musical dentro de uma repetição.", "icon": "♪", "xml": "examples/repeticao/10_sequencia_de_notas.xml" },
-        { "number": 11, "title": "Contador no OLED", "description": "Atualize um contador no display OLED em cada repetição.", "icon": "123", "xml": "examples/repeticao/11_contador_no_oled.xml" },
-        { "number": 12, "title": "Contador com botão", "description": "Use um botão para controlar um contador repetitivo.", "icon": "+", "xml": "examples/repeticao/12_botao_contador.xml" },
-        { "number": 13, "title": "Painel com LED, OLED e som", "description": "Combine saídas visuais e sonoras em um ciclo.", "icon": "▤", "xml": "examples/repeticao/13_painel_led_oled_som.xml" },
-        { "number": 14, "title": "Matriz, OLED e som", "description": "Sincronize matriz, display e buzzer usando repetição.", "icon": "□", "xml": "examples/repeticao/14_matriz_oled_som.xml" },
-        { "number": 15, "title": "Jogo de reação", "description": "Execute uma sequência repetitiva para criar um desafio de reação.", "icon": "⚡", "xml": "examples/repeticao/15_jogo_de_reacao.xml" },
-        { "number": 16, "title": "Estação de alerta", "description": "Represente estados de alerta em um ciclo de monitoramento.", "icon": "!", "xml": "examples/repeticao/16_estacao_de_alerta.xml" },
-        { "number": 17, "title": "Circuito completo de treinamento", "description": "Combine vários componentes em um projeto de repetição.", "icon": "★", "xml": "examples/repeticao/17_circuito_completo_de_treinamento.xml" }
+        {
+          "number": 1,
+          "title": "Ligar e desligar LED",
+          "description": "Repita uma sequência simples para controlar o LED.",
+          "icon": "↔",
+          "xml": "examples/repeticao/01_led_ligar_desligar.xml"
+        },
+        {
+          "number": 2,
+          "title": "Ciclo RGB",
+          "description": "Percorra cores diferentes usando um ciclo de repetição.",
+          "icon": "RGB",
+          "xml": "examples/repeticao/02_ciclo_rgb.xml"
+        },
+        {
+          "number": 3,
+          "title": "Transição de cores",
+          "description": "Repita uma transição gradual entre cores.",
+          "icon": "→",
+          "xml": "examples/repeticao/03_transicao_de_cores.xml"
+        },
+        {
+          "number": 4,
+          "title": "Preencher e apagar a matriz",
+          "description": "Repita os comandos para preencher e limpar a matriz.",
+          "icon": "□",
+          "xml": "examples/repeticao/04_matriz_preencher_apagar.xml"
+        },
+        {
+          "number": 5,
+          "title": "Repetição aninhada",
+          "description": "Use uma repetição dentro de outra para criar uma sequência.",
+          "icon": "↻",
+          "xml": "examples/repeticao/05_repeticao_aninhada_bipes.xml"
+        },
+        {
+          "number": 6,
+          "title": "Números na matriz",
+          "description": "Mostre uma sequência de números repetindo os comandos da matriz.",
+          "icon": "123",
+          "xml": "examples/repeticao/06_numeros_na_matriz.xml"
+        },
+        {
+          "number": 7,
+          "title": "Emojis na matriz",
+          "description": "Alterne expressões na matriz usando repetição.",
+          "icon": ":)",
+          "xml": "examples/repeticao/07_emojis_na_matriz.xml"
+        },
+        {
+          "number": 8,
+          "title": "Animação repetida na matriz",
+          "description": "Crie uma animação que se repete continuamente.",
+          "icon": "✦",
+          "xml": "examples/repeticao/08_animacao_matriz_repetida.xml"
+        },
+        {
+          "number": 9,
+          "title": "Padrão de bipes",
+          "description": "Repita um padrão sonoro com o buzzer.",
+          "icon": "♫",
+          "xml": "examples/repeticao/09_padrao_de_bipes.xml"
+        },
+        {
+          "number": 10,
+          "title": "Sequência de notas",
+          "description": "Toque uma sequência musical dentro de uma repetição.",
+          "icon": "♪",
+          "xml": "examples/repeticao/10_sequencia_de_notas.xml"
+        },
+        {
+          "number": 11,
+          "title": "Contador no OLED",
+          "description": "Atualize um contador no display OLED em cada repetição.",
+          "icon": "123",
+          "xml": "examples/repeticao/11_contador_no_oled.xml"
+        },
+        {
+          "number": 12,
+          "title": "Contador com botão",
+          "description": "Use um botão para controlar um contador repetitivo.",
+          "icon": "+",
+          "xml": "examples/repeticao/12_botao_contador.xml"
+        },
+        {
+          "number": 13,
+          "title": "Painel com LED, OLED e som",
+          "description": "Combine saídas visuais e sonoras em um ciclo.",
+          "icon": "▤",
+          "xml": "examples/repeticao/13_painel_led_oled_som.xml"
+        },
+        {
+          "number": 14,
+          "title": "Matriz, OLED e som",
+          "description": "Sincronize matriz, display e buzzer usando repetição.",
+          "icon": "□",
+          "xml": "examples/repeticao/14_matriz_oled_som.xml"
+        },
+        {
+          "number": 15,
+          "title": "Jogo de reação",
+          "description": "Execute uma sequência repetitiva para criar um desafio de reação.",
+          "icon": "⚡",
+          "xml": "examples/repeticao/15_jogo_de_reacao.xml"
+        },
+        {
+          "number": 16,
+          "title": "Estação de alerta",
+          "description": "Represente estados de alerta em um ciclo de monitoramento.",
+          "icon": "!",
+          "xml": "examples/repeticao/16_estacao_de_alerta.xml"
+        },
+        {
+          "number": 17,
+          "title": "Circuito completo de treinamento",
+          "description": "Combine vários componentes em um projeto de repetição.",
+          "icon": "★",
+          "xml": "examples/repeticao/17_circuito_completo_de_treinamento.xml"
+        }
+      ]
+    },
+    {
+      "id": "matematica",
+      "title": "Matemática",
+      "icon": "🧮",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Número basico no OLED",
+          "description": "Primeiro contato: o botão A imprime um número literal e o OLED o apresenta sempre.",
+          "icon": "🧮",
+          "xml": "examples/matematica/1_numero_basico_no_oled.xml"
+        },
+        {
+          "number": 2,
+          "title": "Soma e subtracao",
+          "description": "Soma e subtração: combine blocos para construir uma expressão passo a passo.",
+          "icon": "🧮",
+          "xml": "examples/matematica/2_soma_e_subtracao.xml"
+        },
+        {
+          "number": 3,
+          "title": "Multiplicacao e divisao",
+          "description": "Multiplicação e divisão: a divisão interna transforma uma medida antes da multiplicação.",
+          "icon": "🧮",
+          "xml": "examples/matematica/3_multiplicacao_e_divisao.xml"
+        },
+        {
+          "number": 4,
+          "title": "Potencia e raiz",
+          "description": "Potência e raiz: primeiro calculamos 3² e depois extraímos a raiz quadrada.",
+          "icon": "🧮",
+          "xml": "examples/matematica/4_potencia_e_raiz.xml"
+        },
+        {
+          "number": 5,
+          "title": "Seno e cosseno",
+          "description": "Trigonometria: seno e cosseno usam radianos; pi/2 equivale a 90 graus.",
+          "icon": "🧮",
+          "xml": "examples/matematica/5_seno_e_cosseno.xml"
+        },
+        {
+          "number": 6,
+          "title": "Constantes matematicas",
+          "description": "Constantes: pi e e são úteis em fórmulas científicas e em temporizadores.",
+          "icon": "🧮",
+          "xml": "examples/matematica/6_constantes_matematicas.xml"
+        },
+        {
+          "number": 7,
+          "title": "Par ou impar",
+          "description": "Propriedade numérica: uma decisão transforma o resultado booleano em texto didático.",
+          "icon": "🧮",
+          "xml": "examples/matematica/7_par_ou_impar.xml"
+        },
+        {
+          "number": 8,
+          "title": "Divisibilidade",
+          "description": "Divisibilidade: teste se 42 pode ser dividido por 7 sem resto.",
+          "icon": "🧮",
+          "xml": "examples/matematica/8_divisibilidade.xml"
+        },
+        {
+          "number": 9,
+          "title": "Arredondar",
+          "description": "Arredondamento: arredondar para cima e para baixo ajuda a tomar decisões inteiras.",
+          "icon": "🧮",
+          "xml": "examples/matematica/9_arredondar.xml"
+        },
+        {
+          "number": 10,
+          "title": "Casas decimais",
+          "description": "Precisão: escolha quantas casas decimais serão preservadas no resultado.",
+          "icon": "🧮",
+          "xml": "examples/matematica/10_casas_decimais.xml"
+        },
+        {
+          "number": 11,
+          "title": "Resto da divisao",
+          "description": "Módulo: o resto é perfeito para alternar estados e criar ciclos repetitivos.",
+          "icon": "🧮",
+          "xml": "examples/matematica/11_resto_da_divisao.xml"
+        },
+        {
+          "number": 12,
+          "title": "Aleatorio inteiro",
+          "description": "Aleatoriedade inteira: limpa a tela, simula um dado de 1 a 6 e espera para a leitura.",
+          "icon": "🧮",
+          "xml": "examples/matematica/12_aleatorio_inteiro.xml"
+        },
+        {
+          "number": 13,
+          "title": "Aleatorio decimal",
+          "description": "Aleatoriedade decimal: limpa a tela, mostra uma fração de 0 a 1 e espera para acompanhar.",
+          "icon": "🧮",
+          "xml": "examples/matematica/13_aleatorio_decimal.xml"
+        },
+        {
+          "number": 14,
+          "title": "Formula media ponderada",
+          "description": "Projeto de fórmula: média ponderada de duas notas, usando várias operações aninhadas.",
+          "icon": "🧮",
+          "xml": "examples/matematica/14_formula_media_ponderada.xml"
+        },
+        {
+          "number": 15,
+          "title": "Botoes e pontuacao",
+          "description": "Projeto 1: botões alteram uma pontuação; matemática e OLED tornam o estado visível.",
+          "icon": "🧮",
+          "xml": "examples/matematica/15_botoes_e_pontuacao.xml"
+        },
+        {
+          "number": 16,
+          "title": "Conversao de segundos",
+          "description": "Projeto básico: um botão acrescenta dez segundos e a divisão converte o total para minutos.",
+          "icon": "🧮",
+          "xml": "examples/matematica/16_conversao_de_segundos.xml"
+        },
+        {
+          "number": 17,
+          "title": "Microfone e nivel de alerta",
+          "description": "Projeto 3: microfone vira número; o nível é mostrado no OLED e decide a cor do LED.",
+          "icon": "🧮",
+          "xml": "examples/matematica/17_microfone_e_nivel_de_alerta.xml"
+        },
+        {
+          "number": 18,
+          "title": "Joystick e faixa de brilho",
+          "description": "Projeto 4: posição X do joystick é centralizada com subtração e controla o LED RGB.",
+          "icon": "🧮",
+          "xml": "examples/matematica/18_joystick_e_faixa_de_brilho.xml"
+        },
+        {
+          "number": 19,
+          "title": "Buzzer e contador divisivel",
+          "description": "Projeto 5: cada aperto soma um; múltiplos de três têm som agudo, os demais um bipe curto.",
+          "icon": "🧮",
+          "xml": "examples/matematica/19_buzzer_e_contador_divisivel.xml"
+        },
+        {
+          "number": 20,
+          "title": "Matriz com paridade",
+          "description": "Projeto 6: contador no botão; a paridade escolhe a cor da matriz e o OLED mostra o número.",
+          "icon": "🧮",
+          "xml": "examples/matematica/20_matriz_com_paridade.xml"
+        },
+        {
+          "number": 21,
+          "title": "Valor absoluto",
+          "description": "Função de módulo: transforma um deslocamento negativo em distância positiva.",
+          "icon": "🧮",
+          "xml": "examples/matematica/21_valor_absoluto.xml"
+        },
+        {
+          "number": 22,
+          "title": "Logaritmo natural",
+          "description": "Logaritmo natural: uma ferramenta para escalas de crescimento e sensores.",
+          "icon": "🧮",
+          "xml": "examples/matematica/22_logaritmo_natural.xml"
+        },
+        {
+          "number": 23,
+          "title": "Logaritmo base10",
+          "description": "Logaritmo base 10: compare ordens de grandeza de uma medição.",
+          "icon": "🧮",
+          "xml": "examples/matematica/23_logaritmo_base10.xml"
+        },
+        {
+          "number": 24,
+          "title": "Exponencial",
+          "description": "Exponencial: e elevado a um valor aparece no OLED como resultado numérico.",
+          "icon": "🧮",
+          "xml": "examples/matematica/24_exponencial.xml"
+        },
+        {
+          "number": 25,
+          "title": "Potencia de dez",
+          "description": "Potência de dez: converta rapidamente uma ordem de grandeza.",
+          "icon": "🧮",
+          "xml": "examples/matematica/25_potencia_de_dez.xml"
+        },
+        {
+          "number": 26,
+          "title": "Tangente",
+          "description": "Tangente: use pi/4 (45 graus) para obter um resultado conhecido.",
+          "icon": "🧮",
+          "xml": "examples/matematica/26_tangente.xml"
+        },
+        {
+          "number": 27,
+          "title": "Arcos trigonometricos",
+          "description": "Arcos trigonométricos: três blocos mostram asin, acos e atan em linhas do OLED.",
+          "icon": "🧮",
+          "xml": "examples/matematica/27_arcos_trigonometricos.xml"
+        },
+        {
+          "number": 28,
+          "title": "Constantes avancadas",
+          "description": "Constantes avançadas: razão áurea, raiz de dois e raiz de meio na mesma expressão.",
+          "icon": "🧮",
+          "xml": "examples/matematica/28_constantes_avancadas.xml"
+        },
+        {
+          "number": 29,
+          "title": "Número positivo",
+          "description": "Propriedade positiva: condicional e OLED transformam Booleano em uma explicação legível.",
+          "icon": "🧮",
+          "xml": "examples/matematica/29_numero_positivo.xml"
+        },
+        {
+          "number": 30,
+          "title": "Número negativo",
+          "description": "Propriedade negativa: compare o sinal para criar uma decisão de segurança.",
+          "icon": "🧮",
+          "xml": "examples/matematica/30_numero_negativo.xml"
+        },
+        {
+          "number": 31,
+          "title": "Arredondamento normal",
+          "description": "Arredondamento normal: frações mais próximas viram um inteiro.",
+          "icon": "🧮",
+          "xml": "examples/matematica/31_arredondamento_normal.xml"
+        },
+        {
+          "number": 32,
+          "title": "Arredondamento para baixo",
+          "description": "Arredondamento para baixo: útil para descobrir quantos grupos completos cabem.",
+          "icon": "🧮",
+          "xml": "examples/matematica/32_arredondamento_para_baixo.xml"
+        },
+        {
+          "number": 33,
+          "title": "Area do circulo",
+          "description": "Fórmula clássica: área = pi vezes raio ao quadrado; troque o número do raio e experimente.",
+          "icon": "🧮",
+          "xml": "examples/matematica/33_area_do_circulo.xml"
+        },
+        {
+          "number": 34,
+          "title": "Modulo semáforo RGB",
+          "description": "Projeto 7: o contador do botão usa módulo para alternar LED vermelho e verde.",
+          "icon": "🧮",
+          "xml": "examples/matematica/34_modulo_semaforo_rgb.xml"
+        },
+        {
+          "number": 35,
+          "title": "Microfone escalado",
+          "description": "Projeto 8: nível do microfone é guardado, multiplicado e mostrado como escala de 0 a 50.",
+          "icon": "🧮",
+          "xml": "examples/matematica/35_microfone_escalado.xml"
+        },
+        {
+          "number": 36,
+          "title": "Joystick distancia do centro",
+          "description": "Projeto 9: subtraia o centro do joystick e use valor absoluto como distância.",
+          "icon": "🧮",
+          "xml": "examples/matematica/36_joystick_distancia_do_centro.xml"
+        },
+        {
+          "number": 37,
+          "title": "Dado aleatorio com buzzer",
+          "description": "Projeto 10: sorteio de 1 a 6, memória numérica, OLED e som diferente para valores altos.",
+          "icon": "🧮",
+          "xml": "examples/matematica/37_dado_aleatorio_com_buzzer.xml"
+        },
+        {
+          "number": 38,
+          "title": "Matriz contador modulo",
+          "description": "Projeto 11: contador com botão; módulo escolhe entre duas cores na matriz 5x5.",
+          "icon": "🧮",
+          "xml": "examples/matematica/38_matriz_contador_modulo.xml"
+        },
+        {
+          "number": 39,
+          "title": "Calculadora de desconto",
+          "description": "Projeto 12: preço com desconto = preço vezes (100 - percentual) dividido por 100.",
+          "icon": "🧮",
+          "xml": "examples/matematica/39_calculadora_de_desconto.xml"
+        },
+        {
+          "number": 40,
+          "title": "Media de três notas",
+          "description": "Projeto 13: some três notas e divida pela quantidade; uma fórmula simples e remixável.",
+          "icon": "🧮",
+          "xml": "examples/matematica/40_media_de_tres_notas.xml"
+        },
+        {
+          "number": 41,
+          "title": "Constante infinito",
+          "description": "Constante especial: infinito ajuda a conversar sobre limites e valores fora da faixa.",
+          "icon": "🧮",
+          "xml": "examples/matematica/41_constante_infinito.xml"
+        },
+        {
+          "number": 42,
+          "title": "Número impar",
+          "description": "Propriedade ímpar: o mesmo bloco de propriedades pode responder a perguntas diferentes.",
+          "icon": "🧮",
+          "xml": "examples/matematica/42_numero_impar.xml"
+        },
+        {
+          "number": 43,
+          "title": "Jogo de pontos e niveis",
+          "description": "Projeto grande 1: botões alteram pontos, faixas controlam LED, conta e som; o OLED explica o placar.",
+          "icon": "🧮",
+          "xml": "examples/matematica/43_jogo_de_pontos_e_niveis.xml"
+        },
+        {
+          "number": 44,
+          "title": "Desafio de precisao com joystick",
+          "description": "Projeto grande 2: distância ao centro do joystick vira pontuação, alvo na matriz e feedback sonoro.",
+          "icon": "🧮",
+          "xml": "examples/matematica/44_desafio_de_precisao_com_joystick.xml"
+        },
+        {
+          "number": 45,
+          "title": "Painel de ritmo com microfone",
+          "description": "Projeto grande 3: o microfone mede intensidade, a matemática cria escala e os periféricos respondem.",
+          "icon": "🧮",
+          "xml": "examples/matematica/45_painel_de_ritmo_com_microfone.xml"
+        }
+      ]
+    },
+    {
+      "id": "variavel",
+      "title": "Variáveis",
+      "icon": "📦",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Contador de pontos no display OLED",
+          "description": "Contador de pontos: A soma, B tira e o OLED mostra o valor guardado.",
+          "icon": "📦",
+          "xml": "examples/variavel/1_contador_de_pontos_no_display_oled.xml"
+        },
+        {
+          "number": 2,
+          "title": "Placar com LED de alerta",
+          "description": "Placar: os botoes mudam pontos; verde indica 10 ou mais, vermelho indica abaixo de 10.",
+          "icon": "📦",
+          "xml": "examples/variavel/2_placar_com_led_de_alerta.xml"
+        },
+        {
+          "number": 3,
+          "title": "Vidas de jogo na matriz",
+          "description": "Vidas: um erro tira uma vida e a matriz mostra o numero restante.",
+          "icon": "📦",
+          "xml": "examples/variavel/3_vidas_de_jogo_na_matriz.xml"
+        },
+        {
+          "number": 4,
+          "title": "Nivel de brilho do LED",
+          "description": "Brilho: A e B mudam o nivel; faixas da variavel selecionam brilhos tangiveis do LED.",
+          "icon": "📦",
+          "xml": "examples/variavel/4_nivel_de_brilho_do_led.xml"
+        },
+        {
+          "number": 5,
+          "title": "Velocidade de animacao na matriz",
+          "description": "Velocidade: os botoes mudam tempo e a faixa escolhe piscar rapido ou devagar.",
+          "icon": "📦",
+          "xml": "examples/variavel/5_velocidade_de_animacao_na_matriz.xml"
+        },
+        {
+          "number": 6,
+          "title": "Medidor de apertos rapidos",
+          "description": "Medidor de apertos: cada clique no botao A soma uma unidade e aparece no OLED.",
+          "icon": "📦",
+          "xml": "examples/variavel/6_medidor_de_apertos_rapidos.xml"
+        },
+        {
+          "number": 7,
+          "title": "Contagem regressiva com display",
+          "description": "Contagem regressiva: A tira uma unidade; ao chegar a zero o LED vermelho acende.",
+          "icon": "📦",
+          "xml": "examples/variavel/7_contagem_regressiva_com_display.xml"
+        },
+        {
+          "number": 8,
+          "title": "Trava de minimo em zero",
+          "description": "Trava em zero: B so tira um ponto quando a memoria ainda e maior que zero.",
+          "icon": "📦",
+          "xml": "examples/variavel/8_trava_de_minimo_em_zero.xml"
+        },
+        {
+          "number": 9,
+          "title": "Limite maximo de pontos",
+          "description": "Limite maximo: A soma apenas abaixo de 20; em 20 o LED verde acende.",
+          "icon": "📦",
+          "xml": "examples/variavel/9_limite_maximo_de_pontos.xml"
+        },
+        {
+          "number": 10,
+          "title": "Alternador de estado do LED",
+          "description": "Alternador: o mesmo botao troca estado entre zero e um para ligar ou desligar o LED.",
+          "icon": "📦",
+          "xml": "examples/variavel/10_alternador_de_estado_do_led.xml"
+        },
+        {
+          "number": 11,
+          "title": "Nivel de volume do buzzer",
+          "description": "Volume: os botoes mudam a memoria e faixas escolhem volumes tangiveis do buzzer.",
+          "icon": "📦",
+          "xml": "examples/variavel/11_nivel_de_volume_do_buzzer.xml"
+        },
+        {
+          "number": 12,
+          "title": "Duracao do som",
+          "description": "Duracao: A aumenta, B diminui e faixas escolhem um som curto ou longo.",
+          "icon": "📦",
+          "xml": "examples/variavel/12_duracao_do_som.xml"
+        },
+        {
+          "number": 13,
+          "title": "Joystick como medidor no OLED",
+          "description": "Medidor do joystick: o loop guarda a posicao X e o OLED mostra a memoria.",
+          "icon": "📦",
+          "xml": "examples/variavel/13_joystick_como_medidor_no_oled.xml"
+        },
+        {
+          "number": 14,
+          "title": "Joystick controla brilho",
+          "description": "Joystick e brilho: a posicao vira memoria e faixas selecionam LED fraco ou forte.",
+          "icon": "📦",
+          "xml": "examples/variavel/14_joystick_controla_brilho.xml"
+        },
+        {
+          "number": 15,
+          "title": "Joystick controla posicao na matriz",
+          "description": "Exemplo de variáveis: Joystick controla posicao na matriz.",
+          "icon": "📦",
+          "xml": "examples/variavel/15_joystick_controla_posicao_na_matriz.xml"
+        },
+        {
+          "number": 16,
+          "title": "Microfone como medidor numerico",
+          "description": "Microfone: o loop guarda o nivel do som e mostra a memoria no OLED.",
+          "icon": "📦",
+          "xml": "examples/variavel/16_microfone_como_medidor_numerico.xml"
+        },
+        {
+          "number": 17,
+          "title": "Microfone acende LED por limiar",
+          "description": "Alerta sonoro: o microfone atualiza som; acima do limite o LED vermelho acende.",
+          "icon": "📦",
+          "xml": "examples/variavel/17_microfone_acende_led_por_limiar.xml"
+        },
+        {
+          "number": 18,
+          "title": "Contador de palmas",
+          "description": "Palmas: o microfone atualiza som; cada pico adiciona uma palma e o OLED mostra o total.",
+          "icon": "📦",
+          "xml": "examples/variavel/18_contador_de_palmas.xml"
+        },
+        {
+          "number": 19,
+          "title": "Termometro numerico simples",
+          "description": "Termometro: o sensor atualiza temperatura e o OLED mostra o valor guardado.",
+          "icon": "📦",
+          "xml": "examples/variavel/19_termometro_numerico_simples.xml"
+        },
+        {
+          "number": 20,
+          "title": "Alerta de temperatura com LED",
+          "description": "Temperatura: acima de 30 o LED fica vermelho; caso contrario fica verde.",
+          "icon": "📦",
+          "xml": "examples/variavel/20_alerta_de_temperatura_com_led.xml"
+        },
+        {
+          "number": 21,
+          "title": "Maior temperatura observada",
+          "description": "Maior temperatura: a leitura atual substitui o recorde somente quando for maior.",
+          "icon": "📦",
+          "xml": "examples/variavel/21_maior_temperatura_observada.xml"
+        },
+        {
+          "number": 22,
+          "title": "Menor temperatura observada",
+          "description": "Menor temperatura: a leitura atual substitui o recorde somente quando for menor.",
+          "icon": "📦",
+          "xml": "examples/variavel/22_menor_temperatura_observada.xml"
+        },
+        {
+          "number": 23,
+          "title": "Temporizador de segundos",
+          "description": "Temporizador: espera um segundo, soma um e mostra a memoria no OLED.",
+          "icon": "📦",
+          "xml": "examples/variavel/23_temporizador_de_segundos.xml"
+        },
+        {
+          "number": 24,
+          "title": "Cronometro controlado por botao",
+          "description": "Cronometro: A alterna rodando; o loop soma segundos apenas quando rodando vale um.",
+          "icon": "📦",
+          "xml": "examples/variavel/24_cronometro_controlado_por_botao.xml"
+        },
+        {
+          "number": 25,
+          "title": "Semáforo por etapa",
+          "description": "Exemplo de variáveis: Semáforo por etapa.",
+          "icon": "📦",
+          "xml": "examples/variavel/25_semaforo_por_etapa.xml"
+        },
+        {
+          "number": 26,
+          "title": "Indice de emoji na matriz",
+          "description": "Emojis: A e B mudam o indice; cada numero escolhe um rosto diferente.",
+          "icon": "📦",
+          "xml": "examples/variavel/26_indice_de_emoji_na_matriz.xml"
+        },
+        {
+          "number": 27,
+          "title": "Nivel visual em barra na matriz",
+          "description": "Barra de nivel: os botoes mudam nivel e cada faixa acende mais linhas da matriz.",
+          "icon": "📦",
+          "xml": "examples/variavel/27_nivel_visual_em_barra_na_matriz.xml"
+        },
+        {
+          "number": 28,
+          "title": "Acertos e erros separados",
+          "description": "Duas memorias: A soma acertos, B soma erros e o OLED mostra cada uma em sua linha.",
+          "icon": "📦",
+          "xml": "examples/variavel/28_acertos_e_erros_separados.xml"
+        },
+        {
+          "number": 29,
+          "title": "Pontuacao calculada",
+          "description": "Pontuacao: pontos recebe acertos vezes dez menos erros vezes dois apos cada botao.",
+          "icon": "📦",
+          "xml": "examples/variavel/29_pontuacao_calculada.xml"
+        },
+        {
+          "number": 30,
+          "title": "Codigo de desbloqueio simples",
+          "description": "Codigo: A acrescenta 1, B acrescenta 2 e 1212 acende o LED verde.",
+          "icon": "📦",
+          "xml": "examples/variavel/30_codigo_de_desbloqueio_simples.xml"
+        },
+        {
+          "number": 31,
+          "title": "Brilho subindo",
+          "description": "Brilho do LED sobe de 0 a 100 usando uma variavel numerica.",
+          "icon": "📦",
+          "xml": "examples/variavel/31_brilho_subindo.xml"
+        },
+        {
+          "number": 32,
+          "title": "Brilho descendo",
+          "description": "Brilho do LED desce de 100 a 0 usando uma variavel numerica.",
+          "icon": "📦",
+          "xml": "examples/variavel/32_brilho_descendo.xml"
+        },
+        {
+          "number": 33,
+          "title": "Brilho subindo e descendo",
+          "description": "Brilho sobe de 0 a 100 e desce ate 0 usando a mesma variavel.",
+          "icon": "📦",
+          "xml": "examples/variavel/33_brilho_subindo_e_descendo.xml"
+        }
       ]
     },
     {
@@ -30,26 +692,147 @@
       "title": "LEDs",
       "icon": "💡",
       "examples": [
-        { "number": 1, "title": "Ligar", "description": "Acenda o LED da placa e observe o primeiro resultado.", "icon": "💡", "xml": "examples/leds/led_01_ligar.xml", "image": "examples/illustrations/leds/led_01_ligar.svg" },
-        { "number": 2, "title": "Desligar", "description": "Desligue o LED usando um bloco de saída.", "icon": "◼", "xml": "examples/leds/led_02_desligar.xml" },
-        { "number": 3, "title": "Desligar todos", "description": "Controle todos os LEDs da placa de uma vez.", "icon": "▪", "xml": "examples/leds/led_03_desligar_todos.xml" },
-        { "number": 4, "title": "Brilho", "description": "Controle a intensidade do LED usando blocos.", "icon": "✦", "xml": "examples/leds/led_04_brilho.xml" },
-        { "number": 5, "title": "Piscar rápido", "description": "Faça o LED piscar em uma sequência rápida.", "icon": "⚡", "xml": "examples/leds/led_05_piscar_rapido.xml" },
-        { "number": 6, "title": "Piscar lento", "description": "Observe o efeito de um pisca mais demorado.", "icon": "◌", "xml": "examples/leds/led_06_piscar_lento.xml" },
-        { "number": 7, "title": "Coração", "description": "Crie uma animação de coração com o LED RGB.", "icon": "♥", "xml": "examples/leds/led_07_coracao.xml" },
-        { "number": 8, "title": "SOS", "description": "Monte um sinal de SOS usando os LEDs.", "icon": "SOS", "xml": "examples/leds/led_08_sos.xml" },
-        { "number": 9, "title": "Brilhar com fade", "description": "Aumente e reduza o brilho suavemente.", "icon": "◐", "xml": "examples/leds/led_09_brilhar_fade.xml" },
-        { "number": 10, "title": "Alternar", "description": "Alterne o estado do LED em cada repetição.", "icon": "↔", "xml": "examples/leds/led_10_alternar.xml" },
-        { "number": 11, "title": "Transição", "description": "Faça uma transição gradual entre cores.", "icon": "→", "xml": "examples/leds/led_11_transicao.xml" },
-        { "number": 12, "title": "Batalhar", "description": "Experimente uma disputa de cores e estados.", "icon": "⚔", "xml": "examples/leds/led_12_batalhar.xml" },
-        { "number": 13, "title": "Animação livre", "description": "Combine comandos para criar sua própria animação.", "icon": "✧", "xml": "examples/leds/led_13_animacao_livre.xml" },
-        { "number": 14, "title": "Semáforo", "description": "Monte uma sequência de cores com LEDs.", "icon": "●", "xml": "examples/leds/led_14_semaforo.xml" },
-        { "number": 15, "title": "Respiração RGB", "description": "Crie um efeito de luz que aumenta e diminui.", "icon": "◒", "xml": "examples/leds/led_15_respiracao_rgb.xml" },
-        { "number": 16, "title": "Arco-íris e transições", "description": "Percorra várias cores com transições suaves.", "icon": "RGB", "xml": "examples/leds/led_16_arcoiris_transicoes.xml" },
-        { "number": 17, "title": "Painel de status", "description": "Use cores diferentes para representar estados.", "icon": "▤", "xml": "examples/leds/led_17_painel_de_status.xml" },
-        { "number": 18, "title": "Alarme multinível", "description": "Mostre níveis de alerta usando cores.", "icon": "!", "xml": "examples/leds/led_18_alarme_multinivel.xml" },
-        { "number": 19, "title": "Festival RGB", "description": "Combine cores e ritmos em uma apresentação.", "icon": "RGB", "xml": "examples/leds/led_19_festival_rgb.xml" },
-        { "number": 20, "title": "História da luz", "description": "Conte uma sequência visual usando a iluminação.", "icon": "▦", "xml": "examples/leds/led_20_historia_da_luz.xml" }
+        {
+          "number": 1,
+          "title": "Ligar",
+          "description": "Acenda o LED da placa e observe o primeiro resultado.",
+          "icon": "💡",
+          "xml": "examples/leds/led_01_ligar.xml",
+          "image": "examples/illustrations/leds/led_01_ligar.svg"
+        },
+        {
+          "number": 2,
+          "title": "Desligar",
+          "description": "Desligue o LED usando um bloco de saída.",
+          "icon": "◼",
+          "xml": "examples/leds/led_02_desligar.xml"
+        },
+        {
+          "number": 3,
+          "title": "Desligar todos",
+          "description": "Controle todos os LEDs da placa de uma vez.",
+          "icon": "▪",
+          "xml": "examples/leds/led_03_desligar_todos.xml"
+        },
+        {
+          "number": 4,
+          "title": "Brilho",
+          "description": "Controle a intensidade do LED usando blocos.",
+          "icon": "✦",
+          "xml": "examples/leds/led_04_brilho.xml"
+        },
+        {
+          "number": 5,
+          "title": "Piscar rápido",
+          "description": "Faça o LED piscar em uma sequência rápida.",
+          "icon": "⚡",
+          "xml": "examples/leds/led_05_piscar_rapido.xml"
+        },
+        {
+          "number": 6,
+          "title": "Piscar lento",
+          "description": "Observe o efeito de um pisca mais demorado.",
+          "icon": "◌",
+          "xml": "examples/leds/led_06_piscar_lento.xml"
+        },
+        {
+          "number": 7,
+          "title": "Coração",
+          "description": "Crie uma animação de coração com o LED RGB.",
+          "icon": "♥",
+          "xml": "examples/leds/led_07_coracao.xml"
+        },
+        {
+          "number": 8,
+          "title": "SOS",
+          "description": "Monte um sinal de SOS usando os LEDs.",
+          "icon": "SOS",
+          "xml": "examples/leds/led_08_sos.xml"
+        },
+        {
+          "number": 9,
+          "title": "Brilhar com fade",
+          "description": "Aumente e reduza o brilho suavemente.",
+          "icon": "◐",
+          "xml": "examples/leds/led_09_brilhar_fade.xml"
+        },
+        {
+          "number": 10,
+          "title": "Alternar",
+          "description": "Alterne o estado do LED em cada repetição.",
+          "icon": "↔",
+          "xml": "examples/leds/led_10_alternar.xml"
+        },
+        {
+          "number": 11,
+          "title": "Transição",
+          "description": "Faça uma transição gradual entre cores.",
+          "icon": "→",
+          "xml": "examples/leds/led_11_transicao.xml"
+        },
+        {
+          "number": 12,
+          "title": "Batalhar",
+          "description": "Experimente uma disputa de cores e estados.",
+          "icon": "⚔",
+          "xml": "examples/leds/led_12_batalhar.xml"
+        },
+        {
+          "number": 13,
+          "title": "Animação livre",
+          "description": "Combine comandos para criar sua própria animação.",
+          "icon": "✧",
+          "xml": "examples/leds/led_13_animacao_livre.xml"
+        },
+        {
+          "number": 14,
+          "title": "Semáforo",
+          "description": "Monte uma sequência de cores com LEDs.",
+          "icon": "●",
+          "xml": "examples/leds/led_14_semaforo.xml"
+        },
+        {
+          "number": 15,
+          "title": "Respiração RGB",
+          "description": "Crie um efeito de luz que aumenta e diminui.",
+          "icon": "◒",
+          "xml": "examples/leds/led_15_respiracao_rgb.xml"
+        },
+        {
+          "number": 16,
+          "title": "Arco-íris e transições",
+          "description": "Percorra várias cores com transições suaves.",
+          "icon": "RGB",
+          "xml": "examples/leds/led_16_arcoiris_transicoes.xml"
+        },
+        {
+          "number": 17,
+          "title": "Painel de status",
+          "description": "Use cores diferentes para representar estados.",
+          "icon": "▤",
+          "xml": "examples/leds/led_17_painel_de_status.xml"
+        },
+        {
+          "number": 18,
+          "title": "Alarme multinível",
+          "description": "Mostre níveis de alerta usando cores.",
+          "icon": "!",
+          "xml": "examples/leds/led_18_alarme_multinivel.xml"
+        },
+        {
+          "number": 19,
+          "title": "Festival RGB",
+          "description": "Combine cores e ritmos em uma apresentação.",
+          "icon": "RGB",
+          "xml": "examples/leds/led_19_festival_rgb.xml"
+        },
+        {
+          "number": 20,
+          "title": "História da luz",
+          "description": "Conte uma sequência visual usando a iluminação.",
+          "icon": "▦",
+          "xml": "examples/leds/led_20_historia_da_luz.xml"
+        }
       ]
     }
   ]
