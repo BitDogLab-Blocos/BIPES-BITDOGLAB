@@ -2,6 +2,30 @@
   "version": 1,
   "categories": [
     {
+      "id": "repeticao",
+      "title": "Repetição",
+      "icon": "🔁",
+      "examples": [
+        { "number": 1, "title": "Ligar e desligar LED", "description": "Repita uma sequência simples para controlar o LED.", "icon": "↔", "xml": "examples/repeticao/01_led_ligar_desligar.xml" },
+        { "number": 2, "title": "Ciclo RGB", "description": "Percorra cores diferentes usando um ciclo de repetição.", "icon": "RGB", "xml": "examples/repeticao/02_ciclo_rgb.xml" },
+        { "number": 3, "title": "Transição de cores", "description": "Repita uma transição gradual entre cores.", "icon": "→", "xml": "examples/repeticao/03_transicao_de_cores.xml" },
+        { "number": 4, "title": "Preencher e apagar a matriz", "description": "Repita os comandos para preencher e limpar a matriz.", "icon": "□", "xml": "examples/repeticao/04_matriz_preencher_apagar.xml" },
+        { "number": 5, "title": "Repetição aninhada", "description": "Use uma repetição dentro de outra para criar uma sequência.", "icon": "↻", "xml": "examples/repeticao/05_repeticao_aninhada_bipes.xml" },
+        { "number": 6, "title": "Números na matriz", "description": "Mostre uma sequência de números repetindo os comandos da matriz.", "icon": "123", "xml": "examples/repeticao/06_numeros_na_matriz.xml" },
+        { "number": 7, "title": "Emojis na matriz", "description": "Alterne expressões na matriz usando repetição.", "icon": ":)", "xml": "examples/repeticao/07_emojis_na_matriz.xml" },
+        { "number": 8, "title": "Animação repetida na matriz", "description": "Crie uma animação que se repete continuamente.", "icon": "✦", "xml": "examples/repeticao/08_animacao_matriz_repetida.xml" },
+        { "number": 9, "title": "Padrão de bipes", "description": "Repita um padrão sonoro com o buzzer.", "icon": "♫", "xml": "examples/repeticao/09_padrao_de_bipes.xml" },
+        { "number": 10, "title": "Sequência de notas", "description": "Toque uma sequência musical dentro de uma repetição.", "icon": "♪", "xml": "examples/repeticao/10_sequencia_de_notas.xml" },
+        { "number": 11, "title": "Contador no OLED", "description": "Atualize um contador no display OLED em cada repetição.", "icon": "123", "xml": "examples/repeticao/11_contador_no_oled.xml" },
+        { "number": 12, "title": "Contador com botão", "description": "Use um botão para controlar um contador repetitivo.", "icon": "+", "xml": "examples/repeticao/12_botao_contador.xml" },
+        { "number": 13, "title": "Painel com LED, OLED e som", "description": "Combine saídas visuais e sonoras em um ciclo.", "icon": "▤", "xml": "examples/repeticao/13_painel_led_oled_som.xml" },
+        { "number": 14, "title": "Matriz, OLED e som", "description": "Sincronize matriz, display e buzzer usando repetição.", "icon": "□", "xml": "examples/repeticao/14_matriz_oled_som.xml" },
+        { "number": 15, "title": "Jogo de reação", "description": "Execute uma sequência repetitiva para criar um desafio de reação.", "icon": "⚡", "xml": "examples/repeticao/15_jogo_de_reacao.xml" },
+        { "number": 16, "title": "Estação de alerta", "description": "Represente estados de alerta em um ciclo de monitoramento.", "icon": "!", "xml": "examples/repeticao/16_estacao_de_alerta.xml" },
+        { "number": 17, "title": "Circuito completo de treinamento", "description": "Combine vários componentes em um projeto de repetição.", "icon": "★", "xml": "examples/repeticao/17_circuito_completo_de_treinamento.xml" }
+      ]
+    },
+    {
       "id": "leds",
       "title": "LEDs",
       "icon": "💡",

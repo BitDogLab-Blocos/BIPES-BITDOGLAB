@@ -39,7 +39,7 @@
 
   ExamplesCatalog.load = function() {
     if (!catalogPromise) {
-      catalogPromise = fetch('../../examples/catalog.json')
+      catalogPromise = fetch('../../examples/catalog.json?ver=20260910examples-repetition1')
         .then(function(response) {
           if (!response.ok) throw new Error('Não foi possível carregar o catálogo de exemplos.');
           return response.json();
