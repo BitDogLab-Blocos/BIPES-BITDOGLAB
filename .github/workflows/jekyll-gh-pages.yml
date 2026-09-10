@@ -1,8 +1,7 @@
 name: Deploy Jekyll with GitHub Pages dependencies preinstalled
 
+# Automatic Pages deployment is temporarily disabled.
 on:
-  push:
-    branches: ["main"]
   workflow_dispatch:
 
 permissions:
