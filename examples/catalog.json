@@ -2496,6 +2496,274 @@
           "xml": "examples/sensor_de_luz/19_luz_e_sombra_com_matematica.xml"
         }
       ]
+    },
+    {
+      "id": "dht11",
+      "title": "Temperatura e Umidade Externas",
+      "icon": "🌡️",
+      "cssIcon": "bitdoglab-dht11-category-icon",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Leitura de temperatura",
+          "description": "Primeiro contato: le a temperatura do DHT11 na Conexao 0 e mostra no OLED.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/01_leitura_de_temperatura.xml"
+        },
+        {
+          "number": 2,
+          "title": "Leitura de umidade",
+          "description": "Segunda leitura: mostra a umidade relativa do mesmo DHT11 na Conexao 0.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/02_leitura_de_umidade.xml"
+        },
+        {
+          "number": 3,
+          "title": "Temperatura e umidade",
+          "description": "Temperatura e umidade podem usar o mesmo modulo DHT11 na mesma Conexao 0.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/03_temperatura_e_umidade.xml"
+        },
+        {
+          "number": 4,
+          "title": "Grafico de temperatura",
+          "description": "O grafico acompanha a temperatura na tela toda; a plataforma atualiza a leitura continuamente.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/04_grafico_de_temperatura.xml"
+        },
+        {
+          "number": 5,
+          "title": "Graficos de temperatura e umidade",
+          "description": "Dois graficos dividem o OLED: temperatura em cima e umidade embaixo.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/05_graficos_de_temperatura_e_umidade.xml"
+        },
+        {
+          "number": 6,
+          "title": "Temperatura em fahrenheit",
+          "description": "Usa matematica para converter Celsius em Fahrenheit: (C x 1.8) + 32.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/06_temperatura_em_fahrenheit.xml"
+        },
+        {
+          "number": 7,
+          "title": "Alerta de calor com LED",
+          "description": "Acima de 30 graus, o LED vermelho acende; caso contrario, o verde acende.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/07_alerta_de_calor_com_led.xml"
+        },
+        {
+          "number": 8,
+          "title": "Três faixas de temperatura",
+          "description": "Tres faixas: frio fica azul, confortavel fica verde e quente fica vermelho.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/08_tres_faixas_de_temperatura.xml"
+        },
+        {
+          "number": 9,
+          "title": "Temperatura guardada em variavel",
+          "description": "A variavel temperatura guarda a ultima leitura antes de ela ser mostrada.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/09_temperatura_guardada_em_variavel.xml"
+        },
+        {
+          "number": 10,
+          "title": "Alerta de umidade baixa",
+          "description": "Guarda a umidade e avisa com LED vermelho quando o ar estiver seco.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/10_alerta_de_umidade_baixa.xml"
+        },
+        {
+          "number": 11,
+          "title": "Maior temperatura observada",
+          "description": "Compara cada leitura com o recorde e guarda somente a maior temperatura.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/11_maior_temperatura_observada.xml"
+        },
+        {
+          "number": 12,
+          "title": "Menor umidade observada",
+          "description": "O projeto começa com 80% como referencia e guarda as leituras menores.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/12_menor_umidade_observada.xml"
+        },
+        {
+          "number": 13,
+          "title": "Media de cinco leituras",
+          "description": "Zera a soma em cada ciclo, faz cinco leituras do DHT11 e mostra a media do grupo.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/13_media_de_cinco_leituras.xml"
+        },
+        {
+          "number": 14,
+          "title": "Alerta de conforto",
+          "description": "Confortavel significa temperatura entre 18 e 28 e umidade entre 40 e 70.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/14_alerta_de_conforto.xml"
+        },
+        {
+          "number": 15,
+          "title": "Temperatura controla servo",
+          "description": "DHT11 na Conexao 0 controla um servo na Conexao 1 conforme a temperatura.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/15_temperatura_controla_servo.xml"
+        },
+        {
+          "number": 16,
+          "title": "Umidade controla servo",
+          "description": "A umidade do DHT11 na Conexao 0 escolhe tres posicoes do servo na Conexao 1.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/16_umidade_controla_servo.xml"
+        },
+        {
+          "number": 17,
+          "title": "Contador de alertas de calor",
+          "description": "Conta continuamente quantas leituras ultrapassaram 30 graus.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/17_contador_de_alertas_de_calor.xml"
+        },
+        {
+          "number": 18,
+          "title": "Painel de temperatura e umidade",
+          "description": "Painel simples: valores no topo, grafico na metade de baixo e LEDs conforme a temperatura.",
+          "icon": "🌡️",
+          "xml": "examples/dht11/18_painel_de_temperatura_e_umidade.xml"
+        }
+      ]
+    },
+    {
+      "id": "sensor_de_distancia",
+      "title": "Sensor de Distância",
+      "icon": "📏",
+      "cssIcon": "bitdoglab-distance-sensor-category-icon",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Regua digital",
+          "description": "Primeiro contato: mede um objeto e mostra a distancia em centimetros.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/01_regua_digital.xml"
+        },
+        {
+          "number": 2,
+          "title": "Grafico de aproximação",
+          "description": "O grafico acompanha um objeto se aproximando e se afastando do sensor.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/02_grafico_de_aproximacao.xml"
+        },
+        {
+          "number": 3,
+          "title": "Valor e grafico",
+          "description": "Painel de observacao: valor numerico em cima e historico na metade de baixo.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/03_valor_e_grafico.xml"
+        },
+        {
+          "number": 4,
+          "title": "Indicador de proximidade",
+          "description": "Verde quando ha espaco; vermelho e um bipe quando o objeto esta perto.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/04_indicador_de_proximidade.xml"
+        },
+        {
+          "number": 5,
+          "title": "Luz de presenca com LED externo",
+          "description": "O LED vermelho externo acende quando alguem chega a menos de 30 cm.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/05_luz_de_presenca_com_led_externo.xml"
+        },
+        {
+          "number": 6,
+          "title": "Barreira automatica com servo",
+          "description": "Um objeto proximo abre a barreira; quando ele se afasta, a barreira fecha.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/06_barreira_automatica_com_servo.xml"
+        },
+        {
+          "number": 7,
+          "title": "Cancela com servo e display",
+          "description": "A cancela abre para um objeto proximo e o display informa seu estado.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/07_cancela_com_servo_e_display.xml"
+        },
+        {
+          "number": 8,
+          "title": "Alerta sonoro de proximidade",
+          "description": "Um alerta sonoro e visual avisa quando o objeto esta muito perto.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/08_alerta_sonoro_de_proximidade.xml"
+        },
+        {
+          "number": 9,
+          "title": "Distancia na matriz de LEDs",
+          "description": "A Matriz mostra um rosto surpreso quando algo chega perto do sensor.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/09_distancia_na_matriz_de_leds.xml"
+        },
+        {
+          "number": 10,
+          "title": "Medição autorizada por contato",
+          "description": "O contato 0 autoriza a medicao; separado, ele pede para o aluno encostar.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/10_medicao_autorizada_por_contato.xml"
+        },
+        {
+          "number": 11,
+          "title": "Distancia com DHT11",
+          "description": "Painel combinado: distancia na primeira linha e temperatura na segunda.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/11_distancia_com_dht11.xml"
+        },
+        {
+          "number": 12,
+          "title": "Contato e LED de proximidade",
+          "description": "O contato 0 arma o sistema e o LED vermelho na Conexao 1 avisa proximidade.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/12_contato_e_led_de_proximidade.xml"
+        },
+        {
+          "number": 13,
+          "title": "Portao com servo e matriz",
+          "description": "O sensor abre o portao e a Matriz mostra se a passagem esta liberada.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/13_portao_com_servo_e_matriz.xml"
+        },
+        {
+          "number": 14,
+          "title": "Painel completo de distancia",
+          "description": "Valor, sinal luminoso, alerta sonoro e grafico no mesmo projeto.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/14_painel_completo_de_distancia.xml"
+        },
+        {
+          "number": 15,
+          "title": "Distancia guardada em variavel",
+          "description": "A medida fica guardada para ser reutilizada no display e na decisao.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/15_distancia_guardada_em_variavel.xml"
+        },
+        {
+          "number": 16,
+          "title": "Media de cinco medidas",
+          "description": "Cinco medidas sao somadas e divididas para reduzir pequenas variacoes.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/16_media_de_cinco_medidas.xml"
+        },
+        {
+          "number": 17,
+          "title": "Distancia com botoes",
+          "description": "O botao A mostra uma medida; o botao B muda para o grafico.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/17_distancia_com_botoes.xml"
+        },
+        {
+          "number": 18,
+          "title": "Limite escolhido pelo joystick",
+          "description": "O joystick escolhe um limite curto de 20 cm ou um limite longo de 40 cm.",
+          "icon": "📏",
+          "xml": "examples/sensor_de_distancia/18_limite_escolhido_pelo_joystick.xml"
+        }
+      ]
     }
   ]
 }
