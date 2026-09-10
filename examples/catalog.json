@@ -2764,6 +2764,344 @@
           "xml": "examples/sensor_de_distancia/18_limite_escolhido_pelo_joystick.xml"
         }
       ]
+    },
+    {
+      "id": "mpu6050",
+      "title": "Movimento e Inclinação",
+      "icon": "📐",
+      "cssIcon": "bitdoglab-mpu6050-category-icon",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Inclinacao direita no display",
+          "description": "Mostra no OLED quantos graus o MPU6050 foi inclinado para a direita.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/01_inclinacao_direita_no_display.xml"
+        },
+        {
+          "number": 2,
+          "title": "Inclinacao esquerda no display",
+          "description": "Mostra no OLED quantos graus o MPU6050 foi inclinado para a esquerda.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/02_inclinacao_esquerda_no_display.xml"
+        },
+        {
+          "number": 3,
+          "title": "Aceleracao x no display",
+          "description": "Mostra no OLED a aceleracao lateral medida no eixo X.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/03_aceleracao_x_no_display.xml"
+        },
+        {
+          "number": 4,
+          "title": "Aceleracao y no display",
+          "description": "Mostra no OLED a aceleracao para frente e para tras medida no eixo Y.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/04_aceleracao_y_no_display.xml"
+        },
+        {
+          "number": 5,
+          "title": "Aceleracao z no display",
+          "description": "Mostra no OLED a aceleracao para cima e para baixo medida no eixo Z.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/05_aceleracao_z_no_display.xml"
+        },
+        {
+          "number": 6,
+          "title": "Painel de aceleracao xyz",
+          "description": "Cria um painel que mostra ao mesmo tempo as aceleracoes X, Y e Z do MPU6050.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/06_painel_de_aceleracao_xyz.xml"
+        },
+        {
+          "number": 7,
+          "title": "Movimento acende LED da placa",
+          "description": "O LED vermelho da placa acende quando um movimento intencional do MPU6050 e detectado.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/07_movimento_acende_led_da_placa.xml"
+        },
+        {
+          "number": 8,
+          "title": "Movimento muda rosto na matriz",
+          "description": "A Matriz mostra surpresa durante o movimento e um rosto feliz quando o sensor para.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/08_movimento_muda_rosto_na_matriz.xml"
+        },
+        {
+          "number": 9,
+          "title": "Movimento dispara bipe",
+          "description": "Um bipe curto confirma cada movimento intencional reconhecido pelo MPU6050.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/09_movimento_dispara_bipe.xml"
+        },
+        {
+          "number": 10,
+          "title": "Contador de movimentos no display",
+          "description": "Conta movimentos separados e mostra no OLED quantos foram reconhecidos.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/10_contador_de_movimentos_no_display.xml"
+        },
+        {
+          "number": 11,
+          "title": "Nivel eletronico com LED RGB",
+          "description": "O LED fica vermelho para a direita, azul para a esquerda e verde quando o sensor esta nivelado.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/11_nivel_eletronico_com_led_rgb.xml"
+        },
+        {
+          "number": 12,
+          "title": "Setas da aceleracao y na matriz",
+          "description": "A Matriz mostra seta para cima ao mover para frente, seta para baixo ao mover para tras e rosto feliz no centro.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/12_setas_da_aceleracao_y_na_matriz.xml"
+        },
+        {
+          "number": 13,
+          "title": "Alerta sonoro de inclinacao",
+          "description": "Um bipe duplo avisa quando a placa ultrapassa 25 graus de inclinacao para a direita.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/13_alerta_sonoro_de_inclinacao.xml"
+        },
+        {
+          "number": 14,
+          "title": "Ponteiro de inclinacao com servo",
+          "description": "O servo na Conexao 0 aponta 30, 90 ou 150 graus conforme a inclinacao do MPU6050.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/14_ponteiro_de_inclinacao_com_servo.xml"
+        },
+        {
+          "number": 15,
+          "title": "Movimento acende LED externo",
+          "description": "O canal vermelho do KY-016 na Conexao 0 acende somente enquanto o MPU6050 detecta movimento.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/15_movimento_acende_led_externo.xml"
+        },
+        {
+          "number": 16,
+          "title": "Inclinacao controla dois LEDs externos",
+          "description": "Vermelho na Conexao 0 indica direita e verde na Conexao 1 indica esquerda, sem ocupar as Conexoes 2 e 3 do MPU6050.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/16_inclinacao_controla_dois_leds_externos.xml"
+        },
+        {
+          "number": 17,
+          "title": "Contato arma alarme de movimento",
+          "description": "O contato na Conexao 1 arma o alarme; ao mover o MPU6050, o LED externo vermelho da Conexao 0 e um bipe avisam.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/17_contato_arma_alarme_de_movimento.xml"
+        },
+        {
+          "number": 18,
+          "title": "Contato autoriza medição",
+          "description": "O contato na Conexao 1 funciona como permissao para mostrar a inclinacao no OLED.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/18_contato_autoriza_medicao.xml"
+        },
+        {
+          "number": 19,
+          "title": "Botoes escolhem o eixo",
+          "description": "Os botoes A, B e C escolhem se o OLED mostra a aceleracao X, Y ou Z.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/19_botoes_escolhem_o_eixo.xml"
+        },
+        {
+          "number": 20,
+          "title": "Estacao de inclinacao e distancia",
+          "description": "O OLED combina inclinacao e distancia; MPU6050 e ultrassonico compartilham com seguranca as Conexoes 2 e 3 na V7.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/20_estacao_de_inclinacao_e_distancia.xml"
+        },
+        {
+          "number": 21,
+          "title": "Vigia noturno com sensor de luz",
+          "description": "O alarme reage ao movimento somente quando o LDR na ANA-IN indica um ambiente escuro.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/21_vigia_noturno_com_sensor_de_luz.xml"
+        },
+        {
+          "number": 22,
+          "title": "Jogo da bolinha no OLED",
+          "description": "Incline o MPU6050 para conduzir a bolinha pelo OLED pequeno.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/22_jogo_da_bolinha_no_oled.xml"
+        },
+        {
+          "number": 23,
+          "title": "Jogo da bolinha no display grande",
+          "description": "Incline o MPU6050 para conduzir a bolinha pelo display SH1107 grande.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/23_jogo_da_bolinha_no_display_grande.xml"
+        },
+        {
+          "number": 24,
+          "title": "Aceleracao e distancia no display",
+          "description": "Painel simples para testar a leitura do acelerometro e do ultrassonico juntos.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/24_aceleracao_e_distancia_no_display.xml"
+        },
+        {
+          "number": 25,
+          "title": "Movimento e distancia monitorados",
+          "description": "Guarda 1 quando o MPU6050 detecta movimento e mostra o estado junto da distancia.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/25_movimento_e_distancia_monitorados.xml"
+        },
+        {
+          "number": 26,
+          "title": "Alerta externo por movimento e proximidade",
+          "description": "O LED vermelho externo acende se houver movimento com um objeto a menos de 20 cm.",
+          "icon": "📐",
+          "xml": "examples/mpu6050/26_alerta_externo_por_movimento_e_proximidade.xml"
+        }
+      ]
+    },
+    {
+      "id": "servo_motor",
+      "title": "Servo Motor",
+      "icon": "⚙",
+      "cssIcon": "bitdoglab-servo-category-icon",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Posicoes e angulo atual",
+          "description": "Move o servo por três posições e mostra no OLED cada mudança de ângulo.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/01_posicoes_e_angulo_atual.xml"
+        },
+        {
+          "number": 2,
+          "title": "Cancela gradual",
+          "description": "Cancela: sobe e desce em passos visíveis, mostrando cada mudança de ângulo no OLED.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/02_cancela_gradual.xml"
+        },
+        {
+          "number": 3,
+          "title": "Subir passo a passo",
+          "description": "Primeiro movimento gradual: a repetição executa uma subida completa de 0 até 60 graus.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/03_subir_passo_a_passo.xml"
+        },
+        {
+          "number": 4,
+          "title": "Descer passo a passo",
+          "description": "Movimento gradual contrário: a repetição executa uma descida completa de 180 até 30 graus.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/04_descer_passo_a_passo.xml"
+        },
+        {
+          "number": 5,
+          "title": "Angulo em cada passo",
+          "description": "Observação em tempo real: a cada passo da subida, o OLED mostra o ângulo que acabou de ser enviado ao servo.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/05_angulo_em_cada_passo.xml"
+        },
+        {
+          "number": 6,
+          "title": "Joystick cima e baixo",
+          "description": "Controle básico: mover o joystick para cima aumenta o ângulo e mover para baixo diminui o ângulo.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/06_joystick_cima_e_baixo.xml"
+        },
+        {
+          "number": 7,
+          "title": "Joystick esquerda e direita",
+          "description": "Variação guiada: direita aumenta e esquerda diminui o ângulo, mostrando que a criança escolhe as direções.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/07_joystick_esquerda_e_direita.xml"
+        },
+        {
+          "number": 8,
+          "title": "Joystick com painel OLED",
+          "description": "Painel de controle: o joystick move o servo e o OLED mostra continuamente o último ângulo comandado.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/08_joystick_com_painel_oled.xml"
+        },
+        {
+          "number": 9,
+          "title": "Semáforo de duas zonas",
+          "description": "Primeira decisão por ângulo: abaixo de 90 graus o LED fica azul; em 90 graus ou mais fica verde.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/09_semaforo_de_duas_zonas.xml"
+        },
+        {
+          "number": 10,
+          "title": "Alerta no limite",
+          "description": "Alerta de segurança: quando o servo chega a 150 graus ou mais, toca um bipe; abaixo disso o som para.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/10_alerta_no_limite.xml"
+        },
+        {
+          "number": 11,
+          "title": "Semáforo de três angulos",
+          "description": "Semáforo angular: verde abaixo de 60 graus, amarelo entre 60 e 119, e vermelho a partir de 120 graus.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/11_semaforo_de_tres_angulos.xml"
+        },
+        {
+          "number": 12,
+          "title": "Emoções por angulo",
+          "description": "Emoções do servo: a matriz mostra tristeza, surpresa ou alegria conforme a faixa de ângulo escolhida no joystick.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/12_emocoes_por_angulo.xml"
+        },
+        {
+          "number": 13,
+          "title": "Distancia ate 180",
+          "description": "Matemática do movimento: posiciona em 45 graus e calcula no OLED quantos graus ainda faltam para chegar a 180.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/13_distancia_ate_180.xml"
+        },
+        {
+          "number": 14,
+          "title": "Botoes escolhem posicao",
+          "description": "Controle por botões: A leva o servo a 0 graus, B leva a 180 graus e o OLED confirma a posição comandada.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/14_botoes_escolhem_posicao.xml"
+        },
+        {
+          "number": 15,
+          "title": "Cancela com botoes",
+          "description": "Projeto cancela: A abre gradualmente de 0 a 180 graus; B fecha gradualmente de 180 a 0 graus.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/15_cancela_com_botoes.xml"
+        },
+        {
+          "number": 16,
+          "title": "Danca de dois servos",
+          "description": "Dueto mecânico: dois servos nas Conexões 0 e 1 fazem movimentos espelhados, trocando de lado a cada segundo.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/16_danca_de_dois_servos.xml"
+        },
+        {
+          "number": 17,
+          "title": "Movimentos espelhados gradualmente",
+          "description": "Coreografia gradual: o servo 0 sobe de 0 a 90 graus e o servo 1 desce de 180 a 90 graus.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/17_movimentos_espelhados_gradualmente.xml"
+        },
+        {
+          "number": 18,
+          "title": "Cofre da faixa segura",
+          "description": "Cofre angular: entre 80 e 100 graus o LED fica verde e toca sucesso; fora da faixa o LED fica vermelho.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/18_cofre_da_faixa_segura.xml"
+        },
+        {
+          "number": 19,
+          "title": "Missao chegar a 180",
+          "description": "Missão angular: o OLED mostra quanto falta para 180 graus e a matriz troca a seta por um coração ao chegar perto.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/19_missao_chegar_a_180.xml"
+        },
+        {
+          "number": 20,
+          "title": "Cancela inteligente multissensorial",
+          "description": "Projeto final: joystick move a cancela; OLED, LED, matriz e som informam se ela está fechada, em movimento ou aberta.",
+          "icon": "⚙",
+          "xml": "examples/servo_motor/20_cancela_inteligente_multissensorial.xml"
+        }
+      ]
     }
   ]
 }
