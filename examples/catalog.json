@@ -2214,6 +2214,288 @@
           "xml": "examples/contatos/19_contato_servo_e_led.xml"
         }
       ]
+    },
+    {
+      "id": "leds_externos",
+      "title": "LEDs Externos",
+      "icon": "💡",
+      "cssIcon": "bitdoglab-external-led-category-icon",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Ligar vermelho",
+          "description": "Primeiro passo: ligue o pino R (vermelho) na Conexão 0 e observe por 3 segundos.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/01_ligar_vermelho.xml"
+        },
+        {
+          "number": 2,
+          "title": "Desligar depois de observar",
+          "description": "A mesma ideia com o pino G (verde): ligar, esperar e desligar.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/02_desligar_depois_de_observar.xml"
+        },
+        {
+          "number": 3,
+          "title": "Piscar rápido azul",
+          "description": "Piscar rápido ajuda a perceber a diferença entre ligar e piscar.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/03_piscar_rapido_azul.xml"
+        },
+        {
+          "number": 4,
+          "title": "Piscar lento verde",
+          "description": "Piscar lento deixa cada acendimento bem fácil de acompanhar.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/04_piscar_lento_verde.xml"
+        },
+        {
+          "number": 5,
+          "title": "Desligar todos os LEDs",
+          "description": "Cada cor usa uma Conexão diferente: R=0, G=1 e B=2.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/05_desligar_todos_os_leds.xml"
+        },
+        {
+          "number": 6,
+          "title": "Animacao RGB em segundos",
+          "description": "Uma animação genérica combina ações de R, G e B com esperas em segundos.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/06_animacao_rgb_em_segundos.xml"
+        },
+        {
+          "number": 7,
+          "title": "Três cores em três conexoes",
+          "description": "R, G e B são acesos separadamente para ensinar a identificação dos pinos.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/07_tres_cores_em_tres_conexoes.xml"
+        },
+        {
+          "number": 8,
+          "title": "Botao a acende vermelho",
+          "description": "Pressione o botão A: o vermelho acende, espera e apaga.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/08_botao_a_acende_vermelho.xml"
+        },
+        {
+          "number": 9,
+          "title": "Botoes escolhem cores",
+          "description": "A escolhe vermelho, B escolhe verde e C escolhe azul. Nunca repita a Conexão.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/09_botoes_escolhem_cores.xml"
+        },
+        {
+          "number": 10,
+          "title": "Painel display e LED vermelho",
+          "description": "Com o Display (tela da placa), use somente Conexões 0 e 1. Aqui usamos apenas 0.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/10_painel_display_e_led_vermelho.xml"
+        },
+        {
+          "number": 11,
+          "title": "Servo e LED de status",
+          "description": "O servo usa a Conexão 0; os LEDs ficam em 1 e 2, sem compartilhar pinos.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/11_servo_e_led_de_status.xml"
+        },
+        {
+          "number": 12,
+          "title": "Cancela com LEDs de status",
+          "description": "Botão A abre a cancela e mostra vermelho; botão B fecha e mostra verde.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/12_cancela_com_leds_de_status.xml"
+        },
+        {
+          "number": 13,
+          "title": "Joystick move servo e LED",
+          "description": "O verde fica aceso enquanto o joystick controla o servo continuamente.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/13_joystick_move_servo_e_led.xml"
+        },
+        {
+          "number": 14,
+          "title": "Matriz e LED vermelho",
+          "description": "A matriz mostra um coração enquanto o LED vermelho externo acende. Brilho máximo: 30.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/14_matriz_e_led_vermelho.xml"
+        },
+        {
+          "number": 15,
+          "title": "Bipe e LED de alerta",
+          "description": "Um sinal sonoro e o LED vermelho avisam juntos: som e luz contam a mesma história.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/15_bipe_e_led_de_alerta.xml"
+        },
+        {
+          "number": 16,
+          "title": "Microfone controla LED externo",
+          "description": "O microfone mede o som: acima de 3, vermelho; caso contrário, verde.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/16_microfone_controla_led_externo.xml"
+        },
+        {
+          "number": 17,
+          "title": "Variavel modo de luz",
+          "description": "A variável modo alterna entre duas escolhas; A muda para o modo 1.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/17_variavel_modo_de_luz.xml"
+        },
+        {
+          "number": 18,
+          "title": "Joystick e painel no display",
+          "description": "Display (tela) e LED usam apenas Conexões 0 e 1. O joystick escolhe o lado.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/18_joystick_e_painel_no_display.xml"
+        },
+        {
+          "number": 19,
+          "title": "Cancela RGB com som e matriz",
+          "description": "Projeto avancado: servo na 0, RGB nas 1/2/3, matriz e som indicam a posicao.",
+          "icon": "💡",
+          "xml": "examples/LEDs externos (KY-016)/19_cancela_rgb_com_som_e_matriz.xml"
+        }
+      ]
+    },
+    {
+      "id": "sensor_de_luz",
+      "title": "Sensor de Luz",
+      "icon": "☼",
+      "cssIcon": "bitdoglab-ldr-category-icon",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Leitura no display",
+          "description": "Primeiro contato com o LDR: mostra o valor da luz no display OLED.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/01_leitura_no_display.xml"
+        },
+        {
+          "number": 2,
+          "title": "Grafico de luz",
+          "description": "O grafico acompanha as variacoes de luz ao longo do tempo.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/02_grafico_de_luz.xml"
+        },
+        {
+          "number": 3,
+          "title": "Valor e grafico",
+          "description": "Painel de observacao: valor numerico na parte superior e grafico na parte inferior.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/03_valor_e_grafico.xml"
+        },
+        {
+          "number": 4,
+          "title": "Luz controla LED da placa",
+          "description": "LED verde quando ha bastante luz e vermelho quando o ambiente esta escuro.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/04_luz_controla_led_da_placa.xml"
+        },
+        {
+          "number": 5,
+          "title": "Lampada com LED externo",
+          "description": "Aplicacao: o LED vermelho do KY-016 acende quando o ambiente fica escuro.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/05_lampada_com_led_externo.xml"
+        },
+        {
+          "number": 6,
+          "title": "Luz controla servo",
+          "description": "A luz decide a posicao de uma persiana: aberta com claridade e fechada no escuro.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/06_luz_controla_servo.xml"
+        },
+        {
+          "number": 7,
+          "title": "Cortina com servo e display",
+          "description": "Exemplo de automacao: o servo move a cortina e o OLED informa o estado escolhido pela luz.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/07_cortina_com_servo_e_display.xml"
+        },
+        {
+          "number": 8,
+          "title": "Alerta de luz com bipe",
+          "description": "Alerta sonoro quando a luz ultrapassa o limite definido.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/08_alerta_de_luz_com_bipe.xml"
+        },
+        {
+          "number": 9,
+          "title": "Luz na matriz de LEDs",
+          "description": "A Matriz mostra sol com muita luz e lua quando o ambiente escurece.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/09_luz_na_matriz_de_leds.xml"
+        },
+        {
+          "number": 10,
+          "title": "Luz com contato",
+          "description": "O contato autoriza a leitura: encostado mostra o valor do LDR; separado pede um toque.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/10_luz_com_contato.xml"
+        },
+        {
+          "number": 11,
+          "title": "Luz com DHT11",
+          "description": "Painel ambiental: o LDR ocupa a primeira linha e o DHT11 a segunda.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/11_luz_com_dht11.xml"
+        },
+        {
+          "number": 12,
+          "title": "Luz com contato e LED externo",
+          "description": "O contato 0 arma o experimento; R e G do KY-016 usam as Conexoes 1 e 2.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/12_luz_com_contato_e_led_externo.xml"
+        },
+        {
+          "number": 13,
+          "title": "Luz com servo e matriz",
+          "description": "O LDR movimenta uma pequena barreira e a Matriz mostra o estado do ambiente.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/13_luz_com_servo_e_matriz.xml"
+        },
+        {
+          "number": 14,
+          "title": "Painel completo de luz",
+          "description": "Desafio final: valor, grafico, sinalizacao por LED e alerta sonoro no mesmo projeto.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/14_painel_completo_de_luz.xml"
+        },
+        {
+          "number": 15,
+          "title": "Luz guardada em variavel",
+          "description": "A leitura fica guardada na variavel para ser usada no display e na decisao.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/15_luz_guardada_em_variavel.xml"
+        },
+        {
+          "number": 16,
+          "title": "Media de cinco leituras",
+          "description": "Lê cinco vezes, mostra a média e reinicia as contagens no próximo ciclo.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/16_media_de_cinco_leituras.xml"
+        },
+        {
+          "number": 17,
+          "title": "Luz com botoes",
+          "description": "O botao A mostra uma leitura; o botao B desenha o grafico sem inserir espera depois dele.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/17_luz_com_botoes.xml"
+        },
+        {
+          "number": 18,
+          "title": "Luz com joystick",
+          "description": "O joystick escolhe o modo de observacao e o LDR decide a cor do sinal.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/18_luz_com_joystick.xml"
+        },
+        {
+          "number": 19,
+          "title": "Luz e sombra com matematica",
+          "description": "A porcentagem de sombra e calculada com 100 menos a porcentagem de luz.",
+          "icon": "☼",
+          "xml": "examples/sensor_de_luz/19_luz_e_sombra_com_matematica.xml"
+        }
+      ]
     }
   ]
 }
