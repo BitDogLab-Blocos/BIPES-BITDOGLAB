@@ -688,6 +688,300 @@
       ]
     },
     {
+      "id": "condicionais",
+      "title": "Condicionais",
+      "icon": "🔀",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Booleano verdadeiro",
+          "description": "Primeiro contato: uma condição verdadeira permite que o LED vermelho acenda e depois se apague.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/01_booleano_verdadeiro.xml"
+        },
+        {
+          "number": 2,
+          "title": "Booleano falso senao",
+          "description": "Verdadeiro ou falso: o bloco Se/Senão sempre escolhe exatamente um caminho.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/02_booleano_falso_senao.xml"
+        },
+        {
+          "number": 3,
+          "title": "Comparar igual",
+          "description": "Igualdade: compare dois números para executar uma mensagem quando forem iguais.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/03_comparar_igual.xml"
+        },
+        {
+          "number": 4,
+          "title": "Comparar diferente",
+          "description": "Diferenca: o operador diferente reconhece quando dois valores não coincidem.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/04_comparar_diferente.xml"
+        },
+        {
+          "number": 5,
+          "title": "Comparar menor",
+          "description": "Menor que: use uma comparação para separar um valor baixo de um valor alto.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/05_comparar_menor.xml"
+        },
+        {
+          "number": 6,
+          "title": "Comparar menor ou igual",
+          "description": "Menor ou igual: a borda também pertence à faixa permitida.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/06_comparar_menor_ou_igual.xml"
+        },
+        {
+          "number": 7,
+          "title": "Comparar maior",
+          "description": "Maior que: identifique quando uma pontuação ultrapassa o valor de referência.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/07_comparar_maior.xml"
+        },
+        {
+          "number": 8,
+          "title": "Comparar maior ou igual",
+          "description": "Maior ou igual: uma condição de aprovação inclui exatamente a nota de corte.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/08_comparar_maior_ou_igual.xml"
+        },
+        {
+          "number": 9,
+          "title": "Logica e",
+          "description": "E lógico: as duas comparações precisam ser verdadeiras para liberar o LED verde.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/09_logica_e.xml"
+        },
+        {
+          "number": 10,
+          "title": "Logica ou",
+          "description": "OU lógico: basta uma das duas portas de entrada estar liberada para soar o aviso.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/10_logica_ou.xml"
+        },
+        {
+          "number": 11,
+          "title": "Logica nao",
+          "description": "NÃO lógico: inverter uma condição é útil para agir quando algo não está acontecendo.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/11_logica_nao.xml"
+        },
+        {
+          "number": 12,
+          "title": "Botao com decisao",
+          "description": "Entrada real: o botão A escolhe um caminho; sem pressionar, o programa continua sem ação.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/12_botao_com_decisao.xml"
+        },
+        {
+          "number": 13,
+          "title": "Variavel limite",
+          "description": "Variável com limite: o placar muda com A e uma condição escolhe a cor de aprovação.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/13_variavel_limite.xml"
+        },
+        {
+          "number": 14,
+          "title": "Pontuacao com duas faixas",
+          "description": "Duas faixas: um Se/Senão dentro de outro diferencia bronze, prata e ouro.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/14_pontuacao_com_duas_faixas.xml"
+        },
+        {
+          "number": 15,
+          "title": "Microfone modo silencioso",
+          "description": "Limiar de som: acima de 3 o sistema sinaliza alerta; abaixo disso mantém o LED verde.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/15_microfone_modo_silencioso.xml"
+        },
+        {
+          "number": 16,
+          "title": "Microfone com duas condicoes",
+          "description": "E com dados reais: só há alerta quando o som está alto e o joystick está deslocado.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/16_microfone_com_duas_condicoes.xml"
+        },
+        {
+          "number": 17,
+          "title": "Joystick zonas",
+          "description": "Zonas do joystick: primeiro atualiza o valor X no OLED; depois escolhe o emoji da matriz.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/17_joystick_zonas.xml"
+        },
+        {
+          "number": 18,
+          "title": "Semáforo de ruido na matriz",
+          "description": "Projeto semáforo: três faixas de ruído escolhem um emoji verde, amarelo ou vermelho na matriz.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/18_semaforo_de_ruido_na_matriz.xml"
+        },
+        {
+          "number": 19,
+          "title": "Menu interativo OLED",
+          "description": "Menu simples: cada toque em A avança a opção e o Se/Senão informa a escolha no OLED.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/19_menu_interativo_oled.xml"
+        },
+        {
+          "number": 20,
+          "title": "Central de alerta",
+          "description": "Projeto final: ruído alto OU joystick à direita dispara LED, som, matriz e contador no OLED.",
+          "icon": "🔀",
+          "xml": "examples/condicionais/20_central_de_alerta.xml"
+        }
+      ]
+    },
+    {
+      "id": "tempo",
+      "title": "Tempo e Relógio",
+      "icon": "⏱️",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Esperar segundos",
+          "description": "Uma pausa longa separa duas mensagens; a mensagem final permanece dois segundos.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/01_esperar_segundos.xml"
+        },
+        {
+          "number": 2,
+          "title": "Esperar milisegundos",
+          "description": "Milissegundos permitem controlar um pulso curto sem deixar o LED piscando rapido demais.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/02_esperar_milisegundos.xml"
+        },
+        {
+          "number": 3,
+          "title": "Tempo em segundos no OLED",
+          "description": "Um tempo em segundos entra no bloco Aguardar; a mensagem final fica visivel.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/03_tempo_em_segundos_no_oled.xml"
+        },
+        {
+          "number": 4,
+          "title": "Tempo em milisegundos",
+          "description": "Milissegundos controlam o pulso; a mensagem final permanece dois segundos.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/04_tempo_em_milisegundos.xml"
+        },
+        {
+          "number": 5,
+          "title": "Tempo em minutos",
+          "description": "O valor em minutos alimenta uma espera curta de demonstracao; a explicacao fica na tela.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/05_tempo_em_minutos.xml"
+        },
+        {
+          "number": 6,
+          "title": "Tempo em horas",
+          "description": "Horas tambem sao duracoes; a explicacao final fica visivel por dois segundos.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/06_tempo_em_horas.xml"
+        },
+        {
+          "number": 7,
+          "title": "Tempo ligado",
+          "description": "Tempo ligado atualiza o contador a cada quatro segundos, sem limpar a tela inteira.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/07_tempo_ligado.xml"
+        },
+        {
+          "number": 8,
+          "title": "Tempo ligado em minutos horas",
+          "description": "Projeto de conversao: o tempo ligado nasce em segundos e vira minutos e horas.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/08_tempo_ligado_em_minutos_horas.xml"
+        },
+        {
+          "number": 9,
+          "title": "Relogio de tempo ligado",
+          "description": "O relogio mostra HH:MM:SS; tres segundos deixam a passagem visivel sem piscar.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/09_relogio_de_tempo_ligado.xml"
+        },
+        {
+          "number": 10,
+          "title": "Cronometro basico",
+          "description": "O cronometro inicia uma vez e atualiza o OLED a cada cinco segundos: 5, 10, 15...",
+          "icon": "⏱️",
+          "xml": "examples/tempo/10_cronometro_basico.xml"
+        },
+        {
+          "number": 11,
+          "title": "Cronometro pausar com a",
+          "description": "A pausa o cronometro e B retoma do ponto em que ele parou; a leitura fica sempre visivel, sem limpar a tela inteira.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/11_cronometro_pausar_com_a.xml"
+        },
+        {
+          "number": 12,
+          "title": "Cronometro com um delay",
+          "description": "Exemplo de foco: um unico atraso de cinco segundos separa cada leitura, sem piscar a tela.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/12_cronometro_com_um_delay.xml"
+        },
+        {
+          "number": 13,
+          "title": "Cronometro reiniciar com c",
+          "description": "A pausa, B retoma e C reinicia o mesmo cronometro.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/13_cronometro_reiniciar_com_c.xml"
+        },
+        {
+          "number": 14,
+          "title": "Painel do cronometro",
+          "description": "Painel de formatos: A pausa, B retoma e C reinicia; o mesmo tempo aparece como HH:MM:SS e MM:SS.ms.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/14_painel_do_cronometro.xml"
+        },
+        {
+          "number": 15,
+          "title": "Voltas no cronometro",
+          "description": "Desafio dos 10 segundos: A para, B inicia uma nova tentativa; o LED indica se a meta foi alcancada.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/15_voltas_no_cronometro.xml"
+        },
+        {
+          "number": 16,
+          "title": "Metronomo de LED",
+          "description": "Duas esperas de dois segundos formam um ritmo total de quatro segundos.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/16_metronomo_de_led.xml"
+        },
+        {
+          "number": 17,
+          "title": "Cronometro na matriz",
+          "description": "A matriz mostra um rosto feliz enquanto o cronometro e lido no OLED.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/17_cronometro_na_matriz.xml"
+        },
+        {
+          "number": 18,
+          "title": "Dois cronometros",
+          "description": "Revezamento: A encerra a etapa A e passa para B; B faz o contrario; C reinicia as duas etapas.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/18_dois_cronometros.xml"
+        },
+        {
+          "number": 19,
+          "title": "Três cronometros",
+          "description": "Tres etapas em revezamento: A passa de crono 1 para 2, B passa para 3, C volta para 1; o joystick zera tudo.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/19_tres_cronometros.xml"
+        },
+        {
+          "number": 20,
+          "title": "Tempo enquanto segura",
+          "description": "Enquanto A estiver pressionado, o cronometro roda; ao soltar A, ele para. C zera o resultado.",
+          "icon": "⏱️",
+          "xml": "examples/tempo/20_tempo_enquanto_segura.xml"
+        }
+      ]
+    },
+    {
       "id": "leds",
       "title": "LEDs",
       "icon": "💡",
