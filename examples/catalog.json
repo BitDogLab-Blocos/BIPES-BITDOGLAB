@@ -1947,6 +1947,273 @@
           "xml": "examples/display_oled/36_central_inteligente_de_ruido.xml"
         }
       ]
+    },
+    {
+      "id": "joystick",
+      "title": "Joystick",
+      "icon": "🕹️",
+      "examples": [
+        {
+          "number": 1,
+          "title": "LED brilho com direcoes",
+          "description": "Descoberta básica: mover o joystick para cima aumenta o brilho do LED vermelho e mover para baixo reduz.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/01_led_brilho_com_direcoes.xml"
+        },
+        {
+          "number": 2,
+          "title": "LED intensidade no OLED",
+          "description": "Variação guiada: o joystick regula o LED azul e o OLED mostra a intensidade atual.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/02_led_intensidade_no_oled.xml"
+        },
+        {
+          "number": 3,
+          "title": "LED faixa de brilho",
+          "description": "Variação guiada: comece com pouca luz e use esquerda/direita para explorar o limite de 0 a 100%.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/03_led_faixa_de_brilho.xml"
+        },
+        {
+          "number": 4,
+          "title": "Buzzer frequencia com direcoes",
+          "description": "Descoberta básica: o joystick altera a frequência do buzzer entre 200 e 4000 Hz.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/04_buzzer_frequencia_com_direcoes.xml"
+        },
+        {
+          "number": 5,
+          "title": "Buzzer frequencia no OLED",
+          "description": "Variação guiada: o buzzer muda de altura e o OLED apresenta a frequência escolhida.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/05_buzzer_frequencia_no_oled.xml"
+        },
+        {
+          "number": 6,
+          "title": "Player movido no OLED",
+          "description": "Composição: o joystick posiciona continuamente um quadrado no OLED sem inserir uma espera entre as leituras.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/06_player_movido_no_oled.xml"
+        },
+        {
+          "number": 7,
+          "title": "Player com coordenadas",
+          "description": "Composição: o player acompanha continuamente o joystick enquanto suas posições X e Y aparecem em linhas separadas.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/07_player_com_coordenadas.xml"
+        },
+        {
+          "number": 8,
+          "title": "Lousa magica",
+          "description": "Projeto criativo: mova a caneta com o joystick e desenhe uma trilha persistente no OLED.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/08_lousa_magica.xml"
+        },
+        {
+          "number": 9,
+          "title": "Lousa com coordenadas",
+          "description": "Projeto criativo: desenhe no pequeno OLED e acompanhe as coordenadas atuais da caneta.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/09_lousa_com_coordenadas.xml"
+        },
+        {
+          "number": 10,
+          "title": "Cursor na matriz",
+          "description": "Composição com a matriz: mova um ponto azul pela grade 5x5 usando as quatro direções do joystick.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/10_cursor_na_matriz.xml"
+        },
+        {
+          "number": 11,
+          "title": "Seletor de emojis",
+          "description": "Projeto-desafio: navegue entre três emojis na matriz e altere a opção com um movimento por vez.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/11_seletor_de_emojis.xml"
+        },
+        {
+          "number": 12,
+          "title": "Seletor de números",
+          "description": "Projeto-desafio: use o joystick como seletor de uma sequência de números coloridos na matriz.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/12_seletor_de_numeros.xml"
+        },
+        {
+          "number": 13,
+          "title": "Luz e som combinados",
+          "description": "Projeto-desafio: um único joystick controla simultaneamente a intensidade da luz verde e a altura do som.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/13_luz_e_som_combinados.xml"
+        },
+        {
+          "number": 14,
+          "title": "Jogo do alvo no OLED",
+          "description": "Projeto-desafio sem delay: mova o player para a região superior esquerda, acompanhe X/Y no OLED e observe a mensagem de alvo.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/14_jogo_do_alvo_no_oled.xml"
+        },
+        {
+          "number": 15,
+          "title": "Lousa apagar com botao",
+          "description": "Desenhe no pequeno OLED; ao pressionar A, apague a lousa e ouça um bip curto.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/15_lousa_apagar_com_botao.xml"
+        },
+        {
+          "number": 16,
+          "title": "Instrumento magico de luz e som",
+          "description": "Experiência musical infantil sem delay: esquerda/direita muda a luz, cima/baixo muda o som e o OLED mostra os valores.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/16_instrumento_magico_de_luz_e_som.xml"
+        },
+        {
+          "number": 17,
+          "title": "Aventura das direcoes",
+          "description": "Mapa infantil sem delay: o player segue o joystick e cada região ensina uma direção com texto, cor e símbolo.",
+          "icon": "🕹️",
+          "xml": "examples/joystick/17_aventura_das_direcoes.xml"
+        }
+      ]
+    },
+    {
+      "id": "contatos",
+      "title": "Contatos",
+      "icon": "◉",
+      "cssIcon": "bitdoglab-external-contact-category-icon",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Contato toca bipe",
+          "description": "Um toque na Conexao 0 toca um bipe uma vez; separar e encostar de novo repete a acao.",
+          "icon": "◉",
+          "xml": "examples/contatos/01_contato_toca_bipe.xml"
+        },
+        {
+          "number": 2,
+          "title": "Contato 3v3 mostra número",
+          "description": "O fio comum vai ao 3V3; um toque na Conexao 0 mostra o numero 2 na Matriz. A V7 reserva 2 e 3 para a tela.",
+          "icon": "◉",
+          "xml": "examples/contatos/02_contato_3v3_mostra_numero.xml"
+        },
+        {
+          "number": 3,
+          "title": "Contato liga LED vermelho",
+          "description": "O contato usa a Conexao 0 e o vermelho do KY-016 usa a Conexao 1.",
+          "icon": "◉",
+          "xml": "examples/contatos/03_contato_liga_led_vermelho.xml"
+        },
+        {
+          "number": 4,
+          "title": "Contato muda LED da placa",
+          "description": "Enquanto a Conexao 1 estiver tocada, o LED verde da placa fica ligado; ao soltar, apaga.",
+          "icon": "◉",
+          "xml": "examples/contatos/04_contato_muda_led_da_placa.xml"
+        },
+        {
+          "number": 5,
+          "title": "Contato controla matriz",
+          "description": "A Conexao 2 decide o estado da Matriz: azul enquanto houver contato e apagada quando separar.",
+          "icon": "◉",
+          "xml": "examples/contatos/05_contato_controla_matriz.xml"
+        },
+        {
+          "number": 6,
+          "title": "Contato toca nota",
+          "description": "Cada toque na Conexao 2 toca a nota Mi e espera um pouco antes de aceitar outro toque.",
+          "icon": "◉",
+          "xml": "examples/contatos/06_contato_toca_nota.xml"
+        },
+        {
+          "number": 7,
+          "title": "Contato animacao RGB",
+          "description": "O toque na Conexao 0 inicia uma animacao RGB; os pinos do KY-016 ficam nas Conexoes 1, 2 e 3.",
+          "icon": "◉",
+          "xml": "examples/contatos/07_contato_animacao_rgb.xml"
+        },
+        {
+          "number": 8,
+          "title": "Contato move servo",
+          "description": "Um toque na Conexao 1 movimenta o servo da Conexao 2 entre duas posicoes.",
+          "icon": "◉",
+          "xml": "examples/contatos/08_contato_move_servo.xml"
+        },
+        {
+          "number": 9,
+          "title": "Contato escolhe angulo",
+          "description": "A Conexao 2 escolhe um dos dois angulos do servo ligado na Conexao 3.",
+          "icon": "◉",
+          "xml": "examples/contatos/09_contato_escolhe_angulo.xml"
+        },
+        {
+          "number": 10,
+          "title": "Contato servo gradual",
+          "description": "Ao encostar na Conexao 0, o servo da Conexao 2 sobe devagar de 0 a 90 graus.",
+          "icon": "◉",
+          "xml": "examples/contatos/10_contato_servo_gradual.xml"
+        },
+        {
+          "number": 11,
+          "title": "Contato le temperatura",
+          "description": "Enquanto o contato 0 estiver encostado, o grafico recebe novas leituras do DHT11 na Conexao 1.",
+          "icon": "◉",
+          "xml": "examples/contatos/11_contato_le_temperatura.xml"
+        },
+        {
+          "number": 12,
+          "title": "Contato mede barulho",
+          "description": "O contato 1 libera um medidor de barulho: o microfone atualiza a leitura e o OLED mostra o nivel.",
+          "icon": "◉",
+          "xml": "examples/contatos/12_contato_mede_barulho.xml"
+        },
+        {
+          "number": 13,
+          "title": "Contato LED externo duas cores",
+          "description": "Dois contatos formam uma regra: um contato sozinho mostra vermelho; os dois juntos liberam o verde do KY-016.",
+          "icon": "◉",
+          "xml": "examples/contatos/13_contato_led_externo_duas_cores.xml"
+        },
+        {
+          "number": 14,
+          "title": "Teste contatos colunas",
+          "description": "Diagnostico inicial: o bloco percorre os quatro contatos por colunas na Matriz. Aperte A para terminar antes de montar um projeto.",
+          "icon": "◉",
+          "xml": "examples/contatos/14_teste_contatos_colunas.xml"
+        },
+        {
+          "number": 15,
+          "title": "Teste contatos linhas gnd",
+          "description": "Segunda forma de diagnostico: os quatro contatos aparecem por linhas na Matriz. Use GND e aperte A para terminar o teste.",
+          "icon": "◉",
+          "xml": "examples/contatos/15_teste_contatos_linhas_gnd.xml"
+        },
+        {
+          "number": 16,
+          "title": "Contato conta toques",
+          "description": "Cada toque na Conexao 0 aumenta a memoria, mostra o total no OLED e toca uma nota. Ao chegar a 3, a Matriz confirma a meta.",
+          "icon": "◉",
+          "xml": "examples/contatos/16_contato_conta_toques.xml"
+        },
+        {
+          "number": 17,
+          "title": "Contato guarda estado",
+          "description": "A memoria guarda o estado do contato 1: 1 significa encostado e 0 separado. O LED e o OLED tornam essa lembranca visivel.",
+          "icon": "◉",
+          "xml": "examples/contatos/17_contato_guarda_estado.xml"
+        },
+        {
+          "number": 18,
+          "title": "Contato animacao duas cores",
+          "description": "Um toque na Conexao 0 cria uma comemoracao: coracao na Matriz, nota musical e limpeza ao final.",
+          "icon": "◉",
+          "xml": "examples/contatos/18_contato_animacao_duas_cores.xml"
+        },
+        {
+          "number": 19,
+          "title": "Contato servo e LED",
+          "description": "Projeto desafio: o contato 0 abre a cancela e o contato 1 fecha. O servo esta na 2, o LED vermelho externo na 3 e os LEDs da placa mostram o estado.",
+          "icon": "◉",
+          "xml": "examples/contatos/19_contato_servo_e_led.xml"
+        }
+      ]
     }
   ]
 }
