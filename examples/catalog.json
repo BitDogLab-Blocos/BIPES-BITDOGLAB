@@ -982,6 +982,118 @@
       ]
     },
     {
+      "id": "cores",
+      "title": "Cores",
+      "icon": "🎨",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Cores primarias da luz",
+          "description": "Mostra vermelho, verde e azul: as três cores primárias usadas pelos LEDs RGB.",
+          "icon": "🎨",
+          "xml": "examples/cores/1_cores_primarias_da_luz.xml"
+        },
+        {
+          "number": 2,
+          "title": "Cores secundarias da luz",
+          "description": "Mostra amarelo, ciano e magenta: cores formadas pela combinação de dois canais RGB.",
+          "icon": "🎨",
+          "xml": "examples/cores/2_cores_secundarias_da_luz.xml"
+        },
+        {
+          "number": 3,
+          "title": "Branco e mistura RGB",
+          "description": "Compara o branco pronto com a média de vermelho, verde e azul, que produz um branco mais fraco.",
+          "icon": "🎨",
+          "xml": "examples/cores/3_branco_e_mistura_rgb.xml"
+        },
+        {
+          "number": 4,
+          "title": "Temperatura da luz",
+          "description": "Simula a mudança da luz ao longo do dia, passando suavemente de uma aparência fria para neutra e depois quente.",
+          "icon": "🎨",
+          "xml": "examples/cores/4_temperatura_da_luz.xml"
+        },
+        {
+          "number": 5,
+          "title": "Harmonia complementar dividida",
+          "description": "Cria uma harmonia complementar dividida: o ciano é combinado com amarelo e magenta, vizinhos do vermelho, sua cor complementar.",
+          "icon": "🎨",
+          "xml": "examples/cores/5_harmonia_complementar_dividida.xml"
+        },
+        {
+          "number": 6,
+          "title": "Harmonia analoga por do sol",
+          "description": "Recria um pôr do sol com transições entre cores vizinhas, demonstrando a suavidade de uma harmonia análoga.",
+          "icon": "🎨",
+          "xml": "examples/cores/6_harmonia_analoga_por_do_sol.xml"
+        },
+        {
+          "number": 7,
+          "title": "Harmonia tetradica",
+          "description": "Mostra simultaneamente uma harmonia tetrádica na matriz, formando dois pares complementares: vermelho-ciano e amarelo-azul.",
+          "icon": "🎨",
+          "xml": "examples/cores/7_harmonia_tetradica.xml"
+        },
+        {
+          "number": 8,
+          "title": "Harmonia triadica RGB",
+          "description": "Explorador triádico: os botões A, B e C selecionam vermelho, verde e azul; o joystick apaga o LED.",
+          "icon": "🎨",
+          "xml": "examples/cores/8_harmonia_triadica_rgb.xml"
+        },
+        {
+          "number": 9,
+          "title": "Clareando azul com branco",
+          "description": "Compara azul puro, azul misturado com branco e azul-celeste para estudar tons mais claros.",
+          "icon": "🎨",
+          "xml": "examples/cores/9_clareando_azul_com_branco.xml"
+        },
+        {
+          "number": 10,
+          "title": "Proporcao na mistura",
+          "description": "Repete o vermelho na mistura para mostrar como a proporção desloca o resultado em direção ao vermelho.",
+          "icon": "🎨",
+          "xml": "examples/cores/10_proporcao_na_mistura.xml"
+        },
+        {
+          "number": 11,
+          "title": "Cor e brilho sao diferentes",
+          "description": "Mantém a mesma cor azul-celeste e altera apenas o brilho para separar os dois conceitos.",
+          "icon": "🎨",
+          "xml": "examples/cores/11_cor_e_brilho_sao_diferentes.xml"
+        },
+        {
+          "number": 12,
+          "title": "Pares de cores complementares",
+          "description": "Cria três duelos de alto contraste entre pares complementares: vermelho-ciano, verde-magenta e azul-amarelo.",
+          "icon": "🎨",
+          "xml": "examples/cores/12_pares_de_cores_complementares.xml"
+        },
+        {
+          "number": 13,
+          "title": "Circulo de cores",
+          "description": "Alterna pelas 12 cores prontas em uma ordem contínua, formando um círculo de cores no LED RGB.",
+          "icon": "🎨",
+          "xml": "examples/cores/13_circulo_de_cores.xml"
+        },
+        {
+          "number": 14,
+          "title": "Cartaz de contraste",
+          "description": "Cria faixas de cores contrastantes para observar como uma cor muda a percepção da cor vizinha.",
+          "icon": "🎨",
+          "xml": "examples/cores/14_cartaz_de_contraste.xml"
+        },
+        {
+          "number": 15,
+          "title": "Estudio interativo de harmonias",
+          "description": "Estúdio de harmonias: A mostra uma combinação análoga quente, B uma análoga fria, C uma tríade e o joystick apaga o LED.",
+          "icon": "🎨",
+          "xml": "examples/cores/15_estudio_interativo_de_harmonias.xml"
+        }
+      ]
+    },
+    {
       "id": "leds",
       "title": "LEDs",
       "icon": "💡",
@@ -1126,6 +1238,237 @@
           "description": "Conte uma sequência visual usando a iluminação.",
           "icon": "▦",
           "xml": "examples/leds/led_20_historia_da_luz.xml"
+        }
+      ]
+    },
+    {
+      "id": "matriz_led",
+      "title": "Matriz de LEDs",
+      "icon": "🔲",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Acender toda a matriz",
+          "description": "Iluminação básica: acende os 25 LEDs da matriz em azul com brilho moderado.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/1_acender_toda_a_matriz.xml"
+        },
+        {
+          "number": 2,
+          "title": "Botao liga e desliga",
+          "description": "Luz de pressão: a matriz fica verde enquanto o botão A estiver apertado e apaga ao soltar.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/2_botao_liga_e_desliga.xml"
+        },
+        {
+          "number": 3,
+          "title": "Ponto central",
+          "description": "Ponto de referência: acende somente o LED central da grade 5x5.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/3_ponto_central.xml"
+        },
+        {
+          "number": 4,
+          "title": "Quatro cantos",
+          "description": "Marcador de área: cria um desenho com LEDs coloridos nos quatro cantos da matriz.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/4_quatro_cantos.xml"
+        },
+        {
+          "number": 5,
+          "title": "Bandeira em linhas",
+          "description": "Bandeira abstrata: combina cinco linhas horizontais verdes, amarelas e azuis.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/5_bandeira_em_linhas.xml"
+        },
+        {
+          "number": 6,
+          "title": "Arco iris em colunas",
+          "description": "Faixas de cor: usa as cinco colunas para formar um pequeno arco-íris.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/6_arco_iris_em_colunas.xml"
+        },
+        {
+          "number": 7,
+          "title": "Números de 0 a 4",
+          "description": "Sequência numérica: apresenta os números de 0 a 4, um por segundo.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/7_numeros_de_0_a_4.xml"
+        },
+        {
+          "number": 8,
+          "title": "Contagem regressiva 9 a 5",
+          "description": "Contagem regressiva: mostra de 9 até 5 e encerra com a matriz apagada.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/8_contagem_regressiva_9_a_5.xml"
+        },
+        {
+          "number": 9,
+          "title": "Emoções em sequencia",
+          "description": "Mostra quatro emoções em sequência para criar uma pequena animação de sentimentos.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/9_emocoes_em_sequencia.xml"
+        },
+        {
+          "number": 10,
+          "title": "Previsao visual",
+          "description": "Apresenta símbolos de sol, chuva e flor como uma previsão visual simples.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/10_previsao_visual.xml"
+        },
+        {
+          "number": 11,
+          "title": "Alerta de fantasma",
+          "description": "Exibe um fantasma vermelho como sinal visual de alerta.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/11_alerta_de_fantasma.xml"
+        },
+        {
+          "number": 12,
+          "title": "Sequencia de natal",
+          "description": "Cria uma sequência natalina com árvore, floco de neve, presente e sino.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/12_sequencia_de_natal.xml"
+        },
+        {
+          "number": 13,
+          "title": "Piscar rápido",
+          "description": "Faz um coração piscar rapidamente para chamar atenção.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/13_piscar_rapido.xml"
+        },
+        {
+          "number": 14,
+          "title": "Piscar lento",
+          "description": "Faz um coração piscar lentamente, como uma sinalização suave.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/14_piscar_lento.xml"
+        },
+        {
+          "number": 15,
+          "title": "Aparecer e sumir",
+          "description": "Faz uma flor aparecer e desaparecer de forma gradual.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/15_aparecer_e_sumir.xml"
+        },
+        {
+          "number": 16,
+          "title": "Pulsar brilho",
+          "description": "Faz o brilho do coração aumentar e diminuir, imitando uma pulsação.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/16_pulsar_brilho.xml"
+        },
+        {
+          "number": 17,
+          "title": "Deslizar para cima",
+          "description": "Desliza uma seta para cima para indicar avanço ou subida.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/17_deslizar_para_cima.xml"
+        },
+        {
+          "number": 18,
+          "title": "Deslizar para baixo",
+          "description": "Desliza uma seta para baixo para indicar retorno ou descida.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/18_deslizar_para_baixo.xml"
+        },
+        {
+          "number": 19,
+          "title": "Deslizar para esquerda",
+          "description": "Move um presente para a esquerda na matriz.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/19_deslizar_para_esquerda.xml"
+        },
+        {
+          "number": 20,
+          "title": "Deslizar para direita",
+          "description": "Move um presente para a direita na matriz.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/20_deslizar_para_direita.xml"
+        },
+        {
+          "number": 21,
+          "title": "Balancar sino",
+          "description": "Balança um sino de um lado para o outro, lembrando seu movimento real.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/21_balancar_sino.xml"
+        },
+        {
+          "number": 22,
+          "title": "Contracao de fantasma",
+          "description": "Contrai o desenho de um fantasma para criar um efeito de susto.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/22_contracao_de_fantasma.xml"
+        },
+        {
+          "number": 23,
+          "title": "Flash de alerta",
+          "description": "Produz um clarão branco atrás de um rosto surpreso para reforçar o alerta.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/23_flash_de_alerta.xml"
+        },
+        {
+          "number": 24,
+          "title": "Cursor com joystick",
+          "description": "Move um ponto azul pela matriz com o joystick. O ponto começa no centro.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/24_cursor_com_joystick.xml"
+        },
+        {
+          "number": 25,
+          "title": "Seletor de emoções",
+          "description": "Use o joystick para escolher entre alegria, tristeza, surpresa e coração.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/25_seletor_de_emocoes.xml"
+        },
+        {
+          "number": 26,
+          "title": "Medidor de barulho",
+          "description": "A matriz cresce conforme o barulho. O display mostra o nível medido, de 0 a 5.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/26_medidor_de_barulho.xml"
+        },
+        {
+          "number": 27,
+          "title": "Monitor da matriz no display",
+          "description": "Mostra um coração na matriz e apresenta seu estado, desenho, cor, brilho e quantidade de LEDs no display.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/27_monitor_da_matriz_no_display.xml"
+        },
+        {
+          "number": 28,
+          "title": "Semáforo de pedestres",
+          "description": "Semáforo de pedestres: começa fechado. Ao pressionar A, libera a travessia, avisa que o tempo está terminando e volta a fechar.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/28_semaforo_de_pedestres.xml"
+        },
+        {
+          "number": 29,
+          "title": "Placar interativo na matriz",
+          "description": "Placar de 0 a 3: A soma um ponto, B retira um ponto e a matriz mostra o resultado. Os limites impedem valores inválidos.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/29_placar_interativo_na_matriz.xml"
+        },
+        {
+          "number": 30,
+          "title": "Painel interativo de emoções",
+          "description": "Painel de emoções: A mostra alegria, B mostra tristeza e C mostra surpresa. Cada escolha usa um efeito visual diferente.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/30_painel_interativo_de_emocoes.xml"
+        },
+        {
+          "number": 31,
+          "title": "Codigo secreto com feedback",
+          "description": "Código secreto: A digita 1, B digita 2 e C confirma. A sequência 1212 mostra sucesso; qualquer outra mostra erro e reinicia.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/31_codigo_secreto_com_feedback.xml"
+        },
+        {
+          "number": 32,
+          "title": "Alerta inteligente de ruido",
+          "description": "Semáforo de ruído: mede o som e mostra uma expressão verde, amarela ou vermelha conforme o ambiente fica mais barulhento.",
+          "icon": "🔲",
+          "xml": "examples/matriz_led/32_alerta_inteligente_de_ruido.xml"
         }
       ]
     }
