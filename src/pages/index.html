@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="../styles/visual-themes.css?ver=20260722b2">
   <link rel="stylesheet" href="../../device-file-manager/device-files.css?ver=20260718a8">
   <link rel="stylesheet" href="../styles/libs.css">
+  <link rel="stylesheet" href="../styles/examples.css?ver=20260910examples-base">
   <link rel="stylesheet" href="../js/lib/codemirror/codemirror.css">
   <script src="../js/ui/visual-themes.js?ver=20260722b2"></script>
   <!-- Blockly core -->
@@ -411,6 +412,42 @@
   <input type="checkbox" id="resetBoard" style="display:none" value="off">
 
   <div id="content_blocks" class="content"></div>
+
+  <button
+    id="examplesToggle"
+    class="examples-toggle"
+    type="button"
+    aria-controls="examplesPanel"
+    aria-expanded="false">
+    <span class="examples-toggle-icon" aria-hidden="true">📚</span>
+    <span>Exemplos</span>
+  </button>
+
+  <aside
+    id="examplesPanel"
+    class="examples-panel"
+    aria-label="Biblioteca de exemplos"
+    hidden>
+    <header class="examples-panel-header">
+      <div>
+        <p class="examples-panel-eyebrow">Aprenda praticando</p>
+        <h2 id="examplesPanelTitle">Exemplos</h2>
+      </div>
+      <button id="examplesClose" class="examples-panel-close" type="button" aria-label="Fechar exemplos">&times;</button>
+    </header>
+
+    <div class="examples-panel-body">
+      <button id="examplesBack" class="examples-back" type="button" hidden>
+        <span aria-hidden="true">←</span>
+        <span>Voltar às categorias</span>
+      </button>
+      <p id="examplesPanelIntro" class="examples-panel-intro">
+        Escolha uma categoria para encontrar um projeto pronto para editar.
+      </p>
+      <div id="examplesContent"></div>
+    </div>
+  </aside>
+
   <div id="content_console" class="content">
 
     <tr height="25%">
@@ -459,6 +496,7 @@
 <script src="../js/bootstrap/onboarding.js?ver=20260809arch1"></script>
 <script src="../js/bootstrap/services.js?ver=20260809arch1"></script>
 <script src="../js/bootstrap/page.js?ver=20260903robotArrows1"></script>
+<script src="../js/ui/examples-panel.js?ver=20260910examples-base"></script>
 
 </body>
 </html>
