@@ -63,7 +63,10 @@
 
       var icon = createElement('span', 'examples-category-icon', category.icon);
       icon.setAttribute('aria-hidden', 'true');
-      if (category.cssIcon) icon.classList.add(category.cssIcon);
+      if (category.cssIcon) {
+        icon.classList.add(category.cssIcon);
+        icon.textContent = '';
+      }
 
       var copy = createElement('span', 'examples-category-copy');
       copy.appendChild(createElement('strong', '', category.title));

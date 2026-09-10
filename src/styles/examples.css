@@ -25,6 +25,7 @@
 .examples-toggle:focus-visible {
   border-color: var(--bitdoglab-accent, #ff8c00);
   background: #bdb2ff;
+  transform: translateY(-50%);
   outline: none;
 }
 
@@ -170,6 +171,7 @@
 .examples-category-card:hover,
 .examples-category-card:focus-visible {
   border-color: var(--bitdoglab-accent, #ff8c00);
+  transform: none;
   outline: none;
 }
 
@@ -180,8 +182,12 @@
   flex: 0 0 1.9rem;
   place-items: center;
   border-radius: .35rem;
-  background: rgba(255, 255, 255, .55);
+  background-color: rgba(255, 255, 255, .55);
   font-size: 1rem;
+}
+
+.examples-category-icon[class*="bitdoglab-"] {
+  background-color: #fff;
 }
 
 .examples-category-copy {
@@ -264,6 +270,7 @@
 .examples-card-load:focus-visible {
   border-color: #8a4e00;
   background: #ffadad;
+  transform: none;
   outline: none;
 }
 
@@ -271,6 +278,11 @@
   .examples-toggle {
     top: auto;
     bottom: 1rem;
+    transform: none;
+  }
+
+  .examples-toggle:hover,
+  .examples-toggle:focus-visible {
     transform: none;
   }
 
