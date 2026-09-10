@@ -1471,6 +1471,482 @@
           "xml": "examples/matriz_led/32_alerta_inteligente_de_ruido.xml"
         }
       ]
+    },
+    {
+      "id": "som",
+      "title": "Som",
+      "icon": "🔊",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Escala natural completa",
+          "description": "Aula musical completa: Dó a Si formam uma escala natural em uma única melodia.",
+          "icon": "🔊",
+          "xml": "examples/som/01_escala_natural_completa.xml"
+        },
+        {
+          "number": 2,
+          "title": "Frequencia no OLED",
+          "description": "Projeto de sintetizador: o joystick muda a frequência, a variável guarda o valor e o OLED o mostra.",
+          "icon": "🔊",
+          "xml": "examples/som/02_frequencia_no_oled.xml"
+        },
+        {
+          "number": 3,
+          "title": "Oitavas comparadas",
+          "description": "A mesma nota Do em três oitavas mostra que a frequencia sobe sem mudar o nome.",
+          "icon": "🔊",
+          "xml": "examples/som/03_oitavas_comparadas.xml"
+        },
+        {
+          "number": 4,
+          "title": "Ritmo com silencios",
+          "description": "Ritmo é som mais silêncio: a trilha alterna notas e pausas de tamanhos diferentes.",
+          "icon": "🔊",
+          "xml": "examples/som/04_ritmo_com_silencios.xml"
+        },
+        {
+          "number": 5,
+          "title": "Teclado de botoes",
+          "description": "Três botões viram um pequeno teclado: cada tecla toca uma nota e identifica sua função.",
+          "icon": "🔊",
+          "xml": "examples/som/05_teclado_de_botoes.xml"
+        },
+        {
+          "number": 6,
+          "title": "Pontuacao musical",
+          "description": "Projeto com memória: A, B e C somam pontos diferentes e respondem com notas.",
+          "icon": "🔊",
+          "xml": "examples/som/06_pontuacao_musical.xml"
+        },
+        {
+          "number": 7,
+          "title": "Notas com luzes",
+          "description": "Cada nota da frase acende uma cor diferente e termina em silêncio.",
+          "icon": "🔊",
+          "xml": "examples/som/07_notas_com_luzes.xml"
+        },
+        {
+          "number": 8,
+          "title": "Ritmo curto longo",
+          "description": "Uma mesma frase usa durações curtas e longas para ensinar ritmo sem trocar as notas.",
+          "icon": "🔊",
+          "xml": "examples/som/08_ritmo_curto_longo.xml"
+        },
+        {
+          "number": 9,
+          "title": "Resposta musical",
+          "description": "O estudante cria uma resposta: A toca uma pergunta curta e B responde mais agudo.",
+          "icon": "🔊",
+          "xml": "examples/som/09_resposta_musical.xml"
+        },
+        {
+          "number": 10,
+          "title": "Som agudo",
+          "description": "Um som agudo é um teste rápido para perceber frequência e duração.",
+          "icon": "🔊",
+          "xml": "examples/som/10_som_agudo.xml"
+        },
+        {
+          "number": 11,
+          "title": "Bipe curto",
+          "description": "O bipe curto é o menor feedback sonoro para confirmar uma ação.",
+          "icon": "🔊",
+          "xml": "examples/som/11_bipe_curto.xml"
+        },
+        {
+          "number": 12,
+          "title": "Bipe duplo",
+          "description": "Dois bipes criam um sinal diferente do bipe curto.",
+          "icon": "🔊",
+          "xml": "examples/som/12_bipe_duplo.xml"
+        },
+        {
+          "number": 13,
+          "title": "Alerta intermitente",
+          "description": "O alerta intermitente mostra como um padrão sonoro comunica atenção.",
+          "icon": "🔊",
+          "xml": "examples/som/13_alerta_intermitente.xml"
+        },
+        {
+          "number": 14,
+          "title": "Chamada",
+          "description": "O som de chamada representa uma campainha que pede uma resposta.",
+          "icon": "🔊",
+          "xml": "examples/som/14_chamada.xml"
+        },
+        {
+          "number": 15,
+          "title": "Som de moeda",
+          "description": "O som de moeda é um feedback positivo para coletar ou pontuar algo.",
+          "icon": "🔊",
+          "xml": "examples/som/15_som_de_moeda.xml"
+        },
+        {
+          "number": 16,
+          "title": "Som de sucesso",
+          "description": "O som de sucesso usa uma subida musical para comemorar um acerto.",
+          "icon": "🔊",
+          "xml": "examples/som/16_som_de_sucesso.xml"
+        },
+        {
+          "number": 17,
+          "title": "Som de falha",
+          "description": "O som de falha usa uma descida para indicar que uma tentativa terminou.",
+          "icon": "🔊",
+          "xml": "examples/som/17_som_de_falha.xml"
+        },
+        {
+          "number": 18,
+          "title": "Som de laser",
+          "description": "O efeito de laser mostra que uma sequência de frequências cria uma narrativa.",
+          "icon": "🔊",
+          "xml": "examples/som/18_som_de_laser.xml"
+        },
+        {
+          "number": 19,
+          "title": "Sirene policial",
+          "description": "A sirene alterna duas alturas para produzir um alerta reconhecível.",
+          "icon": "🔊",
+          "xml": "examples/som/19_sirene_policial.xml"
+        },
+        {
+          "number": 20,
+          "title": "Escala ascendente",
+          "description": "A escala ascendente permite ouvir a passagem gradual de grave para agudo.",
+          "icon": "🔊",
+          "xml": "examples/som/20_escala_ascendente.xml"
+        },
+        {
+          "number": 21,
+          "title": "Escala descendente",
+          "description": "A escala descendente completa a comparação de direção musical.",
+          "icon": "🔊",
+          "xml": "examples/som/21_escala_descendente.xml"
+        },
+        {
+          "number": 22,
+          "title": "Brilha brilha estrelinha",
+          "description": "Uma melodia pronta mostra como um único bloco pode contar uma história musical.",
+          "icon": "🔊",
+          "xml": "examples/som/22_brilha_brilha_estrelinha.xml"
+        },
+        {
+          "number": 23,
+          "title": "Parar som",
+          "description": "Tocar, aguardar e parar ensina que o silêncio também é um estado do projeto.",
+          "icon": "🔊",
+          "xml": "examples/som/23_parar_som.xml"
+        },
+        {
+          "number": 24,
+          "title": "Melodia personalizada",
+          "description": "Projeto musical: a engrenagem cria quatro passos com nota e duração escolhidas.",
+          "icon": "🔊",
+          "xml": "examples/som/24_melodia_personalizada.xml"
+        },
+        {
+          "number": 25,
+          "title": "Trilha sonora com pausas",
+          "description": "Projeto maior: alterna ações de som e pausas para ensinar ritmo e silêncio.",
+          "icon": "🔊",
+          "xml": "examples/som/25_trilha_sonora_com_pausas.xml"
+        },
+        {
+          "number": 26,
+          "title": "Semáforo sonoro",
+          "description": "Projeto integrado: três cores e três sons contam uma sequência de semáforo.",
+          "icon": "🔊",
+          "xml": "examples/som/26_semaforo_sonoro.xml"
+        },
+        {
+          "number": 27,
+          "title": "Botoes com sons",
+          "description": "Projeto interativo: cada botão dispara um feedback sonoro e uma mensagem.",
+          "icon": "🔊",
+          "xml": "examples/som/27_botoes_com_sons.xml"
+        },
+        {
+          "number": 28,
+          "title": "Placar com som",
+          "description": "Projeto com variável: A soma acertos, B tira pontos e o OLED mostra o estado.",
+          "icon": "🔊",
+          "xml": "examples/som/28_placar_com_som.xml"
+        },
+        {
+          "number": 29,
+          "title": "Memoria sonora",
+          "description": "Projeto-desafio: três botões representam três sons e três emojis diferentes.",
+          "icon": "🔊",
+          "xml": "examples/som/29_memoria_sonora.xml"
+        },
+        {
+          "number": 30,
+          "title": "Festa de luzes e sons",
+          "description": "Projeto final: contador, OLED, LED e notas formam uma pequena apresentação.",
+          "icon": "🔊",
+          "xml": "examples/som/30_festa_de_luzes_e_sons.xml"
+        }
+      ]
+    },
+    {
+      "id": "display_oled",
+      "title": "Display OLED",
+      "icon": "📺",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Testar conexão OLED pequeno",
+          "description": "Diagnóstico inicial: confirma o OLED pequeno e mostra os pinos I2C usados pela placa.",
+          "icon": "📺",
+          "xml": "examples/display_oled/01_testar_conexao_oled_pequeno.xml"
+        },
+        {
+          "number": 2,
+          "title": "Texto alinhado a esquerda",
+          "description": "Descoberta básica: escreve uma mensagem curta à esquerda da primeira linha do OLED pequeno.",
+          "icon": "📺",
+          "xml": "examples/display_oled/02_texto_alinhado_a_esquerda.xml"
+        },
+        {
+          "number": 3,
+          "title": "Texto centralizado",
+          "description": "Variação guiada: centraliza uma mensagem na terceira linha do OLED pequeno.",
+          "icon": "📺",
+          "xml": "examples/display_oled/03_texto_centralizado.xml"
+        },
+        {
+          "number": 4,
+          "title": "Texto alinhado a direita",
+          "description": "Variação guiada: posiciona uma mensagem curta à direita da quinta linha.",
+          "icon": "📺",
+          "xml": "examples/display_oled/04_texto_alinhado_a_direita.xml"
+        },
+        {
+          "number": 5,
+          "title": "Painel com cinco linhas",
+          "description": "Composição básica: organiza cinco informações curtas como uma ficha no OLED pequeno.",
+          "icon": "📺",
+          "xml": "examples/display_oled/05_painel_com_cinco_linhas.xml"
+        },
+        {
+          "number": 6,
+          "title": "Texto piscando",
+          "description": "Animação básica: faz a palavra ATENCAO aparecer e sumir em ritmos diferentes.",
+          "icon": "📺",
+          "xml": "examples/display_oled/06_texto_piscando.xml"
+        },
+        {
+          "number": 7,
+          "title": "Alerta piscante com botao",
+          "description": "Aplicação: a tela fica estável e o alerta pisca uma vez somente quando o botão A é pressionado.",
+          "icon": "📺",
+          "xml": "examples/display_oled/07_alerta_piscante_com_botao.xml"
+        },
+        {
+          "number": 8,
+          "title": "Mostrar resultado de soma",
+          "description": "Matemática visível: apresenta a pergunta na primeira linha e o resultado 20 na segunda.",
+          "icon": "📺",
+          "xml": "examples/display_oled/08_mostrar_resultado_de_soma.xml"
+        },
+        {
+          "number": 9,
+          "title": "Media de três notas",
+          "description": "Matemática aplicada: calcula no OLED a média das notas 7, 8 e 9.",
+          "icon": "📺",
+          "xml": "examples/display_oled/09_media_de_tres_notas.xml"
+        },
+        {
+          "number": 10,
+          "title": "Resto da divisao",
+          "description": "Matemática aplicada: mostra que o resto da divisão de 17 por 5 é 2.",
+          "icon": "📺",
+          "xml": "examples/display_oled/10_resto_da_divisao.xml"
+        },
+        {
+          "number": 11,
+          "title": "Mostrar valor guardado",
+          "description": "Variável visível: guarda 42 pontos e mostra o valor à direita do rótulo.",
+          "icon": "📺",
+          "xml": "examples/display_oled/11_mostrar_valor_guardado.xml"
+        },
+        {
+          "number": 12,
+          "title": "Tempo ligado em quatro formatos",
+          "description": "Relógio da placa: compara horas, minutos, segundos e milissegundos no mesmo OLED.",
+          "icon": "📺",
+          "xml": "examples/display_oled/12_tempo_ligado_em_quatro_formatos.xml"
+        },
+        {
+          "number": 13,
+          "title": "Moldura com titulo",
+          "description": "Organização visual: desenha uma moldura e posiciona título e conteúdo dentro dela.",
+          "icon": "📺",
+          "xml": "examples/display_oled/13_moldura_com_titulo.xml"
+        },
+        {
+          "number": 14,
+          "title": "Desenhar e apagar moldura",
+          "description": "Experimento visual: mantém a moldura por dois segundos, apaga somente a borda e repete.",
+          "icon": "📺",
+          "xml": "examples/display_oled/14_desenhar_e_apagar_moldura.xml"
+        },
+        {
+          "number": 15,
+          "title": "Limpar tela com controle",
+          "description": "Limpeza sem piscar: A apaga e mantém a tela vazia; B permite desenhar o texto novamente.",
+          "icon": "📺",
+          "xml": "examples/display_oled/15_limpar_tela_com_controle.xml"
+        },
+        {
+          "number": 16,
+          "title": "Monitor de estado do LED",
+          "description": "Painel de LED: A liga o vermelho, B apaga e o OLED informa o estado atual.",
+          "icon": "📺",
+          "xml": "examples/display_oled/16_monitor_de_estado_do_led.xml"
+        },
+        {
+          "number": 17,
+          "title": "Monitor dos quatro botoes",
+          "description": "Entrada em tempo real: usa as quatro linhas para observar A, B, C e o botão do joystick.",
+          "icon": "📺",
+          "xml": "examples/display_oled/17_monitor_dos_quatro_botoes.xml"
+        },
+        {
+          "number": 18,
+          "title": "Contador de apertos do botao a",
+          "description": "Contagem autônoma: mostra se A está pressionado e quantas vezes ele foi acionado.",
+          "icon": "📺",
+          "xml": "examples/display_oled/18_contador_de_apertos_do_botao_a.xml"
+        },
+        {
+          "number": 19,
+          "title": "Botao b zerando contador a",
+          "description": "Controle de contagem: A acumula cliques e B zera somente o contador de A.",
+          "icon": "📺",
+          "xml": "examples/display_oled/19_botao_b_zerando_contador_a.xml"
+        },
+        {
+          "number": 20,
+          "title": "Botao a zerando contador b",
+          "description": "Variação: B acumula cliques e A zera somente o contador de B.",
+          "icon": "📺",
+          "xml": "examples/display_oled/20_botao_a_zerando_contador_b.xml"
+        },
+        {
+          "number": 21,
+          "title": "Botao a zerando contador c",
+          "description": "Variação: C acumula cliques e A zera somente o contador de C.",
+          "icon": "📺",
+          "xml": "examples/display_oled/21_botao_a_zerando_contador_c.xml"
+        },
+        {
+          "number": 22,
+          "title": "Joystick zerando todos contadores",
+          "description": "Painel duplo: A e B contam separadamente; apertar o joystick zera A, B e C juntos.",
+          "icon": "📺",
+          "xml": "examples/display_oled/22_joystick_zerando_todos_contadores.xml"
+        },
+        {
+          "number": 23,
+          "title": "Status de bipe curto",
+          "description": "Monitor sonoro: A produz um bipe curto e o OLED informa quando o buzzer está tocando.",
+          "icon": "📺",
+          "xml": "examples/display_oled/23_status_de_bipe_curto.xml"
+        },
+        {
+          "number": 24,
+          "title": "Status de nota com frequencia",
+          "description": "Monitor musical: B toca Lá e o OLED mostra simultaneamente o status e a frequência do buzzer.",
+          "icon": "📺",
+          "xml": "examples/display_oled/24_status_de_nota_com_frequencia.xml"
+        },
+        {
+          "number": 25,
+          "title": "Dashboard de coração na matriz",
+          "description": "Dashboard completo: mostra coração, estado, nome, cor, brilho e LEDs acesos.",
+          "icon": "📺",
+          "xml": "examples/display_oled/25_dashboard_de_coracao_na_matriz.xml"
+        },
+        {
+          "number": 26,
+          "title": "Dashboard RGB de número",
+          "description": "Variação do dashboard: mostra o número 7 e explora RGB, nome da cor e alinhamentos.",
+          "icon": "📺",
+          "xml": "examples/display_oled/26_dashboard_rgb_de_numero.xml"
+        },
+        {
+          "number": 27,
+          "title": "Joystick controlando brilho",
+          "description": "Controle contínuo: o joystick muda o brilho do LED verde e o OLED mostra valor e estado.",
+          "icon": "📺",
+          "xml": "examples/display_oled/27_joystick_controlando_brilho.xml"
+        },
+        {
+          "number": 28,
+          "title": "Player com coordenadas no OLED",
+          "description": "Interface de movimento: o joystick move o player e as coordenadas aparecem sem atrasar a tela.",
+          "icon": "📺",
+          "xml": "examples/display_oled/28_player_com_coordenadas_no_oled.xml"
+        },
+        {
+          "number": 29,
+          "title": "Barra de ruido no OLED",
+          "description": "Instrumento de medição: o microfone desenha uma barra e mostra a intensidade percentual.",
+          "icon": "📺",
+          "xml": "examples/display_oled/29_barra_de_ruido_no_oled.xml"
+        },
+        {
+          "number": 30,
+          "title": "Microfone com nivel e matriz",
+          "description": "Medidor audiovisual: a matriz cresce com o ruído e o OLED mostra o nível numérico de 0 a 5.",
+          "icon": "📺",
+          "xml": "examples/display_oled/30_microfone_com_nivel_e_matriz.xml"
+        },
+        {
+          "number": 31,
+          "title": "Cronometro controlado por a b c",
+          "description": "Projeto: A pausa, B retoma e C reinicia um cronômetro mostrado continuamente no OLED.",
+          "icon": "📺",
+          "xml": "examples/display_oled/31_cronometro_controlado_por_a_b_c.xml"
+        },
+        {
+          "number": 32,
+          "title": "Placar de três pontos",
+          "description": "Projeto de jogo: A soma, B retira, C zera; OLED e matriz apresentam o placar de 0 a 3.",
+          "icon": "📺",
+          "xml": "examples/display_oled/32_placar_de_tres_pontos.xml"
+        },
+        {
+          "number": 33,
+          "title": "Menu de luz e som",
+          "description": "Projeto de menu: A alterna entre luz azul e som; OLED apresenta modo, LED e buzzer.",
+          "icon": "📺",
+          "xml": "examples/display_oled/33_menu_de_luz_e_som.xml"
+        },
+        {
+          "number": 34,
+          "title": "Lousa com apagar e bipe",
+          "description": "Projeto de desenho: o joystick desenha; A limpa o OLED somente quando pressionado e confirma com bip.",
+          "icon": "📺",
+          "xml": "examples/display_oled/34_lousa_com_apagar_e_bipe.xml"
+        },
+        {
+          "number": 35,
+          "title": "Painel central da placa",
+          "description": "Projeto final: reúne tempo ligado, contador de A, comandos B/C e estado do LED verde.",
+          "icon": "📺",
+          "xml": "examples/display_oled/35_painel_central_da_placa.xml"
+        },
+        {
+          "number": 36,
+          "title": "Central inteligente de ruido",
+          "description": "Central de ruído: A/B ajustam o limite, C zera alertas; microfone, matriz, LED, buzzer e OLED trabalham juntos.",
+          "icon": "📺",
+          "xml": "examples/display_oled/36_central_inteligente_de_ruido.xml"
+        }
+      ]
     }
   ]
 }
