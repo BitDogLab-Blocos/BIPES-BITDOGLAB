@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "id": "leds",
+      "title": "LEDs",
+      "icon": "💡",
+      "examples": [
+        { "number": 1, "title": "Ligar", "description": "Acenda o LED da placa e observe o primeiro resultado.", "icon": "💡", "xml": "examples/leds/led_01_ligar.xml", "image": "examples/illustrations/leds/led_01_ligar.svg" },
+        { "number": 2, "title": "Desligar", "description": "Desligue o LED usando um bloco de saída.", "icon": "◼", "xml": "examples/leds/led_02_desligar.xml" },
+        { "number": 3, "title": "Desligar todos", "description": "Controle todos os LEDs da placa de uma vez.", "icon": "▪", "xml": "examples/leds/led_03_desligar_todos.xml" },
+        { "number": 4, "title": "Brilho", "description": "Controle a intensidade do LED usando blocos.", "icon": "✦", "xml": "examples/leds/led_04_brilho.xml" },
+        { "number": 5, "title": "Piscar rápido", "description": "Faça o LED piscar em uma sequência rápida.", "icon": "⚡", "xml": "examples/leds/led_05_piscar_rapido.xml" },
+        { "number": 6, "title": "Piscar lento", "description": "Observe o efeito de um pisca mais demorado.", "icon": "◌", "xml": "examples/leds/led_06_piscar_lento.xml" },
+        { "number": 7, "title": "Coração", "description": "Crie uma animação de coração com o LED RGB.", "icon": "♥", "xml": "examples/leds/led_07_coracao.xml" },
+        { "number": 8, "title": "SOS", "description": "Monte um sinal de SOS usando os LEDs.", "icon": "SOS", "xml": "examples/leds/led_08_sos.xml" },
+        { "number": 9, "title": "Brilhar com fade", "description": "Aumente e reduza o brilho suavemente.", "icon": "◐", "xml": "examples/leds/led_09_brilhar_fade.xml" },
+        { "number": 10, "title": "Alternar", "description": "Alterne o estado do LED em cada repetição.", "icon": "↔", "xml": "examples/leds/led_10_alternar.xml" },
+        { "number": 11, "title": "Transição", "description": "Faça uma transição gradual entre cores.", "icon": "→", "xml": "examples/leds/led_11_transicao.xml" },
+        { "number": 12, "title": "Batalhar", "description": "Experimente uma disputa de cores e estados.", "icon": "⚔", "xml": "examples/leds/led_12_batalhar.xml" },
+        { "number": 13, "title": "Animação livre", "description": "Combine comandos para criar sua própria animação.", "icon": "✧", "xml": "examples/leds/led_13_animacao_livre.xml" },
+        { "number": 14, "title": "Semáforo", "description": "Monte uma sequência de cores com LEDs.", "icon": "●", "xml": "examples/leds/led_14_semaforo.xml" },
+        { "number": 15, "title": "Respiração RGB", "description": "Crie um efeito de luz que aumenta e diminui.", "icon": "◒", "xml": "examples/leds/led_15_respiracao_rgb.xml" },
+        { "number": 16, "title": "Arco-íris e transições", "description": "Percorra várias cores com transições suaves.", "icon": "RGB", "xml": "examples/leds/led_16_arcoiris_transicoes.xml" },
+        { "number": 17, "title": "Painel de status", "description": "Use cores diferentes para representar estados.", "icon": "▤", "xml": "examples/leds/led_17_painel_de_status.xml" },
+        { "number": 18, "title": "Alarme multinível", "description": "Mostre níveis de alerta usando cores.", "icon": "!", "xml": "examples/leds/led_18_alarme_multinivel.xml" },
+        { "number": 19, "title": "Festival RGB", "description": "Combine cores e ritmos em uma apresentação.", "icon": "RGB", "xml": "examples/leds/led_19_festival_rgb.xml" },
+        { "number": 20, "title": "História da luz", "description": "Conte uma sequência visual usando a iluminação.", "icon": "▦", "xml": "examples/leds/led_20_historia_da_luz.xml" }
+      ]
+    }
+  ]
+}

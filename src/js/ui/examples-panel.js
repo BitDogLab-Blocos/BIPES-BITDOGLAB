@@ -3,60 +3,28 @@
 (function(global) {
   var ExamplesPanel = {};
 
-  // Temporary data to validate the navigation and placement before catalog.json exists.
-  var CATEGORIES = [
-    {
-      id: 'leds',
-      title: 'LEDs',
-      icon: '💡',
-      count: 20,
-      examples: [
-        { number: 1, title: 'Ligar', description: 'Acenda o LED da placa e observe o primeiro resultado.', icon: '💡', xml: '../../examples/leds/led_01_ligar.xml' },
-        { number: 4, title: 'Brilho', description: 'Controle a intensidade do LED usando blocos.', icon: '✨', xml: '../../examples/leds/led_04_brilho.xml' },
-        { number: 14, title: 'Semáforo', description: 'Monte uma sequência de cores com LEDs.', icon: '🚦', xml: '../../examples/leds/led_14_semaforo.xml' }
-      ]
-    },
-    {
-      id: 'matriz_led',
-      title: 'Matriz de LEDs',
-      icon: '🔲',
-      count: 32,
-      examples: [
-        { number: 1, title: 'Acender toda a matriz', description: 'Preencha a matriz e explore os primeiros desenhos.', icon: '🔲', xml: '../../examples/matriz_led/1_acender_toda_a_matriz.xml' },
-        { number: 3, title: 'Ponto central', description: 'Posicione um ponto no centro da matriz.', icon: '🎯', xml: '../../examples/matriz_led/3_ponto_central.xml' },
-        { number: 9, title: 'Emoções em sequência', description: 'Mostre diferentes expressões em sequência.', icon: '😊', xml: '../../examples/matriz_led/9_emocoes_em_sequencia.xml' }
-      ]
-    },
-    {
-      id: 'display_oled',
-      title: 'Display OLED',
-      icon: '📺',
-      count: 36,
-      examples: [
-        { number: 1, title: 'Testar conexão OLED', description: 'Verifique a comunicação com o display.', icon: '📺', xml: '../../examples/display_oled/01_testar_conexao_oled_pequeno.xml' },
-        { number: 3, title: 'Texto centralizado', description: 'Escreva uma mensagem no centro da tela.', icon: '🔤', xml: '../../examples/display_oled/03_texto_centralizado.xml' },
-        { number: 8, title: 'Resultado de uma soma', description: 'Calcule e mostre um resultado no OLED.', icon: '➕', xml: '../../examples/display_oled/08_mostrar_resultado_de_soma.xml' }
-      ]
-    },
-    {
-      id: 'joystick',
-      title: 'Joystick',
-      icon: '🕹️',
-      count: 17,
-      examples: [
-        { number: 1, title: 'Brilho com direções', description: 'Use o joystick para alterar o brilho.', icon: '🕹️', xml: '../../examples/joystick/01_led_brilho_com_direcoes.xml' },
-        { number: 10, title: 'Cursor na matriz', description: 'Movimente um cursor usando as direções.', icon: '🎮', xml: '../../examples/joystick/10_cursor_na_matriz.xml' },
-        { number: 11, title: 'Seletor de emojis', description: 'Escolha emojis com o movimento do joystick.', icon: '😄', xml: '../../examples/joystick/11_seletor_de_emojis.xml' }
-      ]
-    }
-  ];
-
   var state = {
-    category: null
+    categories: [],
+    category: null,
+    loading: true,
+    error: null
   };
 
   function byId(id) {
     return document.getElementById(id);
+  }
+
+  function createElement(tagName, className, text) {
+    var element = document.createElement(tagName);
+    if (className) element.className = className;
+    if (text !== undefined) element.textContent = text;
+    return element;
+  }
+
+  function renderMessage(message) {
+    var content = byId('examplesContent');
+    if (!content) return;
+    content.replaceChildren(createElement('p', 'examples-panel-message', message));
   }
 
   function renderCategories() {
@@ -70,19 +38,42 @@
     title.textContent = 'Exemplos';
     intro.textContent = 'Escolha uma categoria para encontrar um projeto pronto para editar.';
     back.hidden = true;
+
+    if (state.loading) {
+      renderMessage('Carregando exemplos...');
+      return;
+    }
+
+    if (state.error) {
+      renderMessage(state.error);
+      return;
+    }
+
+    if (!state.categories.length) {
+      renderMessage('Nenhum exemplo disponível.');
+      return;
+    }
+
     content.replaceChildren();
+    var list = createElement('div', 'examples-category-list');
 
-    var list = document.createElement('div');
-    list.className = 'examples-category-list';
-
-    CATEGORIES.forEach(function(category) {
-      var card = document.createElement('button');
+    state.categories.forEach(function(category) {
+      var card = createElement('button', 'examples-category-card');
       card.type = 'button';
-      card.className = 'examples-category-card';
-      card.innerHTML =
-        '<span class="examples-category-icon" aria-hidden="true">' + category.icon + '</span>' +
-        '<span class="examples-category-copy"><strong>' + category.title + '</strong><span>' + category.count + ' exemplos disponíveis</span></span>' +
-        '<span class="examples-category-arrow" aria-hidden="true">›</span>';
+
+      var icon = createElement('span', 'examples-category-icon', category.icon);
+      icon.setAttribute('aria-hidden', 'true');
+
+      var copy = createElement('span', 'examples-category-copy');
+      copy.appendChild(createElement('strong', '', category.title));
+      copy.appendChild(createElement('span', '', category.examples.length + ' exemplos disponíveis'));
+
+      var arrow = createElement('span', 'examples-category-arrow', '›');
+      arrow.setAttribute('aria-hidden', 'true');
+
+      card.appendChild(icon);
+      card.appendChild(copy);
+      card.appendChild(arrow);
       card.addEventListener('click', function() {
         renderExamples(category);
       });
@@ -105,25 +96,63 @@
     back.hidden = false;
     content.replaceChildren();
 
-    var list = document.createElement('div');
-    list.className = 'examples-list';
+    var list = createElement('div', 'examples-list');
 
     category.examples.forEach(function(example) {
-      var card = document.createElement('article');
-      card.className = 'examples-card';
-      card.innerHTML =
-        '<div class="examples-card-illustration" aria-hidden="true">' + example.icon + '</div>' +
-        '<div><span class="examples-card-number">Exemplo ' + String(example.number).padStart(2, '0') + '</span>' +
-        '<strong class="examples-card-title">' + example.title + '</strong>' +
-        '<p class="examples-card-description">' + example.description + '</p>' +
-        '<button class="examples-card-load" type="button">Carregar</button></div>';
-      card.querySelector('.examples-card-load').addEventListener('click', function() {
+      var card = createElement('article', 'examples-card');
+      var illustration = createElement('div', 'examples-card-illustration');
+
+      if (example.image) {
+        var image = document.createElement('img');
+        image.src = example.image;
+        image.alt = example.title;
+        image.loading = 'lazy';
+        illustration.appendChild(image);
+      } else {
+        illustration.textContent = example.icon;
+        illustration.setAttribute('aria-hidden', 'true');
+      }
+
+      var copy = createElement('div');
+      copy.appendChild(createElement('span', 'examples-card-number', 'Exemplo ' + String(example.number).padStart(2, '0')));
+      copy.appendChild(createElement('strong', 'examples-card-title', example.title));
+      copy.appendChild(createElement('p', 'examples-card-description', example.description));
+
+      var loadButton = createElement('button', 'examples-card-load', 'Carregar');
+      loadButton.type = 'button';
+      loadButton.addEventListener('click', function() {
         loadExample(example);
       });
+      copy.appendChild(loadButton);
+
+      card.appendChild(illustration);
+      card.appendChild(copy);
       list.appendChild(card);
     });
 
     content.appendChild(list);
+  }
+
+  function loadCatalog() {
+    if (!global.ExamplesCatalog || !ExamplesCatalog.load) {
+      state.loading = false;
+      state.error = 'O catálogo de exemplos não está disponível.';
+      renderCategories();
+      return;
+    }
+
+    ExamplesCatalog.load()
+      .then(function(categories) {
+        state.categories = categories;
+        state.loading = false;
+        renderCategories();
+      })
+      .catch(function(error) {
+        console.error('[BitDogLab] Erro ao carregar catálogo de exemplos:', error);
+        state.loading = false;
+        state.error = error.message || 'Não foi possível carregar os exemplos.';
+        renderCategories();
+      });
   }
 
   function loadExample(example) {
@@ -197,6 +226,7 @@
       if (event.target === panel) close();
     });
     renderCategories();
+    loadCatalog();
   };
 
   global.ExamplesPanel = ExamplesPanel;

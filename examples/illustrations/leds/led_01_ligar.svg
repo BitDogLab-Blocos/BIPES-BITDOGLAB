@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-labelledby="title description">
+  <title id="title">Ligar um LED</title>
+  <desc id="description">Uma placa simples com um LED amarelo aceso.</desc>
+  <rect width="320" height="180" rx="10" fill="#f0f9ff"/>
+  <rect x="56" y="35" width="208" height="110" rx="8" fill="#dbe4f2" stroke="#526079" stroke-width="3"/>
+  <rect x="76" y="55" width="60" height="16" rx="3" fill="#a0c4ff"/>
+  <rect x="76" y="83" width="60" height="16" rx="3" fill="#a0c4ff"/>
+  <path d="M170 112h44" stroke="#526079" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="170" cy="112" r="19" fill="#ffcf33" stroke="#c57400" stroke-width="4"/>
+  <path d="M170 79v-12M145 87l-9-9M195 87l9-9" stroke="#ff8c00" stroke-width="4" stroke-linecap="round"/>
+  <text x="160" y="137" fill="#332b1c" font-family="Arial, sans-serif" font-size="13" font-weight="700">LED ligado</text>
+</svg>
