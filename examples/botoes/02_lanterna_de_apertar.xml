@@ -1,0 +1,19 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Segure para iluminar. Segure A para acender. Solte para apagar. Compare com o exemplo 01. -->
+  <block x="30" y="30" type="botao_enquanto_apertado">
+    <field name="BOTAO">A</field>
+    <statement name="DO">
+      <block type="bloco_ligar_led">
+        <value name="COLOUR">
+          <block type="colour_red">
+          </block>
+        </value>
+      </block>
+    </statement>
+    <statement name="ELSE">
+      <block type="bloco_desligar_todos_leds">
+      </block>
+    </statement>
+  </block>
+</xml>
+

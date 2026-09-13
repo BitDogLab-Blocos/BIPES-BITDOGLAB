@@ -1,0 +1,117 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Dispute com um amigo. A e B somam em placares separados. C zera os dois. Combinem a duração da rodada. -->
+  <block x="30" y="30" type="variables_guardar">
+    <field name="VAR">pontos_a</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="variables_guardar">
+        <field name="VAR">pontos_b</field>
+        <value name="VALUE">
+          <block type="math_number">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">A</field>
+            <statement name="DO">
+              <block type="variables_adicionar">
+                <field name="VAR">pontos_a</field>
+                <value name="AMOUNT">
+                  <block type="math_number">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <next>
+              <block type="botao_se_apertado">
+                <field name="BOTAO">B</field>
+                <statement name="DO">
+                  <block type="variables_adicionar">
+                    <field name="VAR">pontos_b</field>
+                    <value name="AMOUNT">
+                      <block type="math_number">
+                        <field name="NUM">1</field>
+                      </block>
+                    </value>
+                  </block>
+                </statement>
+                <next>
+                  <block type="botao_se_apertado">
+                    <field name="BOTAO">C</field>
+                    <statement name="DO">
+                      <block type="variables_guardar">
+                        <field name="VAR">pontos_a</field>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <field name="NUM">0</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="variables_guardar">
+                            <field name="VAR">pontos_b</field>
+                            <value name="VALUE">
+                              <block type="math_number">
+                                <field name="NUM">0</field>
+                              </block>
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="display_texto">
+                        <field name="TEXTO">Jogador A</field>
+                        <field name="LINHA">1</field>
+                        <field name="ALINHAMENTO">LEFT</field>
+                        <field name="DISPLAY_TYPE">SMALL</field>
+                        <next>
+                          <block type="display_mostrar_valor">
+                            <field name="LINHA">2</field>
+                            <field name="ALINHAMENTO">CENTER</field>
+                            <field name="DISPLAY_TYPE">SMALL</field>
+                            <value name="VALOR">
+                              <block type="variables_valor_guardado">
+                                <field name="VAR">pontos_a</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="display_texto">
+                                <field name="TEXTO">Jogador B</field>
+                                <field name="LINHA">3</field>
+                                <field name="ALINHAMENTO">LEFT</field>
+                                <field name="DISPLAY_TYPE">SMALL</field>
+                                <next>
+                                  <block type="display_mostrar_valor">
+                                    <field name="LINHA">4</field>
+                                    <field name="ALINHAMENTO">CENTER</field>
+                                    <field name="DISPLAY_TYPE">SMALL</field>
+                                    <value name="VALOR">
+                                      <block type="variables_valor_guardado">
+                                        <field name="VAR">pontos_b</field>
+                                      </block>
+                                    </value>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
+
