@@ -44,7 +44,6 @@ function _setupRoboMovelDefinitions() {
     '_robo_timeout_min_ms = ' + robot.TURN_TIMEOUT_MIN_MS + '\n' +
     '_robo_timeout_ms_por_grau = ' + robot.TURN_TIMEOUT_MS_PER_DEGREE + '\n' +
     '_robo_tempo_bloco_setas = 0.8\n' +
-    '_robo_tempo_apos_giro_setas = 1.2\n' +
     '_robo_pausa_setas_repetidas_ms = 300\n' +
     '_robo_pausa_antes_giro_setas_ms = 200\n' +
     '_robo_pausa_apos_giro_setas_ms = 250\n' +
@@ -310,7 +309,7 @@ function _setupRoboMovelDefinitions() {
     '    _robo_falha_setas = True\n' +
     '    _robo_parar()\n' +
     '    return False\n' +
-    '  _robo_frente(_robo_tempo_apos_giro_setas if giro != 0 else _robo_tempo_bloco_setas)\n' +
+    '  _robo_frente(_robo_tempo_bloco_setas)\n' +
     '  _robo_orientacao_setas = direcao\n' +
     '  _robo_ultima_direcao_setas = direcao\n' +
     '  return True\n' +
