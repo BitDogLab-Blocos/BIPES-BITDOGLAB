@@ -1,0 +1,6 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Primeiro teste: confirme no OLED se o microfone está respondendo. -->
+  <block x="30" y="30" type="microfone_testar">
+    <field name="DISPLAY_TYPE">SMALL</field>
+  </block>
+</xml>
