@@ -84,6 +84,10 @@ LanguageManager.initLanguage = function() {
 
   if (document.getElementById('runButton')) document.getElementById('runButton').title = MSG['runTooltip'];
   if (document.getElementById('saveButton')) document.getElementById('saveButton').title = MSG['saveTooltip'];
+  if (document.getElementById('captureBlocksButton')) {
+    document.getElementById('captureBlocksButton').title = MSG['captureBlocksTooltip'];
+    document.getElementById('captureBlocksButton').setAttribute('aria-label', MSG['captureBlocksTooltip']);
+  }
   if (document.getElementById('loadButton')) document.getElementById('loadButton').title = MSG['loadTooltip'];
   if (document.getElementById('trashButton')) document.getElementById('trashButton').title = MSG['trashTooltip'];
   if (document.getElementById('toolbarButton')) document.getElementById('toolbarButton').title = MSG['toolbarTooltip'];
@@ -114,5 +118,5 @@ Code.LANG = LanguageManager.getLang();
 
 if (!Code._translationScriptsInjected) {
   Code._translationScriptsInjected = true;
-  document.write('<script src="../translations/catalog.js?ver=20260903robotArrowsBeta1"></script>\n');
+  document.write('<script src="../translations/catalog.js?ver=20260922capture1"></script>\n');
 }

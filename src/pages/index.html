@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicons/bitdog-logo.jpg">
   <meta name="theme-color" content="#2980b9">
 
-  <link rel="stylesheet" href="../styles/main.css?ver=20260903moonMission1">
+  <link rel="stylesheet" href="../styles/main.css?ver=20260922capture1">
   <link rel="stylesheet" href="../styles/visual-themes.css?ver=20260722b2">
   <link rel="stylesheet" href="../../device-file-manager/device-files.css?ver=20260718a8">
   <link rel="stylesheet" href="../styles/libs.css">
@@ -40,7 +40,7 @@
   <script src="../js/config/profiles/base.js?ver=20260831i2cmod1"></script>
   <script src="../js/config/profiles/v7.js?ver=20260830mpuMotion1"></script>
   <script src="../js/config/profiles/v6.js?ver=20260830mpuMotion1"></script>
-  <script src="../js/core/language.js?ver=20260903robotArrowsBeta1"></script>
+  <script src="../js/core/language.js?ver=20260922capture1"></script>
   <script src="../js/core/ldr-settings.js?ver=20260821ldr1"></script>
   <script src="../js/core/tabs.js?ver=20260403a7"></script>
   <script src="../js/core/codegen/python-organizer.js?ver=20260809arch1"></script>
@@ -52,6 +52,7 @@
   <script src="../js/core/workspace/projects.js?ver=20260903moonMission1"></script>
   <script src="../js/core/workspace/hints.js?ver=20260902externalLedDisplay1"></script>
   <script src="../js/core/workspace/index.js?ver=20260902externalLedDisplay1"></script>
+  <script src="../js/core/workspace/image-export.js?ver=20260922capture1"></script>
   <script src="../js/core/app.js?ver=20260814device1"></script>
   <script src="../js/communication/i2c_scanner.js?ver=20260823ultra1"></script>
   <script src="../js/communication/webserial.js?ver=20260604a1"></script>
@@ -59,7 +60,7 @@
   <script src="../js/ui/panels.js?ver=20260809arch1"></script>
   <script src="../js/ui/notifications.js?ver=20260809arch1"></script>
   <script src="../js/ui/progress.js?ver=20260809arch1"></script>
-  <script src="../js/ui/workspace-controls.js?ver=20260814device1"></script>
+  <script src="../js/ui/workspace-controls.js?ver=20260922capture1"></script>
   <script src="../js/ui/ui.js?ver=20260809arch1"></script>
   <script src="../js/core/i18n/index.js?ver=20260903robotArrows1"></script>
   <script src="../js/core/i18n/generated-code.js?ver=20260809arch1"></script>
@@ -376,6 +377,7 @@
       </div>
 
         <button id="saveButton" class="notext icon" title="Salvar"></button>
+        <button id="captureBlocksButton" class="notext icon" title="Baixar imagem dos blocos" aria-label="Baixar imagem dos blocos" data-i18n-title="app.captureBlocksTooltip"></button>
 
         <label id="loadButton" for="loadXML"  class="notext button icon" title="..."></label>
         <button id="trashButton" class="notext icon" title="Apagar todos os blocos" onclick="Code.discard(); return false;"></button>
