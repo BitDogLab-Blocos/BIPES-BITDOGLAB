@@ -255,17 +255,86 @@
     global.setTimeout(function() { URL.revokeObjectURL(objectUrl); }, 1000);
   }
 
-  async function download(workspace, options) {
+  function normalizePngFilename(filename) {
+    var normalized = String(filename || '').trim() || 'programa-bitdoglab.png';
+    return /\.png$/i.test(normalized) ? normalized : normalized + '.png';
+  }
+
+  async function chooseSaveDestination(options) {
+    var suggestedName = normalizePngFilename(options.filename);
+
+    if (global.isSecureContext && typeof global.showSaveFilePicker === 'function') {
+      try {
+        var handle = await global.showSaveFilePicker({
+          suggestedName: suggestedName,
+          types: [{
+            description: options.fileTypeDescription || 'PNG image',
+            accept: { 'image/png': ['.png'] }
+          }]
+        });
+        return {
+          handle: handle,
+          filename: normalizePngFilename(handle.name || suggestedName),
+          method: 'picker'
+        };
+      } catch (error) {
+        if (error && error.name === 'AbortError') {
+          throw new WorkspaceImageExportError('SAVE_CANCELLED', 'Image save was cancelled.');
+        }
+        // Browsers may expose the API while denying it in an embedded context.
+        // In that case, fall back to choosing the name before a regular download.
+      }
+    }
+
+    var chosenName = global.prompt(
+      options.filenamePrompt || 'Choose a name for the image:',
+      suggestedName
+    );
+    if (chosenName === null) {
+      throw new WorkspaceImageExportError('SAVE_CANCELLED', 'Image save was cancelled.');
+    }
+    return {
+      handle: null,
+      filename: normalizePngFilename(chosenName),
+      method: 'download'
+    };
+  }
+
+  async function writeBlobToDestination(blob, destination) {
+    if (!destination.handle) {
+      downloadBlob(blob, destination.filename);
+      return;
+    }
+
+    var writable;
+    try {
+      writable = await destination.handle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+    } catch (error) {
+      if (writable && typeof writable.abort === 'function') {
+        try { await writable.abort(); } catch (abortError) {}
+      }
+      throw new WorkspaceImageExportError('SAVE_FAILED', error.message || 'Could not save the PNG image.');
+    }
+  }
+
+  async function save(workspace, options) {
     options = options || {};
+    getBlockCanvas(workspace);
+    var destination = await chooseSaveDestination(options);
     var result = await createPngBlob(workspace, options);
-    downloadBlob(result.blob, options.filename || 'programa-bitdoglab.png');
+    await writeBlobToDestination(result.blob, destination);
+    result.filename = destination.filename;
+    result.saveMethod = destination.method;
     return result;
   }
 
   global.WorkspaceImageExport = {
     createSvgBlob: createSvgBlob,
     createPngBlob: createPngBlob,
-    download: download,
+    save: save,
+    download: save,
     Error: WorkspaceImageExportError
   };
 })(window);

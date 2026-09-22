@@ -118,5 +118,5 @@ Code.LANG = LanguageManager.getLang();
 
 if (!Code._translationScriptsInjected) {
   Code._translationScriptsInjected = true;
-  document.write('<script src="../translations/catalog.js?ver=20260922capture1"></script>\n');
+  document.write('<script src="../translations/catalog.js?ver=20260922savepicker1"></script>\n');
 }
