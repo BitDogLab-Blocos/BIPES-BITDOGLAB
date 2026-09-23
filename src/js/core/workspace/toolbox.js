@@ -19,23 +19,6 @@ WorkspaceManager.filterToolboxByProject = function(project) {
     }
   }
 
-  if (project === 'robo_setas') {
-    var blocks = filtered.getElementsByTagName('block');
-    for (var j = blocks.length - 1; j >= 0; j--) {
-      var type = blocks[j].getAttribute('type') || '';
-      if (type.indexOf('joystick_') === 0 || type === 'robo_joystick' ||
-          type === 'servo_joystick_controlar') {
-        blocks[j].parentNode.removeChild(blocks[j]);
-      }
-    }
-    for (var k = categories.length - 1; k >= 0; k--) {
-      if (categories[k].getElementsByTagName('block').length === 0 &&
-          !categories[k].getElementsByTagName('category').length) {
-        categories[k].parentNode.removeChild(categories[k]);
-      }
-    }
-  }
-
   try {
     if (Code.translateToolboxXml) {
       filtered = Code.translateToolboxXml(filtered);

@@ -84,7 +84,8 @@ for (const profile of ['v6', 'v7']) test(`robot missions and joystick validation
     assert.match(result.blockedCode, /^# Codigo nao gerado:/);
     assert.equal(result.cleanedReport.valid, true);
     assert.doesNotMatch(result.cleanedCode, /^# Codigo nao gerado:/);
-    assert.doesNotMatch(result.filteredToolbox, /type="joystick_/);
+    assert.match(result.filteredToolbox, /type="joystick_seletor"/);
+    assert.match(result.filteredToolbox, /type="joystick_controlar_led"/);
     for (const type of ['joystick_controlar_led', 'joystick_posicao_x',
       'servo_joystick_controlar', 'robo_joystick', 'controls_repeat_forever',
       'botao_se_apertado']) {
