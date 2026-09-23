@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.CookieManager;
+import android.webkit.RenderProcessGoneDetail;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -268,6 +269,25 @@ public final class MainActivity extends ComponentActivity {
                 .build();
 
         view.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean onRenderProcessGone(
+                    WebView affectedView,
+                    RenderProcessGoneDetail detail
+            ) {
+                Log.e(
+                        "BipesMobile",
+                        detail.didCrash()
+                                ? "O processo do WebView falhou; reiniciando a interface."
+                                : "O processo do WebView foi encerrado; reiniciando a interface."
+                );
+                if (webView == affectedView) {
+                    affectedView.destroy();
+                    webView = null;
+                    recreate();
+                }
+                return true;
+            }
+
             @Override
             public WebResourceResponse shouldInterceptRequest(
                     WebView webView,

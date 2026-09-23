@@ -93,6 +93,6 @@ tasks.matching { it.name == "packageRelease" || it.name == "bundleRelease" }.con
 
 dependencies {
     implementation("androidx.activity:activity:1.13.0")
-    implementation("androidx.webkit:webkit:1.16.0")
+    implementation("androidx.webkit:webkit:1.17.0")
     implementation("com.github.mik3y:usb-serial-for-android:3.11.0")
 }
