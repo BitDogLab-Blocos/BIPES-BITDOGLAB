@@ -86,6 +86,12 @@ html.bipes-mobile-app #device_selector {
   min-height: 2.75rem;
 }
 
+html.bipes-mobile-app #captureBlocksButton {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  touch-action: manipulation;
+}
+
 html.bipes-mobile-app .channel-panel {
   width: min(22rem, calc(100vw - 1rem));
   pointer-events: none;
@@ -268,6 +274,63 @@ html.bipes-mobile-app .project-card-icon {
 
 html.bipes-mobile-app .project-hardware-notice {
   top: calc(var(--mobile-header-height) + env(safe-area-inset-top) + .5rem);
+  max-height: calc(100dvh - var(--mobile-header-height) - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 1rem);
+  overflow-y: auto;
+}
+
+html.bipes-mobile-app .examples-toggle {
+  right: max(0px, env(safe-area-inset-right));
+  bottom: max(.75rem, env(safe-area-inset-bottom));
+  min-width: 3rem;
+  min-height: 3rem;
+  touch-action: manipulation;
+}
+
+html.bipes-mobile-app .examples-panel {
+  top: calc(var(--mobile-header-height) + env(safe-area-inset-top));
+  right: env(safe-area-inset-right);
+  width: min(24rem, calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right)));
+  height: calc(100dvh - var(--mobile-header-height) - env(safe-area-inset-top));
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
+  overscroll-behavior: contain;
+}
+
+html.bipes-mobile-app .examples-panel-close,
+html.bipes-mobile-app .examples-back,
+html.bipes-mobile-app .examples-category-card,
+html.bipes-mobile-app .examples-card-load {
+  min-height: 2.75rem;
+  touch-action: manipulation;
+}
+
+html.bipes-mobile-app .robot-mode-selector,
+html.bipes-mobile-app .arrow-mode-intro,
+html.bipes-mobile-app .external-project-warning {
+  padding-top: max(1rem, env(safe-area-inset-top));
+  padding-right: max(.75rem, env(safe-area-inset-right));
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  padding-left: max(.75rem, env(safe-area-inset-left));
+  overscroll-behavior: contain;
+}
+
+html.bipes-mobile-app .robot-mode-selector-card,
+html.bipes-mobile-app .arrow-mode-intro-card,
+html.bipes-mobile-app .external-project-warning-card {
+  max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 2rem);
+  overflow-y: auto;
+}
+
+html.bipes-mobile-app .robot-mode-selector-close,
+html.bipes-mobile-app .robot-mode-option,
+html.bipes-mobile-app .arrow-mode-intro-card button,
+html.bipes-mobile-app .external-project-warning-actions button {
+  min-height: 2.75rem;
+  touch-action: manipulation;
+}
+
+html.bipes-mobile-app .arrow-mode-intro-image {
+  max-height: min(58dvh, 34rem);
 }
 
 @media (max-width: 37.5rem) {
@@ -306,6 +369,29 @@ html.bipes-mobile-app .project-hardware-notice {
 
   html.bipes-mobile-app .project-hardware-notice {
     width: calc(100% - 1rem);
+  }
+
+  html.bipes-mobile-app .examples-panel {
+    left: env(safe-area-inset-left);
+    width: auto;
+  }
+
+  html.bipes-mobile-app .robot-mode-selector-card {
+    padding: 3rem 1rem 1rem;
+  }
+
+  html.bipes-mobile-app .robot-mode-options {
+    gap: .75rem;
+  }
+
+  html.bipes-mobile-app .robot-mode-option {
+    min-height: 8.5rem;
+    gap: .5rem;
+    padding: 1rem;
+  }
+
+  html.bipes-mobile-app .external-project-warning-grid {
+    gap: .65rem;
   }
 
   html.bipes-mobile-app #content_files.device-files-overlay {
@@ -456,6 +542,59 @@ html.bipes-mobile-app .project-hardware-notice {
 
   html.bipes-mobile-app .top-menu > .toolbar {
     max-height: calc(100dvh - var(--mobile-header-height) - .5rem);
+  }
+
+  html.bipes-mobile-app .robot-mode-selector,
+  html.bipes-mobile-app .arrow-mode-intro,
+  html.bipes-mobile-app .external-project-warning {
+    place-items: start center;
+  }
+
+  html.bipes-mobile-app .robot-mode-selector-card {
+    padding: 2.75rem 1rem 1rem;
+  }
+
+  html.bipes-mobile-app .robot-mode-selector-card > h2 {
+    margin-bottom: .75rem;
+    font-size: 1.25rem;
+  }
+
+  html.bipes-mobile-app .robot-mode-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .75rem;
+  }
+
+  html.bipes-mobile-app .robot-mode-option {
+    min-height: 7.5rem;
+    gap: .35rem;
+    padding: .75rem;
+  }
+
+  html.bipes-mobile-app .robot-mode-option strong {
+    font-size: 1.15rem;
+  }
+
+  html.bipes-mobile-app .robot-mode-option span {
+    font-size: .85rem;
+  }
+
+  html.bipes-mobile-app .arrow-mode-intro-card {
+    display: grid;
+    grid-template-columns: minmax(8rem, 1fr) minmax(10rem, 1fr);
+    column-gap: 1rem;
+    align-items: center;
+  }
+
+  html.bipes-mobile-app .arrow-mode-intro-image {
+    grid-row: 1 / span 3;
+    max-height: calc(100dvh - 3rem);
+  }
+
+  html.bipes-mobile-app .external-project-warning-header,
+  html.bipes-mobile-app .external-project-warning-grid,
+  html.bipes-mobile-app .external-project-warning-actions {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
   }
 }
 

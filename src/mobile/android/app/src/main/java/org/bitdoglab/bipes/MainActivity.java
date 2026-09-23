@@ -203,15 +203,31 @@ public final class MainActivity extends ComponentActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (webView != null && webView.canGoBack()) {
-                    webView.goBack();
+                if (webView == null) {
+                    navigateBackOrExit(this);
                     return;
                 }
-                setEnabled(false);
-                getOnBackPressedDispatcher().onBackPressed();
-                setEnabled(true);
+                webView.evaluateJavascript(
+                        "Boolean(window.__bitdoglabHandleMobileBack"
+                                + " && window.__bitdoglabHandleMobileBack())",
+                        handled -> {
+                            if (!"true".equals(handled)) {
+                                navigateBackOrExit(this);
+                            }
+                        }
+                );
             }
         });
+    }
+
+    private void navigateBackOrExit(OnBackPressedCallback callback) {
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+            return;
+        }
+        callback.setEnabled(false);
+        getOnBackPressedDispatcher().onBackPressed();
+        callback.setEnabled(true);
     }
 
     private String readRawResource(int resourceId) {
