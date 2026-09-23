@@ -38,7 +38,7 @@ Todo perfil final deve expor:
 | `NEOPIXEL` | Quantidade, brilho e mapeamento físico da matriz. |
 | `JOYSTICK` | Centro, zona morta e inversão dos eixos. |
 | `DISPLAY` | Barramento, frequência e resolução. |
-| `ROBOT` | MPU6050, ponte H, PWM e parâmetros de movimento. |
+| `ROBOT` | MPU6050, ponte H, PWM, parâmetros de movimento e brilho da contagem inicial por setas. |
 | `ROBOT_POWER` | Barramento e calibração do INA226. |
 | `SENSOR` | Barramentos e endereços I²C conhecidos. |
 | `EXTERNAL.MPU6050` | Capacidade por revisão, I²C compartilhado, Conexões fixas 2/3, endereço e parâmetros de movimento. |

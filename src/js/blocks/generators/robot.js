@@ -56,7 +56,7 @@ function _setupRoboMovelDefinitions() {
     '_robo_pwm_giro_avanco_setas = 40000\n' +
     '_robo_pwm_giro_re_setas = 36000\n' +
     '_robo_matriz_indices = ' + JSON.stringify(matrix.MATRIX) + '\n' +
-    '_robo_cor_contagem = (0, ' + Math.round(255 * matrix.BRIGHTNESS) + ', ' + Math.round(255 * matrix.BRIGHTNESS) + ')\n' +
+    '_robo_cor_contagem = (0, ' + Math.round(255 * robot.ARROW_COUNTDOWN_BRIGHTNESS) + ', ' + Math.round(255 * robot.ARROW_COUNTDOWN_BRIGHTNESS) + ')\n' +
     '_robo_numeros_contagem = {\n' +
     '  1: [0,0,1,0,0, 0,1,1,0,0, 0,0,1,0,0, 0,0,1,0,0, 0,1,1,1,0],\n' +
     '  2: [1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1, 1,0,0,0,0, 1,1,1,1,1],\n' +
