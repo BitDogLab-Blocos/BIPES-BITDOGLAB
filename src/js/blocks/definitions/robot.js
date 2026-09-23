@@ -12,20 +12,20 @@ function appendRoboSetasIcon(block, icon, alt) {
           alt));
 }
 
-function initRoboSetasMovementBlock(block, icon, alt, tooltip) {
+function initRoboSetasMovementBlock(block, icon, alt, colour, tooltip) {
   appendRoboSetasIcon(block, icon, alt);
   block.setPreviousStatement(true, null);
   block.setNextStatement(true, null);
-  block.setColour('#2563eb');
+  block.setColour(colour);
   block.setTooltip(tooltip);
   block.setHelpUrl('');
 }
 
 Blockly.Blocks['robo_setas_iniciar'] = {
   init: function() {
-    appendRoboSetasIcon(this, 'start.svg', '🚩');
+    appendRoboSetasIcon(this, 'start.svg?ver=20260923purple1', '🚩');
     this.setNextStatement(true, null);
-    this.setColour('#16a34a');
+    this.setColour('#ffffff');
     this.setTooltip('Inicia o robô apontado para cima e prepara o sensor de giro.');
     this.setHelpUrl('');
     this.hat = 'cap';
@@ -34,25 +34,25 @@ Blockly.Blocks['robo_setas_iniciar'] = {
 
 Blockly.Blocks['robo_setas_frente'] = {
   init: function() {
-    initRoboSetasMovementBlock(this, 'up.svg', '⬆️', 'Vai uma casa para cima no tapete.');
+    initRoboSetasMovementBlock(this, 'up.svg', '⬆️', '#16a34a', 'Vai uma casa para cima no tapete.');
   }
 };
 
 Blockly.Blocks['robo_setas_esquerda'] = {
   init: function() {
-    initRoboSetasMovementBlock(this, 'left.svg', '⬅️', 'Vai uma casa para a esquerda no tapete.');
+    initRoboSetasMovementBlock(this, 'left.svg', '⬅️', '#dc2626', 'Vai uma casa para a esquerda no tapete.');
   }
 };
 
 Blockly.Blocks['robo_setas_direita'] = {
   init: function() {
-    initRoboSetasMovementBlock(this, 'right.svg', '➡️', 'Vai uma casa para a direita no tapete.');
+    initRoboSetasMovementBlock(this, 'right.svg', '➡️', '#2563eb', 'Vai uma casa para a direita no tapete.');
   }
 };
 
 Blockly.Blocks['robo_setas_voltar'] = {
   init: function() {
-    initRoboSetasMovementBlock(this, 'down.svg', '⬇️', 'Vai uma casa para baixo no tapete.');
+    initRoboSetasMovementBlock(this, 'down.svg', '⬇️', '#eab308', 'Vai uma casa para baixo no tapete.');
   }
 };
 
@@ -60,7 +60,7 @@ Blockly.Blocks['robo_setas_finalizar'] = {
   init: function() {
     appendRoboSetasIcon(this, 'finish.svg', '🏁');
     this.setPreviousStatement(true, null);
-    this.setColour('#dc2626');
+    this.setColour('#6b7280');
     this.setTooltip('Para o robô e finaliza a sequência.');
     this.setHelpUrl('');
   }
