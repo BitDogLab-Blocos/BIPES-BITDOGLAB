@@ -2,9 +2,13 @@
 
 function _setupRoboMovelDefinitions() {
   var robot = BitdogLabConfig.ROBOT;
+  var matrix = BitdogLabConfig.NEOPIXEL;
   Blockly.Python.definitions_['import_robo_machine'] = 'from machine import Pin, PWM, I2C, ADC';
   Blockly.Python.definitions_['import_robo_time'] = 'from time import sleep, sleep_ms, ticks_ms, ticks_diff';
   Blockly.Python.definitions_['import_robo_math'] = 'import math';
+  Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
+  Blockly.Python.definitions_['setup_matriz'] =
+    'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.PINS.NEOPIXEL + '), ' + matrix.COUNT + ')  # Matriz 5x5 do robo';
   Blockly.Python.definitions_['lib_mpu6050'] = SensorLibs.MPU6050;
 
   var start = BitdogLabConfig.MARKERS.SETUP_START;
@@ -51,6 +55,15 @@ function _setupRoboMovelDefinitions() {
     '# Polaridade do comando frente: (0, 1) avanca; (1, 0) recua.\n' +
     '_robo_pwm_giro_avanco_setas = 40000\n' +
     '_robo_pwm_giro_re_setas = 36000\n' +
+    '_robo_matriz_indices = ' + JSON.stringify(matrix.MATRIX) + '\n' +
+    '_robo_cor_contagem = (0, ' + Math.round(255 * matrix.BRIGHTNESS) + ', ' + Math.round(255 * matrix.BRIGHTNESS) + ')\n' +
+    '_robo_numeros_contagem = {\n' +
+    '  1: [0,0,1,0,0, 0,1,1,0,0, 0,0,1,0,0, 0,0,1,0,0, 0,1,1,1,0],\n' +
+    '  2: [1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1, 1,0,0,0,0, 1,1,1,1,1],\n' +
+    '  3: [1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1],\n' +
+    '  4: [1,0,0,0,1, 1,0,0,0,1, 1,1,1,1,1, 0,0,0,0,1, 0,0,0,0,1],\n' +
+    '  5: [1,1,1,1,1, 1,0,0,0,0, 1,1,1,1,1, 0,0,0,0,1, 1,1,1,1,1]\n' +
+    '}\n' +
     '_robo_orientacao_setas = 0\n' +
     '_robo_ultima_direcao_setas = None\n' +
     '_robo_falha_setas = False\n' +
@@ -170,12 +183,32 @@ function _setupRoboMovelDefinitions() {
     '  _robo_esperar_movimento(t)\n' +
     '  _robo_parar()\n' +
     '\n' +
+    'def _robo_mostrar_contagem(numero):\n' +
+    '  padrao = _robo_numeros_contagem.get(int(numero))\n' +
+    '  for i in range(25):\n' +
+    '    np[i] = (0, 0, 0)\n' +
+    '  if padrao is not None:\n' +
+    '    for y in range(5):\n' +
+    '      for x in range(5):\n' +
+    '        if padrao[y * 5 + x]:\n' +
+    '          np[_robo_matriz_indices[y][x]] = _robo_cor_contagem\n' +
+    '  np.write()\n' +
+    '\n' +
+    'def _robo_aguardar_com_contagem(espera):\n' +
+    '  restante = max(0.0, float(espera))\n' +
+    '  while restante > 0:\n' +
+    '    _robo_mostrar_contagem(min(5, int(math.ceil(restante))))\n' +
+    '    intervalo = min(1.0, restante)\n' +
+    '    sleep(intervalo)\n' +
+    '    restante -= intervalo\n' +
+    '  _robo_mostrar_contagem(0)\n' +
+    '\n' +
     'def _robo_inicializar(espera=5):\n' +
     '  global _robo_pronto, _robo_angulo, _robo_giro_tempo\n' +
     '  _robo_parar()\n' +
     '  if espera > 0:\n' +
     '    print("Coloque o robo no chao. Iniciando em", espera, "s")\n' +
-    '    sleep(float(espera))\n' +
+    '    _robo_aguardar_com_contagem(espera)\n' +
     '  if not _robo_mpu.is_ready:\n' +
     '    if _robo_mpu_sda_alt is None:\n' +
     '      print("MPU6050 nao encontrado. Verifique SDA=GP{} e SCL=GP{}.".format(_robo_mpu_sda, _robo_mpu_scl))\n' +
