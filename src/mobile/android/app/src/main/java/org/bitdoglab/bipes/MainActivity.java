@@ -17,6 +17,8 @@ import android.webkit.WebViewClient;
 import androidx.annotation.Nullable;
 import androidx.activity.ComponentActivity;
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewCompat;
 import androidx.webkit.WebViewFeature;
@@ -36,6 +38,15 @@ public final class MainActivity extends ComponentActivity {
 
     private WebView webView;
     private NativeSerialBridge serialBridge;
+    private NativeFileSaveBridge fileSaveBridge;
+    private final ActivityResultLauncher<Intent> createDocumentLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (fileSaveBridge != null) {
+                    fileSaveBridge.onDocumentResult(result.getResultCode(), result.getData());
+                }
+            }
+    );
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,8 +55,11 @@ public final class MainActivity extends ComponentActivity {
         WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
         webView = new WebView(this);
         serialBridge = new NativeSerialBridge(this, webView);
+        fileSaveBridge = new NativeFileSaveBridge(this, webView, createDocumentLauncher);
         installNativeSerialBridge(webView);
+        installNativeFileBridge(webView);
         installSerialCompatibility(webView);
+        installFileSaveCompatibility(webView);
         installContentHardening(webView);
         installMobileWorkspace(webView);
         installMobileLayout(webView);
@@ -66,6 +80,29 @@ public final class MainActivity extends ComponentActivity {
 
     private void installMobileWorkspace(WebView view) {
         installLocalDocumentStartScript(view, R.raw.mobile_workspace);
+    }
+
+    @SuppressLint("RequiresFeature")
+    private void installNativeFileBridge(WebView view) {
+        if (!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)) {
+            throw new IllegalStateException(
+                    "Atualize o Android System WebView para salvar arquivos."
+            );
+        }
+        WebViewCompat.addWebMessageListener(
+                view,
+                "BitDogLabFileNative",
+                Collections.singleton(APP_ORIGIN),
+                (webView, message, sourceOrigin, isMainFrame, replyProxy) -> {
+                    if (!isMainFrame || !APP_ORIGIN.equals(sourceOrigin.toString())) {
+                        return;
+                    }
+                    String data = message.getData();
+                    if (data != null) {
+                        fileSaveBridge.postMessage(data);
+                    }
+                }
+        );
     }
 
     @SuppressLint("RequiresFeature")
@@ -144,6 +181,20 @@ public final class MainActivity extends ComponentActivity {
         WebViewCompat.addDocumentStartJavaScript(
                 view,
                 script,
+                Collections.singleton(APP_ORIGIN)
+        );
+    }
+
+    @SuppressLint("RequiresFeature")
+    private void installFileSaveCompatibility(WebView view) {
+        if (!WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
+            throw new IllegalStateException(
+                    "Atualize o Android System WebView para salvar arquivos."
+            );
+        }
+        WebViewCompat.addDocumentStartJavaScript(
+                view,
+                readRawResource(R.raw.mobile_file_save_shim),
                 Collections.singleton(APP_ORIGIN)
         );
     }
@@ -267,6 +318,10 @@ public final class MainActivity extends ComponentActivity {
 
     @Override
     protected void onDestroy() {
+        if (fileSaveBridge != null) {
+            fileSaveBridge.destroy();
+            fileSaveBridge = null;
+        }
         if (serialBridge != null) {
             serialBridge.destroy();
             serialBridge = null;
