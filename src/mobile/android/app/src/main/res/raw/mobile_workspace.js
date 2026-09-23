@@ -78,9 +78,13 @@
   }
 
   function isVisible(element) {
-    return Boolean(element)
-      && !element.hidden
-      && global.getComputedStyle(element).display !== 'none';
+    if (!element || element.hidden) {
+      return false;
+    }
+    const style = global.getComputedStyle(element);
+    return style.display !== 'none'
+      && style.visibility !== 'hidden'
+      && element.getClientRects().length > 0;
   }
 
   function clickIfVisible(elementId) {
@@ -93,15 +97,20 @@
   }
 
   global.__bitdoglabHandleMobileBack = function handleMobileBack() {
-    const toolbar = document.querySelector('.top-menu > .toolbar#show');
-    if (toolbar) {
-      toolbar.removeAttribute('id');
+    // Dismiss overlays from highest to lowest stacking order before closing menus.
+    if (clickIfVisible('cancelExternalProject')) {
       return true;
     }
-
-    const channelPanel = document.querySelector('.channel-panel#show');
-    if (channelPanel) {
-      channelPanel.removeAttribute('id');
+    if (clickIfVisible('arrow-mode-intro')) {
+      return true;
+    }
+    if (clickIfVisible('closeRobotModeSelector')) {
+      return true;
+    }
+    if (clickIfVisible('closeProjectModal')) {
+      return true;
+    }
+    if (clickIfVisible('closeProjectHardwareNotice')) {
       return true;
     }
 
@@ -114,19 +123,21 @@
       return true;
     }
 
-    if (clickIfVisible('arrow-mode-intro')) {
+    const channelPanel = document.querySelector('.channel-panel#show');
+    if (channelPanel) {
+      const channelButton = document.getElementById('channelButton');
+      if (channelButton) {
+        channelButton.click();
+      }
       return true;
     }
-    if (clickIfVisible('closeRobotModeSelector')) {
-      return true;
-    }
-    if (clickIfVisible('cancelExternalProject')) {
-      return true;
-    }
-    if (clickIfVisible('closeProjectModal')) {
-      return true;
-    }
-    if (clickIfVisible('closeProjectHardwareNotice')) {
+
+    const toolbar = document.querySelector('.top-menu > .toolbar#show');
+    if (toolbar) {
+      const toolbarButton = document.getElementById('toolbarButton');
+      if (toolbarButton) {
+        toolbarButton.click();
+      }
       return true;
     }
     return false;

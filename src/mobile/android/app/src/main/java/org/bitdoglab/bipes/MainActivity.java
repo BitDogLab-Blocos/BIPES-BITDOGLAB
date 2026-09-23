@@ -71,7 +71,9 @@ public final class MainActivity extends ComponentActivity {
         if (savedInstanceState == null) {
             webView.loadUrl(START_URL);
         } else {
-            webView.restoreState(savedInstanceState);
+            if (webView.restoreState(savedInstanceState) == null) {
+                webView.loadUrl(START_URL);
+            }
         }
     }
 
@@ -348,7 +350,9 @@ public final class MainActivity extends ComponentActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        webView.saveState(outState);
+        if (webView != null) {
+            webView.saveState(outState);
+        }
         super.onSaveInstanceState(outState);
     }
 
