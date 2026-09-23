@@ -1,0 +1,38 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Pratica uma repetição finita que mantém o buzzer entre movimentos. -->
+  <block type="robo_inicializar" x="30" y="30">
+    <field name="ESPERA">5</field>
+    <next>
+      <block type="controls_repeat_simple">
+        <field name="TIMES">2</field>
+        <statement name="DO">
+          <block type="robo_frente">
+            <value name="TEMPO">
+              <block type="math_number">
+                <field name="NUM">0.5</field>
+              </block>
+            </value>
+            <next>
+              <block type="bipe_curto">
+                <field name="VOLUME">30</field>
+                <next>
+                  <block type="robo_girar">
+                    <field name="DIRECAO">R</field>
+                    <value name="GRAUS">
+                      <block type="math_number">
+                        <field name="NUM">90</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="robo_parar" />
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

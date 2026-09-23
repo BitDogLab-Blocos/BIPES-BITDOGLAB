@@ -1,0 +1,59 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A matriz marca dois pontos diferentes do percurso. -->
+  <block type="robo_inicializar" x="30" y="30">
+    <field name="ESPERA">5</field>
+    <next>
+      <block type="robo_frente">
+        <value name="TEMPO">
+          <block type="math_number">
+            <field name="NUM">0.7</field>
+          </block>
+        </value>
+        <next>
+          <block type="mostrar_emoji">
+            <field name="BRILHO">25</field>
+            <value name="EMOJI">
+              <block type="emoji_seta_cima" />
+            </value>
+            <value name="COR">
+              <block type="colour_blue" />
+            </value>
+            <next>
+              <block type="robo_girar">
+                <field name="DIRECAO">R</field>
+                <value name="GRAUS">
+                  <block type="math_number">
+                    <field name="NUM">90</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="robo_frente">
+                    <value name="TEMPO">
+                      <block type="math_number">
+                        <field name="NUM">0.7</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="mostrar_emoji">
+                        <field name="BRILHO">25</field>
+                        <value name="EMOJI">
+                          <block type="emoji_rosto_feliz" />
+                        </value>
+                        <value name="COR">
+                          <block type="colour_green" />
+                        </value>
+                        <next>
+                          <block type="robo_parar" />
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

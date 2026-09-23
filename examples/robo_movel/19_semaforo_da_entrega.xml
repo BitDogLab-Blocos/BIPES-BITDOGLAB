@@ -1,0 +1,56 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O LED indica o início, muda na parada e o buzzer anuncia a entrega. -->
+  <block type="robo_inicializar" x="30" y="30">
+    <field name="ESPERA">5</field>
+    <next>
+      <block type="bloco_ligar_led">
+        <value name="COLOUR">
+          <block type="colour_green" />
+        </value>
+        <next>
+          <block type="robo_frente">
+            <value name="TEMPO">
+              <block type="math_number">
+                <field name="NUM">0.8</field>
+              </block>
+            </value>
+            <next>
+              <block type="bloco_ligar_led">
+                <value name="COLOUR">
+                  <block type="colour_red" />
+                </value>
+                <next>
+                  <block type="robo_girar">
+                    <field name="DIRECAO">L</field>
+                    <value name="GRAUS">
+                      <block type="math_number">
+                        <field name="NUM">90</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="robo_frente">
+                        <value name="TEMPO">
+                          <block type="math_number">
+                            <field name="NUM">0.5</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="som_de_sucesso">
+                            <field name="VOLUME">30</field>
+                            <next>
+                              <block type="robo_parar" />
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

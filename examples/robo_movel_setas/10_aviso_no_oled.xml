@@ -1,0 +1,32 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O OLED anuncia a curva antes de o robô avançar. -->
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next>
+      <block type="robo_setas_frente">
+        <next>
+          <block type="display_texto">
+            <field name="TEXTO">VIRE</field>
+            <field name="LINHA">2</field>
+            <field name="ALINHAMENTO">CENTER</field>
+            <field name="DISPLAY_TYPE">SMALL</field>
+            <next>
+              <block type="robo_setas_direita">
+                <next>
+                  <block type="display_texto">
+                    <field name="TEXTO">CHEGOU</field>
+                    <field name="LINHA">2</field>
+                    <field name="ALINHAMENTO">CENTER</field>
+                    <field name="DISPLAY_TYPE">SMALL</field>
+                    <next>
+                      <block type="robo_setas_finalizar" />
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

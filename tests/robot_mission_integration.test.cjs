@@ -11,9 +11,9 @@ const { chromium } = require('playwright');
 const root = path.resolve(__dirname, '..');
 const fixture = fs.readFileSync(path.join(__dirname, 'fixtures/robot_mixed_mission.xml'), 'utf8');
 const readyFixture = fs.readFileSync(path.join(__dirname, 'fixtures/robot_mixed_mission_ready.xml'), 'utf8');
-const completeFixture = fs.readFileSync(path.join(root, 'examples/robo_movel/06_vai_e_volta.xml'), 'utf8');
-const buttonFixture = fs.readFileSync(path.join(root, 'examples/robo_movel_setas/09_botao_a_inicia_a_missao.xml'), 'utf8');
-const repeatFixture = fs.readFileSync(path.join(root, 'examples/robo_movel_setas/08_repetir_caminho.xml'), 'utf8');
+const completeFixture = fs.readFileSync(path.join(root, 'examples/robo_movel/07_vai_e_volta.xml'), 'utf8');
+const buttonFixture = fs.readFileSync(path.join(root, 'examples/robo_movel_setas/13_botao_a_inicia_a_missao.xml'), 'utf8');
+const repeatFixture = fs.readFileSync(path.join(root, 'examples/robo_movel_setas/11_repetir_caminho.xml'), 'utf8');
 const browserPaths = [
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
@@ -43,6 +43,20 @@ for (const profile of ['v6', 'v7']) test(`robot missions and joystick validation
     await page.goto(`http://127.0.0.1:${server.address().port}/src/pages/index.html?lang=pt-br`, { waitUntil: 'networkidle' });
     await page.waitForFunction(() => window.Code && Code.workspace && Code.BlockContractValidator);
     assert.equal(await page.evaluate((version) => AppBootstrap.applyDeviceProfile(version), profile), true);
+    const catalog = await page.evaluate(async () => {
+      const categories = await ExamplesCatalog.load();
+      const robot = categories.filter((item) => item.id === 'robo_movel' || item.id === 'robo_movel_setas');
+      return Promise.all(robot.map(async (item) => ({
+        id: item.id,
+        numbers: item.examples.map((example) => example.number),
+        status: await Promise.all(item.examples.map(async (example) => (await fetch(example.xml)).status))
+      })));
+    });
+    assert.deepEqual(catalog.map((item) => item.numbers.length), [25, 18]);
+    for (const item of catalog) {
+      assert.deepEqual(item.numbers, Array.from({ length: item.numbers.length }, (_, index) => index + 1));
+      assert.ok(item.status.every((status) => status === 200), `${item.id} contains a missing XML`);
+    }
     const result = await page.evaluate((xml) => {
       if (Code._generationInterval) clearInterval(Code._generationInterval);
       localStorage.setItem('bitdoglab_project', 'robo_setas');

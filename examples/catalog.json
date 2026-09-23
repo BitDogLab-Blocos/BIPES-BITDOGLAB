@@ -3110,143 +3110,178 @@
       "examples": [
         {
           "number": 1,
-          "title": "Primeiro passeio e curva",
-          "description": "Primeiro passeio completo: avance, faca uma curva e pare para conferir o sentido do robo.",
+          "title": "Primeiro passeio para frente",
+          "description": "Primeiro contato: inicialize, avance por um segundo e pare.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/01_primeiro_passeio_e_curva.xml"
+          "xml": "examples/robo_movel/01_primeiro_passeio_para_frente.xml"
         },
         {
           "number": 2,
-          "title": "Primeiro passeio para frente",
-          "description": "Ida e volta: avance ate o alvo, pare, retorne e pare novamente.",
+          "title": "Passeio e primeira curva",
+          "description": "Primeiro passeio completo: avance, faca uma curva e pare para conferir o sentido do robo.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/02_primeiro_passeio_para_frente.xml"
+          "xml": "examples/robo_movel/02_primeiro_passeio_e_curva.xml"
         },
         {
           "number": 3,
-          "title": "Marcha re para a garagem",
-          "description": "Garagem em L: de a re, vire para a esquerda e avance ate a vaga.",
-          "icon": "🕹️",
-          "xml": "examples/robo_movel/03_marcha_re_para_a_garagem.xml"
-        },
-        {
-          "number": 4,
           "title": "Curva de 90 para a esquerda",
           "description": "Desvio a esquerda: avance, vire 90 graus, avance de novo e pare.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/04_curva_de_90_para_a_esquerda.xml"
+          "xml": "examples/robo_movel/03_curva_de_90_para_a_esquerda.xml"
         },
         {
-          "number": 5,
+          "number": 4,
           "title": "Curva de 90 para a direita",
           "description": "Desvio a direita: contorne o obstaculo com duas marchas e uma curva.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/05_curva_de_90_para_a_direita.xml"
+          "xml": "examples/robo_movel/04_curva_de_90_para_a_direita.xml"
         },
         {
-          "number": 6,
-          "title": "Vai e volta",
-          "description": "Rota de reconhecimento: avance, faca duas curvas opostas, retorne e mostre o giro.",
+          "number": 5,
+          "title": "Marcha re para a garagem",
+          "description": "Garagem em L: de a re, vire para a esquerda e avance ate a vaga.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/06_vai_e_volta.xml"
+          "xml": "examples/robo_movel/05_marcha_re_para_a_garagem.xml"
+        },
+        {
+          "title": "Som no meio do trajeto",
+          "description": "Avance, toque um bipe no ponto de retorno e depois dê ré.",
+          "icon": "🕹️",
+          "number": 6,
+          "xml": "examples/robo_movel/06_som_no_meio_do_trajeto.xml"
         },
         {
           "number": 7,
-          "title": "Desafio do quadrado",
-          "description": "Desafio do quadrado: percorra quatro lados e faca quatro giros de 90 graus.",
+          "title": "Vai e volta",
+          "description": "Rota de reconhecimento: avance, faca duas curvas opostas, retorne e mostre o giro.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/07_desafio_do_quadrado.xml"
+          "xml": "examples/robo_movel/07_vai_e_volta.xml"
         },
         {
-          "number": 8,
-          "title": "Pilotar com o joystick",
-          "description": "Controle livre: depois da calibracao, o joystick pilota o robo continuamente.",
+          "title": "Aviso de curva no OLED",
+          "description": "Mostre um aviso no display entre o avanço e a curva.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/08_pilotar_com_o_joystick.xml"
+          "number": 8,
+          "xml": "examples/robo_movel/08_aviso_de_curva_no_oled.xml"
         },
         {
           "number": 9,
-          "title": "Giro atual no display",
-          "description": "Painel de direcao: A e B fazem pequenos giros e o OLED acompanha o angulo acumulado.",
+          "title": "Desafio do quadrado",
+          "description": "Desafio do quadrado: percorra quatro lados e faca quatro giros de 90 graus.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/09_giro_atual_no_display.xml"
+          "xml": "examples/robo_movel/09_desafio_do_quadrado.xml"
         },
         {
-          "number": 10,
-          "title": "Transferidor 360 no display",
-          "description": "Transferidor interativo: use A e B para girar e veja o ponteiro acompanhar no OLED.",
+          "title": "Emojis em duas paradas",
+          "description": "Mostre um emoji após o primeiro avanço e outro após a curva.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/10_transferidor_360_no_display.xml"
+          "number": 10,
+          "xml": "examples/robo_movel/10_emojis_em_duas_paradas.xml"
         },
         {
           "number": 11,
-          "title": "Aceleracao x no display",
-          "description": "Medidor de arrancada: A avanca, B da re e o OLED mostra a aceleracao no eixo X.",
+          "title": "Pilotar com o joystick",
+          "description": "Controle livre: depois da calibracao, o joystick pilota o robo continuamente.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/11_aceleracao_x_no_display.xml"
+          "xml": "examples/robo_movel/11_pilotar_com_o_joystick.xml"
         },
         {
           "number": 12,
-          "title": "Painel de aceleracao xyz",
-          "description": "Painel de movimento: compare no OLED as aceleracoes dos tres eixos.",
+          "title": "Giro atual no display",
+          "description": "Painel de direcao: A e B fazem pequenos giros e o OLED acompanha o angulo acumulado.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/12_painel_de_aceleracao_xyz.xml"
+          "xml": "examples/robo_movel/12_giro_atual_no_display.xml"
         },
         {
           "number": 13,
-          "title": "Alerta de inclinacao",
-          "description": "Alerta de inclinacao: uma aceleracao X maior que 3 acende vermelho e toca um bipe.",
+          "title": "Transferidor 360 no display",
+          "description": "Transferidor interativo: use A e B para girar e veja o ponteiro acompanhar no OLED.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/13_alerta_de_inclinacao.xml"
+          "xml": "examples/robo_movel/13_transferidor_360_no_display.xml"
         },
         {
           "number": 14,
-          "title": "Botoes escolhem o movimento",
-          "description": "Controle por botoes: A avanca, B da re e C funciona como parada de seguranca.",
+          "title": "Aceleracao x no display",
+          "description": "Medidor de arrancada: A avanca, B da re e o OLED mostra a aceleracao no eixo X.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/14_botoes_escolhem_o_movimento.xml"
+          "xml": "examples/robo_movel/14_aceleracao_x_no_display.xml"
         },
         {
           "number": 15,
-          "title": "Missao em forma de l",
-          "description": "Missao em L: o botao A mostra a partida, percorre duas ruas e comemora a chegada.",
+          "title": "Painel de aceleracao xyz",
+          "description": "Painel de movimento: compare no OLED as aceleracoes dos tres eixos.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/15_missao_em_forma_de_l.xml"
+          "xml": "examples/robo_movel/15_painel_de_aceleracao_xyz.xml"
         },
         {
           "number": 16,
-          "title": "Estacionamento de precisao",
-          "description": "Estacionamento: A faz a manobra completa; C interrompe e avisa com luz e som.",
+          "title": "Alerta de inclinacao",
+          "description": "Alerta de inclinacao: uma aceleracao X maior que 3 acende vermelho e toca um bipe.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/16_estacionamento_de_precisao.xml"
+          "xml": "examples/robo_movel/16_alerta_de_inclinacao.xml"
         },
         {
           "number": 17,
-          "title": "Painel da bateria",
-          "description": "Painel de energia: mova com A/B e observe no OLED como tensao e corrente respondem.",
+          "title": "Botoes escolhem o movimento",
+          "description": "Controle por botoes: A avanca, B da re e C funciona como parada de seguranca.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/17_painel_da_bateria.xml"
+          "xml": "examples/robo_movel/17_botoes_escolhem_o_movimento.xml"
         },
         {
           "number": 18,
-          "title": "Alerta de bateria baixa",
-          "description": "Alerta de bateria: abaixo de 6 V use luz vermelha e bipe; caso contrario use verde.",
+          "title": "Missao em forma de l",
+          "description": "Missao em L: o botao A mostra a partida, percorre duas ruas e comemora a chegada.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/18_alerta_de_bateria_baixa.xml"
+          "xml": "examples/robo_movel/18_missao_em_forma_de_l.xml"
         },
         {
-          "number": 19,
-          "title": "Central de telemetria",
-          "description": "Central de telemetria: observe giro, aceleracao, tensao e corrente ao mesmo tempo.",
+          "title": "Semáforo da entrega",
+          "description": "Combine LED, movimento, curva e som na ordem de uma entrega.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/19_central_de_telemetria.xml"
+          "number": 19,
+          "xml": "examples/robo_movel/19_semaforo_da_entrega.xml"
         },
         {
           "number": 20,
+          "title": "Estacionamento de precisao",
+          "description": "Estacionamento: A faz a manobra completa; C interrompe e avisa com luz e som.",
+          "icon": "🕹️",
+          "xml": "examples/robo_movel/20_estacionamento_de_precisao.xml"
+        },
+        {
+          "title": "Patrulha repetida com bipe",
+          "description": "Repita duas vezes avanço, aviso sonoro e giro.",
+          "icon": "🕹️",
+          "number": 21,
+          "xml": "examples/robo_movel/21_patrulha_repetida_com_bipe.xml"
+        },
+        {
+          "number": 22,
+          "title": "Painel da bateria",
+          "description": "Painel de energia: mova com A/B e observe no OLED como tensao e corrente respondem.",
+          "icon": "🕹️",
+          "xml": "examples/robo_movel/22_painel_da_bateria.xml"
+        },
+        {
+          "number": 23,
+          "title": "Alerta de bateria baixa",
+          "description": "Alerta de bateria: abaixo de 6 V use luz vermelha e bipe; caso contrario use verde.",
+          "icon": "🕹️",
+          "xml": "examples/robo_movel/23_alerta_de_bateria_baixa.xml"
+        },
+        {
+          "number": 24,
+          "title": "Central de telemetria",
+          "description": "Central de telemetria: observe giro, aceleracao, tensao e corrente ao mesmo tempo.",
+          "icon": "🕹️",
+          "xml": "examples/robo_movel/24_central_de_telemetria.xml"
+        },
+        {
+          "number": 25,
           "title": "Missao de resgate completa",
           "description": "Projeto final: conte missoes, use A para resgatar, B para retornar e C para a parada de emergencia.",
           "icon": "🕹️",
-          "xml": "examples/robo_movel/20_missao_de_resgate_completa.xml"
+          "xml": "examples/robo_movel/25_missao_de_resgate_completa.xml"
         }
       ]
     },
@@ -3277,67 +3312,109 @@
           "xml": "examples/robo_movel_setas/03_duas_casas_para_a_direita.xml"
         },
         {
-          "number": 4,
-          "title": "Caminho em l",
-          "description": "Caminho em L: duas casas para cima e duas para a direita.",
+          "title": "Bipe no cruzamento",
+          "description": "Vá para cima, toque um bipe no cruzamento e siga à direita.",
           "icon": "⬆️",
-          "xml": "examples/robo_movel_setas/04_caminho_em_l.xml"
+          "number": 4,
+          "xml": "examples/robo_movel_setas/04_bipe_no_cruzamento.xml"
         },
         {
           "number": 5,
-          "title": "Ir e voltar",
-          "description": "O robo sobe duas casas, muda de sentido e retorna ao inicio.",
+          "title": "Caminho em l",
+          "description": "Caminho em L: duas casas para cima e duas para a direita.",
           "icon": "⬆️",
-          "xml": "examples/robo_movel_setas/05_ir_e_voltar.xml"
+          "xml": "examples/robo_movel_setas/05_caminho_em_l.xml"
         },
         {
           "number": 6,
-          "title": "Volta no quadrado",
-          "description": "Uma volta completa: cima, direita, baixo e esquerda.",
+          "title": "Ir e voltar",
+          "description": "O robo sobe duas casas, muda de sentido e retorna ao inicio.",
           "icon": "⬆️",
-          "xml": "examples/robo_movel_setas/06_volta_no_quadrado.xml"
+          "xml": "examples/robo_movel_setas/06_ir_e_voltar.xml"
         },
         {
-          "number": 7,
-          "title": "Caminho em zigue zague",
-          "description": "Zigue-zague: demonstra que cima volta a significar cima depois de ir para a direita.",
+          "title": "Emoji antes da curva",
+          "description": "Suba, mostre uma surpresa na matriz e depois vire à esquerda.",
           "icon": "⬆️",
-          "xml": "examples/robo_movel_setas/07_caminho_em_zigue_zague.xml"
+          "number": 7,
+          "xml": "examples/robo_movel_setas/07_emoji_antes_da_curva.xml"
         },
         {
           "number": 8,
-          "title": "Repetir caminho",
-          "description": "Repetir duas vezes a sequencia cima e direita.",
+          "title": "Volta no quadrado",
+          "description": "Uma volta completa: cima, direita, baixo e esquerda.",
           "icon": "⬆️",
-          "xml": "examples/robo_movel_setas/08_repetir_caminho.xml"
+          "xml": "examples/robo_movel_setas/08_volta_no_quadrado.xml"
         },
         {
           "number": 9,
-          "title": "Botao a inicia a missao",
-          "description": "O botao A inicia uma pequena missao em forma de L.",
+          "title": "Caminho em zigue zague",
+          "description": "Zigue-zague: demonstra que cima volta a significar cima depois de ir para a direita.",
           "icon": "⬆️",
-          "xml": "examples/robo_movel_setas/09_botao_a_inicia_a_missao.xml"
+          "xml": "examples/robo_movel_setas/09_caminho_em_zigue_zague.xml"
         },
         {
-          "number": 10,
-          "title": "Botoes escolhem o caminho",
-          "description": "O botao A escolhe a direita; o botao B escolhe a esquerda.",
+          "title": "Aviso no OLED",
+          "description": "Mostre VIRE no display entre duas setas e CHEGOU ao final.",
           "icon": "⬆️",
-          "xml": "examples/robo_movel_setas/10_botoes_escolhem_o_caminho.xml"
+          "number": 10,
+          "xml": "examples/robo_movel_setas/10_aviso_no_oled.xml"
         },
         {
           "number": 11,
+          "title": "Repetir caminho",
+          "description": "Repetir duas vezes a sequencia cima e direita.",
+          "icon": "⬆️",
+          "xml": "examples/robo_movel_setas/11_repetir_caminho.xml"
+        },
+        {
+          "title": "Repetir caminho com som",
+          "description": "Repita duas vezes subir, tocar um bipe e ir à direita.",
+          "icon": "⬆️",
+          "number": 12,
+          "xml": "examples/robo_movel_setas/12_repetir_com_som.xml"
+        },
+        {
+          "number": 13,
+          "title": "Botao a inicia a missao",
+          "description": "O botao A inicia uma pequena missao em forma de L.",
+          "icon": "⬆️",
+          "xml": "examples/robo_movel_setas/13_botao_a_inicia_a_missao.xml"
+        },
+        {
+          "number": 14,
+          "title": "Botoes escolhem o caminho",
+          "description": "O botao A escolhe a direita; o botao B escolhe a esquerda.",
+          "icon": "⬆️",
+          "xml": "examples/robo_movel_setas/14_botoes_escolhem_o_caminho.xml"
+        },
+        {
+          "title": "Botão inicia rota sonora",
+          "description": "Use o botão A para avançar, tocar laser e seguir à direita.",
+          "icon": "⬆️",
+          "number": 15,
+          "xml": "examples/robo_movel_setas/15_botao_inicia_rota_sonora.xml"
+        },
+        {
+          "number": 16,
           "title": "Semáforo da missao",
           "description": "O botao A inicia; verde libera o caminho e vermelho sinaliza a chegada.",
           "icon": "⬆️",
-          "xml": "examples/robo_movel_setas/11_semaforo_da_missao.xml"
+          "xml": "examples/robo_movel_setas/16_semaforo_da_missao.xml"
         },
         {
-          "number": 12,
+          "title": "Coração no meio da missão",
+          "description": "Mostre um coração com efeito na matriz entre duas setas.",
+          "icon": "⬆️",
+          "number": 17,
+          "xml": "examples/robo_movel_setas/17_coracao_no_meio_da_missao.xml"
+        },
+        {
+          "number": 18,
           "title": "Missao com luzes e sons",
           "description": "O botao A inicia uma missao com sinal de partida, rota, matriz e som de chegada.",
           "icon": "⬆️",
-          "xml": "examples/robo_movel_setas/12_missao_com_luzes_e_sons.xml"
+          "xml": "examples/robo_movel_setas/18_missao_com_luzes_e_sons.xml"
         }
       ]
     }

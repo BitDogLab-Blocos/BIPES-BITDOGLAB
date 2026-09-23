@@ -1,0 +1,32 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Introduz uma ação sonora entre dois movimentos. -->
+  <block type="robo_inicializar" x="30" y="30">
+    <field name="ESPERA">5</field>
+    <next>
+      <block type="robo_frente">
+        <value name="TEMPO">
+          <block type="math_number">
+            <field name="NUM">0.8</field>
+          </block>
+        </value>
+        <next>
+          <block type="bipe_curto">
+            <field name="VOLUME">30</field>
+            <next>
+              <block type="robo_tras">
+                <value name="TEMPO">
+                  <block type="math_number">
+                    <field name="NUM">0.8</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="robo_parar" />
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

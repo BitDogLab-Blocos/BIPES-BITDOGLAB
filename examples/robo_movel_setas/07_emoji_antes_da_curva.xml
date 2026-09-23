@@ -1,0 +1,27 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A matriz mostra o próximo passo durante o percurso. -->
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next>
+      <block type="robo_setas_frente">
+        <next>
+          <block type="mostrar_emoji">
+            <field name="BRILHO">25</field>
+            <value name="EMOJI">
+              <block type="emoji_rosto_surpreso" />
+            </value>
+            <value name="COR">
+              <block type="colour_blue" />
+            </value>
+            <next>
+              <block type="robo_setas_esquerda">
+                <next>
+                  <block type="robo_setas_finalizar" />
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
