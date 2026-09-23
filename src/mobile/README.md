@@ -127,7 +127,7 @@ O botão **Parar** precisa resolver dois estados:
 - código ainda em transmissão: cancela o restante entre blocos físicos;
 - código já executando: envia `Ctrl+C` ao MicroPython até recuperar `>>>`.
 
-A recuperação automática ao conectar também usa `Ctrl+C`, mas não representa uma parada manual. `mobile_serial_shim.js` considera o contexto para manter porta nativa, protocolo web e indicador visual sincronizados. O teste de recuperação protege o ciclo **Conectar → Rodar → Parar → Rodar** sem retirar o cabo.
+A recuperação automática ao conectar também usa `Ctrl+C`, mas não representa uma parada manual. `mobile_serial_shim.js` considera o contexto para manter porta nativa, protocolo web e indicador visual sincronizados durante o ciclo **Conectar → Rodar → Parar → Rodar** sem retirar o cabo.
 
 ## Ponte USB
 
@@ -162,7 +162,6 @@ src/mobile/
 ├── README.md
 ├── docs/images/                    # diagramas e capturas deste guia
 ├── scripts/check-web-boundary.mjs  # verifica hashes web sensíveis
-├── tests/                          # contratos Android e do shim
 ├── web-boundary.json               # linha de base da fronteira web
 └── android/
     └── app/src/main/
@@ -269,7 +268,6 @@ Na raiz:
 
 ```powershell
 node src/mobile/scripts/check-web-boundary.mjs
-node --test src/mobile/tests/*.test.js
 node --test tests/communication/*.test.js tests/device-files/*.test.js
 ```
 
