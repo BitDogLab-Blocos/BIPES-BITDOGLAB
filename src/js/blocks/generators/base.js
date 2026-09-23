@@ -217,15 +217,6 @@ Blockly.Python["tempo_cronometro"] = function(block) {
   return [code, Blockly.Python.ORDER_CONDITIONAL];
 };
 
-function _isWaitConnectedToRobotBlock(block) {
-  function isRobotBlock(candidate) {
-    return candidate && typeof candidate.type === 'string' && candidate.type.indexOf('robo_') === 0;
-  }
-  var previous = block && block.getPreviousBlock ? block.getPreviousBlock() : null;
-  var next = block && block.getNextBlock ? block.getNextBlock() : null;
-  return isRobotBlock(previous) || isRobotBlock(next);
-}
-
 Blockly.Python["esperar_segundos"] = function(block) {
   // Skip if already consumed by an animation block (timed mode)
   if (block._animConsumed) {
@@ -247,9 +238,6 @@ Blockly.Python["esperar_segundos"] = function(block) {
   var code = durationReporter
     ? 'time.sleep(' + value_time + ' / 1000)\n'
     : 'time.sleep(' + value_time + ')\n';
-  if (_isWaitConnectedToRobotBlock(block)) {
-    return BitdogLabConfig.MARKERS.SETUP_START + '\n' + code + BitdogLabConfig.MARKERS.SETUP_END + '\n';
-  }
   return code;
 };
 
@@ -262,9 +250,6 @@ Blockly.Python["esperar_milisegundos"] = function(block) {
   var value_time = Blockly.Python.valueToCode(block, 'TIME', Blockly.Python.ORDER_ATOMIC);
   Blockly.Python.definitions_['import_time'] = 'import time';
   var code = 'time.sleep_ms(' + value_time + ')\n';
-  if (_isWaitConnectedToRobotBlock(block)) {
-    return BitdogLabConfig.MARKERS.SETUP_START + '\n' + code + BitdogLabConfig.MARKERS.SETUP_END + '\n';
-  }
   return code;
 };
 

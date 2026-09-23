@@ -58,6 +58,13 @@ script/
 
 # Testes locais (não versionados)
 /tests/
+!/tests/
+/tests/*
+!/tests/robot_mission_integration.test.cjs
+!/tests/fixtures/
+/tests/fixtures/*
+!/tests/fixtures/robot_mixed_mission.xml
+!/tests/fixtures/robot_mixed_mission_ready.xml
 
 # Logs
 *.log

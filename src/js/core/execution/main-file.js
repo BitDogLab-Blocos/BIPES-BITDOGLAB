@@ -37,7 +37,7 @@ static _doSaveAsMainPy (onDone) {
   delete Blockly.Python.buzzerDisplayConfig;
   delete Blockly.Python.activeDisplayType;
   let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
-  let code = Code.wrapWithInfiniteLoop(rawCode);
+  let code = Code.wrapWithInfiniteLoop(rawCode, Code.workspace);
   if (!code) {
     Tool.updateFileStatus('Nenhum código para salvar.');
     if (onDone) onDone(false);

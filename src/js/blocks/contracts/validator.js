@@ -1123,6 +1123,36 @@
     var warnings = {};
     var notices = {};
 
+    var selectedProject = '';
+    try {
+      selectedProject = global.localStorage && global.localStorage.getItem('bitdoglab_project') || '';
+    } catch (e) {}
+    var isArrowProject = selectedProject === 'robo_setas' || blocks.some(function(block) {
+      return block.type && block.type.indexOf('robo_setas_') === 0;
+    });
+    if (isArrowProject) {
+      var joystickMessage = String(Code.LANG || 'pt-br').indexOf('en') === 0
+        ? 'Arrow mode runs a programmed mission. Remove this joystick block or choose another project.'
+        : 'O modo por setas executa uma missão programada. Remova este bloco que usa o joystick ou escolha outro projeto.';
+      var foreverMessage = String(Code.LANG || 'pt-br').indexOf('en') === 0
+        ? 'This forever loop prevents the arrow mission from finishing. Use a finite repeat block.'
+        : 'Este loop para sempre impede a missão por setas de terminar. Use o bloco repetir um número de vezes.';
+      blocks.forEach(function(block) {
+        var usesJoystick = block.type && (
+          block.type.indexOf('joystick_') === 0 ||
+          block.type === 'robo_joystick' ||
+          block.type === 'servo_joystick_controlar'
+        );
+        if (block.getFieldValue && block.getFieldValue('BOTAO') === 'JOYSTICK') {
+          usesJoystick = true;
+        }
+        if (usesJoystick) addWarning(warnings, block, joystickMessage);
+        if (block.type === 'controls_repeat_forever') {
+          addWarning(warnings, block, foreverMessage);
+        }
+      });
+    }
+
     validateMissingGenerators(blocks, warnings);
     validateValuePlacement(blocks, warnings);
     validateContractRequirements(blocks, warnings);

@@ -61,7 +61,7 @@ class ExecutionRunner {
       delete Blockly.Python.buzzerDisplayConfig;
       delete Blockly.Python.activeDisplayType;
       let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
-      code = Code.wrapWithInfiniteLoop(rawCode); // Wrap in while True loop
+      code = Code.wrapWithInfiniteLoop(rawCode, Code.workspace);
     } else {
       code = code_; // Use provided code directly
     }

@@ -1,0 +1,97 @@
+<xml xmlns="https://bipes.net.br">
+  <workspace>
+    <field name="DEVICE">v6</field>
+    <field name="TIMESTAMP">1790198102538</field>
+  </workspace>
+  <block type="robo_setas_iniciar" id=";Lm=@gK?P|=QOmBXdO3K" x="-137" y="13">
+    <next>
+      <block type="robo_setas_voltar" id="[H)H!+f6Z{s4nwbYvFh(">
+        <next>
+          <block type="matriz_aparecer_sumir" id="mLuI_du!A]~Mvxw++Kx$">
+            <statement name="DO">
+              <block type="mostrar_emoji" id="fio7OSAI_tkAyGgjD_iw">
+                <field name="BRILHO">30</field>
+                <value name="EMOJI">
+                  <block type="emoji_coracao" id="~$0#/X]I=Gr7Yk?hP5{2"></block>
+                </value>
+                <value name="COR">
+                  <block type="colour_green" id="^0=FAcVK=y$Tq^7;UCz@"></block>
+                </value>
+              </block>
+            </statement>
+            <next>
+              <block type="robo_setas_voltar" id="heGgAo(g#CG]]-S@wQVu">
+                <next>
+                  <block type="robo_setas_direita" id=")^c9^*vS$vvxGMZ8z.tc">
+                    <next>
+                      <block type="som_de_laser" id="7RZ^4d~:(6!D9y2Rk#LB">
+                        <field name="VOLUME">50</field>
+                        <next>
+                          <block type="joystick_seletor" id=".dB|bZ!^f-tS7NZwNgK|">
+                            <field name="DIR_PROXIMO">UP</field>
+                            <field name="DIR_ANTERIOR">DOWN</field>
+                            <statement name="OPCOES">
+                              <block type="mostrar_emoji" id="jKC/-C%zBh3fan^W*)59">
+                                <field name="BRILHO">30</field>
+                                <value name="EMOJI">
+                                  <block type="emoji_rosto_surpreso" id="k8m)+/.l7?{_Z}*ECzL("></block>
+                                </value>
+                                <value name="COR">
+                                  <block type="colour_orange" id="--Qb=jZg:|NRSKxH/x(U"></block>
+                                </value>
+                              </block>
+                            </statement>
+                            <next>
+                              <block type="som_de_falha" id="yh#fD4j85GkfkP)7}[]W">
+                                <field name="VOLUME">50</field>
+                                <next>
+                                  <block type="robo_setas_esquerda" id="C5Q]R0Bgi+Z%qP_Yg!Iw">
+                                    <next>
+                                      <block type="som_de_sucesso" id="nQjVkt[r{QqN5Ubp__@B">
+                                        <field name="VOLUME">50</field>
+                                        <next>
+                                          <block type="display_texto" id="5J%kEVrO|tI$Y2AH[G4%">
+                                            <field name="TEXTO">PATO</field>
+                                            <field name="LINHA">2</field>
+                                            <field name="ALINHAMENTO">CENTER</field>
+                                            <field name="DISPLAY_TYPE">LARGE</field>
+                                            <next>
+                                              <block type="matriz_piscar_rapido" id="M=a[0ZlJlE:@$m[P#Kq+">
+                                                <statement name="DO">
+                                                  <block type="mostrar_emoji" id="`}7$G7yo.T1=!lxr7CDi">
+                                                    <field name="BRILHO">30</field>
+                                                    <value name="EMOJI">
+                                                      <block type="emoji_presente" id="YUq|:s?5mz@3vthl^M,@"></block>
+                                                    </value>
+                                                    <value name="COR">
+                                                      <block type="colour_pink" id="6J]y7O`aB_03eu60mNko"></block>
+                                                    </value>
+                                                  </block>
+                                                </statement>
+                                                <next>
+                                                  <block type="robo_setas_finalizar" id="*/d:_OBEtqA*o}JI^v{%"></block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

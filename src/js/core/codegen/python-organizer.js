@@ -48,7 +48,28 @@ CodeGeneratorManager.getOledCompatSetupCode = function() {
     '  oled.line = _oled_line'
   ].join('\n') + '\n';
 };
-CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode) {
+CodeGeneratorManager.isSequentialRobotMission = function(workspace) {
+  if (!workspace || !workspace.getAllBlocks) return false;
+  var blocks = workspace.getAllBlocks(false).filter(function(block) {
+    return block && !(block.isEnabled && !block.isEnabled()) && !block.disabled &&
+      !(block.getInheritedDisabled && block.getInheritedDisabled());
+  });
+  var missionActions = [
+    'robo_setas_iniciar', 'robo_setas_frente', 'robo_setas_esquerda', 'robo_setas_direita',
+    'robo_setas_voltar', 'robo_setas_finalizar', 'robo_frente',
+    'robo_tras', 'robo_girar', 'robo_parar'
+  ];
+  var hasMissionAction = blocks.some(function(block) {
+    return missionActions.indexOf(block.type) !== -1;
+  });
+  var hasContinuousControl = blocks.some(function(block) {
+    return block.type === 'robo_joystick' || block.type === 'botao_se_apertado' ||
+      block.type === 'botao_enquanto_apertado';
+  });
+  return hasMissionAction && !hasContinuousControl;
+};
+
+CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode, workspace) {
   if (!rawCode || rawCode.trim() === '') {
     return '';
   }
@@ -268,7 +289,8 @@ CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode) {
       return line.indexOf('for _rep in range(') !== -1 || line.indexOf('for _inner_rep in range(') !== -1;
     });
 
-    if (hasRepeatXTimes && !hasButtonBlocks) {
+    if (CodeGeneratorManager.isSequentialRobotMission(workspace) ||
+        (hasRepeatXTimes && !hasButtonBlocks)) {
       for (var j = 0; j < actionCode.length; j++) {
         finalCode += actionCode[j] + '\n';
       }

@@ -548,32 +548,39 @@ function _roboSetupCode(code) {
 
 Blockly.Python['robo_setas_iniciar'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_iniciar_setas(5)\n');
+  var workspace = _block && _block.workspace;
+  var hasButtonControl = workspace && workspace.getAllBlocks &&
+    workspace.getAllBlocks(false).some(function(block) {
+      return block.type === 'botao_se_apertado' || block.type === 'botao_enquanto_apertado';
+    });
+  return hasButtonControl
+    ? _roboSetupCode('_robo_iniciar_setas(5)\n')
+    : '_robo_iniciar_setas(5)\n';
 };
 
 Blockly.Python['robo_setas_frente'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_ir_para(0)\n');
+  return '_robo_ir_para(0)\n';
 };
 
 Blockly.Python['robo_setas_esquerda'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_ir_para(3)\n');
+  return '_robo_ir_para(3)\n';
 };
 
 Blockly.Python['robo_setas_direita'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_ir_para(1)\n');
+  return '_robo_ir_para(1)\n';
 };
 
 Blockly.Python['robo_setas_voltar'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_ir_para(2)\n');
+  return '_robo_ir_para(2)\n';
 };
 
 Blockly.Python['robo_setas_finalizar'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_finalizar_setas()\n');
+  return '_robo_finalizar_setas()\n';
 };
 
 Blockly.Python['robo_inicializar'] = function(block) {
@@ -586,25 +593,25 @@ Blockly.Python['robo_inicializar'] = function(block) {
 Blockly.Python['robo_frente'] = function(block) {
   _setupRoboMovelDefinitions();
   var tempo = Blockly.Python.valueToCode(block, 'TEMPO', Blockly.Python.ORDER_ATOMIC) || '1';
-  return _roboSetupCode('_robo_frente(' + tempo + ')\n');
+  return '_robo_frente(' + tempo + ')\n';
 };
 
 Blockly.Python['robo_tras'] = function(block) {
   _setupRoboMovelDefinitions();
   var tempo = Blockly.Python.valueToCode(block, 'TEMPO', Blockly.Python.ORDER_ATOMIC) || '1';
-  return _roboSetupCode('_robo_tras(' + tempo + ')\n');
+  return '_robo_tras(' + tempo + ')\n';
 };
 
 Blockly.Python['robo_girar'] = function(block) {
   _setupRoboMovelDefinitions();
   var graus = Blockly.Python.valueToCode(block, 'GRAUS', Blockly.Python.ORDER_ATOMIC) || '45';
   var direcao = block.getFieldValue('DIRECAO') || 'L';
-  return _roboSetupCode('_robo_girar(' + graus + ', "' + direcao + '")\n');
+  return '_robo_girar(' + graus + ', "' + direcao + '")\n';
 };
 
 Blockly.Python['robo_parar'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return _roboSetupCode('_robo_parar()\n');
+  return '_robo_parar()\n';
 };
 
 Blockly.Python['robo_joystick'] = function(_block) {

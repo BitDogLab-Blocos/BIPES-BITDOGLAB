@@ -70,7 +70,7 @@ CodeGeneratorManager.generateCode = function(generator) {
         }
 
         var rawCode = generator.workspaceToCode(Code.workspace);
-        var finalCode = CodeGeneratorManager.wrapWithInfiniteLoop(rawCode);
+        var finalCode = CodeGeneratorManager.wrapWithInfiniteLoop(rawCode, Code.workspace);
         if (rawCode.indexOf(BitdogLabConfig.MARKERS.STATIC_CONFIG) !== -1) {
           Code.auto_mode = false;
         }
