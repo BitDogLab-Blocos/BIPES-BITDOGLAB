@@ -1,3 +1,52 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-<!-- O OLED anuncia a curva antes de o robô avançar. -->
-<block type="robo_setas_iniciar" id="4ho}biApM4*^YE)]n+RY" x="30" y="30"><next><block type="robo_setas_frente" id="=5Z?VwrIcj{%FB-22*R)"><next><block type="display_texto" id="=DuVKfV8FGChrf!AWz?3"><field name="TEXTO">VIRE</field><field name="LINHA">2</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="robo_setas_direita" id="`qLPsSh_aVhj)}(pn33l"><next><block type="display_texto" id="8LLtBS;kiV(GT(phA[YR"><field name="TEXTO">CHEGOU</field><field name="LINHA">2</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="robo_setas_finalizar" id="ZRt#QZd3;M*hZ*R/+dLS"></block></next></block></next></block></next></block></next></block></next></block></xml>
+  <!-- Mostra VIRE antes da curva e CHEGOU ao final, sem sobrepor os textos. -->
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next>
+      <block type="robo_setas_frente">
+        <next>
+          <block type="display_limpar_linha">
+            <field name="LINHA">2</field>
+            <field name="DISPLAY_TYPE">SMALL</field>
+            <next>
+              <block type="display_texto">
+                <field name="TEXTO">VIRE</field>
+                <field name="LINHA">2</field>
+                <field name="ALINHAMENTO">CENTER</field>
+                <field name="DISPLAY_TYPE">SMALL</field>
+                <next>
+                  <block type="esperar_segundos">
+                    <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                    <next>
+                      <block type="robo_setas_direita">
+                        <next>
+                          <block type="display_limpar_linha">
+                            <field name="LINHA">2</field>
+                            <field name="DISPLAY_TYPE">SMALL</field>
+                            <next>
+                              <block type="display_texto">
+                                <field name="TEXTO">CHEGOU</field>
+                                <field name="LINHA">2</field>
+                                <field name="ALINHAMENTO">CENTER</field>
+                                <field name="DISPLAY_TYPE">SMALL</field>
+                                <next>
+                                  <block type="esperar_segundos">
+                                    <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                    <next><block type="robo_setas_finalizar" /></next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>
