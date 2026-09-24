@@ -1,16 +1,16 @@
 {
-  "baseCommit": "63fe05c",
+  "baseCommit": "999f800",
   "description": "Entrypoints e módulos web sensíveis compartilhados com o aplicativo móvel após a arquitetura modular.",
   "files": {
-    "src/js/bootstrap/page.js": "4b986350c7bd480144a9db2b8243ddca5c72ed443b96fcb5e5bb7ebc00b51687",
+    "src/js/bootstrap/page.js": "1310cadedd168378975c6fe37df455fedf3b28beaca26b05aec49a5e60da98f2",
     "src/js/bootstrap/services.js": "38e35a3d886c385a44b7a9395d43e3904511e46a702293e88146530fc66ba95d",
     "src/js/communication/webserial.js": "63f99d597e532b2bcfbe1992e556ebd983e8fe4504214892de6260601c47c2c0",
     "src/js/communication/channel.js": "a3c1e5aeee2c93aaa9ddcc6011351d40bab0789e7bc60ebdf539ca7f821110bf",
-    "src/js/communication/i2c_scanner.js": "7900c4261bc198b60c3ccc5e5f94b4622f5ab1c750895ff88e8312404c0f8aeb",
-    "src/js/core/execution/runner.js": "faa2cf2d8e9abc5d62a1a319b58eb812fd6a2add9ad5ad0bda5fb75d4eda7dc6",
-    "src/js/core/execution/main-file.js": "0a27a4f0a46434b1322a6cc39b230b2dd7239a5b33c028024ed936b449d914f1",
+    "src/js/communication/i2c_scanner.js": "cffa705068392756784b63591a9a6d8c45b4807dc154ea2be8bbc7e87e630beb",
+    "src/js/core/execution/runner.js": "23e30625a7a10cc7909b19c9832d7b351e48e4414e68d58882cf2b80f56f6aec",
+    "src/js/core/execution/main-file.js": "e424c139e00cc7ca177c96cc31e82d6ce2b2468ab400fe5e0b72de8bccfa0263",
     "src/js/core/execution/index.js": "f0e75545810909ca12aff0eeabd933eea3c1a8bb1fb0711346b9d0a1871bf140",
     "src/js/core/utils.js": "edf6f8bf69b976ccf7db9c69d4dd7776a850b03ac334e494f76fff86cb7d15f3",
-    "src/pages/index.html": "c2a8a814bcc7c0d222ff9e39b3ca7111be988ec33dcccc379787549914b63e8a"
+    "src/pages/index.html": "163f897861bc6c198fe209e808c35da6ea0f8ec52cac83af1ce4278adb217d77"
   }
 }

@@ -5,7 +5,7 @@
 
   **A interface BIPES–BitDogLab empacotada para Android com USB CDC nativo.**
 
-  `versão 0.3.6` · `Android 8+` · `USB Host/OTG` · `MicroPython`
+  `versão 0.3.8` · `Android 8+` · `USB Host/OTG` · `MicroPython`
 </div>
 
 ## Visão geral
@@ -20,7 +20,7 @@
 
 ![Arquitetura em camadas do aplicativo Android](docs/images/mobile-architecture-layers.svg)
 
-Não existe uma segunda interface em Java. A tarefa Gradle `prepareWebAssets` copia `src/` e `device-file-manager/` para o diretório de build, e o APK abre `src/pages/index.html?mobile=1`.
+Não existe uma segunda interface em Java. A tarefa Gradle `prepareWebAssets` copia `src/`, `device-file-manager/`, o catálogo e os XMLs de `examples/`, além das imagens citadas pelo catálogo, para o diretório de build. O APK abre `src/pages/index.html?mobile=1`.
 
 ## Web e Android
 
@@ -188,7 +188,7 @@ src/mobile/
 
 ## Como os assets entram no APK
 
-`prepareWebAssets` copia as fontes para `android/app/build/generated/webAssets/`. O diretório é temporário, ignorado pelo Git e removido por `gradlew clean`. Nunca edite essa cópia.
+`prepareWebAssets` copia as fontes para `android/app/build/generated/webAssets/`. O catálogo, os XMLs de ambos os displays e as imagens de prévia ficam disponíveis sem internet. O diretório é temporário, ignorado pelo Git e removido por `gradlew clean`. Nunca edite essa cópia.
 
 Antes da página iniciar, o Android injeta layout, shim serial, proteção de conteúdo e controle móvel do workspace. O catálogo PT/EN vem da mesma fonte web.
 
