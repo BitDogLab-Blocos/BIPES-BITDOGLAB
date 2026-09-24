@@ -235,6 +235,27 @@ Blockly.Blocks['display_limpar'] = {
   }
 };
 
+// Clear one display row without erasing the rest of the screen.
+Blockly.Blocks['display_limpar_linha'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("🧹 Apagar linha")
+        .appendField(new Blockly.FieldDropdown([
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"]
+        ]), "LINHA");
+    appendDisplayTypeInput(this);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#16a085");
+    this.setTooltip("Limpa uma linha sem alterar as demais.");
+    this.setHelpUrl("");
+  }
+};
+
 // Display reset button counter block
 Blockly.Blocks['display_resetar_contagem'] = {
   init: function() {

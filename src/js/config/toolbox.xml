@@ -358,6 +358,7 @@
     <block type="display_resetar_contagem"></block>
     <block type="display_criar_borda"></block>
     <block type="display_limpar_borda"></block>
+    <block type="display_limpar_linha"></block>
     <block type="display_limpar"></block>
   </category>
   <category name="🕹️ Joystick" colour="#1565c0">

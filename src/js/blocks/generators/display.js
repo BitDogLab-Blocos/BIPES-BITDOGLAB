@@ -481,6 +481,17 @@ Blockly.Python["display_limpar"] = function(block) {
   return code;
 };
 
+Blockly.Python["display_limpar_linha"] = function(block) {
+  _setupDisplayForBlock(block);
+
+  var linha = block.getFieldValue('LINHA');
+  var yPositions = {'1': 8, '2': 18, '3': 28, '4': 38, '5': 48};
+  var y = yPositions[linha];
+
+  // The Python organizer batches this clear with following OLED drawing commands.
+  return 'oled.fill_rect(0, ' + y + ', 128, 8, 0)\n';
+};
+
 Blockly.Python["display_mostrar_estado_botao"] = function(block) {
   _setupDisplayForBlock(block);
   Blockly.Python.definitions_['import_time'] = 'import time';

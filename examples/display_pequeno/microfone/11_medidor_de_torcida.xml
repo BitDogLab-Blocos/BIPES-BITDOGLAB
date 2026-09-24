@@ -1,50 +1,48 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <!-- A barra e a porcentagem mostram a força da torcida; alcance 70 para celebrar. -->
-  <block x="30" y="30" type="display_limpar">
+  <block type="microfone_barra_display">
+    <field name="LINHA">5</field>
     <field name="DISPLAY_TYPE">SMALL</field>
     <next>
-      <block type="microfone_barra_display">
-        <field name="LINHA">5</field>
-        <field name="DISPLAY_TYPE">SMALL</field>
+      <block type="microfone_vu_meter">
+        <field name="BRILHO">20</field>
+        <value name="COR">
+          <block type="colour_magenta"/>
+        </value>
         <next>
-          <block type="microfone_vu_meter">
-            <field name="BRILHO">20</field>
-            <value name="COR">
-              <block type="colour_magenta">
-              </block>
-            </value>
+          <block type="display_texto">
+            <field name="TEXTO">Forca da torcida</field>
+            <field name="LINHA">1</field>
+            <field name="ALINHAMENTO">LEFT</field>
+            <field name="DISPLAY_TYPE">SMALL</field>
             <next>
-              <block type="display_texto">
-                <field name="TEXTO">Forca da torcida</field>
-                <field name="LINHA">1</field>
-                <field name="ALINHAMENTO">LEFT</field>
+              <block type="display_mostrar_valor">
+                <field name="LINHA">2</field>
+                <field name="ALINHAMENTO">CENTER</field>
                 <field name="DISPLAY_TYPE">SMALL</field>
+                <value name="VALOR">
+                  <block type="microfone_barra_pct"/>
+                </value>
                 <next>
-                  <block type="display_mostrar_valor">
-                    <field name="LINHA">2</field>
-                    <field name="ALINHAMENTO">CENTER</field>
-                    <field name="DISPLAY_TYPE">SMALL</field>
-                    <value name="VALOR">
-                      <block type="microfone_barra_pct">
-                      </block>
-                    </value>
-                    <next>
-                      <block type="controls_ifelse">
-                        <value name="IF0">
-                          <block type="logic_compare">
-                            <field name="OP">GTE</field>
-                            <value name="A">
-                              <block type="microfone_barra_pct">
-                              </block>
-                            </value>
-                            <value name="B">
-                              <block type="math_number">
-                                <field name="NUM">70</field>
-                              </block>
-                            </value>
+                  <block type="controls_ifelse">
+                    <value name="IF0">
+                      <block type="logic_compare">
+                        <field name="OP">GTE</field>
+                        <value name="A">
+                          <block type="microfone_barra_pct"/>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">70</field>
                           </block>
                         </value>
-                        <statement name="DO0">
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="display_limpar_linha">
+                        <field name="LINHA">4</field>
+                        <field name="DISPLAY_TYPE">SMALL</field>
+                        <next>
                           <block type="display_texto">
                             <field name="TEXTO">CONSEGUIU!</field>
                             <field name="LINHA">4</field>
@@ -53,14 +51,19 @@
                             <next>
                               <block type="bloco_ligar_led">
                                 <value name="COLOUR">
-                                  <block type="colour_green">
-                                  </block>
+                                  <block type="colour_green"/>
                                 </value>
                               </block>
                             </next>
                           </block>
-                        </statement>
-                        <statement name="ELSE">
+                        </next>
+                      </block>
+                    </statement>
+                    <statement name="ELSE">
+                      <block type="display_limpar_linha">
+                        <field name="LINHA">4</field>
+                        <field name="DISPLAY_TYPE">SMALL</field>
+                        <next>
                           <block type="display_texto">
                             <field name="TEXTO">Mais alto!</field>
                             <field name="LINHA">4</field>
@@ -69,22 +72,21 @@
                             <next>
                               <block type="bloco_ligar_led">
                                 <value name="COLOUR">
-                                  <block type="colour_blue">
-                                  </block>
+                                  <block type="colour_blue"/>
                                 </value>
                               </block>
                             </next>
                           </block>
-                        </statement>
-                        <next>
-                          <block type="esperar_milisegundos">
-                            <value name="TIME">
-                              <block type="math_number">
-                                <field name="NUM">100</field>
-                              </block>
-                            </value>
-                          </block>
                         </next>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="esperar_milisegundos">
+                        <value name="TIME">
+                          <block type="math_number">
+                            <field name="NUM">100</field>
+                          </block>
+                        </value>
                       </block>
                     </next>
                   </block>
