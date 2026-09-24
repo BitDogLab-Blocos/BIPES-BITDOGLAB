@@ -2634,6 +2634,181 @@
       ]
     },
     {
+      "id": "botoes",
+      "title": "Botões",
+      "icon": "🎮",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Minha primeira luz",
+          "description": "Acenda sua primeira luz. Aperte A: o LED vermelho acende e continua aceso ao soltar.",
+          "icon": "💡",
+          "image": "images/botoes/01_minha_primeira_luz.png",
+          "displaySpecific": false,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/01_minha_primeira_luz.xml",
+            "grande": "examples/display_grande/botoes/01_minha_primeira_luz.xml"
+          }
+        },
+        {
+          "number": 2,
+          "title": "Lanterna de apertar",
+          "description": "Segure para iluminar. Segure A para acender. Solte para apagar. Compare com o exemplo 01.",
+          "icon": "🔦",
+          "image": "images/botoes/02_lanterna_de_apertar.png",
+          "displaySpecific": false,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/02_lanterna_de_apertar.xml",
+            "grande": "examples/display_grande/botoes/02_lanterna_de_apertar.xml"
+          }
+        },
+        {
+          "number": 3,
+          "title": "Dois botões, duas tarefas",
+          "description": "Ligue e apague com dois botões. A acende o LED; B apaga. Cada botão tem uma tarefa.",
+          "icon": "🔘",
+          "image": "images/botoes/03_dois_botoes_duas_tarefas.png",
+          "displaySpecific": false,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/03_dois_botoes_duas_tarefas.xml",
+            "grande": "examples/display_grande/botoes/03_dois_botoes_duas_tarefas.xml"
+          }
+        },
+        {
+          "number": 4,
+          "title": "Luzes coloridas",
+          "description": "Escolha a cor da luz. A escolhe vermelho; B, azul; C, verde. A cor anterior é apagada.",
+          "icon": "🌈",
+          "image": "images/botoes/04_luzes_coloridas.png",
+          "displaySpecific": false,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/04_luzes_coloridas.xml",
+            "grande": "examples/display_grande/botoes/04_luzes_coloridas.xml"
+          }
+        },
+        {
+          "number": 5,
+          "title": "Carinhas da placa",
+          "description": "Escolha uma carinha. A mostra alegria; B mostra tristeza. Experimente trocar a cor dos emojis.",
+          "icon": "🙂",
+          "image": "images/botoes/05_carinhas_da_placa.png",
+          "displaySpecific": false,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/05_carinhas_da_placa.xml",
+            "grande": "examples/display_grande/botoes/05_carinhas_da_placa.xml"
+          }
+        },
+        {
+          "number": 6,
+          "title": "Campainha divertida",
+          "description": "Toque a campainha. Aperte e solte A para ouvir um bipe. Segurar não toca novos bipes.",
+          "icon": "🔔",
+          "image": "images/botoes/06_campainha_divertida.png",
+          "displaySpecific": false,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/06_campainha_divertida.xml",
+            "grande": "examples/display_grande/botoes/06_campainha_divertida.xml"
+          }
+        },
+        {
+          "number": 7,
+          "title": "Botões musicais",
+          "description": "Toque três notas. A toca Dó; B, Mi; C, Sol. Crie um ritmo apertando e soltando.",
+          "icon": "🎵",
+          "image": "images/botoes/07_botoes_musicais.png",
+          "displaySpecific": false,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/07_botoes_musicais.xml",
+            "grande": "examples/display_grande/botoes/07_botoes_musicais.xml"
+          }
+        },
+        {
+          "number": 8,
+          "title": "Interruptor mágico",
+          "description": "Alterne a luz com um botão. A muda ligado de 0 para 1 ou de 1 para 0. Cada aperto troca o estado.",
+          "icon": "🔄",
+          "image": "images/botoes/08_interruptor_magico.png",
+          "displaySpecific": false,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/08_interruptor_magico.xml",
+            "grande": "examples/display_grande/botoes/08_interruptor_magico.xml"
+          }
+        },
+        {
+          "number": 9,
+          "title": "Meu contador de pontos",
+          "description": "Conte seus apertos. Cada aperto em A soma um ponto. Segure A e observe: soma somente uma vez.",
+          "icon": "🔢",
+          "image": "images/botoes/09_meu_contador_de_pontos.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/09_meu_contador_de_pontos.xml",
+            "grande": "examples/display_grande/botoes/09_meu_contador_de_pontos.xml"
+          }
+        },
+        {
+          "number": 10,
+          "title": "Começar de novo",
+          "description": "Zere seu placar. A soma um ponto; B volta a zero. Faça dez pontos e comece outra rodada.",
+          "icon": "🔁",
+          "image": "images/botoes/10_comecar_de_novo.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/10_comecar_de_novo.xml",
+            "grande": "examples/display_grande/botoes/10_comecar_de_novo.xml"
+          }
+        },
+        {
+          "number": 11,
+          "title": "Disputa de apertos",
+          "description": "Dispute com um amigo. A e B somam em placares separados. C zera os dois. Combinem a duração da rodada.",
+          "icon": "🆚",
+          "image": "images/botoes/11_disputa_de_apertos.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/11_disputa_de_apertos.xml",
+            "grande": "examples/display_grande/botoes/11_disputa_de_apertos.xml"
+          }
+        },
+        {
+          "number": 12,
+          "title": "Meu primeiro cronômetro",
+          "description": "Controle seu cronômetro. A inicia ou retoma; B pausa; C zera e deixa parado. O tempo aparece no OLED.",
+          "icon": "⏱️",
+          "image": "images/botoes/12_meu_primeiro_cronometro.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/12_meu_primeiro_cronometro.xml",
+            "grande": "examples/display_grande/botoes/12_meu_primeiro_cronometro.xml"
+          }
+        },
+        {
+          "number": 13,
+          "title": "Desafio cinco segundos",
+          "description": "Pare perto de cinco segundos. A começa uma tentativa do zero; B para. Tente chegar a 5 segundos. O visor ajuda a conferir.",
+          "icon": "🎯",
+          "image": "images/botoes/13_desafio_cinco_segundos.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/13_desafio_cinco_segundos.xml",
+            "grande": "examples/display_grande/botoes/13_desafio_cinco_segundos.xml"
+          }
+        },
+        {
+          "number": 14,
+          "title": "Espere o sinal",
+          "description": "Espere a luz verde. A inicia: espere três segundos. B antes do verde perde; B depois do verde mostra o tempo de reação. A recomeça.",
+          "icon": "🚦",
+          "image": "images/botoes/14_espere_o_sinal.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/botoes/14_espere_o_sinal.xml",
+            "grande": "examples/display_grande/botoes/14_espere_o_sinal.xml"
+          }
+        }
+      ]
+    },
+    {
       "id": "display_oled",
       "title": "Display OLED",
       "icon": "📺",
@@ -3227,6 +3402,157 @@
             "grande": "examples/display_grande/joystick/17_aventura_das_direcoes.xml"
           },
           "displaySpecific": true
+        }
+      ]
+    },
+    {
+      "id": "microfone",
+      "title": "Microfone",
+      "icon": "🎙️",
+      "examples": [
+        {
+          "number": 1,
+          "title": "Testar o microfone",
+          "description": "Primeiro teste: confirme no OLED se o microfone está respondendo.",
+          "icon": "🎙️",
+          "image": "images/microfone/01_testar_o_microfone.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/microfone/01_testar_o_microfone.xml",
+            "grande": "examples/display_grande/microfone/01_testar_o_microfone.xml"
+          }
+        },
+        {
+          "number": 2,
+          "title": "Nível do som no OLED",
+          "description": "A matriz reage ao som e o OLED mostra um nível de 0 a 5.",
+          "icon": "🔊",
+          "image": "images/microfone/02_nivel_do_som_no_oled.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/microfone/02_nivel_do_som_no_oled.xml",
+            "grande": "examples/display_grande/microfone/02_nivel_do_som_no_oled.xml"
+          }
+        },
+        {
+          "number": 3,
+          "title": "Medidor de barulho na matriz",
+          "description": "Fale, assopre ou bata palmas: mais barulho acende mais linhas.",
+          "icon": "🔲",
+          "image": "images/microfone/03_medidor_de_barulho_na_matriz.png",
+          "displaySpecific": false,
+          "displays": {
+            "pequeno": "examples/display_pequeno/microfone/03_medidor_de_barulho_na_matriz.xml",
+            "grande": "examples/display_grande/microfone/03_medidor_de_barulho_na_matriz.xml"
+          }
+        },
+        {
+          "number": 4,
+          "title": "Barra de volume no OLED",
+          "description": "A barra horizontal cresce e diminui conforme a intensidade do som.",
+          "icon": "📊",
+          "image": "images/microfone/04_barra_de_volume_no_oled.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/microfone/04_barra_de_volume_no_oled.xml",
+            "grande": "examples/display_grande/microfone/04_barra_de_volume_no_oled.xml"
+          }
+        },
+        {
+          "number": 5,
+          "title": "Som controla o brilho do LED",
+          "description": "Fale mais alto para deixar o LED azul mais brilhante.",
+          "icon": "💡",
+          "image": "images/microfone/05_som_controla_o_brilho_do_led.png",
+          "displaySpecific": false,
+          "displays": {
+            "pequeno": "examples/display_pequeno/microfone/05_som_controla_o_brilho_do_led.xml",
+            "grande": "examples/display_grande/microfone/05_som_controla_o_brilho_do_led.xml"
+          }
+        },
+        {
+          "number": 6,
+          "title": "Primeira palma acende o LED",
+          "description": "A primeira palma acende o LED; reinicie o programa para brincar novamente.",
+          "icon": "👏",
+          "image": "images/microfone/06_primeira_palma_acende_o_led.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/microfone/06_primeira_palma_acende_o_led.xml",
+            "grande": "examples/display_grande/microfone/06_primeira_palma_acende_o_led.xml"
+          }
+        },
+        {
+          "number": 7,
+          "title": "Contador de palmas",
+          "description": "Bata palmas separadamente e acompanhe o total no OLED.",
+          "icon": "🔢",
+          "image": "images/microfone/07_contador_de_palmas.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/microfone/07_contador_de_palmas.xml",
+            "grande": "examples/display_grande/microfone/07_contador_de_palmas.xml"
+          }
+        },
+        {
+          "number": 8,
+          "title": "Duas palmas mostram uma carinha",
+          "description": "Depois de duas palmas, uma carinha feliz aparece na matriz.",
+          "icon": "🙂",
+          "image": "images/microfone/08_duas_palmas_mostram_uma_carinha.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/microfone/08_duas_palmas_mostram_uma_carinha.xml",
+            "grande": "examples/display_grande/microfone/08_duas_palmas_mostram_uma_carinha.xml"
+          }
+        },
+        {
+          "number": 9,
+          "title": "Semáforo do barulho",
+          "description": "A matriz mostra verde no silêncio, amarelo no som médio e vermelho no som alto.",
+          "icon": "🚦",
+          "image": "images/microfone/09_semaforo_do_barulho.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/microfone/09_semaforo_do_barulho.xml",
+            "grande": "examples/display_grande/microfone/09_semaforo_do_barulho.xml"
+          }
+        },
+        {
+          "number": 10,
+          "title": "Desafio do silêncio",
+          "description": "Mantenha a carinha feliz deixando o ambiente silencioso.",
+          "icon": "🤫",
+          "image": "images/microfone/10_desafio_do_silencio.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/microfone/10_desafio_do_silencio.xml",
+            "grande": "examples/display_grande/microfone/10_desafio_do_silencio.xml"
+          }
+        },
+        {
+          "number": 11,
+          "title": "Medidor de torcida",
+          "description": "A barra e a porcentagem mostram a força da torcida; alcance 70 para celebrar.",
+          "icon": "📣",
+          "image": "images/microfone/11_medidor_de_torcida.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/microfone/11_medidor_de_torcida.xml",
+            "grande": "examples/display_grande/microfone/11_medidor_de_torcida.xml"
+          }
+        },
+        {
+          "number": 12,
+          "title": "Monitor completo do microfone",
+          "description": "Painel final: nível, intensidade, palmas, estado do ambiente e barra visual.",
+          "icon": "🎙️",
+          "image": "images/microfone/12_monitor_completo_do_microfone.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/microfone/12_monitor_completo_do_microfone.xml",
+            "grande": "examples/display_grande/microfone/12_monitor_completo_do_microfone.xml"
+          }
         }
       ]
     },
