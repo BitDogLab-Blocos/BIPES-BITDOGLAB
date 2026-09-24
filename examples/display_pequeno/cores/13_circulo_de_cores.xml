@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Alterna pelas 12 cores prontas em uma ordem contínua, formando um círculo de cores no LED RGB. -->
+  <block type="bloco_alternar_led" x="20" y="20">
+    <mutation items="12"></mutation>
+    <value name="COLOUR0"><block type="colour_red"></block></value>
+    <value name="COLOUR1"><block type="colour_orange"></block></value>
+    <value name="COLOUR2"><block type="colour_yellow"></block></value>
+    <value name="COLOUR3"><block type="colour_lime"></block></value>
+    <value name="COLOUR4"><block type="colour_green"></block></value>
+    <value name="COLOUR5"><block type="colour_turquoise"></block></value>
+    <value name="COLOUR6"><block type="colour_cyan"></block></value>
+    <value name="COLOUR7"><block type="colour_skyblue"></block></value>
+    <value name="COLOUR8"><block type="colour_blue"></block></value>
+    <value name="COLOUR9"><block type="colour_magenta"></block></value>
+    <value name="COLOUR10"><block type="colour_pink"></block></value>
+    <value name="COLOUR11"><block type="colour_white"></block></value>
+  </block>
+</xml>

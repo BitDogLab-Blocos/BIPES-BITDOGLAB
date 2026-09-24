@@ -1,0 +1,6 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Um som agudo é um teste rápido para perceber frequência e duração. -->
+  <block type="tocar_som_agudo" x="30" y="30"><field name="VOLUME">35</field><field name="DURATION">500</field>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">800</field></block></value></block></next>
+  </block>
+</xml>

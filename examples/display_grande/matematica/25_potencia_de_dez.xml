@@ -1,0 +1,3 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<!-- Potência de dez: converta rapidamente uma ordem de grandeza. -->
+<block type="display_mostrar_calculo" id="_zJrOq40HuX6XhaJw^FH" x="20" y="20"><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">LARGE</field><value name="VALOR"><block type="math_single" id="D`|mWd{1MY^p@w#RFg9z"><field name="OP">POW10</field><value name="NUM"><block type="math_number" id=";:0%CMJ!{9iLS.WU.gzf"><field name="NUM">3</field></block></value></block></value></block></xml>

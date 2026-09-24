@@ -1,0 +1,3 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<!-- Arredondamento para baixo: útil para descobrir quantos grupos completos cabem. -->
+<block type="display_mostrar_calculo" id="/s3+iio9h:L_@chn=H)+" x="20" y="20"><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">LARGE</field><value name="VALOR"><block type="math_round" id="Q_N`D,X2;tDg-|,l4glI"><field name="OP">ROUNDDOWN</field><value name="NUM"><block type="math_number" id="B/@NxNR2!jfQq6w|`)E%"><field name="NUM">8.9</field></block></value></block></value></block></xml>

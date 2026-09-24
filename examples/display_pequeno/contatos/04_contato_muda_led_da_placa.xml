@@ -1,0 +1,15 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Enquanto a Conexao 1 estiver tocada, o LED verde da placa fica ligado; ao soltar, apaga. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0"><block type="external_contact_is_closed"><field name="DIG">1</field></block></value>
+        <statement name="DO0">
+          <block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value></block>
+        </statement>
+        <statement name="ELSE"><block type="bloco_desligar_todos_leds"></block></statement>
+      </block>
+    </next>
+  </block>
+</xml>

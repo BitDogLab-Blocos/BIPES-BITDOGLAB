@@ -1,0 +1,44 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Cada nota da frase acende uma cor diferente e termina em silêncio. -->
+  <block type="bloco_ligar_led" x="30" y="30">
+    <value name="COLOUR"><block type="colour_red"></block></value>
+    <next>
+      <block type="tocar_nota">
+        <value name="NOTA"><block type="nota_do"></block></value><field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">250</field>
+        <next>
+          <block type="bloco_desligar_led"><value name="COLOUR"><block type="colour_red"></block></value>
+            <next>
+              <block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value>
+                <next>
+                  <block type="tocar_nota">
+                    <value name="NOTA"><block type="nota_mi"></block></value><field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">250</field>
+                    <next>
+                      <block type="bloco_desligar_led"><value name="COLOUR"><block type="colour_green"></block></value>
+                        <next>
+                          <block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_blue"></block></value>
+                            <next>
+                              <block type="tocar_nota">
+                                <value name="NOTA"><block type="nota_sol"></block></value><field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">350</field>
+                                <next>
+                                  <block type="bloco_desligar_led"><value name="COLOUR"><block type="colour_blue"></block></value>
+                                    <next>
+                                      <block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

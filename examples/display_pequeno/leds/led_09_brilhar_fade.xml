@@ -1,0 +1,30 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Luz suave: o verde aparece e desaparece gradualmente, como respiração. -->
+  <block type="bloco_animar_led_brilhar" x="20" y="20">
+    <value name="COLOUR">
+      <block type="colour_green"></block>
+    </value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME">
+          <block type="math_number">
+            <field name="NUM">3</field>
+          </block>
+        </value>
+        <next>
+          <block type="bloco_desligar_todos_leds">
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME">
+                  <block type="math_number">
+                    <field name="NUM">3</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,25 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O som permanece dentro da repetição, entre as setas. -->
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next>
+      <block type="controls_repeat_simple">
+        <field name="TIMES">2</field>
+        <statement name="DO">
+          <block type="robo_setas_frente">
+            <next>
+              <block type="bipe_curto">
+                <field name="VOLUME">30</field>
+                <next>
+                  <block type="robo_setas_direita" />
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="robo_setas_finalizar" />
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

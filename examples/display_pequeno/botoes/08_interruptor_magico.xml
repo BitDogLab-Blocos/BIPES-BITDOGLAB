@@ -1,0 +1,67 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Alterne a luz com um botão. A muda ligado de 0 para 1 ou de 1 para 0. Cada aperto troca o estado. -->
+  <block x="30" y="30" type="variables_guardar">
+    <field name="VAR">ligado</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">A</field>
+        <statement name="DO">
+          <block type="controls_ifelse">
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">EQ</field>
+                <value name="A">
+                  <block type="variables_valor_guardado">
+                    <field name="VAR">ligado</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">0</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="bloco_ligar_led">
+                <value name="COLOUR">
+                  <block type="colour_green">
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_guardar">
+                    <field name="VAR">ligado</field>
+                    <value name="VALUE">
+                      <block type="math_number">
+                        <field name="NUM">1</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="bloco_desligar_todos_leds">
+                <next>
+                  <block type="variables_guardar">
+                    <field name="VAR">ligado</field>
+                    <value name="VALUE">
+                      <block type="math_number">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

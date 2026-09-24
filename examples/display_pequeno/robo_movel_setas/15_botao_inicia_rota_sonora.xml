@@ -1,0 +1,26 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O botão inicia uma sequência de movimentos com som no meio. -->
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">A</field>
+        <statement name="DO">
+          <block type="robo_setas_frente">
+            <next>
+              <block type="som_de_laser">
+                <field name="VOLUME">35</field>
+                <next>
+                  <block type="robo_setas_direita">
+                    <next>
+                      <block type="robo_setas_finalizar" />
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

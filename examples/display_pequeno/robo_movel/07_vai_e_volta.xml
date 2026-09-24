@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Rota de reconhecimento: avance, faca duas curvas opostas, retorne e mostre o giro. -->
+  <block type="robo_inicializar" x="20" y="20">
+    <field name="ESPERA">5</field>
+    <next><block type="robo_frente">
+      <value name="TEMPO"><block type="math_number"><field name="NUM">1.5</field></block></value>
+      <next><block type="robo_girar"><field name="DIRECAO">L</field><value name="GRAUS"><block type="math_number"><field name="NUM">45</field></block></value>
+        <next><block type="robo_frente"><value name="TEMPO"><block type="math_number"><field name="NUM">0.8</field></block></value>
+          <next><block type="robo_girar"><field name="DIRECAO">R</field><value name="GRAUS"><block type="math_number"><field name="NUM">45</field></block></value>
+            <next><block type="robo_tras"><value name="TEMPO"><block type="math_number"><field name="NUM">1.5</field></block></value>
+              <next><block type="robo_parar"></block></next>
+            </block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

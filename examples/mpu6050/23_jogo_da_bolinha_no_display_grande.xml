@@ -1,4 +1,0 @@
-<xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Incline o MPU6050 para conduzir a bolinha pelo display SH1107 grande. -->
-  <block type="mpu6050_bolinha_display" x="20" y="20"><field name="SCL">3</field><field name="SDA">2</field><field name="DISPLAY_TYPE">LARGE</field></block>
-</xml>

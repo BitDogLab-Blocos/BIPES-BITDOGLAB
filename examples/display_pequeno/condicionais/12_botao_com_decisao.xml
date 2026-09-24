@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Entrada real: o botão A escolhe um caminho; sem pressionar, o programa continua sem ação. -->
+  <block type="botao_se_apertado" x="30" y="30">
+    <field name="BOTAO">A</field>
+    <statement name="DO">
+      <block type="controls_ifelse">
+        <value name="IF0"><block type="logic_compare"><field name="OP">EQ</field><value name="A"><block type="math_number"><field name="NUM">2</field></block></value><value name="B"><block type="math_number"><field name="NUM">2</field></block></value></block></value>
+        <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_blue"></block></value><next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">0.4</field></block></value><next><block type="bloco_desligar_todos_leds"><next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next></block></next></block></next></block></statement>
+        <statement name="ELSE"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_yellow"></block></value><next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">0.4</field></block></value><next><block type="bloco_desligar_todos_leds"><next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next></block></next></block></next></block></statement>
+      </block>
+    </statement>
+  </block>
+</xml>

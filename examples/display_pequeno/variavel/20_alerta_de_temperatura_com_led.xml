@@ -1,0 +1,57 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Temperatura: acima de 30 o LED fica vermelho; caso contrario fica verde. -->
+  <block type="variables_guardar" x="20" y="20">
+    <field name="VAR">temperatura</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="variables_alterar">
+        <field name="VAR">temperatura</field>
+        <value name="TARGET">
+          <block type="variables_valor_guardado">
+            <field name="VAR">temperatura</field>
+          </block>
+        </value>
+        <value name="VALUE">
+          <block type="sensor_temperatura"></block>
+        </value>
+        <next>
+          <block type="controls_ifelse">
+            <value name="IF0">
+              <block type="logic_compare">
+                <field name="OP">GT</field>
+                <value name="A">
+                  <block type="variables_valor_guardado">
+                    <field name="VAR">temperatura</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="math_number">
+                    <field name="NUM">30</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="bloco_ligar_led">
+                <value name="COLOUR">
+                  <block type="colour_red"></block>
+                </value>
+              </block>
+            </statement>
+            <statement name="ELSE">
+              <block type="bloco_ligar_led">
+                <value name="COLOUR">
+                  <block type="colour_green"></block>
+                </value>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

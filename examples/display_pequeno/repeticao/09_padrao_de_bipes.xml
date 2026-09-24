@@ -1,0 +1,26 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A mesma unidade rítmica é repetida: bipe curto, bipe duplo e silêncio. -->
+  <block type="controls_repeat_simple" x="30" y="30">
+    <field name="TIMES">5</field>
+    <statement name="DO">
+      <block type="bipe_curto">
+        <field name="VOLUME">30</field>
+        <next>
+          <block type="esperar_milisegundos">
+            <value name="TIME"><block type="math_number"><field name="NUM">150</field></block></value>
+            <next>
+              <block type="bipe_duplo">
+                <field name="VOLUME">30</field>
+                <next>
+                  <block type="esperar_segundos">
+                    <value name="TIME"><block type="math_number"><field name="NUM">0.7</field></block></value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

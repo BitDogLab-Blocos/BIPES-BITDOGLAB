@@ -1,0 +1,37 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Escolha uma carinha. A mostra alegria; B mostra tristeza. Experimente trocar a cor dos emojis. -->
+  <block x="30" y="30" type="botao_se_apertado">
+    <field name="BOTAO">A</field>
+    <statement name="DO">
+      <block type="mostrar_emoji">
+        <field name="BRILHO">25</field>
+        <value name="EMOJI">
+          <block type="emoji_rosto_feliz">
+          </block>
+        </value>
+        <value name="COR">
+          <block type="colour_green">
+          </block>
+        </value>
+      </block>
+    </statement>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">B</field>
+        <statement name="DO">
+          <block type="mostrar_emoji">
+            <field name="BRILHO">25</field>
+            <value name="EMOJI">
+              <block type="emoji_rosto_triste">
+              </block>
+            </value>
+            <value name="COR">
+              <block type="colour_green">
+              </block>
+            </value>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

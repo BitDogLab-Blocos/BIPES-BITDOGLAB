@@ -1,0 +1,145 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto completo: as três cores respiram e ficam apagadas entre os ciclos. -->
+  <block type="bloco_acender_led_brilho" x="20" y="20">
+    <value name="INTENSITY"><block type="math_number"><field name="NUM">10</field></block></value>
+    <value name="COLOUR"><block type="colour_red"></block></value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+        <next>
+          <block type="bloco_acender_led_brilho">
+            <value name="INTENSITY"><block type="math_number"><field name="NUM">50</field></block></value>
+            <value name="COLOUR"><block type="colour_red"></block></value>
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+                <next>
+                  <block type="bloco_acender_led_brilho">
+                    <value name="INTENSITY"><block type="math_number"><field name="NUM">100</field></block></value>
+                    <value name="COLOUR"><block type="colour_red"></block></value>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+                        <next>
+                          <block type="bloco_acender_led_brilho">
+                            <value name="INTENSITY"><block type="math_number"><field name="NUM">50</field></block></value>
+                            <value name="COLOUR"><block type="colour_red"></block></value>
+                            <next>
+                              <block type="bloco_desligar_todos_leds">
+                                <next>
+                                  <block type="esperar_segundos">
+                                    <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                    <next>
+                                      <block type="bloco_acender_led_brilho">
+                                        <value name="INTENSITY"><block type="math_number"><field name="NUM">10</field></block></value>
+                                        <value name="COLOUR"><block type="colour_green"></block></value>
+                                        <next>
+                                          <block type="esperar_segundos">
+                                            <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+                                            <next>
+                                              <block type="bloco_acender_led_brilho">
+                                                <value name="INTENSITY"><block type="math_number"><field name="NUM">50</field></block></value>
+                                                <value name="COLOUR"><block type="colour_green"></block></value>
+                                                <next>
+                                                  <block type="esperar_segundos">
+                                                    <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+                                                    <next>
+                                                      <block type="bloco_acender_led_brilho">
+                                                        <value name="INTENSITY"><block type="math_number"><field name="NUM">100</field></block></value>
+                                                        <value name="COLOUR"><block type="colour_green"></block></value>
+                                                        <next>
+                                                          <block type="esperar_segundos">
+                                                            <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+                                                            <next>
+                                                              <block type="bloco_acender_led_brilho">
+                                                                <value name="INTENSITY"><block type="math_number"><field name="NUM">50</field></block></value>
+                                                                <value name="COLOUR"><block type="colour_green"></block></value>
+                                                                <next>
+                                                                  <block type="bloco_desligar_todos_leds">
+                                                                    <next>
+                                                                      <block type="esperar_segundos">
+                                                                        <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                                                        <next>
+                                                                          <block type="bloco_acender_led_brilho">
+                                                                            <value name="INTENSITY"><block type="math_number"><field name="NUM">10</field></block></value>
+                                                                            <value name="COLOUR"><block type="colour_blue"></block></value>
+                                                                            <next>
+                                                                              <block type="esperar_segundos">
+                                                                                <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+                                                                                <next>
+                                                                                  <block type="bloco_acender_led_brilho">
+                                                                                    <value name="INTENSITY"><block type="math_number"><field name="NUM">50</field></block></value>
+                                                                                    <value name="COLOUR"><block type="colour_blue"></block></value>
+                                                                                    <next>
+                                                                                      <block type="esperar_segundos">
+                                                                                        <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+                                                                                        <next>
+                                                                                          <block type="bloco_acender_led_brilho">
+                                                                                            <value name="INTENSITY"><block type="math_number"><field name="NUM">100</field></block></value>
+                                                                                            <value name="COLOUR"><block type="colour_blue"></block></value>
+                                                                                            <next>
+                                                                                              <block type="esperar_segundos">
+                                                                                                <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+                                                                                                <next>
+                                                                                                  <block type="bloco_acender_led_brilho">
+                                                                                                    <value name="INTENSITY"><block type="math_number"><field name="NUM">50</field></block></value>
+                                                                                                    <value name="COLOUR"><block type="colour_blue"></block></value>
+                                                                                                    <next>
+                                                                                                      <block type="bloco_desligar_todos_leds">
+                                                                                                        <next>
+                                                                                                          <block type="esperar_segundos">
+                                                                                                            <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                                                                                          </block>
+                                                                                                        </next>
+                                                                                                      </block>
+                                                                                                    </next>
+                                                                                                  </block>
+                                                                                                </next>
+                                                                                              </block>
+                                                                                            </next>
+                                                                                          </block>
+                                                                                        </next>
+                                                                                      </block>
+                                                                                    </next>
+                                                                                  </block>
+                                                                                </next>
+                                                                              </block>
+                                                                            </next>
+                                                                          </block>
+                                                                        </next>
+                                                                      </block>
+                                                                    </next>
+                                                                  </block>
+                                                                </next>
+                                                              </block>
+                                                            </next>
+                                                          </block>
+                                                        </next>
+                                                      </block>
+                                                    </next>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

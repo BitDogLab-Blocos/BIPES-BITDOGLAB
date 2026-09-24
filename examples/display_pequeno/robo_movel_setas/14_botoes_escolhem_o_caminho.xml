@@ -1,0 +1,21 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O botao A escolhe a direita; o botao B escolhe a esquerda. -->
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next><block type="botao_se_apertado">
+      <field name="BOTAO">A</field>
+      <statement name="DO"><block type="robo_setas_frente">
+        <next><block type="robo_setas_direita">
+          <next><block type="robo_setas_finalizar"></block></next>
+        </block></next>
+      </block></statement>
+      <next><block type="botao_se_apertado">
+        <field name="BOTAO">B</field>
+        <statement name="DO"><block type="robo_setas_frente">
+          <next><block type="robo_setas_esquerda">
+            <next><block type="robo_setas_finalizar"></block></next>
+          </block></next>
+        </block></statement>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

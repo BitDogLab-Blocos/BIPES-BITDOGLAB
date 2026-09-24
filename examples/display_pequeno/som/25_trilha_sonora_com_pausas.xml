@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Projeto maior: alterna ações de som e pausas para ensinar ritmo e silêncio. -->
+  <block type="criar_trilha_sonora" x="30" y="30">
+    <mutation steps="[&quot;action&quot;,&quot;wait&quot;,&quot;action&quot;,&quot;wait&quot;,&quot;action&quot;,&quot;wait&quot;]"></mutation>
+    <statement name="STEP0"><block type="bipe_curto"><field name="VOLUME">30</field></block></statement>
+    <value name="STEP1"><block type="tempo_milisegundos"><field name="NUM">300</field></block></value>
+    <statement name="STEP2"><block type="tocar_nota"><value name="NOTA"><block type="nota_mi"></block></value><field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">350</field></block></statement>
+    <value name="STEP3"><block type="tempo_milisegundos"><field name="NUM">400</field></block></value>
+    <statement name="STEP4"><block type="som_de_sucesso"><field name="VOLUME">30</field></block></statement>
+    <value name="STEP5"><block type="tempo_milisegundos"><field name="NUM">1000</field></block></value>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block></next>
+  </block>
+</xml>

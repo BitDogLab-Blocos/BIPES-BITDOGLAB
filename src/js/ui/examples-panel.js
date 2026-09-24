@@ -4,10 +4,13 @@
   var ExamplesPanel = {};
 
   var state = {
+    displays: [],
+    display: null,
     categories: [],
     category: null,
     loading: true,
-    error: null
+    error: null,
+    selectionRequest: 0
   };
 
   function byId(id) {
@@ -36,8 +39,11 @@
 
     state.category = null;
     title.textContent = 'Exemplos';
-    intro.textContent = 'Escolha uma categoria para encontrar um projeto pronto para editar.';
-    back.hidden = true;
+    intro.textContent = state.display
+      ? 'Display ' + state.display.title + ' selecionado. Escolha uma categoria.'
+      : 'Escolha primeiro o display do seu kit.';
+    back.hidden = !state.display;
+    back.lastElementChild.textContent = 'Trocar display';
 
     if (state.loading) {
       renderMessage('Carregando exemplos...');
@@ -87,6 +93,70 @@
     content.appendChild(list);
   }
 
+  function renderDisplayChoices() {
+    var content = byId('examplesContent');
+    var intro = byId('examplesPanelIntro');
+    var back = byId('examplesBack');
+    var title = byId('examplesPanelTitle');
+    if (!content || !intro || !back || !title) return;
+
+    state.display = null;
+    state.category = null;
+    title.textContent = 'Escolha seu display';
+    intro.textContent = 'Os exemplos serão filtrados para o modelo escolhido.';
+    back.hidden = true;
+
+    if (state.loading) {
+      renderMessage('Carregando displays e exemplos...');
+      return;
+    }
+    if (state.error) {
+      renderMessage(state.error);
+      return;
+    }
+
+    content.replaceChildren();
+    var list = createElement('div', 'examples-display-list');
+    state.displays.forEach(function(display) {
+      var card = createElement('button', 'examples-display-card');
+      card.type = 'button';
+      card.setAttribute('aria-label', display.title + '. ' + display.description);
+
+      var photo = createElement('span', 'examples-display-photo');
+      photo.setAttribute('aria-hidden', 'true');
+      var image = document.createElement('img');
+      image.src = display.image;
+      image.alt = '';
+      image.loading = 'eager';
+      photo.appendChild(image);
+      card.appendChild(photo);
+      card.appendChild(createElement('strong', '', display.title));
+      card.appendChild(createElement('span', '', display.description));
+      card.addEventListener('click', function() {
+        state.display = display;
+        state.loading = true;
+        state.error = null;
+        var requestId = ++state.selectionRequest;
+        renderCategories();
+        ExamplesCatalog.load(display.id)
+          .then(function(categories) {
+            if (requestId !== state.selectionRequest) return;
+            state.categories = categories;
+            state.loading = false;
+            renderCategories();
+          })
+          .catch(function(error) {
+            if (requestId !== state.selectionRequest) return;
+            state.loading = false;
+            state.error = error.message || 'Não foi possível carregar os exemplos.';
+            renderCategories();
+          });
+      });
+      list.appendChild(card);
+    });
+    content.appendChild(list);
+  }
+
   function renderExamples(category) {
     var content = byId('examplesContent');
     var intro = byId('examplesPanelIntro');
@@ -96,8 +166,9 @@
 
     state.category = category.id;
     title.textContent = category.title;
-    intro.textContent = 'Escolha um exemplo para abrir os blocos na área de trabalho.';
+    intro.textContent = 'Exemplos para ' + (state.display ? state.display.title : 'o display escolhido') + '. Escolha um para abrir os blocos na área de trabalho.';
     back.hidden = false;
+    back.lastElementChild.textContent = 'Voltar às categorias';
     content.replaceChildren();
 
     var list = createElement('div', 'examples-list');
@@ -138,24 +209,25 @@
   }
 
   function loadCatalog() {
-    if (!global.ExamplesCatalog || !ExamplesCatalog.load) {
+    if (!global.ExamplesCatalog || !ExamplesCatalog.load || !ExamplesCatalog.getDisplays) {
       state.loading = false;
       state.error = 'O catálogo de exemplos não está disponível.';
-      renderCategories();
+      renderDisplayChoices();
       return;
     }
 
-    ExamplesCatalog.load()
-      .then(function(categories) {
-        state.categories = categories;
+    Promise.all([ExamplesCatalog.getDisplays(), ExamplesCatalog.load('pequeno')])
+      .then(function(results) {
+        state.displays = results[0];
+        state.categories = results[1];
         state.loading = false;
-        renderCategories();
+        renderDisplayChoices();
       })
       .catch(function(error) {
         console.error('[BitDogLab] Erro ao carregar catálogo de exemplos:', error);
         state.loading = false;
         state.error = error.message || 'Não foi possível carregar os exemplos.';
-        renderCategories();
+        renderDisplayChoices();
       });
   }
 
@@ -197,7 +269,7 @@
     if (!panel || !toggle) return;
     panel.hidden = false;
     toggle.setAttribute('aria-expanded', 'true');
-    renderCategories();
+    renderDisplayChoices();
     if (global.Code && Code.workspace && global.Blockly) {
       Blockly.svgResize(Code.workspace);
     }
@@ -225,11 +297,19 @@
       panel.hidden ? open() : close();
     });
     closeButton.addEventListener('click', close);
-    back.addEventListener('click', renderCategories);
+    back.addEventListener('click', function() {
+      if (state.category) renderCategories();
+      else {
+        state.selectionRequest += 1;
+        state.loading = false;
+        state.error = null;
+        renderDisplayChoices();
+      }
+    });
     panel.addEventListener('click', function(event) {
       if (event.target === panel) close();
     });
-    renderCategories();
+    renderDisplayChoices();
     loadCatalog();
   };
 

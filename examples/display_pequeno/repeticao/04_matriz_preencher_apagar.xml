@@ -1,0 +1,26 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A repetição controla um ciclo visual completo na matriz: preencher e apagar. -->
+  <block type="controls_repeat_simple" x="30" y="30">
+    <field name="TIMES">4</field>
+    <statement name="DO">
+      <block type="preencher_matriz">
+        <value name="COLOUR"><block type="colour_cyan"></block></value>
+        <field name="INTENSITY">30</field>
+        <next>
+          <block type="esperar_segundos">
+            <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+            <next>
+              <block type="desligar_matriz">
+                <next>
+                  <block type="esperar_segundos">
+                    <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

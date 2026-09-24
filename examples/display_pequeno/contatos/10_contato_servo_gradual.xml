@@ -1,0 +1,16 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Ao encostar na Conexao 0, o servo da Conexao 2 sobe devagar de 0 a 90 graus. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="external_contact_when_closed">
+        <field name="DIG">0</field>
+        <statement name="DO">
+          <block type="servo_subir_gradualmente">
+            <field name="DIG">2</field><field name="START">0</field><field name="TARGET">90</field><field name="STEP">15</field><field name="PAUSE">1</field>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

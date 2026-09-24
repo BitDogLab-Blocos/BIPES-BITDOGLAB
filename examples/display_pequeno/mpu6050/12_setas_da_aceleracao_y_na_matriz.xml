@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A Matriz mostra seta para cima ao mover para frente, seta para baixo ao mover para tras e rosto feliz no centro. -->
+  <block type="controls_ifelse" x="20" y="20">
+    <value name="IF0"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="mpu6050_aceleracao"><field name="AXIS">Y</field><field name="SCL">3</field><field name="SDA">2</field></block></value><value name="B"><block type="math_number"><field name="NUM">3</field></block></value></block></value>
+    <statement name="DO0"><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_seta_cima"></block></value><value name="COR"><block type="colour_green"></block></value></block></statement>
+    <statement name="ELSE"><block type="controls_ifelse">
+      <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="mpu6050_aceleracao"><field name="AXIS">Y</field><field name="SCL">3</field><field name="SDA">2</field></block></value><value name="B"><block type="math_number"><field name="NUM">-3</field></block></value></block></value>
+      <statement name="DO0"><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_seta_baixo"></block></value><value name="COR"><block type="colour_blue"></block></value></block></statement>
+      <statement name="ELSE"><block type="mostrar_emoji"><field name="BRILHO">20</field><value name="EMOJI"><block type="emoji_rosto_feliz"></block></value><value name="COR"><block type="colour_green"></block></value></block></statement>
+    </block></statement>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next>
+  </block>
+</xml>

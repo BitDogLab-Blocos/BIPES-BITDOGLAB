@@ -1,0 +1,6 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O verde fica aceso enquanto o joystick controla o servo continuamente. -->
+  <block type="led_externo_ligar" x="20" y="20"><field name="CHANNEL">G</field><field name="DIG">1</field>
+    <next><block type="servo_joystick_controlar"><field name="DIG">0</field><field name="INITIAL_ANGLE">90</field><field name="DIR_INCREASE">UP</field><field name="DIR_DECREASE">DOWN</field><field name="STEP">5</field></block></next>
+  </block>
+</xml>

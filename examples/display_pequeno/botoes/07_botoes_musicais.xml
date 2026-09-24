@@ -1,0 +1,49 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Toque três notas. A toca Dó; B, Mi; C, Sol. Crie um ritmo apertando e soltando. -->
+  <block x="30" y="30" type="botao_se_apertado">
+    <field name="BOTAO">A</field>
+    <statement name="DO">
+      <block type="tocar_nota">
+        <field name="OCTAVE">4</field>
+        <field name="VOLUME">20</field>
+        <field name="DURATION">200</field>
+        <value name="NOTA">
+          <block type="nota_do">
+          </block>
+        </value>
+      </block>
+    </statement>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">B</field>
+        <statement name="DO">
+          <block type="tocar_nota">
+            <field name="OCTAVE">4</field>
+            <field name="VOLUME">20</field>
+            <field name="DURATION">200</field>
+            <value name="NOTA">
+              <block type="nota_mi">
+              </block>
+            </value>
+          </block>
+        </statement>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">C</field>
+            <statement name="DO">
+              <block type="tocar_nota">
+                <field name="OCTAVE">4</field>
+                <field name="VOLUME">20</field>
+                <field name="DURATION">200</field>
+                <value name="NOTA">
+                  <block type="nota_sol">
+                  </block>
+                </value>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

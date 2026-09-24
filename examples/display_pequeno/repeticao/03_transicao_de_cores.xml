@@ -1,0 +1,17 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Repete uma transição suave para comparar início, meio e fim de um ciclo. -->
+  <block type="controls_repeat_simple" x="30" y="30">
+    <field name="TIMES">4</field>
+    <statement name="DO">
+      <block type="bloco_transicao_led">
+        <value name="COLOUR1"><block type="colour_blue"></block></value>
+        <value name="COLOUR2"><block type="colour_magenta"></block></value>
+        <next>
+          <block type="esperar_segundos">
+            <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

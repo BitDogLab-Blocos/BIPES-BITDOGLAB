@@ -11,9 +11,9 @@ const { chromium } = require('playwright');
 const root = path.resolve(__dirname, '..');
 const fixture = fs.readFileSync(path.join(__dirname, 'fixtures/robot_mixed_mission.xml'), 'utf8');
 const readyFixture = fs.readFileSync(path.join(__dirname, 'fixtures/robot_mixed_mission_ready.xml'), 'utf8');
-const completeFixture = fs.readFileSync(path.join(root, 'examples/robo_movel/07_vai_e_volta.xml'), 'utf8');
-const buttonFixture = fs.readFileSync(path.join(root, 'examples/robo_movel_setas/13_botao_a_inicia_a_missao.xml'), 'utf8');
-const repeatFixture = fs.readFileSync(path.join(root, 'examples/robo_movel_setas/11_repetir_caminho.xml'), 'utf8');
+const completeFixture = fs.readFileSync(path.join(root, 'examples/display_pequeno/robo_movel/07_vai_e_volta.xml'), 'utf8');
+const buttonFixture = fs.readFileSync(path.join(root, 'examples/display_pequeno/robo_movel_setas/13_botao_a_inicia_a_missao.xml'), 'utf8');
+const repeatFixture = fs.readFileSync(path.join(root, 'examples/display_pequeno/robo_movel_setas/11_repetir_caminho.xml'), 'utf8');
 const browserPaths = [
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'

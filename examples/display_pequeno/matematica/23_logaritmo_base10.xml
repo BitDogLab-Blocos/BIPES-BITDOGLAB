@@ -1,0 +1,3 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<!-- Logaritmo base 10: compare ordens de grandeza de uma medição. -->
+<block type="display_mostrar_calculo" id="bq]xl?+Sq*)0`@a`1=ez" x="20" y="20"><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="math_single" id="wtA$}BGF5WNbG;Uo6sR9"><field name="OP">LOG10</field><value name="NUM"><block type="math_number" id="YRq]*Koy31v3{-[epPN%"><field name="NUM">1000</field></block></value></block></value></block></xml>

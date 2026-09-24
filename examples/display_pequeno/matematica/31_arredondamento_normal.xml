@@ -1,0 +1,3 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<!-- Arredondamento normal: frações mais próximas viram um inteiro. -->
+<block type="display_mostrar_calculo" id=":/K5e|F{OHPPx7@8~,N." x="20" y="20"><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="math_round" id="tm.(#]+IIRc8uim9BJlE"><field name="OP">ROUND</field><value name="NUM"><block type="math_number" id=":}4sZ)T;4:+pGj+zJmw?"><field name="NUM">8.6</field></block></value></block></value></block></xml>

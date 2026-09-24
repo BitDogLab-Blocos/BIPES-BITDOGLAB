@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Cofre angular: entre 80 e 100 graus o LED fica verde e toca sucesso; fora da faixa o LED fica vermelho. -->
+  <block type="servo_joystick_controlar" x="20" y="20">
+    <field name="DIG">0</field><field name="INITIAL_ANGLE">40</field><field name="DIR_INCREASE">RIGHT</field><field name="DIR_DECREASE">LEFT</field><field name="STEP">5</field>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">700</field></block></value>
+      <next><block type="bloco_desligar_todos_leds">
+        <next><block type="controls_ifelse">
+        <value name="IF0"><block type="logic_operation"><field name="OP">AND</field>
+          <value name="A"><block type="logic_compare"><field name="OP">GTE</field><value name="A"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value><value name="B"><block type="math_number"><field name="NUM">80</field></block></value></block></value>
+          <value name="B"><block type="logic_compare"><field name="OP">LTE</field><value name="A"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value><value name="B"><block type="math_number"><field name="NUM">100</field></block></value></block></value>
+        </block></value>
+        <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value><next><block type="som_de_sucesso"><field name="VOLUME">25</field></block></next></block></statement>
+        <statement name="ELSE"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_red"></block></value></block></statement>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

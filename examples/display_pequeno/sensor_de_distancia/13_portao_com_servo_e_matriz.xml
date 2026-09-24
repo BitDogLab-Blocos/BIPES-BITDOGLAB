@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O sensor abre o portao e a Matriz mostra se a passagem esta liberada. -->
+  <block type="controls_ifelse" x="20" y="20">
+    <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="ultrassonico_distancia"><field name="TRIG">3</field><field name="ECHO">2</field></block></value><value name="B"><block type="math_number"><field name="NUM">25</field></block></value></block></value>
+    <statement name="DO0"><block type="servo_mover"><field name="DIG">0</field><field name="ANGLE">90</field><next><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_feliz"></block></value><value name="COR"><block type="colour_green"></block></value></block></next></block></statement>
+    <statement name="ELSE"><block type="servo_mover"><field name="DIG">0</field><field name="ANGLE">0</field><next><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_triste"></block></value><value name="COR"><block type="colour_red"></block></value></block></next></block></statement>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next>
+  </block>
+</xml>

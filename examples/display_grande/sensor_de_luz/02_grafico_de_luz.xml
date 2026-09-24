@@ -1,0 +1,3 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<!-- O grafico acompanha as variacoes de luz ao longo do tempo. -->
+<block type="ldr_plotar" id="g0U}{P/{5^j1dj|y=w+1" x="20" y="20"><field name="POSICAO">0</field><field name="DISPLAY_TYPE">LARGE</field><value name="VALOR"><block type="ldr_valor" id="q8V}8BDO}:+?D;V((@SB"><field name="CONNECTION">ANA-IN</field></block></value></block></xml>

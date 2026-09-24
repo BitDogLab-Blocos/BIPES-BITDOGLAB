@@ -1,0 +1,15 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Ritmo é som mais silêncio: a trilha alterna notas e pausas de tamanhos diferentes. -->
+  <block type="criar_trilha_sonora" x="30" y="30">
+    <mutation steps="[&quot;action&quot;,&quot;wait&quot;,&quot;action&quot;,&quot;wait&quot;,&quot;action&quot;,&quot;wait&quot;,&quot;action&quot;,&quot;wait&quot;]"></mutation>
+    <statement name="STEP0"><block type="tocar_nota"><value name="NOTA"><block type="nota_do"></block></value><field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">180</field></block></statement>
+    <value name="STEP1"><block type="tempo_milisegundos"><field name="NUM">120</field></block></value>
+    <statement name="STEP2"><block type="tocar_nota"><value name="NOTA"><block type="nota_mi"></block></value><field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">180</field></block></statement>
+    <value name="STEP3"><block type="tempo_milisegundos"><field name="NUM">300</field></block></value>
+    <statement name="STEP4"><block type="tocar_nota"><value name="NOTA"><block type="nota_sol"></block></value><field name="OCTAVE">4</field><field name="VOLUME">30</field><field name="DURATION">350</field></block></statement>
+    <value name="STEP5"><block type="tempo_milisegundos"><field name="NUM">120</field></block></value>
+    <statement name="STEP6"><block type="tocar_nota"><value name="NOTA"><block type="nota_do"></block></value><field name="OCTAVE">5</field><field name="VOLUME">30</field><field name="DURATION">500</field></block></statement>
+    <value name="STEP7"><block type="tempo_milisegundos"><field name="NUM">800</field></block></value>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block></next>
+  </block>
+</xml>

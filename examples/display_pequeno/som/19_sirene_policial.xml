@@ -1,0 +1,6 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A sirene alterna duas alturas para produzir um alerta reconhecível. -->
+  <block type="sirene_policial" x="30" y="30"><field name="VOLUME">30</field>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next>
+  </block>
+</xml>

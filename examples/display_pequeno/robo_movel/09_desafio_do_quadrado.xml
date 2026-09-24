@@ -1,0 +1,24 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Desafio do quadrado: percorra quatro lados e faca quatro giros de 90 graus. -->
+  <block type="robo_inicializar" x="20" y="20">
+    <field name="ESPERA">5</field>
+    <next><block type="robo_frente">
+      <value name="TEMPO"><block type="math_number"><field name="NUM">1</field></block></value>
+      <next><block type="robo_girar"><field name="DIRECAO">L</field><value name="GRAUS"><block type="math_number"><field name="NUM">90</field></block></value>
+        <next><block type="robo_frente"><value name="TEMPO"><block type="math_number"><field name="NUM">1</field></block></value>
+          <next><block type="robo_girar"><field name="DIRECAO">L</field><value name="GRAUS"><block type="math_number"><field name="NUM">90</field></block></value>
+            <next><block type="robo_frente"><value name="TEMPO"><block type="math_number"><field name="NUM">1</field></block></value>
+              <next><block type="robo_girar"><field name="DIRECAO">L</field><value name="GRAUS"><block type="math_number"><field name="NUM">90</field></block></value>
+                <next><block type="robo_frente"><value name="TEMPO"><block type="math_number"><field name="NUM">1</field></block></value>
+                  <next><block type="robo_girar"><field name="DIRECAO">L</field><value name="GRAUS"><block type="math_number"><field name="NUM">90</field></block></value>
+                    <next><block type="robo_parar"></block></next>
+                  </block></next>
+                </block></next>
+              </block></next>
+            </block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

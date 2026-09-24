@@ -1,0 +1,78 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Amanhecer: o brilho azul cresce em etapas, como o sol nascendo. -->
+  <block type="bloco_acender_led_brilho" x="20" y="20">
+    <value name="INTENSITY"><block type="math_number"><field name="NUM">10</field></block></value>
+    <value name="COLOUR">
+      <block type="colour_blue"></block>
+    </value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <next>
+          <block type="bloco_acender_led_brilho">
+            <value name="INTENSITY"><block type="math_number"><field name="NUM">30</field></block></value>
+            <value name="COLOUR">
+              <block type="colour_blue"></block>
+            </value>
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME">
+                  <block type="math_number">
+                    <field name="NUM">1</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="bloco_acender_led_brilho">
+                    <value name="INTENSITY"><block type="math_number"><field name="NUM">60</field></block></value>
+                    <value name="COLOUR">
+                      <block type="colour_blue"></block>
+                    </value>
+                    <next>
+                      <block type="esperar_segundos">
+                        <value name="TIME">
+                          <block type="math_number">
+                            <field name="NUM">1</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="bloco_acender_led_brilho">
+                            <value name="INTENSITY"><block type="math_number"><field name="NUM">100</field></block></value>
+                            <value name="COLOUR">
+                              <block type="colour_blue"></block>
+                            </value>
+                            <next>
+                              <block type="esperar_segundos">
+                                <value name="TIME">
+                                  <block type="math_number">
+                                    <field name="NUM">2</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="bloco_desligar_todos_leds">
+                                    <next>
+                                      <block type="esperar_segundos">
+                                        <value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

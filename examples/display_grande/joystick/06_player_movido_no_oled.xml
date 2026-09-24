@@ -1,0 +1,3 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<!-- Composição: o joystick posiciona continuamente um quadrado no OLED sem inserir uma espera entre as leituras. -->
+<block type="joystick_mover_player" id="8xN^X!pU?3%/33wR(MBb" x="30" y="30"><field name="DISPLAY_TYPE">LARGE</field><field name="TAMANHO">8</field></block></xml>

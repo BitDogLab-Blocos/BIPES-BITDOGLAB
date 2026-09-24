@@ -1,0 +1,14 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Acenda sua primeira luz. Aperte A: o LED vermelho acende e continua aceso ao soltar. -->
+  <block x="30" y="30" type="botao_se_apertado">
+    <field name="BOTAO">A</field>
+    <statement name="DO">
+      <block type="bloco_ligar_led">
+        <value name="COLOUR">
+          <block type="colour_red">
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+</xml>

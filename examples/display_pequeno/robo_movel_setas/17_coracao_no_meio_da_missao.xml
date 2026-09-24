@@ -1,0 +1,36 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Combina uma animação da matriz com a rota programada. -->
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next>
+      <block type="robo_setas_frente">
+        <next>
+          <block type="matriz_aparecer_sumir">
+            <statement name="DO">
+              <block type="mostrar_emoji">
+                <field name="BRILHO">25</field>
+                <value name="EMOJI">
+                  <block type="emoji_coracao" />
+                </value>
+                <value name="COR">
+                  <block type="colour_pink" />
+                </value>
+              </block>
+            </statement>
+            <next>
+              <block type="robo_setas_esquerda">
+                <next>
+                  <block type="som_de_sucesso">
+                    <field name="VOLUME">30</field>
+                    <next>
+                      <block type="robo_setas_finalizar" />
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

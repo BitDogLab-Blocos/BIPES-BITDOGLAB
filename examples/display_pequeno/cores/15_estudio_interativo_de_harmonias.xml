@@ -1,0 +1,48 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Estúdio de harmonias: A mostra uma combinação análoga quente, B uma análoga fria, C uma tríade e o joystick apaga o LED. -->
+  <block type="botao_se_apertado" x="20" y="20">
+    <field name="BOTAO">A</field>
+    <statement name="DO">
+      <block type="bloco_alternar_led">
+        <mutation items="3"></mutation>
+        <value name="COLOUR0"><block type="colour_yellow"></block></value>
+        <value name="COLOUR1"><block type="colour_orange"></block></value>
+        <value name="COLOUR2"><block type="colour_red"></block></value>
+      </block>
+    </statement>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">B</field>
+        <statement name="DO">
+          <block type="bloco_alternar_led">
+            <mutation items="3"></mutation>
+            <value name="COLOUR0"><block type="colour_blue"></block></value>
+            <value name="COLOUR1"><block type="colour_cyan"></block></value>
+            <value name="COLOUR2"><block type="colour_turquoise"></block></value>
+          </block>
+        </statement>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">C</field>
+            <statement name="DO">
+              <block type="bloco_alternar_led">
+                <mutation items="3"></mutation>
+                <value name="COLOUR0"><block type="colour_red"></block></value>
+                <value name="COLOUR1"><block type="colour_green"></block></value>
+                <value name="COLOUR2"><block type="colour_blue"></block></value>
+              </block>
+            </statement>
+            <next>
+              <block type="botao_se_apertado">
+                <field name="BOTAO">JOYSTICK</field>
+                <statement name="DO">
+                  <block type="bloco_desligar_todos_leds"></block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

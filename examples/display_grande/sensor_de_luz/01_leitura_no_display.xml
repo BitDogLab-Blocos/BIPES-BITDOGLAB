@@ -1,0 +1,3 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<!-- Primeiro contato com o LDR: mostra o valor da luz no display OLED. -->
+<block type="display_texto" id="7+Azf@qdxXKMI$QNPCfo" x="20" y="20"><field name="TEXTO">Luz:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">LARGE</field><next><block type="display_mostrar_valor" id="B{%e()g`cfI!UViJXrMx"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">LARGE</field><value name="VALOR"><block type="ldr_valor" id="}8[TVV#PNlhx6Ba]Lwj,"><field name="CONNECTION">ANA-IN</field></block></value></block></next></block></xml>

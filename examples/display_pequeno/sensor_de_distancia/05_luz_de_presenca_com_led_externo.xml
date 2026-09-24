@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O LED vermelho externo acende quando alguem chega a menos de 30 cm. -->
+  <block type="controls_ifelse" x="20" y="20">
+    <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="ultrassonico_distancia"><field name="TRIG">3</field><field name="ECHO">2</field></block></value><value name="B"><block type="math_number"><field name="NUM">30</field></block></value></block></value>
+    <statement name="DO0"><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">0</field></block></statement>
+    <statement name="ELSE"><block type="led_externo_desligar"><field name="CHANNEL">R</field><field name="DIG">0</field></block></statement>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next>
+  </block>
+</xml>

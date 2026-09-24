@@ -1,0 +1,3 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<!-- Constante especial: infinito ajuda a conversar sobre limites e valores fora da faixa. -->
+<block type="display_mostrar_calculo" id="|~;)8K!KD*M:k`URF2.E" x="20" y="20"><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="math_constant" id="-5vIlv):$gIf$5EYjrS8"><field name="CONSTANT">INFINITY</field></block></value></block></xml>

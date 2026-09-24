@@ -1,0 +1,3 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<!-- Segunda leitura: mostra a umidade relativa do mesmo DHT11 na Conexao 0. -->
+<block type="display_texto" id="Hq(R}Kh.XfN1l;z9Ov3E" x="20" y="20"><field name="TEXTO">Umidade:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_mostrar_valor" id="QlUbo(vEglK;n952]UDf"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="dht11_umidade" id="So#_iV;4{8$xpMYI^ZM|"><field name="DIG">0</field></block></value></block></next></block></xml>

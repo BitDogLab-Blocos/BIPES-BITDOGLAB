@@ -1,0 +1,21 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Primeira ação de periférico colocada entre duas setas. -->
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next>
+      <block type="robo_setas_frente">
+        <next>
+          <block type="bipe_curto">
+            <field name="VOLUME">30</field>
+            <next>
+              <block type="robo_setas_direita">
+                <next>
+                  <block type="robo_setas_finalizar" />
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

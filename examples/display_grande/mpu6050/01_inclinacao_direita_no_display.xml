@@ -1,0 +1,3 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<!-- Mostra no OLED quantos graus o MPU6050 foi inclinado para a direita. -->
+<block type="display_texto" id="wVR5QewtVE9}Z[qlUKuS" x="20" y="20"><field name="TEXTO">Direita:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">LARGE</field><next><block type="display_mostrar_valor" id="Eu$P39d{@6N`M7(+sLK0"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">LARGE</field><value name="VALOR"><block type="mpu6050_inclinacao" id="MPx.GpS1;F*IqQ/S$!,)"><field name="DIRECTION">RIGHT</field><field name="SCL">3</field><field name="SDA">2</field></block></value></block></next></block></xml>

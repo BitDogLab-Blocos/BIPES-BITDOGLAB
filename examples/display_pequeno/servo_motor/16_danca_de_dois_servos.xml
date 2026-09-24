@@ -1,0 +1,15 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Dueto mecânico: dois servos nas Conexões 0 e 1 fazem movimentos espelhados, trocando de lado a cada segundo. -->
+  <block type="servo_mover" x="20" y="20">
+    <field name="DIG">0</field><field name="ANGLE">30</field>
+    <next><block type="servo_mover"><field name="DIG">1</field><field name="ANGLE">150</field>
+      <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value>
+        <next><block type="servo_mover"><field name="DIG">0</field><field name="ANGLE">150</field>
+          <next><block type="servo_mover"><field name="DIG">1</field><field name="ANGLE">30</field>
+            <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

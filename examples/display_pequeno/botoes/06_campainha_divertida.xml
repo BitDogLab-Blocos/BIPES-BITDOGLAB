@@ -1,0 +1,10 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Toque a campainha. Aperte e solte A para ouvir um bipe. Segurar não toca novos bipes. -->
+  <block x="30" y="30" type="botao_se_apertado">
+    <field name="BOTAO">A</field>
+    <statement name="DO">
+      <block type="bipe_curto">
+      </block>
+    </statement>
+  </block>
+</xml>

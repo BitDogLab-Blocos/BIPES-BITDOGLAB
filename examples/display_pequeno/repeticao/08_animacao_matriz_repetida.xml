@@ -1,0 +1,22 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Um bloco de repetição pode chamar uma animação pronta várias vezes. -->
+  <block type="controls_repeat_simple" x="30" y="30">
+    <field name="TIMES">2</field>
+    <statement name="DO">
+      <block type="matriz_piscar_rapido">
+        <statement name="DO">
+          <block type="mostrar_emoji">
+            <value name="EMOJI"><block type="emoji_coracao"></block></value>
+            <value name="COR"><block type="colour_red"></block></value>
+            <field name="BRILHO">30</field>
+          </block>
+        </statement>
+        <next>
+          <block type="esperar_segundos">
+            <value name="TIME"><block type="math_number"><field name="NUM">0.5</field></block></value>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

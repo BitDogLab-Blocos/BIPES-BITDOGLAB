@@ -1,4 +1,0 @@
-<xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Primeiro contato: mede um objeto e mostra a distancia em centimetros. -->
-  <block type="display_texto" x="20" y="20"><field name="TEXTO">Distancia (cm):</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_mostrar_valor"><field name="LINHA">2</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="ultrassonico_distancia"><field name="TRIG">3</field><field name="ECHO">2</field></block></value></block></next></block>
-</xml>

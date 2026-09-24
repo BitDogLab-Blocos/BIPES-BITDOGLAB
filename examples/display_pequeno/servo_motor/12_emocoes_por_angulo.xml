@@ -1,0 +1,17 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Emoções do servo: a matriz mostra tristeza, surpresa ou alegria conforme a faixa de ângulo escolhida no joystick. -->
+  <block type="servo_joystick_controlar" x="20" y="20">
+    <field name="DIG">0</field><field name="INITIAL_ANGLE">90</field><field name="DIR_INCREASE">RIGHT</field><field name="DIR_DECREASE">LEFT</field><field name="STEP">5</field>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value>
+      <next><block type="controls_ifelse">
+      <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value><value name="B"><block type="math_number"><field name="NUM">60</field></block></value></block></value>
+      <statement name="DO0"><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_triste"></block></value><value name="COR"><block type="colour_blue"></block></value></block></statement>
+      <statement name="ELSE"><block type="controls_ifelse">
+        <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="servo_angulo_atual"><field name="DIG">0</field></block></value><value name="B"><block type="math_number"><field name="NUM">120</field></block></value></block></value>
+        <statement name="DO0"><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value><value name="COR"><block type="colour_yellow"></block></value></block></statement>
+        <statement name="ELSE"><block type="mostrar_emoji"><field name="BRILHO">30</field><value name="EMOJI"><block type="emoji_rosto_feliz"></block></value><value name="COR"><block type="colour_green"></block></value></block></statement>
+      </block></statement>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

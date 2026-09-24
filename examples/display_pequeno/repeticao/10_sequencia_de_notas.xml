@@ -1,0 +1,35 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Uma frase musical curta é repetida três vezes para estudar ritmo e duração. -->
+  <block type="controls_repeat_simple" x="30" y="30">
+    <field name="TIMES">3</field>
+    <statement name="DO">
+      <block type="tocar_nota">
+        <value name="NOTA"><block type="nota_do"></block></value>
+        <field name="OCTAVE">4</field>
+        <field name="VOLUME">30</field>
+        <field name="DURATION">150</field>
+        <next>
+          <block type="tocar_nota">
+            <value name="NOTA"><block type="nota_re"></block></value>
+            <field name="OCTAVE">4</field>
+            <field name="VOLUME">30</field>
+            <field name="DURATION">150</field>
+            <next>
+              <block type="tocar_nota">
+                <value name="NOTA"><block type="nota_mi"></block></value>
+                <field name="OCTAVE">4</field>
+                <field name="VOLUME">30</field>
+                <field name="DURATION">150</field>
+                <next>
+                  <block type="esperar_milisegundos">
+                    <value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>

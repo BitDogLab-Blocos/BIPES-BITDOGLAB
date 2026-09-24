@@ -1,0 +1,10 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Fale, assopre ou bata palmas: mais barulho acende mais linhas. -->
+  <block x="30" y="30" type="microfone_vu_meter">
+    <field name="BRILHO">30</field>
+    <value name="COR">
+      <block type="colour_green">
+      </block>
+    </value>
+  </block>
+</xml>

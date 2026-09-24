@@ -1,0 +1,12 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Linha reta: subir tres casas sem mudar a orientacao. -->
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next><block type="robo_setas_frente">
+      <next><block type="robo_setas_frente">
+        <next><block type="robo_setas_frente">
+          <next><block type="robo_setas_finalizar"></block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

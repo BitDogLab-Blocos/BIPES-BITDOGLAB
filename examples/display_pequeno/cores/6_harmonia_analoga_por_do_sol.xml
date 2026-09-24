@@ -1,0 +1,19 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Recria um pôr do sol com transições entre cores vizinhas, demonstrando a suavidade de uma harmonia análoga. -->
+  <block type="bloco_transicao_led" x="20" y="20">
+    <value name="COLOUR1"><block type="colour_yellow"></block></value>
+    <value name="COLOUR2"><block type="colour_orange"></block></value>
+    <next>
+      <block type="bloco_transicao_led">
+        <value name="COLOUR1"><block type="colour_orange"></block></value>
+        <value name="COLOUR2"><block type="colour_red"></block></value>
+        <next>
+          <block type="bloco_transicao_led">
+            <value name="COLOUR1"><block type="colour_red"></block></value>
+            <value name="COLOUR2"><block type="colour_pink"></block></value>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

@@ -1,0 +1,251 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Espere a luz verde. A inicia: espere três segundos. B antes do verde perde; B depois do verde mostra o tempo de reação. A recomeça. -->
+  <block x="30" y="30" type="variables_guardar">
+    <field name="VAR">fase</field>
+    <value name="VALUE">
+      <block type="math_number">
+        <field name="NUM">0</field>
+      </block>
+    </value>
+    <next>
+      <block type="botao_se_apertado">
+        <field name="BOTAO">A</field>
+        <statement name="DO">
+          <block type="variables_guardar">
+            <field name="VAR">fase</field>
+            <value name="VALUE">
+              <block type="math_number">
+                <field name="NUM">1</field>
+              </block>
+            </value>
+            <next>
+              <block type="bloco_desligar_todos_leds">
+                <next>
+                  <block type="bloco_ligar_led">
+                    <value name="COLOUR">
+                      <block type="colour_red">
+                      </block>
+                    </value>
+                    <next>
+                      <block type="cronometro_reiniciar">
+                        <field name="NAME">relogio</field>
+                        <next>
+                          <block type="cronometro_iniciar">
+                            <field name="NAME">relogio</field>
+                            <next>
+                              <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto">
+                                <field name="TEXTO">Espere o verde</field>
+                                <field name="LINHA">1</field>
+                                <field name="ALINHAMENTO">LEFT</field>
+                                <field name="DISPLAY_TYPE">SMALL</field>
+                              </block></next></block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">B</field>
+            <statement name="DO">
+              <block type="controls_ifelse">
+                <value name="IF0">
+                  <block type="logic_compare">
+                    <field name="OP">EQ</field>
+                    <value name="A">
+                      <block type="variables_valor_guardado">
+                        <field name="VAR">fase</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number">
+                        <field name="NUM">1</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="cronometro_parar">
+                    <field name="NAME">relogio</field>
+                    <next>
+                      <block type="variables_guardar">
+                        <field name="VAR">fase</field>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <field name="NUM">3</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto">
+                            <field name="TEXTO">Foi cedo! A novo</field>
+                            <field name="LINHA">1</field>
+                            <field name="ALINHAMENTO">LEFT</field>
+                            <field name="DISPLAY_TYPE">SMALL</field>
+                          </block></next></block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+                <statement name="ELSE">
+                  <block type="controls_if">
+                    <value name="IF0">
+                      <block type="logic_compare">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <block type="variables_valor_guardado">
+                            <field name="VAR">fase</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">2</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="cronometro_parar">
+                        <field name="NAME">relogio</field>
+                        <next>
+                          <block type="variables_guardar">
+                            <field name="VAR">fase</field>
+                            <value name="VALUE">
+                              <block type="math_number">
+                                <field name="NUM">3</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto">
+                                <field name="TEXTO">Seu tempo:</field>
+                                <field name="LINHA">1</field>
+                                <field name="ALINHAMENTO">LEFT</field>
+                                <field name="DISPLAY_TYPE">SMALL</field>
+                              </block></next></block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </statement>
+              </block>
+            </statement>
+            <next>
+              <block type="controls_if">
+                <value name="IF0">
+                  <block type="logic_compare">
+                    <field name="OP">EQ</field>
+                    <value name="A">
+                      <block type="variables_valor_guardado">
+                        <field name="VAR">fase</field>
+                      </block>
+                    </value>
+                    <value name="B">
+                      <block type="math_number">
+                        <field name="NUM">1</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="controls_if">
+                    <value name="IF0">
+                      <block type="logic_compare">
+                        <field name="OP">GTE</field>
+                        <value name="A">
+                          <block type="tempo_cronometro">
+                            <field name="NAME">relogio</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">3</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="bloco_desligar_todos_leds">
+                        <next>
+                          <block type="bloco_ligar_led">
+                            <value name="COLOUR">
+                              <block type="colour_green">
+                              </block>
+                            </value>
+                            <next>
+                              <block type="cronometro_reiniciar">
+                                <field name="NAME">relogio</field>
+                                <next>
+                                  <block type="cronometro_iniciar">
+                                    <field name="NAME">relogio</field>
+                                    <next>
+                                      <block type="variables_guardar">
+                                        <field name="VAR">fase</field>
+                                        <value name="VALUE">
+                                          <block type="math_number">
+                                            <field name="NUM">2</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto">
+                                            <field name="TEXTO">Agora aperte B</field>
+                                            <field name="LINHA">1</field>
+                                            <field name="ALINHAMENTO">LEFT</field>
+                                            <field name="DISPLAY_TYPE">SMALL</field>
+                                          </block></next></block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                  </block>
+                </statement>
+                <next>
+                  <block type="controls_if">
+                    <value name="IF0">
+                      <block type="logic_compare">
+                        <field name="OP">EQ</field>
+                        <value name="A">
+                          <block type="variables_valor_guardado">
+                            <field name="VAR">fase</field>
+                          </block>
+                        </value>
+                        <value name="B">
+                          <block type="math_number">
+                            <field name="NUM">3</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="cronometro_mostrar">
+                        <field name="NAME">relogio</field>
+                        <field name="LINE">2</field>
+                        <field name="ALIGN">CENTER</field>
+                        <field name="FORMAT">S_MILLI</field>
+                        <field name="DISPLAY_TYPE">SMALL</field>
+                      </block>
+                    </statement>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

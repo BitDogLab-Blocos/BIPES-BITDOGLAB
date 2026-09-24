@@ -1,0 +1,3 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<!-- Módulo: o resto é perfeito para alternar estados e criar ciclos repetitivos. -->
+<block type="display_mostrar_calculo" id="1y9dL=-MFu2}:In[5T14" x="20" y="20"><field name="LINHA">1</field><field name="ALINHAMENTO">CENTER</field><field name="DISPLAY_TYPE">SMALL</field><value name="VALOR"><block type="math_modulo" id="`Qu2gH^$^d#He$Ge+R`A"><value name="DIVIDEND"><block type="math_number" id=":D.r5lWWY;@3J-q=#;N*"><field name="NUM">17</field></block></value><value name="DIVISOR"><block type="math_number" id="Ai;Rh7posmMVIB!isnm1"><field name="NUM">5</field></block></value></block></value></block></xml>

@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Iluminação básica: acende os 25 LEDs da matriz em azul com brilho moderado. -->
+  <block type="preencher_matriz" x="20" y="20">
+    <field name="INTENSITY">30</field>
+    <value name="COLOUR">
+      <block type="colour_blue"></block>
+    </value>
+  </block>
+</xml>

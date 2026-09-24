@@ -1,0 +1,30 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Alerta rápido: pisca vermelho em pulsos curtos e encerra apagado. -->
+  <block type="bloco_piscar_led" x="20" y="20">
+    <value name="COLOUR">
+      <block type="colour_red"></block>
+    </value>
+    <next>
+      <block type="esperar_segundos">
+        <value name="TIME">
+          <block type="math_number">
+            <field name="NUM">3</field>
+          </block>
+        </value>
+        <next>
+          <block type="bloco_desligar_todos_leds">
+            <next>
+              <block type="esperar_segundos">
+                <value name="TIME">
+                  <block type="math_number">
+                    <field name="NUM">3</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

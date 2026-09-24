@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A Matriz mostra um rosto surpreso quando algo chega perto do sensor. -->
+  <block type="controls_ifelse" x="20" y="20">
+    <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="ultrassonico_distancia"><field name="TRIG">3</field><field name="ECHO">2</field></block></value><value name="B"><block type="math_number"><field name="NUM">20</field></block></value></block></value>
+    <statement name="DO0"><block type="mostrar_emoji"><field name="BRILHO">35</field><value name="EMOJI"><block type="emoji_rosto_surpreso"></block></value><value name="COR"><block type="colour_red"></block></value></block></statement>
+    <statement name="ELSE"><block type="mostrar_emoji"><field name="BRILHO">25</field><value name="EMOJI"><block type="emoji_rosto_feliz"></block></value><value name="COR"><block type="colour_green"></block></value></block></statement>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next>
+  </block>
+</xml>

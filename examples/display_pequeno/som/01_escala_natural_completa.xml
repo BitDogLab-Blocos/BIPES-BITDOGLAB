@@ -1,0 +1,14 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Aula musical completa: Dó a Si formam uma escala natural em uma única melodia. -->
+  <block type="criar_melodia" x="30" y="30">
+    <mutation note_steps="7"></mutation>
+    <value name="NOTA0"><block type="nota_do"></block></value><value name="TEMPO0"><block type="tempo_milisegundos"><field name="NUM">250</field></block></value>
+    <value name="NOTA1"><block type="nota_re"></block></value><value name="TEMPO1"><block type="tempo_milisegundos"><field name="NUM">250</field></block></value>
+    <value name="NOTA2"><block type="nota_mi"></block></value><value name="TEMPO2"><block type="tempo_milisegundos"><field name="NUM">250</field></block></value>
+    <value name="NOTA3"><block type="nota_fa"></block></value><value name="TEMPO3"><block type="tempo_milisegundos"><field name="NUM">250</field></block></value>
+    <value name="NOTA4"><block type="nota_sol"></block></value><value name="TEMPO4"><block type="tempo_milisegundos"><field name="NUM">250</field></block></value>
+    <value name="NOTA5"><block type="nota_la"></block></value><value name="TEMPO5"><block type="tempo_milisegundos"><field name="NUM">250</field></block></value>
+    <value name="NOTA6"><block type="nota_si"></block></value><value name="TEMPO6"><block type="tempo_milisegundos"><field name="NUM">450</field></block></value>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">2</field></block></value></block></next>
+  </block>
+</xml>

@@ -1,0 +1,12 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- OU lógico: basta uma das duas portas de entrada estar liberada para soar o aviso. -->
+  <block type="controls_ifelse" x="30" y="30">
+    <value name="IF0"><block type="logic_operation"><field name="OP">OR</field>
+      <value name="A"><block type="logic_compare"><field name="OP">EQ</field><value name="A"><block type="math_number"><field name="NUM">1</field></block></value><value name="B"><block type="math_number"><field name="NUM">1</field></block></value></block></value>
+      <value name="B"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="math_number"><field name="NUM">2</field></block></value><value name="B"><block type="math_number"><field name="NUM">9</field></block></value></block></value>
+    </block></value>
+    <statement name="DO0"><block type="bipe_duplo"><field name="VOLUME">35</field></block></statement>
+    <statement name="ELSE"><block type="parar_som"></block></statement>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="math_number"><field name="NUM">1</field></block></value></block></next>
+  </block>
+</xml>

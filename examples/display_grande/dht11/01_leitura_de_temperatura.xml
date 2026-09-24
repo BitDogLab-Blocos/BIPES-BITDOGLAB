@@ -1,0 +1,3 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+<!-- Primeiro contato: le a temperatura do DHT11 na Conexao 0 e mostra no OLED. -->
+<block type="display_texto" id="!AMAZ=t7hDu{yH|sRJp{" x="20" y="20"><field name="TEXTO">Temperatura:</field><field name="LINHA">1</field><field name="ALINHAMENTO">LEFT</field><field name="DISPLAY_TYPE">LARGE</field><next><block type="display_mostrar_valor" id=":Q.K6Ayu#CYu(!ic+y{?"><field name="LINHA">1</field><field name="ALINHAMENTO">RIGHT</field><field name="DISPLAY_TYPE">LARGE</field><value name="VALOR"><block type="dht11_temperatura" id="u:RW[Y|Q.nxnfPNNqxa."><field name="DIG">0</field></block></value></block></next></block></xml>

@@ -1,0 +1,10 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Primeiro contato: inicialize, avance por um segundo e pare. -->
+  <block type="robo_inicializar" x="20" y="20">
+    <field name="ESPERA">5</field>
+    <next><block type="robo_frente">
+      <value name="TEMPO"><block type="math_number"><field name="NUM">1</field></block></value>
+      <next><block type="robo_parar"></block></next>
+    </block></next>
+  </block>
+</xml>

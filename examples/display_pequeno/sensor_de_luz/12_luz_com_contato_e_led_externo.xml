@@ -1,0 +1,16 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O contato 0 arma o experimento; R e G do KY-016 usam as Conexoes 1 e 2. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next><block type="controls_ifelse">
+      <value name="IF0"><block type="external_contact_is_closed"><field name="DIG">0</field></block></value>
+      <statement name="DO0"><block type="controls_ifelse">
+        <value name="IF0"><block type="logic_compare"><field name="OP">LT</field><value name="A"><block type="ldr_valor"><field name="CONNECTION">ANA-IN</field></block></value><value name="B"><block type="math_number"><field name="NUM">31</field></block></value></block></value>
+        <statement name="DO0"><block type="led_externo_ligar"><field name="CHANNEL">R</field><field name="DIG">1</field></block></statement>
+        <statement name="ELSE"><block type="led_externo_ligar"><field name="CHANNEL">G</field><field name="DIG">2</field></block></statement>
+      </block></statement>
+      <statement name="ELSE"><block type="led_externo_desligar"><field name="CHANNEL">R</field><field name="DIG">1</field><next><block type="led_externo_desligar"><field name="CHANNEL">G</field><field name="DIG">2</field></block></next></block></statement>
+      <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next>
+    </block></next>
+  </block>
+</xml>

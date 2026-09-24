@@ -1,0 +1,134 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Painel final: nível, intensidade, palmas, estado do ambiente e barra visual. -->
+  <block x="30" y="30" type="microfone_vu_meter">
+    <field name="BRILHO">20</field>
+    <value name="COR">
+      <block type="colour_cyan">
+      </block>
+    </value>
+    <next>
+      <block type="display_limpar">
+        <field name="DISPLAY_TYPE">SMALL</field>
+        <next>
+          <block type="microfone_barra_display">
+            <field name="LINHA">5</field>
+            <field name="DISPLAY_TYPE">SMALL</field>
+            <next>
+              <block type="microfone_contar_palmas">
+                <field name="LINHA">3</field>
+                <field name="DISPLAY_TYPE">SMALL</field>
+                <next>
+                  <block type="display_texto">
+                    <field name="TEXTO">Nivel:</field>
+                    <field name="LINHA">1</field>
+                    <field name="ALINHAMENTO">LEFT</field>
+                    <field name="DISPLAY_TYPE">SMALL</field>
+                    <next>
+                      <block type="display_mostrar_valor">
+                        <field name="LINHA">1</field>
+                        <field name="ALINHAMENTO">RIGHT</field>
+                        <field name="DISPLAY_TYPE">SMALL</field>
+                        <value name="VALOR">
+                          <block type="microfone_nivel_atual">
+                          </block>
+                        </value>
+                        <next>
+                          <block type="display_texto">
+                            <field name="TEXTO">Forca %:</field>
+                            <field name="LINHA">2</field>
+                            <field name="ALINHAMENTO">LEFT</field>
+                            <field name="DISPLAY_TYPE">SMALL</field>
+                            <next>
+                              <block type="display_mostrar_valor">
+                                <field name="LINHA">2</field>
+                                <field name="ALINHAMENTO">RIGHT</field>
+                                <field name="DISPLAY_TYPE">SMALL</field>
+                                <value name="VALOR">
+                                  <block type="microfone_barra_pct">
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="controls_ifelse">
+                                    <value name="IF0">
+                                      <block type="logic_compare">
+                                        <field name="OP">LTE</field>
+                                        <value name="A">
+                                          <block type="microfone_nivel_atual">
+                                          </block>
+                                        </value>
+                                        <value name="B">
+                                          <block type="math_number">
+                                            <field name="NUM">1</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </value>
+                                    <statement name="DO0">
+                                      <block type="display_texto">
+                                        <field name="TEXTO">Silencioso</field>
+                                        <field name="LINHA">4</field>
+                                        <field name="ALINHAMENTO">CENTER</field>
+                                        <field name="DISPLAY_TYPE">SMALL</field>
+                                      </block>
+                                    </statement>
+                                    <statement name="ELSE">
+                                      <block type="controls_ifelse">
+                                        <value name="IF0">
+                                          <block type="logic_compare">
+                                            <field name="OP">LTE</field>
+                                            <value name="A">
+                                              <block type="microfone_nivel_atual">
+                                              </block>
+                                            </value>
+                                            <value name="B">
+                                              <block type="math_number">
+                                                <field name="NUM">3</field>
+                                              </block>
+                                            </value>
+                                          </block>
+                                        </value>
+                                        <statement name="DO0">
+                                          <block type="display_texto">
+                                            <field name="TEXTO">Moderado</field>
+                                            <field name="LINHA">4</field>
+                                            <field name="ALINHAMENTO">CENTER</field>
+                                            <field name="DISPLAY_TYPE">SMALL</field>
+                                          </block>
+                                        </statement>
+                                        <statement name="ELSE">
+                                          <block type="display_texto">
+                                            <field name="TEXTO">Barulhento</field>
+                                            <field name="LINHA">4</field>
+                                            <field name="ALINHAMENTO">CENTER</field>
+                                            <field name="DISPLAY_TYPE">SMALL</field>
+                                          </block>
+                                        </statement>
+                                      </block>
+                                    </statement>
+                                    <next>
+                                      <block type="esperar_milisegundos">
+                                        <value name="TIME">
+                                          <block type="math_number">
+                                            <field name="NUM">100</field>
+                                          </block>
+                                        </value>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

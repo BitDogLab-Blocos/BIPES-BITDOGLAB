@@ -1,0 +1,13 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- O LED fica vermelho para a direita, azul para a esquerda e verde quando o sensor esta nivelado. -->
+  <block type="controls_ifelse" x="20" y="20">
+    <value name="IF0"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="mpu6050_inclinacao"><field name="DIRECTION">RIGHT</field><field name="SCL">3</field><field name="SDA">2</field></block></value><value name="B"><block type="math_number"><field name="NUM">10</field></block></value></block></value>
+    <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_red"></block></value></block></statement>
+    <statement name="ELSE"><block type="controls_ifelse">
+      <value name="IF0"><block type="logic_compare"><field name="OP">GT</field><value name="A"><block type="mpu6050_inclinacao"><field name="DIRECTION">LEFT</field><field name="SCL">3</field><field name="SDA">2</field></block></value><value name="B"><block type="math_number"><field name="NUM">10</field></block></value></block></value>
+      <statement name="DO0"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_blue"></block></value></block></statement>
+      <statement name="ELSE"><block type="bloco_ligar_led"><value name="COLOUR"><block type="colour_green"></block></value></block></statement>
+    </block></statement>
+    <next><block type="esperar_milisegundos"><value name="TIME"><block type="math_number"><field name="NUM">300</field></block></value></block></next>
+  </block>
+</xml>

@@ -1,0 +1,11 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- A mesma ideia com o pino G (verde): ligar, esperar e desligar. -->
+  <block type="led_externo_ligar" x="20" y="20">
+    <field name="CHANNEL">G</field><field name="DIG">1</field>
+    <next><block type="esperar_segundos"><value name="TIME"><block type="tempo_segundos"><field name="NUM">2</field></block></value>
+      <next><block type="led_externo_desligar"><field name="CHANNEL">G</field><field name="DIG">1</field>
+        <next><block type="esperar_segundos"><value name="TIME"><block type="tempo_segundos"><field name="NUM">1</field></block></value></block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

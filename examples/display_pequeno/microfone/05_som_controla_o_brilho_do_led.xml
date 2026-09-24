@@ -1,0 +1,9 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Fale mais alto para deixar o LED azul mais brilhante. -->
+  <block x="30" y="30" type="microfone_controlar_led">
+    <value name="COR">
+      <block type="colour_blue">
+      </block>
+    </value>
+  </block>
+</xml>
