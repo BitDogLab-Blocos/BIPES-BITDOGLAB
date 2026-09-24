@@ -1,41 +1,36 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <!-- A primeira palma acende o LED; reinicie o programa para brincar novamente. -->
-  <block x="30" y="30" type="display_limpar">
+  <block type="microfone_contar_palmas">
+    <field name="LINHA">1</field>
     <field name="DISPLAY_TYPE">SMALL</field>
     <next>
-      <block type="microfone_contar_palmas">
-        <field name="LINHA">1</field>
-        <field name="DISPLAY_TYPE">SMALL</field>
-        <next>
-          <block type="controls_ifelse">
-            <value name="IF0">
-              <block type="logic_compare">
-                <field name="OP">GT</field>
-                <value name="A">
-                  <block type="microfone_total_palmas">
+      <block type="controls_ifelse">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">GT</field>
+            <value name="A">
+              <block type="microfone_total_palmas">
                   </block>
-                </value>
-                <value name="B">
-                  <block type="math_number">
-                    <field name="NUM">0</field>
-                  </block>
-                </value>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <field name="NUM">0</field>
               </block>
             </value>
-            <statement name="DO0">
-              <block type="bloco_ligar_led">
-                <value name="COLOUR">
-                  <block type="colour_yellow">
-                  </block>
-                </value>
-              </block>
-            </statement>
-            <statement name="ELSE">
-              <block type="bloco_desligar_todos_leds">
-              </block>
-            </statement>
           </block>
-        </next>
+        </value>
+        <statement name="DO0">
+          <block type="bloco_ligar_led">
+            <value name="COLOUR">
+              <block type="colour_yellow">
+                  </block>
+            </value>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="bloco_desligar_todos_leds">
+              </block>
+        </statement>
       </block>
     </next>
   </block>

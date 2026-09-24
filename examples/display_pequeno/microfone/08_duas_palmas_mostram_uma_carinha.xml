@@ -1,42 +1,37 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <!-- Depois de duas palmas, uma carinha feliz aparece na matriz. -->
-  <block x="30" y="30" type="display_limpar">
+  <block type="microfone_contar_palmas">
+    <field name="LINHA">1</field>
     <field name="DISPLAY_TYPE">SMALL</field>
     <next>
-      <block type="microfone_contar_palmas">
-        <field name="LINHA">1</field>
-        <field name="DISPLAY_TYPE">SMALL</field>
-        <next>
-          <block type="controls_if">
-            <value name="IF0">
-              <block type="logic_compare">
-                <field name="OP">GTE</field>
-                <value name="A">
-                  <block type="microfone_total_palmas">
+      <block type="controls_if">
+        <value name="IF0">
+          <block type="logic_compare">
+            <field name="OP">GTE</field>
+            <value name="A">
+              <block type="microfone_total_palmas">
                   </block>
-                </value>
-                <value name="B">
-                  <block type="math_number">
-                    <field name="NUM">2</field>
-                  </block>
-                </value>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <field name="NUM">2</field>
               </block>
             </value>
-            <statement name="DO0">
-              <block type="mostrar_emoji">
-                <field name="BRILHO">25</field>
-                <value name="EMOJI">
-                  <block type="emoji_rosto_feliz">
-                  </block>
-                </value>
-                <value name="COR">
-                  <block type="colour_green">
-                  </block>
-                </value>
-              </block>
-            </statement>
           </block>
-        </next>
+        </value>
+        <statement name="DO0">
+          <block type="mostrar_emoji">
+            <field name="BRILHO">25</field>
+            <value name="EMOJI">
+              <block type="emoji_rosto_feliz">
+                  </block>
+            </value>
+            <value name="COR">
+              <block type="colour_green">
+                  </block>
+            </value>
+          </block>
+        </statement>
       </block>
     </next>
   </block>

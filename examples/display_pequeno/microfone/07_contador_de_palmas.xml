@@ -1,19 +1,14 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <!-- Bata palmas separadamente e acompanhe o total no OLED. -->
-  <block x="30" y="30" type="display_limpar">
+  <block type="display_texto">
+    <field name="TEXTO">Bata palmas!</field>
+    <field name="LINHA">1</field>
+    <field name="ALINHAMENTO">CENTER</field>
     <field name="DISPLAY_TYPE">SMALL</field>
     <next>
-      <block type="display_texto">
-        <field name="TEXTO">Bata palmas!</field>
-        <field name="LINHA">1</field>
-        <field name="ALINHAMENTO">CENTER</field>
+      <block type="microfone_contar_palmas">
+        <field name="LINHA">3</field>
         <field name="DISPLAY_TYPE">SMALL</field>
-        <next>
-          <block type="microfone_contar_palmas">
-            <field name="LINHA">3</field>
-            <field name="DISPLAY_TYPE">SMALL</field>
-          </block>
-        </next>
       </block>
     </next>
   </block>

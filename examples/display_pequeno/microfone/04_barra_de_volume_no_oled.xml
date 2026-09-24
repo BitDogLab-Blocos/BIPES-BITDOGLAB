@@ -1,26 +1,21 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <!-- A barra horizontal cresce e diminui conforme a intensidade do som. -->
-  <block x="30" y="30" type="display_limpar">
+  <block type="display_texto">
+    <field name="TEXTO">Volume do ambiente</field>
+    <field name="LINHA">1</field>
+    <field name="ALINHAMENTO">LEFT</field>
     <field name="DISPLAY_TYPE">SMALL</field>
     <next>
-      <block type="display_texto">
-        <field name="TEXTO">Volume do ambiente</field>
-        <field name="LINHA">1</field>
-        <field name="ALINHAMENTO">LEFT</field>
+      <block type="microfone_barra_display">
+        <field name="LINHA">3</field>
         <field name="DISPLAY_TYPE">SMALL</field>
         <next>
-          <block type="microfone_barra_display">
-            <field name="LINHA">3</field>
-            <field name="DISPLAY_TYPE">SMALL</field>
-            <next>
-              <block type="esperar_milisegundos">
-                <value name="TIME">
-                  <block type="math_number">
-                    <field name="NUM">100</field>
-                  </block>
-                </value>
+          <block type="esperar_milisegundos">
+            <value name="TIME">
+              <block type="math_number">
+                <field name="NUM">100</field>
               </block>
-            </next>
+            </value>
           </block>
         </next>
       </block>
