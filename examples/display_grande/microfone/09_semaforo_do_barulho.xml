@@ -84,12 +84,12 @@
             <field name="TEXTO">Nivel:</field>
             <field name="LINHA">1</field>
             <field name="ALINHAMENTO">LEFT</field>
-            <field name="DISPLAY_TYPE">SMALL</field>
+            <field name="DISPLAY_TYPE">LARGE</field>
             <next>
               <block type="display_mostrar_valor">
                 <field name="LINHA">1</field>
                 <field name="ALINHAMENTO">RIGHT</field>
-                <field name="DISPLAY_TYPE">SMALL</field>
+                <field name="DISPLAY_TYPE">LARGE</field>
                 <value name="VALOR">
                   <block type="microfone_nivel_atual">
                       </block>

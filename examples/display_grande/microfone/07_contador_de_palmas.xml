@@ -4,11 +4,11 @@
     <field name="TEXTO">Bata palmas!</field>
     <field name="LINHA">1</field>
     <field name="ALINHAMENTO">CENTER</field>
-    <field name="DISPLAY_TYPE">SMALL</field>
+    <field name="DISPLAY_TYPE">LARGE</field>
     <next>
       <block type="microfone_contar_palmas">
         <field name="LINHA">3</field>
-        <field name="DISPLAY_TYPE">SMALL</field>
+        <field name="DISPLAY_TYPE">LARGE</field>
       </block>
     </next>
   </block>

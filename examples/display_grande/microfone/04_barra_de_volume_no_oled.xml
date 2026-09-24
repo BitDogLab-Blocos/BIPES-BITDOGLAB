@@ -4,11 +4,11 @@
     <field name="TEXTO">Volume do ambiente</field>
     <field name="LINHA">1</field>
     <field name="ALINHAMENTO">LEFT</field>
-    <field name="DISPLAY_TYPE">SMALL</field>
+    <field name="DISPLAY_TYPE">LARGE</field>
     <next>
       <block type="microfone_barra_display">
         <field name="LINHA">3</field>
-        <field name="DISPLAY_TYPE">SMALL</field>
+        <field name="DISPLAY_TYPE">LARGE</field>
         <next>
           <block type="esperar_milisegundos">
             <value name="TIME">

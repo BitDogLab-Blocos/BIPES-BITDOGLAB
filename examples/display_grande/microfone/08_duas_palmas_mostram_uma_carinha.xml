@@ -2,7 +2,7 @@
   <!-- Depois de duas palmas, uma carinha feliz aparece na matriz. -->
   <block type="microfone_contar_palmas">
     <field name="LINHA">1</field>
-    <field name="DISPLAY_TYPE">SMALL</field>
+    <field name="DISPLAY_TYPE">LARGE</field>
     <next>
       <block type="controls_if">
         <value name="IF0">

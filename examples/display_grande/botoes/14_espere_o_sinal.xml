@@ -33,11 +33,11 @@
                           <block type="cronometro_iniciar">
                             <field name="NAME">relogio</field>
                             <next>
-                              <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto">
+                              <block type="display_limpar"><field name="DISPLAY_TYPE">LARGE</field><next><block type="display_texto">
                                 <field name="TEXTO">Espere o verde</field>
                                 <field name="LINHA">1</field>
                                 <field name="ALINHAMENTO">LEFT</field>
-                                <field name="DISPLAY_TYPE">SMALL</field>
+                                <field name="DISPLAY_TYPE">LARGE</field>
                               </block></next></block>
                             </next>
                           </block>
@@ -82,11 +82,11 @@
                           </block>
                         </value>
                         <next>
-                          <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto">
+                          <block type="display_limpar"><field name="DISPLAY_TYPE">LARGE</field><next><block type="display_texto">
                             <field name="TEXTO">Foi cedo! A novo</field>
                             <field name="LINHA">1</field>
                             <field name="ALINHAMENTO">LEFT</field>
-                            <field name="DISPLAY_TYPE">SMALL</field>
+                            <field name="DISPLAY_TYPE">LARGE</field>
                           </block></next></block>
                         </next>
                       </block>
@@ -122,11 +122,11 @@
                               </block>
                             </value>
                             <next>
-                              <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto">
+                              <block type="display_limpar"><field name="DISPLAY_TYPE">LARGE</field><next><block type="display_texto">
                                 <field name="TEXTO">Seu tempo:</field>
                                 <field name="LINHA">1</field>
                                 <field name="ALINHAMENTO">LEFT</field>
-                                <field name="DISPLAY_TYPE">SMALL</field>
+                                <field name="DISPLAY_TYPE">LARGE</field>
                               </block></next></block>
                             </next>
                           </block>
@@ -194,11 +194,11 @@
                                           </block>
                                         </value>
                                         <next>
-                                          <block type="display_limpar"><field name="DISPLAY_TYPE">SMALL</field><next><block type="display_texto">
+                                          <block type="display_limpar"><field name="DISPLAY_TYPE">LARGE</field><next><block type="display_texto">
                                             <field name="TEXTO">Agora aperte B</field>
                                             <field name="LINHA">1</field>
                                             <field name="ALINHAMENTO">LEFT</field>
-                                            <field name="DISPLAY_TYPE">SMALL</field>
+                                            <field name="DISPLAY_TYPE">LARGE</field>
                                           </block></next></block>
                                         </next>
                                       </block>
@@ -236,7 +236,7 @@
                         <field name="LINE">2</field>
                         <field name="ALIGN">CENTER</field>
                         <field name="FORMAT">S_MILLI</field>
-                        <field name="DISPLAY_TYPE">SMALL</field>
+                        <field name="DISPLAY_TYPE">LARGE</field>
                       </block>
                     </statement>
                   </block>
