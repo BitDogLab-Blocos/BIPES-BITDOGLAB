@@ -4,8 +4,7 @@
     <next>
       <block type="robo_setas_frente">
         <next>
-          <block type="display_limpar_linha">
-            <field name="LINHA">2</field>
+          <block type="display_limpar">
             <field name="DISPLAY_TYPE">LARGE</field>
             <next>
               <block type="display_texto">
