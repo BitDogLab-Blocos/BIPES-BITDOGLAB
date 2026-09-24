@@ -235,39 +235,88 @@ Blockly.Python["microfone_barra_display"] = function(block) {
   return code;
 };
 
+function _setupMicrofonePalmas() {
+  Blockly.Python.definitions_['import_time'] = 'import time';
+  Blockly.Python.definitions_['setup_palmas'] = [
+    BitdogLabConfig.MARKERS.SETUP_START,
+    '_palmas = 0',
+    '_mic_ultima_palma = time.ticks_add(time.ticks_ms(), -300)',
+    '_mic_palma_estado = 0',
+    '_mic_palma_inicio = 0',
+    '_mic_palma_pico = 0',
+    '_mic_palma_janelas_altas = 0',
+    '_mic_palma_ruido = 1000',
+    '_mic_palma_quietas = 0',
+    BitdogLabConfig.MARKERS.SETUP_END
+  ].join('\n');
+}
+
 Blockly.Python["microfone_contar_palmas"] = function(block) {
   var pins = BitdogLabConfig.PINS;
   _setupDisplayForBlock(block);
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_adc'] = 'from machine import ADC';
   Blockly.Python.definitions_['setup_mic'] = 'adc_mic = ADC(Pin(' + pins.MIC + '))';
-  Blockly.Python.definitions_['setup_mic_offset'] = '_MIC_OFFSET = 32767';
   Blockly.Python.definitions_['import_time'] = 'import time';
-  Blockly.Python.definitions_['setup_palmas'] = '_palmas = 0\n_mic_ultima_palma = 0';
+  _setupMicrofonePalmas();
 
   var linha = block.getFieldValue('LINHA');
   var yPositions = {'1': 8, '2': 18, '3': 28, '4': 38, '5': 48};
   var y = yPositions[linha];
 
-  var code = '';
-  // Janela de 50ms: amostrar continuamente e guardar o pico (palmas são transientes rápidos)
-  code += '_mic_t0 = time.ticks_ms()\n';
-  code += '_mic_peak = 0\n';
-  code += 'while time.ticks_diff(time.ticks_ms(), _mic_t0) < 50:\n';
-  code += '    _s = abs(adc_mic.read_u16() - _MIC_OFFSET)\n';
-  code += '    if _s > _mic_peak: _mic_peak = _s\n';
-  // Conta palma só se: pico acima do limiar E mínimo 300ms desde a última
-  code += '_mic_agora_ms = time.ticks_ms()\n';
-  code += 'if _mic_peak > 20000 and time.ticks_diff(_mic_agora_ms, _mic_ultima_palma) > 300:\n';
-  code += '    _palmas += 1\n';
-  code += '    _mic_ultima_palma = _mic_agora_ms\n';
-  code += 'oled.fill_rect(0, ' + y + ', _display_width, 8, 0)\n';
-  code += 'oled.text("Palmas: " + str(_palmas), 0, ' + y + ', 1)\n';
+  // A clap spans several loud windows; a keyboard click is usually shorter.
+  // Sampling for 160 ms also reduces gaps caused by OLED and loop updates.
+  var code = [
+    'for _mic_janela in range(8):',
+    '    _mic_t0 = time.ticks_ms()',
+    '    _mic_min = 65535',
+    '    _mic_max = 0',
+    '    while time.ticks_diff(time.ticks_ms(), _mic_t0) < 20:',
+    '        _mic_amostra = adc_mic.read_u16()',
+    '        if _mic_amostra < _mic_min: _mic_min = _mic_amostra',
+    '        if _mic_amostra > _mic_max: _mic_max = _mic_amostra',
+    '    _mic_amp = _mic_max - _mic_min',
+    '    _mic_agora_ms = time.ticks_ms()',
+    '    _mic_limiar = max(12000, _mic_palma_ruido * 4)',
+    '    _mic_silencio = max(6000, _mic_palma_ruido * 2)',
+    '    if _mic_palma_estado == 0:',
+    '        if _mic_amp < _mic_limiar:',
+    '            _mic_palma_ruido = (_mic_palma_ruido * 7 + _mic_amp) // 8',
+    '        if (_mic_amp >= _mic_limiar',
+    '                and time.ticks_diff(_mic_agora_ms, _mic_ultima_palma) > 250):',
+    '            _mic_palma_estado = 1',
+    '            _mic_palma_inicio = _mic_agora_ms',
+    '            _mic_palma_pico = _mic_amp',
+    '            _mic_palma_janelas_altas = 1',
+    '    elif _mic_palma_estado == 1:',
+    '        if _mic_amp > _mic_palma_pico: _mic_palma_pico = _mic_amp',
+    '        if _mic_amp >= _mic_limiar: _mic_palma_janelas_altas += 1',
+    '        _mic_duracao = time.ticks_diff(_mic_agora_ms, _mic_palma_inicio)',
+    '        if _mic_amp < max(_mic_silencio, _mic_palma_pico // 5):',
+    '            if _mic_duracao <= 350 and _mic_palma_janelas_altas >= 3 and _mic_palma_pico >= 30000:',
+    '                _palmas += 1',
+    '                _mic_ultima_palma = _mic_agora_ms',
+    '            _mic_palma_estado = 2',
+    '            _mic_palma_quietas = 1',
+    '        elif _mic_duracao > 350:',
+    '            _mic_palma_estado = 2',
+    '            _mic_palma_quietas = 0',
+    '    else:',
+    '        if _mic_amp < _mic_silencio:',
+    '            _mic_palma_quietas += 1',
+    '            _mic_palma_ruido = (_mic_palma_ruido * 7 + _mic_amp) // 8',
+    '        else:',
+    '            _mic_palma_quietas = 0',
+    '        if _mic_palma_quietas >= 3 and time.ticks_diff(_mic_agora_ms, _mic_ultima_palma) > 250:',
+    '            _mic_palma_estado = 0',
+    'oled.fill_rect(0, ' + y + ', _display_width, 8, 0)',
+    'oled.text("Palmas: " + str(_palmas), 0, ' + y + ', 1)'
+  ].join('\n') + '\n';
   return code;
 };
 
 Blockly.Python["microfone_total_palmas"] = function(_block) {
-  Blockly.Python.definitions_['setup_palmas'] = Blockly.Python.definitions_['setup_palmas'] || '_palmas = 0\n_mic_ultima_palma = 0';
+  _setupMicrofonePalmas();
   return ['_palmas', Blockly.Python.ORDER_ATOMIC];
 };
 
