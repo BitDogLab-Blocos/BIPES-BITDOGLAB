@@ -232,6 +232,7 @@ WorkspaceManager.showExternalContactReminder = function(block) {
   var closeId = 'closeExternalContactNotification';
   var boardImage = '../assets/images/devices/conexoes-externas.png';
   var contactImage = '../assets/images/devices/external-contacts.png';
+  var wiringImage = '../assets/images/devices/contact-wiring.png';
   var warningText = block && block.__bitdoglabContractWarningText
     ? String(block.__bitdoglabContractWarningText)
     : '';
@@ -247,7 +248,11 @@ WorkspaceManager.showExternalContactReminder = function(block) {
       '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
       '<img src="' + boardImage + '" alt="External Connections" style="width:55%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
       '<img src="' + contactImage + '" alt="Alligator clips making contact" style="width:40%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + problemLine +
+      '</div>' +
+      '<figure style="margin:0 0 12px;padding:10px;background:#101010;border-radius:6px;text-align:center;color:white;">' +
+      '<img src="' + wiringImage + '" alt="Yellow clip on Connection 0 and black clip on GND of the BitDogLab board" style="display:block;width:100%;max-height:380px;object-fit:contain;">' +
+      '<figcaption style="margin-top:6px;font-size:13px;">Example wiring: yellow clip on Connection 0, black clip on GND. Touch the free ends to close the contact.</figcaption>' +
+      '</figure>' + problemLine +
       '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>1. Prepare the project</strong><br>Start with <strong>Set up contacts</strong> near the beginning of the project. The other Contact blocks will not compile without it.</div>' +
       '<div style="display:grid;gap:7px;margin-bottom:10px;">' +
       '<div style="background:#e8f5e9;color:#1b5e20;padding:9px;border-radius:6px;"><strong>2. Choose the shared contact — GND is recommended.</strong><br>GND is the board reference contact. Connect the conductive part shared by every touch contact to GND.</div>' +
@@ -257,7 +262,10 @@ WorkspaceManager.showExternalContactReminder = function(block) {
       '<strong>3. Build the connection</strong><br>Shared conductive part → board GND or 3V3 contact<br>Each separate touch piece → Connection 0, Connection 1, Connection 2, or Connection 3<br><br>You can use aluminium foil, conductive dough, fruit, graphite, or alligator clips. The board senses when the shared part touches one of the separate pieces.' +
       '</div>' +
       '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Important:</strong><br>• Use only one shared mode in the project: GND or 3V3.<br>• Each Connection can have only one job. Do not share a number with an external LED, servo, or DHT11.<br>• The LED Matrix contact test uses all four Connections and must be used by itself.<br>• On BitDogLab V7, the Display uses Connections 2 and 3. With the Display active, use only Connection 0 or Connection 1 for Contacts.</div>' +
-      '<div style="background:#e0f2f1;color:#004d40;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Example:</strong><br>1️⃣ Set up contacts using GND<br>2️⃣ When contact is made on Connection 0 → play a beep</div>' +
+      '<div style="background:#e0f2f1;color:#004d40;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Activity ideas</strong><br>For each idea, start with <strong>Set up contacts using GND</strong> and use <strong>When contact is made</strong> for the action.<br><br>' +
+      '<strong>🔔 Foil doorbell:</strong> connect one strip of foil to GND and another to Connection 0. Touch the strips together → play a beep.<br><br>' +
+      '<strong>🚦 Conductive dough traffic light:</strong> connect one piece to GND and two separate pieces to Connections 0 and 1. Touch the shared piece to 0 → turn the board LED green; touch it to 1 → turn it red.<br><br>' +
+      '<strong>🎹 Fruit piano:</strong> connect two fruits to Connections 0 and 1 with alligator clips. Touch each fruit with a clip connected to GND → play a different note for each Connection.</div>' +
       '<div style="background:#ffebee;color:#7f0000;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>⚠️ Safety:</strong> turn the board off and disconnect the USB cable before changing any wire. Never let 3V3 touch GND.</div>' +
       '<strong>Before powering the board, ask a teacher to check the complete circuit.</strong>' +
       '</div>'
@@ -267,7 +275,11 @@ WorkspaceManager.showExternalContactReminder = function(block) {
       '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
       '<img src="' + boardImage + '" alt="Conexões externas" style="width:55%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
       '<img src="' + contactImage + '" alt="Garras jacaré fazendo contato" style="width:40%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + problemLine +
+      '</div>' +
+      '<figure style="margin:0 0 12px;padding:10px;background:#101010;border-radius:6px;text-align:center;color:white;">' +
+      '<img src="' + wiringImage + '" alt="Garra amarela na Conexão 0 e garra preta no GND da BitDogLab" style="display:block;width:100%;max-height:380px;object-fit:contain;">' +
+      '<figcaption style="margin-top:6px;font-size:13px;">Exemplo de montagem: garra amarela na Conexão 0 e preta no GND. Encoste as pontas livres para fechar o contato.</figcaption>' +
+      '</figure>' + problemLine +
       '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>1. Prepare o projeto</strong><br>Comece com o bloco <strong>Preparar contatos</strong> perto do início do projeto. Sem ele, os outros blocos de Contatos não serão compilados.</div>' +
       '<div style="display:grid;gap:7px;margin-bottom:10px;">' +
       '<div style="background:#e8f5e9;color:#1b5e20;padding:9px;border-radius:6px;"><strong>2. Escolha o contato compartilhado — GND é recomendado.</strong><br>GND é o contato de referência da placa. Ligue ao GND a parte condutora compartilhada por todos os contatos de toque.</div>' +
@@ -277,7 +289,10 @@ WorkspaceManager.showExternalContactReminder = function(block) {
       '<strong>3. Monte a ligação</strong><br>Parte condutora compartilhada → contato GND ou 3V3 da placa<br>Cada peça de toque separada → Conexão 0, Conexão 1, Conexão 2 ou Conexão 3<br><br>Você pode usar papel-alumínio, massinha condutiva, frutas, grafite ou garras jacaré. A placa percebe quando a parte compartilhada encosta em uma das peças separadas.' +
       '</div>' +
       '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Importante:</strong><br>• Use somente um modo compartilhado no projeto: GND ou 3V3.<br>• Cada Conexão pode ter apenas uma função. Não compartilhe o mesmo número com LED externo, servo ou DHT11.<br>• O teste de contatos na Matriz usa as quatro Conexões e deve ser usado sozinho.<br>• Na BitDogLab V7, o Display usa as Conexões 2 e 3. Com o Display ativo, use somente a Conexão 0 ou a Conexão 1 para Contatos.</div>' +
-      '<div style="background:#e0f2f1;color:#004d40;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Exemplo:</strong><br>1️⃣ Preparar contatos usando GND<br>2️⃣ Quando houver contato na Conexão 0 → tocar um bipe</div>' +
+      '<div style="background:#e0f2f1;color:#004d40;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Ideias de atividades</strong><br>Em cada ideia, comece com <strong>Preparar contatos usando GND</strong> e use <strong>Quando houver contato</strong> para a ação.<br><br>' +
+      '<strong>🔔 Campainha de papel-alumínio:</strong> ligue uma tira ao GND e outra à Conexão 0. Encoste as tiras → toque um bipe.<br><br>' +
+      '<strong>🚦 Semáforo de massinha condutiva:</strong> ligue uma peça ao GND e outras duas, separadas, às Conexões 0 e 1. Encoste a peça comum na 0 → acenda o LED verde da placa; encoste na 1 → acenda o vermelho.<br><br>' +
+      '<strong>🎹 Piano de frutas:</strong> ligue duas frutas às Conexões 0 e 1 com garras jacaré. Encoste uma garra ligada ao GND em cada fruta → toque uma nota diferente para cada Conexão.</div>' +
       '<div style="background:#ffebee;color:#7f0000;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>⚠️ Segurança:</strong> desligue a placa e retire o cabo USB antes de mudar qualquer fio. Nunca deixe o contato 3V3 encostar no GND.</div>' +
       '<strong>Antes de ligar a placa, peça ao professor para conferir toda a montagem.</strong>' +
       '</div>';
