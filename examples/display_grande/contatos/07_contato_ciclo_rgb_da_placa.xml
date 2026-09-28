@@ -1,0 +1,62 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Com GND como fio comum, um toque na Conexão 3 acende vermelho, verde e azul no LED da placa. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="external_contact_when_closed">
+        <field name="DIG">3</field>
+        <statement name="DO">
+          <block type="bloco_ligar_led">
+            <value name="COLOUR">
+              <block type="colour_red" />
+            </value>
+            <next>
+              <block type="esperar_milisegundos">
+                <value name="TIME">
+                  <block type="math_number">
+                    <field name="NUM">400</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="bloco_ligar_led">
+                    <value name="COLOUR">
+                      <block type="colour_green" />
+                    </value>
+                    <next>
+                      <block type="esperar_milisegundos">
+                        <value name="TIME">
+                          <block type="math_number">
+                            <field name="NUM">400</field>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="bloco_ligar_led">
+                            <value name="COLOUR">
+                              <block type="colour_blue" />
+                            </value>
+                            <next>
+                              <block type="esperar_milisegundos">
+                                <value name="TIME">
+                                  <block type="math_number">
+                                    <field name="NUM">400</field>
+                                  </block>
+                                </value>
+                                <next>
+                                  <block type="bloco_desligar_todos_leds" />
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

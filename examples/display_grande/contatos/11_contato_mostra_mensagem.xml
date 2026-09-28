@@ -1,0 +1,50 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Com GND como fio comum, a Conexão 0 muda a mensagem no OLED entre toque e espera. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0">
+          <block type="external_contact_is_closed">
+            <field name="DIG">0</field>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="display_limpar">
+            <field name="DISPLAY_TYPE">LARGE</field>
+            <next>
+              <block type="display_texto">
+                <field name="TEXTO">Contato!</field>
+                <field name="LINHA">1</field>
+                <field name="ALINHAMENTO">CENTER</field>
+                <field name="DISPLAY_TYPE">LARGE</field>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="display_limpar">
+            <field name="DISPLAY_TYPE">LARGE</field>
+            <next>
+              <block type="display_texto">
+                <field name="TEXTO">Toque na 0</field>
+                <field name="LINHA">1</field>
+                <field name="ALINHAMENTO">CENTER</field>
+                <field name="DISPLAY_TYPE">LARGE</field>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="esperar_milisegundos">
+            <value name="TIME">
+              <block type="math_number">
+                <field name="NUM">200</field>
+              </block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

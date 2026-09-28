@@ -1,0 +1,37 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Com GND como fio comum, a Conexão 2 mostra 1 na Matriz enquanto toca e 0 ao separar. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="controls_ifelse">
+        <value name="IF0">
+          <block type="external_contact_is_closed">
+            <field name="DIG">2</field>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="mostrar_numero_matriz">
+            <field name="BRILHO">30</field>
+            <value name="NUMERO">
+              <block type="numero_matriz_1" />
+            </value>
+            <value name="COR">
+              <block type="colour_green" />
+            </value>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="mostrar_numero_matriz">
+            <field name="BRILHO">30</field>
+            <value name="NUMERO">
+              <block type="numero_matriz_0" />
+            </value>
+            <value name="COR">
+              <block type="colour_red" />
+            </value>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>

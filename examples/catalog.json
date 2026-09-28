@@ -3565,7 +3565,7 @@
         {
           "number": 1,
           "title": "Contato toca bipe",
-          "description": "Um toque na Conexao 0 toca um bipe uma vez; separar e encostar de novo repete a acao.",
+          "description": "Com GND como fio comum, um toque na Conexão 0 toca um bipe; solte e encoste novamente para repetir.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
@@ -3575,30 +3575,30 @@
         },
         {
           "number": 2,
-          "title": "Contato 3v3 mostra número",
-          "description": "O fio comum vai ao 3V3; um toque na Conexao 0 mostra o numero 2 na Matriz. A V7 reserva 2 e 3 para a tela.",
+          "title": "Contato mostra número",
+          "description": "Com GND como fio comum, um toque na Conexão 0 mostra o número 2 na Matriz de LEDs.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
-            "pequeno": "examples/display_pequeno/contatos/02_contato_3v3_mostra_numero.xml",
-            "grande": "examples/display_grande/contatos/02_contato_3v3_mostra_numero.xml"
+            "pequeno": "examples/display_pequeno/contatos/02_contato_mostra_numero.xml",
+            "grande": "examples/display_grande/contatos/02_contato_mostra_numero.xml"
           }
         },
         {
           "number": 3,
-          "title": "Contato liga LED vermelho",
-          "description": "O contato usa a Conexao 0 e o vermelho do KY-016 usa a Conexao 1.",
+          "title": "Contato liga LED da placa",
+          "description": "Com GND como fio comum, um toque na Conexão 0 acende o LED vermelho da placa por um segundo.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
-            "pequeno": "examples/display_pequeno/contatos/03_contato_liga_led_vermelho.xml",
-            "grande": "examples/display_grande/contatos/03_contato_liga_led_vermelho.xml"
+            "pequeno": "examples/display_pequeno/contatos/03_contato_liga_led_da_placa.xml",
+            "grande": "examples/display_grande/contatos/03_contato_liga_led_da_placa.xml"
           }
         },
         {
           "number": 4,
           "title": "Contato muda LED da placa",
-          "description": "Enquanto a Conexao 1 estiver tocada, o LED verde da placa fica ligado; ao soltar, apaga.",
+          "description": "Com GND como fio comum, o LED verde da placa fica aceso enquanto houver contato na Conexão 1 e apaga ao soltar.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
@@ -3609,7 +3609,7 @@
         {
           "number": 5,
           "title": "Contato controla matriz",
-          "description": "A Conexao 2 decide o estado da Matriz: azul enquanto houver contato e apagada quando separar.",
+          "description": "Com GND como fio comum, a Matriz fica azul enquanto houver contato na Conexão 2 e apaga ao separar.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
@@ -3620,7 +3620,7 @@
         {
           "number": 6,
           "title": "Contato toca nota",
-          "description": "Cada toque na Conexao 2 toca a nota Mi e espera um pouco antes de aceitar outro toque.",
+          "description": "Com GND como fio comum, cada toque na Conexão 2 toca a nota Mi.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
@@ -3630,63 +3630,63 @@
         },
         {
           "number": 7,
-          "title": "Contato animacao RGB",
-          "description": "O toque na Conexao 0 inicia uma animacao RGB; os pinos do KY-016 ficam nas Conexoes 1, 2 e 3.",
+          "title": "Contato faz ciclo de cores",
+          "description": "Com GND como fio comum, um toque na Conexão 3 acende vermelho, verde e azul no LED da placa.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
-            "pequeno": "examples/display_pequeno/contatos/07_contato_animacao_rgb.xml",
-            "grande": "examples/display_grande/contatos/07_contato_animacao_rgb.xml"
+            "pequeno": "examples/display_pequeno/contatos/07_contato_ciclo_rgb_da_placa.xml",
+            "grande": "examples/display_grande/contatos/07_contato_ciclo_rgb_da_placa.xml"
           }
         },
         {
           "number": 8,
-          "title": "Contato move servo",
-          "description": "Um toque na Conexao 1 movimenta o servo da Conexao 2 entre duas posicoes.",
+          "title": "Contato desenha sol",
+          "description": "Com GND como fio comum, a Conexão 3 desenha um sol na Matriz; o botão A apaga o desenho.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
-            "pequeno": "examples/display_pequeno/contatos/08_contato_move_servo.xml",
-            "grande": "examples/display_grande/contatos/08_contato_move_servo.xml"
+            "pequeno": "examples/display_pequeno/contatos/08_contato_desenha_sol.xml",
+            "grande": "examples/display_grande/contatos/08_contato_desenha_sol.xml"
           }
         },
         {
           "number": 9,
-          "title": "Contato escolhe angulo",
-          "description": "A Conexao 2 escolhe um dos dois angulos do servo ligado na Conexao 3.",
+          "title": "Contato mostra zero ou um",
+          "description": "Com GND como fio comum, a Conexão 2 mostra 1 na Matriz enquanto toca e 0 ao separar.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
-            "pequeno": "examples/display_pequeno/contatos/09_contato_escolhe_angulo.xml",
-            "grande": "examples/display_grande/contatos/09_contato_escolhe_angulo.xml"
+            "pequeno": "examples/display_pequeno/contatos/09_contato_mostra_zero_ou_um.xml",
+            "grande": "examples/display_grande/contatos/09_contato_mostra_zero_ou_um.xml"
           }
         },
         {
           "number": 10,
-          "title": "Contato servo gradual",
-          "description": "Ao encostar na Conexao 0, o servo da Conexao 2 sobe devagar de 0 a 90 graus.",
+          "title": "Contato dispara alarme",
+          "description": "Com GND como fio comum, um toque na Conexão 3 acende o LED vermelho e toca um alerta.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
-            "pequeno": "examples/display_pequeno/contatos/10_contato_servo_gradual.xml",
-            "grande": "examples/display_grande/contatos/10_contato_servo_gradual.xml"
+            "pequeno": "examples/display_pequeno/contatos/10_contato_dispara_alarme.xml",
+            "grande": "examples/display_grande/contatos/10_contato_dispara_alarme.xml"
           }
         },
         {
           "number": 11,
-          "title": "Contato le temperatura",
-          "description": "Enquanto o contato 0 estiver encostado, o grafico recebe novas leituras do DHT11 na Conexao 1.",
+          "title": "Contato mostra mensagem",
+          "description": "Com GND como fio comum, a Conexão 0 muda a mensagem no OLED entre toque e espera.",
           "icon": "◉",
           "displays": {
-            "pequeno": "examples/display_pequeno/contatos/11_contato_le_temperatura.xml",
-            "grande": "examples/display_grande/contatos/11_contato_le_temperatura.xml"
+            "pequeno": "examples/display_pequeno/contatos/11_contato_mostra_mensagem.xml",
+            "grande": "examples/display_grande/contatos/11_contato_mostra_mensagem.xml"
           },
           "displaySpecific": true
         },
         {
           "number": 12,
           "title": "Contato mede barulho",
-          "description": "O contato 1 libera um medidor de barulho: o microfone atualiza a leitura e o OLED mostra o nivel.",
+          "description": "Com GND como fio comum, a Conexão 1 libera o medidor de barulho: o microfone atualiza a leitura e o OLED mostra o nível.",
           "icon": "◉",
           "displays": {
             "pequeno": "examples/display_pequeno/contatos/12_contato_mede_barulho.xml",
@@ -3696,19 +3696,19 @@
         },
         {
           "number": 13,
-          "title": "Contato LED externo duas cores",
-          "description": "Dois contatos formam uma regra: um contato sozinho mostra vermelho; os dois juntos liberam o verde do KY-016.",
+          "title": "Dois contatos, duas cores",
+          "description": "Com GND como fio comum, um contato nas Conexões 0 ou 1 acende vermelho; os dois juntos acendem verde no LED da placa.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
-            "pequeno": "examples/display_pequeno/contatos/13_contato_led_externo_duas_cores.xml",
-            "grande": "examples/display_grande/contatos/13_contato_led_externo_duas_cores.xml"
+            "pequeno": "examples/display_pequeno/contatos/13_dois_contatos_duas_cores.xml",
+            "grande": "examples/display_grande/contatos/13_dois_contatos_duas_cores.xml"
           }
         },
         {
           "number": 14,
-          "title": "Teste contatos colunas",
-          "description": "Diagnostico inicial: o bloco percorre os quatro contatos por colunas na Matriz. Aperte A para terminar antes de montar um projeto.",
+          "title": "Teste dos contatos por colunas",
+          "description": "Com GND como fio comum, teste as Conexões 0 a 3 nas colunas da Matriz. Aperte A para terminar.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
@@ -3718,8 +3718,8 @@
         },
         {
           "number": 15,
-          "title": "Teste contatos linhas gnd",
-          "description": "Segunda forma de diagnostico: os quatro contatos aparecem por linhas na Matriz. Use GND e aperte A para terminar o teste.",
+          "title": "Teste dos contatos por linhas",
+          "description": "Com GND como fio comum, teste as Conexões 0 a 3 nas linhas da Matriz. Aperte A para terminar.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
@@ -3730,7 +3730,7 @@
         {
           "number": 16,
           "title": "Contato conta toques",
-          "description": "Cada toque na Conexao 0 aumenta a memoria, mostra o total no OLED e toca uma nota. Ao chegar a 3, a Matriz confirma a meta.",
+          "description": "Com GND como fio comum, cada toque na Conexão 0 aumenta a contagem, mostra o total no OLED e toca uma nota. A Matriz mostra 3 ao atingir a meta.",
           "icon": "◉",
           "displays": {
             "pequeno": "examples/display_pequeno/contatos/16_contato_conta_toques.xml",
@@ -3741,7 +3741,7 @@
         {
           "number": 17,
           "title": "Contato guarda estado",
-          "description": "A memoria guarda o estado do contato 1: 1 significa encostado e 0 separado. O LED e o OLED tornam essa lembranca visivel.",
+          "description": "Com GND como fio comum, a memória guarda o estado da Conexão 1: 1 significa encostado e 0 separado. LED e OLED mostram o estado.",
           "icon": "◉",
           "displays": {
             "pequeno": "examples/display_pequeno/contatos/17_contato_guarda_estado.xml",
@@ -3751,24 +3751,24 @@
         },
         {
           "number": 18,
-          "title": "Contato animacao duas cores",
-          "description": "Um toque na Conexao 0 cria uma comemoracao: coracao na Matriz, nota musical e limpeza ao final.",
+          "title": "Contato comemora com coração",
+          "description": "Com GND como fio comum, um toque na Conexão 0 mostra um coração na Matriz, toca uma nota e apaga a imagem ao final.",
           "icon": "◉",
           "displaySpecific": false,
           "displays": {
-            "pequeno": "examples/display_pequeno/contatos/18_contato_animacao_duas_cores.xml",
-            "grande": "examples/display_grande/contatos/18_contato_animacao_duas_cores.xml"
+            "pequeno": "examples/display_pequeno/contatos/18_contato_comemora_com_coracao.xml",
+            "grande": "examples/display_grande/contatos/18_contato_comemora_com_coracao.xml"
           }
         },
         {
           "number": 19,
-          "title": "Contato servo e LED",
-          "description": "Projeto desafio: o contato 0 abre a cancela e o contato 1 fecha. O servo esta na 2, o LED vermelho externo na 3 e os LEDs da placa mostram o estado.",
+          "title": "Desafio de duas respostas",
+          "description": "Com GND como fio comum, toque a Conexão 0 para acertar ou a 1 para tentar de novo; OLED, LED e som mostram a resposta.",
           "icon": "◉",
-          "displaySpecific": false,
+          "displaySpecific": true,
           "displays": {
-            "pequeno": "examples/display_pequeno/contatos/19_contato_servo_e_led.xml",
-            "grande": "examples/display_grande/contatos/19_contato_servo_e_led.xml"
+            "pequeno": "examples/display_pequeno/contatos/19_desafio_duas_respostas.xml",
+            "grande": "examples/display_grande/contatos/19_desafio_duas_respostas.xml"
           }
         }
       ]

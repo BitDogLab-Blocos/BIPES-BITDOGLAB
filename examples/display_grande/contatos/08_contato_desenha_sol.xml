@@ -1,0 +1,30 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Com GND como fio comum, a Conexão 3 desenha um sol na Matriz; o botão A apaga o desenho. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="external_contact_when_closed">
+        <field name="DIG">3</field>
+        <statement name="DO">
+          <block type="mostrar_emoji">
+            <field name="BRILHO">30</field>
+            <value name="EMOJI">
+              <block type="emoji_sol" />
+            </value>
+            <value name="COR">
+              <block type="colour_yellow" />
+            </value>
+          </block>
+        </statement>
+        <next>
+          <block type="botao_se_apertado">
+            <field name="BOTAO">A</field>
+            <statement name="DO">
+              <block type="desligar_matriz" />
+            </statement>
+          </block>
+        </next>
+      </block>
+    </next>
+  </block>
+</xml>

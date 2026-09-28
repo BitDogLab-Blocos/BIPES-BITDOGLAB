@@ -1,0 +1,30 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <!-- Com GND como fio comum, um toque na Conexão 0 acende o LED vermelho da placa por um segundo. -->
+  <block type="external_contact_prepare" x="20" y="20">
+    <field name="COMMON">GND</field>
+    <next>
+      <block type="external_contact_when_closed">
+        <field name="DIG">0</field>
+        <statement name="DO">
+          <block type="bloco_ligar_led">
+            <value name="COLOUR">
+              <block type="colour_red" />
+            </value>
+            <next>
+              <block type="esperar_milisegundos">
+                <value name="TIME">
+                  <block type="math_number">
+                    <field name="NUM">1000</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="bloco_desligar_todos_leds" />
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+</xml>
