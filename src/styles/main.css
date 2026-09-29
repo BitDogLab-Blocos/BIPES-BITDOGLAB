@@ -1369,6 +1369,66 @@ body.bitdoglab-external-project-warning-open {
   display: none;
 }
 
+/* Compact status key in both Mobile Robot workspaces. */
+.robot-led-legend {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 30;
+  box-sizing: border-box;
+  width: min(318px, calc(100vw - 28px));
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #fff;
+  color: #243247;
+  box-shadow: 0 4px 14px rgba(24, 38, 61, 0.18);
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.robot-led-legend[hidden] {
+  display: none;
+}
+
+.robot-led-legend > strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.92rem;
+}
+
+.robot-led-legend-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.robot-led-legend-dot {
+  flex: 0 0 13px;
+  width: 13px;
+  height: 13px;
+  margin-top: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+
+.robot-led-legend-dot.is-green { background: #16a34a; }
+.robot-led-legend-dot.is-yellow { background: #facc15; }
+.robot-led-legend-dot.is-red { background: #dc2626; }
+
+.robot-led-legend-v6 {
+  display: block;
+  margin-top: 8px;
+  color: #475569;
+}
+
+.robot-led-legend:not([data-board-version="v6"]) .robot-led-legend-v6 {
+  display: none;
+}
+
 .project-hardware-notice-copy {
   display: flex;
   min-width: 0;

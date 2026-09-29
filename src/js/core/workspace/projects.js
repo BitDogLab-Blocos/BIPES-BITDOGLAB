@@ -102,6 +102,13 @@ WorkspaceManager.PROJECT_HARDWARE_GUIDES = {
 
 WorkspaceManager.PROJECT_HARDWARE_GUIDES.robo_setas = WorkspaceManager.PROJECT_HARDWARE_GUIDES.robo;
 
+WorkspaceManager.updateRobotLedLegend = function(project) {
+  var legend = document.getElementById('robotLedLegend');
+  if (!legend) return;
+  legend.hidden = project !== 'robo' && project !== 'robo_setas';
+  legend.setAttribute('data-board-version', BitdogLabConfig.VERSION);
+};
+
 WorkspaceManager.showProjectHardwareNotice = function(project) {
   var notice = document.getElementById('project-hardware-notice');
   var guide = WorkspaceManager.PROJECT_HARDWARE_GUIDES[project];

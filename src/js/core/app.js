@@ -14,6 +14,9 @@ AppBootstrap.applyDeviceProfile = function(device) {
   BitdogLabConfig = AppBootstrap.deviceProfiles[device];
   var selector = document.getElementById('device_selector');
   if (selector) selector.value = device;
+  if (window.WorkspaceManager && WorkspaceManager.updateRobotLedLegend) {
+    WorkspaceManager.updateRobotLedLegend(localStorage.getItem('bitdoglab_project') || 'basico');
+  }
   return true;
 };
 

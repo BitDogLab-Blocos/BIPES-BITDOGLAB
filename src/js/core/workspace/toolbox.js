@@ -4,6 +4,9 @@ var Code = window.Code || (window.Code = {});
 var WorkspaceManager = window.WorkspaceManager || (window.WorkspaceManager = {});
 
 WorkspaceManager.filterToolboxByProject = function(project) {
+  if (WorkspaceManager.updateRobotLedLegend) {
+    WorkspaceManager.updateRobotLedLegend(project);
+  }
   if (!Code._fullToolboxXml) return;
 
   var filtered = Code._fullToolboxXml.cloneNode(true);

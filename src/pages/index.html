@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicons/bitdog-logo.jpg">
   <meta name="theme-color" content="#2980b9">
 
-  <link rel="stylesheet" href="../styles/main.css?ver=20260922capture1">
+  <link rel="stylesheet" href="../styles/main.css?ver=20260929robotLedLegend1">
   <link rel="stylesheet" href="../styles/visual-themes.css?ver=20260722b2">
   <link rel="stylesheet" href="../../device-file-manager/device-files.css?ver=20260718a8">
   <link rel="stylesheet" href="../styles/libs.css">
@@ -48,12 +48,12 @@
   <script src="../js/core/codegen/auto-generation.js?ver=20260809arch1"></script>
   <script src="../js/core/codegen/index.js?ver=20260809arch1"></script>
   <script src="../js/core/workspace/lifecycle.js?ver=20260809arch1"></script>
-  <script src="../js/core/workspace/toolbox.js?ver=20260923robotMission2"></script>
-  <script src="../js/core/workspace/projects.js?ver=20260903moonMission1"></script>
+  <script src="../js/core/workspace/toolbox.js?ver=20260929robotLedLegend1"></script>
+  <script src="../js/core/workspace/projects.js?ver=20260929robotLedLegend1"></script>
   <script src="../js/core/workspace/hints.js?ver=20260928contactExamples1"></script>
   <script src="../js/core/workspace/index.js?ver=20260902externalLedDisplay1"></script>
   <script src="../js/core/workspace/image-export.js?ver=20260922savepicker1"></script>
-  <script src="../js/core/app.js?ver=20260814device1"></script>
+  <script src="../js/core/app.js?ver=20260929robotLedLegend1"></script>
   <script src="../js/communication/i2c_scanner.js?ver=20260823ultra1"></script>
   <script src="../js/communication/webserial.js?ver=20260604a1"></script>
   <script src="../js/communication/channel.js?ver=0.2.3.20251001v2"></script>
@@ -413,7 +413,24 @@
   <!-- resetBoard hidden: mantido para compatibilidade com webserial.js -->
   <input type="checkbox" id="resetBoard" style="display:none" value="off">
 
-  <div id="content_blocks" class="content"></div>
+  <div id="content_blocks" class="content">
+    <aside id="robotLedLegend" class="robot-led-legend" role="note" aria-label="Avisos do LED do robô" data-i18n-aria-label="app.robotLedLegendTitle" hidden>
+      <strong data-i18n="app.robotLedLegendTitle">Avisos do LED do robô</strong>
+      <div class="robot-led-legend-row">
+        <span class="robot-led-legend-dot is-green" aria-hidden="true"></span>
+        <span data-i18n="app.robotLedGreen">Verde: tudo OK. O robô vai começar.</span>
+      </div>
+      <div class="robot-led-legend-row">
+        <span class="robot-led-legend-dot is-yellow" aria-hidden="true"></span>
+        <span data-i18n="app.robotLedYellow">Amarelo: verifique o acelerômetro MPU6050 e as conexões I²C.</span>
+      </div>
+      <div class="robot-led-legend-row">
+        <span class="robot-led-legend-dot is-red" aria-hidden="true"></span>
+        <span data-i18n="app.robotLedRed">Vermelho (V7): verifique a bateria; pode estar descarregada ou desconectada.</span>
+      </div>
+      <small class="robot-led-legend-v6" data-i18n="app.robotLedV6Note">A V6 não mede a bateria.</small>
+    </aside>
+  </div>
 
   <button
     id="examplesToggle"
