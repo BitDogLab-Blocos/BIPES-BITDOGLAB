@@ -73,6 +73,12 @@ O programa pode ser executado diretamente, salvo como `main.py` ou inspecionado 
 
 Os blocos cobrem LED RGB, matriz RGB 5×5, OLED, joystick, botões, buzzer, notas musicais, microfone, sensores e recursos específicos dos projetos Robô e Estufa. A interface oferece configurações para BitDogLab v6 e v7.
 
+### Diagnóstico de partida do robô
+
+Os blocos **Inicializar robô** e **Iniciar robô com setas** executam a contagem na matriz antes de liberar os motores. Na V6, verificam o MPU6050 e, se o exemplo usar OLED, sua comunicação I²C: o LED RGB pisca amarelo se algum deles falhar; se estiverem prontos, fica verde por dois segundos, apaga e a missão começa. Na V7, verificam também o INA226: abaixo de 3,6 V o LED pisca vermelho; se a bateria estiver baixa e houver outra falha I²C, alterna vermelho e amarelo; sem leitura do INA226, pisca amarelo. Qualquer alerta mantém os motores parados. O terminal imprime a tensão medida na V7.
+
+Os exemplos **22 a 25 de Robô Móvel** usam explicitamente leituras de bateria e exigem o INA226 da V7. Na V6, o diagnóstico de partida funciona, mas esses exemplos não podem fornecer valores reais de tensão ou corrente.
+
 ## Arquivos dentro da placa
 
 ![Gerenciador de arquivos conectado à BitDogLab](device-file-manager/images/connected-window.png)

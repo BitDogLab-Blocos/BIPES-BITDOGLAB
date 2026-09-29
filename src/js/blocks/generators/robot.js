@@ -3,6 +3,8 @@
 function _setupRoboMovelDefinitions() {
   var robot = BitdogLabConfig.ROBOT;
   var matrix = BitdogLabConfig.NEOPIXEL;
+  var hasBatteryMonitor = BitdogLabConfig.VERSION === 'v7';
+  if (hasBatteryMonitor) _setupRoboPowerDefinitions();
   Blockly.Python.definitions_['import_robo_machine'] = 'from machine import Pin, PWM, I2C, ADC';
   Blockly.Python.definitions_['import_robo_time'] = 'from time import sleep, sleep_ms, ticks_ms, ticks_diff';
   Blockly.Python.definitions_['import_robo_math'] = 'import math';
@@ -10,6 +12,9 @@ function _setupRoboMovelDefinitions() {
   Blockly.Python.definitions_['setup_matriz'] =
     'np = neopixel.NeoPixel(Pin(' + BitdogLabConfig.PINS.NEOPIXEL + '), ' + matrix.COUNT + ')  # Matriz 5x5 do robo';
   Blockly.Python.definitions_['lib_mpu6050'] = SensorLibs.MPU6050;
+  Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+  Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
 
   var start = BitdogLabConfig.MARKERS.SETUP_START;
   var end = BitdogLabConfig.MARKERS.SETUP_END;
@@ -17,16 +22,24 @@ function _setupRoboMovelDefinitions() {
     robot.MPU_I2C_SDA_ALT !== undefined &&
     robot.MPU_I2C_SCL_ALT !== undefined;
   var mpuSetup =
-    '_robo_i2c = I2C(' + robot.MPU_I2C_BUS + ', sda=Pin(' + robot.MPU_I2C_SDA + '), scl=Pin(' + robot.MPU_I2C_SCL + '), freq=' + robot.I2C_FREQ + ')\n' +
-    '_robo_mpu = MPU6050(_robo_i2c)\n' +
-    '_robo_mpu_bus = "I2C' + robot.MPU_I2C_BUS + ' GP' + robot.MPU_I2C_SDA + '/GP' + robot.MPU_I2C_SCL + '"\n';
+    '_robo_mpu = None\n' +
+    '_robo_mpu_bus = None\n' +
+    'try:\n' +
+    '  _robo_i2c = I2C(' + robot.MPU_I2C_BUS + ', sda=Pin(' + robot.MPU_I2C_SDA + '), scl=Pin(' + robot.MPU_I2C_SCL + '), freq=' + robot.I2C_FREQ + ')\n' +
+    '  _robo_mpu = MPU6050(_robo_i2c)\n' +
+    '  _robo_mpu_bus = "I2C' + robot.MPU_I2C_BUS + ' GP' + robot.MPU_I2C_SDA + '/GP' + robot.MPU_I2C_SCL + '"\n' +
+    'except Exception as exc:\n' +
+    '  print("MPU6050: falha no barramento:", exc)\n';
 
   if (hasAltMpuI2c) {
     mpuSetup +=
-      'if not _robo_mpu.is_ready:\n' +
-      '  _robo_i2c = I2C(' + robot.MPU_I2C_BUS_ALT + ', sda=Pin(' + robot.MPU_I2C_SDA_ALT + '), scl=Pin(' + robot.MPU_I2C_SCL_ALT + '), freq=' + robot.I2C_FREQ + ')\n' +
-      '  _robo_mpu = MPU6050(_robo_i2c)\n' +
-      '  _robo_mpu_bus = "I2C' + robot.MPU_I2C_BUS_ALT + ' GP' + robot.MPU_I2C_SDA_ALT + '/GP' + robot.MPU_I2C_SCL_ALT + '"\n';
+      'if _robo_mpu is None or not _robo_mpu.is_ready:\n' +
+      '  try:\n' +
+      '    _robo_i2c = I2C(' + robot.MPU_I2C_BUS_ALT + ', sda=Pin(' + robot.MPU_I2C_SDA_ALT + '), scl=Pin(' + robot.MPU_I2C_SCL_ALT + '), freq=' + robot.I2C_FREQ + ')\n' +
+      '    _robo_mpu = MPU6050(_robo_i2c)\n' +
+      '    _robo_mpu_bus = "I2C' + robot.MPU_I2C_BUS_ALT + ' GP' + robot.MPU_I2C_SDA_ALT + '/GP' + robot.MPU_I2C_SCL_ALT + '"\n' +
+      '  except Exception as exc:\n' +
+      '    print("MPU6050: falha no barramento alternativo:", exc)\n';
   }
 
   Blockly.Python.definitions_['setup_robo_movel'] =
@@ -72,6 +85,7 @@ function _setupRoboMovelDefinitions() {
     '_robo_mpu_sda_alt = ' + (hasAltMpuI2c ? robot.MPU_I2C_SDA_ALT : 'None') + '\n' +
     '_robo_mpu_scl_alt = ' + (hasAltMpuI2c ? robot.MPU_I2C_SCL_ALT : 'None') + '\n' +
     '_robo_pronto = False\n' +
+    '_robo_diagnostico_ok = False\n' +
     '_robo_angulo = 0.0\n' +
     '_robo_giro_tempo = ticks_ms()\n' +
     'try:\n' +
@@ -121,6 +135,19 @@ function _setupRoboMovelDefinitions() {
     'def _robo_pwm(valor):\n' +
     '  return max(0, min(65535, int(valor)))\n' +
     '\n' +
+    'def _robo_led(r, g, b):\n' +
+    '  led_vermelho.duty_u16(45000 if r else 0)\n' +
+    '  led_verde.duty_u16(45000 if g else 0)\n' +
+    '  led_azul.duty_u16(45000 if b else 0)\n' +
+    '\n' +
+    'def _robo_alerta(cor, segunda_cor=None):\n' +
+    '  _robo_parar()\n' +
+    '  while True:\n' +
+    '    _robo_led(*cor)\n' +
+    '    sleep_ms(500)\n' +
+    '    _robo_led(*(segunda_cor if segunda_cor is not None else (0, 0, 0)))\n' +
+    '    sleep_ms(500)\n' +
+    '\n' +
     'def _robo_parar():\n' +
     '  _robo_esq_frente.value(0)\n' +
     '  _robo_esq_tras.value(0)\n' +
@@ -130,6 +157,9 @@ function _setupRoboMovelDefinitions() {
     '  _robo_dir_pwm.duty_u16(0)\n' +
     '\n' +
     'def _robo_mover_reto(esq_frente, esq_tras, dir_frente, dir_tras, tempo):\n' +
+    '  if not _robo_diagnostico_ok:\n' +
+    '    _robo_parar()\n' +
+    '    return\n' +
     '  t = max(0, float(tempo))\n' +
     '  _robo_parar()\n' +
     '  _robo_stby.value(1)\n' +
@@ -146,6 +176,9 @@ function _setupRoboMovelDefinitions() {
     '  _robo_parar()\n' +
     '\n' +
     'def _robo_pivot_esq(velocidade):\n' +
+    '  if not _robo_diagnostico_ok:\n' +
+    '    _robo_parar()\n' +
+    '    return\n' +
     '  d = _robo_pwm(velocidade)\n' +
     '  _robo_stby.value(1)\n' +
     '  _robo_esq_frente.value(0)\n' +
@@ -156,6 +189,9 @@ function _setupRoboMovelDefinitions() {
     '  _robo_dir_pwm.duty_u16(d)\n' +
     '\n' +
     'def _robo_pivot_dir(velocidade):\n' +
+    '  if not _robo_diagnostico_ok:\n' +
+    '    _robo_parar()\n' +
+    '    return\n' +
     '  d = _robo_pwm(velocidade)\n' +
     '  _robo_stby.value(1)\n' +
     '  _robo_esq_frente.value(1)\n' +
@@ -169,6 +205,9 @@ function _setupRoboMovelDefinitions() {
     '  _robo_mover_reto(0, 1, 0, 1, tempo)\n' +
     '\n' +
     'def _robo_tras(tempo):\n' +
+    '  if not _robo_diagnostico_ok:\n' +
+    '    _robo_parar()\n' +
+    '    return\n' +
     '  t = max(0, float(tempo))\n' +
     '  if t <= 0:\n' +
     '    _robo_parar()\n' +
@@ -204,24 +243,51 @@ function _setupRoboMovelDefinitions() {
     '  _robo_mostrar_contagem(0)\n' +
     '\n' +
     'def _robo_inicializar(espera=5):\n' +
-    '  global _robo_pronto, _robo_angulo, _robo_giro_tempo\n' +
+    '  global _robo_pronto, _robo_diagnostico_ok, _robo_angulo, _robo_giro_tempo\n' +
+    '  _robo_diagnostico_ok = False\n' +
     '  _robo_parar()\n' +
+    '  _robo_led(0, 0, 0)\n' +
     '  if espera > 0:\n' +
     '    print("Coloque o robo no chao. Iniciando em", espera, "s")\n' +
     '    _robo_aguardar_com_contagem(espera)\n' +
-    '  if not _robo_mpu.is_ready:\n' +
+    '  falha_mpu = _robo_mpu is None or not _robo_mpu.is_ready\n' +
+    '  if falha_mpu:\n' +
     '    if _robo_mpu_sda_alt is None:\n' +
     '      print("MPU6050 nao encontrado. Verifique SDA=GP{} e SCL=GP{}.".format(_robo_mpu_sda, _robo_mpu_scl))\n' +
     '    else:\n' +
     '      print("MPU6050 nao encontrado. Verifique GP{}/GP{} ou GP{}/GP{}.".format(_robo_mpu_sda, _robo_mpu_scl, _robo_mpu_sda_alt, _robo_mpu_scl_alt))\n' +
     '    _robo_pronto = False\n' +
-    '    return\n' +
-    '  print("MPU6050 encontrado em", _robo_mpu_bus)\n' +
-    '  print("Calibrando giro. Nao mexa no robo.")\n' +
-    '  _robo_pronto = _robo_mpu.calibrate()\n' +
+    '  else:\n' +
+    '    print("MPU6050 encontrado em", _robo_mpu_bus)\n' +
+    '    print("Calibrando giro. Nao mexa no robo.")\n' +
+    '    _robo_pronto = _robo_mpu.calibrate()\n' +
+    '    falha_mpu = not _robo_pronto\n' +
+    '  falha_i2c = falha_mpu or not globals().get("_robo_display_ok", True)\n' +
     '  _robo_angulo = 0.0\n' +
     '  _robo_giro_tempo = ticks_ms()\n' +
-    '  print("Robo pronto!" if _robo_pronto else "Falha ao calibrar o robo.")\n' +
+    (hasBatteryMonitor ?
+      '  tensao = _robo_ler_bateria()\n' +
+      '  print("Bateria:", "sem leitura" if tensao is None else "{:.2f} V".format(tensao))\n' +
+      '  if tensao is None:\n' +
+      '    print("Diagnostico: INA226 indisponivel; robo parado.")\n' +
+      '    _robo_alerta((1, 1, 0))\n' +
+      '  elif tensao < 3.6 and falha_i2c:\n' +
+      '    print("Diagnostico: bateria baixa e falha I2C; robo parado.")\n' +
+      '    _robo_alerta((1, 0, 0), (1, 1, 0))\n' +
+      '  elif tensao < 3.6:\n' +
+      '    print("Diagnostico: bateria abaixo de 3.6 V; robo parado.")\n' +
+      '    _robo_alerta((1, 0, 0))\n' +
+      '  elif falha_i2c:\n' +
+      '    print("Diagnostico: MPU ou OLED indisponivel; robo parado.")\n' +
+      '    _robo_alerta((1, 1, 0))\n' :
+      '  if falha_i2c:\n' +
+      '    print("Diagnostico: MPU ou OLED indisponivel; robo parado.")\n' +
+      '    _robo_alerta((1, 1, 0))\n') +
+    '  _robo_led(0, 1, 0)\n' +
+    '  print("Robo pronto! Iniciando em 2 s.")\n' +
+    '  sleep_ms(2000)\n' +
+    '  _robo_led(0, 0, 0)\n' +
+    '  _robo_diagnostico_ok = True\n' +
     '\n' +
     'def _robo_iniciar_setas(espera=5):\n' +
     '  global _robo_orientacao_setas, _robo_ultima_direcao_setas, _robo_falha_setas\n' +
@@ -255,6 +321,9 @@ function _setupRoboMovelDefinitions() {
     '\n' +
     'def _robo_girar(graus, direcao="L", setas=False):\n' +
     '  global _robo_angulo, _robo_giro_tempo\n' +
+    '  if not _robo_diagnostico_ok:\n' +
+    '    _robo_parar()\n' +
+    '    return False if setas else None\n' +
     '  if not _robo_pronto:\n' +
     '    _robo_inicializar(0)\n' +
     '  if not _robo_mpu.is_ready:\n' +
@@ -319,6 +388,9 @@ function _setupRoboMovelDefinitions() {
     '\n' +
     'def _robo_ir_para(direcao):\n' +
     '  global _robo_orientacao_setas, _robo_ultima_direcao_setas, _robo_falha_setas\n' +
+    '  if not _robo_diagnostico_ok:\n' +
+    '    _robo_parar()\n' +
+    '    return False\n' +
     '  if _robo_falha_setas:\n' +
     '    _robo_parar()\n' +
     '    return False\n' +
@@ -500,6 +572,10 @@ function _setupRoboJoystickDefinitions() {
     '  _robo_dir_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
     '\n' +
     'def _robo_controlar_joystick():\n' +
+    '  if not _robo_diagnostico_ok:\n' +
+    '    _robo_parar()\n' +
+    '    sleep_ms(40)\n' +
+    '    return\n' +
     '  _jx = _robo_joy_x.read_u16()\n' +
     '  _jy = _robo_joy_y.read_u16()\n' +
     '  _dx = ' + dxExpr + '\n' +
@@ -526,20 +602,36 @@ function _setupRoboPowerDefinitions() {
 
   Blockly.Python.definitions_['setup_robo_power'] =
     BitdogLabConfig.MARKERS.SETUP_START + '\n' +
-    '_robo_power_i2c = I2C(' + power.INA226_I2C_BUS + ', sda=Pin(' + power.INA226_I2C_SDA + '), scl=Pin(' + power.INA226_I2C_SCL + '), freq=' + power.I2C_FREQ + ')\n' +
-    '_robo_ina226 = INA226(_robo_power_i2c, addr=' + power.INA226_ADDR + ', shunt_resistor=' + power.SHUNT_RESISTOR_OHMS + ')\n' +
+    '_robo_ina226 = None\n' +
+    'try:\n' +
+    '  _robo_power_i2c = I2C(' + power.INA226_I2C_BUS + ', sda=Pin(' + power.INA226_I2C_SDA + '), scl=Pin(' + power.INA226_I2C_SCL + '), freq=' + power.I2C_FREQ + ')\n' +
+    '  _robo_ina226 = INA226(_robo_power_i2c, addr=' + power.INA226_ADDR + ', shunt_resistor=' + power.SHUNT_RESISTOR_OHMS + ')\n' +
+    'except Exception as exc:\n' +
+    '  print("INA226: falha no barramento:", exc)\n' +
     BitdogLabConfig.MARKERS.SETUP_END;
 
   Blockly.Python.definitions_['func_robo_power'] =
+    'def _robo_ler_bateria():\n' +
+    '  if _robo_ina226 is None or not _robo_ina226.is_ready:\n' +
+    '    return None\n' +
+    '  try:\n' +
+    '    return _robo_ina226.voltage()\n' +
+    '  except Exception as exc:\n' +
+    '    print("INA226: falha na leitura:", exc)\n' +
+    '    return None\n' +
+    '\n' +
     'def _robo_tensao_bateria():\n' +
-    '  if not _robo_ina226.is_ready:\n' +
-    '    return 0.0\n' +
-    '  return _robo_ina226.voltage()\n' +
+    '  tensao = _robo_ler_bateria()\n' +
+    '  return 0.0 if tensao is None else tensao\n' +
     '\n' +
     'def _robo_corrente_robo():\n' +
-    '  if not _robo_ina226.is_ready:\n' +
+    '  if _robo_ina226 is None or not _robo_ina226.is_ready:\n' +
     '    return 0.0\n' +
-    '  return _robo_ina226.current()\n';
+    '  try:\n' +
+    '    return _robo_ina226.current()\n' +
+    '  except Exception as exc:\n' +
+    '    print("INA226: falha na leitura de corrente:", exc)\n' +
+    '    return 0.0\n';
 }
 
 function _roboSetupCode(code) {

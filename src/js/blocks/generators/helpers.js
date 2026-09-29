@@ -44,11 +44,20 @@ function _setupSharedExternalI2c(busPolicy) {
 
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
   Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  Blockly.Python.definitions_['setup_external_i2c'] =
+  var setupCode =
     'i2c = I2C(' + busPolicy.bus +
     ', scl=Pin(' + busPolicy.scl +
     '), sda=Pin(' + busPolicy.sda +
     '), freq=' + busPolicy.frequency + ')';
+  var workspace = _getGeneratorWorkspace();
+  var hasRobotStartup = workspace && workspace.getAllBlocks &&
+    workspace.getAllBlocks(false).some(function(block) {
+      return block.type === 'robo_inicializar' || block.type === 'robo_setas_iniciar';
+    });
+  Blockly.Python.definitions_['setup_external_i2c'] = hasRobotStartup
+    ? 'i2c = None\ntry:\n  ' + setupCode +
+      '\nexcept Exception as exc:\n  print("I2C do display indisponivel:", exc)'
+    : setupCode;
 
   return 'i2c';
 }

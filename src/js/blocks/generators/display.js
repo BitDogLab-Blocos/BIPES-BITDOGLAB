@@ -7,6 +7,32 @@ function _displaySetupDefinition(code) {
     BitdogLabConfig.MARKERS.SETUP_END;
 }
 
+function _robotDisplaySetup(code, width, height) {
+  var workspace = _getGeneratorWorkspace();
+  var hasRobotStartup = workspace && workspace.getAllBlocks &&
+    workspace.getAllBlocks(false).some(function(block) {
+      return block.type === 'robo_inicializar' || block.type === 'robo_setas_iniciar';
+    });
+  if (!hasRobotStartup) return code;
+
+  Blockly.Python.definitions_['lib_robo_oled_ausente'] =
+    'class _RoboOledAusente:\n' +
+    '  def __init__(self, width, height):\n' +
+    '    self.width = width\n' +
+    '    self.height = height\n' +
+    '  def _ignorar(self, *args, **kwargs):\n' +
+    '    return None\n' +
+    '  def __getattr__(self, _name):\n' +
+    '    return self._ignorar\n';
+  return '_robo_display_ok = True\n' +
+    'try:\n' +
+    code.split('\n').map(function(line) { return '  ' + line; }).join('\n') + '\n' +
+    'except Exception as exc:\n' +
+    '  _robo_display_ok = False\n' +
+    '  print("OLED indisponivel:", exc)\n' +
+    '  oled = _RoboOledAusente(' + width + ', ' + height + ')';
+}
+
 function _setupDisplayDefinitions(displayType) {
   var display = BitdogLabConfig.DISPLAY;
   displayType = displayType || DEFAULT_DISPLAY_TYPE;
@@ -33,11 +59,11 @@ function _setupDisplayDefinitions(displayType) {
   if (displayType === 'LARGE') {
     Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
     Blockly.Python.definitions_['setup_display'] = _displaySetupDefinition(
-      '_sh1107_scan = i2c.scan()\n' +
+      _robotDisplaySetup('_sh1107_scan = i2c.scan()\n' +
       '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
       'oled = ' + transport.driverClass + '(128, 128, i2c, address=_sh1107_addr, rotate=90)\n' +
       '_display_width = 128\n' +
-      '_display_height = 128'
+      '_display_height = 128', 128, 128)
     );
   } else {
     Blockly.Python.definitions_['lib_ssd1306'] = SensorLibs.SSD1306;
@@ -45,11 +71,11 @@ function _setupDisplayDefinitions(displayType) {
       Blockly.Python.definitions_[transport.definitionKey] = transport.pythonDefinition;
     }
     Blockly.Python.definitions_['setup_display'] = _displaySetupDefinition(
-      '_ssd1306_scan = i2c.scan()\n' +
+      _robotDisplaySetup('_ssd1306_scan = i2c.scan()\n' +
       '_ssd1306_addr = 0x3C if 0x3C in _ssd1306_scan else (0x3D if 0x3D in _ssd1306_scan else 0x3C)\n' +
       'oled = ' + transport.driverClass + '(' + display.WIDTH + ', ' + display.HEIGHT + ', i2c, addr=_ssd1306_addr)\n' +
       '_display_width = ' + display.WIDTH + '\n' +
-      '_display_height = ' + display.HEIGHT
+      '_display_height = ' + display.HEIGHT, display.WIDTH, display.HEIGHT)
     );
   }
 }
