@@ -14,6 +14,18 @@
     return /^[a-zA-Z0-9_-]+\.csv$/i.test(name) ? name : 'medidas.csv';
   }
 
+  Blockly.Blocks['save_data_value_placeholder'] = {
+    init: function() {
+      this.appendDummyInput().appendField(isEnglish() ? 'variable' : 'variável');
+      this.setOutput(true, 'Number');
+      this.setColour(230);
+      this.setTooltip(isEnglish()
+        ? 'Replace this placeholder with the number or sensor value you want to save.'
+        : 'Troque este espaço pela variável ou pelo valor do sensor que deseja salvar.');
+      this.setHelpUrl('');
+    }
+  };
+
   Blockly.Blocks['salvar_dados_csv'] = {
     init: function() {
       this.appendValueInput('VALOR')

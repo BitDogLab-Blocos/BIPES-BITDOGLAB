@@ -130,6 +130,11 @@
   var SOUND_COMMANDS = Domains ? Domains.get('SOUND_COMMANDS') : [];
 
   var CONTRACTS = {
+    salvar_dados_csv: {
+      kind: 'statement',
+      requiredValueInputs: { VALOR: 'variável ou valor a salvar' },
+      placeholderTypes: ['save_data_value_placeholder']
+    },
     joystick_controlar_led: {
       kind: 'statement',
       requiredValueInputs: {

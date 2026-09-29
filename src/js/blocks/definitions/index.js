@@ -34,6 +34,7 @@
     'led_externo_piscar_rapido',
     'led_externo_piscar_lento',
     'piscar_led_ao_salvar',
+    'save_data_value_placeholder',
     'led_externo_criar_animacao',
     'servo_mover',
     'servo_angulo_atual',

@@ -329,7 +329,8 @@
       for (var inputName in contract.requiredValueInputs) {
         if (!contract.requiredValueInputs.hasOwnProperty(inputName)) continue;
         var hasValue = block.getInputTargetBlock && block.getInputTargetBlock(inputName);
-        if (!hasValue) {
+        if (!hasValue || (contract.placeholderTypes &&
+            contract.placeholderTypes.indexOf(hasValue.type) !== -1)) {
           addWarning(
             warnings,
             block,

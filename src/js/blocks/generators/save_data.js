@@ -72,6 +72,10 @@
     '  _bipes_csv_led_until[0] = time.ticks_add(time.ticks_ms(), 120)'
   ].join('\n');
 
+  Blockly.Python['save_data_value_placeholder'] = function() {
+    return ['0', Blockly.Python.ORDER_ATOMIC];
+  };
+
   Blockly.Python['salvar_dados_csv'] = function(block) {
     var filename = block.getFieldValue('ARQUIVO') || 'medidas.csv';
     if (!/^[a-zA-Z0-9_-]+\.csv$/i.test(filename)) filename = 'medidas.csv';
