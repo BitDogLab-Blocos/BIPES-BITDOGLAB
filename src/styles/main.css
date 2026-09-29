@@ -2034,6 +2034,19 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
   vertical-align: middle;
 }
 
+/* Ícone de salvamento com tabela para a categoria Salvar dados. */
+.bitdoglab-save-data-category-icon {
+  width: 2.1rem;
+  height: 2.1rem;
+  margin-inline-end: 0.35rem;
+  background-image: url('../assets/icons/save-data.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  visibility: visible !important;
+  vertical-align: middle;
+}
+
 .blocklyTreeSelected .blocklyTreeLabel {
     color: white !important;
 }

@@ -578,6 +578,11 @@
       </value>
     </block>
   </category>
+  <category name="Salvar dados" colour="#168b83" data-project="externos" css-icon="bitdoglab-save-data-category-icon">
+    <block type="salvar_dados_csv">
+      <value name="VALOR"><shadow type="math_number"><field name="NUM">0</field></shadow></value>
+    </block>
+  </category>
 
   <!-- Projeto: Robo Movel -->
   <category name="🕹️ Controle Robô" colour="#e67e22" data-project="robo">

@@ -68,6 +68,15 @@ CodeGeneratorManager.isSequentialRobotMission = function(workspace) {
   });
   return hasMissionAction && !hasContinuousControl;
 };
+CodeGeneratorManager.hasTopLevelDataCollection = function(workspace) {
+  if (!workspace || !workspace.getAllBlocks) return false;
+  return workspace.getAllBlocks(false).some(function(block) {
+    return block && block.type === 'salvar_dados_csv' &&
+      !(block.isEnabled && !block.isEnabled()) && !block.disabled &&
+      !(block.getInheritedDisabled && block.getInheritedDisabled()) &&
+      (!block.getSurroundParent || block.getSurroundParent() === null);
+  });
+};
 
 CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode, workspace) {
   if (!rawCode || rawCode.trim() === '') {
@@ -290,6 +299,7 @@ CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode, workspace) {
     });
 
     if (CodeGeneratorManager.isSequentialRobotMission(workspace) ||
+        CodeGeneratorManager.hasTopLevelDataCollection(workspace) ||
         (hasRepeatXTimes && !hasButtonBlocks)) {
       for (var j = 0; j < actionCode.length; j++) {
         finalCode += actionCode[j] + '\n';

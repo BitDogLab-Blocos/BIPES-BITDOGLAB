@@ -1495,6 +1495,7 @@ var CUSTOM_TRANSLATIONS_EN = {
   "Sensor de Distância": "Distance and presence sensor",
   "Movimento e Inclinação": "Movement and Tilt",
   "Servo Motor": "External Servo",
+  "Salvar dados": "Save data",
   "🎯 Mover servo": "🎯 Move servo",
   "📐 Último ângulo enviado ao servo": "📐 Last angle sent to servo",
   "🕹️ Joystick controla servo": "🕹️ Joystick controls servo",
