@@ -75,6 +75,10 @@ logs/
 # Arquivos locais de rascunho/ideias
 joystick_ideias
 
+# Imagens locais do diagnostico de partida do robo
+/algoritmo_diagnostico_partida_robo.png
+/diagnostico_partida_robo.png
+
 # Matéria STEM (não versionado)
 Materia_STEM/
 
