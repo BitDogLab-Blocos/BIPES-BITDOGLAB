@@ -107,7 +107,7 @@
     var entries = Array.from(sources.values());
     if (!entries.length) { ui.file.appendChild(option('', 'Nenhum CSV encontrado na placa')); ui.file.disabled = true; return; }
     ui.file.appendChild(option('', 'Selecione um arquivo da placa'));
-    entries.forEach(function(entry) { ui.file.appendChild(option(entry.id, entry.name)); });
+    entries.forEach(function(entry) { ui.file.appendChild(option(entry.id, entry.path || entry.name)); });
     ui.file.disabled = false;
     ui.file.value = sources.has(selectedId) ? selectedId : '';
   }
@@ -247,10 +247,10 @@
     if (!source) { selectedId = null; clearData(); return; }
     selectedId = id; ui.file.value = id;
     if (source.kind === 'board' && source.text == null) {
-      if (!boardLoader) { clearData(); emptyChart('Leitura da placa indisponível', 'A conexão com os arquivos será ligada ao backend.'); setStatus('A leitura de arquivos da placa será ligada ao backend.', true); return; }
+      if (!boardLoader) { clearData(); emptyChart('Leitura da placa indisponível', 'A conexão com a placa não está pronta.'); setStatus('A conexão com a placa não está pronta.', true); return; }
       setStatus('Lendo ' + source.name + ' da placa…');
       try { source.text = await boardLoader(source.path); }
-      catch (error) { clearData(); emptyChart('Não foi possível ler o CSV', 'Tente selecionar outro arquivo.'); setStatus('Não foi possível ler o arquivo da placa.', true); return; }
+      catch (error) { clearData(); emptyChart('Não foi possível ler o CSV', error.message); setStatus(error.message, true); return; }
       if (selectedId !== id) return;
     }
     try {
@@ -274,7 +274,7 @@
   ui.refresh.addEventListener('click', function() {
     setStatus('Buscando arquivos CSV da placa…');
     global.dispatchEvent(new CustomEvent('laboratory:request-files'));
-    if (!boardLoader) setStatus('A busca de arquivos da placa será ligada ao backend.');
+    if (!boardLoader) setStatus('A conexão com a placa não está pronta.', true);
   });
   ui.download.addEventListener('click', function() {
     LaboratoryGraphs.downloadSvg(ui.chart).catch(function(error) { setStatus(error.message, true); });
@@ -293,7 +293,8 @@
       renderFileList(); setStatus(csvFiles.length ? csvFiles.length + ' CSV(s) encontrado(s) na placa. Selecione um arquivo.' : 'Nenhum CSV encontrado na placa.');
     },
     // loader(path) returns a Promise<string> with the CSV content.
-    setBoardLoader: function(loader) { boardLoader = loader; }
+    setBoardLoader: function(loader) { boardLoader = loader; },
+    setSourceStatus: setStatus
   };
 
   renderFileList(); clearData();

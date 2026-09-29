@@ -16,6 +16,7 @@ class DeviceFilesManager {
     this._operationTimeout = null;
     this._operationStart = null;
     this._scannerSend = null;
+    this._scannerResumeTimer = null;
     this._selectAfterRefresh = null;
     this._restoreGeometry = null;
 

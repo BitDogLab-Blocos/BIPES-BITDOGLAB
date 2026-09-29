@@ -37,6 +37,8 @@ DeviceFilesManager.extend({
   },
 
   _pauseScanner() {
+    window.clearTimeout(this._scannerResumeTimer);
+    this._scannerResumeTimer = null;
     if (typeof i2cScanner === 'undefined' || !i2cScanner) return;
     i2cScanner.stop();
     if (this._scannerSend === null && typeof i2cScanner._sendScan === 'function') {
@@ -51,7 +53,9 @@ DeviceFilesManager.extend({
       i2cScanner._sendScan = this._scannerSend;
       this._scannerSend = null;
     }
-    window.setTimeout(() => {
+    window.clearTimeout(this._scannerResumeTimer);
+    this._scannerResumeTimer = window.setTimeout(() => {
+      this._scannerResumeTimer = null;
       if (this.isConnected() && !i2cScanner._isRunning) i2cScanner.start(Channel['webserial']);
     }, 300);
   },
