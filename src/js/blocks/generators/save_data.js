@@ -12,30 +12,32 @@
     '    return "\\\"" + text.replace("\\\"", "\\\"\\\"") + "\\\""',
     '  return text',
     '',
-    'def _bipes_save_csv(filename, interval_ms, duration_ms, with_clock, read_value):',
-    '  header = "data_hora_local,valor" if with_clock else "valor"',
-    '  if with_clock and time.localtime()[0] < 2024:',
-    '    raise RuntimeError("Ajuste a data e a hora antes de salvar dados")',
-    '  try:',
-    '    with open(filename, "r") as existing:',
-    '      first_line = existing.readline().rstrip("\\r\\n")',
-    '    if first_line != header:',
-    '      raise ValueError("CSV existente tem outro formato; renomeie o arquivo antigo")',
-    '  except OSError as error:',
-    '    if not error.args or error.args[0] != 2:',
-    '      raise',
-    '    with open(filename, "w") as new_file:',
-    '      new_file.write(header + "\\n")',
-    '  started = time.ticks_ms()',
-    '  next_sample = started',
-    '  while True:',
-    '    now = time.ticks_ms()',
-    '    if time.ticks_diff(now, started) > duration_ms:',
-    '      break',
-    '    remaining = time.ticks_diff(next_sample, now)',
-    '    if remaining > 0:',
-    '      time.sleep_ms(min(remaining, 50))',
-    '      continue',
+    'def _bipes_save_csv_step(key, filename, interval_ms, duration_ms, with_clock, read_value):',
+    '  state = _bipes_csv_states.get(key)',
+    '  if state is None:',
+    '    header = "data_hora_local,valor" if with_clock else "valor"',
+    '    if with_clock and time.localtime()[0] < 2024:',
+    '      raise RuntimeError("Ajuste a data e a hora antes de salvar dados")',
+    '    try:',
+    '      with open(filename, "r") as existing:',
+    '        first_line = existing.readline().rstrip("\\r\\n")',
+    '      if first_line != header:',
+    '        raise ValueError("CSV existente tem outro formato; renomeie o arquivo antigo")',
+    '    except OSError as error:',
+    '      if not error.args or error.args[0] != 2:',
+    '        raise',
+    '      with open(filename, "w") as new_file:',
+    '        new_file.write(header + "\\n")',
+    '    started = time.ticks_ms()',
+    '    state = [started, started, False]',
+    '    _bipes_csv_states[key] = state',
+    '  if state[2]:',
+    '    return',
+    '  now = time.ticks_ms()',
+    '  if time.ticks_diff(now, state[0]) > duration_ms:',
+    '    state[2] = True',
+    '    return',
+    '  if time.ticks_diff(now, state[1]) >= 0:',
     '    value = read_value()',
     '    fields = []',
     '    if with_clock:',
@@ -44,9 +46,10 @@
     '    fields.append(_bipes_csv_cell(value))',
     '    with open(filename, "a") as output:',
     '      output.write(",".join(fields) + "\\n")',
-    '    next_sample = time.ticks_add(next_sample, interval_ms)',
+    '    next_sample = time.ticks_add(state[1], interval_ms)',
     '    if time.ticks_diff(now, next_sample) >= 0:',
-    '      next_sample = time.ticks_add(now, interval_ms)'
+    '      next_sample = time.ticks_add(now, interval_ms)',
+    '    state[1] = next_sample'
   ].join('\n');
 
   Blockly.Python['salvar_dados_csv'] = function(block) {
@@ -59,13 +62,18 @@
 
     Blockly.Python.definitions_['import_save_data_time'] = 'import time';
     Blockly.Python.definitions_['support_save_data_csv'] = SUPPORT;
+    Blockly.Python.definitions_['setup_save_data_states'] =
+      BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+      '_bipes_csv_states = {}\n' +
+      BitdogLabConfig.MARKERS.SETUP_END;
     if (withClock) {
-      // ExecutionRunner replaces this marker with the computer's current UTC
+      // ExecutionRunner replaces this marker with the computer's local time
       // immediately before sending code to the board.
       Blockly.Python.definitions_['marker_save_data_clock'] = '# BIPES_SAVE_DATA_RTC';
     }
 
-    return '_bipes_save_csv(' + JSON.stringify(filename) + ', ' +
+    return '_bipes_save_csv_step(' + JSON.stringify(block.id || 'save_data') + ', ' +
+      JSON.stringify(filename) + ', ' +
       Math.round(intervalSeconds * 1000) + ', ' +
       Math.round(durationMinutes * 60000) + ', ' +
       (withClock ? 'True' : 'False') + ', lambda: ' + value + ')\n';
