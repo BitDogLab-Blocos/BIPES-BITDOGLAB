@@ -5625,6 +5625,18 @@
             "pequeno": "examples/display_pequeno/robo_movel_setas/18_missao_com_luzes_e_sons.xml",
             "grande": "examples/display_grande/robo_movel_setas/18_missao_com_luzes_e_sons.xml"
           }
+        },
+        {
+          "number": 19,
+          "title": "Teste final no mapa lunar",
+          "description": "Comece em D1 apontando para cima e aperte A. Siga as setas até B6 e volte até C5. Sons, LED, matriz e OLED marcam o percurso.",
+          "icon": "🤖",
+          "image": "src/assets/images/projects/missao-lua-rover-setas.png",
+          "displaySpecific": true,
+          "displays": {
+            "pequeno": "examples/display_pequeno/robo_movel_setas/19_teste_final_mapa_lunar.xml",
+            "grande": "examples/display_grande/robo_movel_setas/19_teste_final_mapa_lunar.xml"
+          }
         }
       ]
     }

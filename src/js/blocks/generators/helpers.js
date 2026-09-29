@@ -55,8 +55,10 @@ function _setupSharedExternalI2c(busPolicy) {
       return block.type === 'robo_inicializar' || block.type === 'robo_setas_iniciar';
     });
   Blockly.Python.definitions_['setup_external_i2c'] = hasRobotStartup
-    ? 'i2c = None\ntry:\n  ' + setupCode +
-      '\nexcept Exception as exc:\n  print("I2C do display indisponivel:", exc)'
+    ? BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+      'i2c = None\ntry:\n  ' + setupCode +
+      '\nexcept Exception as exc:\n  print("I2C do display indisponivel:", exc)\n' +
+      BitdogLabConfig.MARKERS.SETUP_END
     : setupCode;
 
   return 'i2c';
