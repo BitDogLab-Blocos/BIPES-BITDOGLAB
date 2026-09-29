@@ -640,14 +640,7 @@ function _roboSetupCode(code) {
 
 Blockly.Python['robo_setas_iniciar'] = function(_block) {
   _setupRoboMovelDefinitions();
-  var workspace = _block && _block.workspace;
-  var hasButtonControl = workspace && workspace.getAllBlocks &&
-    workspace.getAllBlocks(false).some(function(block) {
-      return block.type === 'botao_se_apertado' || block.type === 'botao_enquanto_apertado';
-    });
-  return hasButtonControl
-    ? _roboSetupCode('_robo_iniciar_setas(5)\n')
-    : '_robo_iniciar_setas(5)\n';
+  return _roboSetupCode('_robo_iniciar_setas(5)\n');
 };
 
 Blockly.Python['robo_setas_frente'] = function(_block) {
