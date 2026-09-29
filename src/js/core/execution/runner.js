@@ -69,10 +69,10 @@ class ExecutionRunner {
     if (code) {
       if (code.indexOf('# BIPES_SAVE_DATA_RTC') !== -1) {
         const now = new Date();
-        const weekday = (now.getUTCDay() + 6) % 7;
-        const rtcTuple = [now.getUTCFullYear(), now.getUTCMonth() + 1,
-          now.getUTCDate(), weekday, now.getUTCHours(), now.getUTCMinutes(),
-          now.getUTCSeconds(), 0];
+        const weekday = (now.getDay() + 6) % 7;
+        const rtcTuple = [now.getFullYear(), now.getMonth() + 1,
+          now.getDate(), weekday, now.getHours(), now.getMinutes(),
+          now.getSeconds(), 0];
         code = 'from machine import RTC as _BipesRTC\n' +
           '_BipesRTC().datetime((' + rtcTuple.join(', ') + '))\n' + code;
       }
