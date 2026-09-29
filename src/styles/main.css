@@ -470,7 +470,7 @@ pre.content {
   padding: clamp(1rem, 3vw, 2.5rem);
   background-color: #172136;
   background-image:
-    linear-gradient(125deg, rgba(15, 23, 42, .82), rgba(20, 30, 52, .76)),
+    linear-gradient(125deg, rgba(15, 23, 42, .64), rgba(20, 30, 52, .58)),
     url('../assets/images/laboratorio-experimentos-i2c.png?ver=20260929i2c1');
   background-position: center 54%;
   background-size: cover;

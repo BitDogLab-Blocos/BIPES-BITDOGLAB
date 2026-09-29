@@ -85,12 +85,12 @@ LanguageManager.initLanguage = function() {
   }
   if (document.getElementById('tab_device')) document.getElementById('tab_device').textContent = MSG['device'];
   if (document.getElementById('laboratorioTitle')) {
-    document.getElementById('laboratorioTitle').textContent = Code.LANG === 'en' ? 'Laboratory' : 'Laboratório';
+    document.getElementById('laboratorioTitle').firstChild.nodeValue = Code.LANG === 'en' ? 'Data laboratory' : 'Laboratório de dados';
   }
   if (document.getElementById('laboratorioDescription')) {
     document.getElementById('laboratorioDescription').textContent = Code.LANG === 'en'
-      ? 'A test area for trying new ideas in the platform.'
-      : 'Área de teste para experimentar novas ideias na plataforma.';
+      ? 'Turn your BitDogLab measurements into visual discoveries.'
+      : 'Transforme as medidas da sua BitDogLab em descobertas visuais.';
   }
 
   if (document.getElementById('runButton')) document.getElementById('runButton').title = MSG['runTooltip'];

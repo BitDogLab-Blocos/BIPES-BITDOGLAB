@@ -12,11 +12,12 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicons/bitdog-logo.jpg">
   <meta name="theme-color" content="#2980b9">
 
-  <link rel="stylesheet" href="../styles/main.css?ver=20260929laboratoryI2c3">
+  <link rel="stylesheet" href="../styles/main.css?ver=20260929laboratoryCharts2">
   <link rel="stylesheet" href="../styles/visual-themes.css?ver=20260722b2">
   <link rel="stylesheet" href="../../device-file-manager/device-files.css?ver=20260718a8">
   <link rel="stylesheet" href="../styles/libs.css">
   <link rel="stylesheet" href="../styles/examples.css?ver=20260929blocksOnly1">
+  <link rel="stylesheet" href="../styles/laboratory.css?ver=20260929stats2">
   <link rel="stylesheet" href="../js/lib/codemirror/codemirror.css">
   <script src="../js/ui/visual-themes.js?ver=20260722b2"></script>
   <!-- Blockly core -->
@@ -40,7 +41,7 @@
   <script src="../js/config/profiles/base.js?ver=20260831i2cmod1"></script>
   <script src="../js/config/profiles/v7.js?ver=20260830mpuMotion1"></script>
   <script src="../js/config/profiles/v6.js?ver=20260830mpuMotion1"></script>
-  <script src="../js/core/language.js?ver=20260929laboratoryTab1"></script>
+  <script src="../js/core/language.js?ver=20260929laboratoryCharts1"></script>
   <script src="../js/core/ldr-settings.js?ver=20260821ldr1"></script>
   <script src="../js/core/tabs.js?ver=20260929laboratoryTab1"></script>
   <script src="../js/core/codegen/python-organizer.js?ver=20260929saveDataConcurrent1"></script>
@@ -499,11 +500,80 @@
   </div>
 
   <div id="content_laboratorio" class="content" tabindex="0" aria-labelledby="laboratorioTitle">
-    <section class="laboratory-test-card">
-      <div class="laboratory-test-icon" aria-hidden="true">🧪</div>
-      <h1 id="laboratorioTitle">Laboratório</h1>
-      <p id="laboratorioDescription">Área de teste para experimentar novas ideias na plataforma.</p>
-    </section>
+    <div class="lab-app">
+      <header class="lab-hero">
+        <div class="lab-hero-copy">
+          <span class="lab-eyebrow">✦ ESPAÇO DE DESCOBERTAS</span>
+          <h1 id="laboratorioTitle">Laboratório de dados<span class="lab-title-dot">.</span></h1>
+          <p id="laboratorioDescription">Transforme as medidas da sua BitDogLab em descobertas visuais.</p>
+        </div>
+        <span class="lab-hero-badge">◈ &nbsp; Explore seus dados</span>
+      </header>
+
+      <div class="lab-layout">
+        <aside class="lab-sidebar" aria-label="Configuração do gráfico">
+          <section class="lab-panel lab-source-panel" aria-labelledby="labSourceTitle">
+            <div class="lab-section-heading"><span class="lab-step">01</span><h2 id="labSourceTitle">Escolha seus dados</h2></div>
+            <p class="lab-help">Use um CSV salvo na sua placa.</p>
+            <label class="lab-field-label" for="labFileSelect">Arquivo CSV</label>
+            <select id="labFileSelect" class="lab-select" disabled><option>Conecte a placa para listar os CSVs</option></select>
+            <div class="lab-source-actions">
+              <button id="labRefreshFiles" class="lab-button lab-button-subtle" type="button">↻ &nbsp; Buscar na placa</button>
+            </div>
+            <p id="labSourceStatus" class="lab-source-status" role="status">Conecte a BitDogLab para ver os arquivos salvos.</p>
+          </section>
+
+          <section class="lab-panel" aria-labelledby="labAxesTitle">
+            <div class="lab-section-heading"><span class="lab-step">02</span><h2 id="labAxesTitle">Monte o gráfico</h2></div>
+            <label class="lab-field-label" for="labXAxis">Eixo X <span>acompanhar por</span></label>
+            <select id="labXAxis" class="lab-select" disabled><option>Escolha um CSV primeiro</option></select>
+            <label class="lab-field-label" for="labYAxis">Eixo Y <span>variável avaliada</span></label>
+            <select id="labYAxis" class="lab-select" disabled><option>Escolha um CSV primeiro</option></select>
+            <p id="labAxisHint" class="lab-field-hint">As colunas aparecem depois que o CSV for lido.</p>
+          </section>
+
+          <section class="lab-panel" aria-labelledby="labOptionsTitle">
+            <div class="lab-section-heading"><span class="lab-step">03</span><h2 id="labOptionsTitle">Personalize</h2></div>
+            <div class="lab-option"><div><strong>Linha da média</strong><small>Compare os valores com a média</small></div><input id="labMeanToggle" type="checkbox" checked aria-label="Mostrar linha da média"></div>
+            <div class="lab-option"><div><strong>Linha de tendência</strong><small>Veja a direção dos dados</small></div><input id="labTrendToggle" type="checkbox" aria-label="Mostrar linha de tendência"></div>
+            <div class="lab-option"><div><strong>Pontos de medição</strong><small>Mostre cada registro no gráfico</small></div><input id="labPointsToggle" type="checkbox" checked aria-label="Mostrar pontos de medição"></div>
+          </section>
+        </aside>
+
+        <main class="lab-main">
+          <section class="lab-panel lab-chart-panel" aria-labelledby="labChartTitle">
+            <div class="lab-chart-head">
+              <div><span class="lab-overline">VISUALIZAÇÃO</span><h2 id="labChartTitle">Aguardando dados da placa</h2><p id="labChartSubtitle">Escolha um CSV salvo na BitDogLab.</p></div>
+              <button id="labDownloadChart" class="lab-button lab-button-outline" type="button" disabled>↓ &nbsp; Baixar SVG</button>
+            </div>
+            <div class="lab-chart-toolbar" role="group" aria-label="Tipo de gráfico">
+              <button type="button" class="lab-chart-type is-active" data-chart="line" aria-pressed="true">⌁ &nbsp; Linha</button>
+              <button type="button" class="lab-chart-type" data-chart="bar" aria-pressed="false">▥ &nbsp; Barras</button>
+              <button type="button" class="lab-chart-type" data-chart="scatter" aria-pressed="false">∴ &nbsp; Pontos</button>
+            </div>
+            <div id="labChart" class="lab-chart" role="img" aria-label="Gráfico dos dados selecionados"></div>
+            <div id="labChartLegend" class="lab-chart-legend"></div>
+          </section>
+
+          <section class="lab-insights" aria-label="Resumo das medidas">
+            <article class="lab-stat-card lab-stat-primary"><span>MÉDIA DA VARIÁVEL</span><strong id="labMeanValue">—</strong><small id="labMeanLabel">Selecione uma variável</small></article>
+            <article class="lab-stat-card"><span>MEDIANA</span><strong id="labMedianValue">—</strong><small id="labMedianLabel">da variável escolhida</small></article>
+            <article class="lab-stat-card"><span>MÍNIMO</span><strong id="labMinValue">—</strong><small id="labMinLabel">da variável escolhida</small></article>
+            <article class="lab-stat-card"><span>MÁXIMO</span><strong id="labMaxValue">—</strong><small id="labMaxLabel">da variável escolhida</small></article>
+          </section>
+
+          <section class="lab-panel lab-averages-panel" aria-labelledby="labAveragesTitle">
+            <div class="lab-panel-title"><div><span class="lab-overline">OUTRAS DESCOBERTAS</span><h2 id="labAveragesTitle">Médias das variáveis</h2></div><span class="lab-panel-note">Tempo e data não entram nas médias</span></div>
+            <div id="labAverages" class="lab-averages lab-empty-inline">As médias aparecerão após a seleção de um CSV da placa.</div>
+          </section>
+
+          <section class="lab-panel lab-table-panel" aria-labelledby="labTableTitle">
+            <div class="lab-panel-title"><div><span class="lab-overline">DADOS ORIGINAIS</span><h2 id="labTableTitle">Prévia do CSV</h2></div><span id="labTableCount" class="lab-panel-note"></span></div>
+            <div id="labTable" class="lab-table-wrap"><p class="lab-table-empty">As primeiras linhas do arquivo aparecerão aqui.</p></div>
+          </section>
+        </main>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -526,6 +596,9 @@
 <script src="../js/bootstrap/page.js?ver=20260903robotArrows1"></script>
 <script src="../js/core/examples/catalog.js?ver=20260928basicContacts1"></script>
 <script src="../js/ui/examples-panel.js?ver=20260923display-model-selector1"></script>
+<script src="../js/lib/plotly/plotly-basic-4.1.1.min.js"></script>
+<script src="../js/graphs/plotly-charts.js?ver=20260929plotly1"></script>
+<script src="../js/ui/laboratory.js?ver=20260929stats2"></script>
 
 </body>
 </html>
