@@ -348,7 +348,8 @@
             if (!input.name || input.name.indexOf(prefix) !== 0 || !isValueInput(input) || !input.connection) continue;
 
             var hasPrefixedValue = block.getInputTargetBlock && block.getInputTargetBlock(input.name);
-            if (!hasPrefixedValue) {
+            if (!hasPrefixedValue || (contract.placeholderTypes &&
+                contract.placeholderTypes.indexOf(hasPrefixedValue.type) !== -1)) {
               addWarning(
                 warnings,
                 block,

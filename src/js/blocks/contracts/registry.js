@@ -132,7 +132,7 @@
   var CONTRACTS = {
     salvar_dados_csv: {
       kind: 'statement',
-      requiredValueInputs: { VALOR: 'variável ou valor a salvar' },
+      requiredValueInputPrefixes: { VALOR: 'variável ou valor da coluna' },
       placeholderTypes: ['save_data_value_placeholder']
     },
     joystick_controlar_led: {

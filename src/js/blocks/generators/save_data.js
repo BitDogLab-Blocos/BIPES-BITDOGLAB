@@ -12,10 +12,13 @@
     '    return "\\\"" + text.replace("\\\"", "\\\"\\\"") + "\\\""',
     '  return text',
     '',
-    'def _bipes_save_csv_step(key, filename, interval_ms, duration_ms, with_clock, read_value):',
+    'def _bipes_save_csv_step(key, filename, interval_ms, duration_ms, with_clock, column_headers, read_values):',
     '  state = _bipes_csv_states.get(key)',
     '  if state is None:',
-    '    header = "data_hora_local,valor" if with_clock else "valor"',
+    '    header_fields = ["data_hora_local"] if with_clock else []',
+    '    for column_name in column_headers:',
+    '      header_fields.append(_bipes_csv_cell(column_name))',
+    '    header = ",".join(header_fields)',
     '    if with_clock and time.localtime()[0] < 2024:',
     '      raise RuntimeError("Ajuste a data e a hora antes de salvar dados")',
     '    try:',
@@ -38,12 +41,13 @@
     '    state[2] = True',
     '    return',
     '  if time.ticks_diff(now, state[1]) >= 0:',
-    '    value = read_value()',
+    '    values = read_values()',
     '    fields = []',
     '    if with_clock:',
     '      date = time.localtime()',
     '      fields.append("%02d/%02d/%04d %02d:%02d:%02d" % (date[2], date[1], date[0], date[3], date[4], date[5]))',
-    '    fields.append(_bipes_csv_cell(value))',
+    '    for value in values:',
+    '      fields.append(_bipes_csv_cell(value))',
     '    with open(filename, "a") as output:',
     '      output.write(",".join(fields) + "\\n")',
     '    _bipes_csv_led_pending[0] += 1',
@@ -82,7 +86,13 @@
     var intervalSeconds = Math.max(1, Math.min(86400, Number(block.getFieldValue('INTERVALO')) || 10));
     var durationMinutes = Math.max(1, Math.min(1440, Number(block.getFieldValue('DURACAO')) || 5));
     var withClock = block.getFieldValue('DATA_HORA') === 'TRUE';
-    var value = Blockly.Python.valueToCode(block, 'VALOR', Blockly.Python.ORDER_NONE) || '0';
+    var headers = [];
+    var values = [];
+    for (var i = 0; i < block.itemCount_; i++) {
+      var header = String(block.getFieldValue('CABECALHO' + i) || '').replace(/[\r\n]/g, ' ').trim();
+      headers.push(header || ('coluna ' + (i + 1)));
+      values.push(Blockly.Python.valueToCode(block, 'VALOR' + i, Blockly.Python.ORDER_NONE) || '0');
+    }
 
     Blockly.Python.definitions_['import_save_data_time'] = 'import time';
     Blockly.Python.definitions_['support_save_data_csv'] = SUPPORT;
@@ -101,7 +111,8 @@
       JSON.stringify(filename) + ', ' +
       Math.round(intervalSeconds * 1000) + ', ' +
       Math.round(durationMinutes * 60000) + ', ' +
-      (withClock ? 'True' : 'False') + ', lambda: ' + value + ')\n';
+      (withClock ? 'True' : 'False') + ', ' + JSON.stringify(headers) +
+      ', lambda: [' + values.join(', ') + '])\n';
   };
 
   Blockly.Python['piscar_led_ao_salvar'] = function(block) {
