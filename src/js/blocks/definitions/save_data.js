@@ -24,7 +24,12 @@
     init: function() {
       this.appendDummyInput().appendField(isEnglish() ? 'variable' : 'variável');
       this.setOutput(true, 'Number');
-      this.setColour(230);
+      var placeholderColour = '#53688f';
+      this.setColour(placeholderColour);
+      // Blockly renders shadow blocks with the style's secondary colour,
+      // rather than its primary colour. Keep it dark so the label stays clear.
+      this.style.colourSecondary = placeholderColour;
+      this.applyColour();
       this.setTooltip(isEnglish()
         ? 'Replace this placeholder with the number or sensor value you want to save.'
         : 'Troque este espaço pela variável ou pelo valor do sensor que deseja salvar.');
@@ -98,7 +103,12 @@
       for (var i = 0; i < this.itemCount_; i++) {
         var oldInput = this.getInput('VALOR' + i);
         var oldConnection = oldInput && oldInput.connection.targetConnection;
-        if (oldConnection && connections.indexOf(oldConnection) === -1) oldConnection.disconnect();
+        var oldValue = oldInput && oldInput.connection.targetBlock();
+        if (oldValue && oldValue.isShadow()) {
+          oldInput.connection.setShadowDom(null);
+        } else if (oldConnection && connections.indexOf(oldConnection) === -1) {
+          oldConnection.disconnect();
+        }
       }
 
       this.itemCount_ = names.length;
@@ -125,6 +135,13 @@
     updateShape_: function() {
       var index = 0;
       while (this.getInput('VALOR' + index)) {
+        var oldInput = this.getInput('VALOR' + index);
+        if (oldInput.connection) {
+          // Removing an input can leave its shadow block orphaned in the
+          // workspace. Clear the shadow first; real connected blocks remain
+          // available for the mutator to reconnect afterward.
+          oldInput.connection.setShadowDom(null);
+        }
         this.removeInput('VALOR' + index);
         index++;
       }

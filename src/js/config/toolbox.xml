@@ -581,7 +581,6 @@
   <category name="Salvar dados" colour="#168b83" data-project="externos" css-icon="bitdoglab-save-data-category-icon">
     <block type="salvar_dados_csv">
       <mutation items="1"></mutation>
-      <value name="VALOR0"><shadow type="save_data_value_placeholder"></shadow></value>
     </block>
     <block type="piscar_led_ao_salvar">
       <value name="COLOUR"><block type="colour_red"></block></value>
