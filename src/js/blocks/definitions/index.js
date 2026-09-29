@@ -33,6 +33,7 @@
     'led_externo_desligar',
     'led_externo_piscar_rapido',
     'led_externo_piscar_lento',
+    'piscar_led_ao_salvar',
     'led_externo_criar_animacao',
     'servo_mover',
     'servo_angulo_atual',

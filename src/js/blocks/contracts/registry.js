@@ -9,6 +9,7 @@
       valueNeedsParent: 'Este bloco entrega uma informação. Encaixe ele em outro bloco que peça esse tipo de informação.',
       emptyStatementInput: 'Este espaço está vazio. Coloque pelo menos um bloco aqui ou remova este bloco se não for usar.',
       missingDriver: 'Este bloco mostra um valor guardado, mas falta o bloco que atualiza esse valor: %1.',
+      saveDataLedNeedsSave: 'Adicione um bloco Salvar dados ao projeto para o LED piscar a cada gravação.',
       missingSetup: 'Este bloco depende de %1 antes dele para funcionar de forma confiável.',
       wrongContainerChild: 'Este bloco parece estar no lugar errado. Aqui era esperado: %1.',
       missingValueInput: 'Falta encaixar um bloco aqui: %1.',
@@ -47,6 +48,7 @@
       valueNeedsParent: 'This block gives information. Connect it inside another block that asks for this kind of information.',
       emptyStatementInput: 'This space is empty. Add at least one block here or remove this block if you will not use it.',
       missingDriver: 'This block shows a stored value, but the block that updates it is missing: %1.',
+      saveDataLedNeedsSave: 'Add a Save data block to the project so the LED flashes after each write.',
       missingSetup: 'This block depends on %1 before it to work reliably.',
       wrongContainerChild: 'This block seems to be in the wrong place. Expected here: %1.',
       missingValueInput: 'A block is missing here: %1.',
@@ -357,6 +359,12 @@
     led_externo_desligar: { kind: 'statement' },
     led_externo_piscar_rapido: { kind: 'statement' },
     led_externo_piscar_lento: { kind: 'statement' },
+    piscar_led_ao_salvar: {
+      kind: 'statement',
+      requiresAnyBlock: ['salvar_dados_csv'],
+      requiresMessage: 'saveDataLedNeedsSave',
+      requiredValueInputs: { COLOUR: 'cor do LED', INTENSITY: 'intensidade do LED' }
+    },
     led_externo_desligar_todos: { kind: 'statement' },
     led_externo_criar_animacao: {
       kind: 'statement',

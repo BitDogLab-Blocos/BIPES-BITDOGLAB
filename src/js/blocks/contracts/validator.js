@@ -291,7 +291,7 @@
         addWarning(
           warnings,
           block,
-          format(msg('missingDriver'), contract.requiresLabel || contract.requiresAnyBlock.join(', '))
+          format(msg(contract.requiresMessage || 'missingDriver'), contract.requiresLabel || contract.requiresAnyBlock.join(', '))
         );
       }
 

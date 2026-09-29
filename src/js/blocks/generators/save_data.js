@@ -1,4 +1,4 @@
-// MicroPython generator for the first CSV data collection block.
+// MicroPython generators for CSV data collection and its LED indicator.
 'use strict';
 
 (function(global) {
@@ -46,10 +46,30 @@
     '    fields.append(_bipes_csv_cell(value))',
     '    with open(filename, "a") as output:',
     '      output.write(",".join(fields) + "\\n")',
+    '    _bipes_csv_led_pending[0] += 1',
     '    next_sample = time.ticks_add(state[1], interval_ms)',
     '    if time.ticks_diff(now, next_sample) >= 0:',
     '      next_sample = time.ticks_add(now, interval_ms)',
     '    state[1] = next_sample'
+  ].join('\n');
+
+  var LED_SUPPORT = [
+    'def _bipes_save_led_step(colour, intensity):',
+    '  if _bipes_csv_led_until[0] is not None:',
+    '    if time.ticks_diff(time.ticks_ms(), _bipes_csv_led_until[0]) < 0:',
+    '      return',
+    '    led_vermelho.duty_u16(0)',
+    '    led_verde.duty_u16(0)',
+    '    led_azul.duty_u16(0)',
+    '    _bipes_csv_led_until[0] = None',
+    '  if _bipes_csv_led_pending[0] <= 0:',
+    '    return',
+    '  _bipes_csv_led_pending[0] -= 1',
+    '  intensity = max(0, min(100, float(intensity)))',
+    '  led_vermelho.duty_u16(int(colour[0] * 257 * intensity / 100))',
+    '  led_verde.duty_u16(int(colour[1] * 257 * intensity / 100))',
+    '  led_azul.duty_u16(int(colour[2] * 257 * intensity / 100))',
+    '  _bipes_csv_led_until[0] = time.ticks_add(time.ticks_ms(), 120)'
   ].join('\n');
 
   Blockly.Python['salvar_dados_csv'] = function(block) {
@@ -65,6 +85,7 @@
     Blockly.Python.definitions_['setup_save_data_states'] =
       BitdogLabConfig.MARKERS.SETUP_START + '\n' +
       '_bipes_csv_states = {}\n' +
+      '_bipes_csv_led_pending = [0]\n' +
       BitdogLabConfig.MARKERS.SETUP_END;
     if (withClock) {
       // ExecutionRunner replaces this marker with the computer's local time
@@ -77,5 +98,29 @@
       Math.round(intervalSeconds * 1000) + ', ' +
       Math.round(durationMinutes * 60000) + ', ' +
       (withClock ? 'True' : 'False') + ', lambda: ' + value + ')\n';
+  };
+
+  Blockly.Python['piscar_led_ao_salvar'] = function(block) {
+    var colour = Blockly.Python.valueToCode(block, 'COLOUR', Blockly.Python.ORDER_ATOMIC) || '(255, 0, 0)';
+    var intensity = Blockly.Python.valueToCode(block, 'INTENSITY', Blockly.Python.ORDER_ATOMIC) || '50';
+
+    Blockly.Python.definitions_['import_save_data_time'] = 'import time';
+    Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
+    Blockly.Python.definitions_['import_pwm'] = 'from machine import PWM';
+    Blockly.Python.definitions_['setup_led_red'] = 'led_vermelho = PWM(Pin(' + BitdogLabConfig.PINS.LED_RED + '), freq=1000)';
+    Blockly.Python.definitions_['setup_led_green'] = 'led_verde = PWM(Pin(' + BitdogLabConfig.PINS.LED_GREEN + '), freq=1000)';
+    Blockly.Python.definitions_['setup_led_blue'] = 'led_azul = PWM(Pin(' + BitdogLabConfig.PINS.LED_BLUE + '), freq=1000)';
+    Blockly.Python.definitions_['support_save_data_led'] = LED_SUPPORT;
+    Blockly.Python.definitions_['setup_save_data_led'] =
+      BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+      '_bipes_csv_led_until = [None]\n' +
+      BitdogLabConfig.MARKERS.SETUP_END;
+    if (!Blockly.Python.definitions_['setup_save_data_states']) {
+      Blockly.Python.definitions_['setup_save_data_states'] =
+        BitdogLabConfig.MARKERS.SETUP_START + '\n' +
+        '_bipes_csv_led_pending = [0]\n' +
+        BitdogLabConfig.MARKERS.SETUP_END;
+    }
+    return '_bipes_save_led_step(' + colour + ', ' + intensity + ')\n';
   };
 })(window);

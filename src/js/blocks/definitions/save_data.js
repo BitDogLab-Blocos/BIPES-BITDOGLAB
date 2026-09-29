@@ -41,4 +41,24 @@
       this.setHelpUrl('');
     }
   };
+
+  Blockly.Blocks['piscar_led_ao_salvar'] = {
+    init: function() {
+      this.appendValueInput('COLOUR')
+        .setCheck('Colour')
+        .appendField(isEnglish() ? '💡 Blink LED of colour' : '💡 Piscar LED da cor');
+      this.appendValueInput('INTENSITY')
+        .setCheck('Number')
+        .appendField(isEnglish() ? 'when saving with brightness of' : 'ao salvar com brilho de')
+        .appendField('%');
+      this.setInputsInline(true);
+      this.setPreviousStatement(true, 'ProgramCommand');
+      this.setNextStatement(true, 'ProgramCommand');
+      this.setColour('#168b83');
+      this.setTooltip(isEnglish()
+        ? 'Flashes the board RGB LED once after each CSV row is saved, without pausing the program.'
+        : 'Pisca o LED RGB da placa uma vez após cada linha salva no CSV, sem pausar o programa.');
+      this.setHelpUrl('');
+    }
+  };
 })(window);
