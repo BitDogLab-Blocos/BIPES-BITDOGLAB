@@ -12,11 +12,11 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicons/bitdog-logo.jpg">
   <meta name="theme-color" content="#2980b9">
 
-  <link rel="stylesheet" href="../styles/main.css?ver=20260929saveDataIcon1">
+  <link rel="stylesheet" href="../styles/main.css?ver=20260929laboratoryI2c3">
   <link rel="stylesheet" href="../styles/visual-themes.css?ver=20260722b2">
   <link rel="stylesheet" href="../../device-file-manager/device-files.css?ver=20260718a8">
   <link rel="stylesheet" href="../styles/libs.css">
-  <link rel="stylesheet" href="../styles/examples.css?ver=20260923display-model-selector1">
+  <link rel="stylesheet" href="../styles/examples.css?ver=20260929blocksOnly1">
   <link rel="stylesheet" href="../js/lib/codemirror/codemirror.css">
   <script src="../js/ui/visual-themes.js?ver=20260722b2"></script>
   <!-- Blockly core -->
@@ -40,9 +40,9 @@
   <script src="../js/config/profiles/base.js?ver=20260831i2cmod1"></script>
   <script src="../js/config/profiles/v7.js?ver=20260830mpuMotion1"></script>
   <script src="../js/config/profiles/v6.js?ver=20260830mpuMotion1"></script>
-  <script src="../js/core/language.js?ver=20260922savepicker1"></script>
+  <script src="../js/core/language.js?ver=20260929laboratoryTab1"></script>
   <script src="../js/core/ldr-settings.js?ver=20260821ldr1"></script>
-  <script src="../js/core/tabs.js?ver=20260403a7"></script>
+  <script src="../js/core/tabs.js?ver=20260929laboratoryTab1"></script>
   <script src="../js/core/codegen/python-organizer.js?ver=20260929saveDataConcurrent1"></script>
   <script src="../js/core/codegen/generator.js?ver=20260923robotMission1"></script>
   <script src="../js/core/codegen/auto-generation.js?ver=20260809arch1"></script>
@@ -359,6 +359,7 @@
       <div class="tabs">
         <div id="tab_blocks" class="tabon">Blocos</div>
         <div id="tab_console" class="taboff">Mensagens</div>
+        <div id="tab_laboratorio" class="taboff">Laboratório</div>
         <div id="tab_device" class="taboff">Dispositivo</div>
       </div>
       <button id="toolbarButton" class="notext icon medium" title="Ferramentas"></button>
@@ -432,8 +433,6 @@
       </div>
       <small class="robot-led-legend-v6" data-i18n="app.robotLedV6Note">A V6 não mede a bateria.</small>
     </aside>
-  </div>
-
   <button
     id="examplesToggle"
     class="examples-toggle"
@@ -467,6 +466,7 @@
       <div id="examplesContent"></div>
     </div>
   </aside>
+  </div>
 
   <div id="content_console" class="content">
 
@@ -496,6 +496,14 @@
 
   <div id="content_device" class="content">
     <iframe id="deviceReferenceFrame" src="device-reference.html" width="100%" height="100%" frameBorder="0" style="border:none;"></iframe>
+  </div>
+
+  <div id="content_laboratorio" class="content" tabindex="0" aria-labelledby="laboratorioTitle">
+    <section class="laboratory-test-card">
+      <div class="laboratory-test-icon" aria-hidden="true">🧪</div>
+      <h1 id="laboratorioTitle">Laboratório</h1>
+      <p id="laboratorioDescription">Área de teste para experimentar novas ideias na plataforma.</p>
+    </section>
   </div>
 
 </div>

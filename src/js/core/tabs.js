@@ -3,7 +3,7 @@
 var Code = window.Code || (window.Code = {});
 var TabsManager = {};
 
-Code.TABS_ = ['blocks', 'console', 'device'];
+Code.TABS_ = ['blocks', 'console', 'laboratorio', 'device'];
 Code.current = ['blocks', '', ''];
 
 TabsManager.handleLink = function(_navigation, _pos) {

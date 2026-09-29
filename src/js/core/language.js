@@ -80,7 +80,18 @@ LanguageManager.initLanguage = function() {
 
   if (document.getElementById('tab_blocks')) document.getElementById('tab_blocks').textContent = MSG['blocks'];
   if (document.getElementById('tab_console')) document.getElementById('tab_console').textContent = MSG['console'] || 'Mensagens';
+  if (document.getElementById('tab_laboratorio')) {
+    document.getElementById('tab_laboratorio').textContent = Code.LANG === 'en' ? 'Laboratory' : 'Laboratório';
+  }
   if (document.getElementById('tab_device')) document.getElementById('tab_device').textContent = MSG['device'];
+  if (document.getElementById('laboratorioTitle')) {
+    document.getElementById('laboratorioTitle').textContent = Code.LANG === 'en' ? 'Laboratory' : 'Laboratório';
+  }
+  if (document.getElementById('laboratorioDescription')) {
+    document.getElementById('laboratorioDescription').textContent = Code.LANG === 'en'
+      ? 'A test area for trying new ideas in the platform.'
+      : 'Área de teste para experimentar novas ideias na plataforma.';
+  }
 
   if (document.getElementById('runButton')) document.getElementById('runButton').title = MSG['runTooltip'];
   if (document.getElementById('saveButton')) document.getElementById('saveButton').title = MSG['saveTooltip'];
