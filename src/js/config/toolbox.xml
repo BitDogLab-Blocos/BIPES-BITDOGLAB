@@ -396,6 +396,15 @@
     <block type="external_contact_is_closed"><field name="DIG">0</field></block>
     <block type="external_contact_test_matrix"></block>
   </category>
+  <category name="Salvar dados" colour="#168b83" css-icon="bitdoglab-save-data-category-icon">
+    <block type="salvar_dados_csv">
+      <mutation items="1"></mutation>
+    </block>
+    <block type="piscar_led_ao_salvar">
+      <value name="COLOUR"><block type="colour_red"></block></value>
+      <value name="INTENSITY"><shadow type="math_number"><field name="NUM">50</field></shadow></value>
+    </block>
+  </category>
 
   <!-- ========== CATEGORIAS DE PROJETO (aparecem conforme seletor) ========== -->
 
@@ -578,16 +587,6 @@
       </value>
     </block>
   </category>
-  <category name="Salvar dados" colour="#168b83" data-project="externos" css-icon="bitdoglab-save-data-category-icon">
-    <block type="salvar_dados_csv">
-      <mutation items="1"></mutation>
-    </block>
-    <block type="piscar_led_ao_salvar">
-      <value name="COLOUR"><block type="colour_red"></block></value>
-      <value name="INTENSITY"><shadow type="math_number"><field name="NUM">50</field></shadow></value>
-    </block>
-  </category>
-
   <!-- Projeto: Robo Movel -->
   <category name="🕹️ Controle Robô" colour="#e67e22" data-project="robo">
     <block type="robo_inicializar">
