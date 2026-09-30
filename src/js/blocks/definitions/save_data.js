@@ -50,7 +50,17 @@
         .appendField(isEnglish() ? 'seconds' : 'segundos')
         .appendField(isEnglish() ? 'for' : 'durante')
         .appendField(new Blockly.FieldNumber(5, 1, 1440, 1), 'DURACAO')
-        .appendField(isEnglish() ? 'minutes' : 'minutos');
+        .appendField(new Blockly.FieldDropdown([
+          [isEnglish() ? 'minutes' : 'minutos', 'MINUTES'],
+          [isEnglish() ? 'hours' : 'horas', 'HOURS'],
+          [isEnglish() ? 'days' : 'dias', 'DAYS']
+        ], function(unit) {
+          var block = this.getSourceBlock();
+          var duration = block && block.getField('DURACAO');
+          var maximum = unit === 'DAYS' ? 30 : unit === 'HOURS' ? 24 : 1440;
+          if (duration) duration.setConstraints(1, maximum, 1);
+          return unit;
+        }), 'DURACAO_UNIDADE');
       this.appendDummyInput()
         .appendField(new Blockly.FieldCheckbox('FALSE'), 'DATA_HORA')
         .appendField(isEnglish() ? 'save date and time' : 'salvar data e hora');
@@ -61,8 +71,8 @@
       this.setNextStatement(true, 'ProgramCommand');
       this.setColour('#168b83');
       this.setTooltip(isEnglish()
-        ? 'Saves every added column in one CSV row. Use the gear to add more variables. Date and time, when enabled, is the first column.'
-        : 'Salva todas as colunas adicionadas na mesma linha do CSV. Use a engrenagem para incluir mais variáveis. Quando ativada, a data e hora fica na primeira coluna.');
+        ? 'Saves every added column in one CSV row for the chosen number of minutes, hours or days (up to 30 days). Use the gear to add more variables. Date and time, when enabled, is the first column.'
+        : 'Salva todas as colunas adicionadas na mesma linha do CSV durante os minutos, horas ou dias escolhidos (até 30 dias). Use a engrenagem para incluir mais variáveis. Quando ativada, a data e hora fica na primeira coluna.');
       this.setHelpUrl('');
     },
     mutationToDom: function() {

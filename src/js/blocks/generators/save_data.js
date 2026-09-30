@@ -12,7 +12,7 @@
     '    return "\\\"" + text.replace("\\\"", "\\\"\\\"") + "\\\""',
     '  return text',
     '',
-    'def _bipes_save_csv_step(key, filename, interval_ms, duration_ms, with_clock, column_headers, read_values):',
+    'def _bipes_save_csv_step(key, filename, interval_ms, duration_seconds, with_clock, column_headers, read_values):',
     '  state = _bipes_csv_states.get(key)',
     '  if state is None:',
     '    header_fields = ["data_hora_local"] if with_clock else []',
@@ -32,15 +32,21 @@
     '      with open(filename, "w") as new_file:',
     '        new_file.write(header + "\\n")',
     '    started = time.ticks_ms()',
-    '    state = [started, started, False]',
+    '    state = [started, started, 0, 0, False]',
     '    _bipes_csv_states[key] = state',
-    '  if state[2]:',
+    '  if state[4]:',
     '    return',
     '  now = time.ticks_ms()',
-    '  if time.ticks_diff(now, state[0]) > duration_ms:',
-    '    state[2] = True',
+    '  delta_ms = time.ticks_diff(now, state[1])',
+    '  if delta_ms > 0:',
+    '    elapsed_ms = state[3] + delta_ms',
+    '    state[2] += elapsed_ms // 1000',
+    '    state[3] = elapsed_ms % 1000',
+    '  state[1] = now',
+    '  if state[2] > duration_seconds or (state[2] == duration_seconds and state[3] > 0):',
+    '    state[4] = True',
     '    return',
-    '  if time.ticks_diff(now, state[1]) >= 0:',
+    '  if time.ticks_diff(now, state[0]) >= 0:',
     '    values = read_values()',
     '    fields = []',
     '    if with_clock:',
@@ -51,10 +57,10 @@
     '    with open(filename, "a") as output:',
     '      output.write(",".join(fields) + "\\n")',
     '    _bipes_csv_led_pending[0] += 1',
-    '    next_sample = time.ticks_add(state[1], interval_ms)',
+    '    next_sample = time.ticks_add(state[0], interval_ms)',
     '    if time.ticks_diff(now, next_sample) >= 0:',
     '      next_sample = time.ticks_add(now, interval_ms)',
-    '    state[1] = next_sample'
+    '    state[0] = next_sample'
   ].join('\n');
 
   var LED_SUPPORT = [
@@ -84,7 +90,11 @@
     var filename = block.getFieldValue('ARQUIVO') || 'medidas.csv';
     if (!/^[a-zA-Z0-9_-]+\.csv$/i.test(filename)) filename = 'medidas.csv';
     var intervalSeconds = Math.max(1, Math.min(86400, Number(block.getFieldValue('INTERVALO')) || 10));
-    var durationMinutes = Math.max(1, Math.min(1440, Number(block.getFieldValue('DURACAO')) || 5));
+    var selectedUnit = block.getFieldValue('DURACAO_UNIDADE');
+    var durationUnit = selectedUnit === 'DAYS' || selectedUnit === 'HOURS' ? selectedUnit : 'MINUTES';
+    var maxDuration = durationUnit === 'DAYS' ? 30 : durationUnit === 'HOURS' ? 24 : 1440;
+    var duration = Math.max(1, Math.min(maxDuration, Number(block.getFieldValue('DURACAO')) || 5));
+    var durationSeconds = Math.round(duration * (durationUnit === 'DAYS' ? 86400 : durationUnit === 'HOURS' ? 3600 : 60));
     var withClock = block.getFieldValue('DATA_HORA') === 'TRUE';
     var headers = [];
     var values = [];
@@ -110,7 +120,7 @@
     return '_bipes_save_csv_step(' + JSON.stringify(block.id || 'save_data') + ', ' +
       JSON.stringify(filename) + ', ' +
       Math.round(intervalSeconds * 1000) + ', ' +
-      Math.round(durationMinutes * 60000) + ', ' +
+      durationSeconds + ', ' +
       (withClock ? 'True' : 'False') + ', ' + JSON.stringify(headers) +
       ', lambda: [' + values.join(', ') + '])\n';
   };
