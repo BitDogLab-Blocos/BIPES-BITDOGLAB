@@ -1674,6 +1674,73 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
   to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
+/* Side guide with live Blockly samples for CSV recording. */
+.bitdoglab-save-data-notification {
+  width: min(440px, calc(100vw - 82px));
+}
+
+.bitdoglab-save-data-title {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 18px;
+}
+
+.bitdoglab-save-data-intro,
+.bitdoglab-save-data-note { margin: 7px 0 12px; }
+
+.bitdoglab-save-data-catalog {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.bitdoglab-save-data-group {
+  padding: 9px 11px 5px;
+  border-radius: 8px;
+  background: #fff;
+  color: #243438;
+}
+
+.bitdoglab-save-data-group h3 {
+  margin: 0 0 4px;
+  color: #146f69;
+  font-size: 14px;
+}
+
+.bitdoglab-save-data-group h3 small {
+  display: block;
+  color: #536c69;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.bitdoglab-save-data-preview {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  overflow: hidden;
+  background: #fff;
+  pointer-events: none;
+}
+
+.bitdoglab-save-data-preview .blocklySvg,
+.bitdoglab-save-data-preview .blocklyMainBackground {
+  background: #fff !important;
+  fill: #fff !important;
+}
+
+.bitdoglab-save-data-lab {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #e6f6f3;
+  color: #163d3a;
+}
+
+.bitdoglab-save-data-lab small {
+  display: block;
+  margin-top: 7px;
+}
+
 /* Device selector */
 #deviceSelect {
   display: inline-flex;

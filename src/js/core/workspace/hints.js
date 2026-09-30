@@ -1714,7 +1714,162 @@ WorkspaceManager.showMpu6050AccelerationTutorial = function(block) {
   panel.querySelector('.bitdoglab-mpu6050-tilt-ok').focus();
 };
 
+WorkspaceManager.showSaveDataGuide = function(block) {
+  if (document.getElementById('saveDataNotification')) return;
+
+  var english = Code.LANG === 'en';
+  var closeId = 'closeSaveDataNotification';
+  var labHtml = '<div class="bitdoglab-save-data-lab">' +
+    (english
+      ? '<strong>Data Laboratory</strong><br>Set the CSV filename above this block (<span class="bitdoglab-save-data-filename"></span>). After running the program, open <strong>Laboratory</strong>, list the board files and select this CSV to analyse it.'
+      : '<strong>Laboratório de dados</strong><br>Escolha o nome do CSV no topo do bloco (<span class="bitdoglab-save-data-filename"></span>). Depois de executar, abra <strong>Laboratório → Buscar na placa</strong>, selecione esse arquivo e analise os dados.') +
+    '<small>' + (english
+      ? 'For charts, save two columns or date and time plus one numeric value.'
+      : 'Para gráficos, salve duas colunas ou data e hora mais um valor numérico.') +
+    '</small></div>';
+  var html = WorkspaceManager.closeButton(closeId) +
+    '<strong class="bitdoglab-save-data-title">' +
+    (english ? '💾 Blocks you can save' : '💾 Blocos que você pode salvar') + '</strong>' +
+    '<p class="bitdoglab-save-data-intro">' +
+    (english
+      ? 'Save data accepts variable blocks and other numeric values in each <strong>with value</strong> slot. Below are blocks that work well for recording measurements. Find them in Joystick, Microphone, External Connections, Greenhouse and Mobile Robot.'
+      : 'Salvar dados aceita blocos de variáveis e outros valores numéricos em cada espaço <strong>com valor</strong>. Abaixo estão blocos que funcionam bem para registrar medições. Você os encontra em Joystick, Microfone, Conexões Externas, Estufa e Robô Móvel.') +
+    '</p><div class="bitdoglab-save-data-catalog"></div>' +
+    '<p class="bitdoglab-save-data-note">' +
+    (english
+      ? 'To save a program variable, use <strong>Value stored in</strong>. Some readings need their setup or control block first.'
+      : 'Para salvar uma variável do programa, use <strong>Valor guardado em</strong>. Algumas leituras precisam antes do bloco de preparação ou controle.') +
+    '</p>' + labHtml;
+
+  WorkspaceManager.createReminder({
+    id: 'saveDataNotification',
+    closeId: closeId,
+    background: '#168b83',
+    top: '76px',
+    right: '16px',
+    maxWidth: '440px',
+    maxHeight: 'calc(100vh - 92px)',
+    html: html
+  });
+
+  var panel = document.getElementById('saveDataNotification');
+  panel.classList.add('bitdoglab-save-data-notification');
+  panel.setAttribute('role', 'region');
+  panel.setAttribute('aria-label', english ? 'Save data block guide' : 'Guia do bloco Salvar dados');
+  panel.querySelector('.bitdoglab-save-data-filename').textContent =
+    block && block.getFieldValue ? (block.getFieldValue('ARQUIVO') || 'medidas.csv') : 'medidas.csv';
+
+  var sourceXml = Code._fullToolboxXml || WorkspaceManager.loadToolboxXml();
+  var toolboxXml = sourceXml.cloneNode(true);
+  if (Code.translateToolboxXml) toolboxXml = Code.translateToolboxXml(toolboxXml);
+  var probe = new Blockly.Workspace();
+  var groups = [];
+  var projectLabels = english
+    ? {externos: 'External Connections', estufa: 'Greenhouse', robo: 'Mobile Robot'}
+    : {externos: 'Conexões Externas', estufa: 'Estufa', robo: 'Robô Móvel'};
+  var categories = toolboxXml.getElementsByTagName('category');
+  for (var i = 0; i < categories.length; i++) {
+    var category = categories[i];
+    var scope = category.getAttribute('data-project');
+    var projectKey = scope && scope.split(',').map(function(value) { return value.trim(); })
+      .filter(function(value) { return !!projectLabels[value]; })[0];
+    var firstBlock = category.querySelector('block');
+    var firstType = firstBlock && firstBlock.getAttribute('type') || '';
+    var boardGroup = firstType.indexOf('joystick_') === 0 || firstType.indexOf('microfone_') === 0;
+    if (!projectKey && !boardGroup) continue;
+
+    var samples = [];
+    for (var j = 0; j < category.children.length; j++) {
+      var sample = category.children[j];
+      if (sample.tagName.toLowerCase() !== 'block') continue;
+      try {
+        var candidate = Blockly.Xml.domToBlock(sample.cloneNode(true), probe);
+        var checks = candidate.outputConnection && candidate.outputConnection.getCheck();
+        if (checks && checks.indexOf('Number') !== -1) samples.push(sample);
+        candidate.dispose();
+      } catch (_error) {
+        // A block that cannot be previewed is left out of the guide.
+      }
+    }
+    if (samples.length) groups.push({
+      title: category.getAttribute('name'),
+      source: projectLabels[projectKey] || '',
+      samples: samples
+    });
+  }
+  probe.dispose();
+
+  var previewWorkspaces = [];
+  var catalog = panel.querySelector('.bitdoglab-save-data-catalog');
+  groups.forEach(function(group) {
+    var section = document.createElement('section');
+    section.className = 'bitdoglab-save-data-group';
+    var heading = document.createElement('h3');
+    heading.textContent = group.title;
+    if (group.source) {
+      var source = document.createElement('small');
+      source.textContent = group.source;
+      heading.appendChild(source);
+    }
+    var preview = document.createElement('div');
+    preview.className = 'bitdoglab-save-data-preview';
+    section.appendChild(heading);
+    section.appendChild(preview);
+    catalog.appendChild(section);
+
+    var previewWorkspace = Blockly.inject(preview, {
+      readOnly: true,
+      scrollbars: false,
+      move: {drag: false, wheel: false, scrollbars: false},
+      zoom: {controls: false, wheel: false, startScale: 0.72},
+      media: '../assets/media/'
+    });
+    previewWorkspaces.push(previewWorkspace);
+    var y = 8;
+    group.samples.forEach(function(sample) {
+      try {
+        var previewBlock = Blockly.Xml.domToBlock(sample.cloneNode(true), previewWorkspace);
+        previewBlock.setMovable(false);
+        previewBlock.setDeletable(false);
+        previewBlock.moveBy(12, y);
+        y += previewBlock.getHeightWidth().height + 12;
+      } catch (_error) {
+        // Keep showing the remaining blocks if a preview fails.
+      }
+    });
+    preview.style.height = Math.ceil(y * 0.72 + 8) + 'px';
+    Blockly.svgResize(previewWorkspace);
+  });
+
+  var closeButton = document.getElementById(closeId);
+  closeButton.addEventListener('click', function() {
+    previewWorkspaces.forEach(function(workspace) { workspace.dispose(); });
+  });
+};
+
+WorkspaceManager.bindSaveDataCategoryHint = function() {
+  var toolbox = Code.workspace && Code.workspace.getToolbox ? Code.workspace.getToolbox() : null;
+  var toolboxDiv = toolbox && toolbox.HtmlDiv;
+  if (!toolboxDiv || toolboxDiv.__bitdoglabSaveDataHintBound) return;
+
+  toolboxDiv.__bitdoglabSaveDataHintBound = true;
+  toolboxDiv.addEventListener('click', function(event) {
+    var target = event.target;
+    while (target && target !== toolboxDiv) {
+      var item = target.id && toolbox.getToolboxItemById && toolbox.getToolboxItemById(target.id);
+      var name = item && item.getName ? item.getName() : '';
+      if (name === 'Salvar dados' || name === 'Save data') {
+        var saveBlock = Code.workspace.getBlocksByType('salvar_dados_csv', false)[0];
+        WorkspaceManager.showSaveDataGuide(saveBlock || null);
+        return;
+      }
+      target = target.parentNode;
+    }
+  });
+};
+
 WorkspaceManager.bindWorkspaceHints = function() {
+  WorkspaceManager.bindSaveDataCategoryHint();
   WorkspaceManager.bindExternalContactCategoryHint();
   WorkspaceManager.bindServoCategoryHint();
   WorkspaceManager.bindDht11CategoryHint();
@@ -1729,6 +1884,10 @@ WorkspaceManager.bindWorkspaceHints = function() {
       if (!block) return;
 
       var blockType = block.type;
+
+      if (blockType === 'salvar_dados_csv') {
+        WorkspaceManager.showSaveDataGuide(block);
+      }
 
       if (blockType === 'mpu6050_inclinacao') {
         Code.showMpu6050TiltTutorial(block);
