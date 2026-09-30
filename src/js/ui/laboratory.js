@@ -24,7 +24,6 @@
   var data = null;
   var chartType = 'line';
   var renderVersion = 0;
-  var svgNs = 'http://www.w3.org/2000/svg';
 
   function setStatus(message, isError) {
     ui.status.textContent = message;
@@ -277,7 +276,14 @@
     if (!boardLoader) setStatus('A conexão com a placa não está pronta.', true);
   });
   ui.download.addEventListener('click', function() {
-    LaboratoryGraphs.downloadSvg(ui.chart).catch(function(error) { setStatus(error.message, true); });
+    ui.download.disabled = true;
+    LaboratoryGraphs.savePng(ui.chart).then(function(result) {
+      if (result && !result.cancelled) setStatus(result.method === 'picker' ? result.filename + ' salvo.' : 'Download de ' + result.filename + ' iniciado.');
+    }).catch(function(error) {
+      setStatus(error.message, true);
+    }).finally(function() {
+      if (data && ui.chart.data) ui.download.disabled = false;
+    });
   });
 
   global.LaboratoryData = {

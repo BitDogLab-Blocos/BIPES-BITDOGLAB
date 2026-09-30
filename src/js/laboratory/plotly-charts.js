@@ -29,6 +29,8 @@
 
   function render(element, options) {
     if (!global.Plotly) return Promise.reject(new Error('A biblioteca Plotly.js não foi carregada.'));
+    var emptyState = element.querySelector('.lab-chart-empty');
+    if (emptyState) emptyState.remove();
     var visible = sample(options.points, options.type === 'bar' ? 48 : 250);
     var labels = visible.map(function(point) { return String(point.label); });
     var values = visible.map(function(point) { return point.value; });
@@ -38,12 +40,12 @@
     // Category labels are kept as tick text; integer positions avoid Plotly's category reordering.
     var positions = scaledX ? numericX : labels.map(function(_, index) { return index; });
     var traces = [{
-      x: positions, y: values, customdata: labels, name: options.yName,
+      x: positions, y: values, name: options.yName,
       type: options.type === 'bar' ? 'bar' : 'scatter',
       mode: options.type === 'scatter' ? 'markers' : options.showPoints ? 'lines+markers' : 'lines',
       line: {color: '#4d73d6', width: 3},
       marker: {color: '#5278d4', size: options.type === 'scatter' ? 8 : 6},
-      hovertemplate: '%{customdata}: %{y}<extra></extra>'
+      hovertemplate: escapeHtml(options.yName) + ': %{y}<extra></extra>'
     }];
     if (options.type === 'bar') delete traces[0].mode;
 
@@ -88,12 +90,50 @@
     if (global.Plotly && element && element.data) global.Plotly.purge(element);
   }
 
-  function downloadSvg(element) {
-    if (!global.Plotly || !element || !element.data) return Promise.reject(new Error('Não há gráfico para baixar.'));
-    return global.Plotly.downloadImage(element, {
-      format: 'svg', filename: 'grafico-bitdoglab', width: 900, height: 355
-    });
+  function pngName(name) {
+    var cleaned = String(name || '').trim().replace(/[\\/:*?"<>|]/g, '-');
+    if (!cleaned) cleaned = 'grafico-bitdoglab';
+    return /\.png$/i.test(cleaned) ? cleaned : cleaned + '.png';
   }
 
-  global.LaboratoryGraphs = {render: render, clear: clear, downloadSvg: downloadSvg};
+  async function savePng(element) {
+    if (!global.Plotly || !element || !element.data) return Promise.reject(new Error('Não há gráfico para baixar.'));
+    var options = {format: 'png', width: 900, height: 355, scale: 2};
+    var handle = null;
+    if (global.isSecureContext && typeof global.showSaveFilePicker === 'function') {
+      try {
+        handle = await global.showSaveFilePicker({
+          suggestedName: 'grafico-bitdoglab.png',
+          types: [{description: 'Imagem PNG', accept: {'image/png': ['.png']}}]
+        });
+      } catch (error) {
+        if (error && error.name === 'AbortError') return {cancelled: true};
+      }
+    }
+    if (!handle) {
+      var chosen = global.prompt('Escolha um nome para o gráfico:', 'grafico-bitdoglab.png');
+      if (chosen === null) return {cancelled: true};
+      var filename = pngName(chosen);
+      await global.Plotly.downloadImage(element, Object.assign({}, options, {
+        filename: filename.replace(/\.png$/i, '')
+      }));
+      return {filename: filename, method: 'download'};
+    }
+
+    var imageUrl = await global.Plotly.toImage(element, options);
+    var blob = await (await global.fetch(imageUrl)).blob();
+    var writable = await handle.createWritable();
+    try {
+      await writable.write(blob);
+      await writable.close();
+    } catch (error) {
+      if (typeof writable.abort === 'function') {
+        try { await writable.abort(); } catch (_error) {}
+      }
+      throw error;
+    }
+    return {filename: handle.name || 'grafico-bitdoglab.png', method: 'picker'};
+  }
+
+  global.LaboratoryGraphs = {render: render, clear: clear, savePng: savePng};
 })(window);
