@@ -27,7 +27,6 @@
 .lab-eyebrow, .lab-overline { display: block; color: #5885d8; font-size: .69rem; font-weight: 800; letter-spacing: .17em; }
 .lab-eyebrow { color: #aecbff; margin-bottom: .65rem; }
 .lab-hero h1 { margin: 0; font-size: clamp(1.9rem, 3.1vw, 3rem); line-height: 1.12; font-weight: 800; letter-spacing: -.045em; }
-.lab-title-dot { color: #82e2dd; }
 .lab-hero p { margin: .6rem 0 0; color: #dbe6f7; font-size: 1rem; line-height: 1.5; }
 .lab-hero-badge { flex: none; border: 1px solid rgba(199, 221, 255, .43); border-radius: 999px; padding: .55rem .9rem; background: rgba(15, 23, 42, .42); color: #dceaff; font-size: .79rem; font-weight: 700; }
 
