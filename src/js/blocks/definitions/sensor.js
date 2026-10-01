@@ -73,10 +73,10 @@ Blockly.Blocks['estufa_toggle_sensor2'] = {
 Blockly.Blocks['estufa_temp_sensor1'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🌡️ Temperatura Sensor 1");
+        .appendField("🌡️ Temperatura 1 (I2C1)");
     this.setOutput(true, "Number");
     this.setColour("#2980b9");
-    this.setTooltip("Valor da temperatura do Sensor 1 em graus Celsius. Encaixe no bloco Plotar ou em blocos de matemática!");
+    this.setTooltip("Temperatura em graus Celsius do sensor ligado à entrada I2C1 da BitDogLab. Encaixe no bloco Mostrar Gráfico ou em Matemática.");
     this.setHelpUrl("");
   }
 };
@@ -85,10 +85,10 @@ Blockly.Blocks['estufa_temp_sensor1'] = {
 Blockly.Blocks['estufa_umid_sensor1'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("💧 Umidade Sensor 1");
+        .appendField("💧 Umidade 1 (I2C1)");
     this.setOutput(true, "Number");
     this.setColour("#2980b9");
-    this.setTooltip("Valor da umidade do Sensor 1 em porcentagem. Encaixe no bloco Plotar ou em blocos de matemática!");
+    this.setTooltip("Umidade em porcentagem do sensor ligado à entrada I2C1 da BitDogLab. Encaixe no bloco Mostrar Gráfico ou em Matemática.");
     this.setHelpUrl("");
   }
 };
@@ -97,10 +97,10 @@ Blockly.Blocks['estufa_umid_sensor1'] = {
 Blockly.Blocks['estufa_temp_sensor2'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("🌡️ Temperatura Sensor 2");
+        .appendField("🌡️ Temperatura 0 (I2C0)");
     this.setOutput(true, "Number");
     this.setColour("#2980b9");
-    this.setTooltip("Valor da temperatura do Sensor 2 em graus Celsius. Encaixe no bloco Plotar ou em blocos de matemática!");
+    this.setTooltip("Temperatura em graus Celsius do sensor ligado à entrada I2C0 da BitDogLab. Encaixe no bloco Mostrar Gráfico ou em Matemática.");
     this.setHelpUrl("");
   }
 };
@@ -109,10 +109,10 @@ Blockly.Blocks['estufa_temp_sensor2'] = {
 Blockly.Blocks['estufa_umid_sensor2'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("💧 Umidade Sensor 2");
+        .appendField("💧 Umidade 0 (I2C0)");
     this.setOutput(true, "Number");
     this.setColour("#2980b9");
-    this.setTooltip("Valor da umidade do Sensor 2 em porcentagem. Encaixe no bloco Plotar ou em blocos de matemática!");
+    this.setTooltip("Umidade em porcentagem do sensor ligado à entrada I2C0 da BitDogLab. Encaixe no bloco Mostrar Gráfico ou em Matemática.");
     this.setHelpUrl("");
   }
 };
@@ -124,12 +124,12 @@ Blockly.Blocks['estufa_plotar'] = {
         .setCheck('Number')
         .appendField("📊 Mostrar Gráfico");
     this.appendDummyInput()
-        .appendField("tipo")
+        .appendField("rótulo")
         .appendField(new Blockly.FieldDropdown([
-            ["Temperatura 1", "Temp1"],
-            ["Temperatura 2", "Temp2"],
-            ["Umidade 1", "Umid1"],
-            ["Umidade 2", "Umid2"],
+            ["Temperatura 0 (I2C0)", "Temp2"],
+            ["Umidade 0 (I2C0)", "Umid2"],
+            ["Temperatura 1 (I2C1)", "Temp1"],
+            ["Umidade 1 (I2C1)", "Umid1"],
             ["Soma Temperatura", "SomaTemp"],
             ["Soma Umidade", "SomaUmid"],
             ["Subtração Temperatura", "SubTemp"],
@@ -151,7 +151,7 @@ Blockly.Blocks['estufa_plotar'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#2980b9");
-    this.setTooltip("Mostra um gráfico no display. Escolha o tipo e onde mostrar. Use blocos de Matemática para combinar sensores!");
+    this.setTooltip("Mostra um gráfico no display. O bloco encaixado escolhe o valor e a entrada I2C lida; o rótulo só dá nome ao gráfico. Use Matemática para combinar sensores.");
     this.setHelpUrl("");
   }
 };

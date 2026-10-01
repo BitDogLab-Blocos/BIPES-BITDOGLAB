@@ -706,17 +706,33 @@
 
   <category name="🌡️ Medição" colour="#16a085" data-project="estufa">
     <block type="sensor_temperatura"></block>
+    <block type="display_mostrar_valor">
+      <value name="VALOR">
+        <block type="sensor_temperatura"></block>
+      </value>
+      <field name="LINHA">1</field>
+      <field name="ALINHAMENTO">CENTER</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block>
     <block type="sensor_umidade"></block>
+    <block type="display_mostrar_valor">
+      <value name="VALOR">
+        <block type="sensor_umidade"></block>
+      </value>
+      <field name="LINHA">2</field>
+      <field name="ALINHAMENTO">CENTER</field>
+      <field name="DISPLAY_TYPE">SMALL</field>
+    </block>
     <block type="sensor_estufa_comparar"></block>
     <block type="estufa_toggle_sensor1"></block>
     <block type="estufa_toggle_sensor2"></block>
   </category>
 
   <category name="📊 Gráficos" colour="#2980b9" data-project="estufa">
-    <block type="estufa_temp_sensor1"></block>
-    <block type="estufa_umid_sensor1"></block>
     <block type="estufa_temp_sensor2"></block>
     <block type="estufa_umid_sensor2"></block>
+    <block type="estufa_temp_sensor1"></block>
+    <block type="estufa_umid_sensor1"></block>
     <block type="estufa_plotar">
       <field name="POSICAO">1</field>
     </block>

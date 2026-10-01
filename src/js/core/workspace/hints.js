@@ -1454,24 +1454,26 @@ WorkspaceManager.showGraficoReminder = function() {
     ? WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANT!</strong><br><br>' +
       '📊 You can <strong>add, subtract, multiply, or divide</strong> sensor data.<br><br>' +
-      '🧮 Use <strong>Mathematics</strong> blocks to combine sensor values. Example: Temperature Sensor 1 <strong>+</strong> Temperature Sensor 2<br><br>' +
+      '🧮 Use <strong>Mathematics</strong> blocks to combine sensor values. Example: Temperature 1 (I2C1) <strong>+</strong> Temperature 0 (I2C0)<br><br>' +
+      '🔌 The connected value block selects the I2C port. The label only names the graph.<br><br>' +
       '📺 Use <strong>Top Half</strong> and <strong>Bottom Half</strong> to display <strong>2 graphs at the same time.</strong><br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Example:</strong><br>' +
       '1️⃣ 🔁 Repeat forever:<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;📊 Plot Graph <strong>[Temp S1 + Temp S2]</strong> type Sum Temp on the Top Half<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;📊 Plot Graph <strong>[Humidity S1]</strong> type Humidity 1 on the Bottom Half<br>' +
+      '&nbsp;&nbsp;&nbsp;&nbsp;📊 Plot Graph <strong>[Temp 1 + Temp 0]</strong> label Sum Temp on the Top Half<br>' +
+      '&nbsp;&nbsp;&nbsp;&nbsp;📊 Plot Graph <strong>[Humidity 1 (I2C1)]</strong> label Humidity 1 (I2C1) on the Bottom Half<br>' +
       '</div>'
     : WorkspaceManager.closeButton(closeId) +
       '<strong style="font-size: 16px;">💡 IMPORTANTE!</strong><br><br>' +
       '📊 Você pode <strong>somar, subtrair, multiplicar ou dividir</strong> os dados dos sensores!<br><br>' +
-      '🧮 Use os blocos de <strong>Matemática</strong> para combinar sensores. Exemplo: Temperatura Sensor 1 <strong>+</strong> Temperatura Sensor 2<br><br>' +
+      '🧮 Use os blocos de <strong>Matemática</strong> para combinar sensores. Exemplo: Temperatura 1 (I2C1) <strong>+</strong> Temperatura 0 (I2C0)<br><br>' +
+      '🔌 O bloco de valor encaixado escolhe a entrada I2C. O rótulo apenas dá nome ao gráfico.<br><br>' +
       '📺 Use <strong>Metade de Cima</strong> e <strong>Metade de Baixo</strong> para ver <strong>2 gráficos ao mesmo tempo!</strong><br><br>' +
       '<div style="background: rgba(0,0,0,0.15); padding: 10px; border-radius: 4px; margin-top: 8px;">' +
       '<strong>📝 Exemplo:</strong><br>' +
       '1️⃣ 🔁 Repetir para sempre:<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;📊 Mostrar Gráfico <strong>[Temp S1 + Temp S2]</strong> tipo Soma Temp na Metade de Cima<br>' +
-      '&nbsp;&nbsp;&nbsp;&nbsp;📊 Mostrar Gráfico <strong>[Umidade S1]</strong> tipo Umidade 1 na Metade de Baixo<br>' +
+      '&nbsp;&nbsp;&nbsp;&nbsp;📊 Mostrar Gráfico <strong>[Temp 1 + Temp 0]</strong> rótulo Soma Temp na Metade de Cima<br>' +
+      '&nbsp;&nbsp;&nbsp;&nbsp;📊 Mostrar Gráfico <strong>[Umidade 1 (I2C1)]</strong> rótulo Umidade 1 (I2C1) na Metade de Baixo<br>' +
       '</div>';
 
   WorkspaceManager.createReminder({

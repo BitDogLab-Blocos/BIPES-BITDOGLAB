@@ -393,7 +393,8 @@ Blockly.Python["estufa_plotar"] = function(block) {
   var bufId = 'plot_' + rotulo + '_' + posicao;
   var varName = '_v_' + rotulo + '_' + posicao;
 
-  var titulo = "'" + rotulo + ":' + str(round(" + varName + ", 1))";
+  var tituloVisivel = { Temp2: 'Temp0', Umid2: 'Umid0' }[rotulo] || rotulo;
+  var titulo = "'" + tituloVisivel + ":' + str(round(" + varName + ", 1))";
   var code = varName + ' = (' + valor + ')\n' +
     "_plot_grafico('" + bufId + "', " + varName + ", " + posicao + ", " + titulo + ", '" + displayType + "')\n";
   return code
