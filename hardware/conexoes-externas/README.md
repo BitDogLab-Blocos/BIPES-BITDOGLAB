@@ -194,16 +194,16 @@ Na BitDogLab V7, prefira `Conexão 0` ou `Conexão 1` quando o display estiver s
 
 | Experiência | Projeto em blocos |
 | --- | --- |
-| Mostrar a temperatura do DHT11 | [`01_leitura_de_temperatura.xml`](../../examples/dht11/01_leitura_de_temperatura.xml) |
-| Mostrar a luminosidade no display | [`01_leitura_no_display.xml`](../../examples/sensor_de_luz/01_leitura_no_display.xml) |
-| Usar a luz para controlar o servo | [`06_luz_controla_servo.xml`](../../examples/sensor_de_luz/06_luz_controla_servo.xml) |
-| Criar uma régua digital ultrassônica | [`01_regua_digital.xml`](../../examples/sensor_de_distancia/01_regua_digital.xml) |
-| Criar uma barreira automática | [`06_barreira_automatica_com_servo.xml`](../../examples/sensor_de_distancia/06_barreira_automatica_com_servo.xml) |
-| Mostrar a inclinação do MPU-6050 | [`01_inclinacao_direita_no_display.xml`](../../examples/mpu6050/01_inclinacao_direita_no_display.xml) |
-| Testar posições do SG90 | [`01_posicoes_e_angulo_atual.xml`](../../examples/servo_motor/01_posicoes_e_angulo_atual.xml) |
-| Acender o canal vermelho externo | [`01_ligar_vermelho.xml`](<../../examples/LEDs externos (KY-016)/01_ligar_vermelho.xml>) |
+| Mostrar a temperatura do DHT11 | [`01_leitura_de_temperatura.xml`](../../examples/display_pequeno/dht11/01_leitura_de_temperatura.xml) |
+| Mostrar a luminosidade no display | [`01_leitura_no_display.xml`](../../examples/display_pequeno/sensor_de_luz/01_leitura_no_display.xml) |
+| Usar a luz para controlar o servo | [`06_luz_controla_servo.xml`](../../examples/display_pequeno/sensor_de_luz/06_luz_controla_servo.xml) |
+| Criar uma régua digital ultrassônica | [`01_regua_digital.xml`](../../examples/display_pequeno/sensor_de_distancia/01_regua_digital.xml) |
+| Criar uma barreira automática | [`06_barreira_automatica_com_servo.xml`](../../examples/display_pequeno/sensor_de_distancia/06_barreira_automatica_com_servo.xml) |
+| Mostrar a inclinação do MPU-6050 | [`01_inclinacao_direita_no_display.xml`](../../examples/display_pequeno/mpu6050/01_inclinacao_direita_no_display.xml) |
+| Testar posições do SG90 | [`01_posicoes_e_angulo_atual.xml`](../../examples/display_pequeno/servo_motor/01_posicoes_e_angulo_atual.xml) |
+| Acender o canal vermelho externo | [`01_ligar_vermelho.xml`](../../examples/display_pequeno/leds_externos/01_ligar_vermelho.xml) |
 
-Os arquivos XML podem ser abertos no editor para estudar, executar e modificar os blocos.
+Os links acima usam o display pequeno como padrão. Os arquivos XML podem ser abertos no editor para estudar, executar e modificar os blocos.
 
 ## Segurança e revisão antes de ligar
 
