@@ -5562,8 +5562,8 @@
         },
         {
           "number": 13,
-          "title": "Botao a inicia a missao",
-          "description": "O botao A inicia uma pequena missao em forma de L.",
+          "title": "Missão em L",
+          "description": "Pequena missão em forma de L: avance, siga à direita e avance novamente.",
           "icon": "⬆️",
           "displaySpecific": false,
           "displays": {
@@ -5573,8 +5573,8 @@
         },
         {
           "number": 14,
-          "title": "Botoes escolhem o caminho",
-          "description": "O botao A escolhe a direita; o botao B escolhe a esquerda.",
+          "title": "Caminho com duas curvas",
+          "description": "Percorra uma sequência com movimentos para a frente, para a direita e para a esquerda.",
           "icon": "⬆️",
           "displaySpecific": false,
           "displays": {
@@ -5583,8 +5583,8 @@
           }
         },
         {
-          "title": "Botão inicia rota sonora",
-          "description": "Use o botão A para avançar, tocar laser e seguir à direita.",
+          "title": "Rota sonora",
+          "description": "Avance, toque o som de laser e siga à direita.",
           "icon": "⬆️",
           "number": 15,
           "displaySpecific": false,
@@ -5596,7 +5596,7 @@
         {
           "number": 16,
           "title": "Semáforo da missao",
-          "description": "O botao A inicia; verde libera o caminho e vermelho sinaliza a chegada.",
+          "description": "Verde sinaliza a partida e vermelho sinaliza a chegada.",
           "icon": "⬆️",
           "displaySpecific": false,
           "displays": {
@@ -5618,7 +5618,7 @@
         {
           "number": 18,
           "title": "Missao com luzes e sons",
-          "description": "O botao A inicia uma missao com sinal de partida, rota, matriz e som de chegada.",
+          "description": "Missão com sinal de partida, percurso, matriz e som de chegada.",
           "icon": "⬆️",
           "displaySpecific": false,
           "displays": {
@@ -5629,7 +5629,7 @@
         {
           "number": 19,
           "title": "Teste final no mapa lunar",
-          "description": "Comece em D1 apontando para cima e aperte A. Siga as setas até B6 e volte até C5. Sons, LED, matriz e OLED marcam o percurso.",
+          "description": "Comece em D1 apontando para cima. Siga as setas até B6 e volte até C5. Sons, LED, matriz e OLED marcam o percurso.",
           "icon": "🤖",
           "image": "src/assets/images/projects/missao-lua-rover-setas.png",
           "displaySpecific": true,
