@@ -1403,7 +1403,7 @@ body.bitdoglab-external-project-warning-open {
 }
 
 /* Compact status key in both Mobile Robot workspaces. */
-.robot-led-legend {
+.robot-workspace-notices {
   position: absolute;
   top: 14px;
   right: 14px;
@@ -1412,6 +1412,15 @@ body.bitdoglab-external-project-warning-open {
   width: min(318px, calc(100vw - 28px));
   max-height: calc(100vh - 100px);
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.robot-led-legend,
+.robot-buttons-notice {
+  box-sizing: border-box;
+  flex-shrink: 0;
   padding: 12px 14px;
   border: 1px solid #cbd5e1;
   border-radius: 10px;
@@ -1422,11 +1431,13 @@ body.bitdoglab-external-project-warning-open {
   line-height: 1.35;
 }
 
+.robot-workspace-notices[hidden],
 .robot-led-legend[hidden] {
   display: none;
 }
 
-.robot-led-legend > strong {
+.robot-led-legend > strong,
+.robot-buttons-notice > strong {
   display: block;
   margin-bottom: 8px;
   font-size: 0.92rem;
@@ -1451,6 +1462,22 @@ body.bitdoglab-external-project-warning-open {
 .robot-led-legend-dot.is-green { background: #16a34a; }
 .robot-led-legend-dot.is-yellow { background: #facc15; }
 .robot-led-legend-dot.is-red { background: #dc2626; }
+
+.robot-button-badge {
+  display: inline-flex;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 700;
+}
+
+.robot-button-badge.is-red { background: #dc2626; }
+.robot-button-badge.is-blue { background: #2563eb; }
 
 .robot-led-legend-v6 {
   display: block;

@@ -106,6 +106,8 @@ WorkspaceManager.updateRobotLedLegend = function(project) {
   var legend = document.getElementById('robotLedLegend');
   if (!legend) return;
   legend.hidden = project !== 'robo' && project !== 'robo_setas';
+  var notices = document.getElementById('robotWorkspaceNotices');
+  if (notices) notices.hidden = legend.hidden;
   legend.setAttribute('data-board-version', BitdogLabConfig.VERSION);
 };
 
