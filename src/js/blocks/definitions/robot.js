@@ -24,9 +24,10 @@ function initRoboSetasMovementBlock(block, icon, alt, colour, tooltip) {
 Blockly.Blocks['robo_setas_iniciar'] = {
   init: function() {
     appendRoboSetasIcon(this, 'start.svg?ver=20260923purple1', '🚩');
+    this.appendDummyInput().appendField('A ▶  B ■');
     this.setNextStatement(true, null);
     this.setColour('#ffffff');
-    this.setTooltip('Inicia o robô apontado para cima e prepara o sensor de giro.');
+    this.setTooltip('Prepara o robô por 5 segundos. Depois, aperte e solte A para iniciar. B cancela todo o percurso.');
     this.setHelpUrl('');
     this.hat = 'cap';
   }

@@ -69,6 +69,20 @@ CodeGeneratorManager.isSequentialRobotMission = function(workspace) {
   return hasMissionAction && !hasContinuousControl;
 };
 
+// Protect the preparation and every subsequent action, including custom loops.
+// Button B exits the mission; Ctrl+C and errors still propagate to the REPL.
+CodeGeneratorManager.protectRobotArrowMission = function(code) {
+  var start = /^_robo_iniciar_setas\([^\n]*\)\n/m.exec(code);
+  if (!start) return code;
+  var mission = code.slice(start.index).trimEnd();
+  return code.slice(0, start.index) + 'try:\n' +
+    mission.split('\n').map(function(line) { return line ? '  ' + line : ''; }).join('\n') +
+    '\nexcept _RoboMissaoCancelada:\n' +
+    '  print("Missao cancelada pelo botao B. Execute novamente para tentar outro percurso.")\n' +
+    'finally:\n' +
+    '  _robo_encerrar_setas()\n';
+};
+
 CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode, workspace) {
   if (!rawCode || rawCode.trim() === '') {
     return '';
@@ -278,7 +292,7 @@ CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode, workspace) {
   if (loopCodeLines.length > 0) {
     finalCode += '# Loop de Sons\n';
     finalCode += loopCodeLines.join('\n') + '\n';
-    return finalCode;
+    return CodeGeneratorManager.protectRobotArrowMission(finalCode);
   }
 
   var hasStaticConfig = rawCode.indexOf(BitdogLabConfig.MARKERS.STATIC_CONFIG) !== -1;
@@ -304,6 +318,7 @@ CodeGeneratorManager.wrapWithInfiniteLoop = function(rawCode, workspace) {
     }
   }
 
+  finalCode = CodeGeneratorManager.protectRobotArrowMission(finalCode);
   if (Code.translateGeneratedCode) {
     finalCode = Code.translateGeneratedCode(finalCode);
   }

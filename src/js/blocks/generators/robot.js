@@ -5,7 +5,7 @@ function _setupRoboMovelDefinitions() {
   var matrix = BitdogLabConfig.NEOPIXEL;
   var hasBatteryMonitor = BitdogLabConfig.VERSION === 'v7';
   if (hasBatteryMonitor) _setupRoboPowerDefinitions();
-  Blockly.Python.definitions_['import_robo_machine'] = 'from machine import Pin, PWM, I2C, ADC';
+  Blockly.Python.definitions_['import_robo_machine'] = 'from machine import Pin, PWM, I2C, ADC, disable_irq, enable_irq';
   Blockly.Python.definitions_['import_robo_time'] = 'from time import sleep, sleep_ms, ticks_ms, ticks_diff';
   Blockly.Python.definitions_['import_robo_math'] = 'import math';
   Blockly.Python.definitions_['import_neopixel'] = 'import neopixel';
@@ -44,17 +44,22 @@ function _setupRoboMovelDefinitions() {
 
   Blockly.Python.definitions_['setup_robo_movel'] =
     start + '\n' +
-    mpuSetup +
+    '_robo_stby = Pin(' + robot.STBY + ', Pin.OUT, value=0)\n' +
     '_robo_esq_frente = Pin(' + robot.LEFT_FWD + ', Pin.OUT)\n' +
     '_robo_esq_tras = Pin(' + robot.LEFT_BWD + ', Pin.OUT)\n' +
     '_robo_esq_pwm = PWM(Pin(' + robot.LEFT_PWM + '))\n' +
+    '_robo_esq_pwm.duty_u16(0)\n' +
     '_robo_esq_pwm.freq(' + robot.PWM_FREQ + ')\n' +
     '_robo_dir_frente = Pin(' + robot.RIGHT_FWD + ', Pin.OUT)\n' +
     '_robo_dir_tras = Pin(' + robot.RIGHT_BWD + ', Pin.OUT)\n' +
     '_robo_dir_pwm = PWM(Pin(' + robot.RIGHT_PWM + '))\n' +
+    '_robo_dir_pwm.duty_u16(0)\n' +
     '_robo_dir_pwm.freq(' + robot.PWM_FREQ + ')\n' +
-    '_robo_stby = Pin(' + robot.STBY + ', Pin.OUT)\n' +
-    '_robo_stby.value(1)\n' +
+    '_robo_controle_setas = False\n' +
+    '_robo_cancelado_setas = False\n' +
+    '_robo_botao_a = None\n' +
+    '_robo_botao_b = None\n' +
+    mpuSetup +
     '_robo_vel_movimento = ' + robot.MOVE_SPEED + '\n' +
     '_robo_vel_giro = ' + robot.TURN_SPEED + '\n' +
     '_robo_zona_morta_giro = ' + robot.TURN_DEADZONE_DPS + '\n' +
@@ -132,6 +137,52 @@ function _setupRoboMovelDefinitions() {
     end;
 
   Blockly.Python.definitions_['func_robo_movel'] =
+    'class _RoboMissaoCancelada(Exception):\n' +
+    '  pass\n' +
+    '\n' +
+    'def _robo_cancelar_por_botao(_pin):\n' +
+    '  global _robo_cancelado_setas\n' +
+    '  _robo_cancelado_setas = True\n' +
+    '  _robo_stby.value(0)\n' +
+    '\n' +
+    'def _robo_verificar_parada():\n' +
+    '  if _robo_controle_setas and (_robo_cancelado_setas or _robo_botao_b.value() == 0):\n' +
+    '    _robo_parar()\n' +
+    '    raise _RoboMissaoCancelada()\n' +
+    '\n' +
+    'def _robo_habilitar_motores():\n' +
+    '  estado_irq = disable_irq()\n' +
+    '  try:\n' +
+    '    _robo_verificar_parada()\n' +
+    '    _robo_stby.value(1)\n' +
+    '  finally:\n' +
+    '    enable_irq(estado_irq)\n' +
+    '\n' +
+    'def _robo_pausa_segura(ms):\n' +
+    '  inicio = ticks_ms()\n' +
+    '  while ticks_diff(ticks_ms(), inicio) < ms:\n' +
+    '    _robo_verificar_parada()\n' +
+    '    sleep_ms(min(10, max(1, ms - ticks_diff(ticks_ms(), inicio))))\n' +
+    '  _robo_verificar_parada()\n' +
+    '\n' +
+    'def _robo_aguardar_botao_a(valor):\n' +
+    '  while True:\n' +
+    '    while _robo_botao_a.value() != valor:\n' +
+    '      _robo_pausa_segura(10)\n' +
+    '    _robo_pausa_segura(30)\n' +
+    '    if _robo_botao_a.value() == valor:\n' +
+    '      return\n' +
+    '\n' +
+    'def _robo_encerrar_setas():\n' +
+    '  global _robo_controle_setas, _robo_diagnostico_ok\n' +
+    '  _robo_parar()\n' +
+    '  if _robo_botao_b is not None:\n' +
+    '    _robo_botao_b.irq(handler=None)\n' +
+    '  _robo_controle_setas = False\n' +
+    '  _robo_diagnostico_ok = False\n' +
+    '  _robo_led(0, 0, 0)\n' +
+    '  _robo_mostrar_contagem(0)\n' +
+    '\n' +
     'def _robo_pwm(valor):\n' +
     '  return max(0, min(65535, int(valor)))\n' +
     '\n' +
@@ -144,11 +195,12 @@ function _setupRoboMovelDefinitions() {
     '  _robo_parar()\n' +
     '  while True:\n' +
     '    _robo_led(*cor)\n' +
-    '    sleep_ms(500)\n' +
+    '    _robo_pausa_segura(500)\n' +
     '    _robo_led(*(segunda_cor if segunda_cor is not None else (0, 0, 0)))\n' +
-    '    sleep_ms(500)\n' +
+    '    _robo_pausa_segura(500)\n' +
     '\n' +
     'def _robo_parar():\n' +
+    '  _robo_stby.value(0)\n' +
     '  _robo_esq_frente.value(0)\n' +
     '  _robo_esq_tras.value(0)\n' +
     '  _robo_esq_pwm.duty_u16(0)\n' +
@@ -162,10 +214,10 @@ function _setupRoboMovelDefinitions() {
     '    return\n' +
     '  t = max(0, float(tempo))\n' +
     '  _robo_parar()\n' +
-    '  _robo_stby.value(1)\n' +
+    '  _robo_habilitar_motores()\n' +
     '  if t <= 0:\n' +
     '    return\n' +
-    '  sleep_ms(50)\n' +
+    '  _robo_pausa_segura(50)\n' +
     '  _robo_esq_frente.value(esq_frente)\n' +
     '  _robo_esq_tras.value(esq_tras)\n' +
     '  _robo_dir_frente.value(dir_frente)\n' +
@@ -180,7 +232,7 @@ function _setupRoboMovelDefinitions() {
     '    _robo_parar()\n' +
     '    return\n' +
     '  d = _robo_pwm(velocidade)\n' +
-    '  _robo_stby.value(1)\n' +
+    '  _robo_habilitar_motores()\n' +
     '  _robo_esq_frente.value(0)\n' +
     '  _robo_esq_tras.value(1)\n' +
     '  _robo_esq_pwm.duty_u16(d)\n' +
@@ -193,7 +245,7 @@ function _setupRoboMovelDefinitions() {
     '    _robo_parar()\n' +
     '    return\n' +
     '  d = _robo_pwm(velocidade)\n' +
-    '  _robo_stby.value(1)\n' +
+    '  _robo_habilitar_motores()\n' +
     '  _robo_esq_frente.value(1)\n' +
     '  _robo_esq_tras.value(0)\n' +
     '  _robo_esq_pwm.duty_u16(d)\n' +
@@ -212,7 +264,7 @@ function _setupRoboMovelDefinitions() {
     '  if t <= 0:\n' +
     '    _robo_parar()\n' +
     '    return\n' +
-    '  _robo_stby.value(1)\n' +
+    '  _robo_habilitar_motores()\n' +
     '  _robo_esq_frente.value(1)\n' +
     '  _robo_esq_tras.value(0)\n' +
     '  _robo_esq_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
@@ -238,7 +290,7 @@ function _setupRoboMovelDefinitions() {
     '  while restante > 0:\n' +
     '    _robo_mostrar_contagem(min(5, int(math.ceil(restante))))\n' +
     '    intervalo = min(1.0, restante)\n' +
-    '    sleep(intervalo)\n' +
+    '    _robo_pausa_segura(int(intervalo * 1000))\n' +
     '    restante -= intervalo\n' +
     '  _robo_mostrar_contagem(0)\n' +
     '\n' +
@@ -248,7 +300,7 @@ function _setupRoboMovelDefinitions() {
     '  _robo_parar()\n' +
     '  _robo_led(0, 0, 0)\n' +
     '  if espera > 0:\n' +
-    '    print("Coloque o robo no chao. Iniciando em", espera, "s")\n' +
+    '    print("Preparando robo. Aguarde", espera, "s" if _robo_controle_setas else "s para iniciar")\n' +
     '    _robo_aguardar_com_contagem(espera)\n' +
     '  falha_mpu = _robo_mpu is None or not _robo_mpu.is_ready\n' +
     '  if falha_mpu:\n' +
@@ -284,18 +336,32 @@ function _setupRoboMovelDefinitions() {
       '    print("Diagnostico: MPU ou OLED indisponivel; robo parado.")\n' +
       '    _robo_alerta((1, 1, 0))\n') +
     '  _robo_led(0, 1, 0)\n' +
-    '  print("Robo pronto! Iniciando em 2 s.")\n' +
-    '  sleep_ms(2000)\n' +
+    '  print("Robo pronto! Aguarde o aviso para apertar A." if _robo_controle_setas else "Robo pronto! Iniciando em 2 s.")\n' +
+    '  _robo_pausa_segura(2000)\n' +
     '  _robo_led(0, 0, 0)\n' +
     '  _robo_diagnostico_ok = True\n' +
     '\n' +
     'def _robo_iniciar_setas(espera=5):\n' +
     '  global _robo_orientacao_setas, _robo_ultima_direcao_setas, _robo_falha_setas\n' +
+    '  global _robo_botao_a, _robo_botao_b, _robo_controle_setas, _robo_cancelado_setas, _robo_giro_tempo\n' +
     '  _robo_parar()\n' +
+    '  _robo_botao_a = Pin(' + BitdogLabConfig.PINS.BUTTON_A + ', Pin.IN, Pin.PULL_UP)\n' +
+    '  _robo_botao_b = Pin(' + BitdogLabConfig.PINS.BUTTON_B + ', Pin.IN, Pin.PULL_UP)\n' +
+    '  _robo_cancelado_setas = False\n' +
+    '  _robo_controle_setas = True\n' +
+    '  _robo_botao_b.irq(handler=_robo_cancelar_por_botao, trigger=Pin.IRQ_FALLING, hard=True)\n' +
+    '  _robo_verificar_parada()\n' +
     '  _robo_orientacao_setas = 0\n' +
     '  _robo_ultima_direcao_setas = None\n' +
     '  _robo_falha_setas = False\n' +
     '  _robo_inicializar(espera)\n' +
+    '  print("Aperte e solte A para iniciar. B cancela a missao.")\n' +
+    '  _robo_led(0, 1, 0)\n' +
+    '  _robo_aguardar_botao_a(1)\n' +
+    '  _robo_aguardar_botao_a(0)\n' +
+    '  _robo_aguardar_botao_a(1)\n' +
+    '  _robo_led(0, 0, 0)\n' +
+    '  _robo_giro_tempo = ticks_ms()\n' +
     '\n' +
     'def _robo_finalizar_setas():\n' +
     '  global _robo_ultima_direcao_setas\n' +
@@ -305,7 +371,7 @@ function _setupRoboMovelDefinitions() {
     'def _robo_pivot_setas(direcao, velocidade_esq, velocidade_dir):\n' +
     '  de = _robo_pwm(velocidade_esq)\n' +
     '  dd = _robo_pwm(velocidade_dir)\n' +
-    '  _robo_stby.value(1)\n' +
+    '  _robo_habilitar_motores()\n' +
     '  if direcao == "L":\n' +
     '    _robo_esq_frente.value(0)\n' +
     '    _robo_esq_tras.value(1)\n' +
@@ -346,8 +412,9 @@ function _setupRoboMovelDefinitions() {
     '  inicio = ticks_ms()\n' +
     '  t_ant = inicio\n' +
     '  limite_ms = max(_robo_timeout_min_ms, int(alvo * _robo_timeout_ms_por_grau))\n' +
-    '  sleep_ms(10)\n' +
+    '  _robo_pausa_segura(10)\n' +
     '  while acumulado < alvo and ticks_diff(ticks_ms(), inicio) < limite_ms:\n' +
+    '    _robo_verificar_parada()\n' +
     '    agora = ticks_ms()\n' +
     '    dt = min(ticks_diff(agora, t_ant) / 1000.0, 0.05)\n' +
     '    t_ant = agora\n' +
@@ -369,15 +436,15 @@ function _setupRoboMovelDefinitions() {
     '    else:\n' +
     '      _robo_pivot_dir(_robo_vel_giro)\n' +
     '    _robo_atualizar_display_instrumentos(False)\n' +
-    '    sleep_ms(10)\n' +
+    '    _robo_pausa_segura(10)\n' +
     '  _robo_parar()\n' +
     '  _robo_giro_tempo = ticks_ms()\n' +
     '  if not setas:\n' +
-    '    sleep_ms(200)\n' +
+    '    _robo_pausa_segura(200)\n' +
     '    print("Giro", "esquerda" if direcao == "L" else "direita", round(acumulado, 1), "graus")\n' +
     '    return\n' +
     '  sucesso = _robo_mpu.is_ready and acumulado >= alvo\n' +
-    '  sleep_ms(_robo_pausa_apos_giro_setas_ms)\n' +
+    '  _robo_pausa_segura(_robo_pausa_apos_giro_setas_ms)\n' +
     '  if sucesso:\n' +
     '    print("Giro por setas", "esquerda" if direcao == "L" else "direita", round(acumulado, 1), "graus")\n' +
     '  elif not _robo_mpu.is_ready:\n' +
@@ -387,6 +454,7 @@ function _setupRoboMovelDefinitions() {
     '  return sucesso\n' +
     '\n' +
     'def _robo_ir_para(direcao):\n' +
+    '  _robo_verificar_parada()\n' +
     '  global _robo_orientacao_setas, _robo_ultima_direcao_setas, _robo_falha_setas\n' +
     '  if not _robo_diagnostico_ok:\n' +
     '    _robo_parar()\n' +
@@ -396,14 +464,14 @@ function _setupRoboMovelDefinitions() {
     '    return False\n' +
     '  direcao = int(direcao) % 4\n' +
     '  if _robo_ultima_direcao_setas == direcao:\n' +
-    '    sleep_ms(_robo_pausa_setas_repetidas_ms)\n' +
+    '    _robo_pausa_segura(_robo_pausa_setas_repetidas_ms)\n' +
     '  giro = direcao - _robo_orientacao_setas\n' +
     '  if giro < 0:\n' +
     '    giro += 4\n' +
     '  giro_ok = True\n' +
     '  if giro != 0:\n' +
     '    _robo_parar()\n' +
-    '    sleep_ms(_robo_pausa_antes_giro_setas_ms)\n' +
+    '    _robo_pausa_segura(_robo_pausa_antes_giro_setas_ms)\n' +
     '  if giro == 1:\n' +
     '    giro_ok = _robo_girar(90, "R", True)\n' +
     '  elif giro == 2:\n' +
@@ -451,8 +519,9 @@ function _setupRoboMovelDefinitions() {
     '  duracao_ms = int(max(0, float(tempo)) * 1000)\n' +
     '  inicio = ticks_ms()\n' +
     '  while ticks_diff(ticks_ms(), inicio) < duracao_ms:\n' +
+    '    _robo_verificar_parada()\n' +
     '    _robo_atualizar_display_instrumentos(True)\n' +
-    '    sleep_ms(40)\n' +
+    '    _robo_pausa_segura(40)\n' +
     '\n' +
     'def _robo_atualizar_display_instrumentos(atualizar_giro=True):\n' +
     '  global _robo_display_giro_ultimo_ms\n' +
@@ -554,7 +623,7 @@ function _setupRoboJoystickDefinitions() {
 
   Blockly.Python.definitions_['func_robo_joystick'] =
     'def _robo_set_frente_continuo():\n' +
-    '  _robo_stby.value(1)\n' +
+    '  _robo_habilitar_motores()\n' +
     '  _robo_esq_frente.value(0)\n' +
     '  _robo_esq_tras.value(1)\n' +
     '  _robo_dir_frente.value(0)\n' +
@@ -563,7 +632,7 @@ function _setupRoboJoystickDefinitions() {
     '  _robo_dir_pwm.duty_u16(_robo_pwm(_robo_vel_movimento))\n' +
     '\n' +
     'def _robo_set_tras_continuo():\n' +
-    '  _robo_stby.value(1)\n' +
+    '  _robo_habilitar_motores()\n' +
     '  _robo_esq_frente.value(1)\n' +
     '  _robo_esq_tras.value(0)\n' +
     '  _robo_dir_frente.value(1)\n' +
@@ -574,7 +643,7 @@ function _setupRoboJoystickDefinitions() {
     'def _robo_controlar_joystick():\n' +
     '  if not _robo_diagnostico_ok:\n' +
     '    _robo_parar()\n' +
-    '    sleep_ms(40)\n' +
+    '    _robo_pausa_segura(40)\n' +
     '    return\n' +
     '  _jx = _robo_joy_x.read_u16()\n' +
     '  _jy = _robo_joy_y.read_u16()\n' +
@@ -592,7 +661,7 @@ function _setupRoboJoystickDefinitions() {
     '      _robo_pivot_esq(_robo_vel_giro)\n' +
     '    else:\n' +
     '      _robo_pivot_dir(_robo_vel_giro)\n' +
-    '  sleep_ms(40)\n';
+    '  _robo_pausa_segura(40)\n';
 }
 
 function _setupRoboPowerDefinitions() {

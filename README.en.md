@@ -73,6 +73,8 @@ The program can be run directly, saved as `main.py`, or inspected inside the pla
 
 Blocks cover the RGB LED, 5×5 RGB matrix, OLED, joystick, buttons, buzzer, musical notes, microphone, sensors, and project-specific Robot and Greenhouse resources. The interface provides hardware configurations for BitDogLab v6 and v7.
 
+In **arrow mode**, the robot completes its five-second countdown and hardware diagnostics, then waits for a new press and release of **button A**. Holding A during startup does not start the route. **Button B** disables the motor driver through an interrupt and cancels the entire mission, including preparation, movement, and turns. Releasing B does not resume the route: run the program again or restart the board and give a new start command with A. Completion, errors, and Ctrl+C also stop the motors. Save `main.py` again to update older programs stored on the board.
+
 ## Files stored on the board
 
 ![File manager connected to the BitDogLab](device-file-manager/images/connected-window.png)

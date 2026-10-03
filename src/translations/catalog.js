@@ -74,7 +74,7 @@ var APP_MESSAGES = {
     robotModeArrowsAudience: 'Indicado para crianças da Educação Infantil e dos anos iniciais do Ensino Fundamental.',
     robotModeBackLabel: 'Voltar aos projetos',
     robotLedLegendTitle: 'Avisos do LED do robô',
-    robotLedGreen: 'Verde: tudo OK. O robô vai começar.',
+    robotLedGreen: 'Verde: tudo OK. No modo por setas, aperte e solte A para iniciar. B cancela o percurso.',
     robotLedYellow: 'Amarelo: verifique o acelerômetro MPU6050 e as conexões I²C.',
     robotLedRed: 'Vermelho (V7): verifique a bateria; pode estar descarregada ou desconectada.',
     robotLedV6Note: 'A V6 não mede a bateria.',
@@ -146,7 +146,7 @@ var APP_MESSAGES = {
     robotModeArrowsAudience: 'Designed for early childhood education and the first years of elementary school.',
     robotModeBackLabel: 'Back to projects',
     robotLedLegendTitle: 'Robot LED alerts',
-    robotLedGreen: 'Green: all OK. The robot is about to start.',
+    robotLedGreen: 'Green: all OK. In arrow mode, press and release A to start. B cancels the route.',
     robotLedYellow: 'Yellow: check the MPU6050 accelerometer and I²C connections.',
     robotLedRed: 'Red (V7): check the battery; it may be discharged or disconnected.',
     robotLedV6Note: 'V6 does not measure battery voltage.',
@@ -249,6 +249,12 @@ var BLOCKLY_MESSAGES = {
 };
 var CUSTOM_OVERRIDES = {
   'en': {
+    'Prepara o robô por 5 segundos. Depois, aperte e solte A para iniciar. B cancela todo o percurso.': 'Prepares the robot for 5 seconds. Then press and release A to start. B cancels the entire route.',
+    'Preparando robo. Aguarde': 'Preparing robot. Wait',
+    's para iniciar': 's before starting',
+    'Robo pronto! Aguarde o aviso para apertar A.': 'Robot ready! Wait for the prompt to press A.',
+    'Aperte e solte A para iniciar. B cancela a missao.': 'Press and release A to start. B cancels the mission.',
+    'Missao cancelada pelo botao B. Execute novamente para tentar outro percurso.': 'Mission cancelled by button B. Run again to try another route.',
     'Inicia o robô e prepara o sensor de giro.': 'Starts the robot and prepares the rotation sensor.',
     'Avança uma casa por 1 segundo.': 'Moves forward one square for 1 second.',
     'Gira 90 graus à esquerda e avança uma casa por 1 segundo.': 'Turns 90 degrees left and moves forward one square for 1 second.',

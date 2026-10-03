@@ -75,7 +75,9 @@ Os blocos cobrem LED RGB, matriz RGB 5×5, OLED, joystick, botões, buzzer, nota
 
 ### Diagnóstico de partida do robô
 
-Os blocos **Inicializar robô** e **Iniciar robô com setas** executam a contagem na matriz antes de liberar os motores. Na V6, verificam o MPU6050 e, se o exemplo usar OLED, sua comunicação I²C: o LED RGB pisca amarelo se algum deles falhar; se estiverem prontos, fica verde por dois segundos, apaga e a missão começa. Na V7, verificam também o INA226: abaixo de 3,6 V o LED pisca vermelho; se a bateria estiver baixa e houver outra falha I²C, alterna vermelho e amarelo; sem leitura do INA226, pisca amarelo. Qualquer alerta mantém os motores parados. O terminal imprime a tensão medida na V7.
+Os blocos **Inicializar robô** e **Iniciar robô com setas** executam a contagem na matriz antes de liberar os motores. Na V6, verificam o MPU6050 e, se o exemplo usar OLED, sua comunicação I²C: o LED RGB pisca amarelo se algum deles falhar; se estiverem prontos, fica verde por dois segundos. Na V7, verificam também o INA226: abaixo de 3,6 V o LED pisca vermelho; se a bateria estiver baixa e houver outra falha I²C, alterna vermelho e amarelo; sem leitura do INA226, pisca amarelo. Qualquer alerta mantém os motores parados. O terminal imprime a tensão medida na V7.
+
+No **modo por setas**, após a contagem de cinco segundos e o diagnóstico, o LED fica verde e o robô espera um novo aperto e soltura do **botão A**. Segurar A ao ligar não inicia o percurso. O **botão B** corta a habilitação dos motores por interrupção e cancela toda a missão, inclusive durante a preparação, movimentos e giros. Soltar B não retoma o percurso: execute novamente ou reinicie a placa e dê um novo comando pelo A. A conclusão, erros e Ctrl+C também desligam os motores. É necessário salvar novamente o `main.py` para atualizar programas antigos na placa.
 
 Os exemplos **22 a 25 de Robô Móvel** usam explicitamente leituras de bateria e exigem o INA226 da V7. Na V6, o diagnóstico de partida funciona, mas esses exemplos não podem fornecer valores reais de tensão ou corrente.
 
