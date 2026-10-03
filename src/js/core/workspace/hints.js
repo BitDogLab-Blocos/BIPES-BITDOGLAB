@@ -3,6 +3,157 @@
 var Code = window.Code || (window.Code = {});
 var WorkspaceManager = window.WorkspaceManager || (window.WorkspaceManager = {});
 
+WorkspaceManager.EXTERNAL_GUIDE_INTERVAL_MS = 10 * 60 * 1000;
+WorkspaceManager.EXTERNAL_GUIDE_LAST_SHOWN_KEY = 'bitdoglab_external_guide_last_shown_at_';
+WorkspaceManager.externalGuideLastShown = {};
+WorkspaceManager.externalGuideTimer = null;
+WorkspaceManager.externalCategoryGuides = {
+  contacts: {pt: 'Contatos', en: 'Contacts', ids: ['externalContactNotification'], show: function() { Code.showExternalContactReminder(); }},
+  servo: {pt: 'Servo Motor', en: 'External Servo', ids: ['servoConnectionNotification'], show: function() { Code.showServoConnectionReminder(); }},
+  led: {pt: 'LEDs Externos', en: 'External LEDs', ids: ['externalLedWarningNotification'], show: function() { Code.showExternalLedConnectionReminder(); }},
+  temperature: {pt: 'Temperatura e Umidade Externas', en: 'External temperature and humidity', ids: ['dht11ConnectionNotification'], show: function() { Code.showDht11ConnectionReminder(); }},
+  distance: {pt: 'Sensor de Distância', en: 'Distance and presence sensor', ids: ['distanceSensorConnectionNotification', 'distanceSensorSolderNotification'], show: function() { Code.showDistanceSensorConnectionReminder(); WorkspaceManager.showDistanceSensorSolderReminder(); }},
+  movement: {pt: 'Movimento e Inclinação', en: 'Movement and Tilt', ids: ['mpu6050ConnectionNotification'], show: function() { Code.showMpu6050ConnectionReminder(); }},
+  light: {pt: 'Sensor de Luz', en: 'Light and shadow sensor (LDR)', ids: ['ldrConnectionNotification', 'ldrJumperNotification'], show: function() { Code.showLdrConnectionReminder(); WorkspaceManager.showLdrJumperReminder(); }}
+};
+
+WorkspaceManager.getExternalGuideLastShown = function(key) {
+  try {
+    return Number(localStorage.getItem(WorkspaceManager.EXTERNAL_GUIDE_LAST_SHOWN_KEY + key)) || 0;
+  } catch (e) {
+    return WorkspaceManager.externalGuideLastShown[key] || 0;
+  }
+};
+
+WorkspaceManager.setExternalGuideLastShown = function(key, time) {
+  WorkspaceManager.externalGuideLastShown[key] = time;
+  try {
+    localStorage.setItem(WorkspaceManager.EXTERNAL_GUIDE_LAST_SHOWN_KEY + key, String(time));
+  } catch (e) {
+    // Keep the delay for this page when browser storage is unavailable.
+  }
+};
+
+WorkspaceManager.externalGuideRemainingMs = function(key) {
+  var lastShown = WorkspaceManager.getExternalGuideLastShown(key);
+  var elapsed = Date.now() - lastShown;
+  return lastShown > 0 && elapsed >= 0
+    ? Math.max(0, WorkspaceManager.EXTERNAL_GUIDE_INTERVAL_MS - elapsed)
+    : 0;
+};
+
+WorkspaceManager.isExternalProject = function() {
+  try {
+    return localStorage.getItem('bitdoglab_project') === 'externos';
+  } catch (e) {
+    return false;
+  }
+};
+
+WorkspaceManager.populateExternalInfoMenu = function() {
+  var menu = document.getElementById('externalInfoMenu');
+  var toggle = document.getElementById('externalInfoToggle');
+  if (!menu || !toggle) return;
+  menu.textContent = '';
+  Object.keys(WorkspaceManager.externalCategoryGuides).forEach(function(key) {
+    if (key === 'contacts' || !WorkspaceManager.externalGuideRemainingMs(key)) return;
+    var guide = WorkspaceManager.externalCategoryGuides[key];
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = Code.LANG === 'en' ? guide.en : guide.pt;
+    button.addEventListener('click', function() {
+      if (!WorkspaceManager.externalGuideRemainingMs(key)) {
+        WorkspaceManager.refreshExternalInfo();
+        return;
+      }
+      menu.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+      WorkspaceManager.showExternalCategoryGuide(key);
+    });
+    menu.appendChild(button);
+  });
+};
+
+WorkspaceManager.refreshExternalInfo = function() {
+  var dock = document.getElementById('externalInfoDock');
+  var toggle = document.getElementById('externalInfoToggle');
+  var menu = document.getElementById('externalInfoMenu');
+  if (!dock || !toggle || !menu) return;
+
+  if (WorkspaceManager.externalGuideTimer) clearTimeout(WorkspaceManager.externalGuideTimer);
+  WorkspaceManager.externalGuideTimer = null;
+  var remaining = Object.keys(WorkspaceManager.externalCategoryGuides).reduce(function(shortest, key) {
+    if (key === 'contacts') return shortest;
+    var categoryRemaining = WorkspaceManager.externalGuideRemainingMs(key);
+    return categoryRemaining && (!shortest || categoryRemaining < shortest) ? categoryRemaining : shortest;
+  }, 0);
+  dock.hidden = !remaining || !WorkspaceManager.isExternalProject();
+  if (dock.hidden) {
+    menu.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    return;
+  }
+
+  toggle.textContent = Code.LANG === 'en' ? '+ Information' : '+ Informações';
+  menu.setAttribute('aria-label', Code.LANG === 'en' ? 'External connection tutorials' : 'Tutoriais de conexões externas');
+  if (!menu.hidden) WorkspaceManager.populateExternalInfoMenu();
+  WorkspaceManager.externalGuideTimer = setTimeout(WorkspaceManager.refreshExternalInfo, remaining);
+};
+
+WorkspaceManager.closeExternalCategoryGuides = function() {
+  Object.keys(WorkspaceManager.externalCategoryGuides).forEach(function(name) {
+    WorkspaceManager.externalCategoryGuides[name].ids.forEach(function(id) {
+      var notice = document.getElementById(id);
+      if (notice && notice.parentNode) notice.parentNode.removeChild(notice);
+    });
+  });
+};
+
+WorkspaceManager.showExternalCategoryGuide = function(key) {
+  var guide = WorkspaceManager.externalCategoryGuides[key];
+  if (!guide) return;
+  WorkspaceManager.closeExternalCategoryGuides();
+  guide.show();
+};
+
+WorkspaceManager.showExternalCategoryOnClick = function(key) {
+  if (!WorkspaceManager.isExternalProject()) {
+    WorkspaceManager.showExternalCategoryGuide(key);
+    return;
+  }
+  if (WorkspaceManager.externalGuideRemainingMs(key)) {
+    WorkspaceManager.closeExternalCategoryGuides();
+    WorkspaceManager.refreshExternalInfo();
+    return;
+  }
+  WorkspaceManager.setExternalGuideLastShown(key, Date.now());
+  WorkspaceManager.refreshExternalInfo();
+  WorkspaceManager.showExternalCategoryGuide(key);
+};
+
+WorkspaceManager.bindExternalInfo = function() {
+  var dock = document.getElementById('externalInfoDock');
+  var toggle = document.getElementById('externalInfoToggle');
+  var menu = document.getElementById('externalInfoMenu');
+  if (!dock || !toggle || !menu || dock.__bitdoglabBound) return;
+  dock.__bitdoglabBound = true;
+
+  toggle.addEventListener('click', function() {
+    WorkspaceManager.refreshExternalInfo();
+    if (dock.hidden) return;
+    menu.hidden = !menu.hidden;
+    toggle.setAttribute('aria-expanded', String(!menu.hidden));
+    if (!menu.hidden) WorkspaceManager.populateExternalInfoMenu();
+  });
+  document.addEventListener('click', function(event) {
+    if (!dock.contains(event.target)) {
+      menu.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+  WorkspaceManager.refreshExternalInfo();
+};
+
 WorkspaceManager.ensureReminderStyle = function() {
   if (document.getElementById('runtime-reminder-style')) return;
   var style = document.createElement('style');
@@ -223,7 +374,7 @@ WorkspaceManager.bindServoCategoryHint = function() {
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
     if (categoryName === 'Servo Motor' || categoryName === 'External Servo') {
-      Code.showServoConnectionReminder();
+      WorkspaceManager.showExternalCategoryOnClick('servo');
     }
   });
 };
@@ -324,7 +475,7 @@ WorkspaceManager.bindExternalContactCategoryHint = function() {
     }
     var categoryName = item && item.getName ? item.getName() : '';
     if (categoryName === 'Contatos' || categoryName === 'Contacts') {
-      Code.showExternalContactReminder();
+      WorkspaceManager.showExternalCategoryOnClick('contacts');
     }
   });
 };
@@ -566,7 +717,7 @@ WorkspaceManager.bindExternalLedCategoryHint = function() {
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
     if (categoryName === 'LEDs Externos' || categoryName === 'External LEDs') {
-      Code.showExternalLedConnectionReminder();
+      WorkspaceManager.showExternalCategoryOnClick('led');
     }
   });
 };
@@ -654,7 +805,7 @@ WorkspaceManager.bindDht11CategoryHint = function() {
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
     if (categoryName === 'Temperatura e Umidade Externas' || categoryName === 'External temperature and humidity') {
-      Code.showDht11ConnectionReminder();
+      WorkspaceManager.showExternalCategoryOnClick('temperature');
     }
   });
 };
@@ -764,8 +915,7 @@ WorkspaceManager.bindDistanceSensorCategoryHint = function() {
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
     if (categoryName === 'Sensor de Distância' || categoryName === 'Distance and presence sensor') {
-      Code.showDistanceSensorConnectionReminder();
-      WorkspaceManager.showDistanceSensorSolderReminder();
+      WorkspaceManager.showExternalCategoryOnClick('distance');
     }
   });
 };
@@ -866,7 +1016,7 @@ WorkspaceManager.bindMpu6050CategoryHint = function() {
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
     if (categoryName === 'Movimento e Inclinação' || categoryName === 'Movement and Tilt') {
-      Code.showMpu6050ConnectionReminder();
+      WorkspaceManager.showExternalCategoryOnClick('movement');
     }
   });
 };
@@ -1059,8 +1209,7 @@ WorkspaceManager.bindLdrCategoryHint = function() {
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
     if (categoryName === 'Sensor de Luz' || categoryName === 'Light and shadow sensor (LDR)') {
-      Code.showLdrConnectionReminder();
-      WorkspaceManager.showLdrJumperReminder();
+      WorkspaceManager.showExternalCategoryOnClick('light');
     }
   });
 };
@@ -1871,6 +2020,7 @@ WorkspaceManager.bindSaveDataCategoryHint = function() {
 };
 
 WorkspaceManager.bindWorkspaceHints = function() {
+  WorkspaceManager.bindExternalInfo();
   WorkspaceManager.bindSaveDataCategoryHint();
   WorkspaceManager.bindExternalContactCategoryHint();
   WorkspaceManager.bindServoCategoryHint();

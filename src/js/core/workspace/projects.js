@@ -173,6 +173,7 @@ WorkspaceManager.initProjectSelector = function() {
     Code.filterToolboxByProject(project);
     modal.style.display = 'none';
     WorkspaceManager.showProjectHardwareNotice(project);
+    if (WorkspaceManager.refreshExternalInfo) WorkspaceManager.refreshExternalInfo();
     console.log('[BitdogLab] Projeto selecionado:', project);
   }
 
