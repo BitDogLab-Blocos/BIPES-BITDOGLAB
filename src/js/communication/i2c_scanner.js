@@ -67,7 +67,10 @@ class I2CScanner {
   _canScan() {
     // Only scan when user code is not running
     // runButton.status = true when idle, false when running
-    return this._isRunning && UI['workspace'].runButton.status === true;
+    var serial = this._serial;
+    return this._isRunning && serial && serial.isReady() &&
+      serial.buffer.length === 0 && serial.completeBufferCallback.length === 0 &&
+      !serial._sendingPacket && UI['workspace'].runButton.status === true;
   }
 
   /**
@@ -77,17 +80,17 @@ class I2CScanner {
     var self = this;
 
     // Não enviar se o scanner foi parado
-    if (!this._isRunning) return;
+    if (!this._canScan()) return;
 
-    serial._serialWrite(REPL_CONSTANTS.CTRL_C);
+    serial._serialWrite(REPL_CONSTANTS.CTRL_C, function() { return self._canScan(); });
 
     this._scanTimeout = setTimeout(function() {
       self._scanTimeout = null;
       // Verificar novamente antes de enviar (pode ter sido parado durante os 200ms)
-      if (!self._isRunning) return;
+      if (!self._canScan()) return;
       self._scanPending = true;
       self._scanBuffer = '';
-      serial._serialWrite(self._buildScanCmd());
+      serial._serialWrite(self._buildScanCmd(), function() { return self._canScan(); });
     }, 200);
   }
 

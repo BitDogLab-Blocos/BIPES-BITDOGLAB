@@ -129,5 +129,5 @@ Code.LANG = LanguageManager.getLang();
 
 if (!Code._translationScriptsInjected) {
   Code._translationScriptsInjected = true;
-  document.write('<script src="../translations/catalog.js?ver=20261003robotButtons1"></script>\n');
+  document.write('<script src="../translations/catalog.js?ver=20261003usbRecovery1"></script>\n');
 }

@@ -46,6 +46,11 @@ class ExecutionRunner {
   }
 
   static runPython (code_) {
+    const serial = Channel['webserial'];
+    if (serial && typeof serial.isReady === 'function' && !serial.isReady()) {
+      UI['notify'].send(MSG.serialNotReady);
+      return;
+    }
     // Always validate the current workspace before sending code. A caller may
     // provide a pre-generated string, but it must not bypass block safety
     // rules after the workspace has become invalid.
@@ -118,7 +123,12 @@ class ExecutionRunner {
       return;
     }
 
-    mux.bufferPush ('\x03\x03'); // Ctrl+C twice - interrupt running code
+    const serial = Channel['webserial'];
+    if (serial && typeof serial.interrupt === 'function') {
+      i2cScanner.stop();
+      return serial.interrupt();
+    }
+    mux.bufferPush ('\x03\x03'); // Legacy transport fallback
     // Reiniciar scanner I2C após parar o código do usuário
     setTimeout(function() {
       if (typeof Channel !== 'undefined' && Channel['webserial'] && Channel['webserial'].connected) {

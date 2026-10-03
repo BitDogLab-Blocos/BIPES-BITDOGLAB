@@ -75,6 +75,8 @@ Blocks cover the RGB LED, 5×5 RGB matrix, OLED, joystick, buttons, buzzer, musi
 
 In **arrow mode**, the robot completes its five-second countdown and hardware diagnostics, then waits for a new press and release of **button A**. Holding A during startup does not start the route. **Button B** disables the motor driver through an interrupt and cancels the entire mission, including preparation, movement, and turns. Releasing B does not resume the route: run the program again or restart the board and give a new start command with A. Completion, errors, and Ctrl+C also stop the motors. Save `main.py` again to update older programs stored on the board.
 
+USB connection interrupts the saved program and confirms a fresh terminal response before enabling execution or saving. Cable removal and read/write failures close the session, release the port, and clear pending commands so the board can be reconnected without reloading the page. An explicitly requested connection reset uses raw REPL to avoid restarting `main.py` during preparation.
+
 ## Files stored on the board
 
 ![File manager connected to the BitDogLab](device-file-manager/images/connected-window.png)

@@ -5,14 +5,18 @@ const SERIAL_CONFIG = {
   BAUD_RATE: 115200,//Bits/sec for pico, for: ESP32/ESP8266 standard (9600, 57600, 921600)
   PACKET_SIZE: 100, // Max bytes per chunk (UART buffer ~128 bytes)
   WATCH_INTERVAL_MS: 50, // Serial polling interval
-  RESET_TIMEOUT_MS: 50 //Delay before CTRL_C/CTRL_D
+  RESET_TIMEOUT_MS: 50, //Delay before CTRL_C/CTRL_D
+  REPL_RECOVERY_INTERVAL_MS: 350,
+  REPL_RECOVERY_ATTEMPTS: 20
 };
 // MicroPython REPL control codes
 const REPL_CONSTANTS = {
   PROMPT: '>>> ', //REPL ready indicator
   PROMPT_LENGTH: 4,
   CTRL_C: '\x03',// \x03 = KeyboardInterrupt (stops code, no reboot)
-  CTRL_D: '\x04'// \x04 = Soft reboot (reloads boot.py/main.py, clears memory)
+  CTRL_D: '\x04',// \x04 = Soft reboot (reloads boot.py/main.py, clears memory)
+  CTRL_A: '\x01', // Enter raw REPL
+  CTRL_B: '\x02' // Return to friendly REPL
 };
 const PATTERNS = {
   LINE_BREAK: /\r\n|\n/gm,// Regex: Windows (\r\n) + Unix (\n) endings
@@ -32,22 +36,22 @@ class ProtocolManager {
   switch(channelName) {
     if (this.available.includes(channelName)) {
       this.currentChannel = channelName;
-      ProtocolManager.disconnect();
-      this.connect();
+      return ProtocolManager.disconnect().then(() => this.connect());
     } else {
       alert(`The channel ${channelName} is not yet available in this version.`);
     }
   }
   connect() {
-    Channel['webserial'].connect();
+    return Channel['webserial'].connect();
   }
   static disconnect() {
-    if (Channel['webserial'].connected) {
-      Channel['webserial'].disconnect();
-    }
+    return Promise.resolve(Channel['webserial'].disconnect());
   }
   static connected() {
     return Channel['webserial'].connected;
+  }
+  static ready() {
+    return Channel['webserial'].isReady();
   }
   //FIFO: Enqueue code chunks + callback (fires on REPL '>>>')
   static bufferPush(code, callback) {

@@ -65,6 +65,8 @@ while True:
 
 O programa pode ser executado diretamente, salvo como `main.py` ou inspecionado na própria plataforma.
 
+Na conexão USB, a plataforma interrompe o programa salvo e confirma uma resposta nova do terminal antes de liberar execução ou gravação. A retirada do cabo e falhas de leitura ou escrita encerram a sessão, liberam a porta e limpam comandos pendentes. É possível conectar novamente pela interface sem recarregar a página. Quando solicitado, o reset de conexão acontece pelo REPL bruto, evitando executar novamente o `main.py` durante a preparação.
+
 ## Hardware que ganha vida
 
 <p align="center">

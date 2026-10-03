@@ -35,12 +35,7 @@ class workspace {
 // Run or stop Python program (auto-connects if needed)
 workspace.prototype.run = function () {
   if (this.runButton.status) {
-    if(mux.connected ()) {
-        Tool.runPython();
-    } else {
-      Channel ['mux'].connect ();
-      setTimeout(() => { if (mux.connected ()) Tool.runPython();}, 2000); // Wait 2s for connection
-    }
+    return this.withReadyBoard(() => Tool.runPython());
   } else {
     Tool.stopPython();
   }
@@ -48,13 +43,22 @@ workspace.prototype.run = function () {
 
 // Save generated code as main.py on the board (auto-connects if needed)
 workspace.prototype.saveMain = function () {
-  if (mux.connected ()) {
-    Tool.saveAsMainPy ();
-  } else {
-    Channel ['mux'].connect ();
-    setTimeout(() => { if (mux.connected ()) Tool.saveAsMainPy ();}, 2000);
-  }
+  return this.withReadyBoard(() => Tool.saveAsMainPy());
 }
+
+workspace.prototype.withReadyBoard = async function (action) {
+  if (this._waitingForBoard) return;
+  if (mux.ready()) return action();
+  this._waitingForBoard = true;
+  try {
+    const ready = mux.connected()
+      ? await Channel['webserial'].waitUntilReady()
+      : await Channel['mux'].connect();
+    if (ready && mux.ready()) return action();
+  } finally {
+    this._waitingForBoard = false;
+  }
+};
 
 // UI: connecting state
 workspace.prototype.connecting = function () {
@@ -64,7 +68,7 @@ workspace.prototype.connecting = function () {
 
 // Toggle connect/disconnect
 workspace.prototype.connectClick = function () {
-  if (mux.connected ()) {
+  if (mux.connected () || Channel['webserial']._connectPromise) {
     mux.disconnect ();
   } else {
     Channel ['mux'].connect ();

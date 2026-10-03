@@ -6,11 +6,21 @@ static saveAsMainPy () {
     Tool.updateFileStatus('Conecte a placa para salvar main.py.');
     return;
   }
+  if (typeof mux.ready === 'function' && !mux.ready()) {
+    Tool.updateFileStatus(MSG.serialNotReady);
+    return;
+  }
 
   if (!Tool.validateWorkspaceBeforeCodeAction('salvar main.py')) return;
 
   const saveButton = UI['workspace']?.saveMainButton;
   if (saveButton) saveButton.disabled = true;
+  const serial = Channel['webserial'];
+  const session = serial._session;
+  let finished = false;
+  let startTimer;
+  let connectionWatch;
+  const isActive = () => !finished && serial._session === session && mux.connected() && mux.ready();
 
   // Guarda o _sendScan original e substitui por função vazia
   const originalSendScan = i2cScanner._sendScan.bind(i2cScanner);
@@ -18,22 +28,39 @@ static saveAsMainPy () {
   i2cScanner.stop();
 
   const finish = () => {
+    if (finished) return;
+    finished = true;
+    clearTimeout(startTimer);
+    clearInterval(connectionWatch);
     i2cScanner._sendScan = originalSendScan;
     if (saveButton) saveButton.disabled = false;
     setTimeout(() => {
-      if (Channel['webserial']?.connected) i2cScanner.start(Channel['webserial']);
+      if (serial._session === session && serial.isReady()) i2cScanner.start(serial);
     }, 500);
   };
+  connectionWatch = setInterval(() => {
+    if (!isActive()) {
+      Tool.updateFileStatus(MSG.serialDisconnected);
+      finish();
+    }
+  }, 100);
 
   mux.clearBuffer();
   mux.bufferPush('\x03\x03');
 
-  setTimeout(() => {
-    Tool._doSaveAsMainPy(finish);
+  startTimer = setTimeout(() => {
+    if (isActive()) Tool._doSaveAsMainPy(finish, isActive);
+    else finish();
   }, 500);
 }
 
-static _doSaveAsMainPy (onDone) {
+static _doSaveAsMainPy (onDone, isActive = () => true) {
+  const enqueue = (command, callback) => {
+    if (!isActive()) return;
+    mux.bufferPush(command, () => {
+      if (isActive()) callback();
+    });
+  };
   delete Blockly.Python.buzzerDisplayConfig;
   delete Blockly.Python.activeDisplayType;
   let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
@@ -65,21 +92,22 @@ static _doSaveAsMainPy (onDone) {
   Tool.updateFileStatus('Salvando main.py na placa...');
 
   mux.clearBuffer();
-  mux.bufferPush("import ubinascii; f=open('main.py','wb')\r", () => {
+  enqueue("import ubinascii; f=open('main.py','wb')\r", () => {
     advanceProgress();
     let i = 0;
     function sendNext() {
       if (i < chunks.length) {
-        mux.bufferPush(`f.write(ubinascii.a2b_base64('${chunks[i++]}'))\r`, () => {
+        enqueue(`f.write(ubinascii.a2b_base64('${chunks[i++]}'))\r`, () => {
           advanceProgress();
           sendNext();
         });
       } else {
-        mux.bufferPush("f.close()\r", () => {
+        enqueue("f.close()\r", () => {
           advanceProgress();
           Files.received_string = '';
-          mux.bufferPush("import os; print('__BIPES_MAIN_SAVED__', os.stat('main.py')[6])\r", () => {
+          enqueue("import os; print('__BIPES_MAIN_SAVED__', os.stat('main.py')[6])\r", () => {
             setTimeout(() => {
+              if (!isActive()) return;
               const match = Files.received_string.match(/__BIPES_MAIN_SAVED__\s+(\d+)/);
               const savedBytes = match ? Number(match[1]) : -1;
               const verified = savedBytes === bytes.length;
