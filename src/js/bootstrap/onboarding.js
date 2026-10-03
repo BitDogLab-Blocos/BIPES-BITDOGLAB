@@ -1,6 +1,23 @@
 'use strict';
 
 (function(global) {
+  var ONBOARDING_LAST_SHOWN_KEY = 'bitdoglab_onboarding_last_shown_at';
+  var ONBOARDING_INTERVAL_MS = 60 * 60 * 1000;
+
+  function shouldShowOnboarding() {
+    var now = Date.now();
+    try {
+      var lastShown = Number(localStorage.getItem(ONBOARDING_LAST_SHOWN_KEY));
+      if (lastShown > 0 && now >= lastShown && now - lastShown < ONBOARDING_INTERVAL_MS) {
+        return false;
+      }
+      localStorage.setItem(ONBOARDING_LAST_SHOWN_KEY, String(now));
+    } catch (e) {
+      // Storage may be unavailable; keep the welcome flow usable.
+    }
+    return true;
+  }
+
   function initializeOnboarding() {
     var startBtn = document.getElementById('startAdventureBtn');
     var welcomeMsg = document.getElementById('welcome-message');
@@ -16,7 +33,7 @@
       '<style>@keyframes bounce{0%,20%,50%,80%,100%{transform:translateY(0)}40%{transform:translateY(-20px)}60%{transform:translateY(-10px)}}</style>'
     );
 
-    if (welcomeMsg) {
+    if (welcomeMsg && shouldShowOnboarding()) {
       welcomeMsg.style.display = 'flex';
     }
 
