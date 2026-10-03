@@ -36,7 +36,7 @@
 
 .external-info-dock {
   position: absolute;
-  top: calc(50% + 3.5rem);
+  top: calc(50% - 4.5rem);
   right: 0;
   z-index: 999;
 }

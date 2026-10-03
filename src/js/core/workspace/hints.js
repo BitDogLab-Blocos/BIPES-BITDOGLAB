@@ -14,7 +14,11 @@ WorkspaceManager.externalCategoryGuides = {
   temperature: {pt: 'Temperatura e Umidade Externas', en: 'External temperature and humidity', ids: ['dht11ConnectionNotification'], show: function() { Code.showDht11ConnectionReminder(); }},
   distance: {pt: 'Sensor de Distância', en: 'Distance and presence sensor', ids: ['distanceSensorConnectionNotification', 'distanceSensorSolderNotification'], show: function() { Code.showDistanceSensorConnectionReminder(); WorkspaceManager.showDistanceSensorSolderReminder(); }},
   movement: {pt: 'Movimento e Inclinação', en: 'Movement and Tilt', ids: ['mpu6050ConnectionNotification'], show: function() { Code.showMpu6050ConnectionReminder(); }},
-  light: {pt: 'Sensor de Luz', en: 'Light and shadow sensor (LDR)', ids: ['ldrConnectionNotification', 'ldrJumperNotification'], show: function() { Code.showLdrConnectionReminder(); WorkspaceManager.showLdrJumperReminder(); }}
+  light: {pt: 'Sensor de Luz', en: 'Light and shadow sensor (LDR)', ids: ['ldrConnectionNotification', 'ldrJumperNotification'], show: function() { Code.showLdrConnectionReminder(); WorkspaceManager.showLdrJumperReminder(); }},
+  save_data: {pt: 'Salvar dados', en: 'Save data', ids: ['saveDataNotification'], show: function(block) {
+    var saveBlock = block || Code.workspace.getBlocksByType('salvar_dados_csv', false)[0];
+    WorkspaceManager.showSaveDataGuide(saveBlock || null);
+  }}
 };
 
 WorkspaceManager.getExternalGuideLastShown = function(key) {
@@ -49,13 +53,13 @@ WorkspaceManager.getInfoGuideKeys = function() {
   } catch (e) {
     project = 'basico';
   }
-  if (project === 'basico') return ['contacts'];
+  if (project === 'basico') return ['contacts', 'save_data'];
   if (project === 'externos') {
     return Object.keys(WorkspaceManager.externalCategoryGuides).filter(function(key) {
       return key !== 'contacts';
     });
   }
-  return [];
+  return ['save_data'];
 };
 
 WorkspaceManager.populateExternalInfoMenu = function() {
@@ -114,31 +118,34 @@ WorkspaceManager.closeExternalCategoryGuides = function() {
   Object.keys(WorkspaceManager.externalCategoryGuides).forEach(function(name) {
     WorkspaceManager.externalCategoryGuides[name].ids.forEach(function(id) {
       var notice = document.getElementById(id);
-      if (notice && notice.parentNode) notice.parentNode.removeChild(notice);
+      if (notice && notice.parentNode) {
+        if (notice.__bitdoglabDispose) notice.__bitdoglabDispose();
+        notice.parentNode.removeChild(notice);
+      }
     });
   });
 };
 
-WorkspaceManager.showExternalCategoryGuide = function(key) {
+WorkspaceManager.showExternalCategoryGuide = function(key, block) {
   var guide = WorkspaceManager.externalCategoryGuides[key];
   if (!guide) return;
   WorkspaceManager.closeExternalCategoryGuides();
-  guide.show();
+  guide.show(block);
 };
 
-WorkspaceManager.showExternalCategoryOnClick = function(key) {
+WorkspaceManager.showExternalCategoryOnClick = function(key, block, keepCurrentGuide) {
   if (WorkspaceManager.getInfoGuideKeys().indexOf(key) === -1) {
-    WorkspaceManager.showExternalCategoryGuide(key);
+    WorkspaceManager.showExternalCategoryGuide(key, block);
     return;
   }
   if (WorkspaceManager.externalGuideRemainingMs(key)) {
-    WorkspaceManager.closeExternalCategoryGuides();
+    if (!keepCurrentGuide) WorkspaceManager.closeExternalCategoryGuides();
     WorkspaceManager.refreshExternalInfo();
     return;
   }
   WorkspaceManager.setExternalGuideLastShown(key, Date.now());
   WorkspaceManager.refreshExternalInfo();
-  WorkspaceManager.showExternalCategoryGuide(key);
+  WorkspaceManager.showExternalCategoryGuide(key, block);
 };
 
 WorkspaceManager.bindExternalInfo = function() {
@@ -2002,10 +2009,13 @@ WorkspaceManager.showSaveDataGuide = function(block) {
     Blockly.svgResize(previewWorkspace);
   });
 
-  var closeButton = document.getElementById(closeId);
-  closeButton.addEventListener('click', function() {
+  var previewsDisposed = false;
+  panel.__bitdoglabDispose = function() {
+    if (previewsDisposed) return;
+    previewsDisposed = true;
     previewWorkspaces.forEach(function(workspace) { workspace.dispose(); });
-  });
+  };
+  document.getElementById(closeId).addEventListener('click', panel.__bitdoglabDispose);
 };
 
 WorkspaceManager.bindSaveDataCategoryHint = function() {
@@ -2020,8 +2030,7 @@ WorkspaceManager.bindSaveDataCategoryHint = function() {
       var item = target.id && toolbox.getToolboxItemById && toolbox.getToolboxItemById(target.id);
       var name = item && item.getName ? item.getName() : '';
       if (name === 'Salvar dados' || name === 'Save data') {
-        var saveBlock = Code.workspace.getBlocksByType('salvar_dados_csv', false)[0];
-        WorkspaceManager.showSaveDataGuide(saveBlock || null);
+        WorkspaceManager.showExternalCategoryOnClick('save_data');
         return;
       }
       target = target.parentNode;
@@ -2048,7 +2057,7 @@ WorkspaceManager.bindWorkspaceHints = function() {
       var blockType = block.type;
 
       if (blockType === 'salvar_dados_csv') {
-        WorkspaceManager.showSaveDataGuide(block);
+        WorkspaceManager.showExternalCategoryOnClick('save_data', block, true);
       }
 
       if (blockType === 'mpu6050_inclinacao') {
