@@ -42,12 +42,20 @@ WorkspaceManager.externalGuideRemainingMs = function(key) {
     : 0;
 };
 
-WorkspaceManager.isExternalProject = function() {
+WorkspaceManager.getInfoGuideKeys = function() {
+  var project;
   try {
-    return localStorage.getItem('bitdoglab_project') === 'externos';
+    project = localStorage.getItem('bitdoglab_project') || 'basico';
   } catch (e) {
-    return false;
+    project = 'basico';
   }
+  if (project === 'basico') return ['contacts'];
+  if (project === 'externos') {
+    return Object.keys(WorkspaceManager.externalCategoryGuides).filter(function(key) {
+      return key !== 'contacts';
+    });
+  }
+  return [];
 };
 
 WorkspaceManager.populateExternalInfoMenu = function() {
@@ -55,8 +63,8 @@ WorkspaceManager.populateExternalInfoMenu = function() {
   var toggle = document.getElementById('externalInfoToggle');
   if (!menu || !toggle) return;
   menu.textContent = '';
-  Object.keys(WorkspaceManager.externalCategoryGuides).forEach(function(key) {
-    if (key === 'contacts' || !WorkspaceManager.externalGuideRemainingMs(key)) return;
+  WorkspaceManager.getInfoGuideKeys().forEach(function(key) {
+    if (!WorkspaceManager.externalGuideRemainingMs(key)) return;
     var guide = WorkspaceManager.externalCategoryGuides[key];
     var button = document.createElement('button');
     button.type = 'button';
@@ -82,12 +90,12 @@ WorkspaceManager.refreshExternalInfo = function() {
 
   if (WorkspaceManager.externalGuideTimer) clearTimeout(WorkspaceManager.externalGuideTimer);
   WorkspaceManager.externalGuideTimer = null;
-  var remaining = Object.keys(WorkspaceManager.externalCategoryGuides).reduce(function(shortest, key) {
-    if (key === 'contacts') return shortest;
+  var availableKeys = WorkspaceManager.getInfoGuideKeys();
+  var remaining = availableKeys.reduce(function(shortest, key) {
     var categoryRemaining = WorkspaceManager.externalGuideRemainingMs(key);
     return categoryRemaining && (!shortest || categoryRemaining < shortest) ? categoryRemaining : shortest;
   }, 0);
-  dock.hidden = !remaining || !WorkspaceManager.isExternalProject();
+  dock.hidden = !remaining;
   if (dock.hidden) {
     menu.hidden = true;
     toggle.setAttribute('aria-expanded', 'false');
@@ -95,7 +103,9 @@ WorkspaceManager.refreshExternalInfo = function() {
   }
 
   toggle.textContent = Code.LANG === 'en' ? '+ Information' : '+ Informações';
-  menu.setAttribute('aria-label', Code.LANG === 'en' ? 'External connection tutorials' : 'Tutoriais de conexões externas');
+  menu.setAttribute('aria-label', availableKeys[0] === 'contacts'
+    ? (Code.LANG === 'en' ? 'Contact tutorial' : 'Tutorial de contatos')
+    : (Code.LANG === 'en' ? 'External connection tutorials' : 'Tutoriais de conexões externas'));
   if (!menu.hidden) WorkspaceManager.populateExternalInfoMenu();
   WorkspaceManager.externalGuideTimer = setTimeout(WorkspaceManager.refreshExternalInfo, remaining);
 };
@@ -117,7 +127,7 @@ WorkspaceManager.showExternalCategoryGuide = function(key) {
 };
 
 WorkspaceManager.showExternalCategoryOnClick = function(key) {
-  if (!WorkspaceManager.isExternalProject()) {
+  if (WorkspaceManager.getInfoGuideKeys().indexOf(key) === -1) {
     WorkspaceManager.showExternalCategoryGuide(key);
     return;
   }
