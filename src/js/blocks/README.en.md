@@ -25,6 +25,10 @@ toolbox.xml → definition → contract → generator → core/codegen → Micro
 
 Definition and generator `index.js` files are entry points; domain implementations should not accumulate in them.
 
+The `robot-feedback.js` modules in `definitions/` and `generators/` implement the seven emoji blocks in the arrow mode's 😊 category. Emojis, colours, board matrix patterns and sound presets live in `../config/robot-feedback.js`. Each block displays only one emoji and a colour circle when applicable. Animations have fixed durations and use the robot's cancellable wait when available; sound playback always silences the buzzer on exit.
+
+The `requiredProject` and `requiredRootAny` contracts require the selected `robo_setas` project and an enabled `robo_setas_iniciar` sequence containing the emojis, including inside finite repeats. Detached emojis, emojis in another program, or a disabled start prevent generation. A start block in a separate sequence does not satisfy the requirement. The palette offers only red, yellow, green and blue in a 2×2 grid.
+
 ## Type identity
 
 The same identifier must appear in three places:

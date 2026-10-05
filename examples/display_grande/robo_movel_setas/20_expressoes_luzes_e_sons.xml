@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="robo_setas_iniciar" x="30" y="30">
+    <next><block type="robo_setas_rosto_feliz">
+      <field name="COR">#facc15</field>
+      <next><block type="robo_setas_frente">
+        <next><block type="robo_setas_led_aceso">
+          <field name="COR">#22c55e</field>
+          <next><block type="robo_setas_rosto_triste">
+            <field name="COR">#3b82f6</field>
+            <next><block type="robo_setas_led_piscando">
+              <field name="COR">#facc15</field>
+              <next><block type="robo_setas_coracao">
+                <field name="COR">#ef4444</field>
+                <next><block type="robo_setas_bipe">
+                  <next><block type="robo_setas_sucesso">
+                    <next><block type="robo_setas_finalizar" /></next>
+                  </block></next>
+                </block></next>
+              </block></next>
+            </block></next>
+          </block></next>
+        </block></next>
+      </block></next>
+    </block></next>
+  </block>
+</xml>

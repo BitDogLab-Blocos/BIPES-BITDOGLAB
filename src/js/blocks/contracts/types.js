@@ -38,6 +38,9 @@
     ],
 
     MATRIX_COMMANDS: [
+      'robo_setas_rosto_feliz',
+      'robo_setas_rosto_triste',
+      'robo_setas_coracao',
       'preencher_matriz',
       'desligar_matriz',
       'acender_led_posicao',
@@ -63,6 +66,8 @@
     ],
 
     LED_COMMANDS: [
+      'robo_setas_led_aceso',
+      'robo_setas_led_piscando',
       'bloco_ligar_led',
       'bloco_desligar_led',
       'bloco_desligar_todos_leds',
@@ -85,6 +90,8 @@
     ],
 
     SOUND_COMMANDS: [
+      'robo_setas_bipe',
+      'robo_setas_sucesso',
       'piano_nota',
       'parar_piano',
       'tocar_nota',

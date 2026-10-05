@@ -50,7 +50,9 @@
     var current = block;
     while (current) {
       if (isBlockDisabled(current)) return false;
-      current = current.getParent ? current.getParent() : null;
+      // A disabled preceding statement does not disable the following ones.
+      // Match Blockly's inheritance through enclosing statement inputs only.
+      current = current.getSurroundParent ? current.getSurroundParent() : null;
     }
     return true;
   }
@@ -281,11 +283,19 @@
 
   function validateContractRequirements(blocks, warnings) {
     if (!Code.BlockContracts) return;
+    var selectedProject = '';
+    try {
+      selectedProject = global.localStorage && global.localStorage.getItem('bitdoglab_project') || '';
+    } catch (e) {}
 
     for (var i = 0; i < blocks.length; i++) {
       var block = blocks[i];
       var contract = Code.BlockContracts.get(block.type);
       if (!contract) continue;
+
+      if (contract.requiredProject && selectedProject !== contract.requiredProject) {
+        addWarning(warnings, block, msg(contract.requiredProjectMessage));
+      }
 
       if (contract.requiresAnyBlock && !hasBlockType(blocks, contract.requiresAnyBlock)) {
         addWarning(
@@ -302,6 +312,13 @@
           block,
           format(msg('needsAncestor'), contract.requiredAncestorLabel || contract.requiredAncestorAny.join(', '))
         );
+      }
+
+      if (contract.requiredRootAny) {
+        var root = block.getRootBlock ? block.getRootBlock() : block;
+        if (contract.requiredRootAny.indexOf(root.type) === -1 || !isBlockEffectivelyEnabled(root)) {
+          addWarning(warnings, block, msg(contract.requiredRootMessage));
+        }
       }
     }
   }

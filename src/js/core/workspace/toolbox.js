@@ -91,7 +91,7 @@ WorkspaceManager.filterToolboxByProject = function(project, expandArrowCategorie
       if (projects.indexOf(project) === -1) {
         cat.parentNode.removeChild(cat);
       } else if (arrowsOnly) {
-        cat.setAttribute('name', '⬆️');
+        cat.setAttribute('name', cat.getAttribute('data-visual-icon') || cat.getAttribute('name'));
       }
     }
   }
@@ -105,11 +105,12 @@ WorkspaceManager.filterToolboxByProject = function(project, expandArrowCategorie
     if (arrowsOnly) {
       var toolbox = Code.workspace.getToolbox();
       toolbox.clearSelection();
-      var arrowCategory = toolbox.HtmlDiv.querySelector('[role="treeitem"]');
-      if (arrowCategory) {
-        arrowCategory.setAttribute('aria-label', MSG.projectRobotArrows);
-        arrowCategory.title = MSG.projectRobotArrows;
-      }
+      var visualCategories = toolbox.HtmlDiv.querySelectorAll('[role="treeitem"]');
+      visualCategories.forEach(function(category, index) {
+        var label = index === 0 ? MSG.projectRobotArrows : MSG.arrowFeedbackCategory;
+        category.setAttribute('aria-label', label);
+        category.title = label;
+      });
     }
     Blockly.svgResize(Code.workspace);
     if (Code.BlockContractValidator) {

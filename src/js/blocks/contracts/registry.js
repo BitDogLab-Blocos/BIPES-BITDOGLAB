@@ -15,6 +15,8 @@
       missingValueInput: 'Falta encaixar um bloco aqui: %1.',
       missingGenerator: 'Este bloco ainda não tem gerador de código Python. Ele não vai virar programa.',
       needsAncestor: 'Este bloco deve ficar dentro de: %1.',
+      arrowFeedbackNeedsMission: 'Este emoji só funciona na missão por setas. Encaixe ele na sequência que começa no bloco 🚩 Iniciar.',
+      arrowFeedbackNeedsProject: 'Este emoji é exclusivo do projeto Robô Móvel — Setas. Selecione esse projeto para usá-lo.',
       displayTypeConflict: 'Há blocos usando telas diferentes. Escolha o mesmo tamanho de tela em todos eles.',
       emptyJoystickSelector: 'Coloque pelo menos uma opção dentro do seletor do joystick.',
       workspaceHasIssues: 'Corrija os blocos marcados antes de rodar o programa.',
@@ -120,6 +122,9 @@
   MESSAGES.en.mpu6050RobotConflict = 'The external MPU6050 and the robot MPU6050 cannot be used in the same program. Choose only one motion sensor.';
   MESSAGES.en.mpu6050BallDuplicate = 'Use only one motion-controlled ball block in the program.';
   MESSAGES.en.mpu6050BallDisplayConflict = 'The motion-controlled ball must manage the Display by itself. Remove the other blocks that draw or show information on the screen.';
+
+  MESSAGES.en.arrowFeedbackNeedsMission = 'This emoji only works in an arrow mission. Connect it to the sequence that starts with the 🚩 Start block.';
+  MESSAGES.en.arrowFeedbackNeedsProject = 'This emoji is exclusive to the Mobile Robot — Arrows project. Select that project to use it.';
 
   var Domains = Code.BlockTypeDomains;
   var MATRIX_OPTION_COMMANDS = Domains ? Domains.get('MATRIX_OPTION_COMMANDS') : [];
@@ -508,6 +513,18 @@
       }
     };
   }
+
+  ['robo_setas_rosto_feliz', 'robo_setas_rosto_triste', 'robo_setas_coracao',
+    'robo_setas_led_aceso', 'robo_setas_led_piscando', 'robo_setas_bipe',
+    'robo_setas_sucesso'].forEach(function(type) {
+    CONTRACTS[type] = {
+      kind: 'statement',
+      requiredProject: 'robo_setas',
+      requiredProjectMessage: 'arrowFeedbackNeedsProject',
+      requiredRootAny: ['robo_setas_iniciar'],
+      requiredRootMessage: 'arrowFeedbackNeedsMission'
+    };
+  });
 
   Code.BlockContracts = {
     VERSION: '2026-08-29-mpu6050',

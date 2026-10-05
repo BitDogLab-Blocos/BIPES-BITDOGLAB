@@ -5637,6 +5637,17 @@
             "pequeno": "examples/display_pequeno/robo_movel_setas/19_teste_final_mapa_lunar.xml",
             "grande": "examples/display_grande/robo_movel_setas/19_teste_final_mapa_lunar.xml"
           }
+        },
+        {
+          "number": 20,
+          "title": "Expressões, luzes e sons",
+          "description": "Combine setas com rostos, coração, luzes e sons usando apenas emojis e cores.",
+          "icon": "😊",
+          "displaySpecific": false,
+          "displays": {
+            "pequeno": "examples/display_pequeno/robo_movel_setas/20_expressoes_luzes_e_sons.xml",
+            "grande": "examples/display_grande/robo_movel_setas/20_expressoes_luzes_e_sons.xml"
+          }
         }
       ]
     }

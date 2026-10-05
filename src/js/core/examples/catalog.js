@@ -62,7 +62,7 @@
 
   function loadRawCatalog() {
     if (!catalogPromise) {
-      catalogPromise = fetch('../../examples/catalog.json?ver=20260928basicContacts1')
+      catalogPromise = fetch('../../examples/catalog.json?ver=20261005robotFeedback1')
         .then(function(response) {
           if (!response.ok) throw new Error('Não foi possível carregar o catálogo de exemplos.');
           return response.json();

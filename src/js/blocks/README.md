@@ -25,6 +25,10 @@ toolbox.xml → definição → contrato → gerador → core/codegen → MicroP
 
 Os arquivos `index.js` de definições e geradores funcionam como pontos de entrada; eles não devem concentrar implementações de domínio.
 
+O módulo `robot-feedback.js` em `definitions/` e `generators/` implementa os sete blocos por emojis da categoria 😊 do modo de setas. Os emojis, cores, desenhos 5×5 para a placa e sons ficam em `../config/robot-feedback.js`. A interface mostra somente um emoji por bloco e uma bolinha de cor quando aplicável. As animações têm duração fixa e usam a pausa cancelável do robô quando disponível; os sons desligam o buzzer mesmo em cancelamentos.
+
+Os contratos `requiredProject` e `requiredRootAny` exigem o projeto `robo_setas` selecionado e que os emojis pertençam à sequência de um `robo_setas_iniciar` ativo, inclusive dentro de repetições finitas. Um emoji solto, conectado a outra programação ou com o início desativado impede a geração. A presença de um início em outra sequência não satisfaz essa regra. A paleta oferece somente vermelho, amarelo, verde e azul em uma grade 2×2.
+
 ## Identidade de um tipo
 
 O mesmo identificador deve aparecer em três lugares:
