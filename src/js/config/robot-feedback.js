@@ -20,7 +20,7 @@ var RobotFeedback = {
   blinkStepMs: 200,
   blocks: {
     robo_setas_rosto_feliz: { icon: 'happy', emoji: '😊', colour: '#facc15', message: 'arrowFeedbackHappy' },
-    robo_setas_rosto_triste: { icon: 'sad', emoji: '😢', colour: '#3b82f6', message: 'arrowFeedbackSad' },
+    robo_setas_rosto_triste: { icon: 'sad', emoji: '☹️', colour: '#3b82f6', message: 'arrowFeedbackSad' },
     robo_setas_coracao: { icon: 'heart', emoji: '❤️', colour: '#ef4444', message: 'arrowFeedbackHeart' },
     robo_setas_led_aceso: { icon: 'led', emoji: '💡', colour: '#22c55e', message: 'arrowFeedbackLed' },
     robo_setas_led_piscando: { icon: 'blink', emoji: '✨', colour: '#facc15', message: 'arrowFeedbackBlink' },
