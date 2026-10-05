@@ -137,7 +137,7 @@ BIPES-BITDOGLAB/
 ├── Examples/                  # connected XML projects
 ├── images/                    # examples and README images
 ├── micropython/               # MicroPython references and examples
-├── firmware/                  # board support libraries
+├── PyLibs/                    # board support libraries
 ├── docs/                      # guides, checklists, technical notes
 └── tests/                     # local automated validation
 ```

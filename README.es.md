@@ -133,7 +133,7 @@ BIPES-BITDOGLAB/
 ├── Examples/                  # proyectos XML conectados
 ├── images/                    # ejemplos e imágenes del README
 ├── micropython/               # referencias y ejemplos MicroPython
-├── firmware/                  # bibliotecas auxiliares para la placa
+├── PyLibs/                    # bibliotecas auxiliares para la placa
 ├── docs/                      # guías, checklists y notas técnicas
 └── tests/                     # validaciones automatizadas locales
 ```

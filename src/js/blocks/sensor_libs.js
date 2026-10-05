@@ -3,12 +3,12 @@
 /**
  * sensor_libs.js — Bibliotecas de sensores embutidas (inline)
  *
- * Converte o código Python das bibliotecas em firmware/PyLibs/
+ * Converte o código Python das bibliotecas em PyLibs/
  * em strings que são injetadas diretamente no código gerado pelos blocos.
  * Assim o usuário NÃO precisa enviar .py para a placa manualmente.
  *
  * Para adicionar um novo sensor:
- *   1. Crie o .py em firmware/PyLibs/
+ *   1. Crie o .py em PyLibs/
  *   2. Adicione aqui como string no objeto SensorLibs
  *   3. Use SensorLibs.NomeSensor no gerador do bloco
  */
@@ -17,7 +17,7 @@ var SensorLibs = {
 
   // =============================================
   // SSD1306 - Display OLED I2C pequeno
-  // Fonte: firmware/PyLibs/ssd1306.py
+  // Fonte: PyLibs/ssd1306.py
   // =============================================
   SSD1306: `from micropython import const
 import time
@@ -147,7 +147,7 @@ class SSD1306_I2C(SSD1306):
 
   // =============================================
   // AHT20 — Sensor de Temperatura e Umidade
-  // Fonte: firmware/PyLibs/AHT20.py
+  // Fonte: PyLibs/AHT20.py
   // =============================================
   AHT20:
     'AHT20_ADDR = 0x38\n' +
@@ -177,7 +177,7 @@ class SSD1306_I2C(SSD1306):
 
   // =============================================
   // MPU6050 - Giroscopio/acelerometro compartilhado
-  // Fonte: firmware/PyLibs/MPU6050.py
+  // Fonte: PyLibs/MPU6050.py
   // =============================================
   MPU6050: `from time import sleep_ms
 
@@ -276,7 +276,7 @@ class MPU6050:
 
   // =============================================
   // INA226 - Sensor de tensao/corrente do robo movel
-  // Fonte: firmware/PyLibs/INA226.py
+  // Fonte: PyLibs/INA226.py
   // =============================================
   INA226:
     'INA226_ADDR = 0x40\n' +
@@ -314,7 +314,7 @@ class MPU6050:
 
   // =============================================
   // SH1107 - Display OLED I2C
-  // Fonte base: firmware/PyLibs/sh1107.py
+  // Fonte base: PyLibs/sh1107.py
   // =============================================
   SH1107: `from micropython import const
 import time
@@ -521,7 +521,7 @@ class DHT11:
 
   // =============================================
   // SensorUltrassonico - Distancia via I2C
-  // Fonte: firmware/PyLibs/ultrassonico.py
+  // Fonte: PyLibs/ultrassonico.py
   // =============================================
   Ultrassonico: `from machine import I2C
 import time
@@ -581,7 +581,7 @@ class SensorUltrassonico:
 
   // =============================================
   // BMP280 - Sensor de temperatura e pressao via I2C
-  // Fonte: firmware/PyLibs/BMP280.py
+  // Fonte: PyLibs/BMP280.py
   // =============================================
   BMP280: `from machine import I2C
 import time

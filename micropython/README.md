@@ -125,7 +125,7 @@ ligar_led(AZUL)
 
 - Placa **BitDogLab** com Raspberry Pi Pico W
 - **MicroPython** instalado no Pico
-- Biblioteca `ssd1306.py` para o display OLED (incluída na pasta `firmware/`)
+- Biblioteca `ssd1306.py` para o display OLED (incluída na pasta `PyLibs/`)
 
 ## Licença
 
