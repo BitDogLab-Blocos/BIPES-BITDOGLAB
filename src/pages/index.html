@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicons/bitdog-logo.jpg">
   <meta name="theme-color" content="#2980b9">
 
-  <link rel="stylesheet" href="../styles/main.css?ver=20261003robotButtonsNotice1">
+  <link rel="stylesheet" href="../styles/main.css?ver=20261005arrowSpacing1">
   <link rel="stylesheet" href="../styles/visual-themes.css?ver=20260722b2">
   <link rel="stylesheet" href="../../device-file-manager/device-files.css?ver=20260718a8">
   <link rel="stylesheet" href="../styles/libs.css">
@@ -41,7 +41,7 @@
   <script src="../js/config/profiles/base.js?ver=20260831i2cmod1"></script>
   <script src="../js/config/profiles/v7.js?ver=20260830mpuMotion1"></script>
   <script src="../js/config/profiles/v6.js?ver=20260830mpuMotion1"></script>
-  <script src="../js/core/language.js?ver=20261003robotButtonsNotice1"></script>
+  <script src="../js/core/language.js?ver=20261005arrowCategories1"></script>
   <script src="../js/core/ldr-settings.js?ver=20260821ldr1"></script>
   <script src="../js/core/tabs.js?ver=20260929laboratoryTab1"></script>
   <script src="../js/core/codegen/python-organizer.js?ver=20261003robotButtons1"></script>
@@ -49,7 +49,7 @@
   <script src="../js/core/codegen/auto-generation.js?ver=20260809arch1"></script>
   <script src="../js/core/codegen/index.js?ver=20260809arch1"></script>
   <script src="../js/core/workspace/lifecycle.js?ver=20260809arch1"></script>
-  <script src="../js/core/workspace/toolbox.js?ver=20260929robotLedLegend1"></script>
+  <script src="../js/core/workspace/toolbox.js?ver=20261005arrowCategories1"></script>
   <script src="../js/core/workspace/projects.js?ver=20261003robotButtonsNotice1"></script>
   <script src="../js/core/workspace/hints.js?ver=20261002saveDataInfo1"></script>
   <script src="../js/core/workspace/index.js?ver=20260902externalLedDisplay1"></script>
@@ -418,6 +418,10 @@
   <input type="checkbox" id="resetBoard" style="display:none" value="off">
 
   <div id="content_blocks" class="content">
+    <button id="arrowCategoriesToggle" class="arrow-categories-toggle" type="button"
+      aria-label="Mostrar todas as categorias" title="Mostrar todas as categorias" aria-expanded="false" hidden>
+      <span aria-hidden="true">›</span>
+    </button>
     <div id="robotWorkspaceNotices" class="robot-workspace-notices" hidden>
       <aside id="robotLedLegend" class="robot-led-legend" role="note" aria-label="Avisos do LED do robô" data-i18n-aria-label="app.robotLedLegendTitle" hidden>
         <strong data-i18n="app.robotLedLegendTitle">Avisos do LED do robô</strong>

@@ -2002,10 +2002,76 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
 }
 
 /* Blockly toolbox */
+.arrow-categories-toggle {
+  position: absolute;
+  top: 50%;
+  left: 320px;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 64px;
+  padding: 0;
+  border: 1px solid #b8c6d8;
+  border-right: 0;
+  border-radius: 14px 0 0 14px;
+  background: #eef4fa;
+  color: #405470;
+  box-shadow: -3px 2px 8px rgba(0, 0, 0, .1);
+  font: 32px/1 var(--font-secondary);
+  cursor: pointer;
+  transform: translate(-100%, -50%);
+  transition: background-color .15s ease;
+  touch-action: none;
+  user-select: none;
+}
+
+.arrow-categories-toggle[hidden] {
+  display: none;
+}
+
+.arrow-categories-toggle:hover {
+  background: #ddeaf6;
+  transform: translate(-100%, -50%);
+}
+
+.arrow-categories-toggle.is-dragging {
+  cursor: grabbing;
+}
+
+.arrow-categories-toggle:focus-visible {
+  outline: 3px solid var(--bitdoglab-primary);
+  outline-offset: -3px;
+}
+
 .blocklyToolboxDiv {
   background: linear-gradient(135deg, #f0f9ff 0%, #e6e6fa 100%);
   border-right: 2px solid #d1c4e9;
   width: 320px;
+}
+
+.is-arrow-toolbox-collapsed .blocklyToolboxDiv {
+  width: 112px;
+}
+
+.is-arrow-toolbox-collapsed .blocklyTreeRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  margin: 8px;
+  padding: 0;
+  border-radius: 16px;
+}
+
+.is-arrow-toolbox-collapsed .blocklyTreeIcon {
+  display: none;
+}
+
+.is-arrow-toolbox-collapsed .blocklyTreeLabel {
+  padding: 0;
+  font-size: 36px;
+  line-height: 1;
 }
 
 .blocklyTreeRow {

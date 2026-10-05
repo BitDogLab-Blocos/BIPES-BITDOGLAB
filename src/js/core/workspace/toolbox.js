@@ -3,21 +3,95 @@
 var Code = window.Code || (window.Code = {});
 var WorkspaceManager = window.WorkspaceManager || (window.WorkspaceManager = {});
 
-WorkspaceManager.filterToolboxByProject = function(project) {
+WorkspaceManager.updateArrowCategoryToggle = function(project) {
+  var button = document.getElementById('arrowCategoriesToggle');
+  if (!button) return;
+  button.hidden = project !== 'robo_setas';
+  var expanded = WorkspaceManager.arrowCategoriesExpanded;
+  var label = expanded ? MSG.arrowCategoriesCollapse : MSG.arrowCategoriesExpand;
+  button.title = label;
+  button.setAttribute('aria-label', label);
+  button.setAttribute('aria-expanded', String(!!expanded));
+  button.querySelector('span').textContent = expanded ? '‹' : '›';
+
+  var toolbox = Code.workspace.getToolbox();
+  var toolboxDiv = toolbox && toolbox.HtmlDiv;
+  if (toolboxDiv) {
+    if (!toolboxDiv.id) toolboxDiv.id = 'arrowCategoryList';
+    button.setAttribute('aria-controls', toolboxDiv.id);
+    var position = function() {
+      button.style.left = toolboxDiv.offsetLeft + toolboxDiv.offsetWidth + 'px';
+    };
+    position();
+    if (!WorkspaceManager._arrowCategoryObserver && typeof ResizeObserver !== 'undefined') {
+      WorkspaceManager._arrowCategoryObserver = new ResizeObserver(position);
+      WorkspaceManager._arrowCategoryObserver.observe(toolboxDiv);
+    }
+  }
+
+  if (!button.__arrowCategoriesBound) {
+    button.__arrowCategoriesBound = true;
+    var dragStart = null;
+    var suppressClick = false;
+    button.addEventListener('pointerdown', function(event) {
+      if (event.button !== 0) return;
+      dragStart = event.clientX;
+      suppressClick = false;
+      button.setPointerCapture(event.pointerId);
+      button.classList.add('is-dragging');
+    });
+    button.addEventListener('pointerup', function(event) {
+      if (dragStart === null) return;
+      var distance = event.clientX - dragStart;
+      dragStart = null;
+      button.classList.remove('is-dragging');
+      suppressClick = Math.abs(distance) >= 24;
+      if (suppressClick && WorkspaceManager._toolboxProject === 'robo_setas') {
+        WorkspaceManager.filterToolboxByProject('robo_setas', distance > 0);
+      }
+    });
+    button.addEventListener('pointercancel', function() {
+      dragStart = null;
+      suppressClick = false;
+      button.classList.remove('is-dragging');
+    });
+    button.addEventListener('click', function() {
+      if (suppressClick) {
+        suppressClick = false;
+        return;
+      }
+      if (WorkspaceManager._toolboxProject !== 'robo_setas') return;
+      WorkspaceManager.filterToolboxByProject('robo_setas', !WorkspaceManager.arrowCategoriesExpanded);
+    });
+  }
+};
+
+WorkspaceManager.filterToolboxByProject = function(project, expandArrowCategories) {
   if (WorkspaceManager.updateRobotLedLegend) {
     WorkspaceManager.updateRobotLedLegend(project);
   }
   if (!Code._fullToolboxXml) return;
+
+  WorkspaceManager._toolboxProject = project;
+  WorkspaceManager.arrowCategoriesExpanded = project === 'robo_setas' && !!expandArrowCategories;
+  var arrowsOnly = project === 'robo_setas' && !WorkspaceManager.arrowCategoriesExpanded;
+  document.getElementById('content_blocks').classList.toggle('is-arrow-toolbox-collapsed', arrowsOnly);
 
   var filtered = Code._fullToolboxXml.cloneNode(true);
   var categories = filtered.getElementsByTagName('category');
   for (var i = categories.length - 1; i >= 0; i--) {
     var cat = categories[i];
     var dataProject = cat.getAttribute('data-project');
+    if (arrowsOnly && !dataProject) {
+      cat.parentNode.removeChild(cat);
+      continue;
+    }
     if (dataProject) {
       var projects = dataProject.split(',').map(function(s) { return s.trim(); });
       if (projects.indexOf(project) === -1) {
         cat.parentNode.removeChild(cat);
+      } else if (arrowsOnly) {
+        cat.setAttribute('name', '⬆️');
       }
     }
   }
@@ -27,6 +101,17 @@ WorkspaceManager.filterToolboxByProject = function(project) {
       filtered = Code.translateToolboxXml(filtered);
     }
     Code.workspace.updateToolbox(filtered);
+    WorkspaceManager.updateArrowCategoryToggle(project);
+    if (arrowsOnly) {
+      var toolbox = Code.workspace.getToolbox();
+      toolbox.clearSelection();
+      var arrowCategory = toolbox.HtmlDiv.querySelector('[role="treeitem"]');
+      if (arrowCategory) {
+        arrowCategory.setAttribute('aria-label', MSG.projectRobotArrows);
+        arrowCategory.title = MSG.projectRobotArrows;
+      }
+    }
+    Blockly.svgResize(Code.workspace);
     if (Code.BlockContractValidator) {
       Code.BlockContractValidator.validateWorkspace(Code.workspace);
     }
