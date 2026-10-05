@@ -140,6 +140,23 @@ WorkspaceManager.showProjectHardwareNotice = function(project) {
   notice.hidden = false;
 };
 
+WorkspaceManager.selectProject = function(project) {
+  if (!Object.prototype.hasOwnProperty.call(WorkspaceManager.PROJECT_NAMES, project)) return false;
+  var changed = localStorage.getItem('bitdoglab_project') !== project;
+  localStorage.setItem('bitdoglab_project', project);
+  var button = document.getElementById('projectButton');
+  if (button) {
+    button.textContent = Code.getProjectLabel ? Code.getProjectLabel(project) : WorkspaceManager.PROJECT_NAMES[project];
+  }
+  if (WorkspaceManager._toolboxProject !== project ||
+      (project === 'robo_setas' && WorkspaceManager.arrowCategoriesExpanded)) {
+    Code.filterToolboxByProject(project);
+  }
+  if (changed) WorkspaceManager.showProjectHardwareNotice(project);
+  if (WorkspaceManager.refreshExternalInfo) WorkspaceManager.refreshExternalInfo();
+  return true;
+};
+
 WorkspaceManager.initProjectSelector = function() {
   var btn = document.getElementById('projectButton');
   var modal = document.getElementById('project-modal');
@@ -170,12 +187,8 @@ WorkspaceManager.initProjectSelector = function() {
   }
 
   function activateProject(project) {
-    localStorage.setItem('bitdoglab_project', project);
-    btn.textContent = Code.getProjectLabel ? Code.getProjectLabel(project) : (WorkspaceManager.PROJECT_NAMES[project] || project);
-    Code.filterToolboxByProject(project);
+    WorkspaceManager.selectProject(project);
     modal.style.display = 'none';
-    WorkspaceManager.showProjectHardwareNotice(project);
-    if (WorkspaceManager.refreshExternalInfo) WorkspaceManager.refreshExternalInfo();
     console.log('[BitdogLab] Projeto selecionado:', project);
   }
 

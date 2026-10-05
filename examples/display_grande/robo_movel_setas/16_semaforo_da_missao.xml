@@ -1,22 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Verde sinaliza a partida e vermelho sinaliza a chegada. -->
+  <!-- Vermelho piscando significa aguardar, amarelo piscando pede atenção e verde aceso libera a partida. Siga para cima e para a direita; o LED vermelho, o sorriso e o troféu marcam a parada na chegada. -->
   <block type="robo_setas_iniciar" x="30" y="30">
     <next>
-      <block type="bloco_ligar_led">
-        <value name="COLOUR">
-          <block type="colour_green" />
-        </value>
+      <block type="robo_setas_led_piscando">
+        <field name="COR">#ef4444</field>
         <next>
-          <block type="robo_setas_frente">
+          <block type="robo_setas_led_piscando">
+            <field name="COR">#facc15</field>
             <next>
-              <block type="robo_setas_direita">
+              <block type="robo_setas_led_aceso">
+                <field name="COR">#22c55e</field>
                 <next>
-                  <block type="bloco_ligar_led">
-                    <value name="COLOUR">
-                      <block type="colour_red" />
-                    </value>
+                  <block type="robo_setas_frente">
                     <next>
-                      <block type="robo_setas_finalizar" />
+                      <block type="robo_setas_direita">
+                        <next>
+                          <block type="robo_setas_led_aceso">
+                            <field name="COR">#ef4444</field>
+                            <next>
+                              <block type="robo_setas_rosto_feliz">
+                                <field name="COR">#22c55e</field>
+                                <next>
+                                  <block type="robo_setas_sucesso">
+                                    <next>
+                                      <block type="robo_setas_finalizar" />
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
                     </next>
                   </block>
                 </next>

@@ -1,14 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Pequena missão em forma de L: avance, siga à direita e avance novamente. -->
+  <!-- Acenda a luz azul e percorra o caminho cima, direita e cima. Na chegada, troque a luz para verde, mostre um sorriso e toque o som de conquista. -->
   <block type="robo_setas_iniciar" x="30" y="30">
     <next>
-      <block type="robo_setas_frente">
+      <block type="robo_setas_led_aceso">
+        <field name="COR">#3b82f6</field>
         <next>
-          <block type="robo_setas_direita">
+          <block type="robo_setas_frente">
             <next>
-              <block type="robo_setas_frente">
+              <block type="robo_setas_direita">
                 <next>
-                  <block type="robo_setas_finalizar" />
+                  <block type="robo_setas_frente">
+                    <next>
+                      <block type="robo_setas_led_aceso">
+                        <field name="COR">#22c55e</field>
+                        <next>
+                          <block type="robo_setas_rosto_feliz">
+                            <field name="COR">#22c55e</field>
+                            <next>
+                              <block type="robo_setas_sucesso">
+                                <next>
+                                  <block type="robo_setas_finalizar" />
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
                 </next>
               </block>
             </next>

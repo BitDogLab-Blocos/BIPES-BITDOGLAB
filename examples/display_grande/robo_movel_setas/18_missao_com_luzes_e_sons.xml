@@ -1,38 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Missão com sinal de partida, percurso, matriz e som de chegada. -->
+  <!-- A luz azul e o bipe anunciam a partida. Vá para cima e para a direita, encontre o coração vermelho e volte para baixo e para a esquerda. Luz verde, sorriso e troféu celebram o retorno à base. -->
   <block type="robo_setas_iniciar" x="30" y="30">
     <next>
-      <block type="bipe_curto">
-        <field name="VOLUME">35</field>
+      <block type="robo_setas_led_aceso">
+        <field name="COR">#3b82f6</field>
         <next>
-          <block type="mostrar_emoji">
-            <field name="BRILHO">25</field>
-            <value name="EMOJI">
-              <block type="emoji_seta_cima" />
-            </value>
-            <value name="COR">
-              <block type="colour_blue" />
-            </value>
+          <block type="robo_setas_bipe">
             <next>
               <block type="robo_setas_frente">
                 <next>
                   <block type="robo_setas_direita">
                     <next>
-                      <block type="robo_setas_frente">
+                      <block type="robo_setas_coracao">
+                        <field name="COR">#ef4444</field>
                         <next>
-                          <block type="mostrar_emoji">
-                            <field name="BRILHO">25</field>
-                            <value name="EMOJI">
-                              <block type="emoji_rosto_feliz" />
-                            </value>
-                            <value name="COR">
-                              <block type="colour_green" />
-                            </value>
+                          <block type="robo_setas_bipe">
                             <next>
-                              <block type="som_de_sucesso">
-                                <field name="VOLUME">35</field>
+                              <block type="robo_setas_voltar">
                                 <next>
-                                  <block type="robo_setas_finalizar" />
+                                  <block type="robo_setas_esquerda">
+                                    <next>
+                                      <block type="robo_setas_led_aceso">
+                                        <field name="COR">#22c55e</field>
+                                        <next>
+                                          <block type="robo_setas_rosto_feliz">
+                                            <field name="COR">#22c55e</field>
+                                            <next>
+                                              <block type="robo_setas_sucesso">
+                                                <next>
+                                                  <block type="robo_setas_finalizar" />
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
                                 </next>
                               </block>
                             </next>

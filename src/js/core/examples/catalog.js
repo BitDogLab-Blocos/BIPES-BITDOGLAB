@@ -48,6 +48,7 @@
             title: String(example.title || 'Exemplo'),
             description: String(example.description || ''),
             icon: String(example.icon || category.icon || '□'),
+            project: String(example.project || category.project || ''),
             xml: resolvePath(example.displays
               ? example.displays[displayId]
               : example.xml),
@@ -62,7 +63,7 @@
 
   function loadRawCatalog() {
     if (!catalogPromise) {
-      catalogPromise = fetch('../../examples/catalog.json?ver=20261005robotFeedback1')
+      catalogPromise = fetch('../../examples/catalog.json?ver=20261005arrowExamples2')
         .then(function(response) {
           if (!response.ok) throw new Error('Não foi possível carregar o catálogo de exemplos.');
           return response.json();

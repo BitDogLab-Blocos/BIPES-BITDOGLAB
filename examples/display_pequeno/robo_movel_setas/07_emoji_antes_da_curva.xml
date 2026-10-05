@@ -1,21 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- A matriz mostra o próximo passo durante o percurso. -->
+  <!-- Siga para cima e para a esquerda. Ao chegar, mostre um sorriso verde e toque o som de conquista. -->
   <block type="robo_setas_iniciar" x="30" y="30">
     <next>
       <block type="robo_setas_frente">
         <next>
-          <block type="mostrar_emoji">
-            <field name="BRILHO">25</field>
-            <value name="EMOJI">
-              <block type="emoji_rosto_surpreso" />
-            </value>
-            <value name="COR">
-              <block type="colour_blue" />
-            </value>
+          <block type="robo_setas_esquerda">
             <next>
-              <block type="robo_setas_esquerda">
+              <block type="robo_setas_rosto_feliz">
+                <field name="COR">#22c55e</field>
                 <next>
-                  <block type="robo_setas_finalizar" />
+                  <block type="robo_setas_sucesso">
+                    <next>
+                      <block type="robo_setas_finalizar" />
+                    </next>
+                  </block>
                 </next>
               </block>
             </next>

@@ -1,28 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Combina uma animação da matriz com a rota programada. -->
+  <!-- Suba duas casas para buscar o coração vermelho. Um bipe marca o encontro; volte duas casas e celebre a entrega com sorriso verde e troféu. -->
   <block type="robo_setas_iniciar" x="30" y="30">
     <next>
       <block type="robo_setas_frente">
         <next>
-          <block type="matriz_aparecer_sumir">
-            <statement name="DO">
-              <block type="mostrar_emoji">
-                <field name="BRILHO">25</field>
-                <value name="EMOJI">
-                  <block type="emoji_coracao" />
-                </value>
-                <value name="COR">
-                  <block type="colour_pink" />
-                </value>
-              </block>
-            </statement>
+          <block type="robo_setas_frente">
             <next>
-              <block type="robo_setas_esquerda">
+              <block type="robo_setas_coracao">
+                <field name="COR">#ef4444</field>
                 <next>
-                  <block type="som_de_sucesso">
-                    <field name="VOLUME">30</field>
+                  <block type="robo_setas_bipe">
                     <next>
-                      <block type="robo_setas_finalizar" />
+                      <block type="robo_setas_voltar">
+                        <next>
+                          <block type="robo_setas_voltar">
+                            <next>
+                              <block type="robo_setas_rosto_feliz">
+                                <field name="COR">#22c55e</field>
+                                <next>
+                                  <block type="robo_setas_sucesso">
+                                    <next>
+                                      <block type="robo_setas_finalizar" />
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
                     </next>
                   </block>
                 </next>

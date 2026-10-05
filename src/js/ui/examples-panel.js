@@ -238,7 +238,7 @@
       return;
     }
 
-    fetch(example.xml)
+    fetch(example.xml, { cache: 'no-cache' })
       .then(function(response) {
         if (!response.ok) throw new Error('Não foi possível encontrar o XML do exemplo.');
         return response.text();
@@ -248,6 +248,10 @@
           ? SimpleStorage.loadWorkspaceFromText(xmlText)
           : false;
         if (!loaded) throw new Error('O workspace ainda não está pronto para carregar este exemplo.');
+
+        if (example.project && global.WorkspaceManager && WorkspaceManager.selectProject) {
+          WorkspaceManager.selectProject(example.project);
+        }
 
         if (Code.workspace.zoomToFit) Code.workspace.zoomToFit();
         if (global.UI && UI.notify && UI.notify.send) {

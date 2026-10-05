@@ -5442,7 +5442,7 @@
         {
           "number": 2,
           "title": "Três casas para cima",
-          "description": "Linha reta: subir tres casas sem mudar a orientacao.",
+          "description": "Suba três casas em linha reta, sem mudar a direção no mapa.",
           "icon": "⬆️",
           "displaySpecific": false,
           "displays": {
@@ -5453,7 +5453,7 @@
         {
           "number": 3,
           "title": "Duas casas para a direita",
-          "description": "A primeira seta gira o robo; a segunda continua na mesma direcao.",
+          "description": "Vá duas casas para a direita. A primeira seta gira o robô; a segunda continua na mesma direção do mapa.",
           "icon": "⬆️",
           "displaySpecific": false,
           "displays": {
@@ -5463,8 +5463,8 @@
         },
         {
           "title": "Bipe no cruzamento",
-          "description": "Vá para cima, toque um bipe no cruzamento e siga à direita.",
-          "icon": "⬆️",
+          "description": "Suba uma casa, avise a entrada no cruzamento com um bipe e siga à direita e para cima.",
+          "icon": "🔊",
           "number": 4,
           "displaySpecific": false,
           "displays": {
@@ -5474,7 +5474,7 @@
         },
         {
           "number": 5,
-          "title": "Caminho em l",
+          "title": "Caminho em L",
           "description": "Caminho em L: duas casas para cima e duas para a direita.",
           "icon": "⬆️",
           "displaySpecific": false,
@@ -5486,7 +5486,7 @@
         {
           "number": 6,
           "title": "Ir e voltar",
-          "description": "O robo sobe duas casas, muda de sentido e retorna ao inicio.",
+          "description": "Suba duas casas e use duas setas para baixo para retornar ao ponto de partida.",
           "icon": "⬆️",
           "displaySpecific": false,
           "displays": {
@@ -5495,9 +5495,9 @@
           }
         },
         {
-          "title": "Emoji antes da curva",
-          "description": "Suba, mostre uma surpresa na matriz e depois vire à esquerda.",
-          "icon": "⬆️",
+          "title": "Sorriso na chegada",
+          "description": "Siga para cima e para a esquerda. Ao chegar, mostre um sorriso verde e toque o som de conquista.",
+          "icon": "😊",
           "number": 7,
           "displaySpecific": false,
           "displays": {
@@ -5518,8 +5518,8 @@
         },
         {
           "number": 9,
-          "title": "Caminho em zigue zague",
-          "description": "Zigue-zague: demonstra que cima volta a significar cima depois de ir para a direita.",
+          "title": "Caminho em zigue-zague",
+          "description": "Alterne cima e direita. Cada seta aponta para uma direção fixa do mapa, mesmo depois de o robô girar.",
           "icon": "⬆️",
           "displaySpecific": false,
           "displays": {
@@ -5528,20 +5528,20 @@
           }
         },
         {
-          "title": "Aviso no OLED",
-          "description": "Mostre VIRE no display entre duas setas e CHEGOU ao final.",
-          "icon": "⬆️",
           "number": 10,
+          "displaySpecific": false,
           "displays": {
-            "pequeno": "examples/display_pequeno/robo_movel_setas/10_aviso_no_oled.xml",
-            "grande": "examples/display_grande/robo_movel_setas/10_aviso_no_oled.xml"
+            "pequeno": "examples/display_pequeno/robo_movel_setas/10_desvio_de_obstaculo.xml",
+            "grande": "examples/display_grande/robo_movel_setas/10_desvio_de_obstaculo.xml"
           },
-          "displaySpecific": true
+          "title": "Desvio de obstáculo",
+          "description": "Imagine um caminho fechado: suba, mostre o rosto triste e pisque vermelho. Um bipe avisa o desvio à direita; o sorriso verde e o troféu celebram a chegada. O aviso faz parte da sequência programada.",
+          "icon": "☹️"
         },
         {
           "number": 11,
-          "title": "Repetir caminho",
-          "description": "Repetir duas vezes a sequencia cima e direita.",
+          "title": "Repetir um padrão de setas",
+          "description": "Siga o padrão cima e direita duas vezes, usando quatro setas em sequência.",
           "icon": "⬆️",
           "displaySpecific": false,
           "displays": {
@@ -5550,9 +5550,9 @@
           }
         },
         {
-          "title": "Repetir caminho com som",
-          "description": "Repita duas vezes subir, tocar um bipe e ir à direita.",
-          "icon": "⬆️",
+          "title": "Dois pontos de checagem",
+          "description": "Siga duas vezes o caminho cima e direita. Um bipe marca cada ponto de checagem; o sorriso azul e o troféu sinalizam a chegada.",
+          "icon": "🔊",
           "number": 12,
           "displaySpecific": false,
           "displays": {
@@ -5562,9 +5562,9 @@
         },
         {
           "number": 13,
-          "title": "Missão em L",
-          "description": "Pequena missão em forma de L: avance, siga à direita e avance novamente.",
-          "icon": "⬆️",
+          "title": "Exploração com luz azul",
+          "description": "Acenda a luz azul e percorra o caminho cima, direita e cima. Na chegada, troque a luz para verde, mostre um sorriso e toque o som de conquista.",
+          "icon": "💡",
           "displaySpecific": false,
           "displays": {
             "pequeno": "examples/display_pequeno/robo_movel_setas/13_botao_a_inicia_a_missao.xml",
@@ -5573,9 +5573,9 @@
         },
         {
           "number": 14,
-          "title": "Caminho com duas curvas",
-          "description": "Percorra uma sequência com movimentos para a frente, para a direita e para a esquerda.",
-          "icon": "⬆️",
+          "title": "Contornar a cratera",
+          "description": "Imagine uma cratera no caminho: avance e sinalize com rosto triste e luz amarela piscando. Contorne pela direita, suba e siga à esquerda; celebre a chegada com sorriso e troféu.",
+          "icon": "☹️",
           "displaySpecific": false,
           "displays": {
             "pequeno": "examples/display_pequeno/robo_movel_setas/14_botoes_escolhem_o_caminho.xml",
@@ -5583,9 +5583,9 @@
           }
         },
         {
-          "title": "Rota sonora",
-          "description": "Avance, toque o som de laser e siga à direita.",
-          "icon": "⬆️",
+          "title": "Troféu na chegada",
+          "description": "Percorra o caminho cima e direita. Só depois de chegar, mostre o sorriso amarelo e toque o som de conquista com o troféu.",
+          "icon": "🏆",
           "number": 15,
           "displaySpecific": false,
           "displays": {
@@ -5595,9 +5595,9 @@
         },
         {
           "number": 16,
-          "title": "Semáforo da missao",
-          "description": "Verde sinaliza a partida e vermelho sinaliza a chegada.",
-          "icon": "⬆️",
+          "title": "Semáforo da missão",
+          "description": "Vermelho piscando significa aguardar, amarelo piscando pede atenção e verde aceso libera a partida. Siga para cima e para a direita; o LED vermelho, o sorriso e o troféu marcam a parada na chegada.",
+          "icon": "💡",
           "displaySpecific": false,
           "displays": {
             "pequeno": "examples/display_pequeno/robo_movel_setas/16_semaforo_da_missao.xml",
@@ -5605,9 +5605,9 @@
           }
         },
         {
-          "title": "Coração no meio da missão",
-          "description": "Mostre um coração com efeito na matriz entre duas setas.",
-          "icon": "⬆️",
+          "title": "Buscar e levar o coração",
+          "description": "Suba duas casas para buscar o coração vermelho. Um bipe marca o encontro; volte duas casas e celebre a entrega com sorriso verde e troféu.",
+          "icon": "❤️",
           "number": 17,
           "displaySpecific": false,
           "displays": {
@@ -5617,9 +5617,9 @@
         },
         {
           "number": 18,
-          "title": "Missao com luzes e sons",
-          "description": "Missão com sinal de partida, percurso, matriz e som de chegada.",
-          "icon": "⬆️",
+          "title": "Pequena missão de resgate",
+          "description": "A luz azul e o bipe anunciam a partida. Vá para cima e para a direita, encontre o coração vermelho e volte para baixo e para a esquerda. Luz verde, sorriso e troféu celebram o retorno à base.",
+          "icon": "❤️",
           "displaySpecific": false,
           "displays": {
             "pequeno": "examples/display_pequeno/robo_movel_setas/18_missao_com_luzes_e_sons.xml",
@@ -5628,11 +5628,11 @@
         },
         {
           "number": 19,
-          "title": "Teste final no mapa lunar",
-          "description": "Comece em D1 apontando para cima. Siga as setas até B6 e volte até C5. Sons, LED, matriz e OLED marcam o percurso.",
+          "title": "Missão completa no mapa lunar",
+          "description": "Comece em D1 apontando para cima. Passe por D3, sinalize a mudança de caminho em D5, alcance o coração em B6 e retorne até C5. A missão combina as quatro direções, os sete emojis e as quatro cores, com troféu apenas na chegada.",
           "icon": "🤖",
           "image": "src/assets/images/projects/missao-lua-rover-setas.png",
-          "displaySpecific": true,
+          "displaySpecific": false,
           "displays": {
             "pequeno": "examples/display_pequeno/robo_movel_setas/19_teste_final_mapa_lunar.xml",
             "grande": "examples/display_grande/robo_movel_setas/19_teste_final_mapa_lunar.xml"
@@ -5640,8 +5640,8 @@
         },
         {
           "number": 20,
-          "title": "Expressões, luzes e sons",
-          "description": "Combine setas com rostos, coração, luzes e sons usando apenas emojis e cores.",
+          "title": "Teste dos sete emojis",
+          "description": "Atividade para reconhecer os sinais e comparar as cores: sorriso amarelo na ida, rosto triste azul com luz amarela piscando, volta à base, luz verde, coração vermelho, bipe e sorriso verde com troféu.",
           "icon": "😊",
           "displaySpecific": false,
           "displays": {
@@ -5649,7 +5649,8 @@
             "grande": "examples/display_grande/robo_movel_setas/20_expressoes_luzes_e_sons.xml"
           }
         }
-      ]
+      ],
+      "project": "robo_setas"
     }
   ]
 }

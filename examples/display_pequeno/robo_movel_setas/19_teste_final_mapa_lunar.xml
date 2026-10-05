@@ -1,163 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!--Mapa 5x6; inicie em D1 apontado para a linha 6. Rota: D1-D2-D3-D4-D5-C5-B5-B6-B5-C5. Bipes e OLED marcam os pontos de checagem.-->
+  <!-- Comece em D1 apontando para cima. Passe por D3, sinalize a mudança de caminho em D5, alcance o coração em B6 e retorne até C5. A missão combina as quatro direções, os sete emojis e as quatro cores, com troféu apenas na chegada. -->
   <block type="robo_setas_iniciar" x="30" y="30">
     <next>
-      <block type="display_limpar">
-        <field name="DISPLAY_TYPE">SMALL</field>
+      <block type="robo_setas_led_aceso">
+        <field name="COR">#3b82f6</field>
         <next>
-          <block type="display_texto">
-            <field name="TEXTO">D1 INICIO</field>
-            <field name="LINHA">2</field>
-            <field name="ALINHAMENTO">CENTER</field>
-            <field name="DISPLAY_TYPE">SMALL</field>
+          <block type="robo_setas_rosto_feliz">
+            <field name="COR">#facc15</field>
             <next>
-              <block type="bloco_ligar_led">
-                <value name="COLOUR">
-                  <block type="colour_blue" />
-                </value>
+              <block type="robo_setas_bipe">
                 <next>
-                  <block type="bipe_curto">
-                    <field name="VOLUME">25</field>
+                  <block type="robo_setas_frente">
                     <next>
                       <block type="robo_setas_frente">
                         <next>
-                          <block type="robo_setas_frente">
+                          <block type="robo_setas_rosto_feliz">
+                            <field name="COR">#3b82f6</field>
                             <next>
-                              <block type="mostrar_emoji">
-                                <field name="BRILHO">20</field>
-                                <value name="EMOJI">
-                                  <block type="emoji_seta_cima" />
-                                </value>
-                                <value name="COR">
-                                  <block type="colour_blue" />
-                                </value>
+                              <block type="robo_setas_bipe">
                                 <next>
-                                  <block type="display_limpar_linha">
-                                    <field name="LINHA">2</field>
-                                    <field name="DISPLAY_TYPE">SMALL</field>
+                                  <block type="robo_setas_frente">
                                     <next>
-                                      <block type="display_texto">
-                                        <field name="TEXTO">D3 OK</field>
-                                        <field name="LINHA">2</field>
-                                        <field name="ALINHAMENTO">CENTER</field>
-                                        <field name="DISPLAY_TYPE">SMALL</field>
+                                      <block type="robo_setas_frente">
                                         <next>
-                                          <block type="bipe_curto">
-                                            <field name="VOLUME">25</field>
+                                          <block type="robo_setas_rosto_triste">
+                                            <field name="COR">#ef4444</field>
                                             <next>
-                                              <block type="bloco_desligar_todos_leds">
+                                              <block type="robo_setas_led_piscando">
+                                                <field name="COR">#facc15</field>
                                                 <next>
-                                                  <block type="robo_setas_frente">
+                                                  <block type="robo_setas_bipe">
                                                     <next>
-                                                      <block type="robo_setas_frente">
+                                                      <block type="robo_setas_esquerda">
                                                         <next>
-                                                          <block type="display_limpar_linha">
-                                                            <field name="LINHA">2</field>
-                                                            <field name="DISPLAY_TYPE">SMALL</field>
+                                                          <block type="robo_setas_esquerda">
                                                             <next>
-                                                              <block type="display_texto">
-                                                                <field name="TEXTO">D5 CURVA</field>
-                                                                <field name="LINHA">2</field>
-                                                                <field name="ALINHAMENTO">CENTER</field>
-                                                                <field name="DISPLAY_TYPE">SMALL</field>
+                                                              <block type="robo_setas_frente">
                                                                 <next>
-                                                                  <block type="robo_setas_esquerda">
+                                                                  <block type="robo_setas_coracao">
+                                                                    <field name="COR">#ef4444</field>
                                                                     <next>
-                                                                      <block type="robo_setas_esquerda">
+                                                                      <block type="robo_setas_bipe">
                                                                         <next>
-                                                                          <block type="robo_setas_frente">
+                                                                          <block type="robo_setas_voltar">
                                                                             <next>
-                                                                              <block type="bloco_ligar_led">
-                                                                                <value name="COLOUR">
-                                                                                  <block type="colour_pink" />
-                                                                                </value>
+                                                                              <block type="robo_setas_led_aceso">
+                                                                                <field name="COR">#facc15</field>
                                                                                 <next>
-                                                                                  <block type="mostrar_emoji">
-                                                                                    <field name="BRILHO">20</field>
-                                                                                    <value name="EMOJI">
-                                                                                      <block type="emoji_coracao" />
-                                                                                    </value>
-                                                                                    <value name="COR">
-                                                                                      <block type="colour_pink" />
-                                                                                    </value>
+                                                                                  <block type="robo_setas_direita">
                                                                                     <next>
-                                                                                      <block type="display_limpar_linha">
-                                                                                        <field name="LINHA">2</field>
-                                                                                        <field name="DISPLAY_TYPE">SMALL</field>
+                                                                                      <block type="robo_setas_led_aceso">
+                                                                                        <field name="COR">#22c55e</field>
                                                                                         <next>
-                                                                                          <block type="display_texto">
-                                                                                            <field name="TEXTO">B6 OK</field>
-                                                                                            <field name="LINHA">2</field>
-                                                                                            <field name="ALINHAMENTO">CENTER</field>
-                                                                                            <field name="DISPLAY_TYPE">SMALL</field>
+                                                                                          <block type="robo_setas_rosto_feliz">
+                                                                                            <field name="COR">#22c55e</field>
                                                                                             <next>
-                                                                                              <block type="bipe_curto">
-                                                                                                <field name="VOLUME">25</field>
+                                                                                              <block type="robo_setas_sucesso">
                                                                                                 <next>
-                                                                                                  <block type="robo_setas_voltar">
-                                                                                                    <next>
-                                                                                                      <block type="display_limpar_linha">
-                                                                                                        <field name="LINHA">2</field>
-                                                                                                        <field name="DISPLAY_TYPE">SMALL</field>
-                                                                                                        <next>
-                                                                                                          <block type="display_texto">
-                                                                                                            <field name="TEXTO">B5 VOLTA</field>
-                                                                                                            <field name="LINHA">2</field>
-                                                                                                            <field name="ALINHAMENTO">CENTER</field>
-                                                                                                            <field name="DISPLAY_TYPE">SMALL</field>
-                                                                                                            <next>
-                                                                                                              <block type="bloco_ligar_led">
-                                                                                                                <value name="COLOUR">
-                                                                                                                  <block type="colour_blue" />
-                                                                                                                </value>
-                                                                                                                <next>
-                                                                                                                  <block type="robo_setas_direita">
-                                                                                                                    <next>
-                                                                                                                      <block type="display_limpar">
-                                                                                                                        <field name="DISPLAY_TYPE">SMALL</field>
-                                                                                                                        <next>
-                                                                                                                          <block type="display_texto">
-                                                                                                                            <field name="TEXTO">TESTE OK</field>
-                                                                                                                            <field name="LINHA">2</field>
-                                                                                                                            <field name="ALINHAMENTO">CENTER</field>
-                                                                                                                            <field name="DISPLAY_TYPE">SMALL</field>
-                                                                                                                            <next>
-                                                                                                                              <block type="mostrar_emoji">
-                                                                                                                                <field name="BRILHO">20</field>
-                                                                                                                                <value name="EMOJI">
-                                                                                                                                  <block type="emoji_rosto_feliz" />
-                                                                                                                                </value>
-                                                                                                                                <value name="COR">
-                                                                                                                                  <block type="colour_green" />
-                                                                                                                                </value>
-                                                                                                                                <next>
-                                                                                                                                  <block type="som_de_sucesso">
-                                                                                                                                    <field name="VOLUME">30</field>
-                                                                                                                                    <next>
-                                                                                                                                      <block type="bloco_desligar_todos_leds">
-                                                                                                                                        <next>
-                                                                                                                                          <block type="robo_setas_finalizar" />
-                                                                                                                                        </next>
-                                                                                                                                      </block>
-                                                                                                                                    </next>
-                                                                                                                                  </block>
-                                                                                                                                </next>
-                                                                                                                              </block>
-                                                                                                                            </next>
-                                                                                                                          </block>
-                                                                                                                        </next>
-                                                                                                                      </block>
-                                                                                                                    </next>
-                                                                                                                  </block>
-                                                                                                                </next>
-                                                                                                              </block>
-                                                                                                            </next>
-                                                                                                          </block>
-                                                                                                        </next>
-                                                                                                      </block>
-                                                                                                    </next>
-                                                                                                  </block>
+                                                                                                  <block type="robo_setas_finalizar" />
                                                                                                 </next>
                                                                                               </block>
                                                                                             </next>

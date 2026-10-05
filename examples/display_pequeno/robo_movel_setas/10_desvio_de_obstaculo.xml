@@ -1,30 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Imagine uma cratera no caminho: avance e sinalize com rosto triste e luz amarela piscando. Contorne pela direita, suba e siga à esquerda; celebre a chegada com sorriso e troféu. -->
+  <!-- Imagine um caminho fechado: suba, mostre o rosto triste e pisque vermelho. Um bipe avisa o desvio à direita; o sorriso verde e o troféu celebram a chegada. O aviso faz parte da sequência programada. -->
   <block type="robo_setas_iniciar" x="30" y="30">
     <next>
       <block type="robo_setas_frente">
         <next>
           <block type="robo_setas_rosto_triste">
-            <field name="COR">#facc15</field>
+            <field name="COR">#ef4444</field>
             <next>
               <block type="robo_setas_led_piscando">
-                <field name="COR">#facc15</field>
+                <field name="COR">#ef4444</field>
                 <next>
-                  <block type="robo_setas_direita">
+                  <block type="robo_setas_bipe">
                     <next>
-                      <block type="robo_setas_frente">
+                      <block type="robo_setas_direita">
                         <next>
-                          <block type="robo_setas_esquerda">
+                          <block type="robo_setas_rosto_feliz">
+                            <field name="COR">#22c55e</field>
                             <next>
-                              <block type="robo_setas_rosto_feliz">
-                                <field name="COR">#22c55e</field>
+                              <block type="robo_setas_sucesso">
                                 <next>
-                                  <block type="robo_setas_sucesso">
-                                    <next>
-                                      <block type="robo_setas_finalizar" />
-                                    </next>
-                                  </block>
+                                  <block type="robo_setas_finalizar" />
                                 </next>
                               </block>
                             </next>
