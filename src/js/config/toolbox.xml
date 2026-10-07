@@ -345,7 +345,6 @@
 
   <!-- 15. DISPLAY OLED -->
   <category name="📺 Display OLED" colour="#16a085">
-    <block type="display_mostrar_imagem"></block>
     <block type="display_testar_conexao"></block>
     <block type="display_testar_sh1107"></block>
     <block type="display_texto"></block>
@@ -361,6 +360,7 @@
     <block type="display_limpar_borda"></block>
     <block type="display_limpar_linha"></block>
     <block type="display_limpar"></block>
+    <block type="display_mostrar_imagem"></block>
   </category>
   <category name="🕹️ Joystick" colour="#1565c0">
     <block type="joystick_controlar_led"></block>

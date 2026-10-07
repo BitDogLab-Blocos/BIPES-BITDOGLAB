@@ -126,7 +126,7 @@ WorkspaceManager.filterToolboxByProject = function(project, expandArrowCategorie
 WorkspaceManager.loadToolboxXml = function() {
   var toolboxXml;
   var request = new XMLHttpRequest();
-  request.open('GET', '../js/config/toolbox.xml?ver=20261006oled2', false);
+  request.open('GET', '../js/config/toolbox.xml?ver=20261006oledOrder1', false);
   request.send(null);
 
   if (request.status === 200) {

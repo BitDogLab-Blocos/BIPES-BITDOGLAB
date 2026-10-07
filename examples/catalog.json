@@ -5637,17 +5637,6 @@
             "pequeno": "examples/display_pequeno/robo_movel_setas/19_teste_final_mapa_lunar.xml",
             "grande": "examples/display_grande/robo_movel_setas/19_teste_final_mapa_lunar.xml"
           }
-        },
-        {
-          "number": 20,
-          "title": "Teste dos sete emojis",
-          "description": "Atividade para reconhecer os sinais e comparar as cores: sorriso amarelo na ida, rosto triste azul com luz amarela piscando, volta à base, luz verde, coração vermelho, bipe e sorriso verde com troféu.",
-          "icon": "😊",
-          "displaySpecific": false,
-          "displays": {
-            "pequeno": "examples/display_pequeno/robo_movel_setas/20_expressoes_luzes_e_sons.xml",
-            "grande": "examples/display_grande/robo_movel_setas/20_expressoes_luzes_e_sons.xml"
-          }
         }
       ],
       "project": "robo_setas"
