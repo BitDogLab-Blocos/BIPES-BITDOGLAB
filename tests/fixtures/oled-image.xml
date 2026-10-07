@@ -1,6 +1,0 @@
-<xml xmlns="https://developers.google.com/blockly/xml">
-  <!-- Select an image after import: images are intentionally session-only. -->
-  <block type="display_mostrar_imagem" x="360" y="100">
-    <field name="DISPLAY_TYPE">SMALL</field>
-  </block>
-</xml>
