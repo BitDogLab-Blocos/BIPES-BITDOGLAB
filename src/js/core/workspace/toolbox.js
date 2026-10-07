@@ -72,7 +72,13 @@ WorkspaceManager.filterToolboxByProject = function(project, expandArrowCategorie
   }
   if (!Code._fullToolboxXml) return;
 
+  var projectChanged = WorkspaceManager._toolboxProject !== project;
   WorkspaceManager._toolboxProject = project;
+  // In arrow mode, scroll through the vertical mission; Ctrl+wheel still zooms.
+  Code.workspace.options.moveOptions.wheel = project === 'robo_setas' &&
+    Code.workspace.getTopBlocks(false).some(function(block) {
+      return block.type === 'robo_setas_iniciar';
+    });
   WorkspaceManager.arrowCategoriesExpanded = project === 'robo_setas' && !!expandArrowCategories;
   var arrowsOnly = project === 'robo_setas' && !WorkspaceManager.arrowCategoriesExpanded;
   document.getElementById('content_blocks').classList.toggle('is-arrow-toolbox-collapsed', arrowsOnly);
@@ -113,6 +119,9 @@ WorkspaceManager.filterToolboxByProject = function(project, expandArrowCategorie
       });
     }
     Blockly.svgResize(Code.workspace);
+    if (projectChanged && WorkspaceManager.focusArrowSequence) {
+      WorkspaceManager.focusArrowSequence();
+    }
     if (Code.BlockContractValidator) {
       Code.BlockContractValidator.validateWorkspace(Code.workspace);
     }

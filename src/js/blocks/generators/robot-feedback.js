@@ -83,7 +83,8 @@
     Blockly.Python[type] = function(block) {
       ensureMatrix();
       return '_feedback_matrix(' + JSON.stringify(RobotFeedback.patterns[pattern]) + ', ' + colourCode(block) +
-        ', ' + RobotFeedback.matrixBrightness + ', "' + (index ? 'Triste' : 'Feliz') + '")\n';
+        ', ' + RobotFeedback.matrixBrightness + ', "' + (index ? 'Triste' : 'Feliz') + '")\n' +
+        '_feedback_wait(' + RobotFeedback.observationMs + ')\n';
     };
   });
 
@@ -106,7 +107,8 @@
 
   Blockly.Python.robo_setas_led_aceso = function(block) {
     ensureLed();
-    return '_feedback_led(' + colourCode(block) + ')\n';
+    return '_feedback_led(' + colourCode(block) + ')\n' +
+      '_feedback_wait(' + RobotFeedback.observationMs + ')\n';
   };
 
   Blockly.Python.robo_setas_led_piscando = function(block) {
@@ -144,7 +146,11 @@
         '  finally:',
         '    buzzer.duty_u16(0)'
       ].join('\n');
-      return '_feedback_sound(' + JSON.stringify(RobotFeedback.sounds[sound]) + ')\n';
+      var notes = RobotFeedback.sounds[sound];
+      var soundMs = notes.reduce(function(total, note) { return total + note[1]; }, 0);
+      var silenceMs = Math.max(0, RobotFeedback.observationMs - soundMs);
+      return '_feedback_sound(' + JSON.stringify(notes) + ')\n' +
+        '_feedback_wait(' + silenceMs + ')\n';
     };
   });
 })();

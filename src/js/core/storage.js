@@ -191,6 +191,9 @@ account.prototype.restoreProjects = function (projects_) {
       suppressSave = true;
       workspace.clear();
       Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(preparedXml), workspace);
+      if (window.WorkspaceManager && WorkspaceManager.focusArrowSequence) {
+        WorkspaceManager.focusArrowSequence();
+      }
       return true;
     } catch (e) {
       console.error('[SimpleStorage] Load error:', e);

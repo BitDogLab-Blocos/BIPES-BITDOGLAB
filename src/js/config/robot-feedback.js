@@ -15,6 +15,8 @@ var RobotFeedback = {
   matrixBrightness: 25,
   ledBrightness: 30,
   volume: 30,
+  // Time to observe static pictures, a steady LED, or a short sound before continuing.
+  observationMs: 1000,
   pulseBrightness: [10, 20, 30, 20, 10],
   pulseStepMs: 90,
   blinkStepMs: 200,

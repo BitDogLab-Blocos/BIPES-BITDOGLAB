@@ -212,6 +212,9 @@ workspace.prototype.loadXML = function () {
         try {
           let xml = Blockly.Xml.textToDom(content);
           Blockly.Xml.domToWorkspace(xml, Code.workspace);
+          if (window.WorkspaceManager && WorkspaceManager.focusArrowSequence) {
+            WorkspaceManager.focusArrowSequence();
+          }
         }
         catch (e) {
           UI ['notify'].log(e)

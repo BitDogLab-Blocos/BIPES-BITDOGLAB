@@ -253,7 +253,9 @@
           WorkspaceManager.selectProject(example.project);
         }
 
-        if (Code.workspace.zoomToFit) Code.workspace.zoomToFit();
+        var focused = global.WorkspaceManager && WorkspaceManager.focusArrowSequence &&
+          WorkspaceManager.focusArrowSequence();
+        if (!focused && Code.workspace.zoomToFit) Code.workspace.zoomToFit();
         if (global.UI && UI.notify && UI.notify.send) {
           UI.notify.send('Exemplo carregado: ' + example.title);
         }

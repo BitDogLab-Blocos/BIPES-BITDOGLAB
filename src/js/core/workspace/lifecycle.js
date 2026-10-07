@@ -6,6 +6,29 @@ var WorkspaceManager = window.WorkspaceManager || (window.WorkspaceManager = {})
 Code.workspace = null;
 Code._fullToolboxXml = null;
 
+// Keep arrow missions readable and start at the flag instead of fitting the full stack.
+WorkspaceManager.focusArrowSequence = function() {
+  var workspace = Code.workspace;
+  var project = WorkspaceManager._toolboxProject || localStorage.getItem('bitdoglab_project');
+  if (!workspace) return false;
+
+  var start = workspace.getTopBlocks(true).find(function(block) {
+    return block.type === 'robo_setas_iniciar';
+  });
+  var isArrowSequence = project === 'robo_setas' && !!start;
+  // Some examples retain the selected mode, so require an actual arrow mission too.
+  workspace.options.moveOptions.wheel = isArrowSequence;
+  if (!isArrowSequence) return false;
+
+  Blockly.svgResize(workspace);
+  workspace.setScale(1);
+  var bounds = start.getBoundingRectangle();
+  var metrics = workspace.getMetrics();
+  var x = metrics.viewWidth / 2 - (bounds.left + bounds.right) / 2;
+  workspace.scroll(x, 28 - bounds.top);
+  return true;
+};
+
 WorkspaceManager.loadBlocks = function(defaultXml) {
   var loadOnce = null;
   try {
@@ -32,6 +55,7 @@ WorkspaceManager.loadBlocks = function(defaultXml) {
         var fallbackXml = Blockly.Xml.textToDom(defaultXml);
         Blockly.Xml.domToWorkspace(fallbackXml, Code.workspace);
       }
+      WorkspaceManager.focusArrowSequence();
       clearInterval(interval_);
     }
   }, 500);
