@@ -514,6 +514,15 @@
     return Boolean(block.getFieldValue && block.getFieldValue('DISPLAY_TYPE'));
   }
 
+  function validateOledImages(blocks, warnings) {
+    blocks.forEach(function(block) {
+      if (block.type === 'display_mostrar_imagem' &&
+          (!global.OledImages || !global.OledImages.get(block.oledImageToken_))) {
+        addWarning(warnings, block, Code.t('oledImageMissing'));
+      }
+    });
+  }
+
   function validateServoOledV7PinConflicts(blocks, warnings) {
     var config = global.BitdogLabConfig;
     if (!config || !config.PINS || !config.EXTERNAL || !config.EXTERNAL.DIG_PINS) return;
@@ -1179,12 +1188,7 @@
     validateTypedEmptyValueInputs(blocks, warnings);
     validateContainers(blocks, warnings);
     validateDisplayTypeConflicts(blocks, warnings);
-    blocks.forEach(function(block) {
-      if (block.type === 'display_mostrar_imagem' &&
-          (!global.OledImages || !global.OledImages.get(block.oledImageToken_))) {
-        addWarning(warnings, block, Code.t('oledImageMissing'));
-      }
-    });
+    validateOledImages(blocks, warnings);
     validateServoRules(blocks, warnings);
     validateServoOledV7PinConflicts(blocks, warnings);
     validateDht11V7PinConflicts(blocks, warnings);

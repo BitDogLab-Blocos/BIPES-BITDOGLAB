@@ -56,7 +56,7 @@ var OledImageEditor = (function() {
     dialog.setAttribute('aria-labelledby', 'oled-image-title');
     var close = element('button', header, '×');
     close.type = 'button';
-    close.setAttribute('aria-label', text('Cancel'));
+    close.setAttribute('aria-label', text('Close'));
     close.onclick = function() { dialog.close(); };
     element('p', dialog, text('SessionNotice'));
 

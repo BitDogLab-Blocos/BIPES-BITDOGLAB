@@ -25,8 +25,8 @@
           [text('Small'), 'SMALL'], [text('Large'), 'LARGE']
         ]), 'DISPLAY_TYPE');
       this.appendDummyInput()
-        .appendField(new Blockly.FieldImage(placeholder, 80, 80, text('Preview'), function() {
-          OledImageEditor.open(this.getSourceBlock());
+        .appendField(new Blockly.FieldImage(placeholder, 80, 80, text('Preview'), function(field) {
+          OledImageEditor.open(field.getSourceBlock());
         }), 'IMAGE_PREVIEW')
         .appendField(new ImageButton(), 'CHOOSE_IMAGE');
       this.appendDummyInput().appendField(new Blockly.FieldLabel(text('Empty')), 'IMAGE_NAME');
