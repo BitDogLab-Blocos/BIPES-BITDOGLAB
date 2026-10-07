@@ -9,6 +9,7 @@
     'bloco_ligar_led',
     'mostrar_emoji',
     'display_texto',
+    'display_mostrar_imagem',
     'tocar_nota',
     'parar_piano',
     'joystick_controlar_led',

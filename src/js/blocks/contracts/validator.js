@@ -1179,6 +1179,12 @@
     validateTypedEmptyValueInputs(blocks, warnings);
     validateContainers(blocks, warnings);
     validateDisplayTypeConflicts(blocks, warnings);
+    blocks.forEach(function(block) {
+      if (block.type === 'display_mostrar_imagem' &&
+          (!global.OledImages || !global.OledImages.get(block.oledImageToken_))) {
+        addWarning(warnings, block, Code.t('oledImageMissing'));
+      }
+    });
     validateServoRules(blocks, warnings);
     validateServoOledV7PinConflicts(blocks, warnings);
     validateDht11V7PinConflicts(blocks, warnings);
