@@ -2,6 +2,20 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const images = require('../src/js/core/oled-images.js');
+const tutorial = require('./fixtures/oled-tutorial-bitmap.json');
+
+test('the advisor appendix bitmap round-trips all 2048 bytes and 3254 lit pixels', () => {
+  const reference = Buffer.from(tutorial.bitmapHex, 'hex');
+  const rgba = new Uint8ClampedArray(128 * 128 * 4);
+  for (let i = 0; i < 128 * 128; i++) {
+    const colour = reference[i >> 3] & (0x80 >> (i & 7)) ? 0 : 255;
+    rgba[i * 4] = rgba[i * 4 + 1] = rgba[i * 4 + 2] = colour;
+    rgba[i * 4 + 3] = 255;
+  }
+  const result = images.convert(rgba, 128, 128);
+  assert.deepEqual(Buffer.from(result.bytes), reference);
+  assert.equal(result.pixels.reduce((sum, value) => sum + value), 3254);
+});
 
 test('tutorial example 10110010 packs as 0xB2 with the left pixel in bit 7', () => {
   assert.deepEqual(Array.from(images.pack([1, 0, 1, 1, 0, 0, 1, 0], 8, 1)), [0xB2]);

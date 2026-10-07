@@ -129,5 +129,5 @@ Code.LANG = LanguageManager.getLang();
 
 if (!Code._translationScriptsInjected) {
   Code._translationScriptsInjected = true;
-  document.write('<script src="../translations/catalog.js?ver=20261006oled1"></script>\n');
+  document.write('<script src="../translations/catalog.js?ver=20261006oled2"></script>\n');
 }
