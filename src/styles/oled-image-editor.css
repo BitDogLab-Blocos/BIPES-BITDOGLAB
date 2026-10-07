@@ -1,0 +1,64 @@
+.oled-image-editor {
+  box-sizing: border-box;
+  width: min(560px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  overflow: auto;
+  padding: 22px;
+  border: 0;
+  border-radius: 16px;
+  color: #203148;
+  background: #fff;
+  box-shadow: 0 20px 70px #0005;
+  font-family: Arial, sans-serif;
+}
+.oled-image-editor::backdrop { background: #172a46b3; }
+.oled-image-editor__header, .oled-image-editor__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.oled-image-editor h2 { margin: 0; font-size: 22px; }
+.oled-image-editor p { font-size: 14px; line-height: 1.5; }
+.oled-image-editor label { display: block; font-size: 14px; line-height: 1.6; }
+.oled-image-editor input[type=file], .oled-image-editor select {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  margin: 6px 0 12px;
+  padding: 9px;
+  border: 1px solid #c8d5e2;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: inherit;
+}
+.oled-image-editor__controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; }
+.oled-image-editor input[type=range] { display: block; width: 100%; accent-color: #168b76; }
+.oled-image-editor input[type=checkbox] { margin-right: 8px; accent-color: #168b76; }
+.oled-image-editor__preview {
+  display: block;
+  width: min(100%, 320px);
+  height: auto;
+  margin: 12px auto;
+  background: #000;
+  border: 8px solid #203148;
+  border-radius: 6px;
+  box-sizing: border-box;
+  image-rendering: pixelated;
+}
+.oled-image-editor__status { min-height: 21px; overflow-wrap: anywhere; }
+.oled-image-editor button {
+  padding: 10px 16px;
+  border: 1px solid #c8d5e2;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: inherit;
+  cursor: pointer;
+}
+.oled-image-editor .oled-image-editor__apply { background: #168b76; border-color: #168b76; color: #fff; }
+.oled-image-editor button:disabled { opacity: .45; cursor: default; }
+.oled-image-editor :focus-visible { outline: 3px solid #297dc6; outline-offset: 2px; }
+@media (max-width: 420px) {
+  .oled-image-editor { padding: 16px; }
+  .oled-image-editor__controls { grid-template-columns: 1fr; }
+}
