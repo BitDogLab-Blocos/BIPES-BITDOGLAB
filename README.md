@@ -83,6 +83,14 @@ No **modo por setas**, após a contagem de cinco segundos e o diagnóstico, o LE
 
 Os exemplos **22 a 25 de Robô Móvel** usam explicitamente leituras de bateria e exigem o INA226 da V7. Na V6, o diagnóstico de partida funciona, mas esses exemplos não podem fornecer valores reais de tensão ou corrente.
 
+### Movimento no modo por setas
+
+Cada casa usa uma rampa de 0,2 s até PWM 35000, 1,0 s na potência máxima e uma rampa de 0,2 s até zero: 1,4 s de movimento. As pausas entre setas e os giros acrescentam tempo ao percurso. A seta para baixo orienta o robô para baixo e avança; não muda para marcha à ré. O Modo Completo conserva seus comandos por tempo, giros por graus e joystick.
+
+Os giros usam uma referência angular durante o percurso: cima 0°, direita 90°, baixo 180° e esquerda −90°. A potência sobe gradualmente até 40000 no lado que avança e 36000 no lado que recua. A desaceleração começa com 5° restantes e a medição continua durante a rampa e por 250 ms após desligar os motores. Antes de avançar, o controle exige erro medido de até 3°; permite duas correções com metade da potência e interrupção por falta de rotação por 700 ms ou falha de leitura. Uma falha impede os próximos movimentos e os efeitos de sucesso. O botão B continua cancelando em todas as etapas.
+
+A referência é uma estimativa pelo giroscópio, atualizada nos giros. Ela não mede a posição no tapete, não corrige desvios durante as retas e não elimina deriva do sensor ou escorregamento das rodas. Recoloque o robô apontando para cima antes de iniciar uma nova missão. Os 1,4 s por casa, os 5° de antecipação e os 3° de tolerância são valores iniciais para calibração física.
+
 ## Arquivos dentro da placa
 
 ![Gerenciador de arquivos conectado à BitDogLab](device-file-manager/images/connected-window.png)
@@ -144,8 +152,7 @@ BIPES-BITDOGLAB/
 ├── images/                    # imagens dos exemplos e do README
 ├── micropython/               # referências e exemplos MicroPython
 ├── PyLibs/                    # bibliotecas auxiliares para a placa
-├── docs/                      # guias, checklists e documentação técnica
-└── tests/                     # validações automatizadas locais
+└── docs/                      # guias, checklists e documentação técnica
 ```
 
 ## Executar localmente

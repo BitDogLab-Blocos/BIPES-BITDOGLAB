@@ -79,6 +79,8 @@ CodeGeneratorManager.protectRobotArrowMission = function(code) {
     mission.split('\n').map(function(line) { return line ? '  ' + line : ''; }).join('\n') +
     '\nexcept _RoboMissaoCancelada:\n' +
     '  print("Missao cancelada pelo botao B. Execute novamente para tentar outro percurso.")\n' +
+    'except _RoboFalhaSetas as exc:\n' +
+    '  print("Missao interrompida:", exc)\n' +
     'finally:\n' +
     '  _robo_encerrar_setas()\n';
 };

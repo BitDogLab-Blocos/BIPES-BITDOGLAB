@@ -65,7 +65,19 @@ function _setupRoboMovelDefinitions() {
     '_robo_zona_morta_giro = ' + robot.TURN_DEADZONE_DPS + '\n' +
     '_robo_timeout_min_ms = ' + robot.TURN_TIMEOUT_MIN_MS + '\n' +
     '_robo_timeout_ms_por_grau = ' + robot.TURN_TIMEOUT_MS_PER_DEGREE + '\n' +
-    '_robo_tempo_bloco_setas = 0.8\n' +
+    '# Uma casa: 200 ms acelerando + 1000 ms pleno + 200 ms desacelerando.\n' +
+    '_robo_tempo_bloco_setas = 1.4\n' +
+    '_robo_rampa_movimento_setas_ms = 200\n' +
+    '_robo_passo_movimento_setas_ms = 20\n' +
+    '_robo_passo_pwm_giro_setas = 5000\n' +
+    '_robo_passo_giro_setas_ms = 15\n' +
+    '_robo_freio_giro_setas = 5.0\n' +
+    '_robo_tolerancia_setas = 3.0\n' +
+    '_robo_timeout_sem_giro_setas_ms = 700\n' +
+    '_robo_max_giro_setas_dps = 300.0\n' +
+    '_robo_correcoes_setas = 2\n' +
+    '_robo_potencia_correcao_setas = 0.5\n' +
+    '_robo_angulo_global_setas = 0.0\n' +
     '_robo_pausa_setas_repetidas_ms = 300\n' +
     '_robo_pausa_antes_giro_setas_ms = 200\n' +
     '_robo_pausa_apos_giro_setas_ms = 250\n' +
@@ -343,6 +355,7 @@ function _setupRoboMovelDefinitions() {
     '\n' +
     'def _robo_iniciar_setas(espera=5):\n' +
     '  global _robo_orientacao_setas, _robo_ultima_direcao_setas, _robo_falha_setas\n' +
+    '  global _robo_angulo_global_setas\n' +
     '  global _robo_botao_a, _robo_botao_b, _robo_controle_setas, _robo_cancelado_setas, _robo_giro_tempo\n' +
     '  _robo_parar()\n' +
     '  _robo_botao_a = Pin(' + BitdogLabConfig.PINS.BUTTON_A + ', Pin.IN, Pin.PULL_UP)\n' +
@@ -362,6 +375,7 @@ function _setupRoboMovelDefinitions() {
     '  _robo_aguardar_botao_a(1)\n' +
     '  _robo_led(0, 0, 0)\n' +
     '  _robo_giro_tempo = ticks_ms()\n' +
+    '  _robo_angulo_global_setas = 0.0\n' +
     '\n' +
     'def _robo_finalizar_setas():\n' +
     '  global _robo_ultima_direcao_setas\n' +
@@ -385,8 +399,178 @@ function _setupRoboMovelDefinitions() {
     '  _robo_esq_pwm.duty_u16(de)\n' +
     '  _robo_dir_pwm.duty_u16(dd)\n' +
     '\n' +
+    // Arrow control keeps a route-wide reference, independently of instruments.
+    // Like the teacher's controller, turn magnitude uses abs(gz) and commanded
+    // direction. Straight-line motion remains time-based, without wheel encoders.
+    `class _RoboFalhaSetas(Exception):
+  pass
+
+def _robo_normalizar_angulo_setas(angulo):
+  valor = (float(angulo) + 180.0) % 360.0 - 180.0
+  return 180.0 if valor == -180.0 else valor
+
+def _robo_ler_giro_setas():
+  _robo_verificar_parada()
+  if _robo_mpu is None or not _robo_mpu.is_ready:
+    raise _RoboFalhaSetas("MPU6050 indisponivel")
+  gz = _robo_mpu.gz()
+  if not _robo_mpu.is_ready or gz is None:
+    raise _RoboFalhaSetas("falha de leitura do MPU6050")
+  if not math.isfinite(gz) or abs(gz) > _robo_max_giro_setas_dps:
+    raise _RoboFalhaSetas("leitura angular invalida")
+  return 0.0 if abs(gz) < _robo_zona_morta_giro else gz
+
+def _robo_esperar_medido_setas(ms, direcao=None):
+  global _robo_angulo_global_setas, _robo_angulo, _robo_giro_tempo
+  inicio = ticks_ms()
+  anterior = _robo_giro_tempo
+  movimento = False
+  while ticks_diff(ticks_ms(), inicio) < ms:
+    _robo_pausa_segura(min(10, max(1, ms - ticks_diff(ticks_ms(), inicio))))
+    gz = _robo_ler_giro_setas()
+    agora = ticks_ms()
+    dt = ticks_diff(agora, anterior) / 1000.0
+    anterior = agora
+    _robo_angulo += gz * dt
+    _robo_giro_tempo = agora
+    if direcao is not None:
+      sinal = 1.0 if direcao == "R" else -1.0
+      _robo_angulo_global_setas = _robo_normalizar_angulo_setas(_robo_angulo_global_setas + sinal * abs(gz) * dt)
+    movimento = movimento or abs(gz) > 2.0
+  return movimento
+
+def _robo_avancar_setas():
+  global _robo_falha_setas, _robo_giro_tempo
+  sucesso = False
+  try:
+    if not _robo_diagnostico_ok or _robo_falha_setas:
+      return False
+    _robo_ler_giro_setas()
+    _robo_parar()
+    _robo_habilitar_motores()
+    _robo_giro_tempo = ticks_ms()
+    inicio_movimento = _robo_giro_tempo
+    _robo_esq_frente.value(0)
+    _robo_esq_tras.value(1)
+    _robo_dir_frente.value(0)
+    _robo_dir_tras.value(1)
+    passos = max(1, _robo_rampa_movimento_setas_ms // _robo_passo_movimento_setas_ms)
+    for passo in range(1, passos + 1):
+      _robo_verificar_parada()
+      pwm = _robo_pwm(_robo_vel_movimento * passo / passos)
+      _robo_esq_pwm.duty_u16(pwm)
+      _robo_dir_pwm.duty_u16(pwm)
+      restante = passo * _robo_passo_movimento_setas_ms - ticks_diff(ticks_ms(), inicio_movimento)
+      _robo_esperar_medido_setas(max(0, restante))
+    total_ms = max(2 * passos * _robo_passo_movimento_setas_ms, int(round(_robo_tempo_bloco_setas * 1000)))
+    fim_pleno = total_ms - passos * _robo_passo_movimento_setas_ms
+    _robo_esperar_medido_setas(max(0, fim_pleno - ticks_diff(ticks_ms(), inicio_movimento)))
+    for passo in range(passos - 1, -1, -1):
+      _robo_verificar_parada()
+      pwm = _robo_pwm(_robo_vel_movimento * passo / passos)
+      _robo_esq_pwm.duty_u16(pwm)
+      _robo_dir_pwm.duty_u16(pwm)
+      fim_passo = fim_pleno + (passos - passo) * _robo_passo_movimento_setas_ms
+      _robo_esperar_medido_setas(max(0, fim_passo - ticks_diff(ticks_ms(), inicio_movimento)))
+    _robo_atualizar_display_instrumentos(False)
+    sucesso = True
+    return True
+  except _RoboFalhaSetas as exc:
+    print("Avanco por setas interrompido:", exc)
+    return False
+  finally:
+    _robo_parar()
+    if not sucesso:
+      _robo_falha_setas = True
+
+def _robo_etapa_giro_setas(alvo, correcao, inicio, limite_ms):
+  global _robo_giro_tempo
+  erro = _robo_normalizar_angulo_setas(alvo - _robo_angulo_global_setas)
+  direcao = "R" if erro > 0 else "L"
+  sinal = 1.0 if direcao == "R" else -1.0
+  fator = _robo_potencia_correcao_setas if correcao else 1.0
+  avanco = _robo_pwm(_robo_pwm_giro_avanco_setas * fator)
+  recuo = _robo_pwm(_robo_pwm_giro_re_setas * fator)
+  alvo_esq, alvo_dir = (avanco, recuo) if direcao == "L" else (recuo, avanco)
+  margem = _robo_tolerancia_setas * 0.8 if correcao else _robo_freio_giro_setas
+  esq, direita = 0, 0
+  ultimo_movimento = ticks_ms()
+  inicio_etapa = ultimo_movimento
+  _robo_giro_tempo = inicio_etapa
+  while sinal * _robo_normalizar_angulo_setas(alvo - _robo_angulo_global_setas) > margem:
+    _robo_verificar_parada()
+    agora = ticks_ms()
+    if ticks_diff(agora, inicio) >= limite_ms or (correcao and ticks_diff(agora, inicio_etapa) >= 1500):
+      raise _RoboFalhaSetas("tempo limite do giro")
+    if ticks_diff(agora, ultimo_movimento) >= _robo_timeout_sem_giro_setas_ms:
+      raise _RoboFalhaSetas("MPU6050 nao detecta giro")
+    esq = min(alvo_esq, esq + _robo_passo_pwm_giro_setas)
+    direita = min(alvo_dir, direita + _robo_passo_pwm_giro_setas)
+    _robo_pivot_setas(direcao, esq, direita)
+    if _robo_esperar_medido_setas(_robo_passo_giro_setas_ms, direcao):
+      ultimo_movimento = ticks_ms()
+  while esq > 0 or direita > 0:
+    if ticks_diff(ticks_ms(), inicio) >= limite_ms:
+      raise _RoboFalhaSetas("tempo limite na desaceleracao")
+    esq = max(0, esq - _robo_passo_pwm_giro_setas)
+    direita = max(0, direita - _robo_passo_pwm_giro_setas)
+    _robo_pivot_setas(direcao, esq, direita)
+    _robo_esperar_medido_setas(_robo_passo_giro_setas_ms, direcao)
+  _robo_parar()
+  # Measure the residual rotation after PWM reaches zero as well.
+  restante = _robo_pausa_apos_giro_setas_ms
+  while restante > 0:
+    if ticks_diff(ticks_ms(), inicio) >= limite_ms:
+      raise _RoboFalhaSetas("tempo limite na estabilizacao")
+    intervalo = min(10, restante)
+    _robo_esperar_medido_setas(intervalo, direcao)
+    restante -= intervalo
+  _robo_atualizar_display_instrumentos(False)
+
+def _robo_orientar_setas(alvo):
+  global _robo_falha_setas
+  sucesso = False
+  try:
+    if not _robo_diagnostico_ok or _robo_falha_setas:
+      return False
+    _robo_ler_giro_setas()
+    alvo = _robo_normalizar_angulo_setas(alvo)
+    erro = _robo_normalizar_angulo_setas(alvo - _robo_angulo_global_setas)
+    inicio = ticks_ms()
+    limite_ms = max(_robo_timeout_min_ms, int(abs(erro) * _robo_timeout_ms_por_grau))
+    for tentativa in range(_robo_correcoes_setas + 1):
+      erro = _robo_normalizar_angulo_setas(alvo - _robo_angulo_global_setas)
+      if abs(erro) <= _robo_tolerancia_setas:
+        sucesso = True
+        print("Orientacao por setas:", round(_robo_angulo_global_setas, 1), "alvo:", alvo, "erro:", round(erro, 1))
+        return True
+      if ticks_diff(ticks_ms(), inicio) >= limite_ms:
+        raise _RoboFalhaSetas("tempo limite da orientacao")
+      _robo_parar()
+      _robo_pausa_segura(_robo_pausa_antes_giro_setas_ms)
+      _robo_etapa_giro_setas(alvo, tentativa > 0, inicio, limite_ms)
+    erro = _robo_normalizar_angulo_setas(alvo - _robo_angulo_global_setas)
+    if abs(erro) <= _robo_tolerancia_setas:
+      sucesso = True
+      return True
+    raise _RoboFalhaSetas("erro angular fora da tolerancia: " + str(round(erro, 1)))
+  except _RoboFalhaSetas as exc:
+    print("Giro por setas interrompido:", exc, "; avanco cancelado.")
+    return False
+  finally:
+    _robo_parar()
+    if not sucesso:
+      _robo_falha_setas = True
+
+def _robo_girar_setas_relativo(graus, direcao):
+  sinal = -1.0 if direcao == "L" else 1.0
+  return _robo_orientar_setas(_robo_angulo_global_setas + sinal * abs(float(graus)))
+
+` +
     'def _robo_girar(graus, direcao="L", setas=False):\n' +
     '  global _robo_angulo, _robo_giro_tempo\n' +
+    '  if setas:\n' +
+    '    return _robo_girar_setas_relativo(graus, direcao)\n' +
     '  if not _robo_diagnostico_ok:\n' +
     '    _robo_parar()\n' +
     '    return False if setas else None\n' +
@@ -465,24 +649,13 @@ function _setupRoboMovelDefinitions() {
     '  direcao = int(direcao) % 4\n' +
     '  if _robo_ultima_direcao_setas == direcao:\n' +
     '    _robo_pausa_segura(_robo_pausa_setas_repetidas_ms)\n' +
-    '  giro = direcao - _robo_orientacao_setas\n' +
-    '  if giro < 0:\n' +
-    '    giro += 4\n' +
-    '  giro_ok = True\n' +
-    '  if giro != 0:\n' +
-    '    _robo_parar()\n' +
-    '    _robo_pausa_segura(_robo_pausa_antes_giro_setas_ms)\n' +
-    '  if giro == 1:\n' +
-    '    giro_ok = _robo_girar(90, "R", True)\n' +
-    '  elif giro == 2:\n' +
-    '    giro_ok = _robo_girar(180, "R", True)\n' +
-    '  elif giro == 3:\n' +
-    '    giro_ok = _robo_girar(90, "L", True)\n' +
+    '  giro_ok = _robo_orientar_setas(direcao * 90.0)\n' +
     '  if not giro_ok:\n' +
     '    _robo_falha_setas = True\n' +
     '    _robo_parar()\n' +
     '    return False\n' +
-    '  _robo_frente(_robo_tempo_bloco_setas)\n' +
+    '  if not _robo_avancar_setas():\n' +
+    '    return False\n' +
     '  _robo_orientacao_setas = direcao\n' +
     '  _robo_ultima_direcao_setas = direcao\n' +
     '  return True\n' +
@@ -707,6 +880,11 @@ function _roboSetupCode(code) {
   return BitdogLabConfig.MARKERS.SETUP_START + '\n' + code + BitdogLabConfig.MARKERS.SETUP_END + '\n';
 }
 
+function _roboSetasStepCode(direction) {
+  return 'if not _robo_ir_para(' + direction + '):\n' +
+    '  raise _RoboFalhaSetas("Movimento cancelado; missao interrompida.")\n';
+}
+
 Blockly.Python['robo_setas_iniciar'] = function(_block) {
   _setupRoboMovelDefinitions();
   return _roboSetupCode('_robo_iniciar_setas(5)\n');
@@ -714,22 +892,22 @@ Blockly.Python['robo_setas_iniciar'] = function(_block) {
 
 Blockly.Python['robo_setas_frente'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return '_robo_ir_para(0)\n';
+  return _roboSetasStepCode(0);
 };
 
 Blockly.Python['robo_setas_esquerda'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return '_robo_ir_para(3)\n';
+  return _roboSetasStepCode(3);
 };
 
 Blockly.Python['robo_setas_direita'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return '_robo_ir_para(1)\n';
+  return _roboSetasStepCode(1);
 };
 
 Blockly.Python['robo_setas_voltar'] = function(_block) {
   _setupRoboMovelDefinitions();
-  return '_robo_ir_para(2)\n';
+  return _roboSetasStepCode(2);
 };
 
 Blockly.Python['robo_setas_finalizar'] = function(_block) {
