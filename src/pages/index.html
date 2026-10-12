@@ -12,7 +12,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicons/bitdog-logo.jpg">
   <meta name="theme-color" content="#2980b9">
 
-  <link rel="stylesheet" href="../styles/main.css?ver=20261005robotFeedback1">
+  <link rel="stylesheet" href="../styles/main.css?ver=20261012latinoware1">
   <link rel="stylesheet" href="../styles/visual-themes.css?ver=20260722b2">
   <link rel="stylesheet" href="../../device-file-manager/device-files.css?ver=20260718a8">
   <link rel="stylesheet" href="../styles/libs.css">
@@ -43,7 +43,7 @@
   <script src="../js/config/profiles/v7.js?ver=20260830mpuMotion1"></script>
   <script src="../js/config/profiles/v6.js?ver=20260830mpuMotion1"></script>
   <script src="../js/config/robot-feedback.js?ver=20261007feedbackTiming1"></script>
-  <script src="../js/core/language.js?ver=20261006oled2"></script>
+  <script src="../js/core/language.js?ver=20261012latinoware1"></script>
   <script src="../js/core/ldr-settings.js?ver=20260821ldr1"></script>
   <script src="../js/core/oled-images.js?ver=20261006oled2"></script>
   <script src="../js/core/tabs.js?ver=20260929laboratoryTab1"></script>
@@ -148,6 +148,18 @@
 
 </head>
 <body>
+
+  <aside id="latinoware-notice" class="latinoware-notice" aria-labelledby="latinowareNoticeTitle" hidden>
+    <button id="closeLatinowareNotice" class="latinoware-notice-close" type="button"
+      aria-label="Fechar aviso da Latinoware" data-i18n-aria-label="app.latinowareNoticeClose">&times;</button>
+    <h2 id="latinowareNoticeTitle" data-i18n="app.latinowareNoticeTitle">Material da Latinoware</h2>
+    <p data-i18n="app.latinowareNoticeDescription">Acompanhe as atividades da BitDogLab pelo material digital.</p>
+    <a class="latinoware-notice-link"
+      href="https://drive.google.com/file/d/1kg5jl6X44PFekRsvHyVm6bKfAd5TQfKA/view?usp=sharing"
+      target="_blank" rel="noopener noreferrer"
+      aria-label="Abrir material da Latinoware (PDF) em outra aba" data-i18n-aria-label="app.latinowareNoticeLinkLabel"
+      data-i18n="app.latinowareNoticeLink">Abrir material (PDF) ↗</a>
+  </aside>
 
   <!-- Project selector modal -->
   <div id="project-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(75,46,131,0.95); z-index:9998; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
@@ -621,7 +633,7 @@
   </button>
 </div>
 
-<script src="../js/bootstrap/onboarding.js?ver=20261002hourly1"></script>
+<script src="../js/bootstrap/onboarding.js?ver=20261012latinoware1"></script>
 <script src="../js/bootstrap/services.js?ver=20260809arch1"></script>
 <script src="../js/bootstrap/page.js?ver=20261006oledOrder1"></script>
 <script src="../js/core/examples/catalog.js?ver=20261006arrowExamples19"></script>

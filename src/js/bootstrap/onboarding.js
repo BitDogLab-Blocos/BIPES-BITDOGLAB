@@ -3,6 +3,30 @@
 (function(global) {
   var ONBOARDING_LAST_SHOWN_KEY = 'bitdoglab_onboarding_last_shown_at';
   var ONBOARDING_INTERVAL_MS = 60 * 60 * 1000;
+  var LATINOWARE_NOTICE_DISMISSED_KEY = 'bitdoglab_latinoware_notice_dismissed';
+
+  function initializeLatinowareNotice() {
+    var notice = document.getElementById('latinoware-notice');
+    var closeButton = document.getElementById('closeLatinowareNotice');
+    if (!notice || !closeButton || closeButton.dataset.noticeBound) {
+      return;
+    }
+
+    var dismissed = false;
+    try {
+      dismissed = sessionStorage.getItem(LATINOWARE_NOTICE_DISMISSED_KEY) === 'true';
+    } catch (e) {
+      // The notice also works when browser storage is unavailable.
+    }
+    notice.hidden = dismissed;
+    closeButton.dataset.noticeBound = 'true';
+    closeButton.addEventListener('click', function() {
+      notice.hidden = true;
+      try {
+        sessionStorage.setItem(LATINOWARE_NOTICE_DISMISSED_KEY, 'true');
+      } catch (e) {}
+    });
+  }
 
   function shouldShowOnboarding() {
     var now = Date.now();
@@ -19,6 +43,7 @@
   }
 
   function initializeOnboarding() {
+    initializeLatinowareNotice();
     var startBtn = document.getElementById('startAdventureBtn');
     var welcomeMsg = document.getElementById('welcome-message');
     var partnershipNotice = document.getElementById('partnership-notice');

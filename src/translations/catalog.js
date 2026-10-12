@@ -6,6 +6,11 @@ var Code = window.Code || (window.Code = {});
 // Each source map is declared once. Locales below only reference these maps.
 var APP_MESSAGES = {
   'pt-br': {
+    latinowareNoticeTitle: 'Material da Latinoware',
+    latinowareNoticeDescription: 'Acompanhe as atividades da BitDogLab pelo material digital.',
+    latinowareNoticeLink: 'Abrir material (PDF) ↗',
+    latinowareNoticeLinkLabel: 'Abrir material da Latinoware (PDF) em outra aba',
+    latinowareNoticeClose: 'Fechar aviso da Latinoware',
     oledImageTitle: 'Imagem no OLED',
     oledImageBlock: 'Mostrar imagem no OLED',
     oledImageChoose: 'Escolher imagem',
@@ -126,6 +131,11 @@ var APP_MESSAGES = {
     arrowModeIntroImageAlt: 'Exemplo da Missão Lua com um rover e setas sobre o tapete'
   },
   'en': {
+    latinowareNoticeTitle: 'Latinoware materials',
+    latinowareNoticeDescription: 'Follow the BitDogLab activities using the digital materials.',
+    latinowareNoticeLink: 'Open materials (PDF) ↗',
+    latinowareNoticeLinkLabel: 'Open Latinoware materials (PDF) in a new tab',
+    latinowareNoticeClose: 'Close Latinoware notice',
     oledImageTitle: 'OLED image',
     oledImageBlock: 'Show image on OLED',
     oledImageChoose: 'Choose image',
