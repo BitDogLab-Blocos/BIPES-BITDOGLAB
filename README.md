@@ -81,6 +81,8 @@ Os blocos **Inicializar robô** e **Iniciar robô com setas** executam a contage
 
 No **modo por setas**, após a contagem de cinco segundos e o diagnóstico, o LED fica verde e o robô espera um novo aperto e soltura do **botão A**. Segurar A ao ligar não inicia o percurso. O **botão B** corta a habilitação dos motores por interrupção e cancela toda a missão, inclusive durante a preparação, movimentos e giros. Soltar B não retoma o percurso: execute novamente ou reinicie a placa e dê um novo comando pelo A. A conclusão, erros e Ctrl+C também desligam os motores. É necessário salvar novamente o `main.py` para atualizar programas antigos na placa.
 
+Os perfis V6 e V7 consideram o MPU6050 do robô montado horizontalmente, de cabeça para baixo: `ROBOT.GYRO_Z_SIGN = -1` compensa o sinal do giroscópio Z depois da calibração, nos giros e no ângulo exibido. Para montagem com o sensor voltado para cima, use `1`. O avanço por seta continua em 0,8 s; as leituras de aceleração permanecem nos eixos do sensor.
+
 Os exemplos **22 a 25 de Robô Móvel** usam explicitamente leituras de bateria e exigem o INA226 da V7. Na V6, o diagnóstico de partida funciona, mas esses exemplos não podem fornecer valores reais de tensão ou corrente.
 
 ## Arquivos dentro da placa

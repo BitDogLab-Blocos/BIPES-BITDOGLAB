@@ -62,6 +62,7 @@ function _setupRoboMovelDefinitions() {
     mpuSetup +
     '_robo_vel_movimento = ' + robot.MOVE_SPEED + '\n' +
     '_robo_vel_giro = ' + robot.TURN_SPEED + '\n' +
+    '_robo_sinal_giro_z = ' + (robot.GYRO_Z_SIGN === -1 ? -1 : 1) + '\n' +
     '_robo_zona_morta_giro = ' + robot.TURN_DEADZONE_DPS + '\n' +
     '_robo_timeout_min_ms = ' + robot.TURN_TIMEOUT_MIN_MS + '\n' +
     '_robo_timeout_ms_por_grau = ' + robot.TURN_TIMEOUT_MS_PER_DEGREE + '\n' +
@@ -418,7 +419,7 @@ function _setupRoboMovelDefinitions() {
     '    agora = ticks_ms()\n' +
     '    dt = min(ticks_diff(agora, t_ant) / 1000.0, 0.05)\n' +
     '    t_ant = agora\n' +
-    '    gz = _robo_mpu.gz()\n' +
+    '    gz = _robo_mpu.gz() * _robo_sinal_giro_z\n' +
     '    if setas and not _robo_mpu.is_ready:\n' +
     '      break\n' +
     '    if abs(gz) < _robo_zona_morta_giro:\n' +
@@ -494,7 +495,7 @@ function _setupRoboMovelDefinitions() {
     '  agora = ticks_ms()\n' +
     '  dt = min(ticks_diff(agora, _robo_giro_tempo) / 1000.0, 0.05)\n' +
     '  _robo_giro_tempo = agora\n' +
-    '  gz = _robo_mpu.gz()\n' +
+    '  gz = _robo_mpu.gz() * _robo_sinal_giro_z\n' +
     '  if abs(gz) < _robo_zona_morta_giro:\n' +
     '    gz = 0.0\n' +
     '  _robo_angulo += gz * dt\n' +

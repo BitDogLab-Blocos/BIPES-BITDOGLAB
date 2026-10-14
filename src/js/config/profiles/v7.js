@@ -149,6 +149,7 @@ var BitdogLabConfig = createProfile(BitdogLabProfileBase, {
     PWM_FREQ: 1000,
     MOVE_SPEED: 35000,
     TURN_SPEED: 35000,
+    GYRO_Z_SIGN: -1, // MPU6050 montado de cabeca para baixo no robo.
     ARROW_COUNTDOWN_BRIGHTNESS: 0.21,
     TURN_DEADZONE_DPS: 0.8,
     TURN_TIMEOUT_MIN_MS: 1500,
