@@ -33,6 +33,8 @@ O objetivo não é usar obrigatoriamente todos os periféricos ao mesmo tempo. A
 | [`Lista_Componentes_Quantidades_Usadas.xlsx`](Lista_Componentes_Quantidades_Usadas.xlsx) | Lista de materiais, quantidades previstas e referências de compra. |
 | [`projeto-eletrico-conexoes-externas.png`](projeto-eletrico-conexoes-externas.png) | Prancha geral com todos os esquemáticos separados em quadros. |
 | [`imagens/placa-pcb.png`](imagens/placa-pcb.png) | Foto da placa montada, também apresentada antes de abrir o projeto no editor. |
+| [`imagens/conexao_ledrgb.png`](imagens/conexao_ledrgb.png) | Posição do LED RGB na PCB e identificação dos contatos coloridos. |
+| [`imagens/conexao_led_bitdog.png`](imagens/conexao_led_bitdog.png) | Contatos GPIO e GND da BitDogLab usados nos cabos com garras jacaré. |
 | [`imagens/`](imagens/) | Fotos da placa e de seus componentes, organizadas nesta pasta. |
 | [`projeto-eletrico-conexoes-externas.svg`](esquematicos/projeto-eletrico-conexoes-externas.svg) | Versão vetorial editável da prancha geral, armazenada com os demais esquemáticos. |
 | `README.md` | Guia de hardware, ligações e uso com os blocos. |
@@ -100,7 +102,7 @@ Na BitDogLab V7, use `Conexão 0` ou `Conexão 1` para o sinal `T°/UR`. Na BitD
 | `Servo Motor` | Sinal PWM do SG90 | Conexão escolhida no bloco |
 | `GND (-)` | Terra comum do LED e do servo | Contato `GND` |
 
-Cada cor do LED RGB deve usar uma conexão diferente. Na BitDogLab V7, as conexões 2 e 3 também são usadas pelo display e pelo barramento I²C. Quando o display estiver ativo, prefira as conexões 0 e 1 para LED externo, DHT11 ou servo e observe os avisos apresentados pelo editor de blocos.
+Cada cor do LED RGB deve usar uma conexão diferente e chegar ao contato de mesma cor na PCB. O GND da BitDogLab deve estar ligado ao GND da placa externa. Na BitDogLab V7, as conexões 2 e 3 também são usadas pelo display e pelo barramento I²C; observe os avisos apresentados pelo editor de blocos.
 
 ## Ligações dos periféricos
 
@@ -155,7 +157,7 @@ INT, AD0, XCL e XDA    -> sem conexão
 
 Os blocos do MPU-6050 externo estão disponíveis para a **BitDogLab V7**. O editor impede o uso desse recurso com o perfil V6 devido às diferenças na organização do barramento I²C.
 
-### LED RGB externo
+### LED RGB da placa
 
 O LED da PCB é do tipo cátodo comum. Os três canais já possuem resistores de 220 Ω e podem ser ligados às conexões digitais escolhidas nos blocos.
 
@@ -187,7 +189,7 @@ Na BitDogLab V7, prefira `Conexão 0` ou `Conexão 1` quando o display estiver s
 1. Monte os componentes na PCB e revise a polaridade do LED RGB, do DHT11 e dos conectores.
 2. Com a BitDogLab desligada e sem o cabo USB, ligue os contatos da placa externa usando as garras jacaré.
 3. Abra o BIPES BitDogLab Blocos e selecione a versão correta da placa, preferencialmente a BitDogLab V7.
-4. Escolha uma categoria de hardware externo, como **Temperatura e Umidade Externas**, **Sensor de Luz**, **Sensor de Distância**, **Movimento e Inclinação**, **LEDs Externos** ou **Servo Motor**.
+4. Escolha uma categoria de hardware externo, como **Temperatura e Umidade Externas**, **Sensor de Luz**, **Sensor de Distância**, **Movimento e Inclinação**, **LEDs da placa** ou **Servo Motor**.
 5. Nos blocos que apresentam um número de conexão, escolha exatamente a conexão usada pelo cabo físico.
 6. Corrija todos os avisos de conflito apresentados no workspace.
 7. Peça a um professor para revisar a montagem, conecte o USB e execute o programa.

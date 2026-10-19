@@ -235,8 +235,8 @@
       en: 'an LED command'
     },
     ExternalLedCommand: {
-      'pt-br': 'um comando de LED externo',
-      en: 'an external LED command'
+      'pt-br': 'um comando de LED da placa',
+      en: 'a board LED command'
     },
     DisplayCommand: {
       'pt-br': 'um comando de display',

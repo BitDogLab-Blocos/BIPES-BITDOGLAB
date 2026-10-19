@@ -26,10 +26,10 @@
       dht11V7PinConflict: 'Na placa BitDogLab V7, o DHT11 deve usar somente as Conexões 0 ou 1. A Conexão %1 também é usada pelo Display (tela da placa); escolha 0 ou 1 no DHT11.',
       dht11Aht20V7I2c0Conflict: 'O sensor DHT11 está na Conexão %1. Os dois sensores estão tentando usar a mesma ligação da placa e podem se atrapalhar. O programa foi bloqueado. Peça ao professor para mover o sensor da Estufa para a outra entrada indicada no guia ou escolha outra Conexão para o DHT11. Depois, rode o programa novamente.',
       externalConnectionConflict: 'A Conexão %1 já está sendo usada pelo bloco de %2. Escolha outro número neste bloco. Depois, confira se o número escolhido é o mesmo contato onde o fio foi colocado na placa.',
-      externalLedInvalidConnection: 'Este LED externo usa uma Conexão que não existe na versão da BitDogLab selecionada. Escolha uma Conexão disponível na placa.',
-      externalLedInvalidChannel: 'Escolha o pino R — vermelho, G — verde ou B — azul do módulo de LED colorido KY-016.',
-      externalLedOledV7Notice: '👀 Confira os fios! Na BitDogLab V7, a tela usa as Conexões 2 e 3. Se um fio colorido do KY-016 estiver em 2 ou 3, essa cor pode piscar com a tela. Use 0 e 1 para até duas cores junto com a tela. Para usar vermelho, verde e azul, escolha a tela ou o LED colorido.',
-      externalLedOledV7PinConflict: 'Na placa BitDogLab V7, as Conexões 2 e 3 também são usadas pelo Display (tela da placa). Para usar este LED externo com a tela, escolha a Conexão 0 ou 1.',
+      externalLedInvalidConnection: 'Este LED da placa usa uma Conexão que não existe na versão da BitDogLab selecionada. Escolha uma Conexão disponível na placa.',
+      externalLedInvalidChannel: 'Escolha o canal Vermelho, Verde ou Azul do LED da placa.',
+      externalLedOledV7Notice: '👀 Na BitDogLab V7, o Display usa as Conexões 2 e 3. Confira se as Conexões escolhidas para os canais Vermelho, Verde e Azul estão disponíveis.',
+      externalLedOledV7PinConflict: 'Na BitDogLab V7, as Conexões 2 e 3 também são usadas pelo Display. Escolha outra Conexão disponível para este canal do LED.',
       externalContactInvalidConnection: 'Esta Conexão não está disponível para contatos na placa selecionada. Escolha uma Conexão mostrada no bloco.',
       externalContactMissingPrepare: 'Antes de usar os contatos, coloque o bloco 🔌 Preparar contatos no projeto. Deixe ele no começo e escolha o fio comum usado na montagem: GND (recomendado) ou 3,3 V. Sem esse preparo, o programa não será gerado.',
       externalContactPrepareConflict: 'Há duas preparações diferentes para os contatos. Escolha somente um fio comum para todo o projeto: GND ou 3,3 V.',
@@ -65,10 +65,10 @@
       dht11V7PinConflict: 'On BitDogLab V7, DHT11 must use only Connections 0 or 1. Connection %1 is reserved for the OLED display (board screen); choose Connection 0 or 1 for DHT11.',
       dht11Aht20V7I2c0Conflict: 'The DHT11 sensor is on Connection %1. The two sensors are trying to use the same board connection and may interfere with each other. The program was blocked. Ask your teacher to move the Greenhouse sensor to the other input shown in the guide, or choose another Connection for DHT11. Then run the program again.',
       externalConnectionConflict: 'Connection %1 is already used by the %2 block. Change the connection in this block and physically check which board contact the cable is connected to. The connection selected in the block cannot detect the real wiring.',
-      externalLedInvalidConnection: 'This external LED uses a Connection that does not exist on the selected BitDogLab version. Choose a Connection available on the board.',
-      externalLedInvalidChannel: 'Choose the R — red, G — green, or B — blue pin on the KY-016 colour LED module.',
-      externalLedOledV7Notice: '👀 Check the wires! On BitDogLab V7, the screen uses Connections 2 and 3. If a KY-016 colour wire is on 2 or 3, that colour may blink with the screen. Use 0 and 1 for up to two colours with the screen. To use red, green, and blue, choose the screen or the colour LED.',
-      externalLedOledV7PinConflict: 'On board BitDogLab V7, Connections 2 and 3 are also used by the board display. To use this external LED with the screen, choose Connection 0 or 1.',
+      externalLedInvalidConnection: 'This board LED uses a Connection that does not exist on the selected BitDogLab version. Choose an available Connection.',
+      externalLedInvalidChannel: 'Choose the Red, Green, or Blue channel of the board RGB LED.',
+      externalLedOledV7Notice: '👀 On BitDogLab V7, the display uses Connections 2 and 3. Check that the Connections selected for the Red, Green, and Blue channels are available.',
+      externalLedOledV7PinConflict: 'On BitDogLab V7, Connections 2 and 3 are also used by the display. Choose another available Connection for this LED channel.',
       externalContactInvalidConnection: 'This Connection is not available for contacts on the selected board. Choose a Connection shown in the block.',
       externalContactMissingPrepare: 'Before using contacts, add the 🔌 Set up contacts block to the project. Keep it at the beginning and choose the common wire used in the circuit: GND (recommended) or 3.3 V. Without this setup, the program will not be generated.',
       externalContactPrepareConflict: 'There are two different contact setups. Choose only one common wire for the whole project: GND or 3.3 V.',
@@ -87,16 +87,16 @@
     }
   };
 
-  MESSAGES['pt-br'].externalLedDuplicateChannel = 'O pino da cor %1 do KY-016 foi colocado nas Conexões %2 e %3. Cada cor precisa ficar em uma única Conexão.';
+  MESSAGES['pt-br'].externalLedDuplicateChannel = 'O canal %1 foi colocado nas Conexões %2 e %3. Cada cor precisa ficar em uma única Conexão.';
   MESSAGES['pt-br'].externalLedDuplicateConnection = 'As cores %1 e %2 estão na mesma Conexão %3. Escolha três Conexões diferentes para o LED colorido.';
   MESSAGES['pt-br'].externalLedPwmRequired = 'A Conexão %1 não consegue controlar corretamente este LED. Escolha outra Conexão da placa.';
-  MESSAGES['pt-br'].externalLedRgbOledConflict = 'Na placa BitDogLab V7, o módulo de LED colorido completo precisa de três Conexões, mas o Display (tela da placa) usa as Conexões 2 e 3. Escolha usar o LED colorido ou a tela neste projeto.';
-  MESSAGES['pt-br'].externalLedGlobalOledV7Conflict = 'O bloco Desligar todos os LEDs externos verifica as quatro Conexões da placa: 0, 1, 2 e 3. Na placa V7, ele não pode ser usado junto com o Display (tela da placa).';
-  MESSAGES.en.externalLedDuplicateChannel = 'The KY-016 %1 colour pin was placed on Connections %2 and %3. Each colour must use one Connection only.';
+  MESSAGES['pt-br'].externalLedRgbOledConflict = 'Na BitDogLab V7, o LED RGB da PCB usa três Conexões e o Display usa as Conexões 2 e 3. Confira os avisos de conflito antes de executar.';
+  MESSAGES['pt-br'].externalLedGlobalOledV7Conflict = 'O bloco Desligar todos os LEDs da placa verifica as quatro Conexões: 0, 1, 2 e 3. Na BitDogLab V7, confira os conflitos com o Display antes de executar.';
+  MESSAGES.en.externalLedDuplicateChannel = 'The %1 channel was placed on Connections %2 and %3. Each colour must use one Connection only.';
   MESSAGES.en.externalLedDuplicateConnection = 'Colours %1 and %2 use the same Connection %3. Choose three different Connections for the RGB LED.';
   MESSAGES.en.externalLedPwmRequired = 'Connection %1 cannot control this LED correctly. Choose another board Connection.';
-  MESSAGES.en.externalLedRgbOledConflict = 'On board BitDogLab V7, the complete colour LED module needs three Connections, but the board display uses Connections 2 and 3. Choose the colour LED or the screen for this project.';
-  MESSAGES.en.externalLedGlobalOledV7Conflict = 'The Turn off all external LEDs block checks all four board Connections: 0, 1, 2, and 3. On board V7, it cannot be used together with the board display.';
+  MESSAGES.en.externalLedRgbOledConflict = 'On BitDogLab V7, the PCB RGB LED uses three Connections and the display uses Connections 2 and 3. Check the conflict warnings before running.';
+  MESSAGES.en.externalLedGlobalOledV7Conflict = 'The Turn off all board LEDs block checks all four Connections: 0, 1, 2, and 3. On BitDogLab V7, check for conflicts with the display before running.';
 
   MESSAGES['pt-br'].ldrInvalidConnection = 'O sensor de luz deve usar somente a entrada ANA-IN. Confira se o pino S está ligado na ANA-IN da placa.';
   MESSAGES['pt-br'].ldrMicrophoneConflict = 'O sensor de luz e o microfone usam a mesma entrada analógica da placa. Eles não podem funcionar juntos. Retire um dos dois blocos e peça ao professor para conferir o jumper JP1.';
@@ -382,7 +382,7 @@
         {
           prefix: 'STEP',
           allow: EXTERNAL_LED_COMMANDS,
-          label: 'comandos de LED externo'
+          label: 'comandos de LED da placa'
         }
       ],
       requiredValueInputPrefixes: {

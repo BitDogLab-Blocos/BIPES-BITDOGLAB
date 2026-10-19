@@ -1604,7 +1604,7 @@ var CUSTOM_TRANSLATIONS_EN = {
   "🎨 Cores": "🎨 Colors",
   "💡 LEDs": "💡 LEDs",
   "Contatos": "Contacts",
-  "LEDs Externos": "External LEDs",
+  "LEDs da placa": "Board LEDs",
   "Sensor de Luz": "Light and shadow sensor (LDR)",
   "Temperatura e Umidade Externas": "External temperature and humidity",
   "Sensor de Distância": "Distance and presence sensor",

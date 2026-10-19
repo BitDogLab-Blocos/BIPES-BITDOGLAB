@@ -51,7 +51,7 @@
       B: 'B (azul)'
     };
     var channel = String(block.getFieldValue('CHANNEL') || 'R');
-    return '# KY-016 ' + (labels[channel] || channel) + ' - Conexao ' + dig(block) + '\n';
+    return '# LED RGB da placa ' + (labels[channel] || channel) + ' - Conexao ' + dig(block) + '\n';
   }
 
   function ensurePinForConnection(connection) {
@@ -108,7 +108,7 @@
     // The validator prevents using it together with another peripheral on
     // any DIG, so touching all external DIG connections is safe here.
     var connections = allExternalLedConnections();
-    var code = '# Desligar todos os LEDs externos usados\n';
+    var code = '# Desligar todos os LEDs da placa\n';
     for (var i = 0; i < connections.length; i++) {
       code += ensurePinForConnection(connections[i]) +
         '.duty_u16(' + String(dutyForLevel(inactiveLevel())) + ')\n';

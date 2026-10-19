@@ -1,5 +1,5 @@
 // ==========================================
-// Category: External RGB LED (KY-016, channels selected in command blocks)
+// Category: RGB LED mounted on the project's PCB
 // ==========================================
 'use strict';
 
@@ -57,13 +57,13 @@
   Blockly.Blocks['led_externo_desligar_todos'] = {
     init: function() {
       this.appendDummyInput()
-        .appendField('Desligar todos os LEDs externos');
+        .appendField(isEnglish() ? 'Turn off all board LEDs' : 'Desligar todos os LEDs da placa');
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
       this.setColour(COLOUR);
       this.setTooltip(isEnglish()
-        ? 'Turns off every external LED used in this project.'
-        : 'Desliga todos os LEDs externos usados neste projeto.');
+        ? 'Turns off every LED used on the project PCB.'
+        : 'Desliga todos os LEDs usados na PCB do projeto.');
       this.setHelpUrl('');
     }
   };
@@ -86,7 +86,7 @@
     init: function() {
       setCommandShape(this,
         isEnglish() ? '💡 Turn on' : '💡 Ligar',
-        isEnglish() ? 'Turns on the selected KY-016 colour pin.' : 'Liga o pino da cor R, G ou B escolhido no módulo de LED colorido KY-016.');
+        isEnglish() ? 'Turns on the selected RGB channel connected to the matching colour pad on the project PCB.' : 'Liga o canal RGB escolhido, conectado ao contato da mesma cor na PCB do projeto.');
     }
   };
 
@@ -94,7 +94,7 @@
     init: function() {
       setCommandShape(this,
         isEnglish() ? '🌑 Turn off' : '🌑 Desligar',
-        isEnglish() ? 'Turns off the selected KY-016 colour pin.' : 'Desliga o pino da cor R, G ou B escolhido no módulo de LED colorido KY-016.');
+        isEnglish() ? 'Turns off the selected RGB channel connected to the matching colour pad on the project PCB.' : 'Desliga o canal RGB escolhido, conectado ao contato da mesma cor na PCB do projeto.');
     }
   };
 
@@ -148,7 +148,7 @@
     init: function() {
       this.setColour(COLOUR);
       this.appendDummyInput()
-        .appendField(isEnglish() ? '🎬 Animate external LEDs' : '🎬 Criar animação dos LEDs externos');
+        .appendField(isEnglish() ? '🎬 Animate board LEDs' : '🎬 Criar animação dos LEDs da placa');
       this.steps_ = ['action', 'time'];
       this.updateShape_();
       this.setPreviousStatement(true, null);
@@ -337,13 +337,13 @@
     var card = document.createElement('div');
     card.style.cssText = 'background:#fff7ed;color:#4a2c13;border:3px solid #d97706;border-radius:14px;max-width:520px;width:100%;padding:22px;box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:Arial,sans-serif;';
     var title = document.createElement('h2');
-    title.textContent = isEnglish() ? 'Which KY-016 colour will you use?' : 'Qual cor do KY-016 você vai usar?';
+    title.textContent = isEnglish() ? 'Which board LED colour will you use?' : 'Qual cor do LED da placa você vai usar?';
     title.style.margin = '0 0 8px';
     card.appendChild(title);
     var help = document.createElement('p');
     help.textContent = isEnglish()
-      ? 'Choose each channel only once. Then connect that letter to the selected board connection.'
-      : 'Escolha cada pino de cor apenas uma vez. Depois ligue essa letra à Conexão escolhida na placa.';
+      ? 'Add each colour once, then connect its matching PCB colour pad to the Connection selected in the block.'
+      : 'Adicione cada cor uma vez e ligue o contato de mesma cor da PCB à Conexão escolhida no bloco.';
     card.appendChild(help);
 
     CHANNEL_ORDER.forEach(function(channel) {

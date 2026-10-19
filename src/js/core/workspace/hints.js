@@ -10,7 +10,7 @@ WorkspaceManager.externalGuideTimer = null;
 WorkspaceManager.externalCategoryGuides = {
   contacts: {pt: 'Contatos', en: 'Contacts', ids: ['externalContactNotification'], show: function() { Code.showExternalContactReminder(); }},
   servo: {pt: 'Servo Motor', en: 'External Servo', ids: ['servoConnectionNotification'], show: function() { Code.showServoConnectionReminder(); }},
-  led: {pt: 'LEDs Externos', en: 'External LEDs', ids: ['externalLedWarningNotification'], show: function() { Code.showExternalLedConnectionReminder(); }},
+  led: {pt: 'LEDs da placa', en: 'Board LEDs', ids: ['externalLedWarningNotification'], show: function() { Code.showExternalLedConnectionReminder(); }},
   temperature: {pt: 'Temperatura e Umidade Externas', en: 'External temperature and humidity', ids: ['dht11ConnectionNotification'], show: function() { Code.showDht11ConnectionReminder(); }},
   distance: {pt: 'Sensor de Distância', en: 'Distance and presence sensor', ids: ['distanceSensorConnectionNotification', 'distanceSensorSolderNotification'], show: function() { Code.showDistanceSensorConnectionReminder(); WorkspaceManager.showDistanceSensorSolderReminder(); }},
   movement: {pt: 'Movimento e Inclinação', en: 'Movement and Tilt', ids: ['mpu6050ConnectionNotification'], show: function() { Code.showMpu6050ConnectionReminder(); }},
@@ -429,7 +429,7 @@ WorkspaceManager.showExternalContactReminder = function(block) {
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:6px;margin-bottom:10px;">' +
       '<strong>3. Build the connection</strong><br>Shared conductive part → board GND or 3V3 contact<br>Each separate touch piece → Connection 0, Connection 1, Connection 2, or Connection 3<br><br>You can use aluminium foil, conductive dough, fruit, graphite, or alligator clips. The board senses when the shared part touches one of the separate pieces.' +
       '</div>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Important:</strong><br>• Use only one shared mode in the project: GND or 3V3.<br>• Each Connection can have only one job. Do not share a number with an external LED, servo, or DHT11.<br>• The LED Matrix contact test uses all four Connections and must be used by itself.<br>• On BitDogLab V7, the Display uses Connections 2 and 3. With the Display active, use only Connection 0 or Connection 1 for Contacts.</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Important:</strong><br>• Use only one shared mode in the project: GND or 3V3.<br>• Each Connection can have only one job. Do not share a number with a board LED, servo, or DHT11.<br>• The LED Matrix contact test uses all four Connections and must be used by itself.<br>• On BitDogLab V7, the Display uses Connections 2 and 3. With the Display active, use only Connection 0 or Connection 1 for Contacts.</div>' +
       '<div style="background:#e0f2f1;color:#004d40;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Activity ideas</strong><br>For each idea, start with <strong>Set up contacts using GND</strong> and use <strong>When contact is made</strong> for the action.<br><br>' +
       '<strong>🔔 Foil doorbell:</strong> connect one strip of foil to GND and another to Connection 0. Touch the strips together → play a beep.<br><br>' +
       '<strong>🚦 Conductive dough traffic light:</strong> connect one piece to GND and two separate pieces to Connections 0 and 1. Touch the shared piece to 0 → turn the board LED green; touch it to 1 → turn it red.<br><br>' +
@@ -456,7 +456,7 @@ WorkspaceManager.showExternalContactReminder = function(block) {
       '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:6px;margin-bottom:10px;">' +
       '<strong>3. Monte a ligação</strong><br>Parte condutora compartilhada → contato GND ou 3V3 da placa<br>Cada peça de toque separada → Conexão 0, Conexão 1, Conexão 2 ou Conexão 3<br><br>Você pode usar papel-alumínio, massinha condutiva, frutas, grafite ou garras jacaré. A placa percebe quando a parte compartilhada encosta em uma das peças separadas.' +
       '</div>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Importante:</strong><br>• Use somente um modo compartilhado no projeto: GND ou 3V3.<br>• Cada Conexão pode ter apenas uma função. Não compartilhe o mesmo número com LED externo, servo ou DHT11.<br>• O teste de contatos na Matriz usa as quatro Conexões e deve ser usado sozinho.<br>• Na BitDogLab V7, o Display usa as Conexões 2 e 3. Com o Display ativo, use somente a Conexão 0 ou a Conexão 1 para Contatos.</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Importante:</strong><br>• Use somente um modo compartilhado no projeto: GND ou 3V3.<br>• Cada Conexão pode ter apenas uma função. Não compartilhe o mesmo número com LED da placa, servo ou DHT11.<br>• O teste de contatos na Matriz usa as quatro Conexões e deve ser usado sozinho.<br>• Na BitDogLab V7, o Display usa as Conexões 2 e 3. Com o Display ativo, use somente a Conexão 0 ou a Conexão 1 para Contatos.</div>' +
       '<div style="background:#e0f2f1;color:#004d40;padding:10px;border-radius:6px;margin-bottom:10px;"><strong>Ideias de atividades</strong><br>Em cada ideia, comece com <strong>Preparar contatos usando GND</strong> e use <strong>Quando houver contato</strong> para a ação.<br><br>' +
       '<strong>🔔 Campainha de papel-alumínio:</strong> ligue uma tira ao GND e outra à Conexão 0. Encoste as tiras → toque um bipe.<br><br>' +
       '<strong>🚦 Semáforo de massinha condutiva:</strong> ligue uma peça ao GND e outras duas, separadas, às Conexões 0 e 1. Encoste a peça comum na 0 → acenda o LED verde da placa; encoste na 1 → acenda o vermelho.<br><br>' +
@@ -506,8 +506,7 @@ WorkspaceManager.externalLedChannelInfo = function(channel) {
   return info[channel] || info.R;
 };
 
-// RGB-specific version: the category is intentionally explicit for children
-// and teachers who may not know that the letters are physical LED pins.
+// RGB board-LED guide for the project's external board.
 WorkspaceManager.showExternalLedConnectionReminder = function(block) {
   WorkspaceManager.showExternalLedWarningReminder(block || null);
 };
@@ -516,15 +515,11 @@ WorkspaceManager.showExternalLedDisplayNotice = function() {
   var closeId = 'closeExternalLedDisplayNotice';
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size:17px;">⚠️ Display and external LED</strong><br><br>' +
-      'Before powering the board, check the KY-016 wires. On BitDogLab V7, the Display uses Connections 2 and 3 and sends signals through them.<br><br>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;"><strong>Even if the blocks use only Connection 0 or 1, no R, G, or B wire may remain connected to Connection 2 or 3.</strong> A colour connected there may blink when the screen is updated.</div><br>' +
-      '<strong>With the Display in the project, use only Connections 0 and 1 for external LEDs.</strong>'
+      '<strong style="font-size:17px;">⚠️ Display and board RGB LED</strong><br><br>' +
+      'On BitDogLab V7, the Display uses Connections 2 and 3. Connect each RGB colour to the matching pad on the external board, using a different available Connection for each colour.'
     : WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size:17px;">⚠️ Display e LED externo</strong><br><br>' +
-      'Antes de ligar a placa, confira os fios do KY-016. Na BitDogLab V7, o Display usa as Conexões 2 e 3 e envia sinais por elas.<br><br>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:10px;border-radius:6px;"><strong>Mesmo que os blocos usem somente a Conexão 0 ou 1, nenhum fio R, G ou B pode ficar conectado às Conexões 2 ou 3.</strong> Uma cor ligada nelas pode piscar junto com a atualização da tela.</div><br>' +
-      '<strong>Com o Display no projeto, use somente as Conexões 0 e 1 para LEDs externos.</strong>';
+      '<strong style="font-size:17px;">⚠️ Display e LED RGB da placa</strong><br><br>' +
+      'Na BitDogLab V7, o Display usa as Conexões 2 e 3. Ligue cada cor ao contato de mesma cor na placa externa e escolha uma Conexão disponível diferente para cada canal.';
 
   WorkspaceManager.createReminder({
     id: 'externalLedDisplayNotice',
@@ -537,8 +532,8 @@ WorkspaceManager.showExternalLedDisplayNotice = function() {
 
 WorkspaceManager.showExternalLedWarningReminder = function(block) {
   var closeId = 'closeExternalLedWarningNotification';
-  var boardImage = '../assets/images/devices/conexoes-externas.png';
-  var ledImage = '../assets/images/devices/ky-016.png';
+  var externalBoardConnectionImage = '../../hardware/conexoes-externas/imagens/conexao_ledrgb.png';
+  var bitdogConnectionImage = '../../hardware/conexoes-externas/imagens/conexao_led_bitdog.png';
   var commandTypes = [
     'led_externo_ligar',
     'led_externo_desligar',
@@ -552,8 +547,8 @@ WorkspaceManager.showExternalLedWarningReminder = function(block) {
     B: Code.LANG === 'en' ? 'B (blue)' : 'B (azul)'
   };
   var issue = Code.LANG === 'en'
-    ? 'Check the KY-016 colour channels and board Connections before running.'
-    : 'Confira os canais do KY-016 e as Conexões da placa antes de executar.';
+    ? 'Check the RGB colour channels and board Connections before running.'
+    : 'Confira os canais RGB e as Conexões da placa antes de executar.';
   var channelConnectionMap = { R: [], G: [], B: [] };
   var connectionChannels = {};
   var workspace = block && block.workspace ? block.workspace : Code.workspace;
@@ -600,115 +595,85 @@ WorkspaceManager.showExternalLedWarningReminder = function(block) {
     var connections = channelConnectionMap[channelName] || [];
     if (!connections.length) {
       return Code.LANG === 'en'
-        ? 'choose Connection 0, Connection 1, Connection 2, or Connection 3. Do not reuse another colour\'s Connection'
-        : 'escolha Conexão 0, Conexão 1, Conexão 2 ou Conexão 3. Cada cor deve usar um número diferente';
+        ? 'choose an available Connection in the block'
+        : 'escolha uma Conexão disponível no bloco';
     }
-    if (connections.length === 1) {
-      var selected = connections[0];
-      var otherChannels = (connectionChannels[selected] || []).filter(function(otherChannel) {
-        return otherChannel !== channelName;
-      });
-      if (otherChannels.length) {
-        return (Code.LANG === 'en' ? 'Connection ' : 'Conexão ') + selected +
-          (Code.LANG === 'en'
-            ? ' — ERROR: also used by ' + otherChannels.join(' and ')
-            : ' — ERRO: também usada por ' + otherChannels.join(' e '));
-      }
-      return (Code.LANG === 'en' ? 'Connection ' : 'Conexão ') + selected +
-        (Code.LANG === 'en'
-          ? '. Do not use this number for another colour'
-          : '. Não use este número em outra cor');
+    if (connections.length > 1) {
+      return Code.LANG === 'en'
+        ? 'ERROR: selected Connections ' + connections.join(' and ')
+        : 'ERRO: Conexões selecionadas ' + connections.join(' e ');
     }
-    return (Code.LANG === 'en' ? 'Connections ' : 'Conexões ') +
-      connections.join(Code.LANG === 'en' ? ' and ' : ' e ') +
-      (Code.LANG === 'en' ? ' — ERROR: choose only one' : ' — ERRO: escolha somente uma');
+    return (Code.LANG === 'en' ? 'BitDogLab Connection ' : 'Conexão ') + connections[0];
   }
 
-  var wireRows = Code.LANG === 'en'
-    ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identify the KY-016 module pins</div>' +
-      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>- — GND:</strong> negative/ground → board GND contact</div>' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>R — red:</strong> controls the red light → ' + connectionDescription('R') + '</div>' +
-      '<div style="background:#f8f9fa;color:#263238;padding:8px;border-radius:5px;"><strong>G — green:</strong> controls the green light → ' + connectionDescription('G') + '</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>B — blue:</strong> controls the blue light → ' + connectionDescription('B') + '</div>' +
-      '</div>'
-    : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identifique os pinos do módulo KY-016</div>' +
-      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>- — GND:</strong> negativo/terra → contato GND da placa</div>' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>R — vermelho:</strong> controla a luz vermelha → ' + connectionDescription('R') + '</div>' +
-      '<div style="background:#f8f9fa;color:#263238;padding:8px;border-radius:5px;"><strong>G — verde:</strong> controla a luz verde → ' + connectionDescription('G') + '</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>B — azul:</strong> controla a luz azul → ' + connectionDescription('B') + '</div>' +
-      '</div>';
-  var colourIntro = Code.LANG === 'en'
-    ? '<div style="background:#fff3e0;color:#4e342e;padding:9px;border-radius:6px;margin-bottom:10px;"><strong>Each letter is a physical module pin.</strong> Choose R, G, or B in the block. The Connection number selected in the block must match the board contact used by that colour.</div>'
-    : '<div style="background:#fff3e0;color:#4e342e;padding:9px;border-radius:6px;margin-bottom:10px;"><strong>Cada letra indica um pino físico do módulo.</strong> Escolha R, G ou B no bloco. O número escolhido no bloco deve ser o mesmo contato da placa usado por essa cor.</div>';
   var problemLine = block
     ? (Code.LANG === 'en'
-      ? '<strong>Problem found:</strong> ' + issue + '<br>'
-      : '<strong>Problema encontrado:</strong> ' + issue + '<br>')
+      ? '<div style="margin-top:10px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Check the blocks:</strong> ' + issue + '</div>'
+      : '<div style="margin-top:10px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Confira os blocos:</strong> ' + issue + '</div>')
     : '';
-
+  var channelRows = Code.LANG === 'en'
+    ? '<div style="display:grid;gap:7px;margin:10px 0;">' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Red:</strong> ' + connectionDescription('R') + ' → alligator cable → external board pad <strong>Vermelho</strong></div>' +
+      '<div style="background:#f8f9fa;color:#263238;padding:8px;border-radius:5px;"><strong>Green:</strong> ' + connectionDescription('G') + ' → alligator cable → external board pad <strong>Verde</strong></div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Blue:</strong> ' + connectionDescription('B') + ' → alligator cable → external board pad <strong>Azul</strong></div>' +
+      '</div>'
+    : '<div style="display:grid;gap:7px;margin:10px 0;">' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Vermelho:</strong> ' + connectionDescription('R') + ' → cabo jacaré → contato <strong>Vermelho</strong> da placa externa</div>' +
+      '<div style="background:#f8f9fa;color:#263238;padding:8px;border-radius:5px;"><strong>Verde:</strong> ' + connectionDescription('G') + ' → cabo jacaré → contato <strong>Verde</strong> da placa externa</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Azul:</strong> ' + connectionDescription('B') + ' → cabo jacaré → contato <strong>Azul</strong> da placa externa</div>' +
+      '</div>';
+  var guideImages = Code.LANG === 'en'
+    ? '<div class="led-board-guide-images"><figure class="led-board-guide-figure"><figcaption><strong>External board:</strong> the RGB LED is inside the red box. The color contacts are labelled on the left.</figcaption><img src="' + externalBoardConnectionImage + '" alt="External board showing the RGB LED location and the Verde, Azul, and Vermelho contacts"></figure>' +
+      '<figure class="led-board-guide-figure"><figcaption><strong>BitDogLab:</strong> use these GPIO and GND contacts for the other ends of the alligator cables.</figcaption><img src="' + bitdogConnectionImage + '" alt="BitDogLab GPIO and GND contacts connected with alligator-clip cables"></figure></div>'
+    : '<div class="led-board-guide-images"><figure class="led-board-guide-figure"><figcaption><strong>Placa externa:</strong> o LED RGB fica dentro do quadrado vermelho. Os contatos de cor estão identificados à esquerda.</figcaption><img src="' + externalBoardConnectionImage + '" alt="Placa externa indicando onde fica o LED RGB e os contatos Verde, Azul e Vermelho"></figure>' +
+      '<figure class="led-board-guide-figure"><figcaption><strong>BitDogLab:</strong> use estes contatos GPIO e GND para as outras pontas dos cabos jacaré.</figcaption><img src="' + bitdogConnectionImage + '" alt="Contatos GPIO e GND da BitDogLab ligados com cabos jacaré"></figure></div>';
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🔌 How to connect the colour LED module (KY-016)</strong><br>' +
-      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
-      '<img src="' + boardImage + '" alt="External connections" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '<img src="' + ledImage + '" alt="KY-016 RGB LED module" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + colourIntro + wireRows +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Connect in this order:</strong><br>1. Turn the board off and disconnect the USB cable.<br>2. For each pin: KY-016 pin → female end of a male-to-female jumper → male end held by an alligator clip → correct board contact.<br>3. Connect - to GND and connect R, G, and B to different Connections.<br>4. Insulate every jumper-to-clip joint with electrical tape.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;">' + problemLine + '<strong>Important:</strong><br>• Different colours cannot share the same Connection number.<br>• On BitDogLab V7, the Display uses Connections 2 and 3. With the Display active, use only Connection 0 and Connection 1 for the KY-016.<br>• Correct every reported problem before running the project.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> do not let neighbouring clips touch. Cover every exposed metal part to prevent a short circuit.</div>' +
-      '<div style="margin-top:9px;"><strong>Before powering the board, ask a teacher to check GND and the Connections used by R, G, and B.</strong></div>' +
+      '<strong style="font-size:17px;">🔌 Connect the RGB LED on the external board</strong>' +
+      guideImages +
+      '<div style="background:#fff3e0;color:#4e342e;padding:9px;border-radius:6px;"><strong>The external board already has the RGB LED and its 220 Ω resistors.</strong> Each line below is one direct alligator cable connection:</div>' +
+      '<div style="margin-top:8px;background:#e8f5e9;color:#1b5e20;padding:9px;border-radius:5px;"><strong>BitDogLab GND → alligator cable → external board GND (−)</strong></div>' + channelRows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">Use a different BitDogLab Connection for each colour. Match the Connection selected in the block to the cable connected to that colour pad. Make or change connections while the board is off.</div>' +
+      problemLine +
+      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;">On BitDogLab V7, the display uses Connections 2 and 3. Check the block warnings if these are already in use.</div>' +
       '</div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🔌 Como conectar o módulo de LED colorido (KY-016)</strong><br>' +
-      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
-      '<img src="' + boardImage + '" alt="Conexões externas" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '<img src="' + ledImage + '" alt="Módulo LED RGB KY-016" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + colourIntro + wireRows +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Monte nesta ordem:</strong><br>1. Desligue a placa e retire o cabo USB.<br>2. Para cada pino: pino do KY-016 → ponta fêmea do jumper macho-fêmea → ponta macho presa à garra jacaré → contato correto da placa.<br>3. Ligue - ao GND e ligue R, G e B a Conexões diferentes.<br>4. Isole com fita isolante a união entre cada jumper e sua garra jacaré.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;">' + problemLine + '<strong>Importante:</strong><br>• Cores diferentes não podem compartilhar o mesmo número de Conexão.<br>• Na BitDogLab V7, o Display usa as Conexões 2 e 3. Com o Display ativo, use somente a Conexão 0 e a Conexão 1 para o KY-016.<br>• Corrija todo problema indicado antes de executar o projeto.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> não deixe garras vizinhas se encostarem. Cubra todo metal exposto para evitar curto-circuito.</div>' +
-      '<div style="margin-top:9px;"><strong>Antes de ligar a placa, peça ao professor para conferir o GND e as Conexões usadas por R, G e B.</strong></div>' +
+      '<strong style="font-size:17px;">🔌 Como ligar o LED RGB na placa externa</strong>' +
+      guideImages +
+      '<div style="background:#fff3e0;color:#4e342e;padding:9px;border-radius:6px;"><strong>A placa externa já tem o LED RGB e os resistores de 220 Ω.</strong> Cada linha abaixo corresponde a uma ligação direta com cabo jacaré:</div>' +
+      '<div style="margin-top:8px;background:#e8f5e9;color:#1b5e20;padding:9px;border-radius:5px;"><strong>GND da BitDogLab → cabo jacaré → GND (−) da placa externa</strong></div>' + channelRows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">Use uma Conexão diferente da BitDogLab para cada cor. O número escolhido no bloco deve ser o mesmo contato da BitDogLab ligado pelo cabo ao contato dessa cor na placa externa. Faça ou altere as conexões com a placa desligada.</div>' +
+      problemLine +
+      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;">Na BitDogLab V7, o Display usa as Conexões 2 e 3. Confira os avisos dos blocos se essas Conexões já estiverem em uso.</div>' +
       '</div>';
 
   WorkspaceManager.createReminder({
     id: 'externalLedWarningNotification',
     closeId: closeId,
     background: '#e67e22',
-    maxWidth: '700px',
+    maxWidth: '880px',
     html: html
   });
 };
 
 WorkspaceManager.showExternalLedChannelReminder = function(channel) {
   var labels = {
-    R: { pt: 'R (vermelho)', en: 'R (red)' },
-    G: { pt: 'G (verde)', en: 'G (green)' },
-    B: { pt: 'B (azul)', en: 'B (blue)' }
+    R: { pt: 'Vermelho', en: 'Red' },
+    G: { pt: 'Verde', en: 'Green' },
+    B: { pt: 'Azul', en: 'Blue' }
   };
   var selected = labels[channel] || labels.R;
   var label = Code.LANG === 'en' ? selected.en : selected.pt;
   var closeId = 'closeExternalLedChannel_' + String(channel || 'R');
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size:17px;">You chose ' + label + '</strong><br><br>' +
-      '<strong>Identify the pin:</strong> find the <strong>' + label + '</strong> pin on the KY-016 module.<br><br>' +
-      '<strong>Connect in this order:</strong><br>1. Turn the board off and disconnect the USB cable.<br>2. KY-016 ' + label + ' pin → board Connection selected in the block.<br>3. KY-016 <strong>-</strong> pin → board GND contact.<br><br>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Important:</strong> each colour needs a different Connection number.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> do not change wires while the board is powered and do not let alligator clips touch.</div>' +
-      '<div style="margin-top:9px;"><strong>Before powering the board, ask a teacher to check the selected channel and Connection.</strong></div>'
+      '<strong style="font-size:17px;">Connect the ' + label + ' LED channel</strong><br><br>' +
+      'Connect the BitDogLab Connection selected in the block to the external-board pad marked <strong>' + label + '</strong>. Connect BitDogLab GND to the external-board GND. Use a different Connection for each colour, and make connections while the board is off.'
     : WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size:17px;">Você escolheu ' + label + '</strong><br><br>' +
-      '<strong>Identifique o pino:</strong> encontre o pino <strong>' + label + '</strong> no módulo KY-016.<br><br>' +
-      '<strong>Monte nesta ordem:</strong><br>1. Desligue a placa e retire o cabo USB.<br>2. Pino ' + label + ' do KY-016 → Conexão da placa escolhida no bloco.<br>3. Pino <strong>-</strong> do KY-016 → contato GND da placa.<br><br>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Importante:</strong> cada cor precisa usar um número de Conexão diferente.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> não mude os fios com a placa ligada e não deixe as garras jacaré se encostarem.</div>' +
-      '<div style="margin-top:9px;"><strong>Antes de ligar a placa, peça ao professor para conferir o canal e a Conexão escolhidos.</strong></div>';
+      '<strong style="font-size:17px;">Conecte o canal ' + label + ' do LED</strong><br><br>' +
+      'Ligue a Conexão da BitDogLab escolhida no bloco ao contato <strong>' + label + '</strong> da placa externa. Ligue GND da BitDogLab ao GND da placa externa. Use uma Conexão diferente para cada cor e faça as conexões com a placa desligada.';
 
   WorkspaceManager.createReminder({
     id: 'externalLedChannelNotification_' + String(channel || 'R'),
@@ -733,7 +698,7 @@ WorkspaceManager.bindExternalLedCategoryHint = function() {
     if (!clickTarget || !clickTarget.id || !toolbox.getToolboxItemById) return;
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
-    if (categoryName === 'LEDs Externos' || categoryName === 'External LEDs') {
+    if (categoryName === 'LEDs da placa' || categoryName === 'Board LEDs') {
       WorkspaceManager.showExternalCategoryOnClick('led');
     }
   });
