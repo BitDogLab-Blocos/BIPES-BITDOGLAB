@@ -1,6 +1,19 @@
 'use strict';
 
 class ExecutionRunner {
+  static prepareGeneratedCode (code) {
+    if (code && code.indexOf('# BIPES_SAVE_DATA_RTC') !== -1) {
+      const now = new Date();
+      const weekday = (now.getDay() + 6) % 7;
+      const rtcTuple = [now.getFullYear(), now.getMonth() + 1,
+        now.getDate(), weekday, now.getHours(), now.getMinutes(),
+        now.getSeconds(), 0];
+      code = 'from machine import RTC as _BipesRTC\n' +
+        '_BipesRTC().datetime((' + rtcTuple.join(', ') + '))\n' + code;
+    }
+    return code;
+  }
+
   static workspaceUsesLdr () {
     if (!Code || !Code.workspace || !Code.workspace.getAllBlocks) return false;
     return Code.workspace.getAllBlocks(false).some((block) => (
@@ -72,15 +85,7 @@ class ExecutionRunner {
     }
 
     if (code) {
-      if (code.indexOf('# BIPES_SAVE_DATA_RTC') !== -1) {
-        const now = new Date();
-        const weekday = (now.getDay() + 6) % 7;
-        const rtcTuple = [now.getFullYear(), now.getMonth() + 1,
-          now.getDate(), weekday, now.getHours(), now.getMinutes(),
-          now.getSeconds(), 0];
-        code = 'from machine import RTC as _BipesRTC\n' +
-          '_BipesRTC().datetime((' + rtcTuple.join(', ') + '))\n' + code;
-      }
+      code = ExecutionRunner.prepareGeneratedCode(code);
       code+='\r\r'; // Snek workaround - extra line breaks for compatibility
 
       const mobileSerial = window.BitDogLabMobileSerial;

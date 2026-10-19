@@ -65,6 +65,9 @@ static _doSaveAsMainPy (onDone, isActive = () => true) {
   delete Blockly.Python.activeDisplayType;
   let rawCode = Blockly.Python.workspaceToCode(Code.workspace);
   let code = Code.wrapWithInfiniteLoop(rawCode, Code.workspace);
+  if (typeof ExecutionRunner !== 'undefined' && ExecutionRunner.prepareGeneratedCode) {
+    code = ExecutionRunner.prepareGeneratedCode(code);
+  }
   if (!code) {
     Tool.updateFileStatus('Nenhum código para salvar.');
     if (onDone) onDone(false);
