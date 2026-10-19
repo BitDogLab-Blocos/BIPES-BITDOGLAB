@@ -1334,11 +1334,22 @@ body.bitdoglab-external-project-warning-open {
   line-height: 1.5;
 }
 
+.external-project-warning-image {
+  display: block;
+  width: min(100% - 56px, 700px);
+  max-height: 270px;
+  box-sizing: border-box;
+  margin: 18px auto 0;
+  border: 1px solid #dbe3ef;
+  border-radius: 12px;
+  background: #071a32;
+  object-fit: contain;
+}
+
 .external-project-warning-grid {
   display: grid;
-  grid-template-columns: 1.08fr 0.92fr;
-  gap: 18px;
-  padding: 22px 28px 10px;
+  grid-template-columns: 1fr;
+  padding: 16px 28px 4px;
   text-align: left;
 }
 
@@ -1360,12 +1371,17 @@ body.bitdoglab-external-project-warning-open {
   padding-left: 20px;
 }
 
+.external-project-warning-grid section ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 24px;
+}
+
 .external-project-warning-grid li {
   margin: 7px 0;
   line-height: 1.35;
 }
 
-.external-project-sensor-note,
 .external-project-safety {
   margin: 12px 28px 0;
   border-radius: 12px;
@@ -1373,12 +1389,6 @@ body.bitdoglab-external-project-warning-open {
   text-align: left;
   font-size: 0.94rem;
   line-height: 1.48;
-}
-
-.external-project-sensor-note {
-  border-left: 5px solid #2563eb;
-  background: #eff6ff;
-  color: #1e3a8a;
 }
 
 .external-project-safety {
@@ -1434,11 +1444,19 @@ body.bitdoglab-external-project-warning-open {
     padding: 16px 16px 6px;
   }
 
+  .external-project-warning-image {
+    width: calc(100% - 32px);
+    max-height: 210px;
+  }
+
+  .external-project-warning-grid section ul {
+    grid-template-columns: 1fr;
+  }
+
   .external-project-warning-header {
     padding: 20px 18px 17px;
   }
 
-  .external-project-sensor-note,
   .external-project-safety {
     margin-right: 16px;
     margin-left: 16px;

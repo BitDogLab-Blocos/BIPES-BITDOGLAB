@@ -32,6 +32,8 @@ O objetivo não é usar obrigatoriamente todos os periféricos ao mesmo tempo. A
 | [`gerber-placa-conexoes-externas-bitdoglab.zip`](gerber-placa-conexoes-externas-bitdoglab.zip) | Pacote Gerber pronto para cotação e fabricação da PCB. |
 | [`Lista_Componentes_Quantidades_Usadas.xlsx`](Lista_Componentes_Quantidades_Usadas.xlsx) | Lista de materiais, quantidades previstas e referências de compra. |
 | [`projeto-eletrico-conexoes-externas.png`](projeto-eletrico-conexoes-externas.png) | Prancha geral com todos os esquemáticos separados em quadros. |
+| [`imagens/placa-pcb.png`](imagens/placa-pcb.png) | Foto da placa montada, também apresentada antes de abrir o projeto no editor. |
+| [`imagens/`](imagens/) | Fotos da placa e de seus componentes, organizadas nesta pasta. |
 | [`projeto-eletrico-conexoes-externas.svg`](esquematicos/projeto-eletrico-conexoes-externas.svg) | Versão vetorial editável da prancha geral, armazenada com os demais esquemáticos. |
 | `README.md` | Guia de hardware, ligações e uso com os blocos. |
 

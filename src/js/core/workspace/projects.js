@@ -15,55 +15,45 @@ WorkspaceManager.PROJECT_NAMES = {
 WorkspaceManager.EXTERNAL_PROJECT_WARNING = {
   pt: {
     eyebrow: 'Antes de abrir o projeto',
-    title: 'Prepare o kit de Conexões Externas',
-    intro: 'Você não precisa usar tudo ao mesmo tempo. Para explorar todas as categorias, separe o componente pedido em cada atividade.',
-    componentsTitle: 'Componentes externos',
+    title: 'Laboratório de Sensores e Atuadores',
+    intro: 'Confira a placa e separe os componentes necessários:',
+    imageAlt: 'Placa PCB de Conexões Externas montada com sensores e componentes',
+    componentsTitle: 'Componentes',
     components: [
-      'Módulo de LED colorido KY-016',
-      'Sensor de luz LDR KY-018',
-      'Sensor DHT11, preferencialmente o módulo KY-015',
-      'Servo motor PWM de três fios, como o SG90',
-      'Acelerômetro e giroscópio MPU6050',
-      'Sensor ultrassônico HC-SR04 com suporte ao modo I2C, endereço 0x57'
+      'LED RGB',
+      'Sensor ultrassônico HC-SR04 I2C',
+      'LDR',
+      'MPU6050',
+      'Servo motor',
+      'DHT11',
+      '2 resistores de 10 kΩ',
+      '3 resistores de 220 Ω',
+      'Cabos com garras jacaré'
     ],
-    materialsTitle: 'Materiais para as conexões',
-    materials: [
-      'Cabos com garras jacaré',
-      'Jumpers macho–fêmea',
-      'Jumpers macho–macho',
-      'Fita isolante para proteger partes metálicas',
-      'Papel-alumínio, massinha condutiva ou outro material para Contatos'
-    ],
-    sensorNote: 'Atenção ao sensor de distância: o modelo esperado é o HC-SR04 na versão com suporte ao modo I2C, configurado no endereço 0x57 e ligado por SDA e SCL. O HC-SR04 convencional, usado somente com TRIG e ECHO, não funciona com estes blocos.',
-    safety: 'Faça a montagem com a placa desligada e o cabo USB desconectado. Recomendamos que todas as conexões sejam feitas pelo professor ou sob a supervisão direta de alguém experiente em eletrônica. Antes de ligar, confira principalmente 3V3, 5V-VSYS e GND.',
+    safety: 'Peça ajuda ao seu orientador para soldar a placa. Faça as conexões com a placa desligada.',
     cancel: 'Voltar aos projetos',
-    confirm: 'Entendi, abrir Conexões Externas'
+    confirm: 'Entendi, abrir o laboratório'
   },
   en: {
     eyebrow: 'Before opening the project',
-    title: 'Prepare the External Connections kit',
-    intro: 'You do not need to use everything at once. To explore every category, prepare the component requested by each activity.',
-    componentsTitle: 'External components',
+    title: 'Sensors and Actuators Lab',
+    intro: 'Check the board and gather the required components:',
+    imageAlt: 'External Connections PCB assembled with sensors and components',
+    componentsTitle: 'Components',
     components: [
-      'KY-016 colour LED module',
-      'KY-018 LDR light sensor',
-      'DHT11 sensor, preferably the KY-015 module',
-      'Three-wire PWM servo motor, such as the SG90',
-      'MPU6050 accelerometer and gyroscope',
-      'HC-SR04 ultrasonic sensor with I2C mode support at address 0x57'
+      'RGB LED',
+      'HC-SR04 I2C ultrasonic sensor',
+      'LDR',
+      'MPU6050',
+      'Servo motor',
+      'DHT11',
+      '2 10 kΩ resistors',
+      '3 220 Ω resistors',
+      'Alligator clip cables'
     ],
-    materialsTitle: 'Connection materials',
-    materials: [
-      'Cables with alligator clips',
-      'Male-to-female jumper wires',
-      'Male-to-male jumper wires',
-      'Electrical tape to cover exposed metal',
-      'Aluminium foil, conductive dough, or another material for Contacts'
-    ],
-    sensorNote: 'Distance sensor warning: use the HC-SR04 version that supports I2C mode, configured at address 0x57 and connected through SDA and SCL. The conventional HC-SR04 used only through TRIG and ECHO does not work with these blocks.',
-    safety: 'Assemble everything with the board turned off and the USB cable disconnected. All connections should be made by a teacher or under the direct supervision of someone experienced in electronics. Before powering the board, carefully check 3V3, 5V-VSYS, and GND.',
+    safety: 'Ask your advisor to help solder the board. Make connections while it is turned off.',
     cancel: 'Back to projects',
-    confirm: 'I understand, open External Connections'
+    confirm: 'I understand, open the lab'
   }
 };
 
@@ -217,8 +207,6 @@ WorkspaceManager.initProjectSelector = function() {
       externalProjectWarningTitle: copy.title,
       externalProjectWarningIntro: copy.intro,
       externalProjectComponentsTitle: copy.componentsTitle,
-      externalProjectMaterialsTitle: copy.materialsTitle,
-      externalProjectSensorNote: copy.sensorNote,
       externalProjectSafety: copy.safety,
       cancelExternalProject: copy.cancel,
       confirmExternalProject: copy.confirm
@@ -227,8 +215,9 @@ WorkspaceManager.initProjectSelector = function() {
       var element = document.getElementById(id);
       if (element) element.textContent = fields[id];
     });
+    var image = document.getElementById('externalProjectWarningImage');
+    if (image) image.alt = copy.imageAlt;
     fillList('externalProjectComponents', copy.components);
-    fillList('externalProjectMaterials', copy.materials);
   }
 
   function openExternalWarning() {

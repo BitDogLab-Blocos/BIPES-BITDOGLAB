@@ -1900,8 +1900,8 @@ WorkspaceManager.showSaveDataGuide = function(block) {
     (english ? '💾 Blocks you can save' : '💾 Blocos que você pode salvar') + '</strong>' +
     '<p class="bitdoglab-save-data-intro">' +
     (english
-      ? 'Save data accepts variable blocks and other numeric values in each <strong>with value</strong> slot. Below are blocks that work well for recording measurements. Find them in Joystick, Microphone, External Connections, Greenhouse and Mobile Robot.'
-      : 'Salvar dados aceita blocos de variáveis e outros valores numéricos em cada espaço <strong>com valor</strong>. Abaixo estão blocos que funcionam bem para registrar medições. Você os encontra em Joystick, Microfone, Conexões Externas, Estufa e Robô Móvel.') +
+      ? 'Save data accepts variable blocks and other numeric values in each <strong>with value</strong> slot. Below are blocks that work well for recording measurements. Find them in Joystick, Microphone, Sensors and Actuators Lab, Greenhouse and Mobile Robot.'
+      : 'Salvar dados aceita blocos de variáveis e outros valores numéricos em cada espaço <strong>com valor</strong>. Abaixo estão blocos que funcionam bem para registrar medições. Você os encontra em Joystick, Microfone, Laboratório de Sensores e Atuadores, Estufa e Robô Móvel.') +
     '</p><div class="bitdoglab-save-data-catalog"></div>' +
     '<p class="bitdoglab-save-data-note">' +
     (english
@@ -1933,8 +1933,8 @@ WorkspaceManager.showSaveDataGuide = function(block) {
   var probe = new Blockly.Workspace();
   var groups = [];
   var projectLabels = english
-    ? {externos: 'External Connections', estufa: 'Greenhouse', robo: 'Mobile Robot'}
-    : {externos: 'Conexões Externas', estufa: 'Estufa', robo: 'Robô Móvel'};
+    ? {externos: 'Sensors and Actuators Lab', estufa: 'Greenhouse', robo: 'Mobile Robot'}
+    : {externos: 'Laboratório de Sensores e Atuadores', estufa: 'Estufa', robo: 'Robô Móvel'};
   var categories = toolboxXml.getElementsByTagName('category');
   for (var i = 0; i < categories.length; i++) {
     var category = categories[i];
