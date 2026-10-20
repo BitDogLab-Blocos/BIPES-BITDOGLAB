@@ -104,7 +104,7 @@ var APP_MESSAGES = {
     arrowFeedbackBlink: 'Pisca o LED três vezes na cor escolhida.',
     arrowFeedbackBeep: 'Toca um bipe curto. Toque no alto-falante para ouvir uma prévia.',
     arrowFeedbackSuccess: 'Toca o som de conquista. Toque no troféu para ouvir uma prévia.',
-    projectExternalConnections: 'Laboratório de Sensores e Atuadores',
+    projectExternalConnections: 'Laboratório de Sensores',
     projectExternalConnectionsDescription: 'Explore sensores e acione componentes com a placa externa',
     projectExternalConnectionsImageAlt: 'Placa externa com sensores e atuadores para a BitDogLab',
     projectGreenhouse: 'Estufa',

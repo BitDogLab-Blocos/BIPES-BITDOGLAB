@@ -15,7 +15,7 @@ WorkspaceManager.PROJECT_NAMES = {
 WorkspaceManager.EXTERNAL_PROJECT_WARNING = {
   pt: {
     eyebrow: 'Antes de abrir o projeto',
-    title: 'Laboratório de Sensores e Atuadores',
+    title: 'Laboratório de Sensores',
     intro: 'Confira a placa e separe os componentes necessários:',
     imageAlt: 'Placa PCB de Conexões Externas montada com sensores e componentes',
     componentsTitle: 'Componentes',

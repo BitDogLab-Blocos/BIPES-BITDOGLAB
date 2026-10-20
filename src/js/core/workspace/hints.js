@@ -779,54 +779,41 @@ WorkspaceManager.bindDht11CategoryHint = function() {
 
 WorkspaceManager.showDistanceSensorConnectionReminder = function() {
   var closeId = 'closeDistanceSensorConnectionNotification';
-  var boardImage = '../assets/images/devices/conexoes-externas.png';
-  var sensorImage = '../assets/images/devices/hc-sr04-pinout.png?ver=20260822distance2';
-  var wireRows = Code.LANG === 'en'
-    ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identify the ultrasonic sensor pins</div>' +
-      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>VCC pin:</strong> electrical power → 3V3 contact on the board</div>' +
-      '<div style="background:#e3f2fd;color:#0d47a1;padding:8px;border-radius:5px;"><strong>TRIG/SCL pin:</strong> synchronization signal → Connection 3 on the board</div>' +
-      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>ECHO/SDA pin:</strong> data signal → Connection 2 on the board</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>GND pin:</strong> negative/ground → GND contact on the board</div>' +
-      '</div>'
-    : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identifique os pinos do sensor ultrassônico</div>' +
-      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Pino VCC:</strong> alimentação elétrica → contato 3V3 da placa</div>' +
-      '<div style="background:#e3f2fd;color:#0d47a1;padding:8px;border-radius:5px;"><strong>Pino TRIG/SCL:</strong> sinal de sincronização → Conexão 3 da placa</div>' +
-      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>Pino ECHO/SDA:</strong> sinal de dados → Conexão 2 da placa</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Pino GND:</strong> negativo/terra → contato GND da placa</div>' +
-      '</div>';
+  var pcbImage = '../../hardware/conexoes-externas/imagens/conexao_distancia.png';
+  var bitdogImage = '../../hardware/conexoes-externas/imagens/conexao_distancia_bitdoglab.png';
+  var images = '<div class="led-board-guide-images distance-board-guide-images">' +
+    '<figure class="led-board-guide-figure"><figcaption>Placa externa: HC-SR04 em modo I2C, com contatos 3,3 V, SDA, SCL e GND</figcaption>' +
+    '<img src="' + pcbImage + '" alt="Sensor HC-SR04 I2C e contatos de conexão na placa externa"></figure>' +
+    '<figure class="led-board-guide-figure"><figcaption>BitDogLab: contatos 3V3, Conexão 2, Conexão 3 e GND</figcaption>' +
+    '<img src="' + bitdogImage + '" alt="Contatos 3V3, Conexões 2 e 3 e GND da BitDogLab"></figure></div>';
+  var rows = Code.LANG === 'en'
+    ? '<div style="display:grid;gap:7px;margin:10px 0;">' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>3.3V:</strong> external board 3.3V pad &rarr; BitDogLab 3V3 (+)</div>' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>SDA/ECHO:</strong> external board SDA pad &rarr; BitDogLab Connection 2</div>' +
+      '<div style="background:#e3f2fd;color:#0d47a1;padding:8px;border-radius:5px;"><strong>SCL/TRIG:</strong> external board SCL pad &rarr; BitDogLab Connection 3</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Ground:</strong> external board GND pad &rarr; BitDogLab GND (-)</div></div>'
+    : '<div style="display:grid;gap:7px;margin:10px 0;">' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>3,3 V:</strong> contato 3,3 V da placa externa &rarr; 3V3 (+) da BitDogLab</div>' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>SDA/ECHO:</strong> contato SDA da placa externa &rarr; Conexão 2 da BitDogLab</div>' +
+      '<div style="background:#e3f2fd;color:#0d47a1;padding:8px;border-radius:5px;"><strong>SCL/TRIG:</strong> contato SCL da placa externa &rarr; Conexão 3 da BitDogLab</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Terra:</strong> contato GND da placa externa &rarr; GND (-) da BitDogLab</div></div>';
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🔌 How to connect the ultrasonic sensor</strong><br>' +
-      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
-      '<img src="' + boardImage + '" alt="BitDogLab external connections" style="width:54%;max-height:210px;object-fit:contain;background:white;border-radius:6px;">' +
-      '<img src="' + sensorImage + '" alt="Ultrasonic distance sensor" style="width:42%;max-height:210px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + wireRows +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Connect in this order:</strong><br>1. Turn the board off and disconnect the USB cable.<br>2. Connect VCC to 3V3 and GND to GND.<br>3. Connect ECHO/SDA to Connection 2.<br>4. Connect TRIG/SCL to Connection 3.<br>5. Insulate every exposed jumper-to-clip joint.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Important:</strong><br>• Use the 3.3 V-compatible sensor specified for this project.<br>• Connection 2 is always ECHO/SDA and Connection 3 is always TRIG/SCL; do not swap them.<br>• The sensor and board display can use Connections 2 and 3 together.<br>• Connections 0 and 1 remain free for other external components.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> never connect VCC to 5V-VSYS, do not change wires while the board is powered, and do not let neighbouring clips touch.</div>' +
-      '<div style="margin-top:9px;"><strong>Before powering the board, ask a teacher to check all four wires.</strong></div>' +
-      '</div>'
+      '<strong style="font-size:17px;">📡 Connect the HC-SR04 I2C sensor</strong>' + images + rows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Use only the HC-SR04 in I2C mode.</strong> Connect the four alligator cables as shown above. Keep the board off and USB unplugged while connecting. Do not swap SDA and SCL. Ask your teacher to check the wires before turning it on.</div>' +
+      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Required sensor:</strong> this project needs the HC-SR04 prepared for I2C. A standard HC-SR04 wired for separate TRIG and ECHO pulses is not supported here.</div></div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🔌 Como conectar o sensor ultrassônico</strong><br>' +
-      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
-      '<img src="' + boardImage + '" alt="Conexões externas da BitDogLab" style="width:54%;max-height:210px;object-fit:contain;background:white;border-radius:6px;">' +
-      '<img src="' + sensorImage + '" alt="Sensor ultrassônico de distância" style="width:42%;max-height:210px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + wireRows +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Monte nesta ordem:</strong><br>1. Desligue a placa e retire o cabo USB.<br>2. Ligue VCC em 3V3 e GND em GND.<br>3. Ligue ECHO/SDA na Conexão 2.<br>4. Ligue TRIG/SCL na Conexão 3.<br>5. Isole toda união exposta entre jumper e garra jacaré.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Importante:</strong><br>• Use o sensor compatível com 3,3 V indicado para este projeto.<br>• A Conexão 2 é sempre ECHO/SDA e a Conexão 3 é sempre TRIG/SCL; não troque os dois fios.<br>• O sensor e o Display da placa podem usar juntos as Conexões 2 e 3.<br>• As Conexões 0 e 1 continuam livres para outros componentes externos.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> nunca ligue VCC em 5V-VSYS, não mude os fios com a placa ligada e não deixe garras vizinhas se encostarem.</div>' +
-      '<div style="margin-top:9px;"><strong>Antes de ligar a placa, peça ao professor para conferir os quatro fios.</strong></div>' +
-      '</div>';
+      '<strong style="font-size:17px;">📡 Como conectar o sensor HC-SR04 I2C</strong>' + images + rows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Use somente o HC-SR04 em modo I2C.</strong> Ligue os quatro cabos jacaré conforme indicado acima. Faça as conexões com a placa desligada e o USB desconectado. Não troque SDA e SCL. Peça ao orientador para conferir os fios antes de ligar.</div>' +
+      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Sensor obrigatório:</strong> este projeto precisa do HC-SR04 preparado para I2C. O HC-SR04 comum, ligado com pulsos separados em TRIG e ECHO, não é compatível com este projeto.</div></div>';
 
   WorkspaceManager.createReminder({
     id: 'distanceSensorConnectionNotification',
     closeId: closeId,
     background: '#2980b9',
-    maxWidth: '700px',
+    maxWidth: '880px',
     html: html
   });
 };
@@ -1745,7 +1732,7 @@ WorkspaceManager.showSaveDataGuide = function(block) {
     '<p class="bitdoglab-save-data-intro">' +
     (english
       ? 'Save data accepts variable blocks and other numeric values in each <strong>with value</strong> slot. Below are blocks that work well for recording measurements. Find them in Joystick, Microphone, Sensors and Actuators Lab, Greenhouse and Mobile Robot.'
-      : 'Salvar dados aceita blocos de variáveis e outros valores numéricos em cada espaço <strong>com valor</strong>. Abaixo estão blocos que funcionam bem para registrar medições. Você os encontra em Joystick, Microfone, Laboratório de Sensores e Atuadores, Estufa e Robô Móvel.') +
+      : 'Salvar dados aceita blocos de variáveis e outros valores numéricos em cada espaço <strong>com valor</strong>. Abaixo estão blocos que funcionam bem para registrar medições. Você os encontra em Joystick, Microfone, Laboratório de Sensores, Estufa e Robô Móvel.') +
     '</p><div class="bitdoglab-save-data-catalog"></div>' +
     '<p class="bitdoglab-save-data-note">' +
     (english
@@ -1778,7 +1765,7 @@ WorkspaceManager.showSaveDataGuide = function(block) {
   var groups = [];
   var projectLabels = english
     ? {externos: 'Sensors and Actuators Lab', estufa: 'Greenhouse', robo: 'Mobile Robot'}
-    : {externos: 'Laboratório de Sensores e Atuadores', estufa: 'Estufa', robo: 'Robô Móvel'};
+    : {externos: 'Laboratório de Sensores', estufa: 'Estufa', robo: 'Robô Móvel'};
   var categories = toolboxXml.getElementsByTagName('category');
   for (var i = 0; i < categories.length; i++) {
     var category = categories[i];

@@ -2349,6 +2349,77 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
   vertical-align: middle;
 }
 
+@media (max-width: 1279px) and (min-width: 521px) {
+  #distanceSensorConnectionNotification,
+  #distanceSensorSolderNotification {
+    box-sizing: border-box !important;
+    max-height: calc(100vh - 24px) !important;
+    overflow-y: auto !important;
+  }
+
+  #distanceSensorConnectionNotification {
+    width: calc(50vw - 24px) !important;
+    max-width: calc(50vw - 24px) !important;
+    left: auto !important;
+    right: 12px !important;
+  }
+
+  #distanceSensorSolderNotification {
+    width: min(400px, calc(50vw - 80px)) !important;
+    max-width: min(400px, calc(50vw - 80px)) !important;
+    left: max(72px, calc(50vw - 408px)) !important;
+    right: auto !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  #distanceSensorConnectionNotification,
+  #distanceSensorSolderNotification {
+    box-sizing: border-box !important;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1439px) {
+  #distanceSensorSolderNotification {
+    width: 300px !important;
+    max-width: 300px !important;
+    left: auto !important;
+    right: 924px !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  #distanceSensorSolderNotification {
+    width: 400px !important;
+    max-width: 400px !important;
+    left: auto !important;
+    right: 924px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  #distanceSensorConnectionNotification,
+  #distanceSensorSolderNotification {
+    box-sizing: border-box !important;
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+    max-height: calc(50vh - 18px) !important;
+    overflow-y: auto !important;
+    left: 12px !important;
+    right: auto !important;
+  }
+
+  #distanceSensorConnectionNotification {
+    top: 12px !important;
+    bottom: auto !important;
+  }
+
+  #distanceSensorSolderNotification {
+    top: auto !important;
+    bottom: 12px !important;
+  }
+}
+
 /* Ícone visual da categoria do acelerômetro e giroscópio MPU6050. */
 .bitdoglab-mpu6050-category-icon {
   width: 2.1rem;
@@ -2408,12 +2479,14 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
 }
 
 .ldr-board-guide-images,
-.dht11-board-guide-images {
+.dht11-board-guide-images,
+.distance-board-guide-images {
   max-width: 850px;
 }
 
 .ldr-board-guide-images .led-board-guide-figure img,
-.dht11-board-guide-images .led-board-guide-figure img {
+.dht11-board-guide-images .led-board-guide-figure img,
+.distance-board-guide-images .led-board-guide-figure img {
   max-height: 320px;
 }
 
@@ -2431,7 +2504,8 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
   }
 
   .ldr-board-guide-images .led-board-guide-figure img,
-  .dht11-board-guide-images .led-board-guide-figure img {
+  .dht11-board-guide-images .led-board-guide-figure img,
+  .distance-board-guide-images .led-board-guide-figure img {
     max-height: 200px;
   }
 }
