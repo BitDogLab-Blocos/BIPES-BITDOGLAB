@@ -2248,12 +2248,12 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
   vertical-align: middle;
 }
 
-/* Visual icon for the DHT11 external-temperature category. */
+/* Visual icon for the DHT11 board-temperature category. */
 .bitdoglab-dht11-category-icon {
   width: 2.1rem;
   height: 2.1rem;
   margin-inline-end: 0.35rem;
-  background-image: url('../assets/images/devices/dht11.png');
+  background-image: url('../../hardware/conexoes-externas/imagens/dht11.png?ver=20261020dht11Category1');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -2407,11 +2407,13 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
   object-position: center;
 }
 
-.ldr-board-guide-images {
+.ldr-board-guide-images,
+.dht11-board-guide-images {
   max-width: 850px;
 }
 
-.ldr-board-guide-images .led-board-guide-figure img {
+.ldr-board-guide-images .led-board-guide-figure img,
+.dht11-board-guide-images .led-board-guide-figure img {
   max-height: 320px;
 }
 
@@ -2428,7 +2430,8 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
     max-height: 180px;
   }
 
-  .ldr-board-guide-images .led-board-guide-figure img {
+  .ldr-board-guide-images .led-board-guide-figure img,
+  .dht11-board-guide-images .led-board-guide-figure img {
     max-height: 200px;
   }
 }

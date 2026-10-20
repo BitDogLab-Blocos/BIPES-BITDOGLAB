@@ -10,7 +10,7 @@
       }
 
       var request = new XMLHttpRequest();
-      request.open('GET', '../js/config/toolbox.xml?ver=20261019boardLed1', true);
+      request.open('GET', '../js/config/toolbox.xml?ver=20261020dht11Guide1', true);
       request.onreadystatechange = function() {
         if (request.readyState !== 4 || request.status !== 200) {
           return;

@@ -1606,7 +1606,7 @@ var CUSTOM_TRANSLATIONS_EN = {
   "Contatos": "Contacts",
   "LEDs da placa": "Board LEDs",
   "Sensor de Luz da Placa": "Board Light Sensor (LDR)",
-  "Temperatura e Umidade Externas": "External temperature and humidity",
+  "Temperatura e Umidade da Placa": "Board Temperature and Humidity",
   "Sensor de Distância": "Distance and presence sensor",
   "Movimento e Inclinação": "Movement and Tilt",
   "Servo Motor": "External Servo",

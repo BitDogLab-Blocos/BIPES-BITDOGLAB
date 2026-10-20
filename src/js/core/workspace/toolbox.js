@@ -135,7 +135,7 @@ WorkspaceManager.filterToolboxByProject = function(project, expandArrowCategorie
 WorkspaceManager.loadToolboxXml = function() {
   var toolboxXml;
   var request = new XMLHttpRequest();
-  request.open('GET', '../js/config/toolbox.xml?ver=20261019boardLed1', false);
+  request.open('GET', '../js/config/toolbox.xml?ver=20261020dht11Guide1', false);
   request.send(null);
 
   if (request.status === 200) {

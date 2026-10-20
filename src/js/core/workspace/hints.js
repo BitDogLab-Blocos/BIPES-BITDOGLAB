@@ -11,7 +11,7 @@ WorkspaceManager.externalCategoryGuides = {
   contacts: {pt: 'Contatos', en: 'Contacts', ids: ['externalContactNotification'], show: function() { Code.showExternalContactReminder(); }},
   servo: {pt: 'Servo Motor', en: 'External Servo', ids: ['servoConnectionNotification'], show: function() { Code.showServoConnectionReminder(); }},
   led: {pt: 'LEDs da placa', en: 'Board LEDs', ids: ['externalLedWarningNotification'], show: function() { Code.showExternalLedConnectionReminder(); }},
-  temperature: {pt: 'Temperatura e Umidade Externas', en: 'External temperature and humidity', ids: ['dht11ConnectionNotification'], show: function() { Code.showDht11ConnectionReminder(); }},
+  temperature: {pt: 'Temperatura e Umidade da Placa', en: 'Board Temperature and Humidity', ids: ['dht11ConnectionNotification'], show: function() { Code.showDht11ConnectionReminder(); }},
   distance: {pt: 'Sensor de Distância', en: 'Distance and presence sensor', ids: ['distanceSensorConnectionNotification', 'distanceSensorSolderNotification'], show: function() { Code.showDistanceSensorConnectionReminder(); WorkspaceManager.showDistanceSensorSolderReminder(); }},
   movement: {pt: 'Movimento e Inclinação', en: 'Movement and Tilt', ids: ['mpu6050ConnectionNotification'], show: function() { Code.showMpu6050ConnectionReminder(); }},
   light: {pt: 'Sensor de Luz da Placa', en: 'Board Light Sensor (LDR)', ids: ['ldrConnectionNotification', 'ldrJumperNotification'], show: function() { Code.showLdrConnectionReminder(); WorkspaceManager.showLdrJumperReminder(); }},
@@ -706,27 +706,28 @@ WorkspaceManager.bindExternalLedCategoryHint = function() {
 
 WorkspaceManager.showDht11ConnectionReminder = function(block) {
   var closeId = 'closeDht11ConnectionNotification';
-  var boardImage = '../assets/images/devices/conexoes-externas.png';
-  var dht11Image = '../assets/images/devices/dht11-pinout.png?ver=6';
+  var pcbImage = '../../hardware/conexoes-externas/imagens/conexao_temperatura.png';
+  var bitdogImage = '../../hardware/conexoes-externas/imagens/conexao_bitdog_temp.png';
   var aht20GuideImage = '../assets/images/devices/aht20-ligacao.svg';
   var warningText = block && block.__bitdoglabContractWarningText
     ? String(block.__bitdoglabContractWarningText)
     : '';
   var hasSensorConflict = warningText.indexOf('dois sensores') !== -1 ||
     warningText.indexOf('two sensors') !== -1;
-  var wireRows = Code.LANG === 'en'
-    ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identify the DHT11 module pins</div>' +
-      '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Left pin — data (S):</strong> carries temperature and humidity readings → BitDogLab V7: Connection 0 or Connection 1 &nbsp;|&nbsp; BitDogLab V6: Connection 0, 1, 2 or 3</div>' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Centre pin — electrical power:</strong> → 3V3 contact on the board</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Right pin — GND:</strong> next to the - mark → GND contact on the board</div>' +
-      '</div>'
-    : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identifique os pinos do módulo DHT11</div>' +
-      '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Pino da esquerda — dados (S):</strong> leva as leituras de temperatura e umidade → BitDogLab V7: Conexão 0 ou Conexão 1 &nbsp;|&nbsp; BitDogLab V6: Conexão 0, 1, 2 ou 3</div>' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Pino do meio — alimentação elétrica:</strong> → contato 3V3 da placa</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Pino da direita — GND:</strong> fica ao lado do sinal - → contato GND da placa</div>' +
-      '</div>';
+  var images = '<div class="led-board-guide-images dht11-board-guide-images">' +
+    '<figure class="led-board-guide-figure"><figcaption>Placa externa: módulo DHT11 e contatos 3,3 V, T°/UR e GND</figcaption>' +
+    '<img src="' + pcbImage + '" alt="Módulo DHT11 e contatos de conexão na placa externa"></figure>' +
+    '<figure class="led-board-guide-figure"><figcaption>BitDogLab: contatos 3V3, Conexão 0 e GND</figcaption>' +
+    '<img src="' + bitdogImage + '" alt="Contatos 3V3, Conexão 0 e GND da BitDogLab"></figure></div>';
+  var rows = Code.LANG === 'en'
+    ? '<div style="display:grid;gap:7px;margin:10px 0;">' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>3.3V:</strong> external board 3.3V pad &rarr; BitDogLab 3V3 (+)</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Data:</strong> external board T°/UR pad &rarr; BitDogLab Connection 0. V7: Connection 0 or 1 | V6: Connections 0 to 3</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Ground:</strong> external board GND pad &rarr; BitDogLab GND (-)</div></div>'
+    : '<div style="display:grid;gap:7px;margin:10px 0;">' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>3,3 V:</strong> contato 3,3 V da placa externa &rarr; 3V3 (+) da BitDogLab</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Dados:</strong> contato T°/UR da placa externa &rarr; Conexão 0 da BitDogLab. V7: Conexão 0 ou 1 | V6: Conexões 0 a 3</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Terra:</strong> contato GND da placa externa &rarr; GND (-) da BitDogLab</div></div>';
   var conflictGuide = !hasSensorConflict ? '' : (Code.LANG === 'en'
     ? '<div style="margin:10px 0;background:#fff;padding:9px;border-radius:6px;color:#4e342e;"><strong>The two sensors need separate inputs.</strong><br>Ask your teacher to use the other Greenhouse sensor input shown in this guide.</div>' +
       '<img src="' + aht20GuideImage + '" alt="Guide showing the other Greenhouse sensor input" style="width:100%;max-height:250px;object-fit:contain;background:white;border-radius:6px;margin-bottom:10px;">'
@@ -735,36 +736,20 @@ WorkspaceManager.showDht11ConnectionReminder = function(block) {
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🔌 How to connect the external DHT11</strong><br>' +
-      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
-      '<img src="' + boardImage + '" alt="External connections" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '<img src="' + dht11Image + '" alt="DHT11 sensor module" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + wireRows + conflictGuide +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Connect in this order:</strong><br>1. Turn the board off and disconnect the USB cable.<br>2. For each pin: DHT11 pin → female end of a male-to-female jumper → male end held by an alligator clip → correct board contact.<br>3. Insulate every jumper-to-clip joint with electrical tape.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Important:</strong><br>• Power the DHT11 only from 3V3. Never use 5V-VSYS.<br>• If the temperature and humidity blocks use the same physical sensor, choose the same Connection in both blocks.<br>• Different numbers tell the program that there are two separate sensors.<br>• If the two-sensor warning appears, ask the teacher to use the other Greenhouse input shown in the guide.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> do not let neighbouring clips touch. Cover every exposed metal part to prevent a short circuit.</div>' +
-      '<div style="margin-top:9px;"><strong>Before powering the board, ask a teacher to check all three wires and the Connection selected in the blocks.</strong></div>' +
-      '</div>'
+      '<strong style="font-size:17px;">🌡️ Connect the board temperature and humidity sensor</strong>' + images + rows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Use three alligator cables.</strong> Connect each matching pair above. Keep the board off and USB unplugged while connecting. Choose the same Connection in both temperature and humidity blocks when they use the same physical sensor. Ask your teacher to check the wires before turning it on.</div>' +
+      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;">Do not connect 3.3V to the data Connection. The DHT11 data pin must go only to the Connection selected in the block.</div>' + conflictGuide + '</div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🔌 Como conectar o DHT11 externo</strong><br>' +
-      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
-      '<img src="' + boardImage + '" alt="Conexões externas" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '<img src="' + dht11Image + '" alt="Módulo sensor DHT11" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + wireRows + conflictGuide +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Monte nesta ordem:</strong><br>1. Desligue a placa e retire o cabo USB.<br>2. Para cada pino: pino do DHT11 → ponta fêmea do jumper macho-fêmea → ponta macho presa à garra jacaré → contato correto da placa.<br>3. Isole com fita isolante a união entre cada jumper e sua garra jacaré.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Importante:</strong><br>• Alimente o DHT11 somente pelo contato 3V3. Nunca use 5V-VSYS.<br>• Se os blocos de temperatura e umidade usam o mesmo sensor físico, escolha a mesma Conexão nos dois blocos.<br>• Números diferentes informam ao programa que existem dois sensores separados.<br>• Se aparecer o aviso de dois sensores, peça ao professor para usar a outra entrada da Estufa indicada no guia.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> não deixe garras vizinhas se encostarem. Cubra todo metal exposto para evitar curto-circuito.</div>' +
-      '<div style="margin-top:9px;"><strong>Antes de ligar a placa, peça ao professor para conferir os três fios e a Conexão escolhida nos blocos.</strong></div>' +
-      '</div>';
+      '<strong style="font-size:17px;">🌡️ Como conectar o sensor de temperatura e umidade da placa</strong>' + images + rows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Use três cabos jacaré.</strong> Ligue cada par de contatos indicado acima. Faça as conexões com a placa desligada e o USB desconectado. Escolha a mesma Conexão nos blocos de temperatura e umidade quando eles usarem o mesmo sensor físico. Peça ao orientador para conferir antes de ligar.</div>' +
+      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;">Não ligue 3,3 V na Conexão de dados. O pino de dados do DHT11 deve ir somente à Conexão escolhida no bloco.</div>' + conflictGuide + '</div>';
 
   WorkspaceManager.createReminder({
     id: 'dht11ConnectionNotification',
     closeId: closeId,
     background: '#e67e22',
-    maxWidth: '700px',
+    maxWidth: '880px',
     html: html
   });
 };
@@ -786,7 +771,7 @@ WorkspaceManager.bindDht11CategoryHint = function() {
 
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
-    if (categoryName === 'Temperatura e Umidade Externas' || categoryName === 'External temperature and humidity') {
+    if (categoryName === 'Temperatura e Umidade da Placa' || categoryName === 'Board Temperature and Humidity') {
       WorkspaceManager.showExternalCategoryOnClick('temperature');
     }
   });

@@ -189,7 +189,7 @@ Na BitDogLab V7, prefira `Conexão 0` ou `Conexão 1` quando o display estiver s
 1. Monte os componentes na PCB e revise a polaridade do LED RGB, do DHT11 e dos conectores.
 2. Com a BitDogLab desligada e sem o cabo USB, ligue os contatos da placa externa usando as garras jacaré.
 3. Abra o BIPES BitDogLab Blocos e selecione a versão correta da placa, preferencialmente a BitDogLab V7.
-4. Escolha uma categoria de hardware externo, como **Temperatura e Umidade Externas**, **Sensor de Luz**, **Sensor de Distância**, **Movimento e Inclinação**, **LEDs da placa** ou **Servo Motor**.
+4. Escolha uma categoria de hardware externo, como **Temperatura e Umidade da Placa**, **Sensor de Luz da Placa**, **Sensor de Distância**, **Movimento e Inclinação**, **LEDs da placa** ou **Servo Motor**.
 5. Nos blocos que apresentam um número de conexão, escolha exatamente a conexão usada pelo cabo físico.
 6. Corrija todos os avisos de conflito apresentados no workspace.
 7. Peça a um professor para revisar a montagem, conecte o USB e execute o programa.
