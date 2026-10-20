@@ -1605,7 +1605,7 @@ var CUSTOM_TRANSLATIONS_EN = {
   "💡 LEDs": "💡 LEDs",
   "Contatos": "Contacts",
   "LEDs da placa": "Board LEDs",
-  "Sensor de Luz": "Light and shadow sensor (LDR)",
+  "Sensor de Luz da Placa": "Board Light Sensor (LDR)",
   "Temperatura e Umidade Externas": "External temperature and humidity",
   "Sensor de Distância": "Distance and presence sensor",
   "Movimento e Inclinação": "Movement and Tilt",

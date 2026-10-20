@@ -411,7 +411,7 @@
 
   <!-- Projeto: Conexoes Externas -->
   <category name="LEDs da placa" colour="#d97706" data-project="externos" custom="EXTERNAL_LED" css-icon="bitdoglab-external-led-category-icon"></category>
-  <category name="Sensor de Luz" colour="#8e7cc3" data-project="externos" css-icon="bitdoglab-ldr-category-icon">
+  <category name="Sensor de Luz da Placa" colour="#8e7cc3" data-project="externos" css-icon="bitdoglab-ldr-category-icon">
     <block type="ldr_valor">
       <field name="CONNECTION">ANA-IN</field>
     </block>

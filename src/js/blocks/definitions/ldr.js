@@ -52,8 +52,8 @@
       this.setOutput(true, 'Number');
       this.setColour(LDR_COLOUR);
       this.setTooltip(isEnglish()
-        ? 'Shows a number from 0 to 100. More light should give a bigger number. If it works backwards, use Invert scale in the notice shown after running.'
-        : 'Mostra um número de 0 a 100. Mais luz deve dar um número maior. Se funcionar ao contrário, use Inverter escala no aviso que aparece depois de executar.');
+        ? 'Shows the light level as a percentage from 0 to 100. More light gives a higher reading.'
+        : 'Mostra o nível de luz em porcentagem, de 0 a 100. Mais luz gera uma leitura maior.');
       this.setHelpUrl('');
     }
   };

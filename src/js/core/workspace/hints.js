@@ -14,7 +14,7 @@ WorkspaceManager.externalCategoryGuides = {
   temperature: {pt: 'Temperatura e Umidade Externas', en: 'External temperature and humidity', ids: ['dht11ConnectionNotification'], show: function() { Code.showDht11ConnectionReminder(); }},
   distance: {pt: 'Sensor de Distância', en: 'Distance and presence sensor', ids: ['distanceSensorConnectionNotification', 'distanceSensorSolderNotification'], show: function() { Code.showDistanceSensorConnectionReminder(); WorkspaceManager.showDistanceSensorSolderReminder(); }},
   movement: {pt: 'Movimento e Inclinação', en: 'Movement and Tilt', ids: ['mpu6050ConnectionNotification'], show: function() { Code.showMpu6050ConnectionReminder(); }},
-  light: {pt: 'Sensor de Luz', en: 'Light and shadow sensor (LDR)', ids: ['ldrConnectionNotification', 'ldrJumperNotification'], show: function() { Code.showLdrConnectionReminder(); WorkspaceManager.showLdrJumperReminder(); }},
+  light: {pt: 'Sensor de Luz da Placa', en: 'Board Light Sensor (LDR)', ids: ['ldrConnectionNotification', 'ldrJumperNotification'], show: function() { Code.showLdrConnectionReminder(); WorkspaceManager.showLdrJumperReminder(); }},
   save_data: {pt: 'Salvar dados', en: 'Save data', ids: ['saveDataNotification'], show: function(block) {
     var saveBlock = block || Code.workspace.getBlocksByType('salvar_dados_csv', false)[0];
     WorkspaceManager.showSaveDataGuide(saveBlock || null);
@@ -1005,170 +1005,64 @@ WorkspaceManager.bindMpu6050CategoryHint = function() {
 
 WorkspaceManager.showLdrConnectionReminder = function() {
   var closeId = 'closeLdrConnectionNotification';
-  var boardImage = '../assets/images/devices/conexoes-externas.png';
-  var ldrImage = '../assets/images/devices/ldr-pinout.png?ver=20260820ldr2';
-  var wireRows = Code.LANG === 'en'
-    ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identify the LDR module pins</div>' +
-      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Left pin — GND:</strong> negative/ground → GND contact on the board</div>' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Centre pin — VCC:</strong> electrical power → 3V3 contact on the board</div>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Right pin — S:</strong> light signal → ANA-IN contact on the board. ANA-IN is the analogue input that reads changes in light</div>' +
-      '</div>'
-    : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identifique os pinos do módulo LDR</div>' +
-      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Pino da esquerda — GND:</strong> negativo/terra → contato GND da placa</div>' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Pino do meio — VCC:</strong> alimentação elétrica → contato 3V3 da placa</div>' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Pino da direita — S:</strong> sinal de luz → contato ANA-IN da placa. ANA-IN é a entrada analógica que lê as variações de luz</div>' +
-      '</div>';
+  var pcbImage = '../../hardware/conexoes-externas/imagens/conexao_luz.png';
+  var bitdogImage = '../../hardware/conexoes-externas/imagens/conexao_bitdog_luz.png';
+  var images = '<div class="led-board-guide-images ldr-board-guide-images">' +
+    '<figure class="led-board-guide-figure"><figcaption>Placa externa: contatos 3.3V, Luz e GND</figcaption>' +
+    '<img src="' + pcbImage + '" alt="Sensor LDR e contatos de conex\u00e3o na placa externa"></figure>' +
+    '<figure class="led-board-guide-figure"><figcaption>BitDogLab: contatos 3V3, ANA-IN e GND</figcaption>' +
+    '<img src="' + bitdogImage + '" alt="Contatos 3V3, ANA-IN e GND da BitDogLab"></figure></div>';
+  var rows = Code.LANG === 'en'
+    ? '<div style="display:grid;gap:7px;margin:10px 0;">' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>3.3V:</strong> external board 3.3V pad &rarr; BitDogLab 3V3 (+)</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Light signal:</strong> external board Luz pad &rarr; BitDogLab ANA-IN</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Ground:</strong> external board GND pad &rarr; BitDogLab GND (-)</div></div>'
+    : '<div style="display:grid;gap:7px;margin:10px 0;">' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>3,3 V:</strong> contato 3,3 V da placa externa &rarr; 3V3 (+) da BitDogLab</div>' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Sinal de luz:</strong> contato Luz da placa externa &rarr; ANA-IN da BitDogLab</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Terra:</strong> contato GND da placa externa &rarr; GND (-) da BitDogLab</div></div>';
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🔌 How to connect the LDR light sensor</strong><br>' +
-      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
-      '<img src="' + boardImage + '" alt="BitDogLab external connections" style="width:54%;max-height:220px;object-fit:contain;background:white;border-radius:6px;">' +
-      '<img src="' + ldrImage + '" alt="LDR module pinout" style="width:42%;max-height:220px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + wireRows +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Connect in this order:</strong><br>1. Turn the board off and disconnect the USB cable.<br>2. For each pin: LDR pin → female end of a male-to-female jumper → male end held by an alligator clip → correct board contact.<br>3. Insulate every jumper-to-clip joint with electrical tape.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Important:</strong><br>• Power the LDR only from 3V3. Never use 5V-VSYS.<br>• Connect pin S only to ANA-IN. Never connect it to Connection 0, Connection 1, Connection 2, or Connection 3.<br>• Follow the separate JP1 warning to enable ANA-IN.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> do not let neighbouring clips touch. Cover every exposed metal part to prevent a short circuit.</div>' +
-      '<div style="margin-top:9px;"><strong>Before powering the board, ask a teacher to check all three wires and the JP1 jumper.</strong></div>' +
-      '</div>'
+      '<strong style="font-size:17px;">&#9728;&#65039; Connect the board light sensor</strong>' + images + rows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Use three alligator cables.</strong> Connect each matching pair above. Keep the board off and USB unplugged while connecting. Ask your teacher to check the wires before turning it on.</div>' +
+      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;">Do not connect 3.3V to ANA-IN. Each cable must go to the contact with the matching label.</div></div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🔌 Como conectar o sensor de luz LDR</strong><br>' +
-      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
-      '<img src="' + boardImage + '" alt="Conexões externas da BitDogLab" style="width:54%;max-height:220px;object-fit:contain;background:white;border-radius:6px;">' +
-      '<img src="' + ldrImage + '" alt="Pinos do módulo LDR" style="width:42%;max-height:220px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + wireRows +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Monte nesta ordem:</strong><br>1. Desligue a placa e retire o cabo USB.<br>2. Para cada pino: pino do LDR → ponta fêmea do jumper macho-fêmea → ponta macho presa à garra jacaré → contato correto da placa.<br>3. Isole com fita isolante a união entre cada jumper e sua garra jacaré.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Importante:</strong><br>• Alimente o LDR somente pelo contato 3V3. Nunca use 5V-VSYS.<br>• Ligue o pino S somente ao contato ANA-IN. Nunca ligue esse pino à Conexão 0, Conexão 1, Conexão 2 ou Conexão 3.<br>• Siga também o aviso separado do JP1 para liberar a entrada ANA-IN.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> não deixe garras vizinhas se encostarem. Cubra todo metal exposto para evitar curto-circuito.</div>' +
-      '<div style="margin-top:9px;"><strong>Antes de ligar a placa, peça ao professor para conferir os três fios e o jumper JP1.</strong></div>' +
-      '</div>';
+      '<strong style="font-size:17px;">&#9728;&#65039; Como conectar o sensor de luz da placa</strong>' + images + rows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Use tr\u00eas cabos jacar\u00e9.</strong> Ligue cada par de contatos indicado acima. Fa\u00e7a as conex\u00f5es com a placa desligada e o USB desconectado. Pe\u00e7a ao orientador para conferir antes de ligar.</div>' +
+      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;">N\u00e3o ligue 3,3 V na ANA-IN. Cada cabo deve unir contatos com o mesmo nome.</div></div>';
 
   WorkspaceManager.createReminder({
     id: 'ldrConnectionNotification',
     closeId: closeId,
     background: '#8e7cc3',
-    maxWidth: '700px',
+    maxWidth: '920px',
     html: html
   });
-};
-
-WorkspaceManager.showLdrScaleReminder = function() {
-  var closeId = 'closeLdrScaleNotification';
-  var invertButtonId = 'invertLdrScaleButton';
-  var scaleStatusId = 'ldrScaleStatus';
-  var scaleFeedbackId = 'ldrScaleFeedback';
-  var ldrSettings = Code.LdrSettings;
-  var standardDirection = !ldrSettings || ldrSettings.isInverted();
-  var scaleStatus = Code.LANG === 'en'
-    ? (standardDirection ? 'Current direction: standard' : 'Current direction: inverted')
-    : (standardDirection ? 'Direção atual: padrão' : 'Direção atual: invertida');
-  var html = Code.LANG === 'en'
-    ? WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size:17px;">☀️ Check the light direction</strong><br><br>' +
-      'Your program with the light sensor was sent to the board.<br><br>' +
-      '<div style="background:white;color:#4527a0;padding:10px;border-radius:6px;margin-bottom:9px;">' +
-      '<strong>Why can the number work backwards?</strong><br>Light sensors can be built in two different ways. On some of them, more light makes the number go down. Do not worry: this does not mean you connected it incorrectly!' +
-      '</div>' +
-      '<div style="background:#e8f5e9;color:#1b5e20;padding:10px;border-radius:6px;">' +
-      '<strong>Try it:</strong><br>1. Cover the sensor or leave it with very little light.<br>2. Then shine plenty of light on it.<br><br>' +
-      'If little light shows a high number, between <strong>80 and 100</strong>, and plenty of light shows a low number, between <strong>0 and 20</strong>, the scale is backwards. Click <strong>Invert scale</strong>.' +
-      '</div>' +
-      '<div id="' + scaleStatusId + '" style="margin:11px 0 8px;font-weight:bold;font-size:15px;">' + scaleStatus + '</div>' +
-      'If your number does the opposite, use this button:<br>' +
-      '<button id="' + invertButtonId + '" type="button" style="margin-top:8px;background:#5e35b1;color:white;border:0;border-radius:6px;padding:10px 16px;font-size:15px;font-weight:bold;cursor:pointer;">🔄 Invert scale</button>' +
-      '<div style="margin-top:11px;background:#fff3cd;color:#4e342e;padding:9px;border-radius:6px;"><strong>Important:</strong> after changing the direction, click Run again to send the change to the board.</div>' +
-      '<div id="' + scaleFeedbackId + '" role="status" aria-live="polite" style="display:none;margin-top:9px;background:white;color:#1b5e20;padding:9px;border-radius:6px;font-weight:bold;"></div>'
-    : WorkspaceManager.closeButton(closeId) +
-      '<strong style="font-size:17px;">☀️ Confira a direção da luz</strong><br><br>' +
-      'Seu programa com o sensor de luz foi enviado para a placa.<br><br>' +
-      '<div style="background:white;color:#4527a0;padding:10px;border-radius:6px;margin-bottom:9px;">' +
-      '<strong>Por que o número pode funcionar ao contrário?</strong><br>Os sensores de luz podem ser montados de dois jeitos. Em alguns deles, quando chega mais luz, o número diminui. Fique tranquilo: isso não quer dizer que você ligou o sensor errado!' +
-      '</div>' +
-      '<div style="background:#e8f5e9;color:#1b5e20;padding:10px;border-radius:6px;">' +
-      '<strong>Faça um teste:</strong><br>1. Cubra o sensor ou deixe-o com bem pouca luz.<br>2. Depois, ilumine bastante o sensor.<br><br>' +
-      'Se com pouca luz aparecer um número alto, entre <strong>80 e 100</strong>, e com muita luz aparecer um número baixo, entre <strong>0 e 20</strong>, a escala está ao contrário. Clique em <strong>Inverter escala</strong>.' +
-      '</div>' +
-      '<div id="' + scaleStatusId + '" style="margin:11px 0 8px;font-weight:bold;font-size:15px;">' + scaleStatus + '</div>' +
-      'Se o seu número fizer o contrário, use este botão:<br>' +
-      '<button id="' + invertButtonId + '" type="button" style="margin-top:8px;background:#5e35b1;color:white;border:0;border-radius:6px;padding:10px 16px;font-size:15px;font-weight:bold;cursor:pointer;">🔄 Inverter escala</button>' +
-      '<div style="margin-top:11px;background:#fff3cd;color:#4e342e;padding:9px;border-radius:6px;"><strong>Importante:</strong> depois de mudar a direção, clique em Executar novamente para enviar a mudança à placa.</div>' +
-      '<div id="' + scaleFeedbackId + '" role="status" aria-live="polite" style="display:none;margin-top:9px;background:white;color:#1b5e20;padding:9px;border-radius:6px;font-weight:bold;"></div>';
-
-  WorkspaceManager.createReminder({
-    id: 'ldrScaleNotification',
-    closeId: closeId,
-    background: '#8e7cc3',
-    maxWidth: '440px',
-    maxHeight: 'calc(100vh - 40px)',
-    centered: true,
-    html: html
-  });
-
-  var invertButton = document.getElementById(invertButtonId);
-  if (invertButton && !invertButton.__bitdoglabLdrScaleBound) {
-    invertButton.__bitdoglabLdrScaleBound = true;
-    invertButton.addEventListener('click', function() {
-      if (!Code.LdrSettings) return;
-
-      var orientation = Code.LdrSettings.toggle();
-      var isInverted = orientation === Code.LdrSettings.INVERTED;
-      var status = document.getElementById(scaleStatusId);
-      var feedback = document.getElementById(scaleFeedbackId);
-      var statusText = Code.LANG === 'en'
-        ? (isInverted ? 'Current direction: standard' : 'Current direction: inverted')
-        : (isInverted ? 'Direção atual: padrão' : 'Direção atual: invertida');
-      var feedbackText = Code.LANG === 'en'
-        ? 'Done! The direction changed. Click Run again to send the change to the board.'
-        : 'Pronto! A direção mudou. Clique em Executar novamente para enviar a mudança à placa.';
-
-      if (status) status.textContent = statusText;
-      if (feedback) {
-        feedback.textContent = feedbackText;
-        feedback.style.display = 'block';
-      }
-      if (typeof UI !== 'undefined' && UI.notify && UI.notify.send) {
-        UI.notify.send(feedbackText);
-      }
-    });
-  }
 };
 
 WorkspaceManager.showLdrJumperReminder = function() {
   var closeId = 'closeLdrJumperNotification';
-  var jumperImage = '../assets/images/devices/ldr-jumper-jp1.png?ver=20260820jp2';
+  var jumperImage = '../assets/images/devices/ldr-jumper-jp1.png?ver=20261019jp1';
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">⚠️ Enable the analogue input ANA-IN</strong>' +
-      '<div style="margin-top:9px;background:#fff3cd;color:#4e342e;padding:9px;border-radius:6px;"><strong>JP1 is on the underside of the board.</strong> The jumper is the small piece that connects two pins.</div>' +
-      '<img src="' + jumperImage + '" alt="How to move the JP1 jumper to enable ANA-IN" style="display:block;width:100%;max-height:62vh;object-fit:contain;background:white;border-radius:6px;margin:12px 0;">' +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Move the jumper in this order:</strong><br>1. Call the teacher. This change must be made or supervised by them.<br>2. Turn the board off and disconnect the USB cable.<br>3. Find JP1 on the underside of the board.<br>4. Remove the jumper from its current position.<br>5. Place it on the MIC side, as shown in the image.<br>6. Check that JP1 is free. ANA-IN is now enabled for the LDR.</div>' +
-      '<div style="margin-top:9px;background:#fff3cd;color:#4e342e;padding:10px;border:2px solid #f9b900;border-radius:6px;"><strong>Important:</strong> the microphone and LDR use the same board resource, so they cannot be used at the same time.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> never move the jumper while the board is powered or connected by USB. Do not force the piece.</div>' +
-      '<div style="margin-top:9px;"><strong>Ask the teacher to check the final position before powering the board.</strong></div>' +
-      '</div>'
+      '<strong style="font-size:17px;">&#9888;&#65039; Enable ANA-IN</strong>' +
+      '<img src="' + jumperImage + '" alt="JP1 position to enable ANA-IN" style="display:block;width:100%;max-height:48vh;object-fit:contain;background:white;border-radius:6px;margin:10px 0;">' +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">Ask your teacher to move JP1 to the MIC side, as shown, with the board off and USB unplugged. The microphone and light sensor cannot use ANA-IN at the same time.</div></div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">⚠️ Libere a entrada analógica ANA-IN</strong>' +
-      '<div style="margin-top:9px;background:#fff3cd;color:#4e342e;padding:9px;border-radius:6px;"><strong>O JP1 fica na parte de baixo da placa.</strong> O jumper é a pequena peça que conecta dois pinos.</div>' +
-      '<img src="' + jumperImage + '" alt="Como mover o jumper JP1 para liberar a entrada ANA-IN" style="display:block;width:100%;max-height:62vh;object-fit:contain;background:white;border-radius:6px;margin:12px 0;">' +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Mude o jumper nesta ordem:</strong><br>1. Chame o professor. Esta alteração deve ser feita ou supervisionada por ele.<br>2. Desligue a placa e retire o cabo USB.<br>3. Localize o JP1 na parte de baixo da placa.<br>4. Retire o jumper da posição atual.<br>5. Coloque-o no lado MIC, como mostra a imagem.<br>6. Confira se o JP1 ficou livre. Assim, a entrada ANA-IN estará liberada para o LDR.</div>' +
-      '<div style="margin-top:9px;background:#fff3cd;color:#4e342e;padding:10px;border:2px solid #f9b900;border-radius:6px;"><strong>Importante:</strong> o microfone e o LDR usam o mesmo recurso da placa. Por isso, eles não podem ser usados ao mesmo tempo.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> nunca mova o jumper com a placa ligada ou com o cabo USB conectado. Não force a peça.</div>' +
-      '<div style="margin-top:9px;"><strong>Peça ao professor para conferir a posição final antes de ligar a placa.</strong></div>' +
-      '</div>';
+      '<strong style="font-size:17px;">&#9888;&#65039; Libere a entrada ANA-IN</strong>' +
+      '<img src="' + jumperImage + '" alt="Posi\u00e7\u00e3o do JP1 para liberar ANA-IN" style="display:block;width:100%;max-height:48vh;object-fit:contain;background:white;border-radius:6px;margin:10px 0;">' +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">Pe\u00e7a ao orientador para mover o JP1 para o lado MIC, como mostra a imagem, com a placa desligada e o USB desconectado. O microfone e o sensor de luz n\u00e3o podem usar a ANA-IN ao mesmo tempo.</div></div>';
 
   WorkspaceManager.createReminder({
     id: 'ldrJumperNotification',
     closeId: closeId,
     background: '#8e7cc3',
     maxWidth: '400px',
-    right: '805px',
+    right: '960px',
     html: html
   });
 };
@@ -1190,7 +1084,7 @@ WorkspaceManager.bindLdrCategoryHint = function() {
 
     var item = toolbox.getToolboxItemById(clickTarget.id);
     var categoryName = item && item.getName ? item.getName() : '';
-    if (categoryName === 'Sensor de Luz' || categoryName === 'Light and shadow sensor (LDR)') {
+    if (categoryName === 'Sensor de Luz da Placa' || categoryName === 'Board Light Sensor (LDR)') {
       WorkspaceManager.showExternalCategoryOnClick('light');
     }
   });

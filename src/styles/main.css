@@ -1737,7 +1737,7 @@ body.bitdoglab-external-project-warning-open {
 .bitdoglab-mpu6050-tilt-image {
   display: block;
   width: calc(100% - 24px);
-  max-height: 220px;
+  max-height: 180px;
   margin: 12px auto 4px;
   border-radius: 10px;
   object-fit: contain;
@@ -2266,12 +2266,74 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
   width: 2.1rem;
   height: 2.1rem;
   margin-inline-end: 0.35rem;
-  background-image: url('../assets/images/devices/ldr.png?ver=20260820ldr3');
-  background-position: center;
+  background-image: url('../../hardware/conexoes-externas/imagens/ldr_categoria.png?ver=20261019ldr1');
+  background-position: center 28%;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 185% auto;
   visibility: visible !important;
   vertical-align: middle;
+}
+
+@media (max-width: 1279px) and (min-width: 521px) {
+  #ldrConnectionNotification,
+  #ldrJumperNotification {
+    box-sizing: border-box !important;
+    max-height: calc(100vh - 24px) !important;
+    overflow-y: auto !important;
+  }
+
+  #ldrConnectionNotification {
+    width: calc(50vw - 24px) !important;
+    max-width: calc(50vw - 24px) !important;
+    left: auto !important;
+    right: 12px !important;
+  }
+
+  #ldrJumperNotification {
+    width: min(400px, calc(50vw - 80px)) !important;
+    max-width: min(400px, calc(50vw - 80px)) !important;
+    left: max(72px, calc(50vw - 408px)) !important;
+    right: auto !important;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1439px) {
+  #ldrJumperNotification {
+    box-sizing: border-box !important;
+    width: 300px !important;
+    max-width: 300px !important;
+    left: auto !important;
+    right: 960px !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  #ldrConnectionNotification {
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 520px) {
+  #ldrConnectionNotification,
+  #ldrJumperNotification {
+    box-sizing: border-box !important;
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+    max-height: calc(50vh - 18px) !important;
+    overflow-y: auto !important;
+    left: 12px !important;
+    right: auto !important;
+  }
+
+  #ldrConnectionNotification {
+    top: 12px !important;
+    bottom: auto !important;
+  }
+
+  #ldrJumperNotification {
+    top: auto !important;
+    bottom: 12px !important;
+  }
 }
 
 /* Ícone visual da categoria do sensor ultrassônico HC-SR04. */
@@ -2345,6 +2407,14 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
   object-position: center;
 }
 
+.ldr-board-guide-images {
+  max-width: 850px;
+}
+
+.ldr-board-guide-images .led-board-guide-figure img {
+  max-height: 320px;
+}
+
 @media (max-width: 480px) {
   .led-board-guide-images {
     gap: 8px;
@@ -2356,6 +2426,10 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
 
   .led-board-guide-figure img {
     max-height: 180px;
+  }
+
+  .ldr-board-guide-images .led-board-guide-figure img {
+    max-height: 200px;
   }
 }
 
