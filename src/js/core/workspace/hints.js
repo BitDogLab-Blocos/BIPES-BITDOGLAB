@@ -321,54 +321,41 @@ WorkspaceManager.showServoAngleReminder = function() {
 
 WorkspaceManager.showServoConnectionReminder = function(block) {
   var closeId = 'closeServoConnectionNotification';
-  var boardImage = '../assets/images/devices/conexoes-externas.png';
-  var servoImage = '../assets/images/devices/servo-motor.png';
-  var wireRows = Code.LANG === 'en'
-    ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identify the servo wires</div>' +
-      '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Orange — signal:</strong> carries the movement command → BitDogLab V7: Connection 0 or Connection 1 &nbsp;|&nbsp; BitDogLab V6: Connection 0, 1, 2 or 3</div>' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Red — VCC:</strong> electrical power → 5V-VSYS contact on the board</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Brown — GND:</strong> negative/ground → GND contact on the board</div>' +
-      '</div>'
-    : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identifique os fios do servo</div>' +
-      '<div style="display:grid; gap:7px; margin:0 0 10px;">' +
-      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Laranja — sinal:</strong> leva o comando de movimento → BitDogLab V7: Conexão 0 ou Conexão 1 &nbsp;|&nbsp; BitDogLab V6: Conexão 0, 1, 2 ou 3</div>' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Vermelho — VCC:</strong> alimentação elétrica → contato 5V-VSYS da placa</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Marrom — GND:</strong> negativo/terra → contato GND da placa</div>' +
-      '</div>';
+  var pcbImage = '../../hardware/conexoes-externas/imagens/conexao_servo.png';
+  var bitdogImage = '../../hardware/conexoes-externas/imagens/conexao_bitdog_servo.png';
+  var images = '<div class="led-board-guide-images servo-board-guide-images">' +
+    '<figure class="led-board-guide-figure"><figcaption>Placa externa: servo ligado ao contato Servo Motor, com + e &minus;</figcaption>' +
+    '<img src="' + pcbImage + '" alt="Servo motor e conector Servo na placa externa"></figure>' +
+    '<figure class="led-board-guide-figure"><figcaption>BitDogLab: contatos 5V-USYS, Conexão 0 e GND</figcaption>' +
+    '<img src="' + bitdogImage + '" alt="Contatos 5V-USYS, Conexão 0 e GND da BitDogLab"></figure></div>';
+  var rows = Code.LANG === 'en'
+    ? '<div style="display:grid;gap:7px;margin:10px 0;">' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Signal:</strong> external board Servo Motor contact &rarr; BitDogLab Connection 0. V7: Connection 0 or 1 | V6: Connections 0 to 3</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Positive (+):</strong> electrical power from the external board &rarr; BitDogLab 5V-USYS</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Ground (&minus;):</strong> negative/ground from the external board &rarr; BitDogLab GND</div></div>'
+    : '<div style="display:grid;gap:7px;margin:10px 0;">' +
+      '<div style="background:#fff3e0;color:#4e342e;padding:8px;border-radius:5px;"><strong>Sinal:</strong> contato Servo Motor da placa externa &rarr; Conexão 0 da BitDogLab. V7: Conexão 0 ou 1 | V6: Conexões 0 a 3</div>' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Positivo (+):</strong> alimentação elétrica da placa externa &rarr; 5V-USYS da BitDogLab</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Terra (&minus;):</strong> negativo/terra da placa externa &rarr; GND da BitDogLab</div></div>';
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🔌 How to connect the external servo</strong><br>' +
-      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
-      '<img src="' + boardImage + '" alt="External connections" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '<img src="' + servoImage + '" alt="SG90 servo motor" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + wireRows +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Connect in this order:</strong><br>1. Turn the board off and disconnect the USB cable.<br>2. For each wire: servo plug → male-to-male jumper → alligator clip → correct board contact.<br>3. Check that every colour reaches the contact shown above.<br>4. Insulate each jumper-to-clip joint with electrical tape.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Important:</strong> connect the red wire only to 5V-VSYS. Never connect it to 3V3.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> do not let neighbouring clips touch. Cover every exposed metal part to prevent a short circuit.</div>' +
-      '<div style="margin-top:9px;"><strong>Before powering the board, ask a teacher to check all three wires.</strong></div>' +
-      '</div>'
+      '<strong style="font-size:17px;">🔌 Connect the external servo</strong>' + images + rows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Connect three alligator cables.</strong> The servo is already plugged into the external board. Match each contact above and keep the board off with the USB unplugged while connecting. The orange wire is the signal, red is positive and brown is ground. Ask your teacher to check the three cables before turning it on.</div>' +
+      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Important:</strong> connect the positive contact only to 5V-USYS. Never connect it to 3V3.</div>' +
+      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> do not let neighbouring clips touch. Cover every exposed metal part to prevent a short circuit.</div></div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🔌 Como conectar o servo externo</strong><br>' +
-      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
-      '<img src="' + boardImage + '" alt="Conexões externas" style="width:54%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '<img src="' + servoImage + '" alt="Servo motor SG90" style="width:42%;max-height:180px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + wireRows +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;">' +
-      '<strong>Monte nesta ordem:</strong><br>1. Desligue a placa e retire o cabo USB.<br>2. Para cada fio: plugue do servo → jumper macho-macho → garra jacaré → contato correto da placa.<br>3. Confira se cada cor chegou ao contato indicado acima.<br>4. Isole com fita isolante a união entre cada jumper e sua garra jacaré.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Importante:</strong> ligue o fio vermelho somente ao contato 5V-VSYS. Nunca ligue esse fio ao contato 3V3.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> não deixe garras vizinhas se encostarem. Cubra todo metal exposto para evitar curto-circuito.</div>' +
-      '<div style="margin-top:9px;"><strong>Antes de ligar a placa, peça ao professor para conferir os três fios.</strong></div>' +
-      '</div>';
+      '<strong style="font-size:17px;">🔌 Como conectar o servo externo</strong>' + images + rows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Use três cabos jacaré.</strong> O servo já está ligado ao conector da placa externa. Ligue cada par de contatos indicado acima e faça as conexões com a placa desligada e o USB desconectado. O fio laranja é o sinal, o vermelho é o positivo e o marrom é o terra. Peça ao orientador para conferir os três cabos antes de ligar.</div>' +
+      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Importante:</strong> ligue o contato positivo somente ao 5V-USYS. Nunca ligue esse contato ao 3V3.</div>' +
+      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> não deixe garras vizinhas se encostarem. Cubra todo metal exposto para evitar curto-circuito.</div></div>';
 
   WorkspaceManager.createReminder({
     id: 'servoConnectionNotification',
     closeId: closeId,
     background: '#00695c',
-    maxWidth: '680px',
+    maxWidth: '880px',
     html: html
   });
 };

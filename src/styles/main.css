@@ -2481,14 +2481,16 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
 .ldr-board-guide-images,
 .dht11-board-guide-images,
 .distance-board-guide-images,
-.mpu6050-board-guide-images {
+.mpu6050-board-guide-images,
+.servo-board-guide-images {
   max-width: 850px;
 }
 
 .ldr-board-guide-images .led-board-guide-figure img,
 .dht11-board-guide-images .led-board-guide-figure img,
 .distance-board-guide-images .led-board-guide-figure img,
-.mpu6050-board-guide-images .led-board-guide-figure img {
+.mpu6050-board-guide-images .led-board-guide-figure img,
+.servo-board-guide-images .led-board-guide-figure img {
   max-height: 320px;
 }
 
@@ -2508,7 +2510,8 @@ body.bitdoglab-mpu6050-tilt-tutorial-open #tutorial-steps {
   .ldr-board-guide-images .led-board-guide-figure img,
   .dht11-board-guide-images .led-board-guide-figure img,
   .distance-board-guide-images .led-board-guide-figure img,
-  .mpu6050-board-guide-images .led-board-guide-figure img {
+  .mpu6050-board-guide-images .led-board-guide-figure img,
+  .servo-board-guide-images .led-board-guide-figure img {
     max-height: 200px;
   }
 }
