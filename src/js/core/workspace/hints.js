@@ -876,8 +876,8 @@ WorkspaceManager.bindDistanceSensorCategoryHint = function() {
 
 WorkspaceManager.showMpu6050ConnectionReminder = function() {
   var closeId = 'closeMpu6050ConnectionNotification';
-  var boardImage = '../assets/images/devices/conexoes-externas.png';
-  var sensorImage = '../assets/images/devices/mpu6050-eixos.png?ver=20260828mpu1';
+  var pcbImage = '../../hardware/conexoes-externas/imagens/conexao_acelerometro.png';
+  var bitdogImage = '../../hardware/conexoes-externas/imagens/conexao_acelerometro_bitdoglab.png';
   var profile = window.BitdogLabConfig || {};
   var mpuConfig = profile.EXTERNAL && profile.EXTERNAL.MPU6050 || {};
 
@@ -900,54 +900,41 @@ WorkspaceManager.showMpu6050ConnectionReminder = function() {
     return;
   }
 
-  var wireRows = Code.LANG === 'en'
-    ? '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identify the MPU6050 pins</div>' +
-      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>VCC pin:</strong> electrical power → 3V3 contact on the board</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>GND pin:</strong> negative/ground → GND contact on the board</div>' +
-      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>SDA pin:</strong> motion data → Connection 2 on the board</div>' +
-      '<div style="background:#e3f2fd;color:#0d47a1;padding:8px;border-radius:5px;"><strong>SCL pin:</strong> synchronization signal → Connection 3 on the board</div>' +
-      '<div style="background:#f3e5f5;color:#4a148c;padding:8px;border-radius:5px;"><strong>INT, AD0, XCL and XDA pins:</strong> leave disconnected</div>' +
-      '</div>'
-    : '<div style="margin:10px 0 6px;font-size:15px;font-weight:bold;">Identifique os pinos do MPU6050</div>' +
-      '<div style="display:grid;gap:7px;margin:0 0 10px;">' +
-      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>Pino VCC:</strong> alimentação elétrica → contato 3V3 da placa</div>' +
-      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Pino GND:</strong> negativo/terra → contato GND da placa</div>' +
-      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>Pino SDA:</strong> dados do movimento → Conexão 2 da placa</div>' +
-      '<div style="background:#e3f2fd;color:#0d47a1;padding:8px;border-radius:5px;"><strong>Pino SCL:</strong> sinal de sincronização → Conexão 3 da placa</div>' +
-      '<div style="background:#f3e5f5;color:#4a148c;padding:8px;border-radius:5px;"><strong>Pinos INT, AD0, XCL e XDA:</strong> deixe sem conectar</div>' +
-      '</div>';
+  var images = '<div class="led-board-guide-images mpu6050-board-guide-images">' +
+    '<figure class="led-board-guide-figure"><figcaption>Placa externa: MPU6050 na área Acelerômetro; contatos 3,3 V, SDA, SCL e GND</figcaption>' +
+    '<img src="' + pcbImage + '" alt="MPU6050 e contatos de conexão na placa externa"></figure>' +
+    '<figure class="led-board-guide-figure"><figcaption>BitDogLab: contatos 3V3, Conexão 2, Conexão 3 e GND</figcaption>' +
+    '<img src="' + bitdogImage + '" alt="Contatos 3V3, Conexões 2 e 3 e GND da BitDogLab"></figure></div>';
+  var rows = Code.LANG === 'en'
+    ? '<div style="display:grid;gap:7px;margin:10px 0;">' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>3.3V:</strong> external board 3.3V pad &rarr; BitDogLab 3V3 (+)</div>' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>SDA:</strong> external board SDA pad &rarr; BitDogLab Connection 2</div>' +
+      '<div style="background:#e3f2fd;color:#0d47a1;padding:8px;border-radius:5px;"><strong>SCL:</strong> external board SCL pad &rarr; BitDogLab Connection 3</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Ground:</strong> external board GND pad &rarr; BitDogLab GND (-)</div></div>'
+    : '<div style="display:grid;gap:7px;margin:10px 0;">' +
+      '<div style="background:#ffebee;color:#7f0000;padding:8px;border-radius:5px;"><strong>3,3 V:</strong> contato 3,3 V da placa externa &rarr; 3V3 (+) da BitDogLab</div>' +
+      '<div style="background:#e8f5e9;color:#1b5e20;padding:8px;border-radius:5px;"><strong>SDA:</strong> contato SDA da placa externa &rarr; Conexão 2 da BitDogLab</div>' +
+      '<div style="background:#e3f2fd;color:#0d47a1;padding:8px;border-radius:5px;"><strong>SCL:</strong> contato SCL da placa externa &rarr; Conexão 3 da BitDogLab</div>' +
+      '<div style="background:#efebe9;color:#3e2723;padding:8px;border-radius:5px;"><strong>Terra:</strong> contato GND da placa externa &rarr; GND (-) da BitDogLab</div></div>';
   var html = Code.LANG === 'en'
     ? WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🧭 How to connect the MPU6050 motion sensor</strong><br>' +
-      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
-      '<img src="' + boardImage + '" alt="BitDogLab external connections" style="width:46%;max-height:230px;object-fit:contain;background:white;border-radius:6px;">' +
-      '<img src="' + sensorImage + '" alt="MPU6050 board with its movement axes" style="width:50%;max-height:230px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + wireRows +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Connect in this order:</strong><br>1. Turn the board off and disconnect the USB cable.<br>2. Connect VCC to 3V3 and GND to GND.<br>3. Connect SDA to Connection 2.<br>4. Connect SCL to Connection 3.<br>5. Leave INT, AD0, XCL and XDA disconnected.<br>6. Insulate every exposed jumper-to-clip joint.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Important:</strong><br>• Connection 2 is always SDA and Connection 3 is always SCL; do not swap them.<br>• The MPU6050, the board Display, and the ultrasonic sensor can use Connections 2 and 3 together.<br>• Connections 0 and 1 remain free for other external components.<br>• The X, Y and Z arrows in the image show the directions measured by the sensor.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> never connect VCC to 5V-VSYS, do not change wires while the board is powered, and do not let neighbouring clips touch.</div>' +
-      '<div style="margin-top:9px;"><strong>Before powering the board, ask a teacher to check all four wires.</strong></div>' +
-      '</div>'
+      '<strong style="font-size:17px;">🧭 Connect the MPU6050 motion sensor</strong>' + images + rows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Use four alligator cables.</strong> Connect each matching pair above. Keep the board off and USB unplugged while connecting. The MPU6050, the board Display, and the ultrasonic sensor can share Connections 2 and 3. Connections 0 and 1 remain free. Ask your teacher to check the wires before turning it on.</div>' +
+      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Do not swap SDA and SCL:</strong> Connection 2 is always SDA and Connection 3 is always SCL.</div>' +
+      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Safety:</strong> never connect VCC to 5V-VSYS and do not let neighbouring clips touch.</div></div>'
     : WorkspaceManager.closeButton(closeId) +
       '<div style="max-height:calc(100vh - 90px);overflow-y:auto;padding-right:4px;">' +
-      '<strong style="font-size:17px;">🧭 Como conectar o sensor de movimento MPU6050</strong><br>' +
-      '<div style="display:flex;gap:12px;align-items:center;margin:12px 0;">' +
-      '<img src="' + boardImage + '" alt="Conexões externas da BitDogLab" style="width:46%;max-height:230px;object-fit:contain;background:white;border-radius:6px;">' +
-      '<img src="' + sensorImage + '" alt="Placa MPU6050 com os eixos de movimento" style="width:50%;max-height:230px;object-fit:contain;background:white;border-radius:6px;">' +
-      '</div>' + wireRows +
-      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Monte nesta ordem:</strong><br>1. Desligue a placa e retire o cabo USB.<br>2. Ligue VCC em 3V3 e GND em GND.<br>3. Ligue SDA na Conexão 2.<br>4. Ligue SCL na Conexão 3.<br>5. Deixe INT, AD0, XCL e XDA sem conectar.<br>6. Isole toda união exposta entre jumper e garra jacaré.</div>' +
-      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Importante:</strong><br>• A Conexão 2 é sempre SDA e a Conexão 3 é sempre SCL; não troque os dois fios.<br>• O MPU6050, o Display da placa e o sensor ultrassônico podem usar juntos as Conexões 2 e 3.<br>• As Conexões 0 e 1 continuam livres para outros componentes externos.<br>• As setas X, Y e Z da imagem mostram as direções medidas pelo sensor.</div>' +
-      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> nunca ligue VCC em 5V-VSYS, não mude os fios com a placa ligada e não deixe garras vizinhas se encostarem.</div>' +
-      '<div style="margin-top:9px;"><strong>Antes de ligar a placa, peça ao professor para conferir os quatro fios.</strong></div>' +
-      '</div>';
+      '<strong style="font-size:17px;">🧭 Como conectar o sensor de movimento MPU6050</strong>' + images + rows +
+      '<div style="background:rgba(0,0,0,.16);padding:10px;border-radius:5px;"><strong>Use quatro cabos jacaré.</strong> Ligue cada par de contatos indicado acima. Faça as conexões com a placa desligada e o USB desconectado. O MPU6050, o Display da placa e o sensor ultrassônico podem compartilhar as Conexões 2 e 3. As Conexões 0 e 1 continuam livres. Peça ao orientador para conferir os fios antes de ligar.</div>' +
+      '<div style="margin-top:9px;background:#fff3e0;color:#4e342e;padding:9px;border-radius:5px;"><strong>Não troque SDA e SCL:</strong> a Conexão 2 é sempre SDA e a Conexão 3 é sempre SCL.</div>' +
+      '<div style="margin-top:9px;background:#ffebee;color:#7f0000;padding:9px;border-radius:5px;"><strong>⚠️ Segurança:</strong> nunca ligue VCC em 5V-VSYS e não deixe garras vizinhas se encostarem.</div></div>';
 
   WorkspaceManager.createReminder({
     id: 'mpu6050ConnectionNotification',
     closeId: closeId,
     background: '#c2185b',
-    maxWidth: '740px',
+    maxWidth: '880px',
     html: html
   });
 };
@@ -1677,7 +1664,7 @@ WorkspaceManager.showMpu6050AccelerationTutorial = function(block) {
       '<h2 id="' + titleId + '">How to use the acceleration block</h2></div>' +
       '<button type="button" class="bitdoglab-mpu6050-tilt-close" aria-label="Close">&times;</button>' +
       '</header>' +
-      '<img class="bitdoglab-mpu6050-tilt-image" src="../assets/images/devices/mpu6050-eixos-aceleracao.png?ver=20260830accel1" alt="MPU6050 with the X, Y and Z axes">' +
+      '<img class="bitdoglab-mpu6050-tilt-image" src="../../hardware/conexoes-externas/imagens/eixos_acelerometro.png?ver=20261020accelAxes1" alt="MPU6050 with the X, Y and Z axes">' +
       '<div class="bitdoglab-mpu6050-tilt-copy">' +
       '<p><strong>1. Fix the accelerometer</strong><br>Keep the MPU6050 firmly in the position shown in the picture.</p>' +
       '<p><strong>2. Choose ' + axisName + '</strong><br>The selected axis measures movement ' + axisDescription + '.</p>' +
@@ -1689,7 +1676,7 @@ WorkspaceManager.showMpu6050AccelerationTutorial = function(block) {
       '<h2 id="' + titleId + '">Como usar o bloco de acelera&ccedil;&atilde;o</h2></div>' +
       '<button type="button" class="bitdoglab-mpu6050-tilt-close" aria-label="Fechar">&times;</button>' +
       '</header>' +
-      '<img class="bitdoglab-mpu6050-tilt-image" src="../assets/images/devices/mpu6050-eixos-aceleracao.png?ver=20260830accel1" alt="MPU6050 com os eixos X, Y e Z">' +
+      '<img class="bitdoglab-mpu6050-tilt-image" src="../../hardware/conexoes-externas/imagens/eixos_acelerometro.png?ver=20261020accelAxes1" alt="MPU6050 com os eixos X, Y e Z">' +
       '<div class="bitdoglab-mpu6050-tilt-copy">' +
       '<p><strong>1. Fixe o aceler&ocirc;metro</strong><br>Prenda o MPU6050 firmemente na posi&ccedil;&atilde;o mostrada na imagem.</p>' +
       '<p><strong>2. Escolha o ' + axisName + '</strong><br>Esse eixo mede o movimento para ' + axisDescription + '.</p>' +
