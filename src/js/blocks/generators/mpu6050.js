@@ -41,6 +41,7 @@
       '_mpu6050_motion_active = False\n' +
       '_mpu6050_motion_hits = 0\n' +
       '_mpu6050_motion_last_ms = 0\n' +
+      '_mpu6050_display_last_ms = 0\n' +
       BitdogLabConfig.MARKERS.SETUP_END;
 
     Blockly.Python.definitions_['func_mpu6050_read'] =
@@ -115,6 +116,12 @@
       '  return _mpu6050_motion_active\n' +
       '\n' +
       'def _mpu6050_formatar(value, unit=""):\n' +
+      '  global _mpu6050_display_last_ms\n' +
+      '  _now = time.ticks_ms()\n' +
+      '  _wait = 100 - time.ticks_diff(_now, _mpu6050_display_last_ms)\n' +
+      '  if _wait > 0:\n' +
+      '    time.sleep_ms(_wait)\n' +
+      '  _mpu6050_display_last_ms = time.ticks_ms()\n' +
       '  try:\n' +
       '    _number = float(value)\n' +
       '    if _number != _number:\n' +

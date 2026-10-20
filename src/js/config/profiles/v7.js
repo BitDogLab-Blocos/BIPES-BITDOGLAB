@@ -98,7 +98,7 @@ var BitdogLabConfig = createProfile(BitdogLabProfileBase, {
     MPU6050: {
       SUPPORTED: true,
       I2C_BUS: 1,
-      I2C_FREQ: 400000,
+      I2C_FREQ: 100000,
       I2C_SDA: 2,
       I2C_SCL: 3,
       SDA_CONNECTION: '2',

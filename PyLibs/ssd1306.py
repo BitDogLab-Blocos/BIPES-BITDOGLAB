@@ -136,9 +136,9 @@ class SSD1306_I2C(SSD1306):
         self.i2c.writeto(self.addr, self.temp)
 
     def write_framebuf(self):
-        # Blast out the frame buffer using a single I2C transaction to support
-        # hardware I2C interfaces.
-        self.i2c.writeto(self.addr, self.buffer)
+        payload = memoryview(self.buffer)[1:]
+        for start in range(0, len(payload), 128):
+            self.i2c.writeto(self.addr, b"\x40" + bytes(payload[start:start + 128]))
 
     def poweron(self):
         pass

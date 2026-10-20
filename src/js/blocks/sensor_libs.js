@@ -139,7 +139,9 @@ class SSD1306_I2C(SSD1306):
     self.i2c.writeto(self.addr, self.temp)
 
   def write_framebuf(self):
-    self.i2c.writeto(self.addr, self.buffer)
+    _payload = memoryview(self.buffer)[1:]
+    for _start in range(0, len(_payload), 128):
+      self.i2c.writeto(self.addr, b"\\x40" + bytes(_payload[_start:_start + 128]))
 
   def poweron(self):
     pass
@@ -204,7 +206,7 @@ class MPU6050:
       # diagnostic must never prevent the gyro from becoming ready.
       self.i2c.writeto_mem(self.addr, 0x6B, b"\\x00")
       self.i2c.writeto_mem(self.addr, 0x1B, b"\\x00")
-      self.i2c.writeto_mem(self.addr, 0x1C, b"\\x00")
+      self.i2c.writeto_mem(self.addr, 0x1C, b"\\x18")
       try:
         self.identity = self.i2c.readfrom_mem(self.addr, MPU6050_WHO_AM_I, 1)[0]
       except Exception:
@@ -228,7 +230,7 @@ class MPU6050:
   def _gyro_dps(self, reg):
     return self._read_i16(reg) / 131.0
   def _accel_g(self, reg):
-    return self._read_i16(reg) / 16384.0
+    return self._read_i16(reg) / 2048.0
   def gz(self):
     if not self.is_ready:
       return 0.0
@@ -244,9 +246,9 @@ class MPU6050:
     try:
       data = self.i2c.readfrom_mem(self.addr, 0x3B, 6)
       return (
-        self._decode_i16(data, 0) / 16384.0,
-        self._decode_i16(data, 2) / 16384.0,
-        self._decode_i16(data, 4) / 16384.0,
+        self._decode_i16(data, 0) / 2048.0,
+        self._decode_i16(data, 2) / 2048.0,
+        self._decode_i16(data, 4) / 2048.0,
       )
     except Exception as exc:
       self.last_error = exc

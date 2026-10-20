@@ -266,10 +266,10 @@ function validateExternalMpu6050Profile(profile) {
     var display = profile.DISPLAY || {};
     var pins = profile.PINS || {};
     if (Number(mpu.I2C_BUS) !== Number(display.I2C_BUS) ||
-        Number(mpu.I2C_FREQ) !== Number(display.I2C_FREQ) ||
+        Number(mpu.I2C_FREQ) > Number(display.I2C_FREQ) ||
         Number(mpu.I2C_SDA) !== Number(pins.I2C_SDA) ||
         Number(mpu.I2C_SCL) !== Number(pins.I2C_SCL)) {
-      throw new Error(prefix + 'marcado como suportado deve compartilhar barramento, frequência e pinos com o Display.');
+      throw new Error(prefix + 'marcado como suportado deve compartilhar barramento e pinos com o Display, sem exceder sua frequência.');
     }
   }
 }

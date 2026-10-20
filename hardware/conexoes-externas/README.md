@@ -104,6 +104,23 @@ Na BitDogLab V7, use `Conexão 0` ou `Conexão 1` para o sinal `T°/UR`. Na BitD
 
 Cada cor do LED RGB deve usar uma conexão diferente e chegar ao contato de mesma cor na PCB. O GND da BitDogLab deve estar ligado ao GND da placa externa. Na BitDogLab V7, as conexões 2 e 3 também são usadas pelo display e pelo barramento I²C; observe os avisos apresentados pelo editor de blocos.
 
+### Frequência do barramento I²C
+
+Na BitDogLab V7, o display, o MPU-6050 externo, o sensor ultrassônico I²C e o INA226 compartilham o I²C1 em `SDA GP2` e `SCL GP3`. A frequência é comum a todos os dispositivos do barramento e é definida na geração do código:
+
+| Dispositivos usados no programa | Frequência |
+| --- | ---: |
+| Somente display | 400 kHz |
+| Display + MPU-6050 | 100 kHz |
+| Display + ultrassônico | 100 kHz |
+| Display + MPU-6050 + ultrassônico | 100 kHz |
+
+Quando o MPU externo ou o ultrassônico é usado, o editor reduz o barramento inteiro para 100 kHz. Isso deixa a comunicação mais tolerante aos cabos longos com garras jacaré. O display sozinho continua em 400 kHz.
+
+A frequência não muda durante a execução: ela é escolhida ao gerar o programa. O OLED pequeno e o grande usam a mesma frequência porque estão no mesmo barramento. A diferença está no envio dos dados: o driver do OLED pequeno transmite o framebuffer em blocos de 128 bytes, enquanto o display grande transmite por páginas. Valores do MPU mostrados no display são atualizados no máximo a cada 100 ms, ou seja, 10 vezes por segundo.
+
+Em ensaios com movimentação da placa, 400 kHz apresentou erros intermitentes de I²C; 100 kHz operou sem erros. Se aparecer `ETIMEDOUT`, confirme primeiro que o programa foi gerado com a frequência correta e que o bloco `esperar` está dentro do mesmo laço que atualiza o display.
+
 ## Ligações dos periféricos
 
 ### DHT11

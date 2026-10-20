@@ -27,7 +27,7 @@ class MPU6050:
             # answer late or report a compatible ID during power-up.
             self.i2c.writeto_mem(self.addr, 0x6B, b"\x00")
             self.i2c.writeto_mem(self.addr, 0x1B, b"\x00")
-            self.i2c.writeto_mem(self.addr, 0x1C, b"\x00")
+            self.i2c.writeto_mem(self.addr, 0x1C, b"\x18")
             try:
                 self.identity = self.i2c.readfrom_mem(self.addr, MPU6050_WHO_AM_I, 1)[0]
             except Exception:
@@ -56,7 +56,7 @@ class MPU6050:
         return self._read_i16(reg) / 131.0
 
     def _accel_g(self, reg):
-        return self._read_i16(reg) / 16384.0
+        return self._read_i16(reg) / 2048.0
 
     def gz(self):
         if not self.is_ready:
@@ -75,9 +75,9 @@ class MPU6050:
         try:
             data = self.i2c.readfrom_mem(self.addr, 0x3B, 6)
             return (
-                self._decode_i16(data, 0) / 16384.0,
-                self._decode_i16(data, 2) / 16384.0,
-                self._decode_i16(data, 4) / 16384.0,
+                self._decode_i16(data, 0) / 2048.0,
+                self._decode_i16(data, 2) / 2048.0,
+                self._decode_i16(data, 4) / 2048.0,
             )
         except Exception as exc:
             self.last_error = exc
