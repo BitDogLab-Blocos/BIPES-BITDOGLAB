@@ -19,6 +19,10 @@
 
 O **BIPES BitDogLab Blocos** é uma plataforma educacional open source baseada em Blockly para ensinar programação, eletrônica e pensamento computacional com a placa BitDogLab e o Raspberry Pi Pico W. Ela roda no navegador, transforma blocos conectados em MicroPython organizado e envia o programa à placa por USB usando Web Serial.
 
+### Porta serial no Linux
+
+No Linux, o navegador pode não conseguir abrir a porta serial da BitDogLab pela API Web Serial se o usuário não tiver permissão para acessar o dispositivo (`/dev/ttyACM0` ou `/dev/ttyUSB0`). Isso costuma ocorrer quando o usuário não pertence ao grupo associado à porta, frequentemente `dialout`. Veja como [verificar e corrigir essa permissão](tutorial_linux.md).
+
 O foco do projeto é a **tangibilidade**: os blocos usam linguagem direta, ícones e ações ligadas aos periféricos reais. Acender um LED, ler um botão, mostrar um valor no OLED ou criar uma animação na matriz deve continuar compreensível antes mesmo de a criança conhecer a sintaxe Python.
 
 ## A interface em ação
