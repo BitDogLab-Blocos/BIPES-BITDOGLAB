@@ -321,6 +321,7 @@ class MPU6050:
   SH1107: `from micropython import const
 import time
 import framebuf
+from machine import Pin
 
 _LOW_COLUMN_ADDRESS = const(0x00)
 _HIGH_COLUMN_ADDRESS = const(0x10)
@@ -427,19 +428,66 @@ class SH1107(framebuf.FrameBuffer):
     pass
 
 class SH1107_I2C(SH1107):
-  def __init__(self, width, height, i2c, res=None, address=0x3C, rotate=0, external_vcc=False, delay_ms=50):
+  def __init__(self, width, height, i2c, res=None, address=0x3C, rotate=0, external_vcc=False, delay_ms=50, bus_scl=None, bus_sda=None, bus_freq=100000):
     self.i2c = i2c
     self.address = address
     self.res = res
+    self.bus_scl = bus_scl
+    self.bus_sda = bus_sda
+    self.bus_freq = bus_freq
     if res is not None:
       res.init(res.OUT, value=1)
     super().__init__(width, height, external_vcc, delay_ms, rotate)
 
   def write_command(self, command_list):
-    self.i2c.writeto(self.address, b"\\x00" + command_list)
+    self._write_i2c(b"\\x00" + bytes(command_list))
 
   def write_data(self, buf):
-    self.i2c.writevto(self.address, (b"\\x40", buf))
+    # Use one contiguous write so the RP2040 driver sends an explicit STOP.
+    self._write_i2c(b"\\x40" + bytes(buf))
+
+  def _recover_i2c(self):
+    if self.bus_scl is None or self.bus_sda is None:
+      try:
+        self.i2c.init(freq=self.bus_freq)
+      except Exception:
+        pass
+      return
+    try:
+      self.i2c.deinit()
+    except Exception:
+      pass
+    try:
+      scl = Pin(self.bus_scl, Pin.OPEN_DRAIN, value=1)
+      sda = Pin(self.bus_sda, Pin.OPEN_DRAIN, value=1)
+      for _ in range(9):
+        if sda.value():
+          break
+        scl.value(0)
+        time.sleep_us(5)
+        scl.value(1)
+        time.sleep_us(5)
+      # Generate STOP to release a slave left mid-transfer.
+      sda.value(0)
+      time.sleep_us(5)
+      scl.value(1)
+      time.sleep_us(5)
+      sda.value(1)
+      time.sleep_us(5)
+    except Exception:
+      pass
+    try:
+      self.i2c.init(scl=Pin(self.bus_scl), sda=Pin(self.bus_sda), freq=self.bus_freq)
+    except Exception:
+      pass
+
+  def _write_i2c(self, payload):
+    try:
+      self.i2c.writeto(self.address, payload)
+    except OSError:
+      self._recover_i2c()
+      # Retry once after resetting the controller and releasing a stuck bus.
+      self.i2c.writeto(self.address, payload)
 
   def reset(self):
     if self.res is not None:

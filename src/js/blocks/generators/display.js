@@ -61,7 +61,7 @@ function _setupDisplayDefinitions(displayType) {
     Blockly.Python.definitions_['setup_display'] = _displaySetupDefinition(
       _robotDisplaySetup('_sh1107_scan = i2c.scan()\n' +
       '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
-      'oled = ' + transport.driverClass + '(128, 128, i2c, address=_sh1107_addr, rotate=90)\n' +
+      'oled = ' + transport.driverClass + '(128, 128, i2c, address=_sh1107_addr, rotate=90, bus_scl=' + busPolicy.scl + ', bus_sda=' + busPolicy.sda + ', bus_freq=' + busPolicy.frequency + ')\n' +
       '_display_width = 128\n' +
       '_display_height = 128', 128, 128)
     );
@@ -129,11 +129,11 @@ Blockly.Python["display_testar_sh1107"] = function(_block) {
   code += 'if _sh1107_addr is None:\n';
   code += '  _sh1107_addr = 0x3C\n';
   code += 'try:\n';
-  code += '  oled = SH1107_I2C(128, 128, _sh1107_i2c, address=_sh1107_addr, rotate=90)\n';
+  code += '  oled = SH1107_I2C(128, 128, _sh1107_i2c, address=_sh1107_addr, rotate=90, bus_scl=' + pins.I2C_SCL + ', bus_sda=' + pins.I2C_SDA + ', bus_freq=' + display.I2C_FREQ + ')\n';
   code += 'except Exception:\n';
   code += '  _sh1107_addr = 0x3D if _sh1107_addr == 0x3C else 0x3C\n';
   code += '  try:\n';
-  code += '    oled = SH1107_I2C(128, 128, _sh1107_i2c, address=_sh1107_addr, rotate=90)\n';
+  code += '    oled = SH1107_I2C(128, 128, _sh1107_i2c, address=_sh1107_addr, rotate=90, bus_scl=' + pins.I2C_SCL + ', bus_sda=' + pins.I2C_SDA + ', bus_freq=' + display.I2C_FREQ + ')\n';
   code += '  except Exception:\n';
   code += '    oled = None\n';
   code += 'if oled is not None:\n';
