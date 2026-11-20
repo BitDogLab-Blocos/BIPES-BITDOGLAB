@@ -106,20 +106,22 @@ Cada cor do LED RGB deve usar uma conexão diferente e chegar ao contato de mesm
 
 ### Frequência do barramento I²C
 
-Na BitDogLab V7, o display, o MPU-6050 externo, o sensor ultrassônico I²C e o INA226 compartilham o I²C1 em `SDA GP2` e `SCL GP3`. A frequência é comum a todos os dispositivos do barramento e é definida na geração do código:
+Na BitDogLab V7, o display e os sensores I²C externos desta placa usam `SDA GP2` e `SCL GP3`. Como compartilham o mesmo barramento, a frequência é comum a todos os dispositivos e é definida quando o código é gerado.
 
-| Dispositivos usados no programa | Frequência |
-| --- | ---: |
-| Somente display | 400 kHz |
-| Display + MPU-6050 | 100 kHz |
-| Display + ultrassônico | 100 kHz |
-| Display + MPU-6050 + ultrassônico | 100 kHz |
+| Display selecionado | Sensores no programa | Interface gerada | Frequência |
+| --- | --- | --- | ---: |
+| Pequeno ou grande | Nenhum MPU-6050 ou ultrassônico | I²C de hardware | 400 kHz |
+| Pequeno | Somente MPU-6050 | I²C de hardware | 100 kHz |
+| Pequeno | Somente ultrassônico | I²C de hardware | 100 kHz |
+| Pequeno | MPU-6050 e ultrassônico | I²C de hardware | 100 kHz |
+| Grande | Somente ultrassônico | I²C de hardware | 100 kHz |
+| Grande | MPU-6050, com ou sem ultrassônico | SoftI2C | 100 kHz |
 
-Quando o MPU externo ou o ultrassônico é usado, o editor reduz o barramento inteiro para 100 kHz. Isso deixa a comunicação mais tolerante aos cabos longos com garras jacaré. O display sozinho continua em 400 kHz.
+O MPU-6050 e o ultrassônico estão configurados no perfil do projeto para 100 kHz. Quando um deles é usado, o gerador escolhe 100 kHz para todo o barramento compartilhado. Isso é uma configuração do projeto; não significa que os módulos necessariamente exijam essa frequência.
 
-A frequência não muda durante a execução: ela é escolhida ao gerar o programa. O OLED pequeno e o grande usam a mesma frequência porque estão no mesmo barramento. A diferença está no envio dos dados: o driver do OLED pequeno transmite o framebuffer em blocos de 128 bytes, enquanto o display grande transmite por páginas. Valores do MPU mostrados no display são atualizados no máximo a cada 100 ms, ou seja, 10 vezes por segundo.
+Quando o MPU-6050 e o display grande são usados juntos, o gerador usa `SoftI2C` a 100 kHz com timeout de 100 ms. Essa combinação evita o `ETIMEDOUT` observado com o I²C de hardware do RP2040 durante as atualizações do SH1107. Nas demais combinações da tabela, o gerador mantém o I²C de hardware. A interface e a frequência não mudam durante a execução; são escolhidas ao gerar o programa.
 
-Em ensaios com movimentação da placa, 400 kHz apresentou erros intermitentes de I²C; 100 kHz operou sem erros. Se aparecer `ETIMEDOUT`, confirme primeiro que o programa foi gerado com a frequência correta e que o bloco `esperar` está dentro do mesmo laço que atualiza o display.
+Os valores do MPU mostrados no display são atualizados no máximo a cada 100 ms (10 vezes por segundo).
 
 ## Ligações dos periféricos
 

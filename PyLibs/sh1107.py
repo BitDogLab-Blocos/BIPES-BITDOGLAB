@@ -368,13 +368,15 @@ class SH1107(framebuf.FrameBuffer):
 class SH1107_I2C(SH1107):
     def __init__(self, width, height, i2c, res=None, address=0x3d,
                  rotate=0, external_vcc=False, delay_ms=200,
-                 bus_scl=None, bus_sda=None, bus_freq=100000):
+                 bus_scl=None, bus_sda=None, bus_freq=100000,
+                 bus_timeout=None):
         self.i2c = i2c
         self.address = address
         self.res = res
         self.bus_scl = bus_scl
         self.bus_sda = bus_sda
         self.bus_freq = bus_freq
+        self.bus_timeout = bus_timeout
         if res is not None:
             res.init(res.OUT, value=1)
         super().__init__(width, height, external_vcc, delay_ms, rotate)
@@ -386,6 +388,18 @@ class SH1107_I2C(SH1107):
         # Use one contiguous write so the RP2040 I2C driver sends a clear STOP
         # after every page, without relying on vectored-write behavior.
         self._write_i2c(b"\x40" + bytes(buf))
+
+    def show(self):
+        # A transient bus timeout can leave only part of this frame written.
+        # Retry the complete frame after recovery so every page is refreshed.
+        for attempt in range(2):
+            try:
+                super().show()
+                return
+            except OSError:
+                self._recover_i2c()
+                if attempt == 1:
+                    raise
 
     def _recover_i2c(self):
         if self.bus_scl is None or self.bus_sda is None:
@@ -421,21 +435,26 @@ class SH1107_I2C(SH1107):
             pass
 
         try:
-            self.i2c.init(
-                scl=Pin(self.bus_scl),
-                sda=Pin(self.bus_sda),
-                freq=self.bus_freq,
-            )
+            init_args = {
+                "scl": Pin(self.bus_scl),
+                "sda": Pin(self.bus_sda),
+                "freq": self.bus_freq,
+            }
+            if self.bus_timeout is not None:
+                init_args["timeout"] = self.bus_timeout
+            self.i2c.init(**init_args)
         except Exception:
             pass
 
     def _write_i2c(self, payload):
-        try:
-            self.i2c.writeto(self.address, payload)
-        except OSError:
-            self._recover_i2c()
-            # Retry once after resetting the controller and releasing a stuck bus.
-            self.i2c.writeto(self.address, payload)
+        for attempt in range(3):
+            try:
+                self.i2c.writeto(self.address, payload)
+                return
+            except OSError:
+                self._recover_i2c()
+                if attempt == 2:
+                    raise
 
     def reset(self):
         super().reset(self.res)

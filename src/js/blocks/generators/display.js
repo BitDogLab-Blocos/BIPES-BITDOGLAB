@@ -58,10 +58,11 @@ function _setupDisplayDefinitions(displayType) {
 
   if (displayType === 'LARGE') {
     Blockly.Python.definitions_['lib_sh1107'] = SensorLibs.SH1107;
+    var busTimeout = _shouldUseSoftI2cForMpuLargeDisplay() ? '100000' : 'None';
     Blockly.Python.definitions_['setup_display'] = _displaySetupDefinition(
       _robotDisplaySetup('_sh1107_scan = i2c.scan()\n' +
       '_sh1107_addr = 0x3C if 0x3C in _sh1107_scan else (0x3D if 0x3D in _sh1107_scan else 0x3C)\n' +
-      'oled = ' + transport.driverClass + '(128, 128, i2c, address=_sh1107_addr, rotate=90, bus_scl=' + busPolicy.scl + ', bus_sda=' + busPolicy.sda + ', bus_freq=' + busPolicy.frequency + ')\n' +
+      'oled = ' + transport.driverClass + '(128, 128, i2c, address=_sh1107_addr, rotate=90, bus_scl=' + busPolicy.scl + ', bus_sda=' + busPolicy.sda + ', bus_freq=' + busPolicy.frequency + ', bus_timeout=' + busTimeout + ')\n' +
       '_display_width = 128\n' +
       '_display_height = 128', 128, 128)
     );

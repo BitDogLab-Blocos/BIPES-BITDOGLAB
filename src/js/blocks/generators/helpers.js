@@ -43,12 +43,17 @@ function _setupSharedExternalI2c(busPolicy) {
   busPolicy = busPolicy || _resolveSharedExternalI2cPolicy();
 
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
-  var setupCode =
-    'i2c = I2C(' + busPolicy.bus +
-    ', scl=Pin(' + busPolicy.scl +
-    '), sda=Pin(' + busPolicy.sda +
-    '), freq=' + busPolicy.frequency + ')';
+  var useSoftI2c = _shouldUseSoftI2cForMpuLargeDisplay();
+  if (useSoftI2c) {
+    Blockly.Python.definitions_['import_soft_i2c'] = 'from machine import SoftI2C';
+  } else {
+    Blockly.Python.definitions_['import_i2c'] = 'from machine import I2C';
+  }
+  var setupCode = useSoftI2c
+    ? 'i2c = SoftI2C(scl=Pin(' + busPolicy.scl + '), sda=Pin(' + busPolicy.sda +
+      '), freq=' + busPolicy.frequency + ', timeout=100000)'
+    : 'i2c = I2C(' + busPolicy.bus + ', scl=Pin(' + busPolicy.scl +
+      '), sda=Pin(' + busPolicy.sda + '), freq=' + busPolicy.frequency + ')';
   var workspace = _getGeneratorWorkspace();
   var hasRobotStartup = workspace && workspace.getAllBlocks &&
     workspace.getAllBlocks(false).some(function(block) {
@@ -62,6 +67,22 @@ function _setupSharedExternalI2c(busPolicy) {
     : setupCode;
 
   return 'i2c';
+}
+
+function _shouldUseSoftI2cForMpuLargeDisplay() {
+  var workspace = _getGeneratorWorkspace();
+  if (!workspace || typeof workspace.getAllBlocks !== 'function') return false;
+  var blocks = workspace.getAllBlocks(false);
+  var usesMpu6050 = blocks.some(function(block) {
+    return block.type === 'mpu6050_inclinacao' ||
+      block.type === 'mpu6050_aceleracao' ||
+      block.type === 'mpu6050_foi_movimentado' ||
+      block.type === 'mpu6050_bolinha_display';
+  });
+  var usesLargeDisplay = blocks.some(function(block) {
+    return block.getFieldValue && block.getFieldValue('DISPLAY_TYPE') === 'LARGE';
+  });
+  return usesMpu6050 && usesLargeDisplay;
 }
 
 function _getBuzzerDisplayConfig() {
