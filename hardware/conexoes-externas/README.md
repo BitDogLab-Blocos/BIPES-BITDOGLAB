@@ -111,15 +111,15 @@ Na BitDogLab V7, o display e os sensores I²C externos desta placa usam `SDA GP2
 | Display selecionado | Sensores no programa | Interface gerada | Frequência |
 | --- | --- | --- | ---: |
 | Pequeno ou grande | Nenhum MPU-6050 ou ultrassônico | I²C de hardware | 400 kHz |
-| Pequeno | Somente MPU-6050 | I²C de hardware | 100 kHz |
+| Pequeno | Somente MPU-6050 | SoftI2C | 100 kHz |
 | Pequeno | Somente ultrassônico | I²C de hardware | 100 kHz |
-| Pequeno | MPU-6050 e ultrassônico | I²C de hardware | 100 kHz |
+| Pequeno | MPU-6050 e ultrassônico | SoftI2C | 100 kHz |
 | Grande | Somente ultrassônico | I²C de hardware | 100 kHz |
 | Grande | MPU-6050, com ou sem ultrassônico | SoftI2C | 100 kHz |
 
 O MPU-6050 e o ultrassônico estão configurados no perfil do projeto para 100 kHz. Quando um deles é usado, o gerador escolhe 100 kHz para todo o barramento compartilhado. Isso é uma configuração do projeto; não significa que os módulos necessariamente exijam essa frequência.
 
-Quando o MPU-6050 e o display grande são usados juntos, o gerador usa `SoftI2C` a 100 kHz com timeout de 100 ms. Essa combinação evita o `ETIMEDOUT` observado com o I²C de hardware do RP2040 durante as atualizações do SH1107. Nas demais combinações da tabela, o gerador mantém o I²C de hardware. A interface e a frequência não mudam durante a execução; são escolhidas ao gerar o programa.
+Quando o MPU-6050 é usado com qualquer display, o gerador usa `SoftI2C` a 100 kHz com timeout de 100 ms. Essa combinação evita o `ETIMEDOUT` observado com o I²C de hardware do RP2040. Nas combinações sem MPU-6050, o gerador mantém o I²C de hardware. A interface e a frequência não mudam durante a execução; são escolhidas ao gerar o programa.
 
 Os valores do MPU mostrados no display são atualizados no máximo a cada 100 ms (10 vezes por segundo).
 

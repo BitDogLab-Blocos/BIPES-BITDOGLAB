@@ -43,7 +43,7 @@ function _setupSharedExternalI2c(busPolicy) {
   busPolicy = busPolicy || _resolveSharedExternalI2cPolicy();
 
   Blockly.Python.definitions_['import_pin'] = 'from machine import Pin';
-  var useSoftI2c = _shouldUseSoftI2cForMpuLargeDisplay();
+  var useSoftI2c = _shouldUseSoftI2cForMpuDisplay();
   if (useSoftI2c) {
     Blockly.Python.definitions_['import_soft_i2c'] = 'from machine import SoftI2C';
   } else {
@@ -69,7 +69,7 @@ function _setupSharedExternalI2c(busPolicy) {
   return 'i2c';
 }
 
-function _shouldUseSoftI2cForMpuLargeDisplay() {
+function _shouldUseSoftI2cForMpuDisplay() {
   var workspace = _getGeneratorWorkspace();
   if (!workspace || typeof workspace.getAllBlocks !== 'function') return false;
   var blocks = workspace.getAllBlocks(false);
@@ -79,10 +79,12 @@ function _shouldUseSoftI2cForMpuLargeDisplay() {
       block.type === 'mpu6050_foi_movimentado' ||
       block.type === 'mpu6050_bolinha_display';
   });
-  var usesLargeDisplay = blocks.some(function(block) {
-    return block.getFieldValue && block.getFieldValue('DISPLAY_TYPE') === 'LARGE';
+  var usesDisplay = blocks.some(function(block) {
+    if (!block.getFieldValue) return false;
+    var type = block.getFieldValue('DISPLAY_TYPE');
+    return type === 'SMALL' || type === 'LARGE';
   });
-  return usesMpu6050 && usesLargeDisplay;
+  return usesMpu6050 && usesDisplay;
 }
 
 function _getBuzzerDisplayConfig() {
